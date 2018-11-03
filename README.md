@@ -1,2 +1,2 @@
 # CalamityMod
-A private reposity for the Terraria mod, Calamity.
+A private repository for the Terraria mod, Calamity.
