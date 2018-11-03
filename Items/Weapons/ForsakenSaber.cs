@@ -1,0 +1,63 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items;
+
+namespace CalamityMod.Items.Weapons
+{
+	public class ForsakenSaber : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Forsaken Saber");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 54;
+			item.damage = 65;
+			item.melee = true;
+			item.useAnimation = 23;
+			item.useStyle = 1;
+			item.useTime = 23;
+			item.useTurn = true;
+			item.knockBack = 6;
+			item.UseSound = SoundID.Item1;
+			item.autoReuse = true;
+			item.height = 52;
+			item.maxStack = 1;
+			item.value = 350000;
+			item.rare = 5;
+			item.shoot = mod.ProjectileType("SandBlade");
+			item.shootSpeed = 5f;
+		}
+	
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
+			recipe.AddIngredient(ItemID.AdamantiteBar, 5);
+	        recipe.AddTile(TileID.Anvils);
+	        recipe.SetResult(this);
+	        recipe.AddRecipe();
+	        recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.AncientBattleArmorMaterial, 2);
+			recipe.AddIngredient(ItemID.TitaniumBar, 5);
+	        recipe.AddTile(TileID.Anvils);
+	        recipe.SetResult(this);
+	        recipe.AddRecipe();
+		}
+	
+	    public override void MeleeEffects(Player player, Rectangle hitbox)
+	    {
+	        if (Main.rand.Next(3) == 0)
+	        {
+	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 159);
+	        }
+	    }
+	}
+}

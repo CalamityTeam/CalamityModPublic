@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Weapons.Perforators
+{
+	public class BloodyRupture : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Bloody Rupture");
+			Tooltip.SetDefault("Enemies release homing blood orbs on death");
+		}
+
+		public override void SetDefaults()
+		{
+			item.useStyle = 3;
+			item.useTurn = false;
+			item.useAnimation = 15;
+			item.useTime = 15;
+			item.width = 24;
+			item.height = 24;
+			item.damage = 26;
+			item.melee = true;
+			item.knockBack = 5.5f;
+			item.UseSound = SoundID.Item1;
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.value = 12000;
+			item.rare = 3;
+		}
+		
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+	        recipe.AddIngredient(null, "BloodSample", 4);
+	        recipe.AddIngredient(ItemID.Vertebrae, 2);
+	        recipe.AddIngredient(ItemID.CrimtaneBar, 5);
+	        recipe.AddTile(TileID.DemonAltar);
+	        recipe.SetResult(this);
+	        recipe.AddRecipe();
+		}
+	
+	    public override void MeleeEffects(Player player, Rectangle hitbox)
+	    {
+	        if (Main.rand.Next(5) == 0)
+	        {
+	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
+	        }
+	    }
+	    
+	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+	    {
+	    	if (target.life <= 0)
+	    	{
+	    		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Blood"), damage, knockback, Main.myPlayer);
+	    	}
+		}
+	}
+}

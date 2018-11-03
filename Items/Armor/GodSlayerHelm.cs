@@ -1,0 +1,81 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items;
+
+namespace CalamityMod.Items.Armor
+{
+    [AutoloadEquip(EquipType.Head)]
+    public class GodSlayerHelm : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("God Slayer Horned Greathelm");
+            Tooltip.SetDefault("14% increased melee damage and critical strike chance");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 18;
+            item.height = 18;
+            item.value = 5000000;
+            item.defense = 48; //96
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                {
+                    line2.overrideColor = new Color(43, 96, 222);
+                }
+            }
+        }
+
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("GodSlayerChestplate") && legs.type == mod.ItemType("GodSlayerLeggings");
+        }
+
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            modPlayer.godSlayer = true;
+            modPlayer.godSlayerDamage = true;
+            player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
+                "This effect can only occur once every 45 seconds\n" +
+                "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
+                "Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts\n" +
+                "Enemies take a lot of damage when they hit you\n" +
+                "An attack that would deal 80 damage or less will cause the attack to do no damage to you";
+            player.thorns += 2.5f;
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.meleeDamage += 0.14f;
+            player.meleeCrit += 14;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "CosmiliteBar", 14);
+            recipe.AddIngredient(null, "NightmareFuel", 8);
+            recipe.AddIngredient(null, "EndothermicEnergy", 8);
+            recipe.AddTile(null, "DraedonsForge");
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

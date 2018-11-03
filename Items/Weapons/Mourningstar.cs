@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Weapons 
+{
+	public class Mourningstar : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Mourningstar");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 16;
+			item.height = 16;
+			item.damage = 330;
+			item.noMelee = true;
+			item.noUseGraphic = true;
+			item.channel = true;
+			item.autoReuse = true;
+			item.melee = true;
+			item.useAnimation = 13;
+			item.useTime = 13;
+			item.useStyle = 5;
+			item.knockBack = 2.5f;
+			item.UseSound = SoundID.Item116;
+			item.value = 3000000;
+			item.shootSpeed = 24f;
+			item.shoot = 611;
+		}
+		
+		public override void ModifyTooltips(List<TooltipLine> list)
+	    {
+	        foreach (TooltipLine line2 in list)
+	        {
+	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
+	            {
+	                line2.overrideColor = new Color(43, 96, 222);
+	            }
+	        }
+	    }
+		
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "CosmiliteBar", 5);
+			recipe.AddIngredient(null, "Phantoplasm", 5);
+			recipe.AddIngredient(ItemID.SolarEruption);
+	        recipe.AddTile(null, "DraedonsForge");
+	        recipe.SetResult(this);
+	        recipe.AddRecipe();
+		}
+		
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+	    	float ai3 = (Main.rand.NextFloat() - 0.75f) * 0.7853982f; //0.5
+	    	float ai3X = (Main.rand.NextFloat() - 0.25f) * 0.7853982f; //0.5
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0.0f, ai3);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0.0f, ai3X);
+	    	return false;
+		}
+	}
+}

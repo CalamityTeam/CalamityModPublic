@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items.Armor;
+
+namespace CalamityMod.Items.Armor
+{
+    [AutoloadEquip(EquipType.Head)]
+    public class ReaverCap : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Reaver Headgear");
+            Tooltip.SetDefault("10% increased throwing damage, 5% increased throwing velocity and critical strike chance\n" +
+                "10% increased movement speed and can move freely through liquids");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 18;
+            item.height = 18;
+            item.value = 350000;
+            item.rare = 6;
+            item.defense = 10; //43
+        }
+
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == mod.ItemType("ReaverScaleMail") && legs.type == mod.ItemType("ReaverCuisses");
+        }
+
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadowSubtle = true;
+            player.armorEffectDrawOutlines = true;
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            modPlayer.reaverSpore = true;
+            player.setBonus = "5% increased throwing damage and critical strike chance\n" +
+                "You emit a cloud of spores when you are hit\n" +
+                "Rage activates when you are damaged";
+            player.thrownDamage += 0.05f;
+            player.thrownCrit += 5;
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.ignoreWater = true;
+            player.thrownDamage += 0.1f;
+            player.thrownCrit += 5;
+            player.thrownVelocity += 0.05f;
+            player.moveSpeed += 0.1f;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "DraedonBar", 8);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

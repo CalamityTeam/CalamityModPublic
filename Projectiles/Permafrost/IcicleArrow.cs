@@ -1,0 +1,67 @@
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Projectiles.Permafrost
+{
+	public class IcicleArrow : ModProjectile
+	{
+		public override void SetDefaults()
+		{
+			projectile.width = 10;
+			projectile.height = 10;
+			projectile.aiStyle = 1;
+			projectile.friendly = true;
+            projectile.ranged = true;
+            projectile.arrow = true;
+            projectile.coldDamage = true;
+			projectile.penetrate = 1;
+			projectile.extraUpdates = 1;
+		}
+		
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Icicle Arrow");
+		}
+
+		public override void AI()
+		{
+            //icicle dust
+            if (Main.rand.Next(2) == 0)
+            {
+                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 1.1f);
+                Main.dust[index2].noGravity = true;
+            }
+        }
+		
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+            target.AddBuff(BuffID.Frostburn, 300);
+        }
+
+		public override void Kill(int timeLeft)
+		{
+            Main.PlaySound(SoundID.Item27, projectile.position);
+            //crystal bullet shards
+            for (int index1 = 0; index1 < 5; ++index1)
+            {
+                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, 0f, 0, new Color(), 1f);
+                Main.dust[index2].noGravity = true;
+                Main.dust[index2].velocity *= 1.5f;
+                Main.dust[index2].scale *= 0.9f;
+            }
+            if (projectile.owner == Main.myPlayer)
+            {
+                for (int index = 0; index < 3; ++index)
+                {
+                    float SpeedX = -projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
+                    float SpeedY = -projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
+                    Projectile.NewProjectile(projectile.position.X + SpeedX, projectile.position.Y + SpeedY, SpeedX, SpeedY, ProjectileID.CrystalShard, projectile.damage / 2, 0f, projectile.owner);
+                }
+            }
+        }
+	}
+}

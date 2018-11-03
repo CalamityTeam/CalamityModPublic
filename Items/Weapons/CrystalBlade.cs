@@ -1,0 +1,56 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items;
+
+namespace CalamityMod.Items.Weapons 
+{
+	public class CrystalBlade : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Crystal Blade");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 66;
+			item.damage = 32;
+			item.melee = true;
+			item.useAnimation = 25;
+			item.useStyle = 1;
+			item.useTime = 25;
+			item.useTurn = true;
+			item.knockBack = 4.5f;
+			item.UseSound = SoundID.Item1;
+			item.autoReuse = true;
+			item.height = 66;
+			item.value = 155000;
+			item.rare = 5;
+			item.shoot = mod.ProjectileType("CrystalDust");
+			item.shootSpeed = 3f;
+		}
+		
+		public override void AddRecipes()
+	    {
+	        ModRecipe recipe = new ModRecipe(mod);
+	        recipe.AddIngredient(ItemID.CrystalShard, 15);
+	        recipe.AddIngredient(ItemID.CobaltSword);
+	        recipe.AddIngredient(ItemID.PixieDust, 10);
+	        recipe.AddTile(TileID.MythrilAnvil);
+	        recipe.SetResult(this);
+	        recipe.AddRecipe();
+	        recipe = new ModRecipe(mod);
+	        recipe.AddIngredient(ItemID.CrystalShard, 15);
+	        recipe.AddIngredient(ItemID.PalladiumSword);
+	        recipe.AddIngredient(ItemID.PixieDust, 10);
+	        recipe.AddTile(TileID.MythrilAnvil);
+	        recipe.SetResult(this);
+	        recipe.AddRecipe();
+	    }
+	}
+}

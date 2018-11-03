@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items;
+
+namespace CalamityMod.Items.Weapons.Crabulon
+{
+	public class MycelialClaws : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Mycelial Claws");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 22;
+			item.damage = 14;
+			item.melee = true;
+			item.useAnimation = 6;
+			item.useStyle = 1;
+			item.useTime = 6;
+			item.useTurn = true;
+			item.knockBack = 3.75f;
+			item.UseSound = SoundID.Item1;
+			item.autoReuse = true;
+			item.height = 24;
+			item.maxStack = 1;
+			item.value = 40000;
+			item.rare = 2;
+		}
+		
+		public override void MeleeEffects(Player player, Rectangle hitbox)
+	    {
+	        if (Main.rand.Next(4) == 0)
+	        {
+	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 56);
+	        }
+	    }
+	}
+}

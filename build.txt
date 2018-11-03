@@ -1,0 +1,8 @@
+author = MountainDrew
+version = 1.3.5.001
+displayName = Calamity Mod
+homepage = https://forums.terraria.org/index.php?threads/calamity-mod.44065/
+hideCode = true
+hideResources = true
+includeSource = false
+includePDB = false

@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items;
+
+namespace CalamityMod.Items.Weapons
+{
+    public class XerocsGreatsword : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Xeroc Greatsword");
+            Tooltip.SetDefault("Fires homing plasma balls");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 66;
+            item.damage = 95;
+            item.melee = true;
+            item.useAnimation = 25;
+            item.useStyle = 1;
+            item.useTime = 25;
+            item.useTurn = true;
+            item.knockBack = 5.25f;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
+            item.height = 66;
+            item.value = 400000;
+            item.rare = 9;
+            item.shoot = mod.ProjectileType("PlasmaBall");
+            item.shootSpeed = 12f;
+        }
+
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            float SpeedA = speedX;
+            float SpeedB = speedY;
+            int num6 = Main.rand.Next(4, 6);
+            for (int index = 0; index < num6; ++index)
+            {
+                float num7 = speedX;
+                float num8 = speedY;
+                float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+            }
+            return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "MeldiateBar", 15);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+
+        public override void MeleeEffects(Player player, Rectangle hitbox)
+        {
+            if (Main.rand.Next(3) == 0)
+            {
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27);
+            }
+        }
+
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.CursedInferno, 500);
+        }
+    }
+}

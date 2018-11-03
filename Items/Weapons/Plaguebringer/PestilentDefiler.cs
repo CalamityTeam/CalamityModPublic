@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items;
+
+namespace CalamityMod.Items.Weapons.Plaguebringer {
+public class PestilentDefiler : ModItem
+{
+	public override void SetStaticDefaults()
+	{
+		DisplayName.SetDefault("Pestilent Defiler");
+	}
+
+    public override void SetDefaults()
+    {
+        item.damage = 135;
+        item.ranged = true;
+        item.width = 46;
+        item.height = 20;
+        item.useTime = 37;
+        item.useAnimation = 37;
+        item.useStyle = 5;
+        item.noMelee = true; //so the item's animation doesn't do damage
+        item.knockBack = 9.5f;
+        item.value = 950000;
+        item.rare = 8;
+        item.UseSound = SoundID.Item40;
+        item.autoReuse = false;
+        item.shootSpeed = 20f;
+        item.shoot = mod.ProjectileType("SicknessRound");
+        item.useAmmo = 97;
+    }
+    
+    public override Vector2? HoldoutOffset()
+	{
+		return new Vector2(0, -5);
+	}
+    
+    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+	{
+    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SicknessRound"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+    	return false;
+	}
+}}

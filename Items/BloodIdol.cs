@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.GameContent.Events;
+
+namespace CalamityMod.Items
+{
+	public class BloodIdol : ModItem
+	{
+		public override void SetStaticDefaults()
+	 	{
+	 		DisplayName.SetDefault("Blood Relic");
+	 		Tooltip.SetDefault("Summons a blood moon");
+	 	}
+	
+		public override void SetDefaults()
+		{
+			item.width = 20;
+			item.height = 20;
+			item.maxStack = 20;
+			item.rare = 5;
+			item.useAnimation = 20;
+			item.useTime = 20;
+			item.useStyle = 4;
+			item.UseSound = SoundID.Item66;
+			item.consumable = true;
+		}
+		
+		public override bool CanUseItem(Player player)
+		{
+			return !Main.bloodMoon && !Main.dayTime;
+		}
+		
+		public override bool UseItem(Player player)
+		{
+            Main.bloodMoon = true;
+            if (Main.netMode == 2)
+			{
+				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+			}
+			return true;
+		}
+		
+		public override void AddRecipes()
+	    {
+	        ModRecipe recipe = new ModRecipe(mod);
+	        recipe.AddIngredient(null, "BloodlettingEssence", 2);
+			recipe.AddIngredient(null, "UnholyCore", 5);
+	        recipe.AddTile(TileID.MythrilAnvil);
+	        recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "FetidEssence", 2);
+            recipe.AddIngredient(null, "UnholyCore", 5);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+	}
+}

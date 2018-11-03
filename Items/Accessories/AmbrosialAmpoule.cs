@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items;
+
+namespace CalamityMod.Items.Accessories
+{
+    public class AmbrosialAmpoule : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ambrosial Ampoule");
+            Tooltip.SetDefault("50% increased mining speed\n" +
+                "You emit light\n" +
+                "6% increased damage reduction and increased life regen\n" +
+                "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +
+                "Honey life regen with no speed penalty\n" +
+                "Most bee/hornet enemies and projectiles do 75% damage to you");
+        }
+
+        public override void SetDefaults()
+        {
+            item.defense = 4;
+            item.width = 20;
+            item.height = 20;
+            item.value = 5000000;
+            item.rare = 10;
+            item.accessory = true;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            modPlayer.beeResist = true;
+            modPlayer.aAmpoule = true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "CorruptFlask");
+            recipe.AddIngredient(null, "ArchaicPowder");
+            recipe.AddIngredient(null, "RadiantOoze");
+            recipe.AddIngredient(null, "HoneyDew");
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "CrimsonFlask");
+            recipe.AddIngredient(null, "ArchaicPowder");
+            recipe.AddIngredient(null, "RadiantOoze");
+            recipe.AddIngredient(null, "HoneyDew");
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

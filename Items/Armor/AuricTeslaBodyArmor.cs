@@ -1,0 +1,85 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.ModLoader;
+using CalamityMod.Items.Armor;
+
+namespace CalamityMod.Items.Armor
+{
+    [AutoloadEquip(EquipType.Body)]
+    public class AuricTeslaBodyArmor : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Auric Tesla Body Armor");
+            Tooltip.SetDefault("+100 max life and mana\n" +
+                       "25% increased movement speed\n" +
+                       "Attacks have a 2% chance to do no damage to you\n" +
+                       "8% increased damage and 5% increased critical strike chance\n" +
+                       "You will freeze enemies near you when you are struck");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 18;
+            item.height = 18;
+            item.value = 9250000;
+            item.defense = 48;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                {
+                    line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
+                }
+            }
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            modPlayer.fBarrier = true;
+            modPlayer.godSlayerReflect = true;
+            player.statLifeMax2 += 100;
+            player.statManaMax2 += 100;
+            player.moveSpeed += 0.25f;
+            player.meleeDamage += 0.08f;
+            player.meleeCrit += 5;
+            player.rangedDamage += 0.08f;
+            player.rangedCrit += 5;
+            player.magicDamage += 0.08f;
+            player.magicCrit += 5;
+            player.thrownDamage += 0.08f;
+            player.thrownCrit += 5;
+            player.minionDamage += 0.08f;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "SilvaArmor");
+            recipe.AddIngredient(null, "GodSlayerChestplate");
+            recipe.AddIngredient(null, "BloodflareBodyArmor");
+            recipe.AddIngredient(null, "TarragonBreastplate");
+            recipe.AddIngredient(null, "AuricOre", 100);
+            recipe.AddIngredient(null, "EndothermicEnergy", 30);
+            recipe.AddIngredient(null, "NightmareFuel", 30);
+            recipe.AddIngredient(null, "Phantoplasm", 20);
+            recipe.AddIngredient(null, "DarksunFragment", 15);
+            recipe.AddIngredient(null, "BarofLife", 10);
+            recipe.AddIngredient(null, "HellcasterFragment", 7);
+            recipe.AddIngredient(null, "CoreofCalamity", 5);
+            recipe.AddIngredient(null, "GalacticaSingularity", 3);
+            recipe.AddIngredient(null, "FrostBarrier");
+            recipe.AddTile(null, "DraedonsForge");
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

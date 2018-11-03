@@ -1,0 +1,84 @@
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.GameContent;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Projectiles
+{
+	public class ApothJaws : ModProjectile
+	{
+        private const float degrees = (float)(Math.PI / 180) * 2;
+
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Jaws of Annihilation");
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.width = 124;
+            projectile.height = 64;
+			projectile.alpha = 70;
+			projectile.timeLeft = 240;
+			projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 1;
+			projectile.friendly = true;
+			projectile.magic = true;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.light = 1.5f;
+		}
+
+		public override void AI()
+        {
+			if(projectile.timeLeft % 8 == 0)
+            {
+                double angle = (double)(Main.rand.Next(360)) * Math.PI / 180;
+                float offsetX = projectile.position.X + (float)(Main.rand.Next((int)projectile.width));
+                float offsetY = projectile.position.Y + (float)(Main.rand.Next((int)projectile.height));
+                Projectile.NewProjectile(offsetX, offsetY, 14 * (float)(Math.Cos(angle)), 14 * (float)(Math.Sin(angle)), mod.ProjectileType("ApothChloro"), projectile.damage, projectile.knockBack / 2, Main.myPlayer);
+            }
+            if (projectile.timeLeft < 30)
+                projectile.alpha = projectile.alpha + 6;
+            else if (projectile.timeLeft < 210)
+            {
+                projectile.velocity.X *= 0.9f; 
+                projectile.velocity.Y *= 0.9f; 
+            }
+            else if (projectile.timeLeft < 240)
+            {
+                if (projectile.ai[1] == 0)
+					projectile.rotation += 1.3f*degrees;
+				else
+					projectile.rotation -= 1.3f*degrees;
+            }
+            else if (projectile.timeLeft == 240)
+            {
+                if (projectile.ai[1] == 0)
+					projectile.rotation = projectile.ai[0] - 30*degrees;
+				else
+				{
+					projectile.rotation = projectile.ai[0] + 30*degrees + (float)Math.PI;
+					projectile.spriteDirection = -1;
+				}
+            }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(mod.BuffType("GodSlayerInferno"), 600, true);
+            target.AddBuff(mod.BuffType("DemonFlames"), 600, true);
+            target.AddBuff(mod.BuffType("ArmorCrunch"), 600, true);
+            if (Main.rand.Next(30) == 0)
+            {
+                target.AddBuff(mod.BuffType("ExoFreeze"), 120, true);
+            }
+        }
+	}
+}
