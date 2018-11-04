@@ -45,34 +45,27 @@ namespace CalamityMod.Items
                     Main.npc[doom].netUpdate = true;
                 }
             }
+
             if (!CalamityWorld.armageddon)
             {
                 CalamityWorld.armageddon = true;
-                string key = "Mods.CalamityMod.ArmageddonText";
-                Color messageColor = Color.Fuchsia;
-                if (Main.netMode == 0)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == 2)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
             }
             else
             {
                 CalamityWorld.armageddon = false;
-                string key = "Mods.CalamityMod.ArmageddonText2";
-                Color messageColor = Color.Fuchsia;
-                if (Main.netMode == 0)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == 2)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
             }
+			
+			string key = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
+			Color messageColor = Color.Fuchsia;
+            if (Main.netMode == 0)
+            {
+                Main.NewText(Language.GetTextValue(key), messageColor);
+            }
+            else if (Main.netMode == 2)
+            {
+                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+				
             if (Main.netMode == 2)
             {
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
