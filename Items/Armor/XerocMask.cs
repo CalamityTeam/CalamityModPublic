@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Xeroc Mask");
-            Tooltip.SetDefault("12% increased damage and critical strike chance and +2 max minions\n" +
+            Tooltip.SetDefault("12% increased damage and critical strike chance and +3 max minions\n" +
                 "Immune to lava, cursed, fire, cursed inferno, and chilled\n" +
                 "Wrath of the cosmos");
         }
