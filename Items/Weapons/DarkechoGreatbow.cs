@@ -53,7 +53,8 @@ namespace CalamityMod.Items.Weapons
 	    			case 1: type = ProjectileID.UnholyArrow; break;
 	    			default: break;
 				}
-	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+	        	int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+				Main.projectile[index].noDropItem = true;
 	    	}
 	    	return false;
 		}

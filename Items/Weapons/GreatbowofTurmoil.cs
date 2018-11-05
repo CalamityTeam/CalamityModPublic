@@ -55,7 +55,8 @@ namespace CalamityMod.Items.Weapons
 		    		case 3: type = ProjectileID.IchorArrow; break;
 		    		default: break;
 				}
-		        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
+		        int index = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
+				Main.projectile[index].noDropItem = true;
 	    	}
 	    	return false;
 		}

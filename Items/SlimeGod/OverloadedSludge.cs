@@ -26,7 +26,7 @@ namespace CalamityMod.Items.SlimeGod
 		
 		public override bool CanUseItem(Player player)
 		{
-			return !NPC.AnyNPCs(mod.NPCType("SlimeGodCore"));
+			return !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGod")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
 		}
 		
 		public override bool UseItem(Player player)
