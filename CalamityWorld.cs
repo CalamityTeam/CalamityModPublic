@@ -613,10 +613,19 @@ namespace CalamityMod
 		public override void TileCountsAvailable(int[] tileCounts)
 		{
 			calamityTiles = tileCounts[mod.TileType("CharredOre")] + tileCounts[mod.TileType("BrimstoneSlag")];
-			astralTiles = tileCounts[mod.TileType("AstralOre")];
             seaTiles = tileCounts[mod.TileType("EutrophicSand")] + tileCounts[mod.TileType("SeaPrism")];
             abyssTiles = tileCounts[mod.TileType("AbyssGravel")];
             sulphurTiles = tileCounts[mod.TileType("SulphurousSand")];
+			
+			#region Astral Stuff
+            int astralDesertTiles = tileCounts[mod.TileType("AstralSand")] + tileCounts[mod.TileType("AstralSandstone")] + tileCounts[mod.TileType("HardenedAstralSand")];
+            int astralSnowTiles = tileCounts[mod.TileType("AstralIce")];
+
+            Main.sandTiles += astralDesertTiles;
+            Main.snowTiles += astralSnowTiles;
+
+            astralTiles = astralDesertTiles + astralSnowTiles + tileCounts[mod.TileType("AstralDirt")] + tileCounts[mod.TileType("AstralStone")] + tileCounts[mod.TileType("AstralGrass")]+ tileCounts[mod.TileType("AstralOre")];
+			#endregion
 		}
         #endregion
 
@@ -1800,10 +1809,588 @@ namespace CalamityMod
 			if (Main.netMode != 1)
 			{
 				NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
+				
+                DoAstralConversion(new Point(i, j));
 			}
 			return true;
 		}
-        #endregion
+        
+		
+
+        public static void DoAstralConversion(object obj)
+        {
+            //Pre-calculate all variables necessary for elliptical area checking
+            Point origin = (Point)obj;
+            Vector2 center = origin.ToVector2() * 16f + new Vector2(8f);
+
+            float angle = MathHelper.Pi * 0.15f;
+            float otherAngle = MathHelper.PiOver2 - angle;
+
+            int distanceInTiles = 150 + ((Main.maxTilesX - 4200) / 4200) * 200;
+            float distance = distanceInTiles * 16f;
+            float constant = (distance * 2f) / (float)Math.Sin(angle);
+
+            float fociSpacing = ((distance * (float)Math.Sin(otherAngle)) / (float)Math.Sin(angle));
+            int verticalRadius = (int)(constant / 16f);
+
+            Vector2 fociOffset = Vector2.UnitY * fociSpacing;
+            Vector2 topFoci = center - fociOffset;
+            Vector2 bottomFoci = center + fociOffset;
+            
+            for (int x = origin.X - distanceInTiles - 2; x <= origin.X + distanceInTiles + 2; x++)
+            {
+                for (int y = (int)(origin.Y - verticalRadius * 0.4f) - 3; y <= origin.Y + verticalRadius + 3; y++)
+                {
+                    float dist;
+                    if (CheckInEllipse(new Point(x, y), topFoci, bottomFoci, constant, center, out dist, y < origin.Y))
+                    {
+                        //If we're in the outer blurPercent% of the ellipse
+                        float percent = dist / constant;
+                        float blurPercent = 0.98f;
+                        if (percent > blurPercent)
+                        {
+                            float outerEdgePercent = (percent - blurPercent) / (1f - blurPercent);
+                            if (Main.rand.NextFloat(1f) > outerEdgePercent)
+                            {
+                                ConvertToAstral(x, y);
+                            }
+                        }
+                        else
+                        {
+                            ConvertToAstral(x, y);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void ConvertToAstral(int startX, int endX, int startY, int endY)
+        {
+            for (int x = startX; x <= endX; x++)
+            {
+                for (int y = startY; y <= endY; y++)
+                {
+                    ConvertToAstral(x, y);
+                }
+            }
+        }
+
+        public static void ConvertToAstral(int x, int y, bool tileframe = true)
+        {
+            Mod mod = ModLoader.GetMod("CalamityMod");
+            if (WorldGen.InWorld(x, y, 1))
+            {
+                int type = Main.tile[x, y].type;
+                int wallType = Main.tile[x, y].wall;
+
+                if (WallID.Sets.Conversion.Grass[wallType])
+                {
+                    Main.tile[x, y].wall = (ushort)mod.WallType("AstralGrassWallUnsafe");
+                }
+                else if (WallID.Sets.Conversion.HardenedSand[wallType])
+                {
+                    Main.tile[x, y].wall = (ushort)mod.WallType("HardenedAstralSandWallUnsafe");
+                }
+                else if (WallID.Sets.Conversion.Sandstone[wallType])
+                {
+                    Main.tile[x, y].wall = (ushort)mod.WallType("AstralSandstoneWallUnsafe");
+                }
+                else if (WallID.Sets.Conversion.Stone[wallType])
+                {
+                    Main.tile[x, y].wall = (ushort)mod.WallType("AstralStoneWallUnsafe");
+                }
+                else
+                {
+                    switch (wallType)
+                    {
+                        case WallID.DirtUnsafe:
+                        case WallID.DirtUnsafe1:
+                        case WallID.DirtUnsafe2:
+                        case WallID.DirtUnsafe3:
+                        case WallID.DirtUnsafe4:
+                        case WallID.Cave6Unsafe:
+                        case WallID.Dirt:
+                            Main.tile[x, y].wall = (ushort)mod.WallType("AstralDirtWallUnsafe");
+                            break;
+                        case WallID.IceUnsafe:
+                            Main.tile[x, y].wall = (ushort)mod.WallType("AstralIceWallUnsafe");
+                            break;
+                    }
+                }
+
+                if (TileID.Sets.Conversion.Grass[type] && !TileID.Sets.GrassSpecial[type])
+                {
+                    Main.tile[x, y].type = (ushort)mod.TileType("AstralGrass");
+                }
+                else if (TileID.Sets.Conversion.Stone[type] || Main.tileMoss[type])
+                {
+                    Main.tile[x, y].type = (ushort)mod.TileType("AstralStone");
+                }
+                else if (TileID.Sets.Conversion.Sand[type])
+                {
+                    Main.tile[x, y].type = (ushort)mod.TileType("AstralSand");
+                }
+                else if (TileID.Sets.Conversion.HardenedSand[type])
+                {
+                    Main.tile[x, y].type = (ushort)mod.TileType("HardenedAstralSand");
+                }
+                else if (TileID.Sets.Conversion.Sandstone[type])
+                {
+                    Main.tile[x, y].type = (ushort)mod.TileType("AstralSandstone");
+                }
+                else if (TileID.Sets.Conversion.Ice[type])
+                {
+                    Main.tile[x, y].type = (ushort)mod.TileType("AstralIce");
+                }
+                else
+                {
+                    Tile tile = Main.tile[x, y];
+                    switch(type)
+                    {
+                        case TileID.Dirt:
+                            Main.tile[x, y].type = (ushort)mod.TileType("AstralDirt");
+                            break;
+                        case TileID.Vines:
+                            Main.tile[x, y].type = (ushort)mod.TileType("AstralVines");
+                            break;
+                        case TileID.LargePiles:
+                            if (tile.frameX <= 1170)
+                            {
+                                RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 0, 1170, 0, 18);
+                            }
+                            if (tile.frameX >= 1728)
+                            {
+                                RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 1728, 1872, 0, 18);
+                            }
+                            if (tile.frameX >= 1404 && tile.frameX <= 1710)
+                            {
+                                RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralIceLargePiles"), x, y, 324, 1404, 1710, 0, 18);
+                            }
+                            break;
+                        case TileID.LargePiles2:
+                            if (tile.frameX >= 1566 && tile.frameY < 36)
+                            {
+                                RecursiveReplaceToAstral(TileID.LargePiles2, (ushort)mod.TileType("AstralDesertLargePiles"), x, y, 324, 1566, 1872, 0, 18);
+                            }
+                            if (tile.frameX >= 756 && tile.frameX <= 900)
+                            {
+                                RecursiveReplaceToAstral(TileID.LargePiles2, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 756, 900, 0, 18);
+                            }
+                            break;
+                        case TileID.SmallPiles:
+                            if (tile.frameY == 18)
+                            {
+                                ushort newType = 9999;
+                                if (tile.frameX >= 1476 && tile.frameX <= 1674)
+                                {
+                                    newType = (ushort)mod.TileType("AstralDesertMediumPiles");
+                                }
+                                else if (tile.frameX <= 558 || (tile.frameX >= 1368 && tile.frameX <= 1458))
+                                {
+                                    newType = (ushort)mod.TileType("AstralNormalMediumPiles");
+                                }
+                                else if (tile.frameX >= 900 && tile.frameX <= 1098)
+                                {
+                                    newType = (ushort)mod.TileType("AstralIceMediumPiles");
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                int leftMost = x;
+                                if (tile.frameX % 36 != 0) //this means it's the right tile of the two
+                                {
+                                    leftMost--;
+                                }
+                                Main.tile[leftMost, y].type = newType;
+                                Main.tile[leftMost + 1, y].type = newType;
+                                while (Main.tile[leftMost, y].frameX >= 216)
+                                {
+                                    Main.tile[leftMost, y].frameX -= 216;
+                                    Main.tile[leftMost + 1, y].frameX -= 216;
+                                }
+                            }
+                            else if (tile.frameY == 0)
+                            {
+                                ushort newType3 = 9999;
+                                if (tile.frameX >= 972 && tile.frameX <= 1062)
+                                {
+                                    newType3 = (ushort)mod.TileType("AstralDesertSmallPiles");
+                                }
+                                else if (tile.frameX <= 486)
+                                {
+                                    newType3 = (ushort)mod.TileType("AstralNormalSmallPiles");
+                                }
+                                else if (tile.frameX >= 648 && tile.frameX <= 846)
+                                {
+                                    newType3 = (ushort)mod.TileType("AstralIceSmallPiles");
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                                Main.tile[x, y].type = newType3;
+                                while (Main.tile[x, y].frameX >= 108) //REFRAME IT
+                                {
+                                    Main.tile[x, y].frameX -= 108;
+                                }
+                            }
+                            break;
+                        case TileID.Stalactite:
+                            int topMost = tile.frameY <= 54 ? (tile.frameY % 36 == 0 ? y : y - 1) : y;
+                            bool twoTall = tile.frameY <= 54;
+                            bool hanging = tile.frameY <= 18 || tile.frameY == 72;
+                            ushort newType2 = 9999;
+                            if (tile.frameX >= 378 && tile.frameX <= 414) //DESERT
+                            {
+                                newType2 = (ushort)mod.TileType("AstralDesertStalactite");
+                            }
+                            else if ((tile.frameX >= 54 && tile.frameX <= 90) || (tile.frameX >= 216 && tile.frameX <= 360))
+                            {
+                                newType2 = (ushort)mod.TileType("AstralNormalStalactite");
+                            }
+                            else if (tile.frameX <= 36)
+                            {
+                                newType2 = (ushort)mod.TileType("AstralIceStalactite");
+                            }
+                            else
+                            {
+                                break;
+                            }
+
+                            //Set types
+                            Main.tile[x, topMost].type = newType2;
+                            if (twoTall)
+                                Main.tile[x, topMost + 1].type = newType2;
+
+                            //Fix frames
+                            while (Main.tile[x, topMost].frameX >= 54)
+                            {
+                                Main.tile[x, topMost].frameX -= 54;
+                                if (twoTall)
+                                    Main.tile[x, topMost + 1].frameX -= 54;
+                            }
+
+                            if (hanging)
+                            {
+                                ConvertToAstral(x, topMost - 1);
+                                break;
+                            }
+                            else
+                            {
+                                if (twoTall)
+                                {
+                                    ConvertToAstral(x, topMost + 2);
+                                    break;
+                                }
+                                ConvertToAstral(x, topMost + 1);
+                                break;
+                            }
+                    }
+                }
+                if (tileframe)
+                {
+                    if (Main.netMode == 0)
+                    {
+                        WorldGen.SquareTileFrame(x, y, true);
+                    }
+                    else if (Main.netMode == 2)
+                    {
+                        NetMessage.SendTileSquare(-1, x, y, 1);
+                    }
+                }
+            }
+        }
+
+        public static void ConvertFromAstral(int x, int y, ConvertType convert)
+        {
+            Tile tile = Main.tile[x, y];
+            int type = tile.type;
+            int wallType = tile.wall;
+            Mod mod = CalamityMod.Instance;
+
+            if (WorldGen.InWorld(x, y, 1))
+            {
+                #region WALL
+                if (wallType == mod.WallType("AstralDirtWall"))
+                {
+                    Main.tile[x, y].wall = WallID.DirtUnsafe;
+                }
+                else if (wallType == mod.WallType("AstralGrassWall"))
+                {
+                    switch (convert)
+                    {
+                        case ConvertType.Corrupt:
+                            Main.tile[x, y].wall = WallID.CorruptGrassUnsafe;
+                            break;
+                        case ConvertType.Crimson:
+                            Main.tile[x, y].wall = WallID.CrimsonGrassUnsafe;
+                            break;
+                        case ConvertType.Hallow:
+                            Main.tile[x, y].wall = WallID.HallowedGrassUnsafe;
+                            break;
+                        case ConvertType.Pure:
+                            Main.tile[x, y].wall = WallID.GrassUnsafe;
+                            break;
+                    }
+                }
+                else if (wallType == mod.WallType("AstralIceWall"))
+                {
+                    Main.tile[x, y].wall = WallID.IceUnsafe;
+                }
+                else if (wallType == mod.WallType("AstralStoneWall"))
+                {
+                    switch (convert)
+                    {
+                        case ConvertType.Corrupt:
+                            Main.tile[x, y].wall = WallID.EbonstoneUnsafe;
+                            break;
+                        case ConvertType.Crimson:
+                            Main.tile[x, y].wall = WallID.CrimstoneUnsafe;
+                            break;
+                        case ConvertType.Hallow:
+                            Main.tile[x, y].wall = WallID.PearlstoneBrickUnsafe;
+                            break;
+                        case ConvertType.Pure:
+                            Main.tile[x, y].wall = WallID.Stone;
+                            break;
+                    }
+                }
+                #endregion
+
+                #region TILE
+                if (type == mod.TileType("AstralDirt"))
+                {
+                    tile.type = TileID.Dirt;
+                }
+                else if (type == mod.TileType("AstralGrass"))
+                {
+                    SetTileFromConvert(x, y, convert, TileID.CorruptGrass, TileID.FleshGrass, TileID.HallowedGrass, TileID.Grass);
+                }
+                else if (type == mod.TileType("AstralStone"))
+                {
+                    SetTileFromConvert(x, y, convert, TileID.Ebonstone, TileID.Crimstone, TileID.Pearlstone, TileID.Stone);
+                }
+                else if (type == mod.TileType("AstralSand"))
+                {
+                    SetTileFromConvert(x, y, convert, TileID.Ebonsand, TileID.Crimsand, TileID.Pearlsand, TileID.Sand);
+                }
+                else if (type == mod.TileType("AstralSandstone"))
+                {
+                    SetTileFromConvert(x, y, convert, TileID.CorruptSandstone, TileID.CrimsonSandstone, TileID.HallowSandstone, TileID.Sandstone);
+                }
+                else if (type == mod.TileType("HardenedAstralSand"))
+                {
+                    SetTileFromConvert(x, y, convert, TileID.CorruptHardenedSand, TileID.CrimsonHardenedSand, TileID.HallowHardenedSand, TileID.HardenedSand);
+                }
+                else if (type == mod.TileType("AstralIce"))
+                {
+                    SetTileFromConvert(x, y, convert, TileID.CorruptIce, TileID.FleshIce, TileID.HallowedIce, TileID.IceBlock);
+                }
+                else if (type == mod.TileType("AstralVines"))
+                {
+                    SetTileFromConvert(x, y, convert, ushort.MaxValue, TileID.CrimsonVines, TileID.HallowedVines, TileID.Vines);
+                }
+                else if (type == mod.TileType("AstralShortPlants"))
+                {
+                    SetTileFromConvert(x, y, convert, TileID.CorruptPlants, ushort.MaxValue, TileID.HallowedPlants, TileID.Plants);
+                }
+                else if (type == mod.TileType("AstralTallPlants"))
+                {
+                    SetTileFromConvert(x, y, convert, ushort.MaxValue, ushort.MaxValue, TileID.HallowedPlants2, TileID.Plants2);
+                }
+                else if (type == mod.TileType("AstralNormalLargePiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles, x, y, 378, 0);
+                }
+                else if (type == mod.TileType("AstralNormalMediumPiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 0, 18);
+                }
+                else if (type == mod.TileType("AstralNormalSmallPiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 0, 0);
+                }
+                else if (type == mod.TileType("AstralDesertLargePiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles2, x, y, 1566, 0);
+                }
+                else if (type == mod.TileType("AstralDesertMediumPiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 1476, 18);
+                }
+                else if (type == mod.TileType("AstralDesertSmallPiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 972, 0);
+                }
+                else if (type == mod.TileType("AstralIceLargePiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles, x, y, 1404, 0);
+                }
+                else if (type == mod.TileType("AstralIceMediumPiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 900, 18);
+                }
+                else if (type == mod.TileType("AstralIceSmallPiles"))
+                {
+                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 648, 0);
+                }
+                else if (type == mod.TileType("AstralNormalStalactite"))
+                {
+                    ushort originType = TileID.Stone;
+                    int frameXAdd = 54;
+                    switch (convert)
+                    {
+                        case ConvertType.Corrupt:
+                            originType = TileID.Ebonstone;
+                            frameXAdd = 324;
+                            break;
+                        case ConvertType.Crimson:
+                            originType = TileID.Crimstone;
+                            frameXAdd = 270;
+                            break;
+                        case ConvertType.Hallow:
+                            originType = TileID.Pearlstone;
+                            frameXAdd = 216;
+                            break;
+                    }
+                    ReplaceAstralStalactite((ushort)type, TileID.Stalactite, originType, x, y, frameXAdd, 0);
+                }
+                else if (type == mod.TileType("AstralDesertStalactite"))
+                {
+                    ushort originType = TileID.Sandstone;
+                    int frameXAdd = 378;
+                    switch (convert)
+                    {
+                        case ConvertType.Corrupt:
+                            originType = TileID.CorruptSandstone;
+                            frameXAdd = 324;
+                            break;
+                        case ConvertType.Crimson:
+                            originType = TileID.CrimsonSandstone;
+                            frameXAdd = 270;
+                            break;
+                        case ConvertType.Hallow:
+                            originType = TileID.HallowSandstone;
+                            frameXAdd = 216;
+                            break;
+                    }
+                    ReplaceAstralStalactite((ushort)type, TileID.Stalactite, originType, x, y, frameXAdd, 0);
+                }
+                else if (type == mod.TileType("AstralIceStalactite"))
+                {
+                    ReplaceAstralStalactite((ushort)type, TileID.Stalactite, TileID.IceBlock, x, y, 0, 0);
+                }
+                if (TileID.Sets.Conversion.Grass[type] || type == TileID.Dirt)
+                {
+                    WorldGen.SquareTileFrame(x, y);
+                }
+                #endregion
+            }
+        }
+
+        private static void SetTileFromConvert(int x, int y, ConvertType convert, ushort corrupt, ushort crimson, ushort hallow, ushort pure)
+        {
+            switch (convert)
+            {
+                case ConvertType.Corrupt:
+                    if (corrupt != ushort.MaxValue)
+                    {
+                        Main.tile[x, y].type = corrupt;
+                        WorldGen.SquareTileFrame(x, y);
+                    }
+                    break;
+                case ConvertType.Crimson:
+                    if (crimson != ushort.MaxValue)
+                    {
+                        Main.tile[x, y].type = crimson;
+                        WorldGen.SquareTileFrame(x, y);
+                    }
+                    break;
+                case ConvertType.Hallow:
+                    if (hallow != ushort.MaxValue)
+                    {
+                        Main.tile[x, y].type = hallow;
+                        WorldGen.SquareTileFrame(x, y);
+                    }
+                    break;
+                case ConvertType.Pure:
+                    if (pure != ushort.MaxValue)
+                    {
+                        Main.tile[x, y].type = pure;
+                        WorldGen.SquareTileFrame(x, y);
+                    }
+                    break;
+            }
+        }
+
+        private static void RecursiveReplaceToAstral(ushort checkType, ushort replaceType, int x, int y, int replaceTextureWidth, int minFrameX = 0, int maxFrameX = int.MaxValue, int minFrameY = 0, int maxFrameY = int.MaxValue)
+        {
+            Tile tile = Main.tile[x, y];
+            if (tile == null || !tile.active() || tile.type != checkType || tile.frameX < minFrameX || tile.frameX > maxFrameX || tile.frameY < minFrameY || tile.frameY > maxFrameY)
+                return;
+
+            Main.tile[x, y].type = replaceType;
+            while (Main.tile[x, y].frameX >= replaceTextureWidth)
+            {
+                Main.tile[x, y].frameX -= (short)replaceTextureWidth;
+            }
+
+            RecursiveReplaceToAstral(checkType, replaceType, x - 1, y, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+            RecursiveReplaceToAstral(checkType, replaceType, x + 1, y, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+            RecursiveReplaceToAstral(checkType, replaceType, x, y - 1, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+            RecursiveReplaceToAstral(checkType, replaceType, x, y + 1, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+        }
+
+        private static void RecursiveReplaceFromAstral(ushort checkType, ushort replaceType, int x, int y, int addFrameX, int addFrameY)
+        {
+            Tile tile = Main.tile[x, y];
+            if (tile == null || !tile.active() || tile.type != checkType)
+                return;
+
+            Main.tile[x, y].type = replaceType;
+            Main.tile[x, y].frameX += (short)addFrameX;
+            Main.tile[x, y].frameY += (short)addFrameY;
+
+            RecursiveReplaceFromAstral(checkType, replaceType, x - 1, y, addFrameX, addFrameY);
+            RecursiveReplaceFromAstral(checkType, replaceType, x + 1, y, addFrameX, addFrameY);
+            RecursiveReplaceFromAstral(checkType, replaceType, x, y - 1, addFrameX, addFrameY);
+            RecursiveReplaceFromAstral(checkType, replaceType, x, y + 1, addFrameX, addFrameY);
+        }
+
+        private static void ReplaceAstralStalactite(ushort checkType, ushort replaceType, ushort replaceOriginTile, int x, int y, int addFrameX, int addFrameY)
+        {
+            Tile tile = Main.tile[x, y];
+
+            int topMost = tile.frameY <= 54 ? (tile.frameY % 36 == 0 ? y : y - 1) : y;
+            bool twoTall = tile.frameY <= 54;
+            bool hanging = tile.frameY <= 18 || tile.frameY == 72;
+
+            int yOriginTile = (hanging ? topMost - 1 : (twoTall ? topMost + 2 : y + 1));
+
+            Main.tile[x, topMost++].type = replaceType;
+            if (twoTall)
+            {
+                Main.tile[x, topMost].type = replaceType;
+            }
+            Main.tile[x, yOriginTile].type = replaceOriginTile;
+        }
+
+        private static bool CheckInEllipse(Point tile, Vector2 focus1, Vector2 focus2, float distanceConstant, Vector2 center, out float distance, bool collapse = false)
+        {
+            Vector2 point = tile.ToVector2() * 16f + new Vector2(8f);
+            if (collapse) //Collapse ensures the ellipse is shrunk down a lot in terms of distance.
+            {
+                float distY = center.Y - point.Y;
+                point.Y -= distY * 8f;
+            }
+            float distance1 = Vector2.Distance(point, focus1);
+            float distance2 = Vector2.Distance(point, focus2);
+            distance = distance1 + distance2;
+            return distance <= distanceConstant;
+        }
+		
+		#endregion
 
         #region EvilIsland
         public static void EvilIsland(int i, int j)

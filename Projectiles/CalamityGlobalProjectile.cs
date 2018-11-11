@@ -72,6 +72,36 @@ namespace CalamityMod.Projectiles
 		}
         #endregion
 
+		#region PostAI
+        public override void PostAI(Projectile projectile)
+        {
+            int x = (int)(projectile.Center.X / 16f);
+            int y = (int)(projectile.Center.Y / 16f);
+            for (int i = x - 1; i <= x + 1; i++)
+            {
+                for (int j = y - 1; j <= y + 1; j++)
+                {
+                    if (projectile.type == ProjectileID.PureSpray)
+                    {
+                        CalamityWorld.ConvertFromAstral(i, j, ConvertType.Pure);
+                    }
+                    if (projectile.type == ProjectileID.CorruptSpray)
+                    {
+                        CalamityWorld.ConvertFromAstral(i, j, ConvertType.Corrupt);
+                    }
+                    if (projectile.type == ProjectileID.CrimsonSpray)
+                    {
+                        CalamityWorld.ConvertFromAstral(i, j, ConvertType.Crimson);
+                    }
+                    if (projectile.type == ProjectileID.HallowSpray)
+                    {
+                        CalamityWorld.ConvertFromAstral(i, j, ConvertType.Hallow);
+                    }
+                }
+            }
+        }
+		#endregion
+		
         #region ModifyHitNPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{

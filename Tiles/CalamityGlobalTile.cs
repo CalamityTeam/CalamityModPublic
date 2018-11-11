@@ -14,6 +14,111 @@ namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile
     {
+        public static ushort[] PlantTypes = new ushort[]
+        {
+            TileID.Plants,
+            TileID.CorruptPlants,
+            TileID.JunglePlants,
+            TileID.MushroomPlants,
+            TileID.Plants2,
+            TileID.JunglePlants2,
+            TileID.HallowedPlants,
+            TileID.HallowedPlants2,
+            TileID.FleshWeeds,
+            (ushort)CalamityMod.Instance.TileType("AstralShortPlants"),
+            (ushort)CalamityMod.Instance.TileType("AstralTallPlants")
+        };
+		
+		
+        public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
+        {
+            for (int k = 0; k < PlantTypes.Length; k++)
+            {
+                if (PlantTypes[k] == type)
+                {
+                    CustomTileFraming.CheckPlants(i, j);
+                    return false;
+                }
+            }
+            if (type == TileID.Vines || type == TileID.CrimsonVines || type == TileID.HallowedVines || type == mod.TileType("AstralVines"))
+            {
+                CustomTileFraming.VineFrame(i, j);
+                return false;
+            }
+            return base.TileFrame(i, j, type, ref resetFrame, ref noBreak);
+        }
+
+        public override void PostDraw(int i, int j, int type, SpriteBatch spriteBatch)
+        {
+            Tile tile = Main.tile[i, j];
+        
+            if (type == TileID.Cactus)
+            {
+                //GRABBING VARIABLES FOR CERTAIN THINGS
+                Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+                if (Main.drawToScreen)
+                    zero = Vector2.Zero;
+
+                //TESTING STUFF
+                int frameX = tile.frameX;
+                int frameY = tile.frameY;
+                bool astralCactus = false;
+                if (!Main.canDrawColorTile(i, j))
+                {
+                    int xTile = i;
+                    if (frameX == 36)
+                    {
+                        xTile--;
+                    }
+                    if (frameX == 54)
+                    {
+                        xTile++;
+                    }
+                    if (frameX == 108)
+                    {
+                        if (frameY == 18)
+                        {
+                            xTile--;
+                        }
+                        else
+                        {
+                            xTile++;
+                        }
+                    }
+                    int yTile = j;
+                    bool flag = false;
+                    if (Main.tile[xTile, yTile].type == 80 && Main.tile[xTile, yTile].active())
+                    {
+                        flag = true;
+                    }
+                    while (!Main.tile[xTile, yTile].active() || !Main.tileSolid[(int)Main.tile[xTile, yTile].type] || !flag)
+                    {
+                        if (Main.tile[xTile, yTile].type == 80 && Main.tile[xTile, yTile].active())
+                        {
+                            flag = true;
+                        }
+                        yTile++;
+                        if (yTile > i + 20)
+                        {
+                            break;
+                        }
+                    }
+                    //CACTUS CHECK
+                    if (Main.tile[xTile, yTile].type == (ushort)mod.TileType("AstralSand"))
+                    {
+                        astralCactus = true;
+                    }
+                }
+
+                //Draw Glow
+                if (astralCactus)
+                {
+                    spriteBatch.Draw(CalamityMod.AstralCactusGlowTexture, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                }
+                return;
+            }
+        }
+		
         public override bool Drop(int i, int j, int type)
         {
             if (type == 28)

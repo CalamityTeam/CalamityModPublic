@@ -1303,13 +1303,15 @@ namespace CalamityMod
 			player.ManageSpecialBiomeVisuals("CalamityMod:Providence", useHoly);
 			bool useSBrimstone = NPC.AnyNPCs(mod.NPCType("SupremeCalamitas"));
 			player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", useSBrimstone);
+            bool inAstral = ZoneAstral;
+            player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
         }
 		
 		public override void UpdateBiomes()
         {
             Point point = player.Center.ToTileCoordinates();
             ZoneCalamity = CalamityWorld.calamityTiles > 50;
-            ZoneAstral = CalamityWorld.astralTiles > 50;
+            ZoneAstral = CalamityWorld.astralTiles > 950 || (player.ZoneSnow && CalamityWorld.astralTiles > 300); 
             //ZoneGreatSea = CalamityWorld.seaTiles > 30;
 
             int x = Main.maxTilesX;
@@ -1420,14 +1422,18 @@ namespace CalamityMod
             ZoneSulphur = flags[7];
         }
 
-        /*public override Texture2D GetMapBackgroundImage()
+        public override Texture2D GetMapBackgroundImage()
         {
-            if (ZoneSulphur)
+            /*if (ZoneSulphur)
             {
                 return mod.GetTexture("Backgrounds/SulphurBG");
+            }*/
+            if (ZoneAstral)
+            {
+                return mod.GetTexture("Backgrounds/MapBackgrounds/AstralBG");
             }
             return null;
-        }*/
+        }
         #endregion
         
         #region InventoryStartup
@@ -2502,6 +2508,17 @@ namespace CalamityMod
         }
         #endregion
 
+		#region PreUpdateBuffs
+        public override void PreUpdateBuffs()
+        {
+            //Remove the mighty wind buff if the player is in the astral desert.
+            if (player.ZoneDesert && ZoneAstral && player.HasBuff(BuffID.WindPushed))
+            {
+                player.ClearBuff(BuffID.WindPushed);
+            }
+        }
+		#endregion
+		
         #region PostUpdateEffects
         public override void PostUpdateBuffs()
         {

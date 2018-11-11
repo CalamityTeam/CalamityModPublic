@@ -11378,8 +11378,8 @@ namespace CalamityMod.NPCs
 			}
 			else if (player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral)
 			{
-				spawnRate = (int)((double)spawnRate * 0.4);
-				maxSpawns = (int)((float)maxSpawns * 1.1f);
+				spawnRate = (int)((double)spawnRate * 0.5);
+				maxSpawns = (int)((float)maxSpawns * 1.15f);
 			}
 			if (CalamityWorld.revenge)
 			{
@@ -11421,7 +11421,7 @@ namespace CalamityMod.NPCs
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity ||
-                spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
+                spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral)
             {
                 pool[0] = 0f;
             }
@@ -11939,5 +11939,503 @@ namespace CalamityMod.NPCs
             return false;
         }
         #endregion
+		
+		#region Astral things
+        public static void DoHitDust(NPC npc, int hitDirection, int dustType = 5, float xSpeedMult = 1f, int numHitDust = 5, int numDeathDust = 20)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, dustType, hitDirection * xSpeedMult, -1f, 0, default(Color), 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 20; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, dustType, hitDirection * xSpeedMult, -1f, 0, default(Color), 1f);
+                }
+            }
+        }
+
+        public static void DoFlyingAI(NPC npc, float maxSpeed, float acceleration, float circleTime, float minDistanceTarget = 150f, bool shouldAttackTarget = true)
+        {
+            //Pick a new target.
+            if (npc.target < 0 || npc.target >= 255 || Main.player[npc.target].dead)
+            {
+                npc.TargetClosest(true);
+            }
+
+            Player myTarget = Main.player[npc.target];
+            Vector2 toTarget = (myTarget.Center - npc.Center);
+            float distanceToTarget = toTarget.Length();
+
+            Vector2 maxVelocity = toTarget;
+
+            if (distanceToTarget < 3f)
+            {
+                maxVelocity = npc.velocity;
+            }
+            else
+            {
+                float magnitude = maxSpeed / distanceToTarget;
+                maxVelocity *= magnitude;
+            }
+
+            //Circular motion
+            npc.ai[0]++;
+            //y motion
+            if (npc.ai[0] > circleTime * 0.5f)
+            {
+                npc.velocity.Y += acceleration;
+            }
+            else
+            {
+                npc.velocity.Y -= acceleration;
+            }
+            //x motion
+            if (npc.ai[0] < circleTime * 0.25f || npc.ai[0] > circleTime * 0.75f)
+            {
+                npc.velocity.X += acceleration;
+            }
+            else
+            {
+                npc.velocity.X -= acceleration;
+            }
+            //reset
+            if (npc.ai[0] > circleTime)
+            {
+                npc.ai[0] = 0f;
+            }
+
+            //if close enough
+            if (shouldAttackTarget && distanceToTarget < minDistanceTarget)
+            {
+                npc.velocity += maxVelocity * 0.007f;
+            }
+
+            if (myTarget.dead)
+            {
+                maxVelocity.X = npc.direction * maxSpeed / 2f;
+                maxVelocity.Y = -maxSpeed / 2f;
+            }
+
+            //maximise velocity
+            if (npc.velocity.X < maxVelocity.X)
+            {
+                npc.velocity.X += acceleration;
+            }
+            if (npc.velocity.X > maxVelocity.X)
+            {
+                npc.velocity.X -= acceleration;
+            }
+            if (npc.velocity.Y < maxVelocity.Y)
+            {
+                npc.velocity.Y += acceleration;
+            }
+            if (npc.velocity.Y > maxVelocity.Y)
+            {
+                npc.velocity.Y -= acceleration;
+            }
+
+            //rotate towards player if alive
+            if (!myTarget.dead)
+            {
+                npc.rotation = toTarget.ToRotation();
+            }
+            else //don't, do velocity instead
+            {
+                npc.rotation = npc.velocity.ToRotation();
+            }
+
+            npc.rotation += MathHelper.Pi;
+
+            //tile collision
+            float collisionDamp = 0.7f;
+            if (npc.collideX)
+            {
+                npc.netUpdate = true;
+                npc.velocity.X = npc.oldVelocity.X * -collisionDamp;
+                if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
+                {
+                    npc.velocity.X = 2f;
+                }
+                if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
+                {
+                    npc.velocity.X = -2f;
+                }
+            }
+            if (npc.collideY)
+            {
+                npc.netUpdate = true;
+                npc.velocity.Y = npc.oldVelocity.Y * -collisionDamp;
+                if (npc.velocity.Y > 0f && npc.velocity.Y < 1.5f)
+                {
+                    npc.velocity.Y = 1.5f;
+                }
+                if (npc.velocity.Y < 0f && npc.velocity.Y > -1.5f)
+                {
+                    npc.velocity.Y = -1.5f;
+                }
+            }
+
+            //water collision
+            if (npc.wet)
+            {
+                if (npc.velocity.Y > 0f)
+                {
+                    npc.velocity.Y *= 0.95f;
+                }
+                npc.velocity.Y -= 0.3f;
+                if (npc.velocity.Y < -2f) npc.velocity.Y = -2f;
+            }
+
+            //Taken from source. Important for net?
+            if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+            {
+                npc.netUpdate = true;
+            }
+        }
+
+        public static void DoSpiderWallAI(NPC npc, int transformType, float chaseMaxSpeed = 2f, float chaseAcceleration = 0.08f)
+        {
+            //GET NEW TARGET
+            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            {
+                npc.TargetClosest();
+            }
+
+            Vector2 between = Main.player[npc.target].Center - npc.Center;
+            float distance = between.Length();
+
+            //modify vector depending on distance and speed.
+            if (distance == 0f)
+            {
+                between.X = npc.velocity.X;
+                between.Y = npc.velocity.Y;
+            }
+            else
+            {
+                distance = chaseMaxSpeed / distance;
+                between.X *= distance;
+                between.Y *= distance;
+            }
+
+            //update if target dead.
+            if (Main.player[npc.target].dead)
+            {
+                between.X = (float)npc.direction * chaseMaxSpeed / 2f;
+                between.Y = -chaseMaxSpeed / 2f;
+            }
+
+            npc.spriteDirection = -1;
+
+            //If spider can't see target, circle around to attempt to find the target.
+            if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+            {
+                //CIRCULAR MOTION, SIMILAR TO FLYING AI (Eater of Souls etc.)
+                npc.ai[0]++;
+                if (npc.ai[0] > 0f)
+                {
+                    npc.velocity.Y += 0.023f;
+                }
+                else
+                {
+                    npc.velocity.Y -= 0.023f;
+                }
+                if (npc.ai[0] < -100f || npc.ai[0] > 100f)
+                {
+                    npc.velocity.X += 0.023f;
+                }
+                else
+                {
+                    npc.velocity.X -= 0.023f;
+                }
+                if (npc.ai[0] > 200f)
+                {
+                    npc.ai[0] = -200f;
+                }
+
+                npc.velocity.X += between.X * 0.007f;
+                npc.velocity.Y += between.Y * 0.007f;
+                npc.rotation = npc.velocity.ToRotation();
+
+                if (npc.velocity.X > 1.5f)
+                {
+                    npc.velocity.X *= 0.9f;
+                }
+                if (npc.velocity.X < -1.5f)
+                {
+                    npc.velocity.X *= 0.9f;
+                }
+                if (npc.velocity.Y > 1.5f)
+                {
+                    npc.velocity.Y *= 0.9f;
+                }
+                if (npc.velocity.Y < -1.5f)
+                {
+                    npc.velocity.Y *= 0.9f;
+                }
+                npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -3f, 3f);
+                npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -3f, 3f);
+            }
+            else //CHASE TARGET
+            {
+                if (npc.velocity.X < between.X)
+                {
+                    npc.velocity.X = npc.velocity.X + chaseAcceleration;
+                    if (npc.velocity.X < 0f && between.X > 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X + chaseAcceleration;
+                    }
+                }
+                else if (npc.velocity.X > between.X)
+                {
+                    npc.velocity.X = npc.velocity.X - chaseAcceleration;
+                    if (npc.velocity.X > 0f && between.X < 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X - chaseAcceleration;
+                    }
+                }
+                if (npc.velocity.Y < between.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y + chaseAcceleration;
+                    if (npc.velocity.Y < 0f && between.Y > 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y + chaseAcceleration;
+                    }
+                }
+                else if (npc.velocity.Y > between.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y - chaseAcceleration;
+                    if (npc.velocity.Y > 0f && between.Y < 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y - chaseAcceleration;
+                    }
+                }
+                npc.rotation = between.ToRotation();
+            }
+
+            //DAMP COLLISIONS OFF OF WALLS
+            float collisionDamp = 0.5f;
+            if (npc.collideX)
+            {
+                npc.netUpdate = true;
+                npc.velocity.X = npc.oldVelocity.X * -collisionDamp;
+                if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
+                {
+                    npc.velocity.X = 2f;
+                }
+                if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
+                {
+                    npc.velocity.X = -2f;
+                }
+            }
+            if (npc.collideY)
+            {
+                npc.netUpdate = true;
+                npc.velocity.Y = npc.oldVelocity.Y * -collisionDamp;
+                if (npc.velocity.Y > 0f && npc.velocity.Y < 1.5f)
+                {
+                    npc.velocity.Y = 2f;
+                }
+                if (npc.velocity.Y < 0f && npc.velocity.Y > -1.5f)
+                {
+                    npc.velocity.Y = -2f;
+                }
+            }
+
+            if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+            {
+                npc.netUpdate = true;
+            }
+
+            if (Main.netMode != 1)
+            {
+                int x = (int)npc.Center.X / 16;
+                int y = (int)npc.Center.Y / 16;
+                bool flag = false;
+                for (int i = x - 1; i <= x + 1; i++)
+                {
+                    for (int j = y - 1; j <= y + 1; j++)
+                    {
+                        if (Main.tile[i, j] == null)
+                        {
+                            return;
+                        }
+                        if (Main.tile[i, j].wall > 0)
+                        {
+                            flag = true;
+                        }
+                    }
+                }
+                if (!flag)
+                {
+                    npc.Transform(transformType);
+                    return;
+                }
+            }
+        }
+
+        public static void DoVultureAI(NPC npc, float acceleration = 0.1f, float maxSpeed = 3f, int sitWidth = 30, int flyWidth = 50, int rangeX = 100, int rangeY = 100)
+        {
+            npc.localAI[0]++;
+            npc.noGravity = true;
+            npc.TargetClosest(true);
+            if (npc.ai[0] == 0f)
+            {
+                npc.width = sitWidth;
+                npc.noGravity = false;
+                if (Main.netMode != 1)
+                {
+                    if (npc.velocity.X != 0f || npc.velocity.Y < 0f || (double)npc.velocity.Y > 0.3)
+                    {
+                        npc.ai[0] = 1f;
+                        npc.netUpdate = true;
+                    }
+                    else
+                    {
+                        Rectangle playerRect = Main.player[npc.target].getRect();
+                        Rectangle rangeRect = new Rectangle((int)npc.Center.X - rangeX, (int)npc.Center.Y - rangeY, rangeX * 2, rangeY * 2);
+                        if (npc.localAI[0] > 20f && (rangeRect.Intersects(playerRect) || npc.life < npc.lifeMax))
+                        {
+                            npc.ai[0] = 1f;
+                            npc.velocity.Y -= 6f;
+                            npc.netUpdate = true;
+                        }
+                    }
+                }
+            }
+            else if (!Main.player[npc.target].dead)
+            {
+                npc.width = flyWidth;
+                //Collision damping
+                if (npc.collideX)
+                {
+                    npc.velocity.X = npc.oldVelocity.X * -0.5f;
+                    if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
+                    {
+                        npc.velocity.X = 2f;
+                    }
+                    if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
+                    {
+                        npc.velocity.X = -2f;
+                    }
+                }
+                if (npc.collideY)
+                {
+                    npc.velocity.Y = npc.oldVelocity.Y * -0.5f;
+                    if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
+                    {
+                        npc.velocity.Y = 1f;
+                    }
+                    if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
+                    {
+                        npc.velocity.Y = -1f;
+                    }
+                }
+
+                if (npc.direction == -1 && npc.velocity.X > -maxSpeed)
+                {
+                    npc.velocity.X -= acceleration;
+                    if (npc.velocity.X > maxSpeed)
+                    {
+                        npc.velocity.X = npc.velocity.X - acceleration;
+                    }
+                    else if (npc.velocity.X > 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X - acceleration * 0.5f;
+                    }
+                    if (npc.velocity.X < -maxSpeed)
+                    {
+                        npc.velocity.X = -maxSpeed;
+                    }
+                }
+                else if (npc.direction == 1 && npc.velocity.X < maxSpeed)
+                {
+                    npc.velocity.X = npc.velocity.X + acceleration;
+                    if (npc.velocity.X < -maxSpeed)
+                    {
+                        npc.velocity.X = npc.velocity.X + acceleration;
+                    }
+                    else if (npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X + acceleration * 0.5f;
+                    }
+                    if (npc.velocity.X > maxSpeed)
+                    {
+                        npc.velocity.X = maxSpeed;
+                    }
+                }
+                float xDistance = Math.Abs(npc.Center.X - Main.player[npc.target].Center.X);
+                float yLimiter = Main.player[npc.target].position.Y - (npc.height / 2f);
+                if (xDistance > 50f)
+                {
+                    yLimiter -= 100f;
+                }
+                if (npc.position.Y < yLimiter)
+                {
+                    npc.velocity.Y = npc.velocity.Y + acceleration * 0.5f;
+                    if (npc.velocity.Y < 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y + acceleration * 0.1f;
+                    }
+                }
+                else
+                {
+                    npc.velocity.Y = npc.velocity.Y - acceleration * 0.5f;
+                    if (npc.velocity.Y > 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y - acceleration * 0.1f;
+                    }
+                }
+                if (npc.velocity.Y < -maxSpeed)
+                {
+                    npc.velocity.Y = -maxSpeed;
+                }
+                if (npc.velocity.Y > maxSpeed)
+                {
+                    npc.velocity.Y = maxSpeed;
+                }
+            }
+            //Change velocity if wet.
+            if (npc.wet)
+            {
+                if (npc.velocity.Y > 0f)
+                {
+                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                }
+                npc.velocity.Y = npc.velocity.Y - 0.5f;
+                if (npc.velocity.Y < -4f)
+                {
+                    npc.velocity.Y = -4f;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Allows you to spawn dust on the NPC in a certain place. Uses the npc.position value as the base point for the rectangle.
+        /// Takes direction and rotation into account.
+        /// </summary>
+        /// <param name="frameWidth">The width of the sheet for the NPC.</param>
+        /// <param name="rect">The place to put a dust.</param>
+        /// <param name="chance">The chance to spawn a dust (0.3 = 30%)</param>
+        public static Dust SpawnDustOnNPC(NPC npc, int frameWidth, int frameHeight, int dustType, Rectangle rect, Vector2 velocity = default(Vector2), float chance = 0.5f, bool useSpriteDirection = false)
+        {
+            Vector2 half = new Vector2(frameWidth / 2f, frameHeight / 2f);
+            //"flip" the rectangle's position x-wise.
+            if ((!useSpriteDirection && npc.direction == 1) || (useSpriteDirection && npc.spriteDirection == 1))
+            {
+                rect.X = frameWidth - rect.Right;
+            }
+
+            if (Main.rand.NextFloat(1f) < chance)
+            {
+                Vector2 offset = (npc.Center - half + new Vector2(Main.rand.NextFloat(rect.Left, rect.Right), Main.rand.NextFloat(rect.Top, rect.Bottom))) - npc.Center;
+                offset = offset.RotatedBy(npc.rotation);
+                Dust d = Dust.NewDustPerfect(npc.Center + offset, dustType, velocity);
+                return d;
+            }
+            return null;
+        }
+		#endregion
     }
 }

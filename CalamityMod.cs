@@ -26,6 +26,7 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
+using CalamityMod.Skies;
 
 namespace CalamityMod
 {
@@ -64,8 +65,16 @@ namespace CalamityMod
         public static Texture2D manaOriginal;
 
         public static Texture2D carpetOriginal;
+		
+        public static Texture2D AstralCactusTexture;
+		
+        public static Texture2D AstralCactusGlowTexture;
+		
+        public static Texture2D AstralSky;
 
         public static CalamityMod Instance;
+		
+        public static Effect CustomShader;
 
         public CalamityMod()
     	{
@@ -110,6 +119,11 @@ namespace CalamityMod
                 AddEquipTexture(new Items.Armor.SirenHeadAlt(), null, EquipType.Head, "SirenHeadAlt", "CalamityMod/Items/Armor/SirenTransAlt_Head");
                 AddEquipTexture(new Items.Armor.SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Armor/SirenTransAlt_Body", "CalamityMod/Items/Armor/SirenTransAlt_Arms");
                 AddEquipTexture(new Items.Armor.SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Armor/SirenTransAlt_Legs");
+				
+                AstralCactusTexture = GetTexture("ExtraTextures/Tiles/AstralCactus");
+                AstralCactusGlowTexture = GetTexture("ExtraTextures/Tiles/AstralCactusGlow");
+                AstralSky = GetTexture("ExtraTextures/AstralSky");
+                CustomShader = GetEffect("Effects/CustomShader");
 
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen"), ItemType("CryogenMusicbox"), TileType("CryogenMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas"), ItemType("CalamitasMusicbox"), TileType("CalamitasMusicbox"));
@@ -119,7 +133,7 @@ namespace CalamityMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath"), ItemType("PlaguebringerMusicbox"), TileType("PlaguebringerMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge"), ItemType("AquaticScourgeMusicbox"), TileType("AquaticScourgeMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon"), ItemType("AstrageldonMusicbox"), TileType("AstrageldonMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"), ItemType("AstralMusicbox"), TileType("AstralMusicbox"));
+                //AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"), ItemType("AstralMusicbox"), TileType("AstralMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/RUIN"), ItemType("PolterghastMusicbox"), TileType("PolterghastMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Signus"), ItemType("SignusMusicbox"), TileType("SignusMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver"), ItemType("StormWeaverMusicbox"), TileType("StormWeaverMusicbox"));
@@ -132,6 +146,7 @@ namespace CalamityMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme"), ItemType("ProvidenceMusicbox"), TileType("ProvidenceMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians"), ItemType("ProfanedGuardianMusicbox"), TileType("ProfanedGuardianMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager"), ItemType("RavagerMusicbox"), TileType("RavagerMusicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"), ItemType("AstralSurfaceMusicBox"), TileType("AstralSurfaceMusicBox"));
 
                 Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
 				SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -156,6 +171,9 @@ namespace CalamityMod
 				
 				Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
 				SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
+				
+				Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(CustomShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
+				SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
 
                 Mod mod = ModLoader.GetMod("CalamityMod");
 				UIHandler.OnLoad(mod);
@@ -559,6 +577,9 @@ namespace CalamityMod
 
         public override void Unload()
         {
+            AstralCactusTexture = null;
+			AstralCactusGlowTexture = null;
+			AstralSky = null;
             RageHotKey = null;
             AdrenalineHotKey = null;
             AegisHotKey = null;
@@ -619,6 +640,10 @@ namespace CalamityMod
                     if (CalamityGlobalNPC.DoGSecondStageCountdown <= 540 && CalamityGlobalNPC.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
                     {
                         music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse"); priority = MusicPriority.BossMedium;
+                    }
+                    if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAstral)
+                    {
+                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"); priority = MusicPriority.BiomeHigh; }
                     }
                 }
             }
