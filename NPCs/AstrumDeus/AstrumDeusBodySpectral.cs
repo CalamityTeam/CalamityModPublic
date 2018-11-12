@@ -137,6 +137,16 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 		}
+		
+		// exactly like minion worms: every other segment uses alternate texture
+		// localAI[3] is set to 1 for every other segment when they are spawned by the head
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			Mod mod = ModLoader.GetMod("CalamityMod");
+			Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAltSpectral");
+			CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, drawColor);
+			return false;
+		}
 
         public override Color? GetAlpha(Color drawColor)
         {
