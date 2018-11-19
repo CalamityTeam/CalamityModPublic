@@ -20,7 +20,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
             Main.npcFrameCount[npc.type] = 4;
 
-            glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AstralachneaWallGlow");
+            if (!Main.dedServ)
+				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AstralachneaWallGlow");
 
             base.SetStaticDefaults();
         }

@@ -19,7 +19,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Culex");
-            glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/StellarCulexGlow");
+            if (!Main.dedServ)
+				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/StellarCulexGlow");
             Main.npcFrameCount[npc.type] = 4;
         }
 

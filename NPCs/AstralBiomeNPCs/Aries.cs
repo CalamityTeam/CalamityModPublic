@@ -19,7 +19,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             DisplayName.SetDefault("Aries");
             Main.npcFrameCount[npc.type] = 8;
-            glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AriesGlow");
+            if (!Main.dedServ)
+				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AriesGlow");
         }
 
         public override void SetDefaults()

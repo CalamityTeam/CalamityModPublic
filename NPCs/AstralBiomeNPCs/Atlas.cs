@@ -93,7 +93,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             //not really important seeing as custom drawing, but for heights sake, 6
             //also it's visuals are messed up on npc spawners etc. because the sheet is 3 wide.
             //not much we can do. looks fine in-game so /shrug
-            glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AtlasGlow");
+            if (!Main.dedServ)
+				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AtlasGlow");
         }
 
         public override void SetDefaults()

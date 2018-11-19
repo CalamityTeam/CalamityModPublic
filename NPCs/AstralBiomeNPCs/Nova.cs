@@ -28,7 +28,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             DisplayName.SetDefault("Nova");
             Main.npcFrameCount[npc.type] = 8;
 
-            glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/NovaGlow");
+            if (!Main.dedServ)
+				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/NovaGlow");
         }
 
         public override void SetDefaults()
