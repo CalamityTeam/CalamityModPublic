@@ -93,6 +93,9 @@ namespace CalamityMod.Tiles
                 case 21:
                     item = mod.ItemType("BrimstoneElementalTrophy");
                     break;
+				case 22:
+                    item = mod.ItemType("RavagerTrophy");
+                    break;	
             }
 			if (item > 0)
 			{

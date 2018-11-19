@@ -125,6 +125,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 	                    {
 	                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AstrumDeusTailSpectral"), npc.whoAmI);
 	                    }
+						
+						// exactly like minion worms: every other segment uses alternate texture
+						if (num36 % 2 == 0)
+	                    	Main.npc[lol].localAI[3] = 1f;
+						
 	                    Main.npc[lol].realLife = npc.whoAmI;
 	                    Main.npc[lol].ai[2] = (float)npc.whoAmI;
 	                    Main.npc[lol].ai[1] = (float)Previous;

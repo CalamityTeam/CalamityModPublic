@@ -547,7 +547,11 @@ namespace CalamityMod.NPCs.Scavenger
 		
 		public override void NPCLoot()
 		{
-            if (CalamityWorld.armageddon)
+            if (Main.rand.Next(10) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RavagerTrophy"));
+			}
+			if (CalamityWorld.armageddon)
             {
                 for (int i = 0; i < 10; i++)
                 {

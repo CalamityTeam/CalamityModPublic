@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Astral Repeater");
+			DisplayName.SetDefault("Astral Bow");
 		}
 
 	    public override void SetDefaults()
@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons
 	        item.damage = 65;
 	        item.crit += 25;
 	        item.ranged = true;
-	        item.width = 50;
-	        item.height = 34;
+	        item.width = 38;
+	        item.height = 78;
 	        item.useTime = 4;
 	        item.reuseDelay = 15;
 	        item.useAnimation = 12;

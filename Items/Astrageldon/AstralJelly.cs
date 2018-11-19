@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Astrageldon
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Astral Jelly");
+			DisplayName.SetDefault("Aureus Cell");
             Tooltip.SetDefault("Gives mana regeneration and magic power for 6 minutes");
         }
 		

@@ -2,11 +2,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class AstrageldonTrophy : ModItem
+	public class RavagerTrophy : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Astrum Aureus Trophy");
+			DisplayName.SetDefault("Ravager Trophy");
 		}
 		
 		public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables
 			item.value = 50000;
 			item.rare = 1;
 			item.createTile = mod.TileType("BossTrophy");
-			item.placeStyle = 19;
+			item.placeStyle = 22;
 		}
 	}
 }
