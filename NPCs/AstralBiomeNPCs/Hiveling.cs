@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //draw glowmask
-            spriteBatch.Draw(glowmask, npc.Center - Main.screenPosition + new Vector2(0, 8), npc.frame, Color.White * 0.6f, npc.rotation, new Vector2(15, 10), 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            spriteBatch.Draw(glowmask, npc.Center - Main.screenPosition + new Vector2(0, 12), npc.frame, Color.White * 0.6f, npc.rotation, new Vector2(15, 10), 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
         }
 
         public override void HitEffect(int hitDirection, double damage)

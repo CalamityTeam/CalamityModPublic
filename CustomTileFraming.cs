@@ -21,6 +21,11 @@ namespace CalamityMod
 
         static CustomTileFraming()
         {
+			Setup();
+        }
+		
+		private static void Setup()
+		{
             Mod mod = CalamityMod.Instance;
 
             int size = CalamityGlobalTile.PlantTypes.Length;
@@ -49,10 +54,12 @@ namespace CalamityMod
             tileMergeAstralDirt[mod.TileType("AstralOre")] = true;
             tileMergeAstralDirt[mod.TileType("AstralStone")] = true;
             tileMergeAstralDirt[mod.TileType("AstralSand")] = true;
-        }
+		}
 
         private static bool PlantNeedsUpdate(int plantType, int checkType)
         {
+			if (PlantCheckAgainst[plantType] == null) return false;
+			
             int size = PlantCheckAgainst[plantType].Length;
             for (int i = 0; i < size; i++)
             {
