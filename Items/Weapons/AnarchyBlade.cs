@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimstoneBoom"), (int)((double)damage * 0.5f), knockback, Main.myPlayer);
+	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimstoneBoom"), (int)((double)item.damage * 0.75), knockback, Main.myPlayer);
 	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
 	    	if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.Next(5) == 0 && !target.boss)
 	    	{

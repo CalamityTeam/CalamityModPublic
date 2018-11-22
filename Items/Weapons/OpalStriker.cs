@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
 			item.useAnimation = 20;
 			item.useStyle = 5;
 			item.noMelee = true;
-			item.knockBack = 1f;
+			item.knockBack = 0f;
 			item.value = 90000;
 			item.rare = 3;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons
 		
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-		    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("OpalStrike"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+		    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("OpalStrike"), damage, 0f, player.whoAmI, 0.0f, 0.0f);
 		    return false;
 		}
 		

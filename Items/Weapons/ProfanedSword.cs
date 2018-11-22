@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Brimblast"), damage, knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Brimblast"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
         }
         
         public override void MeleeEffects(Player player, Rectangle hitbox)

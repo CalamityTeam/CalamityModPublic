@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
 			item.value = 500000;
 			item.rare = 5;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("BrimstoneBarrage"); //idk why but all the guns in the vanilla source have this
+			item.shoot = mod.ProjectileType("SeethingDischargeBrimstoneBarrage"); //idk why but all the guns in the vanilla source have this
 			item.shootSpeed = 6f;
 		}
 	    
@@ -45,19 +45,9 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
 	        float SpeedY2 = speedY - 10f * 0.05f;
 	        float SpeedX3 = speedX + 0f * 0.05f;
 	        float SpeedY3 = speedY + 0f * 0.05f;
-	        int projectile1 = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	        int projectile2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, mod.ProjectileType("BrimstoneHellblast"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	        int projectile3 = Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	        Main.projectile[projectile1].hostile = false;
-	        Main.projectile[projectile1].friendly = true;
-	        Main.projectile[projectile1].magic = true;
-	        Main.projectile[projectile2].hostile = false;
-	        Main.projectile[projectile2].friendly = true;
-	        Main.projectile[projectile2].tileCollide = false;
-	        Main.projectile[projectile2].magic = true;
-	        Main.projectile[projectile3].hostile = false;
-	        Main.projectile[projectile3].friendly = true;
-	        Main.projectile[projectile3].magic = true;
+	        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, mod.ProjectileType("SeethingDischargeBrimstoneHellblast"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}
 	}

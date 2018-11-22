@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.value = Item.buyPrice(0, 0, 15, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
 		
@@ -200,7 +199,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 		
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (npc.life <= 0)
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit" + Main.rand.Next(3)), npc.Center);
+
+            if (npc.life <= 0)
 			{
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
@@ -279,7 +280,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			return (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.75f : 0f;
+			return (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.1f : 0f;
         }
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)

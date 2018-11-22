@@ -36,14 +36,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.width = 56; //324
 			npc.height = 56; //216
 			npc.defense = 40;
-            npc.lifeMax = CalamityWorld.revenge ? 33750 : 25000; //250000
+            npc.lifeMax = CalamityWorld.revenge ? 35850 : 25000; //250000
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 51250;
+                npc.lifeMax = 53750;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 2300000 : 1700000;
+                npc.lifeMax = CalamityWorld.death ? 2500000 : 1900000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -125,12 +125,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 	                    {
 	                        lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AstrumDeusTailSpectral"), npc.whoAmI);
 	                    }
-						
-						// exactly like minion worms: every other segment uses alternate texture
-						if (num36 % 2 == 0)
-	                    	Main.npc[lol].localAI[3] = 1f;
-						
-	                    Main.npc[lol].realLife = npc.whoAmI;
+                        if (num36 % 2 == 0)
+                        {
+                            Main.npc[lol].localAI[3] = 1f;
+                        }
+                        Main.npc[lol].realLife = npc.whoAmI;
 	                    Main.npc[lol].ai[2] = (float)npc.whoAmI;
 	                    Main.npc[lol].ai[1] = (float)Previous;
 	                    Main.npc[Previous].ai[0] = (float)lol;
@@ -434,10 +433,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 				for (int num623 = 0; num623 < 10; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
@@ -445,7 +444,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = ItemID.None;
+			potionType = mod.ItemType("Stardust");
 		}
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -26,14 +26,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.width = 38; //324
 			npc.height = 44; //216
 			npc.defense = 60;
-            npc.lifeMax = CalamityWorld.revenge ? 33750 : 25000; //250000
+            npc.lifeMax = CalamityWorld.revenge ? 35850 : 25000; //250000
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 51250;
+                npc.lifeMax = 53750;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 2300000 : 1700000;
+                npc.lifeMax = CalamityWorld.death ? 2500000 : 1900000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -137,24 +137,15 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 		}
-		
-		// exactly like minion worms: every other segment uses alternate texture
-		// localAI[3] is set to 1 for every other segment when they are spawned by the head
-		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-		{
-			Mod mod = ModLoader.GetMod("CalamityMod");
-			Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAltSpectral");
-			CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, drawColor);
-			return false;
-		}
 
-        public override Color? GetAlpha(Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (NPC.AnyNPCs(mod.NPCType("AstrumDeusHead")))
-            {
-                return new Color(250, 150, Main.DiscoB, npc.alpha);
-            }
-            return null;
+            Color lightColor = new Color(250, 150, Main.DiscoB, npc.alpha);
+            Mod mod = ModLoader.GetMod("CalamityMod");
+            Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAltSpectral");
+            CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, 
+                (NPC.AnyNPCs(mod.NPCType("AstrumDeusHead")) ? lightColor : drawColor));
+            return false;
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
@@ -239,10 +230,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 				for (int num623 = 0; num623 < 10; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

@@ -65,14 +65,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 if (npc.soundDelay <= 0)
                 {
                     npc.soundDelay = 420;
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), (int)npc.position.X, (int)npc.position.Y);
                 }
             }
             else
             {
                 if (Main.rand.Next(900) == 0)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), (int)npc.position.X, (int)npc.position.Y);
                 }
             }
             if (npc.ai[3] > 0f)

@@ -28,5 +28,15 @@ namespace CalamityMod.Items.Placeables
             item.height = 16;
             item.maxStack = 999;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddTile(18);
+            recipe.AddIngredient(mod.ItemType("HardenedAstralSandWall"), 4);
+            recipe.SetResult(this, 1);
+            recipe.AddRecipe();
+            base.AddRecipes();
+        }
     }
 }

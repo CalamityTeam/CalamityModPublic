@@ -39,14 +39,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.width = 198; //324
 			npc.height = 198; //216
 			npc.defense = 55;
-			npc.lifeMax = CalamityWorld.revenge ? 70875 : 58500;
+			npc.lifeMax = CalamityWorld.revenge ? 77275 : 58500;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 100000;
+                npc.lifeMax = 110000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 6900000 : 6300000;
+                npc.lifeMax = CalamityWorld.death ? 7500000 : 6800000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new

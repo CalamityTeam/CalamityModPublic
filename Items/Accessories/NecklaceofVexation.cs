@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Necklace of Vexation");
             Tooltip.SetDefault("Revenge\n" +
-            "20% increased damage when under 50% life");
+            "15% increased damage when under 50% life");
         }
 
         public override void SetDefaults()
@@ -31,11 +31,11 @@ namespace CalamityMod.Items.Accessories
         {
             if (player.statLife < (player.statLifeMax2 * 0.5f))
             {
-                player.meleeDamage += 0.2f;
-                player.magicDamage += 0.2f;
-                player.rangedDamage += 0.2f;
-                player.thrownDamage += 0.2f;
-                player.minionDamage += 0.2f;
+                player.meleeDamage += 0.15f;
+                player.magicDamage += 0.15f;
+                player.rangedDamage += 0.15f;
+                player.thrownDamage += 0.15f;
+                player.minionDamage += 0.15f;
             }
         }
 

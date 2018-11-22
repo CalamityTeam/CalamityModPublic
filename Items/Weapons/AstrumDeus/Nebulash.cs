@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 		{
 			item.width = 16;
 			item.height = 16;
-			item.damage = 60;
+			item.damage = 54;
             item.rare = 7;
 			item.noMelee = true;
 			item.noUseGraphic = true;

@@ -53,9 +53,9 @@ namespace CalamityMod.Items.Weapons
 	    			case 1: type = ProjectileID.ChlorophyteArrow; break;
 	    			default: break;
 				}
-	        	int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-				Main.projectile[index].noDropItem = true;
-	    	}
+                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Main.projectile[index].noDropItem = true;
+            }
 	    	return false;
 		}
 	

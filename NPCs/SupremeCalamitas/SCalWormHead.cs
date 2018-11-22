@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
 		{
-            if (NPC.CountNPCS(mod.NPCType("SCalWormHeart")) <= 0 || !NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+            if (NPC.CountNPCS(mod.NPCType("SCalWormHeart")) <= 0)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);

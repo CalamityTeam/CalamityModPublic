@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
 			DisplayName.SetDefault("Frost Flare");
 			Tooltip.SetDefault("All melee attacks and projectiles inflict frostburn\n" +
 				"Immunity to frostburn, chilled, and frozen\n" +
-				"Resistant to cold attacks and +2 life regen\n" +
+				"Resistant to cold attacks and +1 life regen\n" +
 				"Being above 75% life grants the player 5% increased damage and critical strike chance\n" +
 				"Being below 25% life grants the player 20 defense and 15% increased max movement speed and acceleration\n" +
                 "Revengeance drop");
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			item.width = 20;
 			item.height = 24;
-			item.lifeRegen = 2;
+			item.lifeRegen = 1;
 			item.value = 500000;
 			item.rare = 5;
 			item.accessory = true;

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 2100;
+            item.damage = 2500;
             item.useAnimation = 14;
             item.useStyle = 1;
             item.useTime = 14;
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (target.life <= (target.lifeMax * 0.05f))
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Exoboom"), damage, knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Exoboom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
             }
             if (Main.rand.Next(5) == 0)
             {
@@ -114,7 +114,7 @@ namespace CalamityMod.Items.Weapons
                 for (int comet = 0; comet < 2; comet++)
                 {
                     float ai1 = (Main.rand.NextFloat() + 0.5f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Exocomet"), damage, knockback, player.whoAmI, 0.0f, ai1);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Exocomet"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0.0f, ai1);
                 }
             }
             if (target.type == NPCID.TargetDummy)

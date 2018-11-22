@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles
         	bool flag64 = projectile.type == mod.ProjectileType("SandyWaifu");
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			if (!modPlayer.sandWaifu)
+			if (!modPlayer.sandWaifu && !modPlayer.allWaifus)
         	{
         		projectile.active = false;
         		return;
@@ -107,38 +107,6 @@ namespace CalamityMod.Projectiles
 						projectile.velocity.Y = projectile.velocity.Y + num637;
 					}
 				}
-			}
-			bool flag24 = false;
-			if (projectile.ai[0] == 2f)
-			{
-				projectile.ai[1] += 1f;
-				projectile.extraUpdates = 1;
-				projectile.frameCounter++;
-				if (projectile.frameCounter > 16)
-				{
-					projectile.frame++;
-					projectile.frameCounter = 0;
-				}
-				if (projectile.frame > 3)
-				{
-					projectile.frame = 0;
-				}
-				if (projectile.ai[1] > 40f)
-				{
-					projectile.ai[1] = 1f;
-					projectile.ai[0] = 0f;
-					projectile.extraUpdates = 0;
-					projectile.numUpdates = 0;
-					projectile.netUpdate = true;
-				}
-				else
-				{
-					flag24 = true;
-				}
-			}
-			if (flag24)
-			{
-				return;
 			}
 			Vector2 vector46 = projectile.position;
 			bool flag25 = false;
@@ -202,76 +170,66 @@ namespace CalamityMod.Projectiles
 				projectile.tileCollide = false;
 				projectile.netUpdate = true;
 			}
-			if (flag25 && projectile.ai[0] == 0f)
-			{
-				Vector2 vector47 = vector46 - projectile.Center;
-				float num648 = vector47.Length();
-				vector47.Normalize();
-				if (num648 > 200f)
-				{
-					float scaleFactor2 = 8f;
-					vector47 *= scaleFactor2;
-					projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
-				}
-				else
-				{
-					float num649 = 4f;
-					vector47 *= -num649;
-					projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
-				}
-			}
-			else
-			{
-				bool flag26 = false;
-				if (!flag26)
-				{
-					flag26 = (projectile.ai[0] == 1f);
-				}
-				float num650 = 6f; //6
-				if (flag26)
-				{
-					num650 = 15f; //16
-				}
-				Vector2 center2 = projectile.Center;
-				Vector2 vector48 = player.Center - center2 + new Vector2(250f, -60f); //-60
-				float num651 = vector48.Length();
-				if (num651 > 200f && num650 < 8f) //200 and 8
-				{
-					num650 = 8f; //8
-				}
-				if (num651 < num636 && flag26 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-				{
-					projectile.ai[0] = 0f;
-					projectile.netUpdate = true;
-				}
-				if (num651 > 2000f)
-				{
-					projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-					projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
-					projectile.netUpdate = true;
-				}
-				if (num651 > 70f)
-				{
-					vector48.Normalize();
-					vector48 *= num650;
-					projectile.velocity = (projectile.velocity * 40f + vector48) / 41f;
-				}
-				else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
-				{
-					projectile.velocity.X = -0.195f;
-					projectile.velocity.Y = -0.095f;
-				}
-			}
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 16)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 3)
-			{
-				projectile.frame = 0;
-			}
+            if (flag25 && projectile.ai[0] == 0f)
+            {
+                Vector2 vector47 = vector46 - projectile.Center;
+                float num648 = vector47.Length();
+                vector47.Normalize();
+                if (num648 > 200f)
+                {
+                    float scaleFactor2 = 8f;
+                    vector47 *= scaleFactor2;
+                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                }
+                else
+                {
+                    float num649 = 4f;
+                    vector47 *= -num649;
+                    projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
+                }
+            }
+            else
+            {
+                bool flag26 = false;
+                if (!flag26)
+                {
+                    flag26 = (projectile.ai[0] == 1f);
+                }
+                float num650 = 6f; //6
+                if (flag26)
+                {
+                    num650 = 15f; //16
+                }
+                Vector2 center2 = projectile.Center;
+                Vector2 vector48 = player.Center - center2 + new Vector2(250f, -60f); //-60
+                float num651 = vector48.Length();
+                if (num651 > 200f && num650 < 8f) //200 and 8
+                {
+                    num650 = 8f; //8
+                }
+                if (num651 < num636 && flag26 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                {
+                    projectile.ai[0] = 0f;
+                    projectile.netUpdate = true;
+                }
+                if (num651 > 2000f)
+                {
+                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                    projectile.netUpdate = true;
+                }
+                if (num651 > 70f)
+                {
+                    vector48.Normalize();
+                    vector48 *= num650;
+                    projectile.velocity = (projectile.velocity * 40f + vector48) / 41f;
+                }
+                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                {
+                    projectile.velocity.X = -0.195f;
+                    projectile.velocity.Y = -0.095f;
+                }
+            }
 			if (projectile.ai[1] > 0f)
 			{
 				projectile.ai[1] += (float)Main.rand.Next(1, 4);

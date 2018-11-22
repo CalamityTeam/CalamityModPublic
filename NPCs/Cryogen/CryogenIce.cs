@@ -27,10 +27,10 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.width = 240; //324
 			npc.height = 240; //216
 			npc.defense = 0;
-			npc.lifeMax = 1200;
+			npc.lifeMax = 1400;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 170000;
             }
             npc.alpha = 255;
 			npc.HitSound = SoundID.NPCHit5;

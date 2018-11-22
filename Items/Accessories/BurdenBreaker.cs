@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Determination Breaker");
             Tooltip.SetDefault("The bad time\n" +
                 "Removes immunity frames\n" +
-                "If you want a crazy challenge, equip this");
+                "If you want a crazy challenge, equip this\n" +
+                "Touching lava kills you instantly");
         }
 
         public override void SetDefaults()
@@ -30,7 +31,12 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.immune)
+            player.lavaImmune = false;
+            if (Collision.LavaCollision(player.position, player.width, player.height))
+            {
+                player.GetModPlayer<CalamityPlayer>(mod).KillPlayer();
+            }
+            else if (player.immune)
             {
                 player.immune = false;
             }

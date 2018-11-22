@@ -14,8 +14,8 @@ namespace CalamityMod.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Astrageldon Slime");
-			Tooltip.SetDefault("A titanic slime infected by a star-borne disease expelled from the belly of an ancient god.\n" +
+			DisplayName.SetDefault("Astrum Aureus");
+			Tooltip.SetDefault("A titanic cyborg infected by a star-borne disease expelled from the belly of an ancient god.\n" +
                 "The destruction of this creature will not prevent the spread of the disease.");
 		}
 		

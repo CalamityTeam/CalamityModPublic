@@ -106,8 +106,16 @@ namespace CalamityMod.Items.Weapons
             num79 *= num80;
             float speedX4 = num78;
             float speedY5 = num79;
-            int bloodfire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("BloodfireArrow"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(15));
-            Main.projectile[bloodfire].tileCollide = false;
+            if (type == ProjectileID.WoodenArrowFriendly)
+            {
+                int bloodfire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("BloodfireArrow"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(15));
+                Main.projectile[bloodfire].tileCollide = false;
+            }
+            else
+            {
+                int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num121].noDropItem = true;
+            }
             return false;
         }
     }

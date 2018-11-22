@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 44;
-			item.damage = 49;
+			item.damage = 61;
 			item.melee = true;
 			item.useAnimation = 20;
 			item.useTime = 20;
@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("AegisBlast"), damage, knockback, Main.myPlayer);
+	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("AegisBlast"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 		}
 	}
 }

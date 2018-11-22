@@ -60,9 +60,9 @@ namespace CalamityMod.Items.Weapons
                     float randomSpeedX = (float)Main.rand.Next(3);
                     float randomSpeedY = (float)Main.rand.Next(3, 5);
                     offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-                    int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), damage, knockback, Main.myPlayer);
-                    int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), damage, knockback, Main.myPlayer);
-                    int projectile3 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), damage, knockback, Main.myPlayer);
+                    int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), item.damage, knockback, Main.myPlayer);
+                    int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), item.damage, knockback, Main.myPlayer);
+                    int projectile3 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), item.damage, knockback, Main.myPlayer);
                     Main.projectile[projectile1].velocity.X = -randomSpeedX;
                     Main.projectile[projectile1].velocity.Y = -randomSpeedY;
                     Main.projectile[projectile2].velocity.X = randomSpeedX;
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons
                     Main.projectile[projectile3].velocity.X = 0f;
                     Main.projectile[projectile3].velocity.Y = -randomSpeedY;
                 }
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("TerracottaExplosion"), damage, knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("TerracottaExplosion"), item.damage, knockback, Main.myPlayer);
             }
         }
 

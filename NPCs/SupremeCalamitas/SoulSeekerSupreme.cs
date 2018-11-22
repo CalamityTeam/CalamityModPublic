@@ -27,7 +27,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.noTileCollide = true;
 			npc.damage = 0;
 			npc.defense = 100;
-			npc.lifeMax = 5000;
+			npc.lifeMax = Main.expertMode ? 90000 : 50000;
+            if (CalamityWorld.revenge)
+            {
+                npc.lifeMax = CalamityWorld.death ? 100000 : 170000;
+            }
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -74,7 +78,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			NPC parent = Main.npc[NPC.FindFirstNPC(mod.NPCType("SupremeCalamitas"))];
 			double deg = (double)npc.ai[1];
 			double rad = deg * (Math.PI / 180);
-			double dist = 1500;
+			double dist = 300;
 			npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
 			npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
 			npc.ai[1] += 0.5f; //2

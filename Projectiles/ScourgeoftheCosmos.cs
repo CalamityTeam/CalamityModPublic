@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
             projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 20f)
+            if (projectile.ai[0] >= 180f)
             {
                 projectile.velocity.Y = projectile.velocity.Y + 0.4f;
                 projectile.velocity.X = projectile.velocity.X * 0.97f;

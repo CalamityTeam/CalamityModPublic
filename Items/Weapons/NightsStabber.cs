@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons
 	    	{
 	    		for (int i = 0; i <= 2; i++)
 	    		{
-	    			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("NightStabber"), damage, knockback, Main.myPlayer);
+	    			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("NightStabber"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 	    		}
 	    	}
 		}

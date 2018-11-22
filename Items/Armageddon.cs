@@ -18,7 +18,7 @@ namespace CalamityMod.Items
 			Tooltip.SetDefault("Makes any hit while a boss is alive instantly kill you\n" +
                 "Effect can be toggled on and off\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss\n" +
-                "If a boss is defeated with this effect active it will drop 10 treasure bags, 9 in normal mode\n" +
+                "If a boss is defeated with this effect active it will drop 11 treasure bags, 10 in normal mode\n" +
                 "If any player dies while a boss is alive the boss will instantly despawn");
 		}
 		
@@ -34,6 +34,15 @@ namespace CalamityMod.Items
 			item.consumable = false;
 		}
 
+        public override bool CanUseItem(Player player)
+        {
+            if (CalamityWorld.bossRushActive)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public override bool UseItem(Player player)
 		{
             for (int doom = 0; doom < 200; doom++)
@@ -45,7 +54,6 @@ namespace CalamityMod.Items
                     Main.npc[doom].netUpdate = true;
                 }
             }
-
             if (!CalamityWorld.armageddon)
             {
                 CalamityWorld.armageddon = true;
@@ -54,9 +62,8 @@ namespace CalamityMod.Items
             {
                 CalamityWorld.armageddon = false;
             }
-			
-			string key = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
-			Color messageColor = Color.Fuchsia;
+            string key = CalamityWorld.armageddon ? "Mods.CalamityMod.ArmageddonText" : "Mods.CalamityMod.ArmageddonText2";
+            Color messageColor = Color.Fuchsia;
             if (Main.netMode == 0)
             {
                 Main.NewText(Language.GetTextValue(key), messageColor);
@@ -65,7 +72,6 @@ namespace CalamityMod.Items
             {
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
-				
             if (Main.netMode == 2)
             {
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);

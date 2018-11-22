@@ -155,10 +155,5 @@ namespace CalamityMod.Projectiles.Permafrost
                 }
             }
         }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, projectile.alpha);
-        }
     }
 }

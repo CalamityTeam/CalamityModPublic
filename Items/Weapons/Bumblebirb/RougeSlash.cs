@@ -49,9 +49,9 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 	    
 	    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	        int slash1 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("RougeSlashLarge"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	        int slash2 = Projectile.NewProjectile(position.X, position.Y, speedX * 0.8f, speedY * 0.8f, mod.ProjectileType("RougeSlashMedium"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	        int slash3 = Projectile.NewProjectile(position.X, position.Y, speedX * 0.6f, speedY * 0.6f, mod.ProjectileType("RougeSlashSmall"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("RougeSlashLarge"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        Projectile.NewProjectile(position.X, position.Y, speedX * 0.8f, speedY * 0.8f, mod.ProjectileType("RougeSlashMedium"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        Projectile.NewProjectile(position.X, position.Y, speedX * 0.6f, speedY * 0.6f, mod.ProjectileType("RougeSlashSmall"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}
 	}

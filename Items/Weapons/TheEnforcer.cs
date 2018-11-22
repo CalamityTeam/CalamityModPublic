@@ -51,7 +51,6 @@ namespace CalamityMod.Items.Weapons
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73);
             int i = Main.myPlayer;
             float num72 = 6f;
-            int num73 = Main.rand.Next(200, 280);
             float num74 = 7f;
             player.itemTime = item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -95,7 +94,7 @@ namespace CalamityMod.Items.Weapons
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, mod.ProjectileType("EssenceFlame2"), num73, num74, i, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, mod.ProjectileType("EssenceFlame2"), (int)((double)((float)item.damage * player.meleeDamage) * 0.25), num74, i, 0f, (float)Main.rand.Next(3));
             }
         }
 

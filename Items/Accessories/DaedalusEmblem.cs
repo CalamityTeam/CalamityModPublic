@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Emblem");
-            Tooltip.SetDefault("10% increased ranged damage, critical strike chance, and 20% reduced ammo usage\n" +
+            Tooltip.SetDefault("5% increased ranged damage, critical strike chance, and 20% reduced ammo usage\n" +
                 "Increases life regen, minion knockback, defense, and pick speed");
         }
 
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Accessories
             player.ammoCost80 = true;
             player.lifeRegen += 2;
             player.statDefense += 5;
-            player.rangedDamage += 0.1f;
-            player.rangedCrit += 10;
+            player.rangedDamage += 0.05f;
+            player.rangedCrit += 5;
             player.pickSpeed -= 0.15f;
             player.minionKB += 0.5f;
         }

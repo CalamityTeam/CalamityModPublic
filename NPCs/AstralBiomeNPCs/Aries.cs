@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             DisplayName.SetDefault("Aries");
             Main.npcFrameCount[npc.type] = 8;
             if (!Main.dedServ)
-				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AriesGlow");
+                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AriesGlow");
         }
 
         public override void SetDefaults()
@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.lifeMax = 450;
             npc.knockBackResist = 0.5f;
             npc.value = 380f;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit");
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyDeath");
         }
 
@@ -64,6 +63,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit" + Main.rand.Next(3)), npc.Center);
+
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, mod.DustType("AstralOrange"), 1f, 4, 24);
         }
 
@@ -80,6 +81,18 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 return 0.15f;
             }
             return 0f;
+        }
+
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(2) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(1, 3));
+            }
+            if (Main.expertMode)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+            }
         }
     }
 }

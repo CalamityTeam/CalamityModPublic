@@ -73,23 +73,31 @@ namespace CalamityMod.Items.Weapons
 				{
 					value9 -= vector7;
 				}
-				switch (Main.rand.Next(12))
-				{
-		    		case 1: type = mod.ProjectileType("TorrentialArrow"); break;
-		    		default: break;
-				}
-				switch (Main.rand.Next(25))
-				{
-		    		case 1: type = 408; break;
-		    		default: break;
-				}
-				switch (Main.rand.Next(100))
-				{
-		    		case 1: type = mod.ProjectileType("TyphoonArrow"); break;
-		    		default: break;
-				}
-				int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
-				Main.projectile[num121].noDropItem = true;
+                if (type == ProjectileID.WoodenArrowFriendly)
+                {
+                    switch (Main.rand.Next(12))
+                    {
+                        case 1: type = mod.ProjectileType("TorrentialArrow"); break;
+                        default: break;
+                    }
+                    switch (Main.rand.Next(25))
+                    {
+                        case 1: type = 408; break;
+                        default: break;
+                    }
+                    switch (Main.rand.Next(100))
+                    {
+                        case 1: type = mod.ProjectileType("TyphoonArrow"); break;
+                        default: break;
+                    }
+                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Main.projectile[num121].noDropItem = true;
+                }
+                else
+                {
+                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Main.projectile[num121].noDropItem = true;
+                }
 			}
 			return false;
 	    }

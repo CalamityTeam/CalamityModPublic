@@ -31,14 +31,14 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.defense = 10;
-			npc.lifeMax = CalamityWorld.revenge ? 24300 : 17900;
+			npc.lifeMax = CalamityWorld.revenge ? 26300 : 17900;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 36900;
+                npc.lifeMax = 39900;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4500000 : 3800000;
+                npc.lifeMax = CalamityWorld.death ? 4900000 : 4200000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new

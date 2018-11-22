@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.AquaticScourge
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Spark"), damage, knockback, Main.myPlayer);
+	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Spark"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 		}
 	}
 }

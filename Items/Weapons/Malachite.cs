@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 26;
-			item.damage = 46;
+			item.damage = 58;
 			item.thrown = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons
 		{
 	    	if (player.altFunctionUse == 2)
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MalachiteBolt"), (int)((double)damage * 2.5f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MalachiteBolt"), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
 	    		return false;
 	    	}
 	    	else

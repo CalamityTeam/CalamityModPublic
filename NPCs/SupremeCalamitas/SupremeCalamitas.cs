@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		public override void AI()
 		{
             #region StartUp
-            //CalamityGlobalNPC.supremeCalamitas = npc.whoAmI;
+            CalamityGlobalNPC.SCal = npc.whoAmI;
             lootTimer++;
             if (Main.slimeRain)
             {
@@ -517,6 +517,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && ((double)npc.life <= (double)npc.lifeMax * 0.5))
             {
+                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC2");
                 string key = "Mods.CalamityMod.SupremeBossText5";
                 Color messageColor = Color.Orange;
                 if (Main.netMode == 0)
@@ -585,6 +586,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && ((double)npc.life <= (double)npc.lifeMax * 0.3))
             {
+                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC3");
                 string key = "Mods.CalamityMod.SupremeBossText7";
                 Color messageColor = Color.Orange;
                 if (Main.netMode == 0)
@@ -678,7 +680,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC1");
+                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC4");
                     npc.noGravity = false;
                     npc.noTileCollide = false;
                     npc.damage = 0;
@@ -912,7 +914,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
                         for (int I = 0; I < 20; I++)
                         {
-                            int FireEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 18) * 1500)), (int)(npc.Center.Y + (Math.Cos(I * 18) * 1500)), mod.NPCType("SoulSeekerSupreme"), npc.whoAmI, 0, 0, 0, -1);
+                            int FireEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 18) * 300)), (int)(npc.Center.Y + (Math.Cos(I * 18) * 300)), mod.NPCType("SoulSeekerSupreme"), npc.whoAmI, 0, 0, 0, -1);
                             NPC Eye = Main.npc[FireEye];
                             Eye.ai[0] = I * 18;
                             Eye.ai[3] = I * 18;
@@ -1010,7 +1012,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (npc.ai[0] == 0f)
 			{
                 npc.damage = expertMode ? 720 : 450;
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC2");
                 if (NPC.AnyNPCs(mod.NPCType("SCalWormHead")))
                 {
                     wormAlive = true;
@@ -1486,7 +1487,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             else
 			{
                 npc.damage = expertMode ? 720 : 450;
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC3");
                 if (NPC.AnyNPCs(mod.NPCType("SCalWormHead")))
                 {
                     wormAlive = true;

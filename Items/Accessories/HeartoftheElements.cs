@@ -21,7 +21,8 @@ namespace CalamityMod.Items.Accessories
             	"Increases max mana by 50 and reduces mana usage by 5%\n" +
             	"You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
             	"Summons all waifus to protect you\n" +
-             "Toggling the visibility of this accessory also toggles the waifus on and off");
+             "Toggling the visibility of this accessory also toggles the waifus on and off\n" +
+             "Stat increases are slightly higher if the waifus are turned off");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
 		}
     	
@@ -58,98 +59,86 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, ((float)Main.DiscoR / 255f), ((float)Main.DiscoG / 255f), ((float)Main.DiscoB / 255f));
-			player.lifeRegen += 2;
-			player.statLifeMax2 += 20;
-			player.moveSpeed += 0.1f;
-        	player.jumpSpeedBoost += 2.0f;
-        	player.endurance += 0.05f;
-        	player.statManaMax2 += 50;
-			player.manaCost *= 0.95f;
-			player.meleeCrit += 5;
-			player.meleeDamage += 0.05f;
-			player.magicCrit += 5;
-			player.magicDamage += 0.05f;
-			player.rangedCrit += 5;
-			player.rangedDamage += 0.05f;
-			player.thrownCrit += 5;
-			player.thrownDamage += 0.05f;
-			player.minionDamage += 0.05f;
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			modPlayer.brimstoneWaifu = true;
-			modPlayer.sandWaifu = true;
-			modPlayer.sandBoobWaifu = true;
-			modPlayer.cloudWaifu = true;
-			modPlayer.sirenWaifu = true;
+			modPlayer.allWaifus = !hideVisual;
             modPlayer.elementalHeart = true;
-			if (player.whoAmI == Main.myPlayer && !hideVisual)
-			{
-				int damage = NPC.downedMoonlord ? 100 : 60;
-				float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
-				if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 1 ||
-				    player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 1 ||
-				    player.ownedProjectileCounts[mod.ProjectileType("CloudWaifu")] > 1)
-				{
-					player.ClearBuff(mod.BuffType("BrimstoneWaifu"));
-					player.ClearBuff(mod.BuffType("SirenLure"));
-					player.ClearBuff(mod.BuffType("DrewsSandyWaifu"));
-					player.ClearBuff(mod.BuffType("SandyWaifu"));
-					player.ClearBuff(mod.BuffType("CloudyWaifu"));
-				}
-				if (player.FindBuffIndex(mod.BuffType("BrimstoneWaifu")) == -1)
-				{
-					player.AddBuff(mod.BuffType("BrimstoneWaifu"), 3600, true);
-				}
-				if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] < 1)
-				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("BigBustyRose"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
-				}
-				if (player.FindBuffIndex(mod.BuffType("SirenLure")) == -1)
-				{
-					player.AddBuff(mod.BuffType("SirenLure"), 3600, true);
-				}
-				if (player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] < 1)
-				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SirenLure"), 0, 0f, Main.myPlayer, 0f, 0f);
-				}
-				if (player.FindBuffIndex(mod.BuffType("DrewsSandyWaifu")) == -1)
-				{
-					player.AddBuff(mod.BuffType("DrewsSandyWaifu"), 3600, true);
-				}
-				if (player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] < 1)
-				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DrewsSandyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
-				}
-				if (player.FindBuffIndex(mod.BuffType("SandyWaifu")) == -1)
-				{
-					player.AddBuff(mod.BuffType("SandyWaifu"), 3600, true);
-				}
-				if (player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] < 1)
-				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SandyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
-				}
-				if (player.FindBuffIndex(mod.BuffType("CloudyWaifu")) == -1)
-				{
-					player.AddBuff(mod.BuffType("CloudyWaifu"), 3600, true);
-				}
-				if (player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] < 1)
-				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("CloudyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
-				}
-			}
+            if (!hideVisual)
+            {
+                player.lifeRegen += 2;
+                player.statLifeMax2 += 20;
+                player.moveSpeed += 0.1f;
+                player.jumpSpeedBoost += 2.0f;
+                player.endurance += 0.05f;
+                player.statManaMax2 += 50;
+                player.manaCost *= 0.95f;
+                player.meleeCrit += 5;
+                player.meleeDamage += 0.05f;
+                player.magicCrit += 5;
+                player.magicDamage += 0.05f;
+                player.rangedCrit += 5;
+                player.rangedDamage += 0.05f;
+                player.thrownCrit += 5;
+                player.thrownDamage += 0.05f;
+                player.minionDamage += 0.05f;
+                int damage = NPC.downedMoonlord ? 150 : 90;
+                float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
+                if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 1 ||
+                    player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 1 ||
+                    player.ownedProjectileCounts[mod.ProjectileType("CloudWaifu")] > 1)
+                {
+                    player.ClearBuff(mod.BuffType("HotE"));
+                }
+                if (player.FindBuffIndex(mod.BuffType("HotE")) == -1)
+                {
+                    player.AddBuff(mod.BuffType("HotE"), 3600, true);
+                }
+                if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("BigBustyRose"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                }
+                if (player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SirenLure"), 0, 0f, Main.myPlayer, 0f, 0f);
+                }
+                if (player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DrewsSandyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                }
+                if (player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SandyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                }
+                if (player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("CloudyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                }
+            }
             else
             {
+                player.lifeRegen += 3;
+                player.statLifeMax2 += 25;
+                player.moveSpeed += 0.12f;
+                player.jumpSpeedBoost += 2.2f;
+                player.endurance += 0.06f;
+                player.statManaMax2 += 60;
+                player.manaCost *= 0.93f;
+                player.meleeCrit += 6;
+                player.meleeDamage += 0.06f;
+                player.magicCrit += 6;
+                player.magicDamage += 0.06f;
+                player.rangedCrit += 6;
+                player.rangedDamage += 0.06f;
+                player.thrownCrit += 6;
+                player.thrownDamage += 0.06f;
+                player.minionDamage += 0.06f;
                 if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 0 ||
                     player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 0 ||
                     player.ownedProjectileCounts[mod.ProjectileType("CloudWaifu")] > 0)
                 {
-                    player.ClearBuff(mod.BuffType("BrimstoneWaifu"));
-                    player.ClearBuff(mod.BuffType("SirenLure"));
-                    player.ClearBuff(mod.BuffType("DrewsSandyWaifu"));
-                    player.ClearBuff(mod.BuffType("SandyWaifu"));
-                    player.ClearBuff(mod.BuffType("CloudyWaifu"));
+                    player.ClearBuff(mod.BuffType("HotE"));
                 }
             }
-			if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1) 
+			if (player.velocity.Y == 0f && player.grappling[0] == -1) 
 			{
 				int num4 = (int)player.Center.X / 16;
 				int num5 = (int)(player.position.Y + (float)player.height - 1f) / 16;

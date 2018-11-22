@@ -31,14 +31,14 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.width = 90;
 			npc.height = 120;
 			npc.defense = 150;
-			npc.lifeMax = CalamityWorld.revenge ? 490000 : 420000;
+			npc.lifeMax = CalamityWorld.revenge ? 510000 : 440000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 665000;
+                npc.lifeMax = 705000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 5500000 : 4900000;
+                npc.lifeMax = CalamityWorld.death ? 6000000 : 5400000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -682,7 +682,7 @@ namespace CalamityMod.NPCs.Polterghast
             float protection = 0.1f + //.1
                     ((double)npc.life <= (double)npc.lifeMax * 0.75 ? 0.05f : 0f) + //.15
                     ((double)npc.life <= (double)npc.lifeMax * (CalamityWorld.revenge ? 0.5 : 0.33) ? 0.05f : 0f) + //.2
-                    (boostDR ? 0.7f : 0f); //.9
+                    (boostDR ? 0.6f : 0f); //.8
             if (CalamityWorld.defiled)
             {
                 protection += (1f - protection) * 0.5f;

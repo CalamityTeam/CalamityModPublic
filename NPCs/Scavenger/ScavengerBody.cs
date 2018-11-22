@@ -27,10 +27,10 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.width = 332; //324
 			npc.height = 214; //216
 			npc.defense = 80;
-			npc.lifeMax = CalamityWorld.revenge ? 51300 : 42700;
+			npc.lifeMax = CalamityWorld.revenge ? 53500 : 42700;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 85000;
+                npc.lifeMax = 90000;
             }
             npc.knockBackResist = 0f;
 			aiType = -1;
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 3800000 : 3300000;
+                npc.lifeMax = CalamityWorld.death ? 4200000 : 3600000;
             }
         }
 		
@@ -547,16 +547,16 @@ namespace CalamityMod.NPCs.Scavenger
 		
 		public override void NPCLoot()
 		{
-            if (Main.rand.Next(10) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RavagerTrophy"));
-			}
-			if (CalamityWorld.armageddon)
+            if (CalamityWorld.armageddon)
             {
                 for (int i = 0; i < 10; i++)
                 {
                     npc.DropBossBags();
                 }
+            }
+            if (Main.rand.Next(10) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RavagerTrophy"));
             }
             if (Main.expertMode)
             {

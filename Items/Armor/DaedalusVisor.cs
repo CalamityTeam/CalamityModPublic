@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased throwing damage and critical strike chance\n" +
-                "Throwing projectiles split into crystal shards on enemy hits";
+                "Throwing projectiles throw out crystal shards as they travel";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.daedalusSplit = true;
             player.thrownDamage += 0.05f;

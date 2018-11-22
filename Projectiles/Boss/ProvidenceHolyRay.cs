@@ -67,25 +67,25 @@ namespace CalamityMod.Projectiles.Boss
             num804 += projectile.ai[0];
             projectile.rotation = num804 - 1.57079637f;
             projectile.velocity = num804.ToRotationVector2();
-            float num805 = 3f;
+            float num805 = 3f; //3f
             float num806 = (float)projectile.width;
             Vector2 samplingPoint = projectile.Center;
             if (vector78.HasValue)
             {
                 samplingPoint = vector78.Value;
             }
-            float[] array3 = new float[(int)num805];
+            float[] array3 = new float[(int)num805]; //array of 3 elements...initial value of 0...never given any other value...why?
             Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 2400f, array3);
-            float num807 = 0f;
+            float num807 = 0f; //0f
             int num3;
-            for (int num808 = 0; num808 < array3.Length; num808 = num3 + 1)
+            for (int num808 = 0; num808 < array3.Length; num808 = num3 + 1) //3 passes
             {
                 num807 += array3[num808];
                 num3 = num808;
             }
-            num807 /= num805;
-            float amount = 0.5f;
-            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount);
+            num807 /= num805; //0 divided by 3...
+            float amount = 0.5f; //0.5f
+            projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
             for (int num809 = 0; num809 < 2; num809 = num3 + 1)
             {
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Boss
             Texture2D texture2D19 = Main.projectileTexture[projectile.type];
             Texture2D texture2D20 = mod.GetTexture("ExtraTextures/Lasers/ProvidenceHolyRayMid");
             Texture2D texture2D21 = mod.GetTexture("ExtraTextures/Lasers/ProvidenceHolyRayEnd");
-            float num223 = projectile.localAI[1];
+            float num223 = projectile.localAI[1]; //length of laser
             Microsoft.Xna.Framework.Color color44 = new Microsoft.Xna.Framework.Color(255, 255, 255, 0) * 0.9f;
             SpriteBatch arg_ABD8_0 = Main.spriteBatch;
             Texture2D arg_ABD8_1 = texture2D19;

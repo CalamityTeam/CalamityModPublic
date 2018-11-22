@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
-            if (!NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+            if (CalamityGlobalNPC.SCal <= 0)
             {
                 npc.active = false;
                 npc.netUpdate = true;

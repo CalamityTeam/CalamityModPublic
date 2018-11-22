@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             DisplayName.SetDefault("Hiveling");
             if (!Main.dedServ)
-				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HivelingGlow");
+                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/HivelingGlow");
             Main.npcFrameCount[npc.type] = 4;
         }
 
@@ -32,7 +32,6 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.damage = 50;
             npc.defense = 8;
             npc.lifeMax = 220;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit");
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyDeath");
             npc.knockBackResist = 0.4f;
             npc.noGravity = true;
@@ -92,6 +91,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit" + Main.rand.Next(3)), npc.Center);
+
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 20);
 
             //if dead do gores

@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             Main.npcFrameCount[npc.type] = 4;
 
             if (!Main.dedServ)
-				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/SmallSightseerGlow");
+                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/SmallSightseerGlow");
         }
 
         public override void SetDefaults()
@@ -32,7 +32,6 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.damage = 58;
             npc.defense = 26;
             npc.lifeMax = 460;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit");
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyDeath");
             npc.noGravity = true;
             npc.knockBackResist = 0.48f;
@@ -68,6 +67,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit" + Main.rand.Next(3)), npc.Center);
+
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 4, 22);
 
             //if dead do gores
@@ -94,6 +95,18 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 return spawnInfo.player.ZoneDesert ? 0.16f : (spawnInfo.player.ZoneRockLayerHeight ? 0.08f :  0.2f);
             }
             return 0f;
+        }
+
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(2) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(1, 3));
+            }
+            if (Main.expertMode)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+            }
         }
     }
 }

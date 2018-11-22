@@ -1,9 +1,9 @@
 This mod was created with the purpose of adding additional content to Terraria.
 It currently contains:
 8 new mineable ores
-22 new bosses (with custom Expert Mode AI)
-2 new modes for extra challenge
+24 new bosses
+4 new modes for extra challenge
 3 new biomes
-220+ new enemy NPCs
-1170+ new items
+250+ new enemy NPCs
+1200+ new items
 Cross-content support for GRealm

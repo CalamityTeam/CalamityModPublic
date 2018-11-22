@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons
 		    	player.statLife += 12;
 		    	player.HealEffect(12);
 			}
-			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("RainbowBoom"), (int)((double)damage * 0.33f), knockback, Main.myPlayer);
+			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("RainbowBoom"), (int)((double)((float)item.damage * player.meleeDamage) * 0.5), knockback, Main.myPlayer);
 			float spread = 180f * 0.0174f;
 			double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
 			double deltaAngle = spread / 8f;
@@ -67,9 +67,9 @@ namespace CalamityMod.Items.Weapons
 					float randomSpeedX = (float)Main.rand.Next(9);
 					float randomSpeedY = (float)Main.rand.Next(6, 15);
 				   	offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-				   	int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainBolt"), (int)((double)damage * 0.5), knockback, Main.myPlayer);
-				    int projectile2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainBolt"), (int)((double)damage * 0.5), knockback, Main.myPlayer);
-					int projectile3 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainBolt"), (int)((double)damage * 0.5), knockback, Main.myPlayer);
+				   	int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainBolt"), (int)((double)((float)item.damage * player.meleeDamage) * 0.75), knockback, Main.myPlayer);
+				    int projectile2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainBolt"), (int)((double)((float)item.damage * player.meleeDamage) * 0.75), knockback, Main.myPlayer);
+					int projectile3 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainBolt"), (int)((double)((float)item.damage * player.meleeDamage) * 0.75), knockback, Main.myPlayer);
 				    Main.projectile[projectile1].velocity.X = -randomSpeedX;
 				    Main.projectile[projectile1].velocity.Y = -randomSpeedY;
 				    Main.projectile[projectile2].velocity.X = randomSpeedX;
@@ -85,9 +85,9 @@ namespace CalamityMod.Items.Weapons
 					float randomSpeedX = (float)Main.rand.Next(9);
 					float randomSpeedY = (float)Main.rand.Next(6, 15);
 				   	offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-				   	int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainHeal"), damage, knockback, Main.myPlayer);
-				    int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainHeal"), damage, knockback, Main.myPlayer);
-					int projectile3 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainHeal"), damage, knockback, Main.myPlayer);
+				   	int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainHeal"), item.damage, knockback, Main.myPlayer);
+				    int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainHeal"), item.damage, knockback, Main.myPlayer);
+					int projectile3 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("RainHeal"), item.damage, knockback, Main.myPlayer);
 				    Main.projectile[projectile1].velocity.X = -randomSpeedX;
 				    Main.projectile[projectile1].velocity.Y = -randomSpeedY;
 				    Main.projectile[projectile2].velocity.X = randomSpeedX;

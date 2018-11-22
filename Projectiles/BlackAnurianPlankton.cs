@@ -12,7 +12,8 @@ namespace CalamityMod.Projectiles
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plankton");
-		}
+            Main.projFrames[projectile.type] = 5;
+        }
     	
         public override void SetDefaults()
         {
@@ -28,6 +29,16 @@ namespace CalamityMod.Projectiles
 
         public override void AI()
         {
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 4)
+            {
+                projectile.frame = 0;
+            }
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 50;

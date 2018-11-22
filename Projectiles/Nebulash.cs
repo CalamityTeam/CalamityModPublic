@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles
 			{
 				for (int num51 = 0; num51 < 2; num51++)
 				{
-					Dust dust = Main.dust[Dust.NewDust(projectile.position + projectile.velocity * 2f, projectile.width, projectile.height, 173, 0f, 0f, 100, new Color(255, 200, 0), 2f)];
+					Dust dust = Main.dust[Dust.NewDust(projectile.position + projectile.velocity * 2f, projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, new Color(255, 200, 0), 2f)];
 					dust.noGravity = true;
 					dust.velocity *= 2f;
 					dust.velocity += projectile.localAI[0].ToRotationVector2();

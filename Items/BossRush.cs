@@ -14,8 +14,10 @@ namespace CalamityMod.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Boss Rush");
-		}
+			DisplayName.SetDefault("Terminus");
+            Tooltip.SetDefault("A ritualistic artifact, thought to have brought upon The End many millennia ago\n" +
+                                "Sealed away in the abyss, far from those that would seek to misuse it");
+        }
 		
 		public override void SetDefaults()
 		{
@@ -69,13 +71,5 @@ namespace CalamityMod.Items
             }
             return true;
 		}
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
     }
 }

@@ -1,0 +1,36 @@
+using System;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.FabsolStuff
+{
+	public class MoscowMule : ModItem
+	{
+        public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Moscow Mule");
+			Tooltip.SetDefault(@"Boosts damage, critical strike chance, and knockback by 12%
+Reduces life regen by 3
+I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm already poisoning myself'");
+		}
+
+		public override void SetDefaults()
+		{
+            item.width = 28;
+            item.height = 18;
+            item.useTurn = true;
+            item.maxStack = 30;
+            item.rare = 4;
+            item.useAnimation = 17;
+            item.useTime = 17;
+            item.useStyle = 2;
+            item.UseSound = SoundID.Item3;
+            item.consumable = true;
+            item.buffType = mod.BuffType("MoscowMule");
+            item.buffTime = 18000; //5 minutes
+            item.value = Item.buyPrice(0, 16, 60, 0);
+		}
+    }
+}

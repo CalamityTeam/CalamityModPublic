@@ -13,12 +13,12 @@ namespace CalamityMod.Tiles
     {
         public override Texture2D GetTexture()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Normal/AstralPalmTree");
+            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralPalmTree");
         }
 
         public override Texture2D GetTopTextures()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Normal/AstralPalmTree_Tops");
+            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralPalmTree_Tops");
         }
 
         public override int DropWood()

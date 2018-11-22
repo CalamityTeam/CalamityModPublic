@@ -51,7 +51,8 @@ namespace CalamityMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "ForbiddenOathblade");
-            recipe.AddIngredient(null, "EssenceofChaos", 3);
+            recipe.AddIngredient(null, "CalamityDust", 3);
+            recipe.AddIngredient(null, "LivingShard", 3);
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

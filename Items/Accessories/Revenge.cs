@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Accessories
 		
 		public override bool CanUseItem(Player player)
 		{
-			if (!Main.expertMode)
+			if (!Main.expertMode || CalamityWorld.bossRushActive)
 			{
 				return false;
 			}

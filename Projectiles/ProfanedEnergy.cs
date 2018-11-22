@@ -15,15 +15,12 @@ namespace CalamityMod.Projectiles
 		{
 			DisplayName.SetDefault("Profaned Energy");
             Main.projFrames[projectile.type] = 4;
-            Main.projPet[projectile.type] = true;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 		}
     	
         public override void SetDefaults()
         {
             projectile.width = 60;
             projectile.height = 60;
-            projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.sentry = true;
@@ -116,7 +113,15 @@ namespace CalamityMod.Projectiles
 					float num517 = num507;
 					num506 -= projectile.Center.X;
 					num507 -= projectile.Center.Y;
-					int projectileType = Main.rand.Next(2);
+                    if (num506 < 0f)
+                    {
+                        projectile.spriteDirection = 1;
+                    }
+                    else
+                    {
+                        projectile.spriteDirection = -1;
+                    }
+                    int projectileType = Main.rand.Next(2);
 					if (projectileType == 0)
 					{
 						projectileType = mod.ProjectileType("FlameBlast");

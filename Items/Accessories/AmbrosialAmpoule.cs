@@ -16,9 +16,9 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Ambrosial Ampoule");
             Tooltip.SetDefault("50% increased mining speed\n" +
                 "You emit light\n" +
-                "6% increased damage reduction and increased life regen\n" +
+                "5% increased damage reduction and increased life regen\n" +
                 "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +
-                "Honey life regen with no speed penalty\n" +
+                "Honey-like life regen with no speed penalty\n" +
                 "Most bee/hornet enemies and projectiles do 75% damage to you");
         }
 

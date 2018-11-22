@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 	    {
 	    	if (target.life <= 0)
 	    	{
-	    		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Blood"), damage, knockback, Main.myPlayer);
+	    		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Blood"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 	    	}
 		}
 	}

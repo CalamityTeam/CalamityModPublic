@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Core of the Blood God");
             Tooltip.SetDefault("You have a damaging life-draining aura around you\n" +
-                "10% increased damage reduction\n" +
-                "12% increased damage and critical strike chance\n" +
+                "5% increased damage reduction\n" +
+                "5% increased damage and critical strike chance\n" +
                 "When below 100 defense you gain 15% increased damage\n" +
                 "Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 15 second cooldown\n" +

@@ -36,15 +36,15 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.width = 32; //324
 			npc.height = 80; //216
 			npc.defense = 0;
-            npc.lifeMax = CalamityWorld.revenge ? 2500 : 2300;
+            npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {
                 npc.damage = 50;
-                npc.lifeMax = 4900;
+                npc.lifeMax = 5100;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 8400000 : 7500000;
+                npc.lifeMax = CalamityWorld.death ? 9000000 : 8100000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -445,7 +445,7 @@ namespace CalamityMod.NPCs.DesertScourge
 		
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = ItemID.None;
+			potionType = ItemID.SandBlock;
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

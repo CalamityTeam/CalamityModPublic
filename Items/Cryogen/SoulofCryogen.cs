@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Cryogen
                 "Counts as wings\n" +
                 "Decent acceleration: 1.35\n" +
                 "Decent flight time: 60\n" +
-                "10% increase to all damage and pick speed\n" +
+                "5% increase to all damage and pick speed\n" +
                 "Frost damage added to melee swings");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
@@ -60,12 +60,12 @@ namespace CalamityMod.Items.Cryogen
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.cryogenSoul = true;
-            player.pickSpeed -= 0.1f;
-            player.magicDamage *= 1.1f;
-            player.rangedDamage *= 1.1f;
-            player.meleeDamage *= 1.1f;
-            player.minionDamage *= 1.1f;
-            player.thrownDamage *= 1.1f;
+            player.pickSpeed -= 0.05f;
+            player.magicDamage += 0.05f;
+            player.rangedDamage += 0.05f;
+            player.meleeDamage += 0.05f;
+            player.minionDamage += 0.05f;
+            player.thrownDamage += 0.05f;
             player.wingTimeMax = 60;
         }
     }

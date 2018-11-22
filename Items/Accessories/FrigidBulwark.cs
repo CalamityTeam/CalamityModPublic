@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Absorbs 25% of damage done to players on your team\n" +
                 "Only active above 25% life\n" +
                 "Grants immunity to knockback\n" +
-                "Puts a shell around the owner when below 30% life that reduces damage\n" +
-                "The shell becomes more powerful when below 10% life and reduces damage even further");
+                "Puts a shell around the owner when below 50% life that reduces damage\n" +
+                "The shell becomes more powerful when below 15% life and reduces damage even further");
         }
 
         public override void SetDefaults()
@@ -51,11 +51,11 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            if ((double)player.statLife <= (double)player.statLifeMax2 * 0.3)
+            if ((double)player.statLife <= (double)player.statLifeMax2 * 0.5)
             {
                 player.AddBuff(62, 5, true);
             }
-            if ((double)player.statLife <= (double)player.statLifeMax2 * 0.1)
+            if ((double)player.statLife <= (double)player.statLifeMax2 * 0.15)
             {
                 player.endurance += 0.05f;
             }

@@ -750,8 +750,8 @@ namespace CalamityMod.NPCs.Yharon
                 }
 				if (npc.ai[2] % (float)num1455 == 0f) //fire flare bombs from mouth
 				{
-					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 60);
-					if (Main.netMode != 1) 
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
+                    if (Main.netMode != 1) 
 					{
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
 						{
@@ -802,7 +802,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 				if (npc.ai[2] == (float)(num1457 - 30)) 
 				{
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
 				if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30)) 
 				{
@@ -1074,8 +1074,8 @@ namespace CalamityMod.NPCs.Yharon
                 }
 				if (npc.ai[2] % (float)num1462 == 0f) 
 				{
-					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 60);
-					if (Main.netMode != 1) 
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
+                    if (Main.netMode != 1) 
 					{
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount)
 						{
@@ -1104,7 +1104,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 				if (npc.ai[2] == (float)(num1457 - 30)) 
 				{
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
 				if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30)) 
 				{
@@ -1174,7 +1174,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 if (npc.ai[2] % (float)num1462 == 0f)
                 {
-                    Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 60);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                     if (Main.netMode != 1)
                     {
                         int damage = expertMode ? 75 : 90; //700
@@ -1425,8 +1425,8 @@ namespace CalamityMod.NPCs.Yharon
                 }
 				if (npc.ai[2] % (float)num1462 == 0f) 
 				{
-					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 60);
-					if (Main.netMode != 1) 
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
+                    if (Main.netMode != 1) 
 					{
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount && NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
 						{
@@ -1458,7 +1458,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 				if (npc.ai[2] == (float)(num1457 - 30)) 
 				{
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
 				if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30)) 
 				{
@@ -1561,7 +1561,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 if (npc.ai[2] % (float)num1462 == 0f)
                 {
-                    Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 60);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                     if (Main.netMode != 1)
                     {
                         int damage = expertMode ? 75 : 90; //700
@@ -1598,7 +1598,7 @@ namespace CalamityMod.NPCs.Yharon
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
                 if (npc.ai[2] == (float)(num1457 - 30))
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
                 if (CalamityWorld.death && !CalamityWorld.bossRushActive)
                 {
@@ -1782,7 +1782,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 				if (npc.ai[2] == (float)(num1460 / 2))
 				{
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
 				if (Main.netMode != 1 && npc.ai[2] == (float)(num1460 / 2))
 				{
@@ -1820,7 +1820,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.chaseable = true;
 				if (npc.ai[2] == 0f)
 				{
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
 				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default(Vector2));
 				npc.rotation -= num1463 * (float)npc.direction;
@@ -2057,28 +2057,28 @@ namespace CalamityMod.NPCs.Yharon
                         switch ((int)npc.ai[3])
                         {
                             case 0:
-                                num28 = 6;
+                                num28 = 6; //tornado
                                 break;
                             case 1:
                             case 2:
-                                num28 = 2;
+                                num28 = 2; //charge
                                 break;
                             case 3:
-                                num28 = 5;
+                                num28 = 5; //fire circle
                                 break;
                             case 4:
-                                num28 = 3;
+                                num28 = 3; //homing fireballs
                                 break;
                             case 5:
                             case 6:
-                                num28 = 4;
+                                num28 = 4; //double splitting fireballs
                                 break;
                             case 7:
                             case 8:
-                                num28 = 2;
+                                num28 = 2; //double charge
                                 break;
                             case 9:
-                                num28 = 5;
+                                num28 = 5; //fire circle
                                 break;
                         }
                     }
@@ -2087,24 +2087,24 @@ namespace CalamityMod.NPCs.Yharon
                         switch ((int)npc.ai[3])
                         {
                             case 0:
-                                num28 = 6;
+                                num28 = 6; //tornado
                                 break;
                             case 1:
                             case 2:
-                                num28 = 2;
+                                num28 = 2; //double charge
                                 break;
                             case 3:
-                                num28 = 3;
+                                num28 = 3; //homing fireballs
                                 break;
                             case 4:
-                                num28 = 4;
+                                num28 = 4; //splitting fireballs
                                 break;
                             case 5:
                             case 6:
-                                num28 = 2;
+                                num28 = 2; //double charge
                                 break;
                             case 7:
-                                num28 = 5;
+                                num28 = 5; //fire circle
                                 break;
                         }
                     }
@@ -2166,7 +2166,7 @@ namespace CalamityMod.NPCs.Yharon
             {
                 if (npc.ai[1] == 0f)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
                 float[] expr_498_cp_0 = npc.ai;
                 int expr_498_cp_1 = 1;
@@ -2298,7 +2298,7 @@ namespace CalamityMod.NPCs.Yharon
                 num2 *= 0.7f;
                 if (npc.ai[1] == 1f)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
                 }
                 float[] expr_B0F_cp_0 = npc.ai;
                 int expr_B0F_cp_1 = 1;
@@ -2360,7 +2360,7 @@ namespace CalamityMod.NPCs.Yharon
                     }
                     num2 *= 0.85f;
                     bool flag3 = npc.ai[1] == 20f || npc.ai[1] == 45f || npc.ai[1] == 70f;
-                    if (NPC.CountNPCS(mod.NPCType("Bumblefuck3")) > 2 || phase2)
+                    if (NPC.CountNPCS(mod.NPCType("Bumblefuck3")) > 4)
                     {
                         flag3 = false;
                     }
@@ -2529,7 +2529,11 @@ namespace CalamityMod.NPCs.Yharon
             {
                 return;
             }
-			if (Main.rand.Next(10) == 0 && npc.localAI[2] == 1f)
+            if (npc.localAI[2] == 1f)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BossRush"));
+            }
+            if (Main.rand.Next(10) == 0 && npc.localAI[2] == 1f)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharonTrophy"));
 			}

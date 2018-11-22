@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles
         	bool flag64 = projectile.type == mod.ProjectileType("CloudyWaifu");
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			if (!modPlayer.cloudWaifu)
+			if (!modPlayer.cloudWaifu && !modPlayer.allWaifus)
         	{
         		projectile.active = false;
         		return;

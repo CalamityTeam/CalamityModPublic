@@ -35,7 +35,7 @@ namespace CalamityMod.Items
 
         public override bool CanUseItem(Player player)
         {
-            if (!CalamityWorld.revenge)
+            if (!CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
                 return false;
             }

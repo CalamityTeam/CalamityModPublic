@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float num114 = num78;
 				float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-				int meteor = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, damage, knockback, i, 0f, (float)Main.rand.Next(3));
+				int meteor = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)((float)item.damage * player.meleeDamage), knockback, i, 0f, (float)Main.rand.Next(3));
 				Main.projectile[meteor].magic = false;
 				Main.projectile[meteor].melee = true;
 			}

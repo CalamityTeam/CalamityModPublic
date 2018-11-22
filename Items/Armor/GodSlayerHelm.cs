@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
                 "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
                 "Taking over 80 damage in one hit will cause you to release a swarm of high-damage god killer darts\n" +
                 "Enemies take a lot of damage when they hit you\n" +
-                "An attack that would deal 80 damage or less will cause the attack to do no damage to you";
+                "An attack that would deal 80 damage or less will have its damage reduced to 1";
             player.thorns += 2.5f;
         }
 

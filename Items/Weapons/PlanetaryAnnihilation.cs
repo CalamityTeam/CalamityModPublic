@@ -95,14 +95,34 @@ namespace CalamityMod.Items.Weapons
 			num79 *= num80;
 			float speedX4 = num78 + (float)Main.rand.Next(-240, 241) * 0.02f;
 			float speedY5 = num79 + (float)Main.rand.Next(-240, 241) * 0.02f;
-			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.3f), mod.ProjectileType("TerraBallR"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(2));
-			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.2f), mod.ProjectileType("TerraBallO"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
-			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.1f), mod.ProjectileType("TerraBallY"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(4));
-			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1f), mod.ProjectileType("TerraBallG"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.9f), mod.ProjectileType("TerraBallB"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(6));
-			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.8f), mod.ProjectileType("TerraBallI"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(7));
-			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.7f), mod.ProjectileType("TerraBallV"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(8));
-	    	return false;
+            if (type == ProjectileID.WoodenArrowFriendly)
+            {
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.3f), mod.ProjectileType("TerraBallR"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(2));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.2f), mod.ProjectileType("TerraBallO"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.1f), mod.ProjectileType("TerraBallY"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(4));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1f), mod.ProjectileType("TerraBallG"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.9f), mod.ProjectileType("TerraBallB"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(6));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.8f), mod.ProjectileType("TerraBallI"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(7));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.7f), mod.ProjectileType("TerraBallV"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(8));
+            }
+            else
+            {
+                int num121 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.3f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num121].noDropItem = true;
+                int num122 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.2f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num122].noDropItem = true;
+                int num123 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1.1f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num123].noDropItem = true;
+                int num124 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 1f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num124].noDropItem = true;
+                int num125 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.9f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num125].noDropItem = true;
+                int num126 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.8f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num126].noDropItem = true;
+                int num127 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, (speedY5 * 0.7f), type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[num127].noDropItem = true;
+            }
+            return false;
 		}
 	
 	    public override void AddRecipes()

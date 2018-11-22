@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles
         	bool flag64 = projectile.type == mod.ProjectileType("SirenLure");
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			if (!modPlayer.sirenWaifu)
+			if (!modPlayer.sirenWaifu && !modPlayer.allWaifus)
         	{
         		projectile.active = false;
         		return;

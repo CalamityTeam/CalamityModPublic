@@ -63,13 +63,21 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
                 float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-                if (Main.rand.Next(3) == 0)
+                if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("IceBeam"), (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    if (Main.rand.Next(3) == 0)
+                    {
+                        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("IceBeam"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                    }
+                    else
+                    {
+                        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("NebulaShot"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                    }
                 }
                 else
                 {
-                    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("NebulaShot"), (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int num121 = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Main.projectile[num121].noDropItem = true;
                 }
             }
             return false;

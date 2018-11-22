@@ -31,14 +31,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
             aiType = -1; //new
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
-            npc.lifeMax = CalamityWorld.revenge ? 81000 : 73000;
+            npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 95000;
+                npc.lifeMax = 100000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 7800000 : 7200000;
+                npc.lifeMax = CalamityWorld.death ? 8600000 : 7900000;
             }
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Living Dew");
-            Tooltip.SetDefault("10% increased damage reduction, +5 defense, and increased life regen while in the Jungle");
+            Tooltip.SetDefault("5% increased damage reduction, +5 defense, and increased life regen while in the Jungle");
         }
 
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             {
                 player.lifeRegen += 2;
                 player.statDefense += 5;
-                player.endurance += 0.1f;
+                player.endurance += 0.05f;
             }
         }
 

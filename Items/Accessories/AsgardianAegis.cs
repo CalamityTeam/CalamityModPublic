@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
                 "Can be used to ram enemies\n" +
                 "Press N to activate buffs to all damage, crit chance, and defense\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
-                "12% damage reduction while submerged in liquid\n" +
+                "10% damage reduction while submerged in liquid\n" +
                 "Increased defense by 10 when below 25% life\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
         }
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
-            player.lifeRegen += 3;
+            player.lifeRegen += 1;
             player.statLifeMax2 += 40;
             player.buffImmune[46] = true;
             player.buffImmune[44] = true;
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[mod.BuffType("HolyLight")] = true;
             player.buffImmune[mod.BuffType("GlacialState")] = true;
             if (player.statLife <= (int)((double)player.statLifeMax2 * 0.25)) { player.statDefense += 10; }
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) { player.endurance += 0.12f; }
+            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) { player.endurance += 0.1f; }
         }
 
         public override void AddRecipes()

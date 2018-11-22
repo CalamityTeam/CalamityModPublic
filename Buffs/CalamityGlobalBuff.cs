@@ -20,6 +20,10 @@ namespace CalamityMod.Buffs
             {
                 player.GetModPlayer<CalamityPlayer>(mod).shine = true;
             }
+            if (type == BuffID.IceBarrier)
+            {
+                player.endurance -= 0.1f;
+            }
         }
     }
 }

@@ -1064,7 +1064,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = ItemID.None;
+			potionType = mod.ItemType("CosmiliteBrick");
 		}
 		
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sigil of Calamitas");
-            Tooltip.SetDefault("10% increased magic damage, critical strike chance, and 15% decreased mana usage\n" +
+            Tooltip.SetDefault("10% increased magic damage and 10% decreased mana usage\n" +
                 "+100 max mana, increases life regen, and reveals treasure locations\n" +
                 "Reduces the cooldown of healing potions");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
@@ -36,8 +36,7 @@ namespace CalamityMod.Items.Accessories
             player.lifeRegen += 1;
             player.statManaMax2 += 100;
             player.magicDamage += 0.1f;
-            player.manaCost *= 0.85f;
-            player.magicCrit += 10;
+            player.manaCost *= 0.9f;
         }
 
         public override void AddRecipes()

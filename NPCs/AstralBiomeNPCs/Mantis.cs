@@ -19,8 +19,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             DisplayName.SetDefault("Mantis");
             Main.npcFrameCount[npc.type] = 14;
-			if (!Main.dedServ)
-				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/MantisGlow");
+            if (!Main.dedServ)
+                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/MantisGlow");
         }
 
         public override void SetDefaults()
@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.lifeMax = 510;
             npc.knockBackResist = 0.1f;
             npc.value = 450f;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit");
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyDeath");
         }
 
@@ -186,6 +185,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit" + Main.rand.Next(3)), npc.Center);
+
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, mod.DustType("AstralOrange"), 1f, 4, 24);
         }
 
@@ -202,6 +203,15 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 return 0.16f;
             }
             return 0f;
+        }
+
+        public override void NPCLoot()
+        {
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
+            if (Main.expertMode)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+            }
         }
     }
 }

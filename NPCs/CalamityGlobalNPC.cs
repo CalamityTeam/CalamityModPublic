@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region InstanceVars
-        public static int DraedonMayhem = 0;
+        public static bool DraedonMayhem = false;
 
         public static int DoGSecondStageCountdown = 0;
 
@@ -123,6 +123,8 @@ namespace CalamityMod.NPCs
         public static int bobbitWormBottom = -1;
 
         public static int DoGHead = -1;
+
+        public static int SCal = -1;
 				
 		public static int ghostBoss = -1;
 
@@ -137,8 +139,8 @@ namespace CalamityMod.NPCs
         public static int brimstoneElemental = -1;
 
         public static double golemDamageBonus = 1.0;
-		
-		public int bloodMoonKillCount = 0;
+
+        public int bloodMoonKillCount = 0;
         #endregion
 
         #region ResetEffects
@@ -414,90 +416,6 @@ namespace CalamityMod.NPCs
             {
                 this.newAI[m] = 0f;
             }
-            /*if (CalamityWorld.revenge)
-            {
-                List<int> coldWeaknessList = new List<int>(73)
-                {
-                    NPCID.MeteorHead,
-                    NPCID.FireImp,
-                    NPCID.ManEater,
-                    NPCID.JungleBat,
-                    NPCID.Snatcher,
-                    NPCID.Piranha,
-                    NPCID.LavaSlime,
-                    NPCID.Hellbat,
-                    NPCID.Vulture,
-                    NPCID.Demon,
-                    NPCID.EyeofCthulhu,
-                    NPCID.Hornet,
-                    NPCID.VoodooDemon,
-                    NPCID.Antlion,
-                    NPCID.WallofFlesh,
-                    NPCID.WallofFleshEye,
-                    NPCID.TheHungry,
-                    NPCID.TheHungryII,
-                    NPCID.LavaBat,
-                    NPCID.GiantFlyingFox,
-                    NPCID.GiantTortoise,
-                    NPCID.RedDevil,
-                    NPCID.Arapaima,
-                    NPCID.AngryTrapper,
-                    NPCID.MossHornet,
-                    NPCID.Derpling,
-                    NPCID.Nymph,
-                    NPCID.Lihzahrd,
-                    NPCID.LihzahrdCrawler,
-                    NPCID.Moth,
-                    NPCID.Bee,
-                    NPCID.BeeSmall,
-                    NPCID.QueenBee,
-                    NPCID.FlyingFish,
-                    NPCID.HornetFatty,
-                    NPCID.HornetHoney,
-                    NPCID.HornetLeafy,
-                    NPCID.HornetSpikey,
-                    NPCID.HornetStingy,
-                    NPCID.JungleCreeper,
-                    NPCID.JungleCreeperWall,
-                    NPCID.FungoFish,
-                    NPCID.AnomuraFungus,
-                    NPCID.MushiLadybug,
-                    NPCID.FungiBulb,
-                    NPCID.GiantFungiBulb,
-                    NPCID.Plantera,
-                    NPCID.PlanterasTentacle,
-                    NPCID.HellArmoredBones,
-                    NPCID.HellArmoredBonesSpikeShield,
-                    NPCID.HellArmoredBonesMace,
-                    NPCID.HellArmoredBonesSword,
-                    NPCID.MourningWood,
-                    NPCID.Pumpking,
-                    NPCID.Splinterling,
-                    NPCID.SolarCrawltipedeTail,
-                    NPCID.SolarDrakomire,
-                    NPCID.SolarDrakomireRider,
-                    NPCID.SolarSroller,
-                    NPCID.SolarCorite,
-                    NPCID.SolarSolenian,
-                    NPCID.WalkingAntlion,
-                    NPCID.FlyingAntlion,
-                    NPCID.DuneSplicerHead,
-                    NPCID.DuneSplicerBody,
-                    NPCID.DuneSplicerTail,
-                    NPCID.TombCrawlerHead,
-                    NPCID.TombCrawlerBody,
-                    NPCID.TombCrawlerTail,
-                    NPCID.DesertGhoul,
-                    NPCID.SandElemental,
-                    NPCID.SandShark,
-                    NPCID.Tumbleweed
-                };
-                bool shouldAffect = coldWeaknessList.Contains(npc.type);
-                if (shouldAffect)
-                {
-                    this.weaknessCold = true;
-                }
-            }*/
             if (npc.boss && CalamityWorld.revenge)
             {
                 if (npc.type != mod.NPCType("HiveMindP2") && npc.type != mod.NPCType("Leviathan") && npc.type != mod.NPCType("StormWeaverHeadNaked") &&
@@ -514,34 +432,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            List<int> enemyImmunityList = new List<int>(39)
-            {
-                NPCID.QueenBee,
-                NPCID.WallofFlesh,
-                NPCID.WallofFleshEye,
-                NPCID.Retinazer,
-                NPCID.Spazmatism,
-                NPCID.SkeletronPrime,
-                NPCID.PrimeCannon,
-                NPCID.PrimeSaw,
-                NPCID.PrimeVice,
-                NPCID.PrimeLaser,
-                NPCID.Plantera,
-                NPCID.Pumpking,
-                NPCID.IceQueen,
-                NPCID.Mothron,
-                NPCID.Golem,
-                NPCID.GolemHead,
-                NPCID.GolemFistLeft,
-                NPCID.GolemFistRight,
-                NPCID.DukeFishron,
-                NPCID.CultistBoss,
-                NPCID.MoonLordHead,
-                NPCID.MoonLordHand,
-                NPCID.MoonLordCore,
-                NPCID.MoonLordFreeEye
-            };
-            if (enemyImmunityList.Contains(npc.type) || CalamityWorld.bossRushActive)
+            if (CalamityMod.enemyImmunityList.Contains(npc.type) || CalamityWorld.bossRushActive)
             {
                 npc.buffImmune[mod.BuffType("GlacialState")] = true;
                 npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
@@ -557,24 +448,7 @@ namespace CalamityMod.NPCs
             }
             if (Main.hardMode && !CalamityWorld.spawnedHardBoss && !npc.boss && !npc.friendly && !npc.dontTakeDamage && !npc.buffImmune[mod.BuffType("CrushDepth")])
             {
-                List<int> hardModeNerfExceptionList = new List<int>(14)
-                {
-                    135,
-                    136,
-                    115,
-                    116,
-                    114,
-                    267,
-                    13,
-                    14,
-                    15,
-                    36,
-                    mod.NPCType("SlimeSpawnCorrupt"),
-                    mod.NPCType("SlimeSpawnCorrupt2"),
-                    mod.NPCType("SlimeSpawnCrimson"),
-                    mod.NPCType("SlimeSpawnCrimson2")
-                };
-                if (!hardModeNerfExceptionList.Contains(npc.type))
+                if (!CalamityMod.hardModeNerfExceptionList.Contains(npc.type) && npc.lifeMax > 5 && npc.damage > 5)
                 {
                     double multiplier = Main.expertMode ? 0.6 : 0.8;
                     npc.lifeMax = (int)((double)npc.lifeMax * multiplier);
@@ -590,7 +464,7 @@ namespace CalamityMod.NPCs
                 switch (npc.type)
                 {
                     case NPCID.QueenBee: //Tier 1
-                        npc.lifeMax = 400000;
+                        npc.lifeMax = 420000;
                         break;
                     case NPCID.BrainofCthulhu:
                         npc.lifeMax = 200000;
@@ -614,31 +488,31 @@ namespace CalamityMod.NPCs
                         npc.lifeMax = 60000;
                         break;
                     case NPCID.SkeletronPrime:
-                        npc.lifeMax = 720000;
+                        npc.lifeMax = 780000;
                         break;
                     case NPCID.PrimeCannon:
-                        npc.lifeMax = 280000;
+                        npc.lifeMax = 350000;
                         break;
                     case NPCID.PrimeVice:
-                        npc.lifeMax = 360000;
+                        npc.lifeMax = 420000;
                         break;
                     case NPCID.PrimeSaw:
-                        npc.lifeMax = 400000;
+                        npc.lifeMax = 450000;
                         break;
                     case NPCID.PrimeLaser:
-                        npc.lifeMax = 240000;
+                        npc.lifeMax = 280000;
                         break;
                     case NPCID.Golem:
-                        npc.lifeMax = 720000;
+                        npc.lifeMax = 780000;
                         break;
                     case NPCID.GolemHead:
-                        npc.lifeMax = 360000;
+                        npc.lifeMax = 400000;
                         break;
                     case NPCID.GolemFistLeft:
-                        npc.lifeMax = 280000;
+                        npc.lifeMax = 320000;
                         break;
                     case NPCID.GolemFistRight:
-                        npc.lifeMax = 280000;
+                        npc.lifeMax = 320000;
                         break;
                     case NPCID.EaterofWorldsHead:
                         npc.lifeMax = 20000;
@@ -650,34 +524,34 @@ namespace CalamityMod.NPCs
                         npc.lifeMax = 40000;
                         break;
                     case NPCID.TheDestroyer: //Tier 2
-                        npc.lifeMax = 3400000;
+                        npc.lifeMax = 3800000;
                         break;
                     case NPCID.TheDestroyerBody:
-                        npc.lifeMax = 3400000;
+                        npc.lifeMax = 3800000;
                         break;
                     case NPCID.TheDestroyerTail:
-                        npc.lifeMax = 3400000;
+                        npc.lifeMax = 3800000;
                         break;
                     case NPCID.Probe:
-                        npc.lifeMax = 70000;
+                        npc.lifeMax = 85000;
                         break;
                     case NPCID.Spazmatism:
-                        npc.lifeMax = 1080000;
+                        npc.lifeMax = 1300000;
                         break;
                     case NPCID.Retinazer:
-                        npc.lifeMax = 848000;
+                        npc.lifeMax = 950000;
                         break;
                     case NPCID.WallofFlesh:
-                        npc.lifeMax = 2600000;
+                        npc.lifeMax = 3200000;
                         break;
                     case NPCID.WallofFleshEye:
-                        npc.lifeMax = 2600000;
+                        npc.lifeMax = 3200000;
                         break;
                     case NPCID.SkeletronHead:
-                        npc.lifeMax = 1500000;
+                        npc.lifeMax = 1700000;
                         break;
                     case NPCID.SkeletronHand:
-                        npc.lifeMax = 800000;
+                        npc.lifeMax = 900000;
                         break;
                     case NPCID.CultistBoss: //Tier 3
                         npc.lifeMax = 1800000;
@@ -738,18 +612,18 @@ namespace CalamityMod.NPCs
                 }
                 npc.npcSlots = 20f;
             }
-            if (DraedonMayhem == 1)
+            if (DraedonMayhem)
             {
                 if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
                 {
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 2.5);
+                        npc.lifeMax = (int)((double)npc.lifeMax * 2.7);
                         npc.scale *= 1.25f;
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.8);
                         npc.scale *= 1.2f;
                     }
                     npc.npcSlots = 10f;
@@ -758,7 +632,7 @@ namespace CalamityMod.NPCs
                 {
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 2.5);
+                        npc.lifeMax = (int)((double)npc.lifeMax * 2.7);
                         npc.scale *= 1.25f;
                     }
                     else
@@ -777,16 +651,16 @@ namespace CalamityMod.NPCs
                     {
                         if (npc.type == NPCID.PrimeLaser)
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.5);
                         }
                         else
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 2.8);
+                            npc.lifeMax = (int)((double)npc.lifeMax * 2.9);
                         }
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.5);
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
                     }
                 }
                 if (npc.type == NPCID.Retinazer)
@@ -880,11 +754,11 @@ namespace CalamityMod.NPCs
                 {
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 8.0); //700% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 8.5);
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 3.0); //200% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 3.5);
                     }
                     npc.npcSlots = 64f;
                 }
@@ -905,18 +779,18 @@ namespace CalamityMod.NPCs
                     npc.lifeMax = (int)((double)npc.lifeMax * 1.25);
                     npc.damage = (int)((double)npc.damage * 1.25);
                 }
-                if (DraedonMayhem == 0)
+                if (!DraedonMayhem)
                 {
                     if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
                     {
                         if (CalamityWorld.death)
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.5); //50% boost
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
                             npc.scale *= 1.2f;
                         }
                         else
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.15); //15% boost
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.25);
                         }
                         npc.npcSlots = 10f;
                     }
@@ -924,7 +798,7 @@ namespace CalamityMod.NPCs
                     {
                         if (CalamityWorld.death)
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.8);
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.9);
                             npc.damage = (int)((double)npc.damage * 1.5);
                             npc.scale *= 1.2f;
                         }
@@ -939,27 +813,27 @@ namespace CalamityMod.NPCs
                         {
                             if (npc.type == NPCID.PrimeLaser)
                             {
-                                npc.lifeMax = (int)((double)npc.lifeMax * 0.1);
+                                npc.lifeMax = (int)((double)npc.lifeMax * 0.15);
                             }
                             else
                             {
-                                npc.lifeMax = (int)((double)npc.lifeMax * 2.05); //105% boost
+                                npc.lifeMax = (int)((double)npc.lifeMax * 2.15);
                             }
                         }
                         else
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.4); //40% boost
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.5);
                         }
                     }
                     if (npc.type == NPCID.Retinazer)
                     {
                         if (CalamityWorld.death)
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.6); //60% boost
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.7);
                         }
                         else
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.35); //35% boost
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.45);
                         }
                         npc.npcSlots = 10f;
                     }
@@ -967,11 +841,11 @@ namespace CalamityMod.NPCs
                     {
                         if (CalamityWorld.death)
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.7); //70% boost
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.8);
                         }
                         else
                         {
-                            npc.lifeMax = (int)((double)npc.lifeMax * 1.45); //45% boost
+                            npc.lifeMax = (int)((double)npc.lifeMax * 1.55);
                         }
                         npc.npcSlots = 10f;
                     }
@@ -984,11 +858,11 @@ namespace CalamityMod.NPCs
                     }
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 2.2); //120% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 2.3);
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.65); //65% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.75);
                     }
                 }
                 if (npc.type == NPCID.TheHungryII)
@@ -1022,11 +896,11 @@ namespace CalamityMod.NPCs
                 {
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.3); //30% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.15); //15% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.25);
                     }
                     npc.npcSlots = 12f;
                 }
@@ -1034,22 +908,22 @@ namespace CalamityMod.NPCs
                 {
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.3); //30% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.2); //20% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.3);
                     }
                 }
                 if (npc.type == NPCID.QueenBee)
                 {
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.55); //55% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.65);
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.05); //5% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
                     }
                     npc.npcSlots = 14f;
                 }
@@ -1057,12 +931,12 @@ namespace CalamityMod.NPCs
                 {
                     if (CalamityWorld.death)
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.9); //90% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.9);
                         npc.damage = (int)((double)npc.damage * 1.25);
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.4); //40% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
                     }
                     npc.npcSlots = 12f;
                 }
@@ -1110,26 +984,19 @@ namespace CalamityMod.NPCs
                     }
                 }
                 if (npc.type == mod.NPCType("Cnidrion") || npc.type == mod.NPCType("DesertScourgeBody") || npc.type == mod.NPCType("ColossalSquid") ||
-                    npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu"))
+                    npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu") || npc.type == mod.NPCType("ProfanedGuardianBoss3") || 
+                    npc.type == mod.NPCType("ScornEater") || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") || 
+                    npc.type == mod.NPCType("Mauler"))
                 {
-                    this.protection = 0.1f;
-                }
-                else if (npc.type == mod.NPCType("AstrumDeusHead") || npc.type == mod.NPCType("AquaticScourgeHead") || npc.type == mod.NPCType("Cryon") ||
-                    npc.type == mod.NPCType("Cryogen"))
-                {
-                    this.protection = 0.15f;
-                }
-                else if (npc.type == mod.NPCType("ProfanedGuardianBoss3") || npc.type == mod.NPCType("ScornEater") ||
-                    npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") || npc.type == mod.NPCType("Mauler"))
-                {
-                    this.protection = 0.2f;
+                    this.protection = 0.05f;
                 }
                 else if (npc.type == mod.NPCType("AstrumDeusBody") || npc.type == mod.NPCType("SoulSeeker") || npc.type == mod.NPCType("DesertScourgeTail") ||
                     npc.type == mod.NPCType("Horse") || npc.type == mod.NPCType("ProfanedEnergyBody") || npc.type == mod.NPCType("ScavengerClawLeft") ||
                     npc.type == mod.NPCType("ScavengerClawRight") || npc.type == mod.NPCType("ScavengerHead") || npc.type == mod.NPCType("MantisShrimp") ||
-                    npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("Astrageldon"))
+                    npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("AstrumDeusHead") || 
+                    npc.type == mod.NPCType("AquaticScourgeHead") || npc.type == mod.NPCType("Cryon") || npc.type == mod.NPCType("Cryogen"))
                 {
-                    this.protection = 0.25f;
+                    this.protection = 0.1f;
                 }
                 else if (npc.type == mod.NPCType("ArmoredDiggerHead") || npc.type == mod.NPCType("AstralProbe") || npc.type == mod.NPCType("Calamitas") ||
                     npc.type == mod.NPCType("CalamitasRun") || npc.type == mod.NPCType("CalamitasRun2") || npc.type == mod.NPCType("CalamitasRun3") ||
@@ -1138,39 +1005,39 @@ namespace CalamityMod.NPCs
                     npc.type == mod.NPCType("Reaper") || npc.type == mod.NPCType("OverloadedSoldier") || npc.type == mod.NPCType("AquaticScourgeTail") || 
                     npc.type == mod.NPCType("EidolonWyrmHead"))
                 {
-                    this.protection = 0.3f;
+                    this.protection = 0.15f;
                 }
-                else if (npc.type == mod.NPCType("AstrumDeusProbe3"))
+                else if (npc.type == mod.NPCType("AstrumDeusProbe3") || npc.type == mod.NPCType("PlaguebringerShade"))
                 {
-                    this.protection = 0.35f;
+                    this.protection = 0.2f;
                 }
-                else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("PlaguebringerShade") ||
-                    npc.type == mod.NPCType("ProfanedGuardianBoss2") || npc.type == mod.NPCType("SandTortoise") || npc.type == mod.NPCType("StasisProbe") || 
+                else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("ProfanedGuardianBoss2") || 
+                    npc.type == mod.NPCType("SandTortoise") || npc.type == mod.NPCType("StasisProbe") || 
                     npc.type == mod.NPCType("BobbitWormHead") || npc.type == mod.NPCType("GreatSandShark"))
                 {
-                    this.protection = 0.4f;
+                    this.protection = 0.25f;
                 }
                 else if (npc.type == mod.NPCType("ProvSpawnOffense"))
                 {
-                    this.protection = 0.45f;
+                    this.protection = 0.3f;
                 }
                 else if (npc.type == mod.NPCType("ArmoredDiggerBody") || npc.type == mod.NPCType("AstrumDeusTail") || npc.type == mod.NPCType("DespairStone") || 
                     npc.type == mod.NPCType("SoulSeekerSupreme") || npc.type == mod.NPCType("Leviathan"))
                 {
-                    this.protection = 0.5f;
+                    this.protection = 0.35f;
                 }
                 else if (npc.type == mod.NPCType("CryogenIce") || npc.type == mod.NPCType("ProfanedGuardianBoss") || npc.type == mod.NPCType("ProvSpawnDefense") ||
                     npc.type == mod.NPCType("ScavengerBody"))
                 {
-                    this.protection = 0.6f;
+                    this.protection = 0.4f;
                 }
                 else if (npc.type == mod.NPCType("ArmoredDiggerTail"))
                 {
-                    this.protection = 0.7f;
+                    this.protection = 0.45f;
                 }
                 else if (npc.type == mod.NPCType("SirenIce"))
                 {
-                    this.protection = 0.75f;
+                    this.protection = 0.5f;
                 }
                 else
                 {
@@ -1190,7 +1057,7 @@ namespace CalamityMod.NPCs
                         case NPCID.Mothron:
                         case NPCID.Crab:
                         case NPCID.SeaSnail:
-                            this.protection = 0.1f; break;
+                            this.protection = 0.05f; break;
                         case NPCID.Antlion:
                         case NPCID.TheHungry:
                         case NPCID.TheDestroyer:
@@ -1210,14 +1077,14 @@ namespace CalamityMod.NPCs
                         case NPCID.ArmoredViking:
                         case NPCID.DD2Betsy:
                         case NPCID.DD2OgreT2:
-                            this.protection = 0.15f; break;
+                            this.protection = 0.1f; break;
                         case NPCID.ElfCopter:
                         case NPCID.GraniteGolem:
                         case NPCID.ArmoredSkeleton:
                         case NPCID.PirateShipCannon:
                         case NPCID.DD2OgreT3:
                         case NPCID.Golem:
-                            this.protection = 0.2f; break;
+                            this.protection = 0.15f; break;
                         case NPCID.Retinazer:
                         case NPCID.Spazmatism:
                         case NPCID.PrimeCannon:
@@ -1260,34 +1127,33 @@ namespace CalamityMod.NPCs
                         case 495:
                         case 496:
                         case 497:
-                            this.protection = 0.25f; break;
+                            this.protection = 0.2f; break;
                         case NPCID.PrimeSaw:
                         case NPCID.PrimeVice:
                         case NPCID.SkeletronPrime:
                         case NPCID.Probe:
                         case NPCID.PossessedArmor:
-                            this.protection = 0.3f; break;
+                            this.protection = 0.25f; break;
                         case NPCID.Mimic:
                         case NPCID.PresentMimic:
                         case 473:
                         case 474:
                         case 475:
                         case 476:
-                            this.protection = 0.35f; break;
+                            this.protection = 0.3f; break;
                         case NPCID.GiantTortoise:
                         case NPCID.IceTortoise:
                         case NPCID.SantaNK1:
                         case NPCID.MartianWalker:
-                            this.protection = 0.4f; break;
                         case NPCID.TheDestroyerTail:
-                            this.protection = 0.6f; break;
+                            this.protection = 0.35f; break;
                         case NPCID.DeadlySphere:
-                            this.protection = 0.65f; break;
+                            this.protection = 0.4f; break;
                         case NPCID.Paladin:
-                            this.protection = 0.7f; break;
+                            this.protection = 0.45f; break;
                         case NPCID.WallofFlesh:
                         case NPCID.MothronEgg:
-                            this.protection = 0.75f; break;
+                            this.protection = 0.5f; break;
                         case NPCID.DungeonGuardian:
                             this.protection = 0.9999f; break;
                     }
@@ -1343,35 +1209,7 @@ namespace CalamityMod.NPCs
             }
             if (NPC.downedMoonlord)
             {
-                List<int> dungeonEnemyBuffList = new List<int>(24)
-                {
-                    NPCID.SkeletonSniper,
-                    NPCID.TacticalSkeleton,
-                    NPCID.SkeletonCommando,
-                    NPCID.Paladin,
-                    NPCID.GiantCursedSkull,
-                    NPCID.BoneLee,
-                    NPCID.DiabolistWhite,
-                    NPCID.DiabolistRed,
-                    NPCID.NecromancerArmored,
-                    NPCID.Necromancer,
-                    NPCID.RaggedCasterOpenCoat,
-                    NPCID.RaggedCaster,
-                    NPCID.HellArmoredBonesSword,
-                    NPCID.HellArmoredBonesMace,
-                    NPCID.HellArmoredBonesSpikeShield,
-                    NPCID.HellArmoredBones,
-                    NPCID.BlueArmoredBonesSword,
-                    NPCID.BlueArmoredBonesNoPants,
-                    NPCID.BlueArmoredBonesMace,
-                    NPCID.BlueArmoredBones,
-                    NPCID.RustyArmoredBonesSwordNoArmor,
-                    NPCID.RustyArmoredBonesSword,
-                    NPCID.RustyArmoredBonesFlail,
-                    NPCID.RustyArmoredBonesAxe
-                };
-                bool shouldAffect = dungeonEnemyBuffList.Contains(npc.type);
-                if (shouldAffect)
+                if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)((double)npc.lifeMax * 2.5);
                     npc.damage = (int)((double)npc.damage * 2.5);
@@ -1389,30 +1227,8 @@ namespace CalamityMod.NPCs
             {
                 if (numPlayers > 1)
                 {
-                    List<int> bossScaleList = new List<int>(19)
-                    {
-                        NPCID.EaterofWorldsHead,
-                        NPCID.EaterofWorldsBody,
-                        NPCID.EaterofWorldsTail,
-                        NPCID.Creeper,
-                        NPCID.SkeletronHand,
-                        NPCID.WallofFleshEye,
-                        NPCID.TheHungry,
-                        NPCID.TheHungryII,
-                        NPCID.TheDestroyerBody,
-                        NPCID.TheDestroyerTail,
-                        NPCID.PrimeCannon,
-                        NPCID.PrimeSaw,
-                        NPCID.PrimeVice,
-                        NPCID.PrimeLaser,
-                        NPCID.PlanterasTentacle,
-                        NPCID.Pumpking,
-                        NPCID.IceQueen,
-                        NPCID.Mothron,
-                        NPCID.GolemHead
-                    };
-                    bool shouldScale = bossScaleList.Contains(npc.type);
-                    if (((npc.boss || shouldScale) && npc.type < NPCID.Count) || (npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
+                    if (((npc.boss || CalamityMod.bossScaleList.Contains(npc.type)) && npc.type < NPCID.Count) || 
+                        (npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
                     {
                         bossLifeScale = 1f; //set expert scale to 1 instead of 2
                         float playerCount = (float)numPlayers;
@@ -1438,7 +1254,7 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
             {
-                return !AnyBossNPCS();
+                return Main.player[npc.target].townNPCs >= 3f;
             }
             return null;
         }
@@ -1447,7 +1263,7 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
             {
-                return !AnyBossNPCS();
+                return Main.player[npc.target].townNPCs >= 3f;
             }
             return null;
         }
@@ -1481,27 +1297,7 @@ namespace CalamityMod.NPCs
             }
             if (target.GetModPlayer<CalamityPlayer>(mod).beeResist)
 			{
-                List<int> beeEnemyList = new List<int>(16)
-                {
-                    NPCID.GiantMossHornet,
-                    NPCID.BigMossHornet,
-                    NPCID.LittleMossHornet,
-                    NPCID.TinyMossHornet,
-                    NPCID.MossHornet,
-                    NPCID.VortexHornetQueen,
-                    NPCID.VortexHornet,
-                    NPCID.Bee,
-                    NPCID.BeeSmall,
-                    NPCID.QueenBee,
-                    mod.NPCType("PlaguebringerGoliath"),
-                    mod.NPCType("PlaguebringerShade"),
-                    mod.NPCType("PlagueBeeLargeG"),
-                    mod.NPCType("PlagueBeeG"),
-                    mod.NPCType("PlagueBeeLarge"),
-                    mod.NPCType("PlagueBee")
-                };
-                bool shouldAffect = beeEnemyList.Contains(npc.type);
-                if (shouldAffect)
+                if (CalamityMod.beeEnemyList.Contains(npc.type))
 				{
 					damage = (int)((double)damage * 0.75);
 				}
@@ -1588,7 +1384,7 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
             {
-                npc.chaseable = !AnyBossNPCS();
+                npc.chaseable = Main.player[npc.target].townNPCs >= 3f;
             }
             #region BossRush
             if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
@@ -5899,7 +5695,7 @@ namespace CalamityMod.NPCs
             {
                 npc.buffImmune[mod.BuffType("Enraged")] = false;
             }
-            if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+            if (SCal > -1)
             {
                 if (!npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && npc.type != mod.NPCType("SupremeCalamitas"))
                 {
@@ -7229,7 +7025,7 @@ namespace CalamityMod.NPCs
                         if (npc.ai[0] < 0f)
                         {
                             this.newAI[0] += 1f;
-                            if (this.newAI[0] >= 120f)
+                            if (this.newAI[0] >= 240f)
                             {
                                 this.newAI[0] = 0f;
                                 if (Main.netMode != 1 && NPC.CountNPCS(NPCID.Creeper) < 15)
@@ -7244,7 +7040,7 @@ namespace CalamityMod.NPCs
                     else
                     {
                         this.newAI[0] += 1f;
-                        if (this.newAI[0] >= 180f)
+                        if (this.newAI[0] >= 300f)
                         {
                             this.newAI[0] = 0f;
                             if (Main.netMode != 1 && NPC.CountNPCS(NPCID.Creeper) < 10)
@@ -7950,31 +7746,7 @@ namespace CalamityMod.NPCs
             }
             if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).statisBeltOfCurses)
             {
-                List<int> projectileMinionList = new List<int>(20)
-                {
-                    195,
-                    423,
-                    433,
-                    614,
-                    408,
-                    389,
-                    376,
-                    374,
-                    664,
-                    666,
-                    668,
-                    680,
-                    694,
-                    695,
-                    696,
-                    378,
-                    379,
-                    309,
-                    642,
-                    644
-                };
-                bool shouldAffect = projectileMinionList.Contains(projectile.type);
-                if ((projectile.minion || shouldAffect) && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage &&
+                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage &&
                     Main.rand.Next(15) == 0 && npc.type != 477 && npc.type != 327 && npc.type != 135 && npc.type != 136 && npc.type != 325 &&
                     npc.type != 344 && npc.type != 346 && npc.type != 345 && npc.type != mod.NPCType("Reaper") && npc.type != mod.NPCType("Mauler") &&
                     npc.type != mod.NPCType("EidolonWyrmHead") && npc.type != mod.NPCType("EidolonWyrmHeadHuge") && npc.type != mod.NPCType("ColossalSquid"))
@@ -8092,61 +7864,75 @@ namespace CalamityMod.NPCs
                 if (npc.type == mod.NPCType("ProfanedGuardianBoss"))
                 {
                     CalamityPlayer.bossRushStage = 7;
+                    DespawnProj();
                 }
                 else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
                 {
                     if (npc.boss)
                     {
                         CalamityPlayer.bossRushStage = 8;
+                        DespawnProj();
                     }
                 }
                 else if (npc.type == mod.NPCType("Astrageldon"))
                 {
                     CalamityPlayer.bossRushStage = 9;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("Bumblefuck"))
                 {
                     CalamityPlayer.bossRushStage = 12;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("HiveMindP2"))
                 {
                     CalamityPlayer.bossRushStage = 14;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("StormWeaverHeadNaked"))
                 {
                     CalamityPlayer.bossRushStage = 16;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("AquaticScourgeHead"))
                 {
                     CalamityPlayer.bossRushStage = 17;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("DesertScourgeHead"))
                 {
                     CalamityPlayer.bossRushStage = 18;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("CrabulonIdle"))
                 {
                     CalamityPlayer.bossRushStage = 20;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("CeaselessVoid"))
                 {
                     CalamityPlayer.bossRushStage = 22;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("PerforatorHive"))
                 {
                     CalamityPlayer.bossRushStage = 23;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("Cryogen"))
                 {
                     CalamityPlayer.bossRushStage = 24;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("BrimstoneElemental"))
                 {
                     CalamityPlayer.bossRushStage = 25;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("CosmicWraith"))
                 {
                     CalamityPlayer.bossRushStage = 26;
+                    DespawnProj();
                     string key = "Mods.CalamityMod.BossRushTierThreeEndText";
                     Color messageColor = Color.LightCoral;
                     if (Main.netMode == 0)
@@ -8161,22 +7947,27 @@ namespace CalamityMod.NPCs
                 else if (npc.type == mod.NPCType("ScavengerBody"))
                 {
                     CalamityPlayer.bossRushStage = 27;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("AstrumDeusHeadSpectral"))
                 {
                     CalamityPlayer.bossRushStage = 30;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("Polterghast"))
                 {
                     CalamityPlayer.bossRushStage = 31;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("PlaguebringerGoliath"))
                 {
                     CalamityPlayer.bossRushStage = 32;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("CalamitasRun3"))
                 {
                     CalamityPlayer.bossRushStage = 33;
+                    DespawnProj();
                     string key = "Mods.CalamityMod.BossRushTierFourEndText";
                     Color messageColor = Color.LightCoral;
                     if (Main.netMode == 0)
@@ -8194,6 +7985,7 @@ namespace CalamityMod.NPCs
                     if (!NPC.AnyNPCs(bossType))
                     {
                         CalamityPlayer.bossRushStage = 34;
+                        DespawnProj();
                     }
                 }
                 else if (npc.type == mod.NPCType("SlimeGodCore") || npc.type == mod.NPCType("SlimeGodSplit") || npc.type == mod.NPCType("SlimeGodRunSplit"))
@@ -8202,33 +7994,40 @@ namespace CalamityMod.NPCs
                         && !NPC.AnyNPCs(mod.NPCType("SlimeGod")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")))
                     {
                         CalamityPlayer.bossRushStage = 35;
+                        DespawnProj();
                     }
                     else if (npc.type == mod.NPCType("SlimeGodSplit") && !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit")) &&
                         NPC.CountNPCS(mod.NPCType("SlimeGodSplit")) < 2 && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")))
                     {
                         CalamityPlayer.bossRushStage = 35;
+                        DespawnProj();
                     }
                     else if (npc.type == mod.NPCType("SlimeGodRunSplit") && !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) &&
                         NPC.CountNPCS(mod.NPCType("SlimeGodRunSplit")) < 2 && !NPC.AnyNPCs(mod.NPCType("SlimeGod")))
                     {
                         CalamityPlayer.bossRushStage = 35;
+                        DespawnProj();
                     }
                 }
                 else if (npc.type == mod.NPCType("Providence"))
                 {
                     CalamityPlayer.bossRushStage = 36;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("SupremeCalamitas"))
                 {
                     CalamityPlayer.bossRushStage = 37;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("Yharon"))
                 {
                     CalamityPlayer.bossRushStage = 38;
+                    DespawnProj();
                 }
                 else if (npc.type == mod.NPCType("DevourerofGodsHeadS"))
                 {
                     CalamityPlayer.bossRushStage = 0;
+                    DespawnProj();
                     CalamityWorld.bossRushActive = false;
                     if (Main.netMode == 2)
                     {
@@ -8254,24 +8053,31 @@ namespace CalamityMod.NPCs
                 {
                     case NPCID.QueenBee:
                         CalamityPlayer.bossRushStage = 1;
+                        DespawnProj();
                         break;
                     case NPCID.BrainofCthulhu:
                         CalamityPlayer.bossRushStage = 2;
+                        DespawnProj();
                         break;
                     case NPCID.KingSlime:
                         CalamityPlayer.bossRushStage = 3;
+                        DespawnProj();
                         break;
                     case NPCID.EyeofCthulhu:
                         CalamityPlayer.bossRushStage = 4;
+                        DespawnProj();
                         break;
                     case NPCID.SkeletronPrime:
                         CalamityPlayer.bossRushStage = 5;
+                        DespawnProj();
                         break;
                     case NPCID.Golem:
                         CalamityPlayer.bossRushStage = 6;
+                        DespawnProj();
                         break;
                     case NPCID.TheDestroyer:
                         CalamityPlayer.bossRushStage = 10;
+                        DespawnProj();
                         string key = "Mods.CalamityMod.BossRushTierOneEndText";
                         Color messageColor = Color.LightCoral;
                         if (Main.netMode == 0)
@@ -8285,18 +8091,23 @@ namespace CalamityMod.NPCs
                         break;
                     case NPCID.Spazmatism:
                         CalamityPlayer.bossRushStage = 11;
+                        DespawnProj();
                         break;
                     case NPCID.Retinazer:
                         CalamityPlayer.bossRushStage = 11;
+                        DespawnProj();
                         break;
                     case NPCID.WallofFlesh:
                         CalamityPlayer.bossRushStage = 13;
+                        DespawnProj();
                         break;
                     case NPCID.SkeletronHead:
                         CalamityPlayer.bossRushStage = 15;
+                        DespawnProj();
                         break;
                     case NPCID.CultistBoss:
                         CalamityPlayer.bossRushStage = 19;
+                        DespawnProj();
                         string key2 = "Mods.CalamityMod.BossRushTierTwoEndText";
                         Color messageColor2 = Color.LightCoral;
                         if (Main.netMode == 0)
@@ -8310,12 +8121,15 @@ namespace CalamityMod.NPCs
                         break;
                     case NPCID.Plantera:
                         CalamityPlayer.bossRushStage = 21;
+                        DespawnProj();
                         break;
                     case NPCID.DukeFishron:
                         CalamityPlayer.bossRushStage = 28;
+                        DespawnProj();
                         break;
                     case NPCID.MoonLordCore:
                         CalamityPlayer.bossRushStage = 29;
+                        DespawnProj();
                         break;
                     default:
                         break;
@@ -8417,11 +8231,11 @@ namespace CalamityMod.NPCs
         #region NPCLoot
         public override void NPCLoot(NPC npc)
 		{
-            if (DraedonMayhem != 0)
+            if (DraedonMayhem)
             {
                 if (!AnyBossNPCS())
                 {
-                    DraedonMayhem = 0;
+                    DraedonMayhem = false;
                     if (Main.netMode == 2)
                     {
                         NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
@@ -10248,13 +10062,7 @@ namespace CalamityMod.NPCs
 	                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DesertFeather"));
 	        	}
 	        }
-			else if (npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.Paladin ||
-	    	   npc.type == NPCID.GiantCursedSkull || npc.type == NPCID.BoneLee || npc.type == NPCID.DiabolistWhite || npc.type == NPCID.DiabolistRed || 
-	    	   npc.type == NPCID.NecromancerArmored || npc.type == NPCID.Necromancer || npc.type == NPCID.RaggedCasterOpenCoat || npc.type == NPCID.RaggedCaster || 
-	    	   npc.type == NPCID.HellArmoredBonesSword || npc.type == NPCID.HellArmoredBonesMace || npc.type == NPCID.HellArmoredBonesSpikeShield || 
-	    	   npc.type == NPCID.HellArmoredBones || npc.type == NPCID.BlueArmoredBonesSword || npc.type == NPCID.BlueArmoredBonesNoPants || 
-	    	   npc.type == NPCID.BlueArmoredBonesMace || npc.type == NPCID.BlueArmoredBones || npc.type == NPCID.RustyArmoredBonesSwordNoArmor || 
-	    	   npc.type == NPCID.RustyArmoredBonesSword || npc.type == NPCID.RustyArmoredBonesFlail || npc.type == NPCID.RustyArmoredBonesAxe)
+			else if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
 	        {
 	        	if (Main.expertMode)
 	        	{
@@ -10524,62 +10332,65 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.WallofFlesh)
 			{
-                if (!CalamityWorld.spawnAstralMeteor)
+                if (CalamityWorld.checkAstralMeteor())
                 {
-                    string key = "Mods.CalamityMod.AstralText";
-                    Color messageColor = Color.Gold;
-                    if (Main.netMode == 0)
+                    if (!CalamityWorld.spawnAstralMeteor)
                     {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
+                        string key = "Mods.CalamityMod.AstralText";
+                        Color messageColor = Color.Gold;
+                        if (Main.netMode == 0)
+                        {
+                            Main.NewText(Language.GetTextValue(key), messageColor);
+                        }
+                        else if (Main.netMode == 2)
+                        {
+                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                        }
+                        CalamityWorld.spawnAstralMeteor = true;
+                        if (Main.netMode == 2)
+                        {
+                            NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                        CalamityWorld.dropAstralMeteor();
                     }
-                    else if (Main.netMode == 2)
+                    else if (Main.rand.Next(2) == 0 && !CalamityWorld.spawnAstralMeteor2)
                     {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                        string key = "Mods.CalamityMod.AstralText";
+                        Color messageColor = Color.Gold;
+                        if (Main.netMode == 0)
+                        {
+                            Main.NewText(Language.GetTextValue(key), messageColor);
+                        }
+                        else if (Main.netMode == 2)
+                        {
+                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                        }
+                        CalamityWorld.spawnAstralMeteor2 = true;
+                        if (Main.netMode == 2)
+                        {
+                            NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                        CalamityWorld.dropAstralMeteor();
                     }
-                    CalamityWorld.spawnAstralMeteor = true;
-                    if (Main.netMode == 2)
+                    else if (Main.rand.Next(4) == 0 && !CalamityWorld.spawnAstralMeteor3)
                     {
-                        NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                        string key = "Mods.CalamityMod.AstralText";
+                        Color messageColor = Color.Gold;
+                        if (Main.netMode == 0)
+                        {
+                            Main.NewText(Language.GetTextValue(key), messageColor);
+                        }
+                        else if (Main.netMode == 2)
+                        {
+                            NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                        }
+                        CalamityWorld.spawnAstralMeteor3 = true;
+                        if (Main.netMode == 2)
+                        {
+                            NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                        }
+                        CalamityWorld.dropAstralMeteor();
                     }
-                    CalamityWorld.dropAstralMeteor();
-                }
-                else if (Main.rand.Next(2) == 0 && !CalamityWorld.spawnAstralMeteor2)
-                {
-                    string key = "Mods.CalamityMod.AstralText";
-                    Color messageColor = Color.Gold;
-                    if (Main.netMode == 0)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == 2)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                    CalamityWorld.spawnAstralMeteor2 = true;
-                    if (Main.netMode == 2)
-                    {
-                        NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                    CalamityWorld.dropAstralMeteor();
-                }
-                else if (Main.rand.Next(4) == 0 && !CalamityWorld.spawnAstralMeteor3)
-                {
-                    string key = "Mods.CalamityMod.AstralText";
-                    Color messageColor = Color.Gold;
-                    if (Main.netMode == 0)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == 2)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                    CalamityWorld.spawnAstralMeteor3 = true;
-                    if (Main.netMode == 2)
-                    {
-                        NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                    CalamityWorld.dropAstralMeteor();
                 }
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MLGRune"));
                 if (Main.rand.Next(5) == 0)
@@ -11596,6 +11407,176 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+        #region GetChat
+        public override void GetChat(NPC npc, ref string chat)
+        {
+            switch (npc.type)
+            {
+                case NPCID.Guide:
+                    if (Main.rand.Next(20) == 0 && Main.hardMode)
+                        chat = "Could you be so kind as to, ah...check hell for me...? I left someone I kind of care about down there.";
+                    if (Main.rand.Next(20) == 0 && CalamityWorld.spawnAstralMeteor)
+                        chat = "I have this sudden shiver up my spine, like a meteor just fell and thousands of innocent creatures turned into monsters from the stars.";
+                    if (Main.rand.Next(20) == 0 && NPC.downedMoonlord)
+                        chat = "The dungeon seems even more restless than usual, watch out for the powerful abominations stirring up in there.";
+                    if (Main.rand.Next(20) == 0 && CalamityWorld.downedProvidence)
+                        chat = "Seems like extinguishing that butterfly caused its life to seep into the hallowed areas, try taking a peek there and see what you can find!";
+                    if (Main.rand.Next(20) == 0 && CalamityWorld.downedProvidence)
+                        chat = "I've heard there is a portal of antimatter absorbing everything it can see in the dungeon, try using the Rune of Kos there!";
+                    break;
+                case NPCID.PartyGirl:
+                    int fapsol = NPC.FindFirstNPC(mod.NPCType("FAP"));
+                    if (Main.rand.Next(10) == 0 && fapsol != -1)
+                        chat = "I have a feeling we're going to have absolutely fantastic parties with " + Main.npc[fapsol].GivenName + " around!";
+                    if (Main.rand.Next(5) == 0 && Main.eclipse)
+                        chat = "I think my light display is turning into an accidental bug zapper. At least the monsters are enjoying it.";
+                    if (Main.rand.Next(5) == 0 && Main.eclipse)
+                        chat = "Ooh! I love parties where everyone wears a scary costume!";
+                    break;
+                case NPCID.Wizard:
+                    int permadong = NPC.FindFirstNPC(mod.NPCType("DILF"));
+                    if (Main.rand.Next(10) == 0 && permadong != -1)
+                        chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
+                    if (Main.rand.Next(10) == 0 && CalamityWorld.spawnAstralMeteor)
+                        chat = "Space just got way too close for comfort.";
+                    break;
+                case NPCID.Dryad:
+                    if (Main.rand.Next(5) == 0 && CalamityWorld.buffedEclipse && Main.eclipse)
+                        chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
+                    if (Main.rand.Next(10) == 0 && CalamityWorld.spawnAstralMeteor)
+                        chat = "That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?";
+                    break;
+                case NPCID.Stylist:
+                    int fapsol2 = NPC.FindFirstNPC(mod.NPCType("FAP"));
+                    string worldEvil = WorldGen.crimson ? "Crimson" : "Corruption";
+                    if (Main.rand.Next(15) == 0 && fapsol2 != -1)
+                        chat = "Sometimes I catch " + Main.npc[fapsol2].GivenName + " sneaking up from behind me.";
+                    if (Main.rand.Next(15) == 0 && CalamityWorld.spawnAstralMeteor)
+                        chat = "Please don't catch space lice. Or " + worldEvil + " lice. Or just lice in general.";
+                    break;
+                case NPCID.GoblinTinkerer:
+                    if (Main.rand.Next(10) == 0 && NPC.downedMoonlord)
+                        chat = "You know...we haven't had an invasion in a while...";
+                    break;
+                case NPCID.ArmsDealer:
+                    if (Main.rand.Next(5) == 0 && Main.eclipse)
+                        chat = "That's the biggest moth I've ever seen for sure. You'd need one big gun to take one of those down.";
+                    if (Main.rand.Next(10) == 0 && CalamityWorld.downedDoG)
+                        chat = "Is it me or are your weapons getting bigger and bigger?";
+                    break;
+                case NPCID.Merchant:
+                    if (Main.rand.Next(5) == 0 && NPC.downedMoonlord)
+                        chat = "Each night seems only more foreboding than the last. I feel unthinkable terrors are watching your every move.";
+                    if (Main.rand.Next(5) == 0 && Main.eclipse)
+                        chat = "Are you daft?! Turn off those lamps!";
+                    if (Main.rand.Next(5) == 0 && Main.raining && NPC.downedMoonlord)
+                        chat = "If this acid rain keeps up, there'll be a shortage of Dirt Blocks soon enough!";
+                    break;
+                case NPCID.Mechanic:
+                    int fapsol3 = NPC.FindFirstNPC(mod.NPCType("FAP"));
+                    if (Main.rand.Next(5) == 0 && NPC.downedMoonlord)
+                        chat = "What do you mean your traps aren't making the cut? Don't look at me!";
+                    if (Main.rand.Next(5) == 0 && Main.eclipse)
+                        chat = "Um...should my nightlight be on?";
+                    if (Main.rand.Next(5) == 0 && fapsol3 != -1)
+                        chat = "Well, I like " + Main.npc[fapsol3].GivenName + ", but I, ah...I have my eyes on someone else.";
+                    break;
+                case NPCID.DD2Bartender:
+                    int fapsol4 = NPC.FindFirstNPC(mod.NPCType("FAP"));
+                    if (Main.rand.Next(5) == 0 && !Main.dayTime && Main.moonPhase == 0)
+                        chat = "Care for a little Moonshine?";
+                    if (Main.rand.Next(10) == 0 && fapsol4 != -1)
+                        chat = "Sheesh, " + Main.npc[fapsol4].GivenName + " is a little cruel, isn't she? I never claimed to be an expert on anything but ale!";
+                    break;
+                case NPCID.Pirate:
+                    if (Main.rand.Next(5) == 0 && !CalamityWorld.downedLeviathan)
+                        chat = "Aye, I’ve heard of a mythical creature in the oceans, singing with an alluring voice. Careful when yer fishin out there.";
+                    if (Main.rand.Next(5) == 0 && CalamityWorld.downedAquaticScourge)
+                        chat = "I have to thank ye again for takin' care of that sea serpent. Or was that another one...";
+                    break;
+                case NPCID.Cyborg:
+                    if (Main.rand.Next(10) == 0 && Main.raining)
+                        chat = "All these moments will be lost in time. Like tears...in the rain.";
+                    if (Main.rand.Next(10) == 0 && NPC.downedMoonlord)
+                        chat = "Always shoot for the moon! It has clearly worked before.";
+                    if (Main.rand.Next(10) == 0 && NPC.downedMoonlord)
+                        chat = "Draedon? He's...a little 'high octane' if you know what I mean.";
+                    if (Main.rand.Next(10) == 0 && !CalamityWorld.downedPlaguebringer && NPC.downedGolemBoss)
+                        chat = "Those oversized bugs terrorizing the jungle... Surely you of all people could shut them down!";
+                    break;
+                case NPCID.Clothier:
+                    if (Main.rand.Next(10) == 0 && NPC.downedMoonlord)
+                        chat = "Who you gonna call?";
+                    if (Main.rand.Next(10) == 0 && NPC.downedMoonlord)
+                        chat = "Those screams...I’m not sure why, but I feel like a nameless fear has awoken in my heart.";
+                    if (Main.rand.Next(10) == 0 && NPC.downedMoonlord)
+                        chat = "I can faintly hear ghostly shrieks from the dungeon...and not ones I’m familiar with at all. Just what is going on in there?";
+                    if (Main.rand.Next(10) == 0 && CalamityWorld.downedPolterghast)
+                        chat = "Whatever that thing was, I’m glad it’s gone now.";
+                    if (Main.rand.Next(5) == 0 && NPC.AnyNPCs(NPCID.MoonLordCore))
+                        chat = "Houston, we've had a problem.";
+                    break;
+                case NPCID.Steampunker:
+                    bool hasPortalGun = false;
+                    for (int k = 0; k < 255; k++)
+                    {
+                        Player player = Main.player[k];
+                        if (player.active)
+                        {
+                            for (int j = 0; j < player.inventory.Length; j++)
+                            {
+                                if (player.inventory[j].type == ItemID.PortalGun)
+                                {
+                                    hasPortalGun = true;
+                                }
+                            }
+                        }
+                    }
+                    if (Main.rand.Next(5) == 0 && NPC.downedMoonlord)
+                        chat = "Yep! I'm also considering being a space pirate now.";
+                    if (Main.rand.Next(5) == 0 && hasPortalGun)
+                        chat = "Just what is that contraption? It makes my Teleporters look like child's play!";
+                    break;
+                case NPCID.DyeTrader:
+                    int permadong2 = NPC.FindFirstNPC(mod.NPCType("DILF"));
+                    if (Main.rand.Next(5) == 0)
+                        chat = "Have you seen those gemstone creatures in the caverns? Their colors are simply breathtaking!";
+                    if (Main.rand.Next(5) == 0 && permadong2 != -1)
+                        chat = "Do you think " + Main.npc[permadong2].GivenName + " knows how to 'let it go?'";
+                    break;
+                case NPCID.TaxCollector:
+                    int platinumCoins = 0;
+                    for (int k = 0; k < 255; k++)
+                    {
+                        Player player = Main.player[k];
+                        if (player.active)
+                        {
+                            for (int j = 0; j < player.inventory.Length; j++)
+                            {
+                                if (player.inventory[j].type == ItemID.PlatinumCoin)
+                                {
+                                    platinumCoins = player.inventory[j].stack;
+                                }
+                            }
+                        }
+                    }
+                    if (Main.rand.Next(5) == 0 && platinumCoins >= 100)
+                        chat = "BAH! Doesn't seem like I'll ever be able to quarrel with the debts of the town again!";
+                    if (Main.rand.Next(5) == 0 && platinumCoins >= 500)
+                        chat = "Where and how are you getting all of this money?";
+                    if (Main.rand.Next(5) == 0 && !CalamityWorld.downedBrimstoneElemental)
+                        chat = "Perhaps with all that time you've got you could check those old ruins? Certainly something of value in it for you!";
+                    if (Main.rand.Next(10) == 0 && CalamityWorld.downedDoG)
+                        chat = "Devourer of what, you said? Devourer of Funds, if its payroll is anything to go by!";
+                    break;
+                case NPCID.Demolitionist:
+                    if (Main.rand.Next(5) == 0 && CalamityWorld.downedDoG)
+                        chat = "God Slayer Dynamite? Boy do I like the sound of that!";
+                    break;
+            }
+        }
+        #endregion
+
         #region ShopStuff
         public override void SetupShop(int type, Chest shop, ref int nextSlot)
 		{
@@ -11808,6 +11789,12 @@ namespace CalamityMod.NPCs
 					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
 			        nextSlot++;
 				}
+                if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral && CalamityWorld.spawnAstralMeteor)
+                {
+                    shop.item[nextSlot].SetDefaults(mod.ItemType("AstralSolution"));
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 25, 0);
+                    nextSlot++;
+                }
 			}
 			if (type == NPCID.Wizard)
 			{
@@ -11939,8 +11926,24 @@ namespace CalamityMod.NPCs
             return false;
         }
         #endregion
-		
-		#region Astral things
+
+        #region DespawnHostileProjectiles
+        public void DespawnProj()
+        {
+            int proj;
+            for (int x = 0; x < 1000; x = proj + 1)
+            {
+                Projectile projectile = Main.projectile[x];
+                if (projectile.active && projectile.hostile && !projectile.friendly && projectile.damage > 0)
+                {
+                    projectile.Kill();
+                }
+                proj = x;
+            }
+        }
+        #endregion
+
+        #region Astral things
         public static void DoHitDust(NPC npc, int hitDirection, int dustType = 5, float xSpeedMult = 1f, int numHitDust = 5, int numDeathDust = 20)
         {
             for (int k = 0; k < 5; k++)
@@ -11963,13 +11966,10 @@ namespace CalamityMod.NPCs
             {
                 npc.TargetClosest(true);
             }
-
             Player myTarget = Main.player[npc.target];
             Vector2 toTarget = (myTarget.Center - npc.Center);
             float distanceToTarget = toTarget.Length();
-
             Vector2 maxVelocity = toTarget;
-
             if (distanceToTarget < 3f)
             {
                 maxVelocity = npc.velocity;
@@ -11979,7 +11979,6 @@ namespace CalamityMod.NPCs
                 float magnitude = maxSpeed / distanceToTarget;
                 maxVelocity *= magnitude;
             }
-
             //Circular motion
             npc.ai[0]++;
             //y motion
@@ -12005,19 +12004,16 @@ namespace CalamityMod.NPCs
             {
                 npc.ai[0] = 0f;
             }
-
             //if close enough
             if (shouldAttackTarget && distanceToTarget < minDistanceTarget)
             {
                 npc.velocity += maxVelocity * 0.007f;
             }
-
             if (myTarget.dead)
             {
                 maxVelocity.X = npc.direction * maxSpeed / 2f;
                 maxVelocity.Y = -maxSpeed / 2f;
             }
-
             //maximise velocity
             if (npc.velocity.X < maxVelocity.X)
             {
@@ -12035,7 +12031,6 @@ namespace CalamityMod.NPCs
             {
                 npc.velocity.Y -= acceleration;
             }
-
             //rotate towards player if alive
             if (!myTarget.dead)
             {
@@ -12045,9 +12040,7 @@ namespace CalamityMod.NPCs
             {
                 npc.rotation = npc.velocity.ToRotation();
             }
-
             npc.rotation += MathHelper.Pi;
-
             //tile collision
             float collisionDamp = 0.7f;
             if (npc.collideX)
@@ -12076,7 +12069,6 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y = -1.5f;
                 }
             }
-
             //water collision
             if (npc.wet)
             {
@@ -12087,7 +12079,6 @@ namespace CalamityMod.NPCs
                 npc.velocity.Y -= 0.3f;
                 if (npc.velocity.Y < -2f) npc.velocity.Y = -2f;
             }
-
             //Taken from source. Important for net?
             if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
             {
@@ -12102,10 +12093,8 @@ namespace CalamityMod.NPCs
             {
                 npc.TargetClosest();
             }
-
             Vector2 between = Main.player[npc.target].Center - npc.Center;
             float distance = between.Length();
-
             //modify vector depending on distance and speed.
             if (distance == 0f)
             {
@@ -12118,16 +12107,13 @@ namespace CalamityMod.NPCs
                 between.X *= distance;
                 between.Y *= distance;
             }
-
             //update if target dead.
             if (Main.player[npc.target].dead)
             {
                 between.X = (float)npc.direction * chaseMaxSpeed / 2f;
                 between.Y = -chaseMaxSpeed / 2f;
             }
-
             npc.spriteDirection = -1;
-
             //If spider can't see target, circle around to attempt to find the target.
             if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
             {
@@ -12153,11 +12139,9 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[0] = -200f;
                 }
-
                 npc.velocity.X += between.X * 0.007f;
                 npc.velocity.Y += between.Y * 0.007f;
                 npc.rotation = npc.velocity.ToRotation();
-
                 if (npc.velocity.X > 1.5f)
                 {
                     npc.velocity.X *= 0.9f;
@@ -12213,7 +12197,6 @@ namespace CalamityMod.NPCs
                 }
                 npc.rotation = between.ToRotation();
             }
-
             //DAMP COLLISIONS OFF OF WALLS
             float collisionDamp = 0.5f;
             if (npc.collideX)
@@ -12242,12 +12225,10 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y = -2f;
                 }
             }
-
             if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
             {
                 npc.netUpdate = true;
             }
-
             if (Main.netMode != 1)
             {
                 int x = (int)npc.Center.X / 16;
@@ -12332,7 +12313,6 @@ namespace CalamityMod.NPCs
                         npc.velocity.Y = -1f;
                     }
                 }
-
                 if (npc.direction == -1 && npc.velocity.X > -maxSpeed)
                 {
                     npc.velocity.X -= acceleration;
@@ -12410,7 +12390,6 @@ namespace CalamityMod.NPCs
                 }
             }
         }
-
         /// <summary>
         /// Allows you to spawn dust on the NPC in a certain place. Uses the npc.position value as the base point for the rectangle.
         /// Takes direction and rotation into account.
@@ -12426,7 +12405,6 @@ namespace CalamityMod.NPCs
             {
                 rect.X = frameWidth - rect.Right;
             }
-
             if (Main.rand.NextFloat(1f) < chance)
             {
                 Vector2 offset = (npc.Center - half + new Vector2(Main.rand.NextFloat(rect.Left, rect.Right), Main.rand.NextFloat(rect.Top, rect.Bottom))) - npc.Center;
@@ -12436,6 +12414,6 @@ namespace CalamityMod.NPCs
             }
             return null;
         }
-		#endregion
+        #endregion
     }
 }

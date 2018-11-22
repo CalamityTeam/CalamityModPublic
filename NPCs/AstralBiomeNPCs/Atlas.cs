@@ -89,12 +89,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Atlas");
-            Main.npcFrameCount[npc.type] = 6; 
+            Main.npcFrameCount[npc.type] = 6;
             //not really important seeing as custom drawing, but for heights sake, 6
             //also it's visuals are messed up on npc spawners etc. because the sheet is 3 wide.
             //not much we can do. looks fine in-game so /shrug
             if (!Main.dedServ)
-				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AtlasGlow");
+                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/AtlasGlow");
         }
 
         public override void SetDefaults()
@@ -224,7 +224,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
                         swingYeet = false;
 
-                        if (Main.rand.Next(1) == 0) //Launch the player very fast very rarely
+                        if (Main.rand.Next(1000) == 0) //Launch the player very fast very rarely
                         {
                             horMult = 12f;
                             verMult = 2.3f;
@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void HitEffect(int hitDirection, double damage)
         {
             //play sound
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt" + Main.rand.Next(3)), npc.Center);
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt0" + Main.rand.Next(3)), npc.Center);
 
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 30);
 
@@ -575,6 +575,15 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 return 0.06f;
             }
             return 0f;
+        }
+
+        public override void NPCLoot()
+        {
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(6, 9));
+            if (Main.expertMode)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+            }
         }
     }
 }

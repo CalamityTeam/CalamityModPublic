@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles
             projectile.height = 96;
             projectile.friendly = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 60;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 6;
         }

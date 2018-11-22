@@ -58,15 +58,23 @@ namespace CalamityMod.Items.Weapons
 	        {
 	        	float SpeedX = speedX + (float) Main.rand.Next(-40, 41) * 0.05f;
 	        	float SpeedY = speedY + (float) Main.rand.Next(-40, 41) * 0.05f;
-	    		switch (Main.rand.Next(4))
-				{
-	    			case 1: type = ProjectileID.VenomArrow; break;
-	    			case 2: type = ProjectileID.ChlorophyteArrow; break;
-	    			default: break;
-				}
-	    		int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
-				Main.projectile[index].noDropItem = true;
-	        }
+                if (type == ProjectileID.WoodenArrowFriendly)
+                {
+                    switch (Main.rand.Next(4))
+                    {
+                        case 1: type = ProjectileID.VenomArrow; break;
+                        case 2: type = ProjectileID.ChlorophyteArrow; break;
+                        default: break;
+                    }
+                    int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Main.projectile[index].noDropItem = true;
+                }
+                else
+                {
+                    int num121 = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Main.projectile[num121].noDropItem = true;
+                }
+            }
 	    	return false;
 		}
 	    

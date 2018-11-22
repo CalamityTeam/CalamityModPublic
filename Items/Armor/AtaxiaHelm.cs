@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
-            if (player.statLife <= (player.statLifeMax2 * 0.5f))
+            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Inferno, 2);
             }

@@ -29,10 +29,10 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.defense = 15;
 			animationType = 125;
 			npc.value = 0f;
-			npc.lifeMax = CalamityWorld.revenge ? 13500 : 10000;
+			npc.lifeMax = CalamityWorld.revenge ? 15000 : 10000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 20500;
+                npc.lifeMax = 22500;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Calamitas
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 2200000 : 1800000;
+                npc.lifeMax = CalamityWorld.death ? 2400000 : 2000000;
             }
         }
 		

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.TheDevourerofGods
         {
             item.width = 16;
             item.height = 14;
-            item.value = 513750;
+            item.value = 500000;
             item.accessory = true;
             item.expert = true;
         }

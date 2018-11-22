@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 5; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.Next(2) == 0)
 					{
@@ -228,10 +228,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 				for (int num623 = 0; num623 < 10; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				for (int num625 = 0; num625 < 3; num625++)

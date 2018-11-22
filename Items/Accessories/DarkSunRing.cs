@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Dark Sun Ring");
             Tooltip.SetDefault("Increase to damage, melee speed, critical strike chance, life regeneration,\n" +
                 "defense, pick speed, max minions, and minion knockback\n" +
-                "During the day the player has +3 life regen\n" +
-                "During the night the player has +30 defense\n" +
+                "During the day the player has +2 life regen\n" +
+                "During the night the player has +20 defense\n" +
                 "Contains the power of the dark sun");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
@@ -46,27 +46,27 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.darkSunRing = true;
             player.maxMinions += 1;
-            player.lifeRegen += 2;
-            player.statDefense += 8;
-            player.meleeSpeed += 0.1f;
-            player.meleeDamage += 0.1f;
-            player.meleeCrit += 4;
-            player.rangedDamage += 0.1f;
-            player.rangedCrit += 4;
-            player.magicDamage += 0.1f;
-            player.magicCrit += 4;
+            player.lifeRegen += 1;
+            player.statDefense += 5;
+            player.meleeSpeed += 0.05f;
+            player.meleeDamage += 0.05f;
+            player.meleeCrit += 5;
+            player.rangedDamage += 0.05f;
+            player.rangedCrit += 5;
+            player.magicDamage += 0.05f;
+            player.magicCrit += 5;
             player.pickSpeed -= 0.3f;
-            player.minionDamage += 0.1f;
+            player.minionDamage += 0.05f;
             player.minionKB += 1f;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 4;
+            player.thrownDamage += 0.05f;
+            player.thrownCrit += 5;
             if (Main.dayTime)
             {
-                player.lifeRegen += 3;
+                player.lifeRegen += 2;
             }
             else
             {
-                player.statDefense += 30;
+                player.statDefense += 20;
             }
         }
 

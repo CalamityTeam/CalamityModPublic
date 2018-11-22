@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Worm Scarf");
-            Tooltip.SetDefault("15% increased damage reduction and increased melee stats");
+            Tooltip.SetDefault("10% increased damage reduction and increased melee stats");
         }
 
         public override void SetDefaults()
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             player.meleeDamage += 0.1f;
             player.meleeSpeed += 0.1f;
-            player.endurance += 0.15f;
+            player.endurance += 0.1f;
         }
 
         public override void AddRecipes()

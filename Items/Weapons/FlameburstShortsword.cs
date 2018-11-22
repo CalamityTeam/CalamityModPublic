@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons
 	    {
 	    	if (target.life <= (target.lifeMax * 0.5f))
 	    	{
-	    		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, damage, knockback, Main.myPlayer);
+	    		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 	    	}
 		}
 	}

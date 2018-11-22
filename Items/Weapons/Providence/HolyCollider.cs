@@ -56,14 +56,8 @@ namespace CalamityMod.Items.Weapons.Providence
             for (i = 0; i < 4; i++)
             {
                 offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-                int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyFire2"), (int)((double)damage * 0.25), knockback, Main.myPlayer);
-                int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyFire2"), (int)((double)damage * 0.25), knockback, Main.myPlayer);
-                Main.projectile[projectile1].hostile = false;
-                Main.projectile[projectile1].friendly = true;
-                Main.projectile[projectile1].timeLeft = 60;
-                Main.projectile[projectile2].hostile = false;
-                Main.projectile[projectile2].friendly = true;
-                Main.projectile[projectile2].timeLeft = 60;
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyColliderHolyFire"), (int)((double)((float)item.damage * player.meleeDamage) * 0.4), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyColliderHolyFire"), (int)((double)((float)item.damage * player.meleeDamage) * 0.4), knockback, Main.myPlayer);
             }
         }
     }

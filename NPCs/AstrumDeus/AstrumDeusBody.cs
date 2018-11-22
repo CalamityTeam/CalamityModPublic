@@ -26,14 +26,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.width = 38; //324
 			npc.height = 44; //216
 			npc.defense = 45;
-            npc.lifeMax = CalamityWorld.revenge ? 10800 : 8000; //250000
+            npc.lifeMax = CalamityWorld.revenge ? 12000 : 8000; //250000
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 16400;
+                npc.lifeMax = 19400;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 700000 : 550000;
+                npc.lifeMax = CalamityWorld.death ? 740000 : 610000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -230,10 +230,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 				for (int num623 = 0; num623 < 10; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

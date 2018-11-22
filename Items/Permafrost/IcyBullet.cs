@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Permafrost
 		{
 			item.damage = 10;
 			item.ranged = true;
+            item.consumable = true;
 			item.width = 18;
 			item.height = 16;
 			item.knockBack = 2f;

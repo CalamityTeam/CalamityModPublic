@@ -51,8 +51,8 @@ namespace CalamityMod.Items.Weapons.Yharon
         {
             for (int i = 0; i <= 12; i++)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-65, 66) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-65, 66) * 0.05f;
+                float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
+                float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("DragonBurst"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;

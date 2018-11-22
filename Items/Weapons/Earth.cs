@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float speedX4 = num78;
 				float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("Earth"), damage, knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
+				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("Earth"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
 			}
 		}
 	

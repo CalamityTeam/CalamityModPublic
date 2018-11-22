@@ -15,9 +15,9 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Sponge");
             Tooltip.SetDefault("50% increased mining speed and you emit light\n" +
-                "12% increased damage reduction and increased life regen\n" +
+                "10% increased damage reduction and increased life regen\n" +
                 "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +
-                "Honey life regen with no speed penalty, +20 max life and mana\n" +
+                "Honey-like life regen with no speed penalty, +20 max life and mana\n" +
                 "Most bee/hornet enemies and projectiles do 75% damage to you\n" +
                 "120% increased jump speed and 12% increased movement speed\n" +
                 "Standing still boosts life and mana regen\n" +
@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.absorber = true;
             modPlayer.aAmpoule = true;
             player.statManaMax2 += 20;
-
         }
 
         public override void AddRecipes()

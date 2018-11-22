@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Music Box (Astrageldon)");
+            DisplayName.SetDefault("Music Box (Astrum Aureus)");
         }
 
         public override void SetDefaults()

@@ -59,9 +59,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
-                "For every ranged critical strike you get you will gain a small ranged damage boost\n" +
-                "This effect stacks up to 10%\n" +
-                "If you haven't gotten a crit in 2 seconds this effect will slowly wear off\n" +
+                "Ranged critical strikes will cause an explosion of leaves\n" +
                 "Ranged projectiles have a chance to split into life energy on death";
         }
 

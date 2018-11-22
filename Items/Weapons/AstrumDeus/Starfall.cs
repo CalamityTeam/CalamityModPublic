@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 	        item.value = 500000;
 	        item.UseSound = SoundID.Item105;
 	        item.autoReuse = true;
-	        item.shoot = mod.ProjectileType("AstralStar");
+	        item.shoot = mod.ProjectileType("AstralStarMagic");
 	        item.shootSpeed = 12f;
 	    }
 	    
@@ -61,8 +61,7 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
             {
                 float speedX4 = 2f + (float)Main.rand.Next(-8, 5);
                 float speedY5 = 15f + (float)Main.rand.Next(1, 6);
-                int star = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[star].magic = true;
+                int star = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 1f, 0f);
             }
             return false;
 	    }

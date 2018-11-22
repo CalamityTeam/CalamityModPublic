@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Yharim's Insignia");
             Tooltip.SetDefault("10% increased damage when under 50% life\n" +
                 "Increased melee speed as health lowers\n" +
-                "7% increased melee speed and damage\n" +
+                "5% increased melee speed and damage\n" +
                 "Melee attacks inflict holy fire\n" +
                 "Increased invincibility after taking damage\n" +
                 "You are immune to lava\n" +
@@ -48,8 +48,8 @@ namespace CalamityMod.Items.Accessories
             modPlayer.yInsignia = true;
             player.longInvince = true;
             player.kbGlove = true;
-            player.meleeDamage += 0.07f;
-            player.meleeSpeed += 0.07f;
+            player.meleeDamage += 0.05f;
+            player.meleeSpeed += 0.05f;
             player.lavaImmune = true;
             if (player.statLife <= (player.statLifeMax2 * 0.5f))
             {

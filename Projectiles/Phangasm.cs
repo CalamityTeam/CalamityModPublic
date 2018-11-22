@@ -37,19 +37,15 @@ namespace CalamityMod.Projectiles
 			}
 			projectile.ai[0] += 1f;
 			int num39 = 0;
-			if (projectile.ai[0] >= 30f)
-			{
-				num39++;
-			}
-			if (projectile.ai[0] >= 60f)
-			{
-				num39++;
-			}
 			if (projectile.ai[0] >= 90f)
 			{
 				num39++;
 			}
-			if (projectile.ai[0] >= 120f)
+			if (projectile.ai[0] >= 180f)
+			{
+				num39++;
+			}
+			if (projectile.ai[0] >= 270f)
 			{
 				num39++;
 			}

@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons
 		{
 	    	if (player.altFunctionUse == 2)
 	    	{
-	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Razorwind"), (int)((double)damage * 0.5f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Razorwind"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    		return false;
 	    	}
 	    	else
@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrinyTyphoonBubble"), damage, knockback, player.whoAmI);
+	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrinyTyphoonBubble"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI);
 		}
 	}
 }

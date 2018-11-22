@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             DisplayName.SetDefault("Stellar Culex");
             if (!Main.dedServ)
-				glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/StellarCulexGlow");
+                glowmask = mod.GetTexture("NPCs/AstralBiomeNPCs/StellarCulexGlow");
             Main.npcFrameCount[npc.type] = 4;
         }
 
@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.55f;
             npc.lifeMax = 320;
             npc.value = 700f;
-            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit");
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyDeath");
             npc.buffImmune[31] = false;
 
@@ -55,6 +54,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit" + Main.rand.Next(3)), npc.Center);
+
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 4, 22);
 
             //if dead do gores
@@ -80,6 +81,18 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 return 0.16f;
             }
             return 0f;
+        }
+
+        public override void NPCLoot()
+        {
+            if (Main.rand.Next(2) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(1, 3));
+            }
+            if (Main.expertMode)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+            }
         }
     }
 }

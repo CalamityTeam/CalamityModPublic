@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.value = 1250000;
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("NebulaShot");
+            item.shoot = mod.ProjectileType("MagicNebulaShot");
             item.shootSpeed = 18f;
         }
 
@@ -101,16 +101,8 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-50, 51) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-50, 51) * 0.02f;
-                int projectile1 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("NebulaShot"), num73, num74, i, 0f, (float)Main.rand.Next(10));
-                int projectile2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("IceBeam"), num73, num74, i, 0f, (float)Main.rand.Next(5));
-                Main.projectile[projectile1].tileCollide = false;
-                Main.projectile[projectile1].ranged = false;
-                Main.projectile[projectile1].magic = true;
-                Main.projectile[projectile1].timeLeft = 200;
-                Main.projectile[projectile2].tileCollide = false;
-                Main.projectile[projectile2].ranged = false;
-                Main.projectile[projectile2].magic = true;
-                Main.projectile[projectile2].timeLeft = 200;
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("MagicIceBeam"), num73, num74, i, 0f, (float)Main.rand.Next(5));
             }
             return false;
         }

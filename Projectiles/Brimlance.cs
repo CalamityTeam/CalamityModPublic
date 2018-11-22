@@ -79,10 +79,7 @@ namespace CalamityMod.Projectiles
         		int num251 = Main.rand.Next(2, 5);
         		if (projectile.owner == Main.myPlayer)
         		{
-        			int fire = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("HellfireExplosionFriendly"), (int)((double)projectile.damage * 0.75), knockback, Main.myPlayer);
-		        	Main.projectile[fire].timeLeft = 60;
-		        	Main.projectile[fire].magic = false;
-		        	Main.projectile[fire].melee = true;
+        			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimlanceHellfireExplosion"), (int)((double)projectile.damage * 0.75), knockback, Main.myPlayer);
 					for (int num252 = 0; num252 < num251; num252++)
 					{
 						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
@@ -92,8 +89,7 @@ namespace CalamityMod.Projectiles
 						}
 						value15.Normalize();
 						value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-						int standFire = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("StandingFire"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
-						Main.projectile[standFire].melee = true;
+						Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("BrimlanceStandingFire"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
 					}
         		}
         	}

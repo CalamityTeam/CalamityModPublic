@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
 				"Enemies take damage when they hit you\n" +
 				"Taking a hit will make you move very fast for a short time\n" +
 				"You emit a mushroom spore and spark explosion when you are hit\n" +
-				"6% increased damage reduction\n" +
+				"5% increased damage reduction\n" +
 				"Enemy attacks will have part of their damage absorbed and used to heal you");
 		}
 		

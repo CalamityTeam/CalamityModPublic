@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Scarf Boost");
-			Description.SetDefault("10% increased melee damage, crit chance, and speed");
+			Description.SetDefault("10% increased damage, crit chance, and melee speed");
 			Main.debuff[Type] = false;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;

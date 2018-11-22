@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles
 {
     public class CosmicEnergy : ModProjectile
     {
+        private bool justSpawned = true;
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Energy");
@@ -171,13 +173,13 @@ namespace CalamityMod.Projectiles
             bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon;
             int damageStatSmall = hasSummonerSet ? 1500 : 1000;
             int damageStatBig = hasSummonerSet ? 3000 : 2000;
+            if (justSpawned)
+            {
+                justSpawned = false;
+                projectile.ai[0] = 100f;
+            }
             if (projectile.owner == Main.myPlayer)
 			{
-                if (projectile.ai[2] == 0f)
-                {
-                    projectile.ai[2] = 1f;
-                    projectile.ai[0] = 100f;
-                }
 				if (projectile.ai[0] != 0f)
 				{
 					projectile.ai[0] -= 1f;

@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			aiType = -1;
             npc.value = Item.buyPrice(0, 0, 20, 0);
 			npc.HitSound = SoundID.NPCHit50;
-			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCDeath/Sunskater");
+			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
             npc.knockBackResist = 0.7f;
         }
 

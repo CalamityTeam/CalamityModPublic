@@ -28,8 +28,7 @@ namespace CalamityMod.Tiles
             (ushort)CalamityMod.Instance.TileType("AstralShortPlants"),
             (ushort)CalamityMod.Instance.TileType("AstralTallPlants")
         };
-		
-		
+
         public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
         {
             for (int k = 0; k < PlantTypes.Length; k++)
@@ -51,14 +50,13 @@ namespace CalamityMod.Tiles
         public override void PostDraw(int i, int j, int type, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
-        
+
             if (type == TileID.Cactus)
             {
                 //GRABBING VARIABLES FOR CERTAIN THINGS
                 Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
                 if (Main.drawToScreen)
                     zero = Vector2.Zero;
-
                 //TESTING STUFF
                 int frameX = tile.frameX;
                 int frameY = tile.frameY;
@@ -109,7 +107,6 @@ namespace CalamityMod.Tiles
                         astralCactus = true;
                     }
                 }
-
                 //Draw Glow
                 if (astralCactus)
                 {
@@ -118,12 +115,52 @@ namespace CalamityMod.Tiles
                 return;
             }
         }
-		
+
         public override bool Drop(int i, int j, int type)
         {
             if (type == 28)
             {
-                if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+                int x = Main.maxTilesX;
+                int y = Main.maxTilesY;
+                int genLimit = x / 2;
+                int abyssChasmSteps = y / 4;
+                int abyssChasmY = ((y - abyssChasmSteps) + (int)((double)y * 0.055)); //132 = 1932 large
+                if (y < 1500)
+                {
+                    abyssChasmY = ((y - abyssChasmSteps) + (int)((double)y * 0.095)); //114 = 1014 small
+                }
+                else if (y < 2100)
+                {
+                    abyssChasmY = ((y - abyssChasmSteps) + (int)((double)y * 0.0735)); //132 = 1482 medium
+                }
+                int abyssChasmX = (CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135));
+
+                bool abyssPosX = false;
+                bool sulphurPosX = false;
+                bool abyssPosY = (j <= abyssChasmY);
+                if (CalamityWorld.abyssSide)
+                {
+                    if (i < 380)
+                    {
+                        sulphurPosX = true;
+                    }
+                    if (i < abyssChasmX + 80)
+                    {
+                        abyssPosX = true;
+                    }
+                }
+                else
+                {
+                    if (i > Main.maxTilesX - 380)
+                    {
+                        sulphurPosX = true;
+                    }
+                    if (i > abyssChasmX - 80)
+                    {
+                        abyssPosX = true;
+                    }
+                }
+                if (abyssPosX && abyssPosY)
                 {
                     if (Main.rand.Next(10) == 0)
                     {
@@ -283,7 +320,7 @@ namespace CalamityMod.Tiles
                         }
                     }
                 }
-                else if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
+                else if (sulphurPosX)
                 {
                     if (Main.rand.Next(15) == 0)
                     {

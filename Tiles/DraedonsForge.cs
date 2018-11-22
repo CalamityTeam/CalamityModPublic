@@ -21,7 +21,8 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Draedon's Forge");
  			AddMapEntry(new Color(0, 255, 0), name);
 			disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Anvils, TileID.Furnaces, TileID.WorkBenches, TileID.LunarCraftingStation, TileID.MythrilAnvil, TileID.AdamantiteForge, TileID.Hellforge };
+            adjTiles = new int[] { TileID.Anvils, TileID.Furnaces, TileID.WorkBenches, TileID.LunarCraftingStation,
+                TileID.MythrilAnvil, TileID.AdamantiteForge, TileID.Hellforge };
         }
 
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)

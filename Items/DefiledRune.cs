@@ -34,6 +34,15 @@ namespace CalamityMod.Items
 			item.consumable = false;
 		}
 
+        public override bool CanUseItem(Player player)
+        {
+            if (CalamityWorld.bossRushActive)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public override bool UseItem(Player player)
 		{
             for (int doom = 0; doom < 200; doom++)

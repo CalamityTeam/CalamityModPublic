@@ -28,10 +28,10 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.width = 400;
 			npc.height = 280;
 			npc.defense = 120;
-			npc.lifeMax = CalamityWorld.revenge ? 61075 : 51000;
+			npc.lifeMax = CalamityWorld.revenge ? 65075 : 51000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 90875;
+                npc.lifeMax = 100875;
             }
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Astrageldon
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 1050000 : 940000;
+                npc.lifeMax = CalamityWorld.death ? 1150000 : 1000000;
             }
         }
 		
@@ -341,7 +341,7 @@ namespace CalamityMod.NPCs.Astrageldon
                     {
                         for (int num623 = 0; num623 < 4; num623++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, (Main.rand.Next(2) == 0 ? 55 : 173), 0f, 0f, 100, default(Color), 1.5f);
+                            int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.5f);
                             Main.dust[num624].velocity *= 0.2f;
                         }
                     }
@@ -471,7 +471,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 int num;
                 for (int num245 = 0; num245 < 10; num245 = num + 1)
                 {
-                    int num244 = Dust.NewDust(npc.position, npc.width, npc.height, (Main.rand.Next(2) == 0 ? 173 : 55), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
+                    int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
                     Main.dust[num244].noGravity = true;
                     Main.dust[num244].velocity *= 0.5f;
                     num = num245;
@@ -505,7 +505,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 int num;
                 for (int num245 = 0; num245 < 10; num245 = num + 1)
                 {
-                    int num244 = Dust.NewDust(npc.position, npc.width, npc.height, (Main.rand.Next(2) == 0 ? 173 : 55), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
+                    int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
                     Main.dust[num244].noGravity = true;
                     Main.dust[num244].velocity *= 0.5f;
                     num = num245;
@@ -633,7 +633,6 @@ namespace CalamityMod.NPCs.Astrageldon
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             if (npc.ai[0] == 0f)
             {
                 NPCTexture = Main.npcTexture[npc.type];
@@ -679,6 +678,7 @@ namespace CalamityMod.NPCs.Astrageldon
                     GlowMaskTexture = mod.GetTexture("NPCs/Astrageldon/AstrageldonJumpGlow");
                 }
             }
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Color lightColor = (drawColor != null ? (Color)drawColor : CalamityMod.GetNPCColor(((NPC)npc), npc.Center, false));
             int frameCount = Main.npcFrameCount[npc.type];
             Microsoft.Xna.Framework.Rectangle frame = npc.frame;
@@ -792,10 +792,10 @@ namespace CalamityMod.NPCs.Astrageldon
 				}
 				for (int num623 = 0; num623 < 100; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 55, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 55, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

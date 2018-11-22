@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
-            if (!NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+            if (CalamityGlobalNPC.SCal <= 0)
             {
                 npc.active = false;
                 npc.netUpdate = true;

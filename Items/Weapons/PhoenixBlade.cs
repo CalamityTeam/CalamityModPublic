@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons
 					float randomSpeedX = (float)Main.rand.Next(5);
 					float randomSpeedY = (float)Main.rand.Next(3, 7);
 				   	offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-				   	int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("PhoenixHeal"), damage, knockback, Main.myPlayer);
-				    int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("PhoenixHeal"), damage, knockback, Main.myPlayer);
+				   	int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("PhoenixHeal"), item.damage, knockback, Main.myPlayer);
+				    int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("PhoenixHeal"), item.damage, knockback, Main.myPlayer);
 				    Main.projectile[projectile1].velocity.X = -randomSpeedX;
 				    Main.projectile[projectile1].velocity.Y = -randomSpeedY;
 				    Main.projectile[projectile2].velocity.X = randomSpeedX;

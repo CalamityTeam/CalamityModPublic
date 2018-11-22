@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.defense = 70;
-			npc.lifeMax = 30705;
+			npc.lifeMax = 32705;
 			npc.knockBackResist = 0f;
 			aiType = -1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 900000 : 750000;
+                npc.lifeMax = CalamityWorld.death ? 960000 : 820000;
             }
         }
 

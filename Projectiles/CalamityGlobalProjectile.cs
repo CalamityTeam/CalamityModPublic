@@ -15,64 +15,78 @@ namespace CalamityMod.Projectiles
 {
     public class CalamityGlobalProjectile : GlobalProjectile
     {
-        public static float counter = 0;
+        public static int counter = 0;
+
+        public static int counter2 = 0;
 
         #region AI
         public override void AI(Projectile projectile)
-		{
-            List<int> rangedProjectileExceptionList = new List<int>(6)
+        {
+            if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eQuiver && projectile.ranged &&
+                projectile.friendly && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
             {
-                ProjectileID.Phantasm,
-                ProjectileID.VortexBeater,
-                mod.ProjectileType("Phangasm"),
-                mod.ProjectileType("Contagion"),
-                mod.ProjectileType("DaemonsFlame"),
-                mod.ProjectileType("ExoTornado"),
-                mod.ProjectileType("Drataliornus")
-            };
-            bool shouldAffect = rangedProjectileExceptionList.TrueForAll(x => projectile.type != x);
-            if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eQuiver && projectile.ranged && projectile.friendly && shouldAffect)
-			{
-				if (Main.rand.Next(200) > 198)
-				{
-					float spread = 180f * 0.0174f;
-					double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-					double deltaAngle = spread / 8f;
-					double offsetAngle;
-					int i;
-					for (i = 0; i < 1; i++)
-					{
-					   	offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-					   	if (projectile.owner == Main.myPlayer)
-					   	{
-						   	int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( Math.Sin(offsetAngle) * 8f ), (float)( Math.Cos(offsetAngle) * 8f ), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-						    int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( -Math.Sin(offsetAngle) * 8f ), (float)( -Math.Cos(offsetAngle) * 8f ), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-						    Main.projectile[projectile1].ranged = false;
-						    Main.projectile[projectile2].ranged = false;
+                if (Main.rand.Next(200) > 198)
+                {
+                    float spread = 180f * 0.0174f;
+                    double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+                    double deltaAngle = spread / 8f;
+                    double offsetAngle;
+                    int i;
+                    for (i = 0; i < 1; i++)
+                    {
+                        offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                        if (projectile.owner == Main.myPlayer)
+                        {
+                            int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 8f), (float)(Math.Cos(offsetAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                            int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 8f), (float)(-Math.Cos(offsetAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                            Main.projectile[projectile1].ranged = false;
+                            Main.projectile[projectile2].ranged = false;
                             Main.projectile[projectile1].timeLeft = 60;
                             Main.projectile[projectile2].timeLeft = 60;
                             Main.projectile[projectile1].noDropItem = true;
                             Main.projectile[projectile2].noDropItem = true;
                         }
-					}
-				}
-			}
-			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).nanotech && projectile.thrown && projectile.friendly)
-			{
-				counter += 1f;
-				if (counter >= 45f)
-				{
-					counter = 0f;
-					if (projectile.owner == Main.myPlayer)
-					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Nanotech"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+            if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).nanotech && projectile.thrown && projectile.friendly)
+            {
+                counter++;
+                if (counter >= 90)
+                {
+                    counter = 0;
+                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("Nanotech")] < 30)
+                    {
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Nanotech"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                    }
+                }
+            }
+            if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).daedalusSplit && projectile.thrown && projectile.friendly)
+            {
+                counter2++;
+                if (counter2 >= 30)
+                {
+                    counter2 = 0;
+                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[90] < 30)
+                    {
+                        for (int num252 = 0; num252 < 2; num252++)
+                        {
+                            Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            while (value15.X == 0f && value15.Y == 0f)
+                            {
+                                value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                            }
+                            value15.Normalize();
+                            value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+                            Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 90, (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+                        }
+                    }
+                }
+            }
+        }
         #endregion
 
-		#region PostAI
+        #region PostAI
         public override void PostAI(Projectile projectile)
         {
             int x = (int)(projectile.Center.X / 16f);
@@ -100,44 +114,24 @@ namespace CalamityMod.Projectiles
                 }
             }
         }
-		#endregion
-		
+        #endregion
+
         #region ModifyHitNPC
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            List<int> projectileMinionList = new List<int>(20)
+            if (projectile.type == mod.ProjectileType("VeriumBullet") || projectile.type == ProjectileID.ChlorophyteBullet)
             {
-                195,
-                423,
-                433,
-                614,
-                408,
-                389,
-                376,
-                374,
-                664,
-                666,
-                668,
-                680,
-                694,
-                695,
-                696,
-                378,
-                379,
-                309,
-                642,
-                644
-            };
-            bool shouldAffect = projectileMinionList.Contains(projectile.type);
+                damage = (int)((double)damage * 0.8);
+            }
             if (projectile.owner == Main.myPlayer && CalamityWorld.revenge)
             {
-                if ((projectile.minion || shouldAffect))
+                if ((projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type)))
                 {
                     Player player = Main.player[projectile.owner];
                     if (!player.inventory[player.selectedItem].summon &&
-                        (player.inventory[player.selectedItem].melee ||
+                        (player.inventory[player.selectedItem].melee || 
                         player.inventory[player.selectedItem].ranged || 
-                        player.inventory[player.selectedItem].magic ||
+                        player.inventory[player.selectedItem].magic || 
                         player.inventory[player.selectedItem].thrown) && 
                         player.inventory[player.selectedItem].hammer == 0 &&
                         player.inventory[player.selectedItem].pick == 0 && 
@@ -162,9 +156,16 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
+            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).screwdriver)
+            {
+                if (projectile.penetrate > 1 || projectile.penetrate == -1)
+                {
+                    damage = (int)((double)damage * 1.1);
+                }
+            }
             if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).sPower)
             {
-                if (projectile.minion || shouldAffect)
+                if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
                 {
                     damage = (int)((double)damage * 1.1);
                 }
@@ -172,14 +173,14 @@ namespace CalamityMod.Projectiles
             if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode &&
                 Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineMode)
             {
-                if (projectile.minion || shouldAffect)
+                if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
                 {
                     damage = (int)((double)damage * (CalamityWorld.death ? 13.0 : 4.0));
                 }
             }
             else if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode)
             {
-                if (projectile.minion || shouldAffect)
+                if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
                 {
                     double rageDamageBoost = 0.0 +
                         (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostOne ? (CalamityWorld.death ? 0.8 : 0.2) : 0.0) + //4.8 or 1.2
@@ -191,7 +192,7 @@ namespace CalamityMod.Projectiles
             }
             else if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineMode)
             {
-                if (projectile.minion || shouldAffect)
+                if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
                 {
                     damage = (int)((double)damage * ((CalamityWorld.death ? 11.0 : 3.5) * Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineDmgMult));
                 }
@@ -658,7 +659,7 @@ namespace CalamityMod.Projectiles
 				{
 					if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).ataxiaGeyser)
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ChaosGeyser"), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ChaosGeyser"), (int)((double)projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
 					}
 					else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).xerocSet)
 					{
@@ -674,22 +675,7 @@ namespace CalamityMod.Projectiles
 				}
 				else if (projectile.thrown)
 				{
-					if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).daedalusSplit)
-					{
-						int num251 = Main.rand.Next(2, 5);
-						for (int num252 = 0; num252 < num251; num252++)
-						{
-							Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-							while (value15.X == 0f && value15.Y == 0f)
-							{
-								value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-							}
-							value15.Normalize();
-							value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 90, (int)((double)projectile.damage * 0.15), 0.25f, projectile.owner, 0f, 0f);
-						}
-					}
-					else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).xerocSet &&
+					if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).xerocSet &&
                         Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).xerocDmg <= 0)
 					{
 						int num = projectile.damage / 2;

@@ -39,14 +39,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.defense = 40;
 			npc.aiStyle = -1;
             aiType = -1;
-            npc.lifeMax = CalamityWorld.revenge ? 81000 : 73000;
+            npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 95000;
+                npc.lifeMax = 100000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 7800000 : 7200000;
+                npc.lifeMax = CalamityWorld.death ? 8600000 : 7900000;
             }
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -556,7 +556,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void BossLoot(ref string name, ref int potionType)
         {
-            potionType = ItemID.None;
+            potionType = mod.ItemType("SulphurousSand");
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

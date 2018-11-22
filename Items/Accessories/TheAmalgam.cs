@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Amalgam");
-            Tooltip.SetDefault("12% increased damage and critical strike chance\n" +
+            Tooltip.SetDefault("10% increased damage and critical strike chance\n" +
                                "Shade rains down when you are hit\n" +
                                "You will confuse nearby enemies when you are struck\n" +
                                "Drops brimstone fireballs from the sky occasionally\n" +
@@ -66,15 +66,15 @@ namespace CalamityMod.Items.Accessories
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), 250, 1f, Main.myPlayer, 0f, 0f);
                 }
             }
-            player.meleeCrit += 12;
-            player.magicCrit += 12;
-            player.rangedCrit += 12;
-            player.thrownCrit += 12;
-            player.meleeDamage += 0.12f;
-            player.thrownDamage += 0.12f;
-            player.rangedDamage += 0.12f;
-            player.magicDamage += 0.12f;
-            player.minionDamage += 0.12f;
+            player.meleeCrit += 10;
+            player.magicCrit += 10;
+            player.rangedCrit += 10;
+            player.thrownCrit += 10;
+            player.meleeDamage += 0.1f;
+            player.thrownDamage += 0.1f;
+            player.rangedDamage += 0.1f;
+            player.magicDamage += 0.1f;
+            player.minionDamage += 0.1f;
             player.ignoreWater = true;
             player.lavaImmune = true;
             if (player.lavaWet)

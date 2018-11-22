@@ -15,15 +15,12 @@ namespace CalamityMod.Projectiles
 		{
 			DisplayName.SetDefault("Dreadmine Turret");
             Main.projFrames[projectile.type] = 2;
-            Main.projPet[projectile.type] = true;
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 		}
     	
         public override void SetDefaults()
         {
             projectile.width = 26;
             projectile.height = 26;
-            projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.sentry = true;

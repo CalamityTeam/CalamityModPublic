@@ -243,7 +243,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.CelestialEmblem)
+            if (item.type == ItemID.CelestialShell)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -251,6 +251,16 @@ namespace CalamityMod.Items
                     {
                         line2.text = "Minor increases to all stats\n" +
                             "Greatly reduces breath loss in the abyss";
+                    }
+                }
+            }
+            if (item.type == ItemID.WormScarf)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Reduces damage taken by 10%";
                     }
                 }
             }
@@ -263,8 +273,12 @@ namespace CalamityMod.Items
             {
                 modPlayer.jellyfishNecklace = true;
             }
+            if (item.type == ItemID.WormScarf)
+            {
+                player.endurance -= 0.07f;
+            }
         }
-    
+
         /// <summary>
         /// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
         /// </summary>
@@ -289,18 +303,14 @@ namespace CalamityMod.Items
                 Vector2 offset = (player.itemRotation - (MathHelper.PiOver4 * player.direction) + Main.rand.NextFloat(minRandRot, maxRandRot)).ToRotationVector2() * distance * player.direction;
                 Vector2 pos = player.Center + offset;
                 Vector2 vec = pos - player.Center;
-
                 //spawn the dust
                 Dust d = Dust.NewDustPerfect(pos, dustType);
-
                 //normalise vector and multiply by velocity magnitude
                 vec.Normalize();
                 d.velocity = vec * Main.rand.NextFloat(minSpeed, maxSpeed);
-
                 return d;
             }
-
             return null;
         }
-	}
+    }
 }

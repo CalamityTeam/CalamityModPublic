@@ -12,6 +12,7 @@ using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.Initializers;
 using Terraria.IO;
+using Terraria.Map;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.Localization;
@@ -52,10 +53,6 @@ namespace CalamityMod
 
         public static int sharkKillCount = 0;
 
-        //public static int musicStartTimer = 300;
-
-        //public static float musicVolumeOriginal = 0.75f;
-
         public static Texture2D heartOriginal2;
 
         public static Texture2D heartOriginal;
@@ -65,37 +62,64 @@ namespace CalamityMod
         public static Texture2D manaOriginal;
 
         public static Texture2D carpetOriginal;
-		
+
         public static Texture2D AstralCactusTexture;
-		
+
         public static Texture2D AstralCactusGlowTexture;
-		
+
         public static Texture2D AstralSky;
 
-        public static CalamityMod Instance;
-		
         public static Effect CustomShader;
+
+        public static List<int> rangedProjectileExceptionList;
+
+        public static List<int> projectileMinionList;
+
+        public static List<int> enemyImmunityList;
+
+        public static List<int> hardModeNerfExceptionList;
+
+        public static List<int> dungeonEnemyBuffList;
+
+        public static List<int> bossScaleList;
+
+        public static List<int> beeEnemyList;
+
+        public static List<int> beeProjectileList;
+
+        public static List<int> hardModeNerfList;
+
+        public static List<int> debuffList;
+
+        public static List<int> fireWeaponList;
+
+        public static List<int> natureWeaponList;
+
+        public static List<int> alcoholList;
+
+        public static CalamityMod Instance;
 
         public CalamityMod()
     	{
             Instance = this;
-    		/*Properties = new ModProperties()
-    		{
-            	Autoload = true,
-            	AutoloadSounds = true,
-            	AutoloadGores = true
-    		};*/
         }
-    	    	
-    	public override void Load()
+
+        #region Load
+        public override void Load()
 		{
             Main.tile = new Tile[8401, 2601];
             Main.Map = new Terraria.Map.WorldMap(Main.maxTilesX, 2601);
+            Main.mapTargetY = 3;
+            Main.instance.mapTarget = new RenderTarget2D[Main.mapTargetX, Main.mapTargetY];
+            Main.initMap = new bool[Main.mapTargetX, Main.mapTargetY];
+            Main.mapWasContentLost = new bool[Main.mapTargetX, Main.mapTargetY];
+
             heartOriginal2 = Main.heartTexture;
             heartOriginal = Main.heart2Texture;
             rainOriginal = Main.rainTexture;
             manaOriginal = Main.manaTexture;
             carpetOriginal = Main.flyingCarpetTexture;
+
             RageHotKey = RegisterHotKey("Rage Mode", "V");
             AdrenalineHotKey = RegisterHotKey("Adrenaline Mode", "B");
             AegisHotKey = RegisterHotKey("Elysian Guard", "N");
@@ -104,10 +128,9 @@ namespace CalamityMod
             AstralArcanumUIHotkey = RegisterHotKey("Astral Arcanum UI Toggle", "O");
             BossBarToggleHotKey = RegisterHotKey("Boss Health Bar Toggle", "NumPad0");
             BossBarToggleSmallTextHotKey = RegisterHotKey("Boss Health Bar Small Text Toggle", "NumPad1");
+
             if (!Main.dedServ)
 			{
-                //Main.music[MusicID.Hell] = GetMusic("Sounds/Music/Crag");
-
                 AddEquipTexture(new Items.Armor.AbyssalDivingSuitHead(), null, EquipType.Head, "AbyssalDivingSuitHead", "CalamityMod/Items/Armor/AbyssalDivingSuit_Head");
                 AddEquipTexture(new Items.Armor.AbyssalDivingSuitBody(), null, EquipType.Body, "AbyssalDivingSuitBody", "CalamityMod/Items/Armor/AbyssalDivingSuit_Body", "CalamityMod/Items/Armor/AbyssalDivingSuit_Arms");
                 AddEquipTexture(new Items.Armor.AbyssalDivingSuitLegs(), null, EquipType.Legs, "AbyssalDivingSuitLeg", "CalamityMod/Items/Armor/AbyssalDivingSuit_Legs");
@@ -119,7 +142,7 @@ namespace CalamityMod
                 AddEquipTexture(new Items.Armor.SirenHeadAlt(), null, EquipType.Head, "SirenHeadAlt", "CalamityMod/Items/Armor/SirenTransAlt_Head");
                 AddEquipTexture(new Items.Armor.SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Armor/SirenTransAlt_Body", "CalamityMod/Items/Armor/SirenTransAlt_Arms");
                 AddEquipTexture(new Items.Armor.SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Armor/SirenTransAlt_Legs");
-				
+
                 AstralCactusTexture = GetTexture("ExtraTextures/Tiles/AstralCactus");
                 AstralCactusGlowTexture = GetTexture("ExtraTextures/Tiles/AstralCactusGlow");
                 AstralSky = GetTexture("ExtraTextures/AstralSky");
@@ -133,7 +156,7 @@ namespace CalamityMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath"), ItemType("PlaguebringerMusicbox"), TileType("PlaguebringerMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge"), ItemType("AquaticScourgeMusicbox"), TileType("AquaticScourgeMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon"), ItemType("AstrageldonMusicbox"), TileType("AstrageldonMusicbox"));
-                //AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"), ItemType("AstralMusicbox"), TileType("AstralMusicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"), ItemType("AstralMusicbox"), TileType("AstralMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/RUIN"), ItemType("PolterghastMusicbox"), TileType("PolterghastMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Signus"), ItemType("SignusMusicbox"), TileType("SignusMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver"), ItemType("StormWeaverMusicbox"), TileType("StormWeaverMusicbox"));
@@ -146,7 +169,6 @@ namespace CalamityMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme"), ItemType("ProvidenceMusicbox"), TileType("ProvidenceMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians"), ItemType("ProfanedGuardianMusicbox"), TileType("ProfanedGuardianMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager"), ItemType("RavagerMusicbox"), TileType("RavagerMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"), ItemType("AstralSurfaceMusicBox"), TileType("AstralSurfaceMusicBox"));
 
                 Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
 				SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -171,9 +193,9 @@ namespace CalamityMod
 				
 				Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
 				SkyManager.Instance["CalamityMod:SupremeCalamitas"] = new SCalSky();
-				
-				Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(CustomShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
-				SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
+
+                Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(CustomShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
+                SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
 
                 Mod mod = ModLoader.GetMod("CalamityMod");
 				UIHandler.OnLoad(mod);
@@ -187,6 +209,8 @@ namespace CalamityMod
 
             Injections.Load();
             base.Load();
+
+            SetupLists();
 
             #region Text
             ModTranslation text = CreateTranslation("SkyOreText");
@@ -338,11 +362,7 @@ namespace CalamityMod
             AddTranslation(text);
 
             text = CreateTranslation("SupremeBossText28"); //not taking enough damage
-            text.SetDefault("You aren't hurting as much as I'd like...are you cheating?  trollface.png");
-            AddTranslation(text);
-
-            text = CreateTranslation("SupremeBossText29"); //getting hit too much
-            text.SetDefault("You got hit too many times...noice.  Did you take lessons from Leviathan?");
+            text.SetDefault("You aren't hurting as much as I'd like...are you cheating?");
             AddTranslation(text);
 
             text = CreateTranslation("SupremeBossText2"); //cheater
@@ -574,12 +594,11 @@ namespace CalamityMod
             AddTranslation(text);
             #endregion
         }
+        #endregion
 
+        #region Unload
         public override void Unload()
         {
-            AstralCactusTexture = null;
-			AstralCactusGlowTexture = null;
-			AstralSky = null;
             RageHotKey = null;
             AdrenalineHotKey = null;
             AegisHotKey = null;
@@ -588,16 +607,40 @@ namespace CalamityMod
             AstralArcanumUIHotkey = null;
             BossBarToggleHotKey = null;
             BossBarToggleSmallTextHotKey = null;
+
+            AstralCactusTexture = null;
+            AstralCactusGlowTexture = null;
+            AstralSky = null;
+
+            rangedProjectileExceptionList = null;
+            projectileMinionList = null;
+            enemyImmunityList = null;
+            hardModeNerfExceptionList = null;
+            dungeonEnemyBuffList = null;
+            bossScaleList = null;
+            beeEnemyList = null;
+            beeProjectileList = null;
+            hardModeNerfList = null;
+            debuffList = null;
+            fireWeaponList = null;
+            natureWeaponList = null;
+            alcoholList = null;
+
             BossHealthBarManager.Unload();
             base.Unload();
+
             AstralArcanumUI.Unload();
             base.Unload();
+
             Instance = null;
+
             Injections.Unload();
             base.Unload();
+
             if (!Main.dedServ)
             {
-                Main.music[MusicID.Hell] = Main.soundBank.GetCue("Music_" + MusicID.Hell);
+                Main.music[MusicID.Hell] = Main.soundBank.GetCue("Music_" + MusicID.Hell); //remove in 1.4.1
+
                 Main.heartTexture = heartOriginal2;
                 Main.heart2Texture = heartOriginal;
                 Main.rainTexture = rainOriginal;
@@ -605,7 +648,435 @@ namespace CalamityMod
                 Main.flyingCarpetTexture = carpetOriginal;
             }
         }
+        #endregion
 
+        #region SetupLists
+        public static void SetupLists()
+        {
+            rangedProjectileExceptionList = new List<int>();
+
+            rangedProjectileExceptionList.Add(ProjectileID.Phantasm);
+            rangedProjectileExceptionList.Add(ProjectileID.VortexBeater);
+            rangedProjectileExceptionList.Add(ProjectileID.DD2PhoenixBow);
+
+            projectileMinionList = new List<int>();
+
+            projectileMinionList.Add(ProjectileID.PygmySpear);
+            projectileMinionList.Add(ProjectileID.UFOMinion);
+            projectileMinionList.Add(ProjectileID.UFOLaser);
+            projectileMinionList.Add(ProjectileID.StardustCellMinionShot);
+            projectileMinionList.Add(ProjectileID.MiniSharkron);
+            projectileMinionList.Add(ProjectileID.MiniRetinaLaser);
+            projectileMinionList.Add(ProjectileID.ImpFireball);
+            projectileMinionList.Add(ProjectileID.HornetStinger);
+            projectileMinionList.Add(ProjectileID.DD2FlameBurstTowerT1Shot);
+            projectileMinionList.Add(ProjectileID.DD2FlameBurstTowerT2Shot);
+            projectileMinionList.Add(ProjectileID.DD2FlameBurstTowerT3Shot);
+            projectileMinionList.Add(ProjectileID.DD2BallistraProj);
+            projectileMinionList.Add(ProjectileID.DD2ExplosiveTrapT1Explosion);
+            projectileMinionList.Add(ProjectileID.DD2ExplosiveTrapT2Explosion);
+            projectileMinionList.Add(ProjectileID.DD2ExplosiveTrapT3Explosion);
+            projectileMinionList.Add(ProjectileID.SpiderEgg);
+            projectileMinionList.Add(ProjectileID.BabySpider);
+            projectileMinionList.Add(ProjectileID.FrostBlastFriendly);
+            projectileMinionList.Add(ProjectileID.MoonlordTurretLaser);
+            projectileMinionList.Add(ProjectileID.RainbowCrystalExplosion);
+
+            enemyImmunityList = new List<int>();
+
+            enemyImmunityList.Add(NPCID.QueenBee);
+            enemyImmunityList.Add(NPCID.WallofFlesh);
+            enemyImmunityList.Add(NPCID.WallofFleshEye);
+            enemyImmunityList.Add(NPCID.Retinazer);
+            enemyImmunityList.Add(NPCID.Spazmatism);
+            enemyImmunityList.Add(NPCID.SkeletronPrime);
+            enemyImmunityList.Add(NPCID.PrimeCannon);
+            enemyImmunityList.Add(NPCID.PrimeSaw);
+            enemyImmunityList.Add(NPCID.PrimeLaser);
+            enemyImmunityList.Add(NPCID.PrimeVice);
+            enemyImmunityList.Add(NPCID.Plantera);
+            enemyImmunityList.Add(NPCID.IceQueen);
+            enemyImmunityList.Add(NPCID.Pumpking);
+            enemyImmunityList.Add(NPCID.Mothron);
+            enemyImmunityList.Add(NPCID.Golem);
+            enemyImmunityList.Add(NPCID.GolemHead);
+            enemyImmunityList.Add(NPCID.GolemFistRight);
+            enemyImmunityList.Add(NPCID.GolemFistLeft);
+            enemyImmunityList.Add(NPCID.DukeFishron);
+            enemyImmunityList.Add(NPCID.CultistBoss);
+            enemyImmunityList.Add(NPCID.MoonLordHead);
+            enemyImmunityList.Add(NPCID.MoonLordHand);
+            enemyImmunityList.Add(NPCID.MoonLordCore);
+            enemyImmunityList.Add(NPCID.MoonLordFreeEye);
+
+            hardModeNerfExceptionList = new List<int>();
+
+            hardModeNerfExceptionList.Add(NPCID.Probe);
+            hardModeNerfExceptionList.Add(NPCID.TheHungry);
+            hardModeNerfExceptionList.Add(NPCID.TheHungryII);
+            hardModeNerfExceptionList.Add(NPCID.WallofFleshEye);
+            hardModeNerfExceptionList.Add(NPCID.Creeper);
+            hardModeNerfExceptionList.Add(NPCID.EaterofWorldsHead);
+            hardModeNerfExceptionList.Add(NPCID.EaterofWorldsBody);
+            hardModeNerfExceptionList.Add(NPCID.EaterofWorldsTail);
+            hardModeNerfExceptionList.Add(NPCID.SkeletronHand);
+
+            dungeonEnemyBuffList = new List<int>();
+
+            dungeonEnemyBuffList.Add(NPCID.SkeletonSniper);
+            dungeonEnemyBuffList.Add(NPCID.TacticalSkeleton);
+            dungeonEnemyBuffList.Add(NPCID.SkeletonCommando);
+            dungeonEnemyBuffList.Add(NPCID.Paladin);
+            dungeonEnemyBuffList.Add(NPCID.GiantCursedSkull);
+            dungeonEnemyBuffList.Add(NPCID.BoneLee);
+            dungeonEnemyBuffList.Add(NPCID.DiabolistWhite);
+            dungeonEnemyBuffList.Add(NPCID.DiabolistRed);
+            dungeonEnemyBuffList.Add(NPCID.NecromancerArmored);
+            dungeonEnemyBuffList.Add(NPCID.Necromancer);
+            dungeonEnemyBuffList.Add(NPCID.RaggedCasterOpenCoat);
+            dungeonEnemyBuffList.Add(NPCID.RaggedCaster);
+            dungeonEnemyBuffList.Add(NPCID.HellArmoredBonesSword);
+            dungeonEnemyBuffList.Add(NPCID.HellArmoredBonesMace);
+            dungeonEnemyBuffList.Add(NPCID.HellArmoredBonesSpikeShield);
+            dungeonEnemyBuffList.Add(NPCID.HellArmoredBones);
+            dungeonEnemyBuffList.Add(NPCID.BlueArmoredBonesSword);
+            dungeonEnemyBuffList.Add(NPCID.BlueArmoredBonesNoPants);
+            dungeonEnemyBuffList.Add(NPCID.BlueArmoredBonesMace);
+            dungeonEnemyBuffList.Add(NPCID.BlueArmoredBones);
+            dungeonEnemyBuffList.Add(NPCID.RustyArmoredBonesSwordNoArmor);
+            dungeonEnemyBuffList.Add(NPCID.RustyArmoredBonesSword);
+            dungeonEnemyBuffList.Add(NPCID.RustyArmoredBonesFlail);
+            dungeonEnemyBuffList.Add(NPCID.RustyArmoredBonesAxe);
+
+            bossScaleList = new List<int>();
+
+            bossScaleList.Add(NPCID.EaterofWorldsHead);
+            bossScaleList.Add(NPCID.EaterofWorldsBody);
+            bossScaleList.Add(NPCID.EaterofWorldsTail);
+            bossScaleList.Add(NPCID.Creeper);
+            bossScaleList.Add(NPCID.SkeletronHand);
+            bossScaleList.Add(NPCID.WallofFleshEye);
+            bossScaleList.Add(NPCID.TheHungry);
+            bossScaleList.Add(NPCID.TheHungryII);
+            bossScaleList.Add(NPCID.TheDestroyerBody);
+            bossScaleList.Add(NPCID.TheDestroyerTail);
+            bossScaleList.Add(NPCID.PrimeCannon);
+            bossScaleList.Add(NPCID.PrimeVice);
+            bossScaleList.Add(NPCID.PrimeSaw);
+            bossScaleList.Add(NPCID.PrimeLaser);
+            bossScaleList.Add(NPCID.PlanterasTentacle);
+            bossScaleList.Add(NPCID.Pumpking);
+            bossScaleList.Add(NPCID.IceQueen);
+            bossScaleList.Add(NPCID.Mothron);
+            bossScaleList.Add(NPCID.GolemHead);
+
+            beeEnemyList = new List<int>();
+
+            beeEnemyList.Add(NPCID.GiantMossHornet);
+            beeEnemyList.Add(NPCID.BigMossHornet);
+            beeEnemyList.Add(NPCID.LittleMossHornet);
+            beeEnemyList.Add(NPCID.TinyMossHornet);
+            beeEnemyList.Add(NPCID.MossHornet);
+            beeEnemyList.Add(NPCID.VortexHornetQueen);
+            beeEnemyList.Add(NPCID.VortexHornet);
+            beeEnemyList.Add(NPCID.Bee);
+            beeEnemyList.Add(NPCID.BeeSmall);
+            beeEnemyList.Add(NPCID.QueenBee);
+
+            beeProjectileList = new List<int>();
+
+            beeProjectileList.Add(ProjectileID.Stinger);
+            beeProjectileList.Add(ProjectileID.HornetStinger);
+
+            hardModeNerfList = new List<int>();
+
+            hardModeNerfList.Add(ProjectileID.WebSpit);
+            hardModeNerfList.Add(ProjectileID.PinkLaser);
+            hardModeNerfList.Add(ProjectileID.FrostBlastHostile);
+            hardModeNerfList.Add(ProjectileID.RuneBlast);
+            hardModeNerfList.Add(ProjectileID.GoldenShowerHostile);
+            hardModeNerfList.Add(ProjectileID.RainNimbus);
+            hardModeNerfList.Add(ProjectileID.Stinger);
+            hardModeNerfList.Add(ProjectileID.FlamingArrow);
+            hardModeNerfList.Add(ProjectileID.BulletDeadeye);
+            hardModeNerfList.Add(ProjectileID.CannonballHostile);
+
+            debuffList = new List<int>();
+
+            debuffList.Add(BuffID.Poisoned);
+            debuffList.Add(BuffID.Darkness);
+            debuffList.Add(BuffID.Cursed);
+            debuffList.Add(BuffID.OnFire);
+            debuffList.Add(BuffID.Bleeding);
+            debuffList.Add(BuffID.Confused);
+            debuffList.Add(BuffID.Slow);
+            debuffList.Add(BuffID.Weak);
+            debuffList.Add(BuffID.Silenced);
+            debuffList.Add(BuffID.BrokenArmor);
+            debuffList.Add(BuffID.CursedInferno);
+            debuffList.Add(BuffID.Frostburn);
+            debuffList.Add(BuffID.Chilled);
+            debuffList.Add(BuffID.Frozen);
+            debuffList.Add(BuffID.Burning);
+            debuffList.Add(BuffID.Suffocation);
+            debuffList.Add(BuffID.Ichor);
+            debuffList.Add(BuffID.Venom);
+            debuffList.Add(BuffID.Blackout);
+            debuffList.Add(BuffID.Electrified);
+            debuffList.Add(BuffID.Rabies);
+            debuffList.Add(BuffID.Webbed);
+            debuffList.Add(BuffID.Stoned);
+            debuffList.Add(BuffID.Dazed);
+            debuffList.Add(BuffID.VortexDebuff);
+            debuffList.Add(BuffID.WitheredArmor);
+            debuffList.Add(BuffID.WitheredWeapon);
+            debuffList.Add(BuffID.OgreSpit);
+            debuffList.Add(BuffID.BetsysCurse);
+
+            fireWeaponList = new List<int>();
+
+            fireWeaponList.Add(ItemID.FieryGreatsword);
+            fireWeaponList.Add(ItemID.DD2SquireDemonSword);
+            fireWeaponList.Add(ItemID.TheHorsemansBlade);
+            fireWeaponList.Add(ItemID.DD2SquireBetsySword);
+            fireWeaponList.Add(ItemID.Cascade);
+            fireWeaponList.Add(ItemID.HelFire);
+            fireWeaponList.Add(ItemID.MonkStaffT2);
+            fireWeaponList.Add(ItemID.Flamarang);
+            fireWeaponList.Add(ItemID.MoltenFury);
+            fireWeaponList.Add(ItemID.Sunfury);
+            fireWeaponList.Add(ItemID.PhoenixBlaster);
+            fireWeaponList.Add(ItemID.Flamelash);
+            fireWeaponList.Add(ItemID.SolarEruption);
+            fireWeaponList.Add(ItemID.DayBreak);
+            fireWeaponList.Add(ItemID.MonkStaffT3);
+            fireWeaponList.Add(ItemID.HellwingBow);
+            fireWeaponList.Add(ItemID.DD2PhoenixBow);
+            fireWeaponList.Add(ItemID.DD2BetsyBow);
+            fireWeaponList.Add(ItemID.FlareGun);
+            fireWeaponList.Add(ItemID.Flamethrower);
+            fireWeaponList.Add(ItemID.EldMelter);
+            fireWeaponList.Add(ItemID.FlowerofFire);
+            fireWeaponList.Add(ItemID.MeteorStaff);
+            fireWeaponList.Add(ItemID.ApprenticeStaffT3);
+            fireWeaponList.Add(ItemID.InfernoFork);
+            fireWeaponList.Add(ItemID.HeatRay);
+            fireWeaponList.Add(ItemID.BookofSkulls);
+            fireWeaponList.Add(ItemID.ImpStaff);
+            fireWeaponList.Add(ItemID.DD2FlameburstTowerT1Popper);
+            fireWeaponList.Add(ItemID.DD2FlameburstTowerT2Popper);
+            fireWeaponList.Add(ItemID.DD2FlameburstTowerT3Popper);
+            fireWeaponList.Add(ItemID.MolotovCocktail);
+
+            natureWeaponList = new List<int>();
+
+            natureWeaponList.Add(ItemID.BladeofGrass);
+            natureWeaponList.Add(ItemID.ChlorophyteClaymore);
+            natureWeaponList.Add(ItemID.ChlorophyteSaber);
+            natureWeaponList.Add(ItemID.ChlorophytePartisan);
+            natureWeaponList.Add(ItemID.ChlorophyteShotbow);
+            natureWeaponList.Add(ItemID.Seedler);
+            natureWeaponList.Add(ItemID.ChristmasTreeSword);
+            natureWeaponList.Add(ItemID.TerraBlade);
+            natureWeaponList.Add(ItemID.JungleYoyo);
+            natureWeaponList.Add(ItemID.Yelets);
+            natureWeaponList.Add(ItemID.MushroomSpear);
+            natureWeaponList.Add(ItemID.ThornChakram);
+            natureWeaponList.Add(ItemID.Bananarang);
+            natureWeaponList.Add(ItemID.FlowerPow);
+            natureWeaponList.Add(ItemID.BeesKnees);
+            natureWeaponList.Add(ItemID.Toxikarp);
+            natureWeaponList.Add(ItemID.Bladetongue);
+            natureWeaponList.Add(ItemID.PoisonStaff);
+            natureWeaponList.Add(ItemID.VenomStaff);
+            natureWeaponList.Add(ItemID.StaffofEarth);
+            natureWeaponList.Add(ItemID.BeeGun);
+            natureWeaponList.Add(ItemID.LeafBlower);
+            natureWeaponList.Add(ItemID.WaspGun);
+            natureWeaponList.Add(ItemID.CrystalSerpent);
+            natureWeaponList.Add(ItemID.Razorpine);
+            natureWeaponList.Add(ItemID.HornetStaff);
+            natureWeaponList.Add(ItemID.QueenSpiderStaff);
+            natureWeaponList.Add(ItemID.SlimeStaff);
+            natureWeaponList.Add(ItemID.PygmyStaff);
+            natureWeaponList.Add(ItemID.RavenStaff);
+            natureWeaponList.Add(ItemID.BatScepter);
+            natureWeaponList.Add(ItemID.SpiderStaff);
+            natureWeaponList.Add(ItemID.Beenade);
+            natureWeaponList.Add(ItemID.FrostDaggerfish);
+
+            alcoholList = new List<int>();
+
+            Mod calamity = ModLoader.GetMod("CalamityMod");
+            if (calamity != null)
+            {
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("Phangasm"));
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("Contagion"));
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("DaemonsFlame"));
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("ExoTornado"));
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("Drataliornus"));
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("FlakKrakenGun"));
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("Butcher"));
+
+                beeEnemyList.Add(calamity.NPCType("PlaguebringerGoliath"));
+                beeEnemyList.Add(calamity.NPCType("PlaguebringerShade"));
+                beeEnemyList.Add(calamity.NPCType("PlagueBeeLargeG"));
+                beeEnemyList.Add(calamity.NPCType("PlagueBeeLarge"));
+                beeEnemyList.Add(calamity.NPCType("PlagueBeeG"));
+                beeEnemyList.Add(calamity.NPCType("PlagueBee"));
+
+                beeProjectileList.Add(calamity.ProjectileType("PlagueStingerGoliath"));
+                beeProjectileList.Add(calamity.ProjectileType("PlagueStingerGoliathV2"));
+                beeProjectileList.Add(calamity.ProjectileType("PlagueExplosion"));
+
+                debuffList.Add(calamity.BuffType("BrimstoneFlames"));
+                debuffList.Add(calamity.BuffType("BurningBlood"));
+                debuffList.Add(calamity.BuffType("GlacialState"));
+                debuffList.Add(calamity.BuffType("GodSlayerInferno"));
+                debuffList.Add(calamity.BuffType("HolyLight"));
+                debuffList.Add(calamity.BuffType("Irradiated"));
+                debuffList.Add(calamity.BuffType("Plague"));
+                debuffList.Add(calamity.BuffType("AbyssalFlames"));
+                debuffList.Add(calamity.BuffType("CrushDepth"));
+                debuffList.Add(calamity.BuffType("Horror"));
+                debuffList.Add(calamity.BuffType("MarkedforDeath"));
+
+                fireWeaponList.Add(calamity.ItemType("AegisBlade"));
+                fireWeaponList.Add(calamity.ItemType("BalefulHarvester"));
+                fireWeaponList.Add(calamity.ItemType("Chaotrix"));
+                fireWeaponList.Add(calamity.ItemType("CometQuasher"));
+                fireWeaponList.Add(calamity.ItemType("DraconicDestruction"));
+                fireWeaponList.Add(calamity.ItemType("Drataliornus"));
+                fireWeaponList.Add(calamity.ItemType("EnergyStaff"));
+                fireWeaponList.Add(calamity.ItemType("ExsanguinationLance"));
+                fireWeaponList.Add(calamity.ItemType("FirestormCannon"));
+                fireWeaponList.Add(calamity.ItemType("FlameburstShortsword"));
+                fireWeaponList.Add(calamity.ItemType("FlameScythe"));
+                fireWeaponList.Add(calamity.ItemType("FlameScytheMelee"));
+                fireWeaponList.Add(calamity.ItemType("FlareBolt"));
+                fireWeaponList.Add(calamity.ItemType("FlarefrostBlade"));
+                fireWeaponList.Add(calamity.ItemType("FlarewingBow"));
+                fireWeaponList.Add(calamity.ItemType("ForbiddenSun"));
+                fireWeaponList.Add(calamity.ItemType("FrigidflashBolt"));
+                fireWeaponList.Add(calamity.ItemType("GreatbowofTurmoil"));
+                fireWeaponList.Add(calamity.ItemType("HarvestStaff"));
+                fireWeaponList.Add(calamity.ItemType("HellBurst"));
+                fireWeaponList.Add(calamity.ItemType("HellfireFlamberge"));
+                fireWeaponList.Add(calamity.ItemType("Hellkite"));
+                fireWeaponList.Add(calamity.ItemType("HellwingStaff"));
+                fireWeaponList.Add(calamity.ItemType("Helstorm"));
+                fireWeaponList.Add(calamity.ItemType("InfernaCutter"));
+                fireWeaponList.Add(calamity.ItemType("Lazhar"));
+                fireWeaponList.Add(calamity.ItemType("MeteorFist"));
+                fireWeaponList.Add(calamity.ItemType("Mourningstar"));
+                fireWeaponList.Add(calamity.ItemType("PhoenixBlade"));
+                fireWeaponList.Add(calamity.ItemType("Photoviscerator"));
+                fireWeaponList.Add(calamity.ItemType("RedSun"));
+                fireWeaponList.Add(calamity.ItemType("SpectralstormCannon"));
+                fireWeaponList.Add(calamity.ItemType("SunGodStaff"));
+                fireWeaponList.Add(calamity.ItemType("SunSpiritStaff"));
+                fireWeaponList.Add(calamity.ItemType("TearsofHeaven"));
+                fireWeaponList.Add(calamity.ItemType("TerraFlameburster"));
+                fireWeaponList.Add(calamity.ItemType("TheEmpyrean"));
+                fireWeaponList.Add(calamity.ItemType("TheWand"));
+                fireWeaponList.Add(calamity.ItemType("VenusianTrident"));
+                fireWeaponList.Add(calamity.ItemType("Vesuvius"));
+                fireWeaponList.Add(calamity.ItemType("BlissfulBombardier"));
+                fireWeaponList.Add(calamity.ItemType("HolyCollider"));
+                fireWeaponList.Add(calamity.ItemType("MoltenAmputator"));
+                fireWeaponList.Add(calamity.ItemType("PurgeGuzzler"));
+                fireWeaponList.Add(calamity.ItemType("SolarFlare"));
+                fireWeaponList.Add(calamity.ItemType("TelluricGlare"));
+                fireWeaponList.Add(calamity.ItemType("AngryChickenStaff"));
+                fireWeaponList.Add(calamity.ItemType("ChickenCannon"));
+                fireWeaponList.Add(calamity.ItemType("DragonRage"));
+                fireWeaponList.Add(calamity.ItemType("DragonsBreath"));
+                fireWeaponList.Add(calamity.ItemType("PhoenixFlameBarrage"));
+                fireWeaponList.Add(calamity.ItemType("ProfanedTrident"));
+                fireWeaponList.Add(calamity.ItemType("TheBurningSky"));
+
+                natureWeaponList.Add(calamity.ItemType("DepthBlade"));
+                natureWeaponList.Add(calamity.ItemType("AbyssBlade"));
+                natureWeaponList.Add(calamity.ItemType("NeptunesBounty"));
+                natureWeaponList.Add(calamity.ItemType("AquaticDissolution"));
+                natureWeaponList.Add(calamity.ItemType("ArchAmaryllis"));
+                natureWeaponList.Add(calamity.ItemType("BiomeBlade"));
+                natureWeaponList.Add(calamity.ItemType("TrueBiomeBlade"));
+                natureWeaponList.Add(calamity.ItemType("OmegaBiomeBlade"));
+                natureWeaponList.Add(calamity.ItemType("BladedgeGreatbow"));
+                natureWeaponList.Add(calamity.ItemType("BlossomFlux"));
+                natureWeaponList.Add(calamity.ItemType("EvergladeSpray"));
+                natureWeaponList.Add(calamity.ItemType("FeralthornClaymore"));
+                natureWeaponList.Add(calamity.ItemType("Floodtide"));
+                natureWeaponList.Add(calamity.ItemType("FourSeasonsGalaxia"));
+                natureWeaponList.Add(calamity.ItemType("GammaFusillade"));
+                natureWeaponList.Add(calamity.ItemType("GleamingMagnolia"));
+                natureWeaponList.Add(calamity.ItemType("HarvestStaff"));
+                natureWeaponList.Add(calamity.ItemType("HellionFlowerSpear"));
+                natureWeaponList.Add(calamity.ItemType("Lazhar"));
+                natureWeaponList.Add(calamity.ItemType("LifefruitScythe"));
+                natureWeaponList.Add(calamity.ItemType("ManaRose"));
+                natureWeaponList.Add(calamity.ItemType("MangroveChakram"));
+                natureWeaponList.Add(calamity.ItemType("MangroveChakramMelee"));
+                natureWeaponList.Add(calamity.ItemType("MantisClaws"));
+                natureWeaponList.Add(calamity.ItemType("Mariana"));
+                natureWeaponList.Add(calamity.ItemType("Mistlestorm"));
+                natureWeaponList.Add(calamity.ItemType("Monsoon"));
+                natureWeaponList.Add(calamity.ItemType("Alluvion"));
+                natureWeaponList.Add(calamity.ItemType("Needler"));
+                natureWeaponList.Add(calamity.ItemType("NettlelineGreatbow"));
+                natureWeaponList.Add(calamity.ItemType("Quagmire"));
+                natureWeaponList.Add(calamity.ItemType("Shroomer"));
+                natureWeaponList.Add(calamity.ItemType("SolsticeClaymore"));
+                natureWeaponList.Add(calamity.ItemType("SporeKnife"));
+                natureWeaponList.Add(calamity.ItemType("Spyker"));
+                natureWeaponList.Add(calamity.ItemType("StormSaber"));
+                natureWeaponList.Add(calamity.ItemType("StormRuler"));
+                natureWeaponList.Add(calamity.ItemType("StormSurge"));
+                natureWeaponList.Add(calamity.ItemType("TarragonThrowingDart"));
+                natureWeaponList.Add(calamity.ItemType("TerraEdge"));
+                natureWeaponList.Add(calamity.ItemType("TerraLance"));
+                natureWeaponList.Add(calamity.ItemType("TerraRay"));
+                natureWeaponList.Add(calamity.ItemType("TerraShiv"));
+                natureWeaponList.Add(calamity.ItemType("Terratomere"));
+                natureWeaponList.Add(calamity.ItemType("TerraFlameburster"));
+                natureWeaponList.Add(calamity.ItemType("TheSwarmer"));
+                natureWeaponList.Add(calamity.ItemType("Verdant"));
+                natureWeaponList.Add(calamity.ItemType("Barinautical"));
+                natureWeaponList.Add(calamity.ItemType("DeepseaStaff"));
+                natureWeaponList.Add(calamity.ItemType("Downpour"));
+                natureWeaponList.Add(calamity.ItemType("SubmarineShocker"));
+                natureWeaponList.Add(calamity.ItemType("Archerfish"));
+                natureWeaponList.Add(calamity.ItemType("BallOFugu"));
+                natureWeaponList.Add(calamity.ItemType("BlackAnurian"));
+                natureWeaponList.Add(calamity.ItemType("CalamarisLament"));
+                natureWeaponList.Add(calamity.ItemType("HerringStaff"));
+                natureWeaponList.Add(calamity.ItemType("Lionfish"));
+
+                alcoholList.Add(calamity.BuffType("BloodyMary"));
+                alcoholList.Add(calamity.BuffType("CaribbeanRum"));
+                alcoholList.Add(calamity.BuffType("CinnamonRoll"));
+                alcoholList.Add(calamity.BuffType("Everclear"));
+                alcoholList.Add(calamity.BuffType("EvergreenGin"));
+                alcoholList.Add(calamity.BuffType("Fireball"));
+                alcoholList.Add(calamity.BuffType("GrapeBeer"));
+                alcoholList.Add(calamity.BuffType("Margarita"));
+                alcoholList.Add(calamity.BuffType("Moonshine"));
+                alcoholList.Add(calamity.BuffType("MoscowMule"));
+                alcoholList.Add(calamity.BuffType("RedWine"));
+                alcoholList.Add(calamity.BuffType("Rum"));
+                alcoholList.Add(calamity.BuffType("Screwdriver"));
+                alcoholList.Add(calamity.BuffType("StarBeamRye"));
+                alcoholList.Add(calamity.BuffType("Tequila"));
+                alcoholList.Add(calamity.BuffType("TequilaSunrise"));
+                alcoholList.Add(calamity.BuffType("Vodka"));
+                alcoholList.Add(calamity.BuffType("Whiskey"));
+                alcoholList.Add(calamity.BuffType("WhiteWine"));
+            }
+        }
+        #endregion
+
+        #region Music
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
     		Mod mod = ModLoader.GetMod("CalamityMod");
@@ -623,15 +1094,19 @@ namespace CalamityMod
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAstral)
                     {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"); priority = MusicPriority.Environment; }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer1 || Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer2)
                     {
                         if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss"); priority = MusicPriority.BiomeHigh; }
                     }
-                    if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer3 || Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer4)
+                    if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer3)
                     {
                         if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss"); priority = MusicPriority.BiomeHigh; }
+                    }
+                    if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer4)
+                    {
+                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheVoid"); priority = MusicPriority.BiomeHigh; }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneSulphur)
                     {
@@ -641,18 +1116,17 @@ namespace CalamityMod
                     {
                         music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse"); priority = MusicPriority.BossMedium;
                     }
-                    if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAstral)
-                    {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"); priority = MusicPriority.BiomeHigh; }
-                    }
                 }
             }
 		}
-    	
-    	public override void PostSetupContent()
+        #endregion
+
+        #region PostSetupContent
+        public override void PostSetupContent()
         {
     		Mod mod = ModLoader.GetMod("CalamityMod");
             Mod bossChecklist = ModLoader.GetMod("BossChecklist");
+
             if (bossChecklist != null)
             {
                 #region NormalModes
@@ -684,6 +1158,7 @@ namespace CalamityMod
                 #endregion
             }
         }
+        #endregion
 
         #region DrawingStuff
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -1124,6 +1599,7 @@ namespace CalamityMod
         }
         #endregion
 
+        #region RecipeGroups
         public override void AddRecipeGroups()
 		{
 		    RecipeGroup group = new RecipeGroup(() => Lang.misc[37] + (" Silt"), new int[]
@@ -1132,6 +1608,7 @@ namespace CalamityMod
 				1103
 			});
 			RecipeGroup.RegisterGroup("SiltGroup", group);
+
 			group = new RecipeGroup(() => Lang.misc[37] + (" Lunar Pickaxe"), new int[]
 			{
 				2776,
@@ -1140,6 +1617,7 @@ namespace CalamityMod
 				3466
 			});
 			RecipeGroup.RegisterGroup("LunarPickaxe", group);
+
 			group = new RecipeGroup(() => Lang.misc[37] + (" Lunar Axe"), new int[]
 			{
 				3522,
@@ -1148,6 +1626,7 @@ namespace CalamityMod
 				3525
 			});
 			RecipeGroup.RegisterGroup("LunarAxe", group);
+
 			group = new RecipeGroup(() => Lang.misc[37] + (" Wings"), new int[]
 			{
 				492,
@@ -1193,8 +1672,10 @@ namespace CalamityMod
 			});
 			RecipeGroup.RegisterGroup("WingsGroup", group);
 		}
-    	
-    	public override void AddRecipes()
+        #endregion
+
+        #region Recipes
+        public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.SunplateBlock, 10);
@@ -1203,6 +1684,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.SkyMill);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.IceBlock, 20);
 			recipe.AddIngredient(ItemID.Leather, 5);
@@ -1210,6 +1692,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.IceMachine);
 	        recipe.SetResult(ItemID.IceSkates);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.IceBlock, 20);
 			recipe.AddIngredient(ItemID.Leather, 5);
@@ -1217,17 +1700,20 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.IceMachine);
 	        recipe.SetResult(ItemID.IceSkates);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.Lens);
 			recipe.AddIngredient(ItemID.BlackDye);
 	        recipe.AddTile(TileID.DyeVat);
 	        recipe.SetResult(ItemID.BlackLens);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.Vertebrae, 5);
 	        recipe.AddTile(TileID.WorkBenches);
 	        recipe.SetResult(ItemID.Leather);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.IceBlock, 25);
 			recipe.AddIngredient(ItemID.SnowBlock, 15);
@@ -1235,6 +1721,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.IceMachine);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.IceBlock, 25);
 			recipe.AddIngredient(ItemID.SnowBlock, 15);
@@ -1242,6 +1729,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.IceMachine);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.GoldBroadsword);
 			recipe.AddIngredient(ItemID.FallenStar, 10);
@@ -1249,6 +1737,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.Starfury);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.PlatinumBroadsword);
 			recipe.AddIngredient(ItemID.FallenStar, 10);
@@ -1256,6 +1745,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.Starfury);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.Feather, 2);
 			recipe.AddIngredient(ItemID.Bottle);
@@ -1263,6 +1753,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.CloudinaBottle);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.Feather, 4);
 			recipe.AddIngredient(ItemID.Bottle);
@@ -1270,6 +1761,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.BlizzardinaBottle);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "DesertFeather", 10);
 			recipe.AddIngredient(ItemID.Feather, 6);
@@ -1278,6 +1770,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.SandstorminaBottle);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.WhiteString);
 			recipe.AddIngredient(ItemID.Gel, 80);
@@ -1285,12 +1778,14 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Solidifier);
 	        recipe.SetResult(ItemID.ShinyRedBalloon);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.Leather, 5);
 			recipe.AddIngredient(ItemID.WaterWalkingPotion, 8);
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.WaterWalkingBoots);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.LavaBucket, 5);
 			recipe.AddIngredient(ItemID.Obsidian, 25);
@@ -1298,6 +1793,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.LavaCharm);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.LavaBucket, 5);
 			recipe.AddIngredient(ItemID.Obsidian, 25);
@@ -1305,61 +1801,72 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.LavaCharm);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "CryoBar", 6);
 			recipe.AddIngredient(ItemID.FrostCore);
 	        recipe.AddTile(TileID.IceMachine);
 	        recipe.SetResult(ItemID.FrostHelmet);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "CryoBar", 10);
 			recipe.AddIngredient(ItemID.FrostCore);
 	        recipe.AddTile(TileID.IceMachine);
 	        recipe.SetResult(ItemID.FrostBreastplate);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "CryoBar", 8);
 			recipe.AddIngredient(ItemID.FrostCore);
 	        recipe.AddTile(TileID.IceMachine);
 	        recipe.SetResult(ItemID.FrostLeggings);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.CobaltBar, 10);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.CobaltShield);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.PalladiumBar, 10);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.CobaltShield);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.CobaltBar, 15);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.Muramasa);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.PalladiumBar, 15);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.Muramasa);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "TrueBloodyEdge");
 			recipe.AddIngredient(ItemID.TrueExcalibur);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.TerraBlade);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "Ectoblood", 3);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.Ectoplasm);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.EmptyBullet);
 			recipe.AddIngredient(ItemID.ExplosivePowder, 3);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.RocketI, 5);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "VictoryShard", 10);
 			recipe.AddIngredient(ItemID.SoulofLight, 15);
@@ -1368,252 +1875,294 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.EnchantedSword);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.WormholePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.WarmthPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.CratePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.SonarPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.FishingPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.TeleportationPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.StinkPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.LovePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.WrathPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.InfernoPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.RagePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.EndurancePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.LifeforcePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.AmmoReservationPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.TrapsightPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.SummoningPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.FlipperPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.TitanPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.BuilderPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.CalmingPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.HeartreachPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.MiningPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.GenderChangePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.GravitationPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.HunterPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.ArcheryPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.WaterWalkingPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.ThornsPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.BattlePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.NightOwlPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.ShinePotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.InvisibilityPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.SpelunkerPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.FeatherfallPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.MagicPowerPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.ManaRegenerationPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.IronskinPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.GillsPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.SwiftnessPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.RegenerationPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "BloodOrb", 10);
 			recipe.AddIngredient(ItemID.BottledWater);
 	        recipe.AddTile(TileID.AlchemyTable);
 	        recipe.SetResult(ItemID.ObsidianSkinPotion);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.AncientCloth, 10);
 			recipe.AddIngredient(ItemID.SoulofLight, 10);
@@ -1621,28 +2170,33 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.FlyingCarpet);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.LihzahrdBrick, 15);
 			recipe.AddIngredient(null, "CoreofCinder");
 	        recipe.AddTile(TileID.LihzahrdFurnace);
 	        recipe.SetResult(ItemID.LihzahrdPowerCell);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.GlowingMushroom, 15);
 			recipe.AddIngredient(ItemID.Worm);
 	        recipe.AddTile(TileID.Autohammer);
 	        recipe.SetResult(ItemID.TruffleWorm);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.IronBar, 5);
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.Aglet);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.LeadBar, 5);
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.Aglet);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.JungleSpores, 15);
 			recipe.AddIngredient(ItemID.Cloud, 15);
@@ -1650,6 +2204,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.AnkletoftheWind);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.SunplateBlock, 10);
 			recipe.AddIngredient(ItemID.Cloud, 10);
@@ -1657,6 +2212,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.LuckyHorseshoe);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.SunplateBlock, 10);
 			recipe.AddIngredient(ItemID.Cloud, 10);
@@ -1664,6 +2220,7 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.LuckyHorseshoe);
 	        recipe.AddRecipe();
+
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.SoulofLight, 30);
 			recipe.AddIngredient(ItemID.ChaosFish, 5);
@@ -1671,18 +2228,21 @@ namespace CalamityMod
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.RodofDiscord);
 	        recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.TurtleShell, 3);
             recipe.AddIngredient(null, "EssenceofEleum", 9);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.FrozenTurtleShell);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(null, "PlantyMush", 10);
             recipe.AddIngredient(null, "LivingShard");
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.LifeFruit);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.FallenStar, 20);
             recipe.AddIngredient(ItemID.SoulofMight, 10);
@@ -1692,6 +2252,7 @@ namespace CalamityMod
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.CelestialMagnet);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 1
             recipe.AddIngredient(ItemID.Silk, 20);
             recipe.AddIngredient(ItemID.SoulofLight, 3);
@@ -1699,24 +2260,28 @@ namespace CalamityMod
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.TrifoldMap);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 2
             recipe.AddIngredient(ItemID.Bone, 50);
             recipe.AddIngredient(null, "AncientBoneDust", 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.ArmorPolish);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 3
             recipe.AddIngredient(ItemID.SoulofNight, 20);
             recipe.AddIngredient(ItemID.Lens, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.Nazar);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 4
             recipe.AddIngredient(ItemID.Stinger, 15);
             recipe.AddIngredient(null, "MurkyPaste");
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.Bezoar);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 5
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ItemID.Waterleaf, 5);
@@ -1726,12 +2291,14 @@ namespace CalamityMod
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.Vitamins);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 6
             recipe.AddIngredient(ItemID.Silk, 30);
             recipe.AddIngredient(ItemID.SoulofNight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.Blindfold);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 7
             recipe.AddIngredient(ItemID.Timer1Second);
             recipe.AddIngredient(ItemID.PixieDust, 15);
@@ -1739,6 +2306,7 @@ namespace CalamityMod
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.FastClock);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 8
             recipe.AddIngredient(ItemID.Wire, 10);
             recipe.AddIngredient(ItemID.HallowedBar, 5);
@@ -1746,6 +2314,7 @@ namespace CalamityMod
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.Megaphone);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //ankh 9
             recipe.AddIngredient(ItemID.Silk, 10);
             recipe.AddIngredient(ItemID.Gel, 50);
@@ -1753,26 +2322,31 @@ namespace CalamityMod
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.AdhesiveBandage);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.Frog, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.FrogLeg);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //hermesboots
             recipe.AddIngredient(ItemID.Silk, 10);
             recipe.AddTile(TileID.Loom);
             recipe.SetResult(ItemID.HermesBoots);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);   //radar
             recipe.AddIngredient(ItemID.IronBar, 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.Radar);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.LeadBar, 5);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.Radar);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.Bone, 5);
             recipe.AddIngredient(ItemID.PinkGel);
@@ -1781,6 +2355,7 @@ namespace CalamityMod
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.LifeCrystal);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.Wood, 5);
             recipe.AddIngredient(ItemID.Torch, 3);
@@ -1788,37 +2363,44 @@ namespace CalamityMod
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.WandofSparking);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.IronBar);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.ThrowingKnife, 50);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.LeadBar);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.ThrowingKnife, 50);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.IronBar);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.Shuriken, 50);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.LeadBar);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.Shuriken, 50);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.Leather, 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.FeralClaws);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.Leather, 5);
             recipe.AddIngredient(null, "BloodOrb", 10);
             recipe.AddTile(TileID.Hellforge);
             recipe.SetResult(ItemID.GuideVoodooDoll);
             recipe.AddRecipe();
+
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.JungleSpores, 15);
             recipe.AddIngredient(ItemID.RichMahogany, 15);
@@ -1828,8 +2410,10 @@ namespace CalamityMod
             recipe.SetResult(ItemID.TempleKey);
             recipe.AddRecipe();
         }
-    	
-    	public override void HandlePacket(BinaryReader reader, int whoAmI)
+        #endregion
+
+        #region Packets
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
 		{
 			CalamityModMessageType msgType = (CalamityModMessageType)reader.ReadByte();
             switch (msgType)
@@ -1867,13 +2451,18 @@ namespace CalamityMod
                 case CalamityModMessageType.TeleportPlayer:
                     Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleTeleport(reader.ReadInt32(), true, whoAmI);
                     break;
+                case CalamityModMessageType.SupremeCal:
+                    int SCalAlive = reader.ReadInt32();
+                    CalamityGlobalNPC.SCal = SCalAlive;
+                    break;
                 default:
 					ErrorLogger.Log("CalamityMod: Unknown Message type: " + msgType);
 					break;
 			}
         }
-    	
-    	public override object Call(params object[] args)
+        #endregion
+
+        public override object Call(params object[] args)
 		{
 			return ModSupport.Call(args);
 		}
@@ -1889,6 +2478,7 @@ namespace CalamityMod
         Providence,
         AdrenalineSync,
         TeleportPlayer,
-        BossRushStage
+        BossRushStage,
+        SupremeCal
     }
 }

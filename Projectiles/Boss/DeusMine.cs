@@ -58,10 +58,16 @@ namespace CalamityMod.Projectiles.Boss
         		Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
         	}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
-        	return new Color(255, Main.DiscoG, 0, projectile.alpha);
+            if (projectile.timeLeft < 85)
+            {
+                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
+                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+            }
+            return new Color(255, 255, 255, projectile.alpha);
         }
 
         public override void Kill(int timeLeft)
@@ -85,10 +91,10 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			for (int num623 = 0; num623 < 60; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1.7f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.7f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
         }

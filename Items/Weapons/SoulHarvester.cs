@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons
             if (target.life <= (target.lifeMax * 0.15f))
             {
                 Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("HiveBombExplosion"), damage, knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("HiveBombExplosion"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
                 player.position.X = player.position.X + (float)(player.width / 2);
                 player.position.Y = player.position.Y + (float)(player.height / 2);
                 player.position.X = player.position.X - (float)(player.width / 2);

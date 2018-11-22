@@ -14,17 +14,17 @@ namespace CalamityMod.Tiles
         public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
         {
             frame = (i + j * j) % 3;
-            return CalamityMod.Instance.GetTexture("Tiles/Normal/AstralTree_Tops");
+            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralTree_Tops");
         }
 
         public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Normal/AstralTree_Branches");
+            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralTree_Branches");
         }
 
         public override Texture2D GetTexture()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Normal/AstralTree");
+            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralTree");
         }
 
         public override int DropWood()

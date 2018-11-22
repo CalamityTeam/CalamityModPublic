@@ -32,7 +32,7 @@ namespace CalamityMod.Items
 		
 		public override bool UseItem(Player player)
 		{
-            CalamityGlobalNPC.DraedonMayhem = 1;
+            CalamityGlobalNPC.DraedonMayhem = true;
             if (Main.netMode == 2)
             {
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);

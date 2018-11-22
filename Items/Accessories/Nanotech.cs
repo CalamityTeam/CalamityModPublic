@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Throwing projectiles leave behind nanoblades as they travel\n" +
                 "While holding a throwing weapon your defense is boosted by 15 and your damage reduction is boosted by 10%\n" +
                 "Throwing weapons have a chance to instantly kill normal enemies\n" +
-                "15% increased throwing damage, crit chance, and velocity");
+                "10% increased throwing damage, crit chance, and velocity");
         }
 
         public override void SetDefaults()
@@ -43,9 +43,9 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.nanotech = true;
-            player.thrownDamage += 0.15f;
-            player.thrownCrit += 15;
-            player.thrownVelocity += 0.15f;
+            player.thrownDamage += 0.1f;
+            player.thrownCrit += 10;
+            player.thrownVelocity += 0.1f;
         }
 
         public override void AddRecipes()

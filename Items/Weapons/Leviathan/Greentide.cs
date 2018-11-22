@@ -49,7 +49,6 @@ namespace CalamityMod.Items.Weapons.Leviathan
         {
             int i = Main.myPlayer;
 			float num72 = item.shootSpeed;
-			int num73 = damage;
 			float num74 = knockback;
 	    	num74 = player.GetWeaponKnockback(item, num74);
 	    	player.itemTime = item.useTime;
@@ -96,7 +95,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 				num79 *= num80;
 				float speedX4 = num78;
 				float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("GreenWater"), num73, num74, i, 0f, (float)Main.rand.Next(10));
+				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("GreenWater"), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(10));
 			}
         }
         
