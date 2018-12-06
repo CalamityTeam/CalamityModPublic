@@ -19,15 +19,16 @@ namespace CalamityMod
     {
         public static void Load()
         {
-            DoSwaps();
+            // DoSwaps();
         }
         
         public static void Unload()
         {
-            DoSwaps();
+            // DoSwaps();
         }
 
-        public static void DoSwaps()
+        // This function has no effect except causing crashes
+		public static void DoSwaps()
         {
             try
             {
