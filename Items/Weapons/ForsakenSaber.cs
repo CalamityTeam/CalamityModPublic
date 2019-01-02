@@ -21,9 +21,9 @@ namespace CalamityMod.Items.Weapons
 			item.width = 54;
 			item.damage = 65;
 			item.melee = true;
-			item.useAnimation = 23;
+			item.useAnimation = 18;
 			item.useStyle = 1;
-			item.useTime = 23;
+			item.useTime = 18;
 			item.useTurn = true;
 			item.knockBack = 6;
 			item.UseSound = SoundID.Item1;

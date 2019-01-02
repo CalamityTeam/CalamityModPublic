@@ -179,7 +179,11 @@ namespace CalamityMod.Projectiles
 				{
 					flag59 = false;
 				}
-				if (flag59) 
+                if (projectile.localAI[0] < 60f)
+                {
+                    projectile.localAI[0] += 1f;
+                }
+				if (flag59 && projectile.localAI[0] >= 60f)
 				{
 					float num1019 = 24f; //14
 					int num1020 = 8;

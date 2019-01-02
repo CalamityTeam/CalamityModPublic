@@ -23,7 +23,7 @@ namespace CalamityMod.Items.AbyssItems
         {
             item.width = 26;
             item.height = 26;
-            item.value = 150000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
             item.accessory = true;
         }

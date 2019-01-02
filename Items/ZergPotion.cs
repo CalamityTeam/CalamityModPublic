@@ -32,10 +32,11 @@ namespace CalamityMod.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.BattlePotion);
-			recipe.AddIngredient(null, "DemonicBoneAsh");
+			recipe.AddIngredient(null, "EssenceofChaos", 3);
 			recipe.AddIngredient(null, "MurkySludge", 2);
-			recipe.AddTile(TileID.AlchemyTable);
+            recipe.AddIngredient(null, "DemonicBoneAsh");
+            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddTile(TileID.AlchemyTable);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
             recipe = new ModRecipe(mod);

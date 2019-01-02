@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 84;
-			item.damage = 2500;
+			item.damage = 4000;
 			item.melee = true;
 			item.useAnimation = 11;
 			item.useStyle = 1;
@@ -59,11 +59,11 @@ namespace CalamityMod.Items.Weapons
 			int damageRan = Main.rand.Next(195); //0 to 195
 			if (damageRan >= 50 && damageRan <= 99) //25%
 			{
-				item.damage = 4000;
+				item.damage = 6000;
 			}
 			else if (damageRan >= 100 && damageRan <= 139) //20%
 			{
-				item.damage = 7500;
+				item.damage = 9000;
 			}
 			else if (damageRan >= 140 && damageRan <= 169) //15%
 			{
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons
 			}
 			else
 			{
-				item.damage = 2500;
+				item.damage = 4000;
 			}
 		}
 	}

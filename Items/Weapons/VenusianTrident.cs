@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 360;
+            item.damage = 136;
             item.magic = true;
             item.mana = 20;
             item.width = 48;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons
             {
                 if (line2.mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(43, 96, 222);
+                    line2.overrideColor = new Color(0, 255, 0);
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons
             recipe.AddIngredient(ItemID.InfernoFork);
             recipe.AddIngredient(null, "Phantoplasm", 5);
             recipe.AddIngredient(null, "TwistingNether");
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Yharon
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Yharon
         {
             item.width = 20;
             item.height = 22;
-            item.value = 50000000;
+            item.value = Item.buyPrice(1, 0, 0, 0);
             item.accessory = true;
             item.expert = true;
         }
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Yharon
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.meleeDamage += 0.15f;
-            player.thrownDamage += 0.15f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
             player.rangedDamage += 0.15f;
             player.magicDamage += 0.15f;
             player.minionDamage += 0.15f;

@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.HiveMind
         int previousState = 0;
         int nextState = 0;
         int reelCount = 0;
-        int oldDamage = 30;
+        int oldDamage = 40;
         Vector2 deceleration;
 
         public override void SetStaticDefaults()
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.HiveMind
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 5f;
-			npc.damage = 30;
+			npc.damage = 40;
 			npc.width = 150; //324
 			npc.height = 120; //216
 			npc.defense = 5;
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.HiveMind
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 880000 : 740000;
+                npc.lifeMax = CalamityWorld.death ? 1600000 : 1300000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -554,7 +554,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 npc.ai[0]++;
                                 if (Main.netMode != 1)
                                 {
-                                    int damage = Main.expertMode ? 11 : 14;
+                                    int damage = Main.expertMode ? 14 : 18;
                                     Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, mod.ProjectileType("ShadeNimbusHostile"), damage, 0, Main.myPlayer, 11, 0);
                                 }
                                 if (npc.ai[0] == 10)
@@ -719,7 +719,7 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 90, true);
+				player.AddBuff(mod.BuffType("Horror"), 300, true);
 			}
 		}
 	}

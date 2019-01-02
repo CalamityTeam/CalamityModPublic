@@ -75,16 +75,12 @@ namespace CalamityMod.Projectiles
         	target.AddBuff(BuffID.OnFire, 240);
         	target.AddBuff(BuffID.Frostburn, 240);
         	target.AddBuff(mod.BuffType("GlacialState"), 120);
-        	if (target.buffImmune[mod.BuffType("GlacialState")])
-        	{
-        		damage += 4;
-        	}
         }
 		
 		public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("BoltExplosion"), (int)((double)projectile.damage * 0.5f), 0f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("BoltExplosion"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
         	int num212 = Main.rand.Next(10, 20);
 			for (int num213 = 0; num213 < num212; num213++)
 			{

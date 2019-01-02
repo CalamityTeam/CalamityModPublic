@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.HiveMind
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 18;
+			npc.damage = 24;
 			npc.width = 74; //324
 			npc.height = 74; //216
 			npc.defense = 5;
@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			if (Main.expertMode && Main.netMode != 1)
 			{
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("ShadeNimbusHostile"), 12, 0f, Main.myPlayer, 0f, 0f);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("ShadeNimbusHostile"), 14, 0f, Main.myPlayer, 0f, 0f);
 			}
 		}
 	}

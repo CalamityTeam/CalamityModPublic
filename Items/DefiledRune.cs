@@ -15,7 +15,7 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Defiled Rune");
-			Tooltip.SetDefault("Halves your max HP and increases enemy damage resistance by 50%\n" +
+			Tooltip.SetDefault("Wings do nothing\n" +
                 "Increases most rare item drop chances and enemies drop 2 times the cash\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss\n" +
                 "Can only be used in revengeance and death mode\n" +
@@ -91,5 +91,13 @@ namespace CalamityMod.Items
             }
 			return true;
 		}
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddTile(TileID.DemonAltar);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

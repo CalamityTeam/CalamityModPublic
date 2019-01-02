@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Ataxia Helm");
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
-                "Melee attacks inflict on fire\n" +
+                "Melee attacks and melee projectiles inflict on fire\n" +
                 "Immune to lava and fire damage");
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased melee damage and critical strike chance\n" +
+            player.setBonus = "5% increased melee damage\n" +
                 "Inferno effect when below 50% life\n" +
                 "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
@@ -53,7 +53,6 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Inferno, 2);
             }
             player.meleeDamage += 0.05f;
-            player.meleeCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles
 			if (Main.rand.Next(16) == 0)
 			{
 				Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
-				int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
+				int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
 				Main.dust[num59].velocity = value3 * 0.66f;
 				Main.dust[num59].position = projectile.Center + value3 * 12f;
 			}
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles
 				projectile.light = 0.9f;
 				if (Main.rand.Next(10) == 0)
 				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
 				}
 				if (Main.rand.Next(20) == 0)
 				{
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
 			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1.2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.2f);
 				Main.dust[num622].velocity *= 3f;
 				if (Main.rand.Next(2) == 0)
 				{
@@ -107,10 +107,10 @@ namespace CalamityMod.Projectiles
 			}
 			for (int num623 = 0; num623 < 5; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1.7f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.7f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
 			for (int num480 = 0; num480 < 3; num480++)

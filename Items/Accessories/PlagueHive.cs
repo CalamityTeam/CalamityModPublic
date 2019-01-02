@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 38;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -51,6 +51,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[mod.BuffType("Plague")] = true;
             player.bee = true;
             modPlayer.uberBees = true;
+            player.strongBees = true;
             modPlayer.alchFlask = true;
             if (player.statLife >= (player.statLifeMax * 0.9f))
             {

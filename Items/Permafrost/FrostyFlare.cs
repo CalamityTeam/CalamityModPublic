@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Permafrost
 {
@@ -18,7 +19,6 @@ namespace CalamityMod.Items.Permafrost
 			item.damage = 32;
             item.noUseGraphic = true;
             item.noMelee = true;
-			item.thrown = true;
 			item.width = 10;
 			item.height = 22;
             item.useTime = 16;

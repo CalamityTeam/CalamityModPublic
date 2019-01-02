@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            //item.createWall = mod.TileType("AstralDirtWall");
-            item.createWall = Terraria.ID.WallID.Cave8Unsafe;
+            item.createWall = mod.WallType("AstralDirtWall");
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

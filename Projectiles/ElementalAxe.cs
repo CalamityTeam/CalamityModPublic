@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles
 			float num633 = 700f;
 			float num634 = 1200f;
 			float num635 = 2500f;
-			float num636 = 150f;
+			float num636 = 400f;
 			float num637 = 0.05f;
 			for (int num638 = 0; num638 < 1000; num638++)
 			{
@@ -227,7 +227,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 5;
+        	target.immune[projectile.owner] = 4;
             target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
             target.AddBuff(mod.BuffType("GlacialState"), 100);
             target.AddBuff(mod.BuffType("Plague"), 100);

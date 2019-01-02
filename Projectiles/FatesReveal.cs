@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles
         {
 			float num949 = 10f;
 			float scaleFactor11 = 15f;
-			float num950 = 40f;
+			float num950 = 160f;
 			if (projectile.timeLeft > 30 && projectile.alpha > 0) 
 			{
 				projectile.alpha -= 25;
@@ -102,18 +102,16 @@ namespace CalamityMod.Projectiles
 					num3 = num955;
 				}
 			}
-			int num956 = (int)projectile.ai[0];
-			if (num956 >= 0 && Main.player[num956].active && !Main.player[num956].dead) 
+			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead) 
 			{
-				if (projectile.Distance(Main.player[num956].Center) > num950) 
+				if (projectile.Distance(Main.player[projectile.owner].Center) > num950) 
 				{
-					Vector2 vector118 = projectile.DirectionTo(Main.player[num956].Center);
+					Vector2 vector118 = projectile.DirectionTo(Main.player[projectile.owner].Center);
 					if (vector118.HasNaNs()) 
 					{
 						vector118 = Vector2.UnitY;
 					}
 					projectile.velocity = (projectile.velocity * (num949 - 1f) + vector118 * scaleFactor11) / num949;
-					return;
 				}
 			} 
 			else 
@@ -121,12 +119,6 @@ namespace CalamityMod.Projectiles
 				if (projectile.timeLeft > 30) 
 				{
 					projectile.timeLeft = 30;
-				}
-				if (projectile.ai[0] != -1f) 
-				{
-					projectile.ai[0] = -1f;
-					projectile.netUpdate = true;
-					return;
 				}
 			}
         }

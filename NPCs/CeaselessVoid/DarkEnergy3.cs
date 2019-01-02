@@ -27,13 +27,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.height = 80; //216
 			npc.defense = 68;
             npc.lifeMax = 3000;
-            if (CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 npc.lifeMax = 12000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 37000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -104,7 +104,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 if (!player.active || player.dead)
                 {
                     npc.velocity = new Vector2(0f, -10f);
-                    CalamityGlobalNPC.DoGSecondStageCountdown = 0;
                     if (npc.timeLeft > 150)
                     {
                         npc.timeLeft = 150;
@@ -164,7 +163,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 600, true);
+				player.AddBuff(mod.BuffType("Horror"), 300, true);
 			}
 		}
 		

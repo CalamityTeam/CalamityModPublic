@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
+            projectile.arrow = true;
             projectile.timeLeft = 90;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;

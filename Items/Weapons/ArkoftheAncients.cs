@@ -88,9 +88,7 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
 				float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-				int star = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-                Main.projectile[star].ranged = false;
-                Main.projectile[star].melee = true;
+				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, knockBack, player.whoAmI, 1f, (float)Main.rand.Next(5));
             }
 	    	return false;
 		}

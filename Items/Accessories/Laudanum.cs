@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laudanum");
-            Tooltip.SetDefault("Boosts your damage and crit chance by 6%, \n" +
+            Tooltip.SetDefault("Boosts your damage by 6%,\n" +
                                "defense by 8, and max movement speed and acceleration by 5%\n" +
                                "Makes you immune to The Horror debuff\n" +
                                "Revengeance drop");
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = 50000;
+            item.value = Item.buyPrice(0, 9, 0, 0);
             item.rare = 3;
             item.accessory = true;
         }

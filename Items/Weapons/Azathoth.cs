@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 	    public override void SetDefaults()
 	    {
 	    	item.CloneDefaults(ItemID.Kraken);
-	        item.damage = 100;
+	        item.damage = 240;
 	        item.useTime = 20;
 	        item.useAnimation = 20;
 	        item.useStyle = 5;

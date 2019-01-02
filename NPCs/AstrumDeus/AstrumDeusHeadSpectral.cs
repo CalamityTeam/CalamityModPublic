@@ -17,6 +17,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 	[AutoloadBossHead]
 	public class AstrumDeusHeadSpectral : ModNPC
 	{
+        public static bool colorChange = false;
         private bool flies = true;
         private const int minLength = 12;
         private const int maxLength = 13;
@@ -43,7 +44,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 2500000 : 1900000;
+                npc.lifeMax = CalamityWorld.death ? 3000000 : 2500000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -73,8 +74,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void AI()
 		{
-            npc.dontTakeDamage = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
-            npc.chaseable = !NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
+            colorChange = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
+            npc.dontTakeDamage = colorChange;
+            npc.chaseable = !colorChange;
             bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
             float speedLimit = CalamityWorld.revenge ? 9f : 7f;
             float turnSpeedLimit = CalamityWorld.revenge ? 0.14f : 0.12f;
@@ -378,7 +380,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override Color? GetAlpha(Color drawColor)
         {
-            if (NPC.AnyNPCs(mod.NPCType("AstrumDeusHead")))
+            if (colorChange)
             {
                 return new Color(250, 150, Main.DiscoB, npc.alpha);
             }
@@ -387,7 +389,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (NPC.AnyNPCs(mod.NPCType("AstrumDeusHead")))
+            if (colorChange)
             {
                 return false;
             }
@@ -396,11 +398,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 2;
-            }
             if (projectile.penetrate == -1 && !projectile.minion && !projectile.thrown)
 			{
 				damage /= 5;
@@ -449,10 +446,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (CalamityWorld.downedStarGod)
-			{
-				player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
 		}
 		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

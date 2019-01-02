@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.PlaguebringerGoliath
 {
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 		{
 			DisplayName.SetDefault("Bloom Stone");
 			Tooltip.SetDefault("One of the ancient relics\n" +
-            	"Enemies that get near you take damage and all damage and crit chance is increased by 2%\n" +
+            	"Enemies that get near you take damage and all damage is increased by 3%\n" +
             	"You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 7));
 		}
@@ -24,23 +24,20 @@ namespace CalamityMod.Items.PlaguebringerGoliath
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
 			item.accessory = true;
         }
         
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-        	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
-			player.meleeCrit += 2;
-			player.meleeDamage += 0.02f;
-			player.magicCrit += 2;
-			player.magicDamage += 0.02f;
-			player.rangedCrit += 2;
-			player.rangedDamage += 0.02f;
-			player.thrownCrit += 2;
-			player.thrownDamage += 0.02f;
-			player.minionDamage += 0.02f;
+            CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
+            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
+			player.meleeDamage += 0.03f;
+			player.magicDamage += 0.03f;
+			player.rangedDamage += 0.03f;
+			modPlayer2.throwingDamage += 0.03f;
+			player.minionDamage += 0.03f;
 			int bloomCounter = 0;
 			int num = 186;
 			float num2 = 150f;

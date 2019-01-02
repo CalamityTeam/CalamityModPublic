@@ -120,10 +120,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
         	target.AddBuff(mod.BuffType("AbyssalFlames"), 900);
-            if (CalamityWorld.death)
-            {
-                target.AddBuff(mod.BuffType("VulnerabilityHex"), 300, true);
-            }
+            target.AddBuff(mod.BuffType("VulnerabilityHex"), 300, true);
         }
     }
 }

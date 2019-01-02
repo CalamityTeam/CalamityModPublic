@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Heart Attack");
-			Description.SetDefault("You survived a heart attack.  Boosts life regen and max life.");
+			Description.SetDefault("You survived a heart attack.  Boosts max life.");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;

@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
+            projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.aiStyle = 1;
@@ -28,10 +29,6 @@ namespace CalamityMod.Projectiles
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (Main.rand.Next(5) == 0)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
         }
         
         public override void Kill(int timeLeft)
@@ -43,7 +40,7 @@ namespace CalamityMod.Projectiles
 			projectile.height = 30;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for (int num621 = 0; num621 < 10; num621++)
+			for (int num621 = 0; num621 < 2; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
@@ -53,7 +50,7 @@ namespace CalamityMod.Projectiles
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			for (int num623 = 0; num623 < 20; num623++)
+			for (int num623 = 0; num623 < 6; num623++)
 			{
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].noGravity = true;

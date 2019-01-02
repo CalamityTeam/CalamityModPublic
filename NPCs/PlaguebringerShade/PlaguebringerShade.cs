@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			npc.lifeMax = CalamityWorld.death ? 4000 : 3000; //250000
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 200000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -584,7 +584,12 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			}
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg5"), 1f);
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 100;
 				npc.height = 100;

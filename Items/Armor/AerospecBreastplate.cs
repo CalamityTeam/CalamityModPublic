@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aerospec Breastplate");
-            Tooltip.SetDefault("+20 max mana and +1 max minions");
+            Tooltip.SetDefault("3% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -29,8 +30,10 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.statManaMax2 += 20;
-            player.maxMinions++;
+            player.meleeCrit += 3;
+            player.rangedCrit += 3;
+            player.magicCrit += 3;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
         }
 
         public override void AddRecipes()

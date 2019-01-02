@@ -69,8 +69,8 @@ namespace CalamityMod.Items.Weapons
 			{
 				return;
 			}
-	    	player.statLife += 3;
-	    	player.HealEffect(3);
+	    	player.statLife += 2;
+	    	player.HealEffect(2);
 			target.AddBuff(BuffID.OnFire, 200);
 			target.AddBuff(BuffID.CursedInferno, 200);
 		}

@@ -87,12 +87,12 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Poisoned, 600);
         }
 		
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.Poisoned, 600);
         }
     }
 }

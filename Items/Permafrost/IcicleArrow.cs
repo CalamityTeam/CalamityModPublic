@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Permafrost
 			DisplayName.SetDefault("Icicle Arrow");
 			Tooltip.SetDefault("Shatters into shards on impact");
 		}
+
 		public override void SetDefaults()
 		{
 			item.damage = 14;
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Permafrost
 			item.height = 50;
 			item.knockBack = 2.5f;
 			item.value = Item.buyPrice(0, 0, 0, 15);
-            item.rare = 5;
+            item.rare = 3;
 			item.shoot = mod.ProjectileType("IcicleArrow");
             item.shootSpeed = 1.0f;
 			item.ammo = AmmoID.Arrow;

@@ -13,12 +13,13 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Acid Round");
-			Tooltip.SetDefault("Explodes into acid that inflicts the plague");
+			Tooltip.SetDefault("Explodes into acid that inflicts the plague\n" +
+                "Does more damage the higher the target's defense");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 24;
+			item.damage = 36;
 			item.ranged = true;
 			item.width = 8;
 			item.height = 8;

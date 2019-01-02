@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.defense = 99999;
             npc.lifeMax = 20000;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            if (CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 npc.lifeMax = 100000;
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
-            if (npc.defense < 99999 && CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (npc.defense < 99999 && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 npc.defense = 99999;
             }
@@ -137,6 +137,9 @@ namespace CalamityMod.NPCs.StormWeaver
         {
             if (npc.life <= 0)
             {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor4"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 30;

@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles
             projectile.width = 25;
             projectile.height = 25;
             projectile.friendly = true;
-            projectile.thrown = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
         }
@@ -26,7 +25,7 @@ namespace CalamityMod.Projectiles
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        	projectile.alpha += 25;
+        	projectile.alpha += 17;
         	if (projectile.alpha >= 255)
         	{
         		projectile.Kill();

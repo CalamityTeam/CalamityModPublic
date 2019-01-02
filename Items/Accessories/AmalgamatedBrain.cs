@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Amalgamated Brain");
-            Tooltip.SetDefault("10% increased damage and 5% increased critical strike chance\n" +
+            Tooltip.SetDefault("12% increased damage\n" +
                                "Shade rains down when you are hit\n" +
                                "You will confuse nearby enemies when you are struck");
         }
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 34;
             item.height = 34;
-            item.value = 300000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
             modPlayer.aBrain = true;
             if (player.immune)
             {
@@ -58,15 +59,11 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            player.meleeDamage += 0.1f;
-            player.magicDamage += 0.1f;
-            player.rangedDamage += 0.1f;
-            player.thrownDamage += 0.1f;
-            player.minionDamage += 0.1f;
-            player.meleeCrit += 5;
-            player.magicCrit += 5;
-            player.rangedCrit += 5;
-            player.thrownCrit += 5;
+            player.meleeDamage += 0.12f;
+            player.magicDamage += 0.12f;
+            player.rangedDamage += 0.12f;
+            modPlayer2.throwingDamage += 0.12f;
+            player.minionDamage += 0.12f;
         }
 
         public override void AddRecipes()

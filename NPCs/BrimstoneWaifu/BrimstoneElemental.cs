@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 	[AutoloadBossHead]
 	public class BrimstoneElemental : ModNPC
 	{
-        private int dustTimer = 60;
+        private int dustTimer = 90;
 		
 		public override void SetStaticDefaults()
 		{
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4000000 : 3500000;
+                npc.lifeMax = CalamityWorld.death ? 4500000 : 4000000;
             }
         }
 		
@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                     Vector2 position = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
                     int projectile = Projectile.NewProjectile((int)position.X, (int)position.Y, 0f, 0f, mod.ProjectileType("BrimDust"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f); //changed
                     Main.projectile[projectile].timeLeft = 90;
-                    dustTimer = 60;
+                    dustTimer = 90;
                 }
             }
             if (npc.ai[0] == 0f) 
@@ -237,11 +237,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				if (npc.alpha <= 0)
 				{
                     npc.damage = expertMode ? 96 : 60;
-                    if (revenge)
-                    {
-                        int damageBoost = (int)(40f * (1f - (float)npc.life / (float)npc.lifeMax));
-                        npc.damage = npc.damage + damageBoost;
-                    }
                     npc.dontTakeDamage = false;
                     npc.defense = 20;
                     npc.chaseable = true;
@@ -269,14 +264,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-				float xVelocity = 6f; //changed from 6 to 7.5 modifies speed while firing projectiles
-				float yVelocity = 0.12f; //changed from 0.075 to 0.09375 modifies speed while firing projectiles
-                float yVelocity2 = 0.04f;
 				Vector2 shootFromVectorX = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
-				Vector2 shootFromVectorY = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				float playerDistanceX = player.position.X + (float)(player.width / 2) - shootFromVectorY.X;
-				float playerDistanceY = player.position.Y + (float)(player.height / 2) - 300f - shootFromVectorY.Y;
-				float totalPlayerDistance = (float)Math.Sqrt((double)(playerDistanceX * playerDistanceX + playerDistanceY * playerDistanceY));
 				npc.ai[1] += 1f;
 				bool shootProjectile = false;
                 if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
@@ -348,88 +336,55 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						Main.projectile[projectileShot].timeLeft = 240;
 					}
 				}
-				if (!Collision.CanHit(new Vector2(shootFromVectorX.X, shootFromVectorX.Y - 30f), 1, 1, player.position, player.width, player.height))
-				{
-					xVelocity = 14f; //changed from 14 not a prob
-					yVelocity = 0.15f; //changed from 0.1 not a prob
-                    yVelocity2 = 0.05f;
-					shootFromVectorY = shootFromVectorX;
-					playerDistanceX = player.position.X + (float)(player.width / 2) - shootFromVectorY.X;
-					playerDistanceY = player.position.Y + (float)(player.height / 2) - shootFromVectorY.Y;
-					totalPlayerDistance = (float)Math.Sqrt((double)(playerDistanceX * playerDistanceX + playerDistanceY * playerDistanceY));
-					totalPlayerDistance = xVelocity / totalPlayerDistance;
-					if (npc.velocity.X < playerDistanceX)
-					{
-						npc.velocity.X = npc.velocity.X + yVelocity;
-						if (npc.velocity.X < 0f && playerDistanceX > 0f)
-						{
-							npc.velocity.X = npc.velocity.X + yVelocity;
-						}
-					}
-					else if (npc.velocity.X > playerDistanceX)
-					{
-						npc.velocity.X = npc.velocity.X - yVelocity;
-						if (npc.velocity.X > 0f && playerDistanceX < 0f)
-						{
-							npc.velocity.X = npc.velocity.X - yVelocity;
-						}
-					}
-					if (npc.velocity.Y < playerDistanceY)
-					{
-						npc.velocity.Y = npc.velocity.Y + yVelocity2;
-						if (npc.velocity.Y < 0f && playerDistanceY > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y + yVelocity2;
-						}
-					}
-					else if (npc.velocity.Y > playerDistanceY)
-					{
-						npc.velocity.Y = npc.velocity.Y - yVelocity2;
-						if (npc.velocity.Y > 0f && playerDistanceY < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y - yVelocity2;
-						}
-					}
-				}
-				else if (totalPlayerDistance > 200f) //100
-				{
-					npc.TargetClosest(true);
-					npc.spriteDirection = npc.direction;
-					totalPlayerDistance = xVelocity / totalPlayerDistance;
-					if (npc.velocity.X < playerDistanceX)
-					{
-						npc.velocity.X = npc.velocity.X + yVelocity;
-						if (npc.velocity.X < 0f && playerDistanceX > 0f)
-						{
-							npc.velocity.X = npc.velocity.X + yVelocity * 2f;
-						}
-					}
-					else if (npc.velocity.X > playerDistanceX)
-					{
-						npc.velocity.X = npc.velocity.X - yVelocity;
-						if (npc.velocity.X > 0f && playerDistanceX < 0f)
-						{
-							npc.velocity.X = npc.velocity.X - yVelocity * 2f;
-						}
-					}
-					if (npc.velocity.Y < playerDistanceY)
-					{
-						npc.velocity.Y = npc.velocity.Y + yVelocity2;
-						if (npc.velocity.Y < 0f && playerDistanceY > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y + yVelocity2 * 2f;
-						}
-					}
-					else if (npc.velocity.Y > playerDistanceY)
-					{
-						npc.velocity.Y = npc.velocity.Y - yVelocity2;
-						if (npc.velocity.Y > 0f && playerDistanceY < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y - yVelocity2 * 2f;
-						}
-					}
-				}
-				if (npc.ai[1] > 300f)
+                if (npc.position.Y > player.position.Y - 150f) //200
+                {
+                    if (npc.velocity.Y > 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y * 0.98f;
+                    }
+                    npc.velocity.Y = npc.velocity.Y - 0.1f;
+                    if (npc.velocity.Y > 2f)
+                    {
+                        npc.velocity.Y = 2f;
+                    }
+                }
+                else if (npc.position.Y < player.position.Y - 400f) //500
+                {
+                    if (npc.velocity.Y < 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y * 0.98f;
+                    }
+                    npc.velocity.Y = npc.velocity.Y + 0.1f;
+                    if (npc.velocity.Y < -2f)
+                    {
+                        npc.velocity.Y = -2f;
+                    }
+                }
+                if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 100f)
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X * 0.98f;
+                    }
+                    npc.velocity.X = npc.velocity.X - 0.1f;
+                    if (npc.velocity.X > 8f)
+                    {
+                        npc.velocity.X = 8f;
+                    }
+                }
+                if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 100f)
+                {
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X * 0.98f;
+                    }
+                    npc.velocity.X = npc.velocity.X + 0.1f;
+                    if (npc.velocity.X < -8f)
+                    {
+                        npc.velocity.X = -8f;
+                    }
+                }
+                if (npc.ai[1] > 300f)
 				{
 					npc.ai[0] = 4f;
 					npc.ai[1] = 0f;
@@ -517,14 +472,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				}
 			}
 		}
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if ((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged)
-            {
-                damage /= 2;
-            }
-        }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
@@ -676,9 +623,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BrimstoneGore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BrimstoneGore3"), 1f);
 				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BrimstoneGore4"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BrimstoneGore5"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BrimstoneGore6"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BrimstoneGore7"), 1f);
 			}
 		}
 	}

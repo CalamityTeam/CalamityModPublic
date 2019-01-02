@@ -64,16 +64,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.ManaSickness, 100, true);
-				player.AddBuff(BuffID.Confused, 60, true);
-			}
-			else
-			{
-				player.AddBuff(BuffID.ManaSickness, 60, true);
-				player.AddBuff(BuffID.Confused, 60, true);
-			}
+			player.AddBuff(BuffID.ManaSickness, 120, true);
+			player.AddBuff(BuffID.Confused, 120, true);
 		}
 		
 		public override void NPCLoot()

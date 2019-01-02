@@ -42,7 +42,7 @@ namespace CalamityMod.Items.TheDevourerofGods
 		
 		public override bool CanUseItem(Player player)
 		{
-			return !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")) && !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")) && CalamityGlobalNPC.DoGSecondStageCountdown <= 0;
+			return !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")) && !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")) && CalamityWorld.DoGSecondStageCountdown <= 0;
 		}
 		
 		public override bool UseItem(Player player)

@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 7600000 : 6700000;
+                npc.lifeMax = CalamityWorld.death ? 8200000 : 7300000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
@@ -228,14 +228,17 @@ namespace CalamityMod.NPCs.Leviathan
 								{
 									npc.ai[2] += 0.5f;
 								}
-								if (Siren.phase2)
-								{
-									npc.ai[2] += 0.5f;
-								}
-								if (Siren.phase3)
-								{
-									npc.ai[2] += 0.5f;
-								}
+                                if (sirenAlive)
+                                {
+                                    if (Siren.phase2)
+                                    {
+                                        npc.ai[2] += 0.5f;
+                                    }
+                                    if (Siren.phase3)
+                                    {
+                                        npc.ai[2] += 0.5f;
+                                    }
+                                }
 							}
 						}
 						if (npc.ai[2] >= 90f) 
@@ -291,11 +294,11 @@ namespace CalamityMod.NPCs.Leviathan
 					}
 					else
 					{
-						if (Siren.phase2 || CalamityWorld.bossRushActive)
+						if ((Siren.phase2 && sirenAlive) || CalamityWorld.bossRushActive)
 						{
 							npc.ai[1] += 0.5f;
 						}
-						if (Siren.phase3 || CalamityWorld.bossRushActive)
+						if ((Siren.phase3 && sirenAlive) || CalamityWorld.bossRushActive)
 						{
 							npc.ai[1] += 0.5f;
 						}
@@ -516,7 +519,7 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.direction = 1;
                         }
                         npc.spriteDirection = npc.direction;
-                        int num1050 = sirenAlive ? 750 : 600; //600 not a prob
+                        int num1050 = sirenAlive ? 900 : 800; //600 not a prob
                         int num1051 = 1;
                         if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
                         {
@@ -556,15 +559,6 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 		}
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 2;
-            }
-        }
 
         public override void HitEffect(int hitDirection, double damage)
 		{

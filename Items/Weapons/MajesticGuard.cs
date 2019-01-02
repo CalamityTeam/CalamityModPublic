@@ -36,18 +36,14 @@ namespace CalamityMod.Items.Weapons
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			if (target.type == NPCID.TargetDummy)
-			{
-				return;
-			}
 			if (Main.rand.Next(5) == 0)
 			{
 				target.defense -= 10;
 			}
 			if (target.defense <= 0)
 			{
-		    	player.statLife += 6;
-		    	player.HealEffect(6);
+		    	player.statLife += 4;
+		    	player.HealEffect(4);
 			}
 		}
 	

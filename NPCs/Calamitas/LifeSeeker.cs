@@ -49,14 +49,7 @@ namespace CalamityMod.NPCs.Calamitas
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(mod.BuffType("BrimstoneFlames"), 80, true);
-			}
-			else
-			{
-				player.AddBuff(mod.BuffType("BrimstoneFlames"), 60, true);
-			}
+			player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

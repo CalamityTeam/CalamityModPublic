@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 7;
             item.accessory = true;
         }
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.beeResist = true;
             if (player.ZoneJungle)
             {
-                player.lifeRegen += 2;
+                player.lifeRegen += 1;
                 player.statDefense += 5;
                 player.endurance += 0.05f;
             }
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[20] = true;
             if (!player.honey && player.lifeRegen < 0)
             {
-                player.lifeRegen += 3;
+                player.lifeRegen += 2;
                 if (player.lifeRegen > 0)
                 {
                     player.lifeRegen = 0;

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodflare Cuisses");
-            Tooltip.SetDefault("30% increased movement speed, 10% increased damage and critical strike chance");
+            Tooltip.SetDefault("30% increased movement speed, 10% increased damage and 7% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -41,13 +42,13 @@ namespace CalamityMod.Items.Armor
         {
             player.moveSpeed += 0.3f;
             player.meleeDamage += 0.1f;
-            player.meleeCrit += 10;
+            player.meleeCrit += 7;
             player.magicDamage += 0.1f;
-            player.magicCrit += 10;
+            player.magicCrit += 7;
             player.rangedDamage += 0.1f;
-            player.rangedCrit += 10;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
+            player.rangedCrit += 7;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
             player.minionDamage += 0.1f;
         }
 

@@ -7,28 +7,30 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons {
-public class Warblade : ModItem
+namespace CalamityMod.Items.Weapons
 {
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Warblade");
-	}
-
-    public override void SetDefaults()
+    public class Warblade : ModItem
     {
-        item.damage = 27;
-        item.melee = true;
-        item.width = 32;
-        item.height = 48;
-        item.useTime = 19;
-        item.useAnimation = 19;
-        item.useTurn = true;
-        item.useStyle = 1;
-        item.knockBack = 4.25f;
-        item.value = 50000;
-        item.rare = 1;
-        item.UseSound = SoundID.Item1;
-        item.autoReuse = true;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Warblade");
+        }
+
+        public override void SetDefaults()
+        {
+            item.damage = 27;
+            item.melee = true;
+            item.width = 32;
+            item.height = 48;
+            item.useTime = 19;
+            item.useAnimation = 19;
+            item.useTurn = true;
+            item.useStyle = 1;
+            item.knockBack = 4.25f;
+            item.value = 50000;
+            item.rare = 1;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
+        }
     }
-}}
+}

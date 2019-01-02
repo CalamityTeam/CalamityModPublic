@@ -23,11 +23,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
             npc.noGravity = true;
-			npc.damage = 50;
+			npc.damage = 80;
 			npc.width = 50;
 			npc.height = 220;
 			npc.defense = 25;
-			npc.lifeMax = 200;
+			npc.lifeMax = 400;
             npc.aiStyle = -1;
 			aiType = -1;
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
@@ -222,8 +222,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-            player.AddBuff(mod.BuffType("CrushDepth"), 300, true);
-            player.AddBuff(BuffID.Darkness, 300, true);
+            player.AddBuff(mod.BuffType("CrushDepth"), 180, true);
+            player.AddBuff(BuffID.Darkness, 180, true);
             if (CalamityWorld.revenge)
             {
                 player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
@@ -270,7 +270,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantSquid"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantSquid2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantSquid3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantSquid4"), 1f);
+            }
 		}
 	}
 }

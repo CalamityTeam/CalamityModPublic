@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodflare Body Armor");
-            Tooltip.SetDefault("12% increased damage and 7% increased critical strike chance\n" +
+            Tooltip.SetDefault("12% increased damage and 8% increased critical strike chance\n" +
                        "You regenerate life quickly and gain +30 defense while in lava\n" +
                        "+40 max life and mana");
         }
@@ -44,13 +45,13 @@ namespace CalamityMod.Items.Armor
             player.statLifeMax2 += 40;
             player.statManaMax2 += 40;
             player.meleeDamage += 0.12f;
-            player.meleeCrit += 7;
+            player.meleeCrit += 8;
             player.magicDamage += 0.12f;
-            player.magicCrit += 7;
+            player.magicCrit += 8;
             player.rangedDamage += 0.12f;
-            player.rangedCrit += 7;
-            player.thrownDamage += 0.12f;
-            player.thrownCrit += 7;
+            player.rangedCrit += 8;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
             player.minionDamage += 0.12f;
             if (player.lavaWet)
             {

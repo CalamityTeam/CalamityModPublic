@@ -16,14 +16,18 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Discordian Wings");
-            Tooltip.SetDefault("Formed from the flames of pure chaos\nGood acceleration: 2\nExcellent flight time: 125");
+            Tooltip.SetDefault("Formed from the flames of pure chaos\n" +
+                "Horizontal speed: 7.75\n" +
+                "Acceleration multiplier: 1.5\n" +
+                "Average vertical speed\n" +
+                "Flight time: 180");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 39, 99, 99);
             item.rare = 8;
             item.accessory = true;
         }
@@ -46,22 +50,22 @@ namespace CalamityMod.Items.Accessories
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 125;
+            player.wingTimeMax = 180;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
-            ascentWhenRising = 0.15f;
-            maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            ascentWhenFalling = 0.5f;
+            ascentWhenRising = 0.1f;
+            maxCanAscendMultiplier = 0.5f;
+            maxAscentMultiplier = 1.5f;
+            constantAscend = 0.1f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 9f;
-            acceleration *= 2f;
+            speed = 7.75f;
+            acceleration *= 1.5f;
         }
 
         public override void AddRecipes()

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Facemask");
-            Tooltip.SetDefault("10% increased throwing damage and critcal strike chance, increases throwing velocity by 15%\n" +
+            Tooltip.SetDefault("10% increased rogue damage and critcal strike chance, increases rogue velocity by 15%\n" +
                 "Immune to Cursed and gives control over gravity");
         }
 
@@ -47,19 +48,18 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased throwing damage and critical strike chance\n" +
-                "Throwing projectiles throw out crystal shards as they travel";
+            player.setBonus = "5% increased rogue damage\n" +
+                "Rogue projectiles throw out crystal shards as they travel";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.daedalusSplit = true;
-            player.thrownDamage += 0.05f;
-            player.thrownCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownVelocity += 0.15f;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.15f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
             player.AddBuff(BuffID.Gravitation, 2);
             player.buffImmune[BuffID.Cursed] = true;
         }

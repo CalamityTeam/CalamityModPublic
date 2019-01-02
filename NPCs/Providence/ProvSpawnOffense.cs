@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.lifeMax = 37500;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 250000 : 200000;
+                npc.lifeMax = CalamityWorld.death ? 500000 : 400000;
             }
             npc.knockBackResist = 0f;
 			npc.noGravity = true;

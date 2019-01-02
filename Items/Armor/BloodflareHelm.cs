@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Helm");
             Tooltip.SetDefault("You can move freely through liquids and you are immune to lava\n" +
-                "10% increased throwing damage and critical strike chance");
+                "10% increased rogue damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -57,9 +58,9 @@ namespace CalamityMod.Items.Armor
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
                 "Enemies above 50% life have a chance to drop mana stars when struck\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
-                "Being over 80% life boosts your defense by 30 and throwing crit by 5%\n" +
-                "Being below 80% life boosts your throwing damage by 15%\n" +
-                "Every throwing critical strike will heal you";
+                "Being over 80% life boosts your defense by 30 and rogue crit by 5%\n" +
+                "Being below 80% life boosts your rogue damage by 10%\n" +
+                "Rogue critical strikes have a 50% chance to heal you";
             player.crimsonRegen = true;
         }
 
@@ -67,8 +68,8 @@ namespace CalamityMod.Items.Armor
         {
             player.lavaImmune = true;
             player.ignoreWater = true;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
         }
 
         public override void AddRecipes()

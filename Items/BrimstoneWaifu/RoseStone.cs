@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.BrimstoneWaifu
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
 	 	{
 	 		DisplayName.SetDefault("Rose Stone");
 	 		Tooltip.SetDefault("One of the ancient relics\n" +
-            	"Increases max life by 20, life regen by 2, and all damage and crit chance by 2%\n" +
+            	"Increases max life by 20, life regen by 1, and all damage by 3%\n" +
             	"Summons a brimstone elemental to protect you");
 	 	}
     	
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
 			item.accessory = true;
         }
@@ -41,17 +42,13 @@ namespace CalamityMod.Items.BrimstoneWaifu
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.6f, 0f, 0.25f);
-			player.lifeRegen += 2;
+			player.lifeRegen += 1;
 			player.statLifeMax2 += 20;
-			player.meleeCrit += 2;
-			player.meleeDamage += 0.02f;
-			player.magicCrit += 2;
-			player.magicDamage += 0.02f;
-			player.rangedCrit += 2;
-			player.rangedDamage += 0.02f;
-			player.thrownCrit += 2;
-			player.thrownDamage += 0.02f;
-			player.minionDamage += 0.02f;
+			player.meleeDamage += 0.03f;
+			player.magicDamage += 0.03f;
+			player.rangedDamage += 0.03f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
+			player.minionDamage += 0.03f;
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			modPlayer.brimstoneWaifu = true;
 			if (player.whoAmI == Main.myPlayer)

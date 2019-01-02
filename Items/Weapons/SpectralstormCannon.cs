@@ -56,9 +56,7 @@ namespace CalamityMod.Items.Weapons
 		        int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 		        Main.projectile[projectile].timeLeft = 200;
 		    }
-		    int projectile2 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-		    Main.projectile[projectile2].magic = false;
-		    Main.projectile[projectile2].ranged = true;
+		    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 1f, 0.0f);
 		    return false;
 		}
 		

@@ -115,9 +115,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 420);
-            target.AddBuff(BuffID.Frostburn, 420, true);
-            target.AddBuff(BuffID.Darkness, 420, true);
+            target.AddBuff(mod.BuffType("GodSlayerInferno"), 600);
+            target.AddBuff(BuffID.Frostburn, 600, true);
+            target.AddBuff(BuffID.Darkness, 600, true);
         }
     }
 }

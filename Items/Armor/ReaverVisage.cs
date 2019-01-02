@@ -43,11 +43,10 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.reaverDoubleTap = true;
-            player.setBonus = "5% increased ranged damage and critical strike chance\n" +
+            player.setBonus = "5% increased ranged damage\n" +
                 "While using a ranged weapon you have a 10% chance to fire a powerful rocket\n" +
                 "Rage activates when you are damaged";
             player.rangedDamage += 0.05f;
-            player.rangedCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloody Mary");
-			Tooltip.SetDefault(@"Boosts damage, critical strike chance, movement speed, and melee speed by 15% during a Blood Moon
+			Tooltip.SetDefault(@"Boosts damage, movement speed, and melee speed by 15% and crit chance by 7% during a Blood Moon
 Reduces life regen by 3 and defense by 6
 Extra spicy and bloody!");
 		}

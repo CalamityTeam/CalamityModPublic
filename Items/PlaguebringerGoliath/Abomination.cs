@@ -46,15 +46,8 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "PlagueCellCluster", 10);
 			recipe.AddIngredient(ItemID.IronBar, 5);
-			recipe.AddIngredient(ItemID.Stinger, 2);
-			recipe.AddIngredient(ItemID.Obsidian, 3);
-			recipe.AddTile(TileID.MythrilAnvil);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "PlagueCellCluster", 10);
-			recipe.AddIngredient(ItemID.LeadBar, 5);
-			recipe.AddIngredient(ItemID.Stinger, 2);
+            recipe.anyIronBar = true;
+            recipe.AddIngredient(ItemID.Stinger, 2);
 			recipe.AddIngredient(ItemID.Obsidian, 3);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

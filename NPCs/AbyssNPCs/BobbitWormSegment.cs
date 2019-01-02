@@ -53,9 +53,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("BobbitWormSegment")))
+            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water)
             {
-                return 0.1f;
+                if (!NPC.AnyNPCs(mod.NPCType("BobbitWormSegment")))
+                    return 0.01f;
             }
             return 0f;
         }

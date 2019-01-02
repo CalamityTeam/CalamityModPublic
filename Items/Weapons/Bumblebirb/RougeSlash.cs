@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 130;
+			item.damage = 370;
 			item.magic = true;
 			item.mana = 30;
 			item.width = 28;
@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 			item.useTime = 19;
 			item.useAnimation = 19;
 			item.useStyle = 5;
-			item.noMelee = true; //so the item's animation doesn't do damage
+			item.noMelee = true;
 			item.knockBack = 7.5f;
 			item.UseSound = SoundID.Item91;
 			item.value = 1000000;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("RougeSlashLarge"); //idk why but all the guns in the vanilla source have this
+			item.shoot = mod.ProjectileType("RougeSlashLarge");
 			item.shootSpeed = 24f;
 		}
 	    

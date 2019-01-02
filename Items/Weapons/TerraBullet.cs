@@ -18,15 +18,15 @@ namespace CalamityMod.Items.Weapons
 		
 		public override void SetDefaults()
 		{
-			item.damage = 12;
+			item.damage = 9;
 			item.ranged = true;
 			item.width = 8;
 			item.height = 8;
 			item.maxStack = 999;
 			item.consumable = true;
 			item.knockBack = 1.25f;
-			item.value = 750;
-			item.rare = 8;
+			item.value = 2000;
+			item.rare = 7;
 			item.shoot = mod.ProjectileType("TerraBullet");
 			item.shootSpeed = 10f;
 			item.ammo = 97;

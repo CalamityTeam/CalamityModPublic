@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles
             projectile.width = 38;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.thrown = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;

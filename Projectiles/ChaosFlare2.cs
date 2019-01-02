@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles
             projectile.ignoreWater = true;
             projectile.timeLeft = 300;
             projectile.penetrate = 1;
-            projectile.thrown = true;
             projectile.extraUpdates = 1;
         }
 

@@ -15,36 +15,38 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyline Wings");
-            Tooltip.SetDefault("Low acceleration: 1\nLow flight time: 20");
+            Tooltip.SetDefault("Horizontal speed: 6.25\n" +
+                "Acceleration multiplier: 1\n" +
+                "Average vertical speed\n" +
+                "Flight time: 60");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = 50000;
+            item.value = Item.buyPrice(0, 9, 0, 0);
             item.rare = 3;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.wingTimeMax = 30;
+            player.wingTimeMax = 60;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
-            ascentWhenRising = 0.15f;
-            maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            ascentWhenFalling = 0.5f;
+            ascentWhenRising = 0.1f;
+            maxCanAscendMultiplier = 0.5f;
+            maxAscentMultiplier = 1.5f;
+            constantAscend = 0.1f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 8f;
-            acceleration *= 1f;
+            speed = 6.25f;
         }
 
         public override void AddRecipes()

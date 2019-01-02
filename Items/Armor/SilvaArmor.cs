@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Silva Armor");
             Tooltip.SetDefault("+80 max life and mana\n" +
                        "20% increased movement speed\n" +
-                       "12% increased damage and 10% increased critical strike chance");
+                       "12% increased damage and 8% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -45,13 +46,13 @@ namespace CalamityMod.Items.Armor
             player.statManaMax2 += 80;
             player.moveSpeed += 0.2f;
             player.meleeDamage += 0.12f;
-            player.meleeCrit += 10;
+            player.meleeCrit += 8;
             player.rangedDamage += 0.12f;
-            player.rangedCrit += 10;
+            player.rangedCrit += 8;
             player.magicDamage += 0.12f;
-            player.magicCrit += 10;
-            player.thrownDamage += 0.12f;
-            player.thrownCrit += 10;
+            player.magicCrit += 8;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
             player.minionDamage += 0.12f;
         }
 

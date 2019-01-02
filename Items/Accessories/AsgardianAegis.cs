@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Asgardian Aegis");
             Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
                 "Immune to most debuffs\n" +
-                "+40 max life and increased life regen\n" +
+                "+40 max life\n" +
                 "Grants a supreme holy flame dash\n" +
                 "Can be used to ram enemies\n" +
                 "Press N to activate buffs to all damage, crit chance, and defense\n" +
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 60;
             item.height = 54;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0); //30 gold reforge
             item.defense = 10;
             item.accessory = true;
         }
@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
-            player.lifeRegen += 1;
             player.statLifeMax2 += 40;
             player.buffImmune[46] = true;
             player.buffImmune[44] = true;

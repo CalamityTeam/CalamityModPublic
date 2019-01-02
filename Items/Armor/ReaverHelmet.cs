@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Helmet");
-            Tooltip.SetDefault("10% increased summon damage, +2 max minions, and increased minion knockback\n" +
+            Tooltip.SetDefault("5% increased minion damage, +2 max minions, and increased minion knockback\n" +
                 "10% increased movement speed and can move freely through liquids");
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased summon damage\n" +
+            player.setBonus = "16% increased minion damage\n" +
                 "Summons a reaver orb that emits spore gas when enemies are near\n" +
                 "Rage activates when you are damaged";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -57,13 +57,13 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("ReaverOrb"), 0, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-            player.minionDamage += 0.05f;
+            player.minionDamage += 0.16f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            player.minionDamage += 0.1f;
+            player.minionDamage += 0.05f;
             player.minionKB += 1f;
             player.maxMinions += 2;
             player.moveSpeed += 0.1f;

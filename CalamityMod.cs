@@ -71,6 +71,8 @@ namespace CalamityMod
 
         public static Effect CustomShader;
 
+        public static IList<string> donatorList;
+
         public static List<int> rangedProjectileExceptionList;
 
         public static List<int> projectileMinionList;
@@ -96,6 +98,48 @@ namespace CalamityMod
         public static List<int> natureWeaponList;
 
         public static List<int> alcoholList;
+
+        public static List<int> doubleDamageBuffList; //100% buff
+
+        public static List<int> sixtySixDamageBuffList; //66% buff
+
+        public static List<int> fiftyDamageBuffList; //50% buff
+
+        public static List<int> thirtyThreeDamageBuffList; //33% buff
+
+        public static List<int> twentyFiveDamageBuffList; //25% buff
+
+        public static List<int> twentyDamageBuffList; //20% buff
+
+        public static List<int> weaponAutoreuseList;
+
+        public static List<int> quarterDamageNerfList; //25% nerf
+
+        public static List<int> lightGreenThrowingRarityList;
+
+        public static List<int> greenThrowingRarityList;
+
+        public static List<int> blueThrowingRarityList;
+
+        public static List<int> purpleThrowingRarityList;
+
+        public static List<int> throwingProjectileList;
+
+        public static List<int> throwingItemList;
+
+        public static List<int> pumpkinMoonBuffList;
+
+        public static List<int> frostMoonBuffList;
+
+        public static List<int> eclipseBuffList;
+
+        public static List<int> eventProjectileBuffList;
+
+        public static List<int> revengeanceEnemyBuffList;
+
+        public static List<int> revengeanceProjectileBuffList;
+
+        public static List<int> trapProjectileList;
 
         public static CalamityMod Instance;
 
@@ -143,6 +187,11 @@ namespace CalamityMod
                 AddEquipTexture(new Items.Armor.SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Armor/SirenTransAlt_Body", "CalamityMod/Items/Armor/SirenTransAlt_Arms");
                 AddEquipTexture(new Items.Armor.SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Armor/SirenTransAlt_Legs");
 
+                AddEquipTexture(new Items.Permafrost.PopoHead(), null, EquipType.Head, "PopoHead", "CalamityMod/Items/Permafrost/Popo_Head");
+                AddEquipTexture(new Items.Permafrost.PopoNoselessHead(), null, EquipType.Head, "PopoNoselessHead", "CalamityMod/Items/Permafrost/PopoNoseless_Head");
+                AddEquipTexture(new Items.Permafrost.PopoBody(), null, EquipType.Body, "PopoBody", "CalamityMod/Items/Permafrost/Popo_Body", "CalamityMod/Items/Permafrost/Popo_Arms");
+                AddEquipTexture(new Items.Permafrost.PopoLegs(), null, EquipType.Legs, "PopoLeg", "CalamityMod/Items/Permafrost/Popo_Legs");
+
                 AstralCactusTexture = GetTexture("ExtraTextures/Tiles/AstralCactus");
                 AstralCactusGlowTexture = GetTexture("ExtraTextures/Tiles/AstralCactusGlow");
                 AstralSky = GetTexture("ExtraTextures/AstralSky");
@@ -169,6 +218,12 @@ namespace CalamityMod
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme"), ItemType("ProvidenceMusicbox"), TileType("ProvidenceMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians"), ItemType("ProfanedGuardianMusicbox"), TileType("ProfanedGuardianMusicbox"));
                 AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager"), ItemType("RavagerMusicbox"), TileType("RavagerMusicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus"), ItemType("AstrumDeusMusicbox"), TileType("AstrumDeusMusicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse"), ItemType("DoGP2Musicbox"), TileType("DoGP2Musicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss"), ItemType("AbyssLowerMusicbox"), TileType("AbyssLowerMusicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Calamity"), ItemType("CalamityMusicbox"), TileType("CalamityMusicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Crag"), ItemType("CragMusicbox"), TileType("CragMusicbox"));
+                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone"), ItemType("BrimmyMusicbox"), TileType("BrimmyMusicbox"));
 
                 Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
 				SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -207,8 +262,8 @@ namespace CalamityMod
             BossHealthBarManager.Load(this);
             base.Load();
 
-            Injections.Load();
-            base.Load();
+            //Injections.Load();
+            //base.Load();
 
             SetupLists();
 
@@ -592,6 +647,46 @@ namespace CalamityMod
             text = CreateTranslation("BossRushTierFiveEndText");
             text.SetDefault("Hmm?  You expected a reward beyond this mere pebble?  Patience, the true reward will come apparent in time...");
             AddTranslation(text);
+
+            text = CreateTranslation("MeleeLevelUp");
+            text.SetDefault("Melee weapon proficiency level up!");
+            AddTranslation(text);
+
+            text = CreateTranslation("MeleeLevelUpFinal");
+            text.SetDefault("Melee weapon proficiency maxed out!");
+            AddTranslation(text);
+
+            text = CreateTranslation("RangedLevelUp");
+            text.SetDefault("Ranged weapon proficiency level up!");
+            AddTranslation(text);
+
+            text = CreateTranslation("RangedLevelUpFinal");
+            text.SetDefault("Ranged weapon proficiency maxed out!");
+            AddTranslation(text);
+
+            text = CreateTranslation("MagicLevelUp");
+            text.SetDefault("Magic weapon proficiency level up!");
+            AddTranslation(text);
+
+            text = CreateTranslation("MagicLevelUpFinal");
+            text.SetDefault("Magic weapon proficiency maxed out!");
+            AddTranslation(text);
+
+            text = CreateTranslation("SummonLevelUp");
+            text.SetDefault("Summoner weapon proficiency level up!");
+            AddTranslation(text);
+
+            text = CreateTranslation("SummonLevelUpFinal");
+            text.SetDefault("Summoner weapon proficiency maxed out!");
+            AddTranslation(text);
+
+            text = CreateTranslation("RogueLevelUp");
+            text.SetDefault("Rogue weapon proficiency level up!");
+            AddTranslation(text);
+
+            text = CreateTranslation("RogueLevelUpFinal");
+            text.SetDefault("Rogue weapon proficiency maxed out!");
+            AddTranslation(text);
             #endregion
         }
         #endregion
@@ -612,6 +707,8 @@ namespace CalamityMod
             AstralCactusGlowTexture = null;
             AstralSky = null;
 
+            donatorList = null;
+
             rangedProjectileExceptionList = null;
             projectileMinionList = null;
             enemyImmunityList = null;
@@ -625,6 +722,26 @@ namespace CalamityMod
             fireWeaponList = null;
             natureWeaponList = null;
             alcoholList = null;
+            doubleDamageBuffList = null;
+            sixtySixDamageBuffList = null;
+            fiftyDamageBuffList = null;
+            thirtyThreeDamageBuffList = null;
+            twentyFiveDamageBuffList = null;
+            weaponAutoreuseList = null;
+            quarterDamageNerfList = null;
+            lightGreenThrowingRarityList = null;
+            greenThrowingRarityList = null;
+            blueThrowingRarityList = null;
+            purpleThrowingRarityList = null;
+            throwingProjectileList = null;
+            throwingItemList = null;
+            pumpkinMoonBuffList = null;
+            frostMoonBuffList = null;
+            eclipseBuffList = null;
+            eventProjectileBuffList = null;
+            revengeanceEnemyBuffList = null;
+            revengeanceProjectileBuffList = null;
+            trapProjectileList = null;
 
             BossHealthBarManager.Unload();
             base.Unload();
@@ -634,8 +751,8 @@ namespace CalamityMod
 
             Instance = null;
 
-            Injections.Unload();
-            base.Unload();
+            //Injections.Unload();
+            //base.Unload();
 
             if (!Main.dedServ)
             {
@@ -653,6 +770,31 @@ namespace CalamityMod
         #region SetupLists
         public static void SetupLists()
         {
+            donatorList = new List<string>();
+
+            donatorList.Add("Vorbis");
+            donatorList.Add("SoloMael");
+            donatorList.Add("Chaotic Reks");
+            donatorList.Add("The Buildmonger");
+            donatorList.Add("Yuh");
+            donatorList.Add("Littlepiggy");
+            donatorList.Add("LompL");
+            donatorList.Add("Lilith Saintclaire");
+            donatorList.Add("Ben Shapiro");
+            donatorList.Add("Frederik Henschel");
+            donatorList.Add("Faye");
+            donatorList.Add("Gibb50");
+            donatorList.Add("Braden Hajer");
+            donatorList.Add("Hannes Holmlund");
+            donatorList.Add("profoundmango69");
+            donatorList.Add("Jack M Sargent");
+            donatorList.Add("Hans Volter");
+            donatorList.Add("Krankwagon");
+            donatorList.Add("MishiroUsui");
+            donatorList.Add("pixlgray");
+            donatorList.Add("Arkhine");
+            donatorList.Add("Lodude");
+
             rangedProjectileExceptionList = new List<int>();
 
             rangedProjectileExceptionList.Add(ProjectileID.Phantasm);
@@ -907,6 +1049,323 @@ namespace CalamityMod
 
             alcoholList = new List<int>();
 
+            doubleDamageBuffList = new List<int>();
+
+            doubleDamageBuffList.Add(ItemID.BallOHurt);
+            doubleDamageBuffList.Add(ItemID.TheMeatball);
+            doubleDamageBuffList.Add(ItemID.BlueMoon);
+            doubleDamageBuffList.Add(ItemID.Sunfury);
+            doubleDamageBuffList.Add(ItemID.DaoofPow);
+            doubleDamageBuffList.Add(ItemID.FlowerPow);
+            doubleDamageBuffList.Add(ItemID.Anchor);
+            doubleDamageBuffList.Add(ItemID.KOCannon);
+            doubleDamageBuffList.Add(ItemID.GolemFist);
+            doubleDamageBuffList.Add(ItemID.BreakerBlade);
+            doubleDamageBuffList.Add(ItemID.SpectreStaff);
+            doubleDamageBuffList.Add(ItemID.MonkStaffT2);
+            doubleDamageBuffList.Add(ItemID.ProximityMineLauncher);
+            doubleDamageBuffList.Add(ItemID.FireworksLauncher);
+
+            sixtySixDamageBuffList = new List<int>();
+
+            sixtySixDamageBuffList.Add(ItemID.TerraBlade);
+            sixtySixDamageBuffList.Add(ItemID.TrueNightsEdge);
+            sixtySixDamageBuffList.Add(ItemID.WandofSparking);
+            sixtySixDamageBuffList.Add(ItemID.MedusaHead);
+            sixtySixDamageBuffList.Add(ItemID.StaffofEarth);
+            sixtySixDamageBuffList.Add(ItemID.ChristmasTreeSword);
+            sixtySixDamageBuffList.Add(ItemID.MonkStaffT1);
+            sixtySixDamageBuffList.Add(ItemID.InfernoFork);
+            sixtySixDamageBuffList.Add(ItemID.VenomStaff);
+
+            fiftyDamageBuffList = new List<int>();
+
+            fiftyDamageBuffList.Add(ItemID.NightsEdge);
+            fiftyDamageBuffList.Add(ItemID.EldMelter);
+            fiftyDamageBuffList.Add(ItemID.Flamethrower);
+            fiftyDamageBuffList.Add(ItemID.MoonlordTurretStaff);
+            fiftyDamageBuffList.Add(ItemID.WaspGun);
+            fiftyDamageBuffList.Add(ItemID.Keybrand);
+            fiftyDamageBuffList.Add(ItemID.PulseBow);
+            fiftyDamageBuffList.Add(ItemID.PaladinsHammer);
+
+            thirtyThreeDamageBuffList = new List<int>();
+
+            thirtyThreeDamageBuffList.Add(ItemID.CrystalVileShard);
+            thirtyThreeDamageBuffList.Add(ItemID.SoulDrain);
+            thirtyThreeDamageBuffList.Add(ItemID.ClingerStaff);
+            thirtyThreeDamageBuffList.Add(ItemID.ChargedBlasterCannon);
+            thirtyThreeDamageBuffList.Add(ItemID.NettleBurst);
+            thirtyThreeDamageBuffList.Add(ItemID.Excalibur);
+            thirtyThreeDamageBuffList.Add(ItemID.AmberStaff);
+            thirtyThreeDamageBuffList.Add(ItemID.BluePhasesaber);
+            thirtyThreeDamageBuffList.Add(ItemID.RedPhasesaber);
+            thirtyThreeDamageBuffList.Add(ItemID.GreenPhasesaber);
+            thirtyThreeDamageBuffList.Add(ItemID.WhitePhasesaber);
+            thirtyThreeDamageBuffList.Add(ItemID.YellowPhasesaber);
+            thirtyThreeDamageBuffList.Add(ItemID.PurplePhasesaber);
+            thirtyThreeDamageBuffList.Add(ItemID.TheRottedFork);
+            thirtyThreeDamageBuffList.Add(ItemID.VampireKnives);
+
+            twentyFiveDamageBuffList = new List<int>();
+
+            twentyFiveDamageBuffList.Add(ItemID.Muramasa);
+            twentyFiveDamageBuffList.Add(ItemID.StakeLauncher);
+
+            twentyDamageBuffList = new List<int>();
+
+            twentyDamageBuffList.Add(ItemID.ChainGuillotines);
+            twentyDamageBuffList.Add(ItemID.FlowerofFrost);
+            twentyDamageBuffList.Add(ItemID.PoisonStaff);
+            twentyDamageBuffList.Add(ItemID.Gungnir);
+            twentyDamageBuffList.Add(ItemID.BookStaff);
+
+            weaponAutoreuseList = new List<int>();
+
+            weaponAutoreuseList.Add(ItemID.NightsEdge);
+            weaponAutoreuseList.Add(ItemID.TrueNightsEdge);
+            weaponAutoreuseList.Add(ItemID.TrueExcalibur);
+            weaponAutoreuseList.Add(ItemID.PhoenixBlaster);
+            weaponAutoreuseList.Add(ItemID.VenusMagnum);
+            weaponAutoreuseList.Add(ItemID.MagicDagger);
+            weaponAutoreuseList.Add(ItemID.BeamSword);
+            weaponAutoreuseList.Add(ItemID.MonkStaffT2);
+            weaponAutoreuseList.Add(ItemID.PaladinsHammer);
+
+            quarterDamageNerfList = new List<int>();
+
+            quarterDamageNerfList.Add(ItemID.DaedalusStormbow);
+            quarterDamageNerfList.Add(ItemID.PhoenixBlaster);
+            quarterDamageNerfList.Add(ItemID.VenusMagnum);
+            quarterDamageNerfList.Add(ItemID.BlizzardStaff);
+
+            pumpkinMoonBuffList = new List<int>();
+
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow1);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow2);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow3);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow4);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow5);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow6);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow7);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow8);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow9);
+            pumpkinMoonBuffList.Add(NPCID.Scarecrow10);
+            pumpkinMoonBuffList.Add(NPCID.HeadlessHorseman);
+            pumpkinMoonBuffList.Add(NPCID.MourningWood);
+            pumpkinMoonBuffList.Add(NPCID.Splinterling);
+            pumpkinMoonBuffList.Add(NPCID.Pumpking);
+            pumpkinMoonBuffList.Add(NPCID.Hellhound);
+            pumpkinMoonBuffList.Add(NPCID.Poltergeist);
+
+            frostMoonBuffList = new List<int>();
+
+            frostMoonBuffList.Add(NPCID.ZombieElf);
+            frostMoonBuffList.Add(NPCID.ZombieElfBeard);
+            frostMoonBuffList.Add(NPCID.ZombieElfGirl);
+            frostMoonBuffList.Add(NPCID.PresentMimic);
+            frostMoonBuffList.Add(NPCID.GingerbreadMan);
+            frostMoonBuffList.Add(NPCID.Yeti);
+            frostMoonBuffList.Add(NPCID.Everscream);
+            frostMoonBuffList.Add(NPCID.IceQueen);
+            frostMoonBuffList.Add(NPCID.SantaNK1);
+            frostMoonBuffList.Add(NPCID.ElfCopter);
+            frostMoonBuffList.Add(NPCID.Nutcracker);
+            frostMoonBuffList.Add(NPCID.NutcrackerSpinning);
+            frostMoonBuffList.Add(NPCID.ElfArcher);
+            frostMoonBuffList.Add(NPCID.Krampus);
+            frostMoonBuffList.Add(NPCID.Flocko);
+
+            eclipseBuffList = new List<int>();
+
+            eclipseBuffList.Add(NPCID.Eyezor);
+            eclipseBuffList.Add(NPCID.Reaper);
+            eclipseBuffList.Add(NPCID.Frankenstein);
+            eclipseBuffList.Add(NPCID.SwampThing);
+            eclipseBuffList.Add(NPCID.Vampire);
+            eclipseBuffList.Add(NPCID.VampireBat);
+            eclipseBuffList.Add(NPCID.Butcher);
+            eclipseBuffList.Add(NPCID.CreatureFromTheDeep);
+            eclipseBuffList.Add(NPCID.Fritz);
+            eclipseBuffList.Add(NPCID.Nailhead);
+            eclipseBuffList.Add(NPCID.Psycho);
+            eclipseBuffList.Add(NPCID.DeadlySphere);
+            eclipseBuffList.Add(NPCID.DrManFly);
+            eclipseBuffList.Add(NPCID.ThePossessed);
+            eclipseBuffList.Add(NPCID.Mothron);
+            eclipseBuffList.Add(NPCID.MothronEgg);
+            eclipseBuffList.Add(NPCID.MothronSpawn);
+
+            eventProjectileBuffList = new List<int>();
+
+            eventProjectileBuffList.Add(ProjectileID.FlamingWood);
+            eventProjectileBuffList.Add(ProjectileID.GreekFire1);
+            eventProjectileBuffList.Add(ProjectileID.GreekFire2);
+            eventProjectileBuffList.Add(ProjectileID.GreekFire3);
+            eventProjectileBuffList.Add(ProjectileID.FlamingScythe);
+            eventProjectileBuffList.Add(ProjectileID.FlamingArrow);
+            eventProjectileBuffList.Add(ProjectileID.PineNeedleHostile);
+            eventProjectileBuffList.Add(ProjectileID.OrnamentHostile);
+            eventProjectileBuffList.Add(ProjectileID.OrnamentHostileShrapnel);
+            eventProjectileBuffList.Add(ProjectileID.FrostWave);
+            eventProjectileBuffList.Add(ProjectileID.FrostShard);
+            eventProjectileBuffList.Add(ProjectileID.Missile);
+            eventProjectileBuffList.Add(ProjectileID.Present);
+            eventProjectileBuffList.Add(ProjectileID.Spike);
+            eventProjectileBuffList.Add(ProjectileID.BulletDeadeye);
+            eventProjectileBuffList.Add(ProjectileID.EyeLaser);
+            eventProjectileBuffList.Add(ProjectileID.Nail);
+            eventProjectileBuffList.Add(ProjectileID.DrManFlyFlask);
+
+            revengeanceEnemyBuffList = new List<int>();
+
+            revengeanceEnemyBuffList.Add(NPCID.ServantofCthulhu);
+            revengeanceEnemyBuffList.Add(NPCID.EyeofCthulhu);
+            revengeanceEnemyBuffList.Add(NPCID.EaterofWorldsHead);
+            revengeanceEnemyBuffList.Add(NPCID.DevourerHead);
+            revengeanceEnemyBuffList.Add(NPCID.GiantWormHead);
+            revengeanceEnemyBuffList.Add(NPCID.MeteorHead);
+            revengeanceEnemyBuffList.Add(NPCID.SkeletronHead);
+            revengeanceEnemyBuffList.Add(NPCID.SkeletronHand);
+            revengeanceEnemyBuffList.Add(NPCID.BoneSerpentHead);
+            revengeanceEnemyBuffList.Add(NPCID.ManEater);
+            revengeanceEnemyBuffList.Add(NPCID.KingSlime);
+            revengeanceEnemyBuffList.Add(NPCID.Snatcher);
+            revengeanceEnemyBuffList.Add(NPCID.Piranha);
+            revengeanceEnemyBuffList.Add(NPCID.Shark);
+            revengeanceEnemyBuffList.Add(NPCID.SpikeBall);
+            revengeanceEnemyBuffList.Add(NPCID.BlazingWheel);
+            revengeanceEnemyBuffList.Add(NPCID.Mimic);
+            revengeanceEnemyBuffList.Add(NPCID.WyvernHead);
+            revengeanceEnemyBuffList.Add(NPCID.DiggerHead);
+            revengeanceEnemyBuffList.Add(NPCID.SeekerHead);
+            revengeanceEnemyBuffList.Add(NPCID.AnglerFish);
+            revengeanceEnemyBuffList.Add(NPCID.Werewolf);
+            revengeanceEnemyBuffList.Add(NPCID.Wraith);
+            revengeanceEnemyBuffList.Add(NPCID.WallofFlesh);
+            revengeanceEnemyBuffList.Add(NPCID.TheHungry);
+            revengeanceEnemyBuffList.Add(NPCID.TheHungryII);
+            revengeanceEnemyBuffList.Add(NPCID.LeechHead);
+            revengeanceEnemyBuffList.Add(NPCID.Spazmatism);
+            revengeanceEnemyBuffList.Add(NPCID.Retinazer);
+            revengeanceEnemyBuffList.Add(NPCID.SkeletronPrime);
+            revengeanceEnemyBuffList.Add(NPCID.PrimeSaw);
+            revengeanceEnemyBuffList.Add(NPCID.PrimeVice);
+            revengeanceEnemyBuffList.Add(NPCID.TheDestroyer);
+            revengeanceEnemyBuffList.Add(NPCID.Arapaima);
+            revengeanceEnemyBuffList.Add(NPCID.BlackRecluse);
+            revengeanceEnemyBuffList.Add(NPCID.WallCreeper);
+            revengeanceEnemyBuffList.Add(NPCID.WallCreeperWall);
+            revengeanceEnemyBuffList.Add(NPCID.BlackRecluseWall);
+            revengeanceEnemyBuffList.Add(NPCID.AngryTrapper);
+            revengeanceEnemyBuffList.Add(NPCID.Lihzahrd);
+            revengeanceEnemyBuffList.Add(NPCID.LihzahrdCrawler);
+            revengeanceEnemyBuffList.Add(NPCID.PirateCaptain);
+            revengeanceEnemyBuffList.Add(NPCID.QueenBee);
+            revengeanceEnemyBuffList.Add(NPCID.FlyingSnake);
+            revengeanceEnemyBuffList.Add(NPCID.Golem);
+            revengeanceEnemyBuffList.Add(NPCID.GolemFistLeft);
+            revengeanceEnemyBuffList.Add(NPCID.GolemFistRight);
+            revengeanceEnemyBuffList.Add(NPCID.Reaper);
+            revengeanceEnemyBuffList.Add(NPCID.Plantera);
+            revengeanceEnemyBuffList.Add(NPCID.PlanterasHook);
+            revengeanceEnemyBuffList.Add(NPCID.PlanterasTentacle);
+            revengeanceEnemyBuffList.Add(NPCID.BrainofCthulhu);
+            revengeanceEnemyBuffList.Add(NPCID.Paladin);
+            revengeanceEnemyBuffList.Add(NPCID.BoneLee);
+            revengeanceEnemyBuffList.Add(NPCID.MourningWood);
+            revengeanceEnemyBuffList.Add(NPCID.Pumpking);
+            revengeanceEnemyBuffList.Add(NPCID.PumpkingBlade);
+            revengeanceEnemyBuffList.Add(NPCID.PresentMimic);
+            revengeanceEnemyBuffList.Add(NPCID.Everscream);
+            revengeanceEnemyBuffList.Add(NPCID.IceQueen);
+            revengeanceEnemyBuffList.Add(NPCID.SantaNK1);
+            revengeanceEnemyBuffList.Add(NPCID.DukeFishron);
+            revengeanceEnemyBuffList.Add(NPCID.MoonLordHand);
+            revengeanceEnemyBuffList.Add(NPCID.StardustWormHead);
+            revengeanceEnemyBuffList.Add(NPCID.SolarCrawltipedeHead);
+            revengeanceEnemyBuffList.Add(NPCID.CultistDragonHead);
+            revengeanceEnemyBuffList.Add(NPCID.Butcher);
+            revengeanceEnemyBuffList.Add(NPCID.Psycho);
+            revengeanceEnemyBuffList.Add(NPCID.DeadlySphere);
+            revengeanceEnemyBuffList.Add(NPCID.BigMimicCorruption);
+            revengeanceEnemyBuffList.Add(NPCID.BigMimicCrimson);
+            revengeanceEnemyBuffList.Add(NPCID.BigMimicHallow);
+            revengeanceEnemyBuffList.Add(NPCID.Mothron);
+            revengeanceEnemyBuffList.Add(NPCID.DuneSplicerHead);
+            revengeanceEnemyBuffList.Add(NPCID.SlimeSpiked);
+            revengeanceEnemyBuffList.Add(NPCID.SandShark);
+            revengeanceEnemyBuffList.Add(NPCID.SandsharkCorrupt);
+            revengeanceEnemyBuffList.Add(NPCID.SandsharkCrimson);
+            revengeanceEnemyBuffList.Add(NPCID.SandsharkHallow);
+            revengeanceEnemyBuffList.Add(NPCID.DD2Betsy);
+
+            revengeanceProjectileBuffList = new List<int>();
+
+            revengeanceProjectileBuffList.Add(ProjectileID.SandBallFalling);
+            revengeanceProjectileBuffList.Add(ProjectileID.AshBallFalling);
+            revengeanceProjectileBuffList.Add(ProjectileID.DemonSickle);
+            revengeanceProjectileBuffList.Add(ProjectileID.EbonsandBallFalling);
+            revengeanceProjectileBuffList.Add(ProjectileID.PearlSandBallFalling);
+            revengeanceProjectileBuffList.Add(ProjectileID.CursedFlameHostile);
+            revengeanceProjectileBuffList.Add(ProjectileID.EyeFire);
+            revengeanceProjectileBuffList.Add(ProjectileID.Boulder);
+            revengeanceProjectileBuffList.Add(ProjectileID.DeathLaser);
+            revengeanceProjectileBuffList.Add(ProjectileID.PoisonDartTrap);
+            revengeanceProjectileBuffList.Add(ProjectileID.SpikyBallTrap);
+            revengeanceProjectileBuffList.Add(ProjectileID.SpearTrap);
+            revengeanceProjectileBuffList.Add(ProjectileID.FlamethrowerTrap);
+            revengeanceProjectileBuffList.Add(ProjectileID.FlamesTrap);
+            revengeanceProjectileBuffList.Add(ProjectileID.CrimsandBallFalling);
+            revengeanceProjectileBuffList.Add(ProjectileID.Fireball);
+            revengeanceProjectileBuffList.Add(ProjectileID.EyeBeam);
+            revengeanceProjectileBuffList.Add(ProjectileID.PoisonSeedPlantera);
+            revengeanceProjectileBuffList.Add(ProjectileID.ThornBall);
+            revengeanceProjectileBuffList.Add(ProjectileID.PaladinsHammerHostile);
+            revengeanceProjectileBuffList.Add(ProjectileID.RocketSkeleton);
+            revengeanceProjectileBuffList.Add(ProjectileID.FlamingWood);
+            revengeanceProjectileBuffList.Add(ProjectileID.FlamingScythe);
+            revengeanceProjectileBuffList.Add(ProjectileID.FrostWave);
+            revengeanceProjectileBuffList.Add(ProjectileID.Present);
+            revengeanceProjectileBuffList.Add(ProjectileID.Spike);
+            revengeanceProjectileBuffList.Add(ProjectileID.SaucerDeathray);
+            revengeanceProjectileBuffList.Add(ProjectileID.PhantasmalEye);
+            revengeanceProjectileBuffList.Add(ProjectileID.PhantasmalSphere);
+            revengeanceProjectileBuffList.Add(ProjectileID.PhantasmalDeathray);
+            revengeanceProjectileBuffList.Add(ProjectileID.CultistBossIceMist);
+            revengeanceProjectileBuffList.Add(ProjectileID.CultistBossLightningOrbArc);
+            revengeanceProjectileBuffList.Add(ProjectileID.CultistBossFireBall);
+            revengeanceProjectileBuffList.Add(ProjectileID.NebulaBolt);
+            revengeanceProjectileBuffList.Add(ProjectileID.NebulaSphere);
+            revengeanceProjectileBuffList.Add(ProjectileID.NebulaLaser);
+            revengeanceProjectileBuffList.Add(ProjectileID.StardustSoldierLaser);
+            revengeanceProjectileBuffList.Add(ProjectileID.VortexLaser);
+            revengeanceProjectileBuffList.Add(ProjectileID.VortexVortexLightning);
+            revengeanceProjectileBuffList.Add(ProjectileID.VortexLightning);
+            revengeanceProjectileBuffList.Add(ProjectileID.VortexAcid);
+            revengeanceProjectileBuffList.Add(ProjectileID.GeyserTrap);
+            revengeanceProjectileBuffList.Add(ProjectileID.SandnadoHostile);
+            revengeanceProjectileBuffList.Add(ProjectileID.DD2BetsyFireball);
+            revengeanceProjectileBuffList.Add(ProjectileID.DD2BetsyFlameBreath);
+
+            trapProjectileList = new List<int>();
+
+            trapProjectileList.Add(ProjectileID.PoisonDartTrap);
+            trapProjectileList.Add(ProjectileID.SpikyBallTrap);
+            trapProjectileList.Add(ProjectileID.SpearTrap);
+            trapProjectileList.Add(ProjectileID.FlamethrowerTrap);
+            trapProjectileList.Add(ProjectileID.FlamesTrap);
+            trapProjectileList.Add(ProjectileID.PoisonDart);
+            trapProjectileList.Add(ProjectileID.GeyserTrap);
+
+            lightGreenThrowingRarityList = new List<int>();
+            greenThrowingRarityList = new List<int>();
+            blueThrowingRarityList = new List<int>();
+            purpleThrowingRarityList = new List<int>();
+
+            throwingProjectileList = new List<int>();
+            throwingItemList = new List<int>();
+
             Mod calamity = ModLoader.GetMod("CalamityMod");
             if (calamity != null)
             {
@@ -917,6 +1376,7 @@ namespace CalamityMod
                 rangedProjectileExceptionList.Add(calamity.ProjectileType("Drataliornus"));
                 rangedProjectileExceptionList.Add(calamity.ProjectileType("FlakKrakenGun"));
                 rangedProjectileExceptionList.Add(calamity.ProjectileType("Butcher"));
+                rangedProjectileExceptionList.Add(calamity.ProjectileType("StarfleetMK2"));
 
                 beeEnemyList.Add(calamity.NPCType("PlaguebringerGoliath"));
                 beeEnemyList.Add(calamity.NPCType("PlaguebringerShade"));
@@ -1072,6 +1532,239 @@ namespace CalamityMod
                 alcoholList.Add(calamity.BuffType("Vodka"));
                 alcoholList.Add(calamity.BuffType("Whiskey"));
                 alcoholList.Add(calamity.BuffType("WhiteWine"));
+
+                lightGreenThrowingRarityList.Add(calamity.ItemType("TarragonThrowingDart"));
+                lightGreenThrowingRarityList.Add(calamity.ItemType("MoltenAmputator"));
+                lightGreenThrowingRarityList.Add(calamity.ItemType("AccretionDisk"));
+
+                greenThrowingRarityList.Add(calamity.ItemType("CosmicKunai"));
+                greenThrowingRarityList.Add(calamity.ItemType("Eradicator"));
+                greenThrowingRarityList.Add(calamity.ItemType("Valediction"));
+                greenThrowingRarityList.Add(calamity.ItemType("GhoulishGouger"));
+
+                blueThrowingRarityList.Add(calamity.ItemType("EmpyreanKnivesThrown"));
+                blueThrowingRarityList.Add(calamity.ItemType("ExecutionersBlade"));
+                blueThrowingRarityList.Add(calamity.ItemType("ProfanedTrident"));
+                blueThrowingRarityList.Add(calamity.ItemType("ScourgeoftheCosmosThrown"));
+
+                purpleThrowingRarityList.Add(calamity.ItemType("RoyalKnives"));
+                purpleThrowingRarityList.Add(calamity.ItemType("TriactisTruePaladinianMageHammerofMight"));
+
+                throwingProjectileList.Add(calamity.ProjectileType("XerocPitchforkProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("WulfrumKnife"));
+                throwingProjectileList.Add(calamity.ProjectileType("Valediction"));
+                throwingProjectileList.Add(calamity.ProjectileType("UrchinStinger"));
+                throwingProjectileList.Add(calamity.ProjectileType("OPHammer"));
+                throwingProjectileList.Add(calamity.ProjectileType("TriactisOPHammer"));
+                throwingProjectileList.Add(calamity.ProjectileType("ToothBallProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("TitaniumShurikenProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("TarragonThrowingDartProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("FossilShardThrown"));
+                throwingProjectileList.Add(calamity.ProjectileType("SpearofPaleolith"));
+                throwingProjectileList.Add(calamity.ProjectileType("SeashellBoomerangProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("ScourgeoftheDesert"));
+                throwingProjectileList.Add(calamity.ProjectileType("ScourgeoftheCosmosMini"));
+                throwingProjectileList.Add(calamity.ProjectileType("ScourgeoftheCosmos"));
+                throwingProjectileList.Add(calamity.ProjectileType("RoyalKnife"));
+                throwingProjectileList.Add(calamity.ProjectileType("RotBallProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("Pwnagehammer"));
+                throwingProjectileList.Add(calamity.ProjectileType("ProfanedTrident"));
+                throwingProjectileList.Add(calamity.ProjectileType("PalladiumJavelinProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("OrichalcumSpikedGemstoneProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("MythrilKnifeProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("Mycoroot"));
+                throwingProjectileList.Add(calamity.ProjectileType("MoltenBlobThrown"));
+                throwingProjectileList.Add(calamity.ProjectileType("MoltenAmputator"));
+                throwingProjectileList.Add(calamity.ProjectileType("MangroveChakramProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("MalachiteBolt"));
+                throwingProjectileList.Add(calamity.ProjectileType("Malachite"));
+                throwingProjectileList.Add(calamity.ProjectileType("Lionfish"));
+                throwingProjectileList.Add(calamity.ProjectileType("IchorSpear"));
+                throwingProjectileList.Add(calamity.ProjectileType("IceStarProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("GhoulishGouger"));
+                throwingProjectileList.Add(calamity.ProjectileType("GelDartProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("FlameScytheProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("FeatherKnifeProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("ExecutionersBlade"));
+                throwingProjectileList.Add(calamity.ProjectileType("EmpyreanKnives"));
+                throwingProjectileList.Add(calamity.ProjectileType("EradicatorProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("DuststormCloud"));
+                throwingProjectileList.Add(calamity.ProjectileType("DuststormInABottle"));
+                throwingProjectileList.Add(calamity.ProjectileType("CursedDagger"));
+                throwingProjectileList.Add(calamity.ProjectileType("CrystalPiercerProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("Crystalline2"));
+                throwingProjectileList.Add(calamity.ProjectileType("Crystalline"));
+                throwingProjectileList.Add(calamity.ProjectileType("Crushax"));
+                throwingProjectileList.Add(calamity.ProjectileType("CosmicKunai"));
+                throwingProjectileList.Add(calamity.ProjectileType("CobaltKunaiProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("Celestus2"));
+                throwingProjectileList.Add(calamity.ProjectileType("Celestus"));
+                throwingProjectileList.Add(calamity.ProjectileType("Brimblade2"));
+                throwingProjectileList.Add(calamity.ProjectileType("Brimblade"));
+                throwingProjectileList.Add(calamity.ProjectileType("BrackishWaterBlast"));
+                throwingProjectileList.Add(calamity.ProjectileType("BrackishWater"));
+                throwingProjectileList.Add(calamity.ProjectileType("BrackishFlask"));
+                throwingProjectileList.Add(calamity.ProjectileType("BallisticPoisonBombSpike"));
+                throwingProjectileList.Add(calamity.ProjectileType("BallisticPoisonBomb"));
+                throwingProjectileList.Add(calamity.ProjectileType("AccretionDisk2"));
+                throwingProjectileList.Add(calamity.ProjectileType("AccretionDisk"));
+                throwingProjectileList.Add(calamity.ProjectileType("AdamantiteThrowingAxeProjectile"));
+                throwingProjectileList.Add(calamity.ProjectileType("FrostyFlare"));
+                throwingProjectileList.Add(calamity.ProjectileType("FrostShardFriendly"));
+
+                throwingItemList.Add(calamity.ItemType("AccretionDisk"));
+                throwingItemList.Add(calamity.ItemType("AdamantiteThrowingAxe"));
+                throwingItemList.Add(calamity.ItemType("BallisticPoisonBomb"));
+                throwingItemList.Add(calamity.ItemType("BrackishFlask"));
+                throwingItemList.Add(calamity.ItemType("Brimblade"));
+                throwingItemList.Add(calamity.ItemType("Celestus"));
+                throwingItemList.Add(calamity.ItemType("CobaltKunai"));
+                throwingItemList.Add(calamity.ItemType("CosmicKunai"));
+                throwingItemList.Add(calamity.ItemType("CrushsawCrasher"));
+                throwingItemList.Add(calamity.ItemType("Crystalline"));
+                throwingItemList.Add(calamity.ItemType("CrystalPiercer"));
+                throwingItemList.Add(calamity.ItemType("CursedDagger"));
+                throwingItemList.Add(calamity.ItemType("DuststormInABottle"));
+                throwingItemList.Add(calamity.ItemType("EmpyreanKnivesThrown"));
+                throwingItemList.Add(calamity.ItemType("Eradicator"));
+                throwingItemList.Add(calamity.ItemType("ExecutionersBlade"));
+                throwingItemList.Add(calamity.ItemType("FeatherKnife"));
+                throwingItemList.Add(calamity.ItemType("FlameScythe"));
+                throwingItemList.Add(calamity.ItemType("GelDart"));
+                throwingItemList.Add(calamity.ItemType("GhoulishGouger"));
+                throwingItemList.Add(calamity.ItemType("IceStar"));
+                throwingItemList.Add(calamity.ItemType("IchorSpear"));
+                throwingItemList.Add(calamity.ItemType("Lionfish"));
+                throwingItemList.Add(calamity.ItemType("Malachite"));
+                throwingItemList.Add(calamity.ItemType("MangroveChakram"));
+                throwingItemList.Add(calamity.ItemType("MoltenAmputator"));
+                throwingItemList.Add(calamity.ItemType("Mycoroot"));
+                throwingItemList.Add(calamity.ItemType("MythrilKnife"));
+                throwingItemList.Add(calamity.ItemType("OrichalcumSpikedGemstone"));
+                throwingItemList.Add(calamity.ItemType("PalladiumJavelin"));
+                throwingItemList.Add(calamity.ItemType("ProfanedTrident"));
+                throwingItemList.Add(calamity.ItemType("PwnageHammer"));
+                throwingItemList.Add(calamity.ItemType("RotBall"));
+                throwingItemList.Add(calamity.ItemType("RoyalKnives"));
+                throwingItemList.Add(calamity.ItemType("ScourgeoftheCosmosThrown"));
+                throwingItemList.Add(calamity.ItemType("ScourgeoftheDesert"));
+                throwingItemList.Add(calamity.ItemType("SeashellBoomerang"));
+                throwingItemList.Add(calamity.ItemType("SpearofPaleolith"));
+                throwingItemList.Add(calamity.ItemType("TarragonThrowingDart"));
+                throwingItemList.Add(calamity.ItemType("TitaniumShuriken"));
+                throwingItemList.Add(calamity.ItemType("ToothBall"));
+                throwingItemList.Add(calamity.ItemType("TriactisTruePaladinianMageHammerofMight"));
+                throwingItemList.Add(calamity.ItemType("TruePaladinsHammer"));
+                throwingItemList.Add(calamity.ItemType("UrchinStinger"));
+                throwingItemList.Add(calamity.ItemType("Valediction"));
+                throwingItemList.Add(calamity.ItemType("WulfrumKnife"));
+                throwingItemList.Add(calamity.ItemType("XerocPitchfork"));
+                throwingItemList.Add(calamity.ItemType("FrostyFlare"));
+
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Astrageldon"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("AstrumDeusHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("AstrumDeusHeadSpectral"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Bumblefuck"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("CalamitasRun3"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("CosmicWraith"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("CrabulonIdle"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Cryogen"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("DesertScourgeHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("GreatSandShark"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("HiveMindP2"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("DankCreeper"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("AquaticAberration"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Leviathan"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Siren"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PerforatorHeadLarge"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PerforatorHeadMedium"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PerforatorHeadSmall"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PlaguebringerGoliath"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PlagueHomingMissile"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PlagueMine"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Polterghast"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PolterghastHook"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("PolterPhantom"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ProfanedGuardianBoss"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("RockPillar"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ScavengerBody"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ScavengerClawRight"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ScavengerClawLeft"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ProfanedGuardianBoss2"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ProvSpawnDefense"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ProvSpawnOffense"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("SlimeGod"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("SlimeGodRun"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("SlimeGodCore"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("SlimeGodSplit"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("SlimeGodRunSplit"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("StormWeaverHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("StormWeaverHeadNaked"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("SupremeCalamitas"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("DevourerofGodsHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("DevourerofGodsHead2"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("DevourerofGodsHeadS"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Yharon"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("AquaticScourgeHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("BobbitWormHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("AquaticSeekerHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ColossalSquid"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("EidolonWyrmHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("EidolonWyrmHeadHuge"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("GulperEelHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Mauler"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Reaper"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Atlas"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ArmoredDiggerHead"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Cnidrion"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("Horse"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("ScornEater"));
+
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("AbyssMine"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("AbyssMine2"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("AstralFlame"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BloodGeyser"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneBarrage"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneFireblast"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneGigaBlast"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneHellblast"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneHellblast2"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneHellfireball"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneLaser"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneLaserSplit"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneMonster"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("BrimstoneWave"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("DarkEnergyBall"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("DeusMine"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("DoGDeath"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("DoGFire"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("CosmicFlameBurst"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("FlareBomb"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("Flarenado"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("HiveBombGoliath"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("HolyBlast"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("HolyBomb"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("HolyShot"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("HolySpear"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("IceBomb"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("IchorShot"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("Infernado"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("LeviathanBomb"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("MoltenBlast"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("Mushmash"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("PhantomMine"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("PhantomBlast"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("PhantomBlast2"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("ProfanedSpear"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("ProvidenceCrystalShard"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("ProvidenceHolyRay"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("RedLightningFeather"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("SandPoisonCloud"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("ScavengerNuke"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("SirenSong"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("YharonFireball"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("YharonFireball2"));
+                revengeanceProjectileBuffList.Add(calamity.ProjectileType("YharonFireballHoming"));
             }
         }
         #endregion
@@ -1090,29 +1783,29 @@ namespace CalamityMod
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneCalamity)
                     {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Crag"); priority = MusicPriority.Environment; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Crag"); priority = MusicPriority.Environment; }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAstral)
                     {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"); priority = MusicPriority.Environment; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"); priority = MusicPriority.Environment; }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer1 || Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer2)
                     {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss"); priority = MusicPriority.BiomeHigh; }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer3)
                     {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss"); priority = MusicPriority.BiomeHigh; }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer4)
                     {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheVoid"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheVoid"); priority = MusicPriority.BiomeHigh; }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneSulphur)
                     {
-                        if (!CalamityGlobalNPC.AnyBossNPCS()) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Sulphur"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Sulphur"); priority = MusicPriority.BiomeHigh; }
                     }
-                    if (CalamityGlobalNPC.DoGSecondStageCountdown <= 540 && CalamityGlobalNPC.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
+                    if (CalamityWorld.DoGSecondStageCountdown <= 540 && CalamityWorld.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
                     {
                         music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse"); priority = MusicPriority.BossMedium;
                     }
@@ -1140,7 +1833,7 @@ namespace CalamityMod
                 bossChecklist.Call("AddBossWithInfo", "Aquatic Scourge", 8.5f, (Func<bool>)(() => CalamityWorld.downedAquaticScourge), "Use a [i:" + mod.ItemType("Seafood") + "] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea"); //6
                 bossChecklist.Call("AddBossWithInfo", "Calamitas", 9.7f, (Func<bool>)(() => CalamityWorld.downedCalamitas), "Use an [i:" + mod.ItemType("BlightedEyeball") + "] at Night"); //7
                 bossChecklist.Call("AddBossWithInfo", "Leviathan", 10.5f, (Func<bool>)(() => CalamityWorld.downedLeviathan), "By killing an unknown entity in the Ocean Biome"); //8
-                bossChecklist.Call("AddBossWithInfo", "Astrageldon Slime", 10.55f, (Func<bool>)(() => CalamityWorld.downedAstrageldon), "Use an [i:" + mod.ItemType("AstralChunk") + "] at Night"); //8.25
+                bossChecklist.Call("AddBossWithInfo", "Astrum Aureus", 10.55f, (Func<bool>)(() => CalamityWorld.downedAstrageldon), "Use an [i:" + mod.ItemType("AstralChunk") + "] at Night"); //8.25
                 bossChecklist.Call("AddBossWithInfo", "Astrum Deus", 10.6f, (Func<bool>)(() => CalamityWorld.downedStarGod), "Use a [i:" + mod.ItemType("Starcore") + "] at Night"); //8.5
                 bossChecklist.Call("AddBossWithInfo", "Plaguebringer Goliath", 11.5f, (Func<bool>)(() => CalamityWorld.downedPlaguebringer), "Use an [i:" + mod.ItemType("Abomination") + "] in the Jungle Biome"); //9
                 bossChecklist.Call("AddBossWithInfo", "Ravager", 12.5f, (Func<bool>)(() => CalamityWorld.downedScavenger), "Use an [i:" + mod.ItemType("AncientMedallion") + "]"); //9.5
@@ -1649,6 +2342,7 @@ namespace CalamityMod
 				1586,
 				1797,
 				1830,
+                1866,
 				1871,
 				2280,
 				2494,
@@ -1663,6 +2357,8 @@ namespace CalamityMod
 				3588,
 				3592,
 				3883,
+                3924,
+                3928,
 				ItemType("SkylineWings"),
 				ItemType("StarlightWings"),
 				ItemType("AureateWings"),
@@ -1689,19 +2385,31 @@ namespace CalamityMod
 			recipe.AddIngredient(ItemID.IceBlock, 20);
 			recipe.AddIngredient(ItemID.Leather, 5);
 			recipe.AddIngredient(ItemID.IronBar, 5);
-	        recipe.AddTile(TileID.IceMachine);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.IceMachine);
 	        recipe.SetResult(ItemID.IceSkates);
 	        recipe.AddRecipe();
 
-	        recipe = new ModRecipe(this);
-			recipe.AddIngredient(ItemID.IceBlock, 20);
-			recipe.AddIngredient(ItemID.Leather, 5);
-			recipe.AddIngredient(ItemID.LeadBar, 5);
-	        recipe.AddTile(TileID.IceMachine);
-	        recipe.SetResult(ItemID.IceSkates);
-	        recipe.AddRecipe();
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(ItemID.IceBlock, 20);
+            recipe.AddIngredient(ItemID.Glass, 10);
+            recipe.AddIngredient(ItemID.FallenStar, 10);
+            recipe.AddIngredient(ItemID.IronBar, 5);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(ItemID.IceMirror);
+            recipe.AddRecipe();
 
-	        recipe = new ModRecipe(this);
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(ItemID.IronBar, 10);
+            recipe.AddIngredient(ItemID.Glass, 10);
+            recipe.AddIngredient(ItemID.FallenStar, 10);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(ItemID.MagicMirror);
+            recipe.AddRecipe();
+
+            recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.Lens);
 			recipe.AddIngredient(ItemID.BlackDye);
 	        recipe.AddTile(TileID.DyeVat);
@@ -1718,15 +2426,8 @@ namespace CalamityMod
 			recipe.AddIngredient(ItemID.IceBlock, 25);
 			recipe.AddIngredient(ItemID.SnowBlock, 15);
 			recipe.AddIngredient(ItemID.IronBar, 3);
-	        recipe.AddTile(TileID.Anvils);
-	        recipe.SetResult(ItemID.IceMachine);
-	        recipe.AddRecipe();
-
-	        recipe = new ModRecipe(this);
-			recipe.AddIngredient(ItemID.IceBlock, 25);
-			recipe.AddIngredient(ItemID.SnowBlock, 15);
-			recipe.AddIngredient(ItemID.LeadBar, 3);
-	        recipe.AddTile(TileID.Anvils);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.IceMachine);
 	        recipe.AddRecipe();
 
@@ -1790,19 +2491,20 @@ namespace CalamityMod
 			recipe.AddIngredient(ItemID.LavaBucket, 5);
 			recipe.AddIngredient(ItemID.Obsidian, 25);
 			recipe.AddIngredient(ItemID.IronBar, 5);
-	        recipe.AddTile(TileID.Anvils);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.LavaCharm);
 	        recipe.AddRecipe();
 
-	        recipe = new ModRecipe(this);
-			recipe.AddIngredient(ItemID.LavaBucket, 5);
-			recipe.AddIngredient(ItemID.Obsidian, 25);
-			recipe.AddIngredient(ItemID.LeadBar, 5);
-	        recipe.AddTile(TileID.Anvils);
-	        recipe.SetResult(ItemID.LavaCharm);
-	        recipe.AddRecipe();
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(ItemID.GoldenKey);
+            recipe.AddIngredient(ItemID.Obsidian, 20);
+            recipe.AddIngredient(ItemID.Bone, 5);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(ItemID.ShadowKey);
+            recipe.AddRecipe();
 
-	        recipe = new ModRecipe(this);
+            recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "CryoBar", 6);
 			recipe.AddIngredient(ItemID.FrostCore);
 	        recipe.AddTile(TileID.IceMachine);
@@ -2187,13 +2889,8 @@ namespace CalamityMod
 
 	        recipe = new ModRecipe(this);
 			recipe.AddIngredient(ItemID.IronBar, 5);
-	        recipe.AddTile(TileID.Anvils);
-	        recipe.SetResult(ItemID.Aglet);
-	        recipe.AddRecipe();
-
-	        recipe = new ModRecipe(this);
-			recipe.AddIngredient(ItemID.LeadBar, 5);
-	        recipe.AddTile(TileID.Anvils);
+            recipe.anyIronBar = true;
+            recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(ItemID.Aglet);
 	        recipe.AddRecipe();
 
@@ -2337,12 +3034,7 @@ namespace CalamityMod
 
             recipe = new ModRecipe(this);   //radar
             recipe.AddIngredient(ItemID.IronBar, 5);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(ItemID.Radar);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(this);
-            recipe.AddIngredient(ItemID.LeadBar, 5);
+            recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.Radar);
             recipe.AddRecipe();
@@ -2366,24 +3058,14 @@ namespace CalamityMod
 
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.IronBar);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(ItemID.ThrowingKnife, 50);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(this);
-            recipe.AddIngredient(ItemID.LeadBar);
+            recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.ThrowingKnife, 50);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(this);
             recipe.AddIngredient(ItemID.IronBar);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(ItemID.Shuriken, 50);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(this);
-            recipe.AddIngredient(ItemID.LeadBar);
+            recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(ItemID.Shuriken, 50);
             recipe.AddRecipe();
@@ -2409,6 +3091,15 @@ namespace CalamityMod
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(ItemID.TempleKey);
             recipe.AddRecipe();
+
+            recipe = new ModRecipe(this);
+            recipe.AddIngredient(null, "RogueEmblem");
+            recipe.AddIngredient(ItemID.SoulofMight, 5);
+            recipe.AddIngredient(ItemID.SoulofSight, 5);
+            recipe.AddIngredient(ItemID.SoulofFright, 5);
+            recipe.AddTile(TileID.TinkerersWorkbench);
+            recipe.SetResult(ItemID.AvengerEmblem);
+            recipe.AddRecipe();
         }
         #endregion
 
@@ -2418,6 +3109,36 @@ namespace CalamityMod
 			CalamityModMessageType msgType = (CalamityModMessageType)reader.ReadByte();
             switch (msgType)
 			{
+                case CalamityModMessageType.MeleeLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 0);
+                    break;
+                case CalamityModMessageType.RangedLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 1);
+                    break;
+                case CalamityModMessageType.MagicLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 2);
+                    break;
+                case CalamityModMessageType.SummonLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 3);
+                    break;
+                case CalamityModMessageType.RogueLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 4);
+                    break;
+                case CalamityModMessageType.ExactMeleeLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 0);
+                    break;
+                case CalamityModMessageType.ExactRangedLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 1);
+                    break;
+                case CalamityModMessageType.ExactMagicLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 2);
+                    break;
+                case CalamityModMessageType.ExactSummonLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 3);
+                    break;
+                case CalamityModMessageType.ExactRogueLevelSync:
+                    Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 4);
+                    break;
                 case CalamityModMessageType.StressSync:
                     Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleStress(reader);
                     break;
@@ -2443,7 +3164,7 @@ namespace CalamityMod
                     break;
                 case CalamityModMessageType.BossRushStage:
                     int stage = reader.ReadInt32();
-                    CalamityPlayer.bossRushStage = stage;
+                    CalamityWorld.bossRushStage = stage;
                     break;
                 case CalamityModMessageType.AdrenalineSync:
                     Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleAdrenaline(reader);
@@ -2454,6 +3175,10 @@ namespace CalamityMod
                 case CalamityModMessageType.SupremeCal:
                     int SCalAlive = reader.ReadInt32();
                     CalamityGlobalNPC.SCal = SCalAlive;
+                    break;
+                case CalamityModMessageType.DoGCountdownSync:
+                    int countdown = reader.ReadInt32();
+                    CalamityWorld.DoGSecondStageCountdown = countdown;
                     break;
                 default:
 					ErrorLogger.Log("CalamityMod: Unknown Message type: " + msgType);
@@ -2470,7 +3195,17 @@ namespace CalamityMod
     
     enum CalamityModMessageType : byte
 	{
-		StressSync,
+        MeleeLevelSync,
+        RangedLevelSync,
+        MagicLevelSync,
+        SummonLevelSync,
+        RogueLevelSync,
+        ExactMeleeLevelSync,
+        ExactRangedLevelSync,
+        ExactMagicLevelSync,
+        ExactSummonLevelSync,
+        ExactRogueLevelSync,
+        StressSync,
         Ravager,
         DoG,
         Polterghast,
@@ -2479,6 +3214,7 @@ namespace CalamityMod
         AdrenalineSync,
         TeleportPlayer,
         BossRushStage,
-        SupremeCal
+        SupremeCal,
+        DoGCountdownSync
     }
 }

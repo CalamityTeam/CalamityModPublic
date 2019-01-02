@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Xeroc Cuisses");
-            Tooltip.SetDefault("5% increased critical strike chance\n" +
+            Tooltip.SetDefault("5% increased rogue damage and critical strike chance\n" +
                        "20% increased movement speed\n" +
                        "Speed of the cosmos");
         }
@@ -31,10 +32,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 5;
-            player.rangedCrit += 5;
-            player.thrownCrit += 5;
-            player.magicCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
             player.moveSpeed += 0.2f;
         }
 

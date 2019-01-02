@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 300, true);
+				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
 		}
 		

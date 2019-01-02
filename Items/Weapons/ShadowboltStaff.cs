@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons
             {
                 if (line2.mod == "Terraria" && line2.Name == "ItemName")
                 {
-                    line2.overrideColor = new Color(43, 96, 222);
+                    line2.overrideColor = new Color(0, 255, 0);
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons
             recipe.AddIngredient(null, "ArmoredShell", 3);
             recipe.AddIngredient(null, "Phantoplasm", 5);
             recipe.AddIngredient(ItemID.ShadowbeamStaff);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

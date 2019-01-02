@@ -22,10 +22,10 @@ namespace CalamityMod.Items.Accessories
                 "Activates adrenaline, which is a new stat.  When adrenaline is maxed press B to activate adrenaline mode.\n" +
                 "You gain adrenaline whenever a boss is alive.  Getting hit drops adrenaline back to 0.\n" +
                 "If you hit max adrenaline and don't use it within 5 seconds your adrenaline damage will drop gradually.\n" +
-				"All enemies drop 5 times the cash and enemy spawn rates are boosted.\n" +
-				"You do 5% MORE damage but you also take 5% MORE damage (this is only active after your first boss kill).\n" +
+				"All enemies drop twice the cash and enemy spawn rates are boosted.\n" +
 				"Before you have killed your first boss you take 20% LESS damage from everything.\n" +
-				"Changes ALL boss AIs in vanilla and the Calamity Mod.\n" +
+                "Changes the Expert Mode 75% defense back to the Normal Mode 50% defense for the duration of prehardmode.\n" +
+                "Changes ALL boss AIs in vanilla and the Calamity Mod.\n" +
 				"DO NOT USE IF A BOSS IS ALIVE!\n" +
 				"Only use if you are absolutely sure you want to go through with this!");
 		}
@@ -72,5 +72,13 @@ namespace CalamityMod.Items.Accessories
             }
 			return true;
 		}
-	}
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddTile(TileID.DemonAltar);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

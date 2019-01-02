@@ -24,7 +24,6 @@ namespace CalamityMod.Projectiles
             projectile.ignoreWater = true;
             projectile.penetrate = 2;
             projectile.alpha = 255;
-            projectile.thrown = true;
             projectile.extraUpdates = 10;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;

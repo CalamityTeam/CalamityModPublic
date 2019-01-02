@@ -47,10 +47,6 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.velocity = -Vector2.UnitY;
             }
-            if (projectile.localAI[0] == 0f)
-            {
-                Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 104, 1f, 0f);
-            }
             float num801 = 1f;
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] >= 180f)
@@ -175,6 +171,11 @@ namespace CalamityMod.Projectiles.Boss
                 return true;
             }
             return false;
+        }
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(mod.BuffType("HolyLight"), 300);
         }
     }
 }

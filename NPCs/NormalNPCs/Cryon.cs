@@ -105,11 +105,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
             {
                 npc.velocity.Y = npc.velocity.Y - 4f;
-                Main.PlaySound(2, npc.Center, 27);
-                for (int k = 0; k < 10; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 92, 0f, -1f, 0, default(Color), 1f);
-                }
             }
             if (npc.ai[3] < (float)num)
             {
@@ -154,7 +149,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num9 = 0f;
                 }
                 num7 = 5f + num9 * (float)npc.direction * 4f;
-                num8 = 0.2f;
+                num8 = 0.1f;
                 if (npc.velocity.X < -num7 || npc.velocity.X > num7)
                 {
                     if (npc.velocity.Y == 0f)
@@ -316,20 +311,20 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                 }
             }
-            npc.spriteDirection = -npc.direction;
         }
 
         public override void FindFrame(int frameHeight)
         {
             if (npc.velocity.Y > 0f || npc.velocity.Y < 0f)
             {
+                npc.spriteDirection = npc.direction;
                 npc.frame.Y = frameHeight * 7;
                 npc.frameCounter = 0.0;
             }
             else
             {
                 npc.spriteDirection = npc.direction;
-                npc.frameCounter += (double)(npc.velocity.Length() / 8f);
+                npc.frameCounter += (double)(npc.velocity.Length() / 2f);
                 if (npc.frameCounter > 12.0)
                 {
                     npc.frame.Y = npc.frame.Y + frameHeight;
@@ -355,17 +350,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            if (Main.expertMode)
+            player.AddBuff(BuffID.Frostburn, 300, true);
+            if (Main.rand.Next(3) == 0)
             {
-                player.AddBuff(BuffID.Frostburn, 300, true);
-                if (Main.rand.Next(3) == 0)
-                {
-                    player.AddBuff(mod.BuffType("GlacialState"), 30, true);
-                }
-            }
-            else
-            {
-                player.AddBuff(BuffID.Frostburn, 160, true);
+                player.AddBuff(mod.BuffType("GlacialState"), 30, true);
             }
         }
 

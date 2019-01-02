@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Silva Leggings");
             Tooltip.SetDefault("45% increased movement speed\n" +
-                "12% increased damage and 9% increased critical strike chance");
+                "12% increased damage and 7% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -42,13 +43,13 @@ namespace CalamityMod.Items.Armor
         {
             player.moveSpeed += 0.45f;
             player.meleeDamage += 0.12f;
-            player.meleeCrit += 9;
+            player.meleeCrit += 7;
             player.rangedDamage += 0.12f;
-            player.rangedCrit += 9;
+            player.rangedCrit += 7;
             player.magicDamage += 0.12f;
-            player.magicCrit += 9;
-            player.thrownDamage += 0.12f;
-            player.thrownCrit += 9;
+            player.magicCrit += 7;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
             player.minionDamage += 0.12f;
         }
 

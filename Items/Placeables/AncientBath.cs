@@ -27,19 +27,19 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "BrimstoneSlag", 14);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddTile(null, "AncientAltar");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenBath", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
+            recipe.AddIngredient(null, "AshenBath");
+            recipe.AddIngredient(null, "EssenceofChaos");
+            recipe.SetResult(this);
             recipe.AddTile(null, "AncientAltar");
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenBath", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
+            recipe.AddIngredient(null, "AshenBath");
+            recipe.AddIngredient(null, "EssenceofChaos");
+            recipe.SetResult(this);
             recipe.AddTile(null, "AshenAltar");
             recipe.AddRecipe();
         }

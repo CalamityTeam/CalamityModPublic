@@ -44,12 +44,11 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             player.thorns += 0.33f;
             modPlayer.reaverBlast = true;
-            player.setBonus = "5% increased melee damage and critical strike chance\n" +
+            player.setBonus = "5% increased melee damage\n" +
                 "Melee projectiles explode on hit\n" +
                 "Reaver thorns\n" +
                 "Rage activates when you are damaged";
             player.meleeDamage += 0.05f;
-            player.meleeCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

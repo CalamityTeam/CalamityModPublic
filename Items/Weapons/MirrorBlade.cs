@@ -13,13 +13,15 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mirror Blade");
-			Tooltip.SetDefault("The amount of contact damage an enemy does is added to this weapons' damage\nYou must hit an enemy with the blade to trigger this effect\nConsumes mana to fire mirror blasts");
+			Tooltip.SetDefault("The amount of contact damage an enemy does is added to this weapons' damage\n" +
+                "You must hit an enemy with the blade to trigger this effect\n" +
+                "Consumes mana to fire mirror blasts");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 50;
-			item.damage = 260;
+			item.damage = 236;
 			item.melee = true;
 			item.mana = 4;
 			item.useAnimation = 9;
@@ -54,10 +56,10 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	int conDamage = target.damage + 260;
-	    	if (conDamage < 260)
+	    	int conDamage = target.damage + 236;
+	    	if (conDamage < 236)
 	    	{
-	    		conDamage = 260;
+	    		conDamage = 236;
 	    	}
             if (conDamage > 500)
             {

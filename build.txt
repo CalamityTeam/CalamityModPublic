@@ -1,5 +1,5 @@
 author = MountainDrew
-version = 1.4.0.001
+version = 1.4.1.001
 displayName = Calamity Mod
 homepage = https://forums.terraria.org/index.php?threads/calamity-mod.44065/
 hideCode = true

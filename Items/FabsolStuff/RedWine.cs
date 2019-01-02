@@ -12,7 +12,9 @@ namespace CalamityMod.Items.FabsolStuff
 		{
 			DisplayName.SetDefault("Red Wine");
 			Tooltip.SetDefault(@"Reduces life regen by 2
-Too dry for my taste");
+Too dry for my taste
+15 second duration
+Restores 200 life");
 		}
 
 		public override void SetDefaults()
@@ -27,9 +29,8 @@ Too dry for my taste");
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
-            item.healLife = 200;
             item.buffType = mod.BuffType("RedWine");
-            item.buffTime = 900; //3600 = 1 minute
+            item.buffTime = 900;
             item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
@@ -38,10 +39,24 @@ Too dry for my taste");
             return player.FindBuffIndex(BuffID.PotionSickness) == -1;
         }
 
-        public override bool UseItem(Player player)
+        public override bool ConsumeItem(Player player)
         {
+            return player.FindBuffIndex(BuffID.PotionSickness) == -1;
+        }
+
+        public override void OnConsumeItem(Player player)
+        {
+            player.statLife += 200;
+            if (player.statLife > player.statLifeMax2)
+            {
+                player.statLife = player.statLifeMax2;
+            }
+            if (Main.myPlayer == player.whoAmI)
+            {
+                player.HealEffect(200, true);
+            }
+            player.AddBuff(mod.BuffType("RedWine"), 900);
             player.AddBuff(BuffID.PotionSickness, (player.pStone ? 2700 : 3600));
-            return true;
         }
     }
 }

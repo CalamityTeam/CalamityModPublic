@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles
 					num404 *= num406;
 					num405 *= num406;
 					Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, mod.ProjectileType("SolarBeam"), (int)(60f * player.minionDamage), projectile.knockBack, projectile.owner, 0f, 0f);
-					projectile.ai[0] = 50f;
+					projectile.ai[0] = 30f;
 					return;
 				}
 			}

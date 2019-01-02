@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 60;
 			npc.height = 26;
 			npc.defense = 25;
-			npc.lifeMax = 120;
+			npc.lifeMax = 240;
             npc.aiStyle = -1;
 			aiType = -1;
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         npc.velocity.Y = -4f;
                     }
                     npc.localAI[0] += 1f;
-                    if (Main.netMode != 1 && npc.localAI[0] >= 180f)
+                    if (Main.netMode != 1 && npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
                         if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -125,10 +125,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                             num8 = speed / num8;
                             num6 *= num8;
                             num7 *= num8;
-                            int damage = 32;
+                            int damage = 40;
                             if (Main.expertMode)
                             {
-                                damage = 25;
+                                damage = 30;
                             }
                             int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 15f : -15f), npc.Center.Y, num6, num7, 259, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[beam].tileCollide = true;
@@ -301,7 +301,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Laserfish"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Laserfish2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Laserfish3"), 1f);
+            }
 		}
 	}
 }

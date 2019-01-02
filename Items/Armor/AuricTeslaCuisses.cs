@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Auric Tesla Cuisses");
             Tooltip.SetDefault("50% increased movement speed\n" +
-                "12% increased damage and 10% increased critical strike chance\n" +
+                "12% increased damage and 5% increased critical strike chance\n" +
                 "Magic carpet effect");
         }
 
@@ -44,13 +45,13 @@ namespace CalamityMod.Items.Armor
             player.moveSpeed += 0.5f;
             player.carpet = true;
             player.meleeDamage += 0.12f;
-            player.meleeCrit += 10;
+            player.meleeCrit += 5;
             player.rangedDamage += 0.12f;
-            player.rangedCrit += 10;
+            player.rangedCrit += 5;
             player.magicDamage += 0.12f;
-            player.magicCrit += 10;
-            player.thrownDamage += 0.12f;
-            player.thrownCrit += 10;
+            player.magicCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
             player.minionDamage += 0.12f;
         }
 

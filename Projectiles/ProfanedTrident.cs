@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles
             projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 300;
-            projectile.thrown = true;
         }
 
         public override void AI()

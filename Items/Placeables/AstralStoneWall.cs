@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = mod.WallType("AstralStoneWall");
+            item.createWall = mod.WallType("AstralStoneWall");
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

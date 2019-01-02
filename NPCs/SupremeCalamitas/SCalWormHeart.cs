@@ -23,14 +23,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 24; //324
 			npc.height = 24; //216
 			npc.defense = 0;
-            npc.lifeMax = CalamityWorld.revenge ? 120000 : 100000;
+            npc.lifeMax = CalamityWorld.revenge ? 180000 : 160000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 240000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 80000 : 60000;
+                npc.lifeMax = CalamityWorld.death ? 120000 : 90000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -63,21 +63,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.thrown && projectile.penetrate == -1)
+            if (projectile.type == mod.ProjectileType("Celestus2"))
             {
-                damage = (int)((double)damage * 0.8);
-            }
-            else if (projectile.penetrate == -1) //not a minion and penetrate is infinite
-            {
-                damage = (int)((double)damage * 0.2);
-            }
-            else if (projectile.penetrate > 1) //not a minion, penetrate is not infinite, penetrate is greater than 3
-            {
-                damage = (int)((double)damage * 0.4);
-            }
-            else //not a minion, penetrate is not infinite, and penetrate is not greater than 1
-            {
-                projectile.penetrate = 1;
+                damage /= 8;
             }
         }
 

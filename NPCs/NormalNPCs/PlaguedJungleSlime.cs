@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-            player.AddBuff(mod.BuffType("Plague"), 180, true);
+            player.AddBuff(mod.BuffType("Plague"), 300, true);
         }
 	}
 }

@@ -33,7 +33,6 @@ namespace CalamityMod.Projectiles
         {
             if (projectile.ai[1] == 1f)
             {
-                projectile.thrown = true;
                 projectile.melee = false;
             }
             if (projectile.alpha <= 200)
@@ -110,7 +109,7 @@ namespace CalamityMod.Projectiles
                         float num629 = (float)Main.rand.Next(-35, 36) * 0.02f;
                         num628 *= 10f;
                         num629 *= 10f;
-                        if (projectile.thrown)
+                        if (!projectile.melee)
                         {
                             Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), (float)((int)((double)projectile.knockBack * 0.35)), Main.myPlayer, 0f, 1f);
                         }
@@ -162,7 +161,7 @@ namespace CalamityMod.Projectiles
                     float num629 = (float)Main.rand.Next(-35, 36) * 0.02f;
                     num628 *= 10f;
                     num629 *= 10f;
-                    if (projectile.thrown)
+                    if (!projectile.melee)
                     {
                         Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), (float)((int)((double)projectile.knockBack * 0.35)), Main.myPlayer, 0f, 1f);
                     }

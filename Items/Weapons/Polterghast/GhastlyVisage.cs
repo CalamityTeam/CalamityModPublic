@@ -20,15 +20,15 @@ namespace CalamityMod.Items.Weapons.Polterghast
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 110;
+	        item.damage = 92;
 	        item.magic = true;
 	        item.noUseGraphic = true;
 			item.channel = true;
 	        item.mana = 20;
 	        item.width = 78;
 	        item.height = 70;
-	        item.useTime = 30;
-	        item.useAnimation = 30;
+	        item.useTime = 27;
+	        item.useAnimation = 27;
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5f;
@@ -36,8 +36,8 @@ namespace CalamityMod.Items.Weapons.Polterghast
 	        item.shootSpeed = 9f;
 	        item.shoot = mod.ProjectileType("GhastlyVisage");
 	    }
-	    
-	    public override void ModifyTooltips(List<TooltipLine> list)
+
+        public override void ModifyTooltips(List<TooltipLine> list)
 	    {
 	        foreach (TooltipLine line2 in list)
 	        {

@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statigel Hood");
-            Tooltip.SetDefault("10% increased summon damage and increased minion knockback\n" +
-                "+1 max minion");
+            Tooltip.SetDefault("Increased minion knockback and +1 max minion");
         }
 
         public override void SetDefaults()
@@ -35,7 +34,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Summons a mini slime god to fight for you, the type depends on what world evil you have\n" +
+            player.setBonus = "18% increased minion damage\n" +
+                "Summons a mini slime god to fight for you, the type depends on what world evil you have\n" +
                 "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                 "Grants an extra jump and increased jump height";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -43,6 +43,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.slimeGod = true;
             player.doubleJumpSail = true;
             player.jumpBoost = true;
+            player.minionDamage += 0.18f;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(mod.BuffType("SlimeGod")) == -1)
@@ -63,7 +64,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.minionKB += 1.5f;
-            player.minionDamage += 0.1f;
             player.maxMinions++;
         }
 

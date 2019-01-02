@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Polterghast
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
             item.expert = true;
         }

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.HiveMind
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 790000 : 650000;
+                npc.lifeMax = CalamityWorld.death ? 1600000 : 1300000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new

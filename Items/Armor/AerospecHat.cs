@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aerospec Hat");
-            Tooltip.SetDefault("8% increased magic damage");
+            Tooltip.SetDefault("8% increased magic damage and +20 max mana");
         }
 
         public override void SetDefaults()
@@ -52,6 +52,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.magicDamage += 0.08f;
+            player.statManaMax2 += 20;
         }
 
         public override void AddRecipes()

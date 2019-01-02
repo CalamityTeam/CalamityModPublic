@@ -44,25 +44,5 @@ namespace CalamityMod.Items
             Main.PlaySound(SoundID.Roar, player.position, 0);
 			return true;
 		}
-
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.IronBar, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 15);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
-			recipe.AddIngredient(null, "MeldBlob", 20);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.LeadBar, 10);
-            recipe.AddIngredient(ItemID.SoulofLight, 15);
-            recipe.AddIngredient(ItemID.SoulofNight, 15);
-            recipe.AddIngredient(null, "MeldBlob", 20);
-            recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
 	}
 }

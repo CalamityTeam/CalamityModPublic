@@ -25,7 +25,13 @@ namespace CalamityMod
         #region InstanceVars
 
         #region NormalVars
+        public static int DoGSecondStageCountdown = 0;
+
         public static bool bossRushActive = false;
+
+        public static bool deactivateStupidFuckingBullshit = false;
+
+        public static int bossRushStage = 0;
 
         public static int bossRushSpawnCountdown = 180;
 
@@ -195,9 +201,9 @@ namespace CalamityMod
         #region Initialize
         public override void Initialize()
 		{
-            CalamityPlayer.bossRushStage = 0;
-            CalamityGlobalNPC.golemDamageBonus = 1.0;
-            CalamityGlobalNPC.DoGSecondStageCountdown = 0;
+            NPC.LunarShieldPowerExpert = 100;
+            bossRushStage = 0;
+            DoGSecondStageCountdown = 0;
             CalamityGlobalNPC.holyBoss = -1;
             CalamityGlobalNPC.doughnutBoss = -1;
             CalamityGlobalNPC.voidBoss = -1;
@@ -1197,7 +1203,7 @@ namespace CalamityMod
                         int tilesY3 = WorldGen.genRand.Next((int)(y * .3f), (int)(y * .35f));
                         int tilesY4 = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
                         int tilesY5 = WorldGen.genRand.Next((int)(y * .55f), (int)(y * .8f));
-                        int tilesY6 = y - 50;
+                        int tilesY6 = y - 60;
                         if ((Main.tile[tilesX3, tilesY3].type == 0 || Main.tile[tilesX3, tilesY3].type == 1) && CalamityWorld.genPureHut)
                         {
                             CalamityWorld.genPureHut = false;
@@ -1634,13 +1640,14 @@ namespace CalamityMod
 			while (!flag)
 			{
 				float num6 = (float)Main.maxTilesX * 0.08f;
-				int num7 = Main.rand.Next(150, Main.maxTilesX - 150);
+                int xLimit = Main.maxTilesX / 2;
+				int num7 = (abyssSide ? Main.rand.Next(150, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 150));
 				while ((float)num7 > (float)Main.spawnTileX - num6 && (float)num7 < (float)Main.spawnTileX + num6)
 				{
-					num7 = Main.rand.Next(150, Main.maxTilesX - 150);
+					num7 = (abyssSide ? Main.rand.Next(150, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 150));
 				}
                 //world surface = 920 large 740 medium 560 small
-				int k = (int)(Main.worldSurface * 0.5); //Large = 460, Medium = 370, Small = 280
+				int k = (int)(Main.worldSurface * 0.6); //Large = 522, Medium = 444, Small = 336
 				while (k < Main.maxTilesY)
 				{
 					if (Main.tile[num7, k].active() && Main.tileSolid[(int)Main.tile[num7, k].type])
@@ -4622,6 +4629,484 @@ namespace CalamityMod
         #region PostUpdate
         public override void PostUpdate()
 		{
+            int closestPlayer = (int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0);
+            #region BossRush
+            if (!deactivateStupidFuckingBullshit)
+            {
+                deactivateStupidFuckingBullshit = true;
+                bossRushActive = false;
+                if (Main.netMode == 2)
+                {
+                    NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                }
+            }
+            if (bossRushActive)
+            {
+                if (NPC.MoonLordCountdown > 0)
+                {
+                    NPC.MoonLordCountdown = 0;
+                }
+                if (!CalamityPlayer.areThereAnyDamnBosses)
+                {
+                    if (bossRushSpawnCountdown > 0)
+                    {
+                        bossRushSpawnCountdown--;
+                        if (bossRushSpawnCountdown == 180 && bossRushStage == 26)
+                        {
+                            string key = "Mods.CalamityMod.BossRushTierThreeEndText2";
+                            Color messageColor = Color.LightCoral;
+                            if (Main.netMode == 0)
+                            {
+                                Main.NewText(Language.GetTextValue(key), messageColor);
+                            }
+                            else if (Main.netMode == 2)
+                            {
+                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                            }
+                        }
+                        if (bossRushSpawnCountdown == 210 && bossRushStage == 33)
+                        {
+                            string key = "Mods.CalamityMod.BossRushTierFourEndText2";
+                            Color messageColor = Color.LightCoral;
+                            if (Main.netMode == 0)
+                            {
+                                Main.NewText(Language.GetTextValue(key), messageColor);
+                            }
+                            else if (Main.netMode == 2)
+                            {
+                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                            }
+                        }
+                    }
+                    if (bossRushSpawnCountdown <= 0)
+                    {
+                        bossRushSpawnCountdown = 60;
+                        if (bossRushStage > 25)
+                        {
+                            bossRushSpawnCountdown += 120; //3 seconds
+                        }
+                        if (bossRushStage > 32)
+                        {
+                            bossRushSpawnCountdown += 180; //6 seconds
+                        }
+                        switch (bossRushStage)
+                        {
+                            case 9:
+                                bossRushSpawnCountdown = 240;
+                                break;
+                            case 18:
+                                bossRushSpawnCountdown = 300;
+                                break;
+                            case 25:
+                                bossRushSpawnCountdown = 360;
+                                break;
+                            case 32:
+                                bossRushSpawnCountdown = 420;
+                                break;
+                            default:
+                                break;
+                        }
+                        if (bossRushStage == 13)
+                        {
+                            for (int playerIndex = 0; playerIndex < 255; playerIndex++)
+                            {
+                                if (Main.player[playerIndex].active)
+                                {
+                                    Player player = Main.player[playerIndex];
+                                    player.Spawn();
+                                }
+                            }
+                        }
+                        else if (bossRushStage == 36)
+                        {
+                            for (int playerIndex = 0; playerIndex < 255; playerIndex++)
+                            {
+                                if (Main.player[playerIndex].active)
+                                {
+                                    Player player = Main.player[playerIndex];
+                                    if (player.FindBuffIndex(mod.BuffType("ExtremeGravity")) > -1)
+                                    {
+                                        player.ClearBuff(mod.BuffType("ExtremeGravity"));
+                                    }
+                                }
+                            }
+                        }
+                        if (Main.netMode != 1)
+                        {
+                            Main.PlaySound(SoundID.Roar, Main.player[closestPlayer].position, 0);
+                            switch (bossRushStage)
+                            {
+                                case 0:
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.QueenBee);
+                                    break;
+                                case 1:
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.BrainofCthulhu);
+                                    break;
+                                case 2:
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.KingSlime);
+                                    break;
+                                case 3:
+                                    ChangeTime(false);
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.EyeofCthulhu);
+                                    break;
+                                case 4:
+                                    ChangeTime(false);
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronPrime);
+                                    break;
+                                case 5:
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))), 
+                                        (int)(Main.player[closestPlayer].position.Y - 400f), 
+                                        NPCID.Golem, 0, 0f, 0f, 0f, 0f, 255);
+                                    break;
+                                case 6:
+                                    ChangeTime(true);
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss2"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss3"));
+                                    break;
+                                case 7:
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.EaterofWorldsHead);
+                                    break;
+                                case 8:
+                                    ChangeTime(false);
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Astrageldon"));
+                                    break;
+                                case 9:
+                                    ChangeTime(false);
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.TheDestroyer);
+                                    break;
+                                case 10:
+                                    ChangeTime(false);
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.Spazmatism);
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
+                                    break;
+                                case 11:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Bumblefuck"));
+                                    break;
+                                case 12:
+                                    NPC.SpawnWOF(Main.player[closestPlayer].position);
+                                    break;
+                                case 13:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("HiveMind"));
+                                    break;
+                                case 14:
+                                    ChangeTime(false);
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronHead);
+                                    break;
+                                case 15:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("StormWeaverHead"));
+                                    break;
+                                case 16:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("AquaticScourgeHead"));
+                                    break;
+                                case 17:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHead"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                                    break;
+                                case 18:
+                                    int num1302 = NPC.NewNPC((int)Main.player[closestPlayer].Center.X, (int)Main.player[closestPlayer].Center.Y - 400, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
+                                    Main.npc[num1302].direction = (Main.npc[num1302].spriteDirection = Math.Sign(Main.player[closestPlayer].Center.X - (float)Main.player[closestPlayer].Center.X - 90f));
+                                    break;
+                                case 19:
+                                    for (int doom = 0; doom < 200; doom++)
+                                    {
+                                        if (Main.npc[doom].active && (Main.npc[doom].type == 493 || Main.npc[doom].type == 422 || Main.npc[doom].type == 507 ||
+                                            Main.npc[doom].type == 517))
+                                        {
+                                            Main.npc[doom].active = false;
+                                            Main.npc[doom].netUpdate = true;
+                                        }
+                                    }
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("CrabulonIdle"), 0, 0f, 0f, 0f, 0f, 255);
+                                    break;
+                                case 20:
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
+                                    break;
+                                case 21:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CeaselessVoid"));
+                                    break;
+                                case 22:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PerforatorHive"));
+                                    break;
+                                case 23:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Cryogen"));
+                                    break;
+                                case 24:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("BrimstoneElemental"));
+                                    break;
+                                case 25:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CosmicWraith"));
+                                    break;
+                                case 26:
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("ScavengerBody"), 0, 0f, 0f, 0f, 0f, 255);
+                                    break;
+                                case 27:
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))), (int)(Main.player[closestPlayer].position.Y - 400f), NPCID.DukeFishron, 0, 0f, 0f, 0f, 0f, 255);
+                                    break;
+                                case 28:
+                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.MoonLordCore);
+                                    break;
+                                case 29:
+                                    ChangeTime(false);
+                                    for (int x = 0; x < 10; x++)
+                                    {
+                                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("AstrumDeusHead"));
+                                    }
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("AstrumDeusHeadSpectral"));
+                                    break;
+                                case 30:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Polterghast"));
+                                    break;
+                                case 31:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PlaguebringerGoliath"));
+                                    break;
+                                case 32:
+                                    ChangeTime(false);
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Calamitas"));
+                                    break;
+                                case 33:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Siren"));
+                                    break;
+                                case 34:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGod"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodRun"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodCore"));
+                                    break;
+                                case 35:
+                                    ChangeTime(true);
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Providence"));
+                                    break;
+                                case 36:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SupremeCalamitas"));
+                                    break;
+                                case 37:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Yharon"));
+                                    break;
+                                case 38:
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DevourerofGodsHeadS"));
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                bossRushSpawnCountdown = 180;
+                if (bossRushStage != 0)
+                {
+                    bossRushStage = 0;
+                    if (Main.netMode == 2)
+                    {
+                        var netMessage = mod.GetPacket();
+                        netMessage.Write((byte)CalamityModMessageType.BossRushStage);
+                        netMessage.Write(bossRushStage);
+                        netMessage.Send();
+                    }
+                }
+            }
+            #endregion
+            #region SpawnDoG
+            if (DoGSecondStageCountdown > 0) //works
+            {
+                DoGSecondStageCountdown--;
+                if (Main.netMode == 2)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                    netMessage.Write(DoGSecondStageCountdown);
+                    netMessage.Send();
+                }
+                if (Main.netMode != 1)
+                {
+                    if (DoGSecondStageCountdown == 21540)
+                    {
+                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CeaselessVoid"));
+                    }
+                    if (DoGSecondStageCountdown == 14340)
+                    {
+                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("StormWeaverHead"));
+                    }
+                    if (DoGSecondStageCountdown == 7140)
+                    {
+                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CosmicWraith"));
+                    }
+                    if (DoGSecondStageCountdown <= 60)
+                    {
+                        if (!NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")))
+                        {
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DevourerofGodsHeadS"));
+                            string key = "Mods.CalamityMod.EdgyBossText10";
+                            Color messageColor = Color.Cyan;
+                            if (Main.netMode == 0)
+                            {
+                                Main.NewText(Language.GetTextValue(key), messageColor);
+                            }
+                            else if (Main.netMode == 2)
+                            {
+                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
+            if (Main.player[closestPlayer].ZoneDungeon && !NPC.downedBoss3)
+            {
+                if (!NPC.AnyNPCs(NPCID.DungeonGuardian) && Main.netMode != 1)
+                    NPC.SpawnOnPlayer(closestPlayer, NPCID.DungeonGuardian); //your hell is as vast as my bonergrin, pray your life ends quickly
+            }
+            if (Main.player[closestPlayer].ZoneRockLayerHeight && 
+                !Main.player[closestPlayer].ZoneUnderworldHeight) //works
+            {
+                if (NPC.downedPlantBoss && 
+                    !Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss && 
+                    Main.player[closestPlayer].townNPCs < 3f)
+                {
+                    if ((Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg && Main.rand.Next(1000) == 0) || Main.rand.Next(25000) == 0)
+                    {
+                        if (!NPC.AnyNPCs(mod.NPCType("ArmoredDiggerHead")) && Main.netMode != 1)
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ArmoredDiggerHead"));
+                    }
+                }
+            }
+            if (Main.dayTime && Main.hardMode) //works
+            {
+                if (Main.player[closestPlayer].townNPCs >= 2f)
+                {
+                    if (Main.rand.Next(2000) == 0)
+                    {
+                        int steamGril = NPC.FindFirstNPC(NPCID.Steampunker);
+                        if (steamGril == -1 && Main.netMode != 1)
+                            NPC.SpawnOnPlayer(closestPlayer, NPCID.Steampunker);
+                    }
+                }
+            }
+            if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+            {
+                if (Main.player[closestPlayer].chaosState)
+                {
+                    if (!NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")) && Main.netMode != 1)
+                        NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("EidolonWyrmHeadHuge"));
+                }
+            }
+            #region DeathModeBossSpawns
+            if (death)
+            {
+                if (!CalamityPlayer.areThereAnyDamnBosses && Main.netMode != 1)
+                {
+                    if (!NPC.downedBoss1)
+                        if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
+                            NPC.SpawnOnPlayer(closestPlayer, NPCID.EyeofCthulhu);
+
+                    if (!NPC.downedBoss2)
+                        if (Main.player[closestPlayer].ZoneCorrupt && Main.rand.Next(1000) == 0)
+                            NPC.SpawnOnPlayer(closestPlayer, NPCID.EaterofWorldsHead);
+
+                    if (!NPC.downedBoss2)
+                        if (Main.player[closestPlayer].ZoneCrimson && Main.rand.Next(1000) == 0)
+                            NPC.SpawnOnPlayer(closestPlayer, NPCID.BrainofCthulhu);
+
+                    if (!NPC.downedQueenBee)
+                        if (Main.player[closestPlayer].ZoneJungle && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
+                            NPC.SpawnOnPlayer(closestPlayer, NPCID.QueenBee);
+
+                    if (!downedDesertScourge)
+                    {
+                        if (Main.player[closestPlayer].ZoneDesert && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                        {
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHead"));
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                        }
+                    }
+
+                    if (!downedPerforator)
+                        if (Main.player[closestPlayer].ZoneCrimson && Main.rand.Next(1000) == 0)
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PerforatorHive"));
+
+                    if (!downedHiveMind)
+                        if (Main.player[closestPlayer].ZoneCorrupt && Main.rand.Next(1000) == 0)
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("HiveMind"));
+
+                    if (!downedCrabulon)
+                        if (Main.player[closestPlayer].ZoneGlowshroom && Main.rand.Next(1000) == 0)
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CrabulonIdle"));
+
+                    if (!downedSlimeGod)
+                    {
+                        if (Main.slimeRain && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                        {
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGod"));
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodRun"));
+                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodCore"));
+                        }
+                    }
+
+                    if (Main.hardMode)
+                    {
+                        if (!NPC.downedMechBoss1)
+                            if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, NPCID.TheDestroyer);
+
+                        if (!NPC.downedMechBoss2)
+                        {
+                            if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
+                            {
+                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Spazmatism);
+                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
+                            }
+                        }
+
+                        if (!NPC.downedMechBoss3)
+                            if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronPrime);
+
+                        if (!NPC.downedPlantBoss)
+                            if (Main.player[closestPlayer].ZoneJungle && !Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
+
+                        if (!NPC.downedFishron)
+                            if (Main.player[closestPlayer].ZoneBeach && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, NPCID.DukeFishron);
+
+                        if (!downedCryogen)
+                            if (Main.player[closestPlayer].ZoneSnow && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Cryogen"));
+
+                        if (!downedCalamitas)
+                            if (!Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Calamitas"));
+
+                        if (!downedAstrageldon)
+                            if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Astrageldon"));
+
+                        if (!downedPlaguebringer)
+                            if (Main.player[closestPlayer].ZoneJungle && NPC.downedGolemBoss && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PlaguebringerGoliath"));
+
+                        if (NPC.downedMoonlord)
+                        {
+                            if (!downedGuardians)
+                            {
+                                if ((Main.player[closestPlayer].ZoneUnderworldHeight || (Main.player[closestPlayer].ZoneHoly && Main.player[closestPlayer].ZoneOverworldHeight)) && Main.rand.Next(1000) == 0)
+                                {
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss2"));
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss3"));
+                                }
+                            }
+
+                            if (!downedBumble)
+                                if (Main.player[closestPlayer].ZoneJungle && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
+                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Bumblefuck"));
+                        }
+                    }
+                }
+            }
+            #endregion
             if (!NPC.downedBoss3 && revenge)
             {
                 if (Main.netMode != 1)
@@ -4727,44 +5212,6 @@ namespace CalamityMod
                     netMessage.Send();
                 }
             }
-            #region SpawnDoG
-            if (CalamityGlobalNPC.DoGSecondStageCountdown > 0)
-            {
-                CalamityGlobalNPC.DoGSecondStageCountdown--;
-                if (Main.netMode != 1)
-                {
-                    if (CalamityGlobalNPC.DoGSecondStageCountdown == 21540)
-                    {
-                        NPC.SpawnOnPlayer((int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0), mod.NPCType("CeaselessVoid"));
-                    }
-                    if (CalamityGlobalNPC.DoGSecondStageCountdown == 14340)
-                    {
-                        NPC.SpawnOnPlayer((int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0), mod.NPCType("StormWeaverHead"));
-                    }
-                    if (CalamityGlobalNPC.DoGSecondStageCountdown == 7140)
-                    {
-                        NPC.SpawnOnPlayer((int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0), mod.NPCType("CosmicWraith"));
-                    }
-                    if (CalamityGlobalNPC.DoGSecondStageCountdown <= 60)
-                    {
-                        if (!NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")))
-                        {
-                            NPC.SpawnOnPlayer((int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0), mod.NPCType("DevourerofGodsHeadS"));
-                            string key = "Mods.CalamityMod.EdgyBossText10";
-                            Color messageColor = Color.Cyan;
-                            if (Main.netMode == 0)
-                            {
-                                Main.NewText(Language.GetTextValue(key), messageColor);
-                            }
-                            else if (Main.netMode == 2)
-                            {
-                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                            }
-                        }
-                    }
-                }
-            }
-            #endregion
             if (Main.netMode != 1)
             {
                 if (revenge)
@@ -4780,6 +5227,26 @@ namespace CalamityMod
                         CultistRitual.recheck = 0;
                     }
                 }
+            }
+        }
+        #endregion
+
+        #region ChangeTime
+        public static void ChangeTime(bool day)
+        {
+            if (day)
+            {
+                Main.time = 0.0;
+                Main.dayTime = true;
+            }
+            else
+            {
+                Main.time = 0.0;
+                Main.dayTime = false;
+            }
+            if (Main.netMode == 2)
+            {
+                NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
         }
         #endregion

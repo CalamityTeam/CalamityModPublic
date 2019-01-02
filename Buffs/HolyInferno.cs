@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Holy Inferno");
-			Description.SetDefault("You've gone too far from the Profaned God!");
+			Description.SetDefault("You've gone too far from the Profaned Goddess!");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;

@@ -76,9 +76,7 @@ namespace CalamityMod.Projectiles
 					{
 						if (projectile.owner == Main.myPlayer)
 						{
-							int star = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 92, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                            Main.projectile[star].ranged = false;
-                            Main.projectile[star].melee = true;
+							Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 92, projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
                         }
 					}
 					return;

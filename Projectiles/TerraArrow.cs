@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
+            projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.aiStyle = 1;
@@ -54,10 +55,9 @@ namespace CalamityMod.Projectiles
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			int num251 = Main.rand.Next(1, 3);
 			if (projectile.owner == Main.myPlayer)
 			{
-				for (int num252 = 0; num252 < num251; num252++)
+				for (int num252 = 0; num252 < 2; num252++)
 				{
 					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					while (value15.X == 0f && value15.Y == 0f)
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("TerraArrow2"), (int)((double)projectile.damage * 0.66), 0f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("TerraArrow2"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
 				}
 			}
         }

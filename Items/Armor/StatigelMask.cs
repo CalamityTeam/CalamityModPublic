@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,8 +16,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Statigel Mask");
-            Tooltip.SetDefault("10% increased throwing damage and 33% chance to not consume thrown items\n" +
-                "7% increased throwing critical strike chance");
+            Tooltip.SetDefault("10% increased rogue damage and 33% chance to not consume rogue items\n" +
+                "7% increased rogue critical strike chance");
         }
 
         public override void SetDefaults()
@@ -45,9 +46,9 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownCost33 = true;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 7;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingAmmoCost66 = true;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
         }
 
         public override void AddRecipes()

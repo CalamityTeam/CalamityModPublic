@@ -17,9 +17,7 @@ namespace CalamityMod.Projectiles
         {
             projectile.width = 10;
             projectile.height = 10;
-            projectile.scale = 0.75f;
             projectile.friendly = true;
-            projectile.thrown = true;
             projectile.penetrate = 3;
             projectile.aiStyle = 2;
             projectile.timeLeft = 600;

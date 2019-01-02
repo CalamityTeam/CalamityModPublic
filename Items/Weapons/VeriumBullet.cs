@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 		
 		public override void SetDefaults()
 		{
-			item.damage = 9;
+			item.damage = 8;
 			item.ranged = true;
 			item.width = 8;
 			item.height = 8;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons
 			item.consumable = true;
 			item.knockBack = 1.25f;
 			item.value = 500;
-			item.rare = 5;
+			item.rare = 3;
 			item.shoot = mod.ProjectileType("VeriumBullet");
 			item.shootSpeed = 16f;
 			item.ammo = 97;

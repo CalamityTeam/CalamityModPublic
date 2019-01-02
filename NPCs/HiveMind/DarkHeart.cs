@@ -107,10 +107,10 @@ namespace CalamityMod.NPCs.HiveMind
 					npc.ai[0] = 0f;
 					int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
 					int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
-					int num184 = 15;
+					int num184 = 18;
 					if (Main.expertMode)
 					{
-						num184 = 12;
+						num184 = 14;
 					}
 					Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, mod.ProjectileType("ShaderainHostile"), num184, 0f, Main.myPlayer, 0f, 0f);
 					return;

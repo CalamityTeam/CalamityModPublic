@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles
             projectile.width = 74;
             projectile.height = 74;
             projectile.friendly = true;
-            projectile.thrown = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
@@ -50,10 +49,7 @@ namespace CalamityMod.Projectiles
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int blob = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("MoltenBlob"), (int)((double)projectile.damage * 0.5f), 0f, projectile.owner, 0f, 0f);
-					Main.projectile[blob].hostile = false;
-					Main.projectile[blob].friendly = true;
-					Main.projectile[blob].penetrate = 1;
+					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("MoltenBlobThrown"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
 				}
         	}
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);

@@ -64,10 +64,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.ManaSickness, 60, true);
-			}
+			player.AddBuff(BuffID.ManaSickness, 60, true);
 		}
 	}
 }

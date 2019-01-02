@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.HiveMind
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.HiveMind
         {
             item.width = 34;
             item.height = 34;
-            item.value = 100000;
+            item.value = Item.buyPrice(0, 9, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -59,7 +60,7 @@ namespace CalamityMod.Items.HiveMind
                 player.meleeDamage += 0.1f;
                 player.magicDamage += 0.1f;
                 player.rangedDamage += 0.1f;
-                player.thrownDamage += 0.1f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
                 player.minionDamage += 0.1f;
             }
             if (player.statLife <= (player.statLifeMax2 * 0.5f))

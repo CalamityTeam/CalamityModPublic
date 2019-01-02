@@ -161,7 +161,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(mod.BuffType("Plague"), 500);
+        	target.AddBuff(mod.BuffType("Plague"), 300);
         }
     }
 }

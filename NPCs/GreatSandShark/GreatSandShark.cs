@@ -81,6 +81,11 @@ namespace CalamityMod.NPCs.GreatSandShark
                     NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
+            if (npc.soundDelay <= 0)
+            {
+                npc.soundDelay = 480;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/GreatSandSharkRoar"), (int)npc.position.X, (int)npc.position.Y);
+            }
             if (npc.localAI[3] >= 1f || Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 1000f)
             {
                 if (!resetAI)
@@ -350,20 +355,6 @@ namespace CalamityMod.NPCs.GreatSandShark
                 }
                 if (flag121)
                 {
-                    if (npc.soundDelay == 0)
-                    {
-                        float num1533 = npc.Distance(vector260) / 40f;
-                        if (num1533 < 10f)
-                        {
-                            num1533 = 10f;
-                        }
-                        if (num1533 > 20f)
-                        {
-                            num1533 = 20f;
-                        }
-                        npc.soundDelay = (int)num1533;
-                        Main.PlaySound(15, npc.Center, 4);
-                    }
                     float num1534 = npc.ai[1];
                     bool flag123 = false;
                     point15 = (npc.Center + new Vector2(0f, 24f)).ToTileCoordinates();
@@ -387,13 +378,13 @@ namespace CalamityMod.NPCs.GreatSandShark
                         switch ((int)npc.ai[3])
                         {
                             case 0:
-                                velocityX = 10f; velocityY = 7f;
+                                velocityX = 10f; velocityY = 9f;
                                 break;
                             case 1:
-                                velocityX = 14f; velocityY = 5f;
+                                velocityX = 14f; velocityY = 7f;
                                 break;
                             case 2:
-                                velocityX = 8f; velocityY = 9f;
+                                velocityX = 8f; velocityY = 11f;
                                 break;
                         }
                         if (revenge || lowerLife)
@@ -426,16 +417,40 @@ namespace CalamityMod.NPCs.GreatSandShark
                         point15 = vec4.ToTileCoordinates();
                         tileSafely = Framing.GetTileSafely(point15);
                         bool flag124 = tileSafely.nactive();
-                        if (!flag124 && Math.Sign(npc.velocity.X) == npc.direction && npc.Distance(vector260) < 400f && (npc.ai[2] >= 30f || npc.ai[2] < 0f))
+                        if (!flag124 && Math.Sign(npc.velocity.X) == npc.direction && (npc.Distance(vector260) < 600f || youMustDie) && 
+                            (npc.ai[2] >= 30f || npc.ai[2] < 0f))
                         {
                             if (npc.localAI[0] == 0f)
                             {
-                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/GreatSandSharkRoar"), (int)npc.position.X, (int)npc.position.Y);
+                                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15);
                                 npc.localAI[0] = -1f;
+                                for (int num621 = 0; num621 < 25; num621++)
+                                {
+                                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 32, 0f, 0f, 100, default(Color), 2f);
+                                    Main.dust[num622].velocity.Y *= 6f;
+                                    Main.dust[num622].velocity.X *= 3f;
+                                    if (Main.rand.Next(2) == 0)
+                                    {
+                                        Main.dust[num622].scale = 0.5f;
+                                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                                    }
+                                }
+                                for (int num623 = 0; num623 < 50; num623++)
+                                {
+                                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 85, 0f, 0f, 100, default(Color), 3f);
+                                    Main.dust[num624].noGravity = true;
+                                    Main.dust[num624].velocity.Y *= 10f;
+                                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 268, 0f, 0f, 100, default(Color), 2f);
+                                    Main.dust[num624].velocity.X *= 2f;
+                                }
+                                int spawnX = (int)(npc.width / 2);
+                                for (int sand = 0; sand < 5; sand++)
+                                    Projectile.NewProjectile(npc.Center.X + (float)Main.rand.Next(-spawnX, spawnX), npc.Center.Y, 
+                                        (float)Main.rand.Next(-3, 4), (float)Main.rand.Next(-12, -6), mod.ProjectileType("GreatSandBlast"), 40, 0f, Main.myPlayer, 0f, 0f);
                             }
                             npc.ai[2] = -30f;
                             Vector2 vector261 = npc.DirectionTo(vector260 + new Vector2(0f, -80f));
-                            npc.velocity = vector261 * 12f;
+                            npc.velocity = vector261 * 18f; //12
                         }
                     }
                     else
@@ -539,16 +554,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                 if (npc.rotation > 0.1f)
                 {
                     npc.rotation = 0.1f;
-                    return;
                 }
-            }
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged))
-            {
-                damage /= 2;
             }
         }
 

@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 150000;
+                npc.lifeMax = 200000;
             }
         }
 

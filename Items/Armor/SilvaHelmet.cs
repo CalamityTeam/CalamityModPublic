@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Helmet");
-            Tooltip.SetDefault("13% increased summon damage and +5 max minions");
+            Tooltip.SetDefault("+5 max minions");
         }
 
         public override void SetDefaults()
@@ -52,7 +52,8 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
-            player.setBonus = "You are immune to almost all debuffs\n" +
+            player.setBonus = "75% increased minion damage\n" +
+                "You are immune to almost all debuffs\n" +
                 "Reduces all damage taken by 5%, this is calculated separately from damage reduction\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
@@ -61,7 +62,7 @@ namespace CalamityMod.Items.Armor
                 "This effect only triggers once per life\n" +
                 "Your max life will return to normal if you die\n" +
                 "Summons an ancient leaf prism to blast your enemies with life energy\n" +
-                "After the silva invulnerability time your minions will deal 15% more damage and you will gain +2 max minions";
+                "After the silva invulnerability time your minions will deal 10% more damage and you will gain +2 max minions";
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.FindBuffIndex(mod.BuffType("SilvaCrystal")) == -1)
@@ -73,11 +74,11 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SilvaCrystal"), (int)((double)1500 * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
+            player.minionDamage += 0.75f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.13f;
             player.maxMinions += 5;
         }
 

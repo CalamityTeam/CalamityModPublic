@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
 			npc.damage = 0; //70
-			npc.width = 64; //36
-			npc.height = 64;
+			npc.width = 60; //36
+			npc.height = 88;
 			npc.defense = 0;
             npc.lifeMax = 1000000;
             npc.aiStyle = -1; //new
@@ -306,6 +306,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WyrmAdult3"), 1f);
             }
         }
 

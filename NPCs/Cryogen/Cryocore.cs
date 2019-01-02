@@ -92,10 +92,15 @@ namespace CalamityMod.NPCs.Cryogen
 				npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
 			}
 			npc.rotation = npc.velocity.X * 0.15f;
-			return;
 		}
-		
-		public override bool PreNPCLoot()
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Frostburn, 90, true);
+            player.AddBuff(BuffID.Chilled, 60, true);
+        }
+
+        public override bool PreNPCLoot()
 		{
 			return false;
 		}
@@ -112,7 +117,8 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Cryocore"), 1f);
+            }
 		}
 	}
 }

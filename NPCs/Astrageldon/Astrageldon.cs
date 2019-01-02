@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Astrageldon
 		public override void SetDefaults()
 		{
             npc.npcSlots = 15f;
-            npc.damage = 70;
+            npc.damage = 90;
 			npc.width = 400;
 			npc.height = 280;
 			npc.defense = 120;
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Astrageldon
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 1150000 : 1000000;
+                npc.lifeMax = CalamityWorld.death ? 2800000 : 2400000;
             }
         }
 		
@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Astrageldon
 		{
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            int damageBuff = (int)(50f * (1f - (float)npc.life / (float)npc.lifeMax));
 			int shootBuff = (int)(2f * (1f - (float)npc.life / (float)npc.lifeMax));
 			float shootTimer = 1f + ((float)shootBuff);
             bool dayTime = Main.dayTime;
@@ -199,7 +198,7 @@ namespace CalamityMod.NPCs.Astrageldon
             }
             else if (npc.ai[0] == 2f) //walk around and fire astral flames and lasers
             {
-                npc.damage = npc.defDamage + damageBuff;
+                npc.damage = expertMode ? 144 : 90;
                 float num823 = 4.5f;
                 bool flag51 = false;
                 if ((double)npc.life < (double)npc.lifeMax * 0.5)
@@ -297,7 +296,7 @@ namespace CalamityMod.NPCs.Astrageldon
             }
             else if (npc.ai[0] == 3f) //leap upwards
             {
-                npc.damage = npc.defDamage + damageBuff;
+                npc.damage = expertMode ? 144 : 90;
                 npc.noTileCollide = false;
                 if (npc.velocity.Y == 0f)
                 {
@@ -323,7 +322,7 @@ namespace CalamityMod.NPCs.Astrageldon
             }
             else if (npc.ai[0] == 4f) //stomp
             {
-                npc.damage = npc.defDamage + damageBuff;
+                npc.damage = expertMode ? 144 : 90;
                 if (npc.velocity.Y == 0f)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
@@ -407,7 +406,7 @@ namespace CalamityMod.NPCs.Astrageldon
                     }
                     if (npc.localAI[1] >= 60f)
                     {
-                        npc.damage = npc.defDamage + damageBuff;
+                        npc.damage = expertMode ? 144 : 90;
                     }
                     if (npc.localAI[1] >= 240f)
                     {
@@ -708,13 +707,9 @@ namespace CalamityMod.NPCs.Astrageldon
             return false;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void BossLoot(ref string name, ref int potionType)
         {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 2;
-            }
+            potionType = ItemID.GreaterHealingPotion;
         }
 
         public override void NPCLoot()
@@ -809,7 +804,7 @@ namespace CalamityMod.NPCs.Astrageldon
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
 		}
 	}
 }

@@ -26,11 +26,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
             npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.damage = 80;
+			npc.damage = 100;
 			npc.width = 70;
 			npc.height = 162;
 			npc.defense = 10;
-			npc.lifeMax = 5000;
+			npc.lifeMax = 6000;
             npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;

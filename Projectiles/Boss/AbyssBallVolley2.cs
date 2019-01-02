@@ -50,8 +50,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(BuffID.Cursed, 60);
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 60);
+        	target.AddBuff(BuffID.Cursed, 120);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
         }
     }
 }

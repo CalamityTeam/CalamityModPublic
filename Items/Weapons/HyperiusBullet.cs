@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons
 			item.maxStack = 999;
 			item.consumable = true;
 			item.knockBack = 1.5f;
-			item.value = 1000;
+			item.value = 2000;
 			item.rare = 9;
 			item.shoot = mod.ProjectileType("HyperiusBullet");
 			item.shootSpeed = 16f;

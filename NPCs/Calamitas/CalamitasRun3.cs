@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.Calamitas
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 6200000 : 5500000;
+                npc.lifeMax = CalamityWorld.death ? 6500000 : 5900000;
             }
         }
 		
@@ -271,8 +271,8 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			if (npc.ai[1] == 0f)
 			{
-				float num823 = expertMode ? 12f : 10.5f;
-				float num824 = expertMode ? 0.25f : 0.225f;
+				float num823 = expertMode ? 10.5f : 9f;
+				float num824 = expertMode ? 0.195f : 0.175f;
 				Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
 				float num826 = player.position.Y + (float)(player.height / 2) - 360f - vector82.Y;
@@ -372,8 +372,8 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					num831 = -1;
 				}
-				float num832 = expertMode ? 13f : 11f;
-				float num833 = expertMode ? 0.35f : 0.3f;
+				float num832 = expertMode ? 10.5f : 9f;
+				float num833 = expertMode ? 0.3f : 0.25f;
 				Vector2 vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * 360) - vector83.X;
 				float num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
@@ -471,14 +471,6 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 			}
 		}
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged))
-            {
-                damage /= 2;
-            }
-        }
 
         public override void NPCLoot()
 		{
@@ -580,7 +572,7 @@ namespace CalamityMod.NPCs.Calamitas
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 300, true);
+				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
 			player.AddBuff(mod.BuffType("BrimstoneFlames"), 300, true);
 		}

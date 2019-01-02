@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Mask");
-            Tooltip.SetDefault("14% increased throwing damage and critical strike chance");
+            Tooltip.SetDefault("14% increased rogue damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -55,14 +56,14 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
                 "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
-                "While at full HP all of your throwing stats are boosted by 15%\n" +
+                "While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames";
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.14f;
-            player.thrownCrit += 14;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.14f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 14;
         }
 
         public override void AddRecipes()

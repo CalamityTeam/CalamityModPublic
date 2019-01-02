@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 30;
+	        item.damage = 24;
 	        item.ranged = true;
 	        item.width = 44;
 	        item.height = 32;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
 	        item.value = 150000;
 	        item.rare = 5;
 	        item.UseSound = SoundID.Item41;
-	        item.autoReuse = false;
+	        item.autoReuse = true;
 	        item.shootSpeed = 14f;
 	        item.shoot = mod.ProjectileType("CursedRound");
 	        item.useAmmo = 97;

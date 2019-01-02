@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons
 	    public override void GetWeaponDamage(Player player, ref int damage)
 	    {
 	    	int lifeAmount = player.statLifeMax2 - player.statLife;
-	    	float damageAdd = (((float)lifeAmount * 0.1f) + 110f);
+	    	float damageAdd = (((float)lifeAmount * 0.1f) + (float)item.damage);
 	    	damage = (int)(damageAdd * player.meleeDamage);
 	    }
 	    

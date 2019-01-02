@@ -18,8 +18,10 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Elysian Tracers");
             Tooltip.SetDefault("Counts as wings\n" +
-                "Excellent acceleration: 2.75\n" +
-                "Excellent flight time: 200\n" +
+                "Horizontal speed: 10.5\n" +
+                "Acceleration multiplier: 2.75\n" +
+                "Great vertical speed\n" +
+                "Flight time: 160\n" +
                 "Ludicrous speed!\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
@@ -30,7 +32,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 36;
             item.height = 32;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
         }
 
@@ -71,7 +73,7 @@ namespace CalamityMod.Items.Accessories
             player.waterWalk = true;
             player.fireWalk = true;
             player.lavaMax += 920;
-            player.wingTimeMax = 200;
+            player.wingTimeMax = 160;
             modPlayer.IBoots = !hideVisual;
             modPlayer.elysianFire = !hideVisual;
             modPlayer.eTracers = true;
@@ -79,16 +81,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
+            ascentWhenFalling = 0.95f; //0.85
             ascentWhenRising = 0.15f;
-            maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
+            maxCanAscendMultiplier = 1.1f; //1
+            maxAscentMultiplier = 3.15f; //3
             constantAscend = 0.135f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 11f;
+            speed = 10.5f;
             acceleration *= 2.75f;
         }
 

@@ -64,7 +64,16 @@ namespace CalamityMod.UI
                 BossMainHPBar = mod.GetTexture("ExtraTextures/UI/BossHPMainBar");
                 BossComboHPBar = mod.GetTexture("ExtraTextures/UI/BossHPComboBar");
                 BossSeperatorBar = mod.GetTexture("ExtraTextures/UI/BossHPSeperatorBar");
-                HPBarFont = mod.GetFont("Fonts/HPBarFont");
+
+                PlatformID id = Environment.OSVersion.Platform;
+                if (id == PlatformID.Win32NT && !Environment.Is64BitProcess)
+                {
+                    HPBarFont = mod.GetFont("Fonts/HPBarFont");
+                }
+                else
+                {
+                    HPBarFont = Main.fontMouseText;
+                }
             }
 
             OneToMany = new Dictionary<int, int[]>();
@@ -555,7 +564,7 @@ namespace CalamityMod.UI
                         }
                     }
                 }
-                
+
                 if (dead && _lastName == "")
                 {
                     _lastName = _npc.FullName;

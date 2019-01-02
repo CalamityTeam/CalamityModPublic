@@ -16,10 +16,10 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Astral Arcanum");
             Tooltip.SetDefault("Taking damage drops astral stars from the sky\n" +
                                "Provides immunity to the god slayer inferno debuff\n" +
-                               "You have a 10% chance to reflect projectiles when they hit you\n" +
+                               "You have a 5% chance to reflect projectiles when they hit you\n" +
                                "If this effect triggers you get healed for the projectile's damage\n" +
                                "Boosts life regen even while under the effects of a damaging debuff\n" +
-                               "While under the effects of a damaging debuff you will gain 40 defense\n" +
+                               "While under the effects of a damaging debuff you will gain 20 defense\n" +
                                "Press O to toggle teleportation UI");
         }
 
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = 1000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
         }
 

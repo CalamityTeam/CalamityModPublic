@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 45;
+	        item.damage = 39;
             item.crit += 25;
             item.magic = true;
 	        item.mana = 15;

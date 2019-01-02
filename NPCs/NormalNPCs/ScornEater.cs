@@ -171,7 +171,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater5"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScornEater6"), 1f);
+            }
 		}
 		
 		public override void NPCLoot()

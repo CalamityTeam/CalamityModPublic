@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles
             float num633 = 1400f; //700
             float num634 = 1600f; //800
             float num635 = 2400f; //1200
-            float num636 = 150f;
+            float num636 = 800f;
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 28;
-            item.value = 150000;
+            item.value = Item.buyPrice(0, 5, 0, 0);
             item.rare = 3;
             item.accessory = true;
         }
@@ -47,12 +47,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Bone, 50);
             recipe.AddIngredient(ItemID.IronBar, 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Bone, 50);
-            recipe.AddIngredient(ItemID.LeadBar, 7);
+            recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

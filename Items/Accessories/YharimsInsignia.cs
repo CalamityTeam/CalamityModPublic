@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("10% increased damage when under 50% life\n" +
                 "Increased melee speed as health lowers\n" +
                 "5% increased melee speed and damage\n" +
-                "Melee attacks inflict holy fire\n" +
+                "Melee attacks and melee projectiles inflict holy fire\n" +
                 "Increased invincibility after taking damage\n" +
                 "You are immune to lava\n" +
                 "Increased melee knockback");
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 22;
             item.height = 38;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 30, 0, 0);
             item.accessory = true;
         }
 
@@ -46,35 +46,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.yInsignia = true;
-            player.longInvince = true;
-            player.kbGlove = true;
-            player.meleeDamage += 0.05f;
-            player.meleeSpeed += 0.05f;
-            player.lavaImmune = true;
-            if (player.statLife <= (player.statLifeMax2 * 0.5f))
-            {
-                player.meleeDamage += 0.1f;
-                player.magicDamage += 0.1f;
-                player.rangedDamage += 0.1f;
-                player.thrownDamage += 0.1f;
-                player.minionDamage += 0.1f;
-            }
-            if (player.statLife <= (player.statLifeMax2 * 0.8f) && player.statLife > (player.statLifeMax2 * 0.6f))
-            {
-                player.meleeSpeed += 0.05f;
-            }
-            else if (player.statLife <= (player.statLifeMax2 * 0.6f) && player.statLife > (player.statLifeMax2 * 0.4f))
-            {
-                player.meleeSpeed += 0.1f;
-            }
-            else if (player.statLife <= (player.statLifeMax2 * 0.4f) && player.statLife > (player.statLifeMax2 * 0.2f))
-            {
-                player.meleeSpeed += 0.15f;
-            }
-            else if (player.statLife <= (player.statLifeMax2 * 0.2f))
-            {
-                player.meleeSpeed += 0.2f;
-            }
         }
 
         public override void AddRecipes()

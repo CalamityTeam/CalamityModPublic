@@ -59,13 +59,12 @@ namespace CalamityMod.Projectiles
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             }
             Lighting.AddLight(projectile.Center, 0f, 0.1f, 0.7f);
-			int num959 = (int)projectile.ai[0];
-			if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead) 
+			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
 			{
-				if (projectile.Distance(Main.player[num959].Center) > num954) 
+				if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
 				{
-					Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-					if (vector102.HasNaNs()) 
+					Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
+					if (vector102.HasNaNs())
 					{
 						vector102 = Vector2.UnitY;
 					}
@@ -113,12 +112,6 @@ namespace CalamityMod.Projectiles
 				{
 					projectile.timeLeft = 30;
 				}
-				if (projectile.ai[0] != -1f) 
-				{
-					projectile.ai[0] = -1f;
-					projectile.netUpdate = true;
-					return;
-				}
 			}
         }
 
@@ -143,11 +136,11 @@ namespace CalamityMod.Projectiles
 			projectile.width = (projectile.height = 64);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for (int num193 = 0; num193 < 6; num193++)
+			for (int num193 = 0; num193 < 4; num193++)
 			{
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
 			}
-			for (int num194 = 0; num194 < 10; num194++)
+			for (int num194 = 0; num194 < 6; num194++)
 			{
 				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
 				Main.dust[num195].noGravity = true;

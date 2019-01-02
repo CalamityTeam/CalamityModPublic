@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 40;
+	        item.damage = 36;
 	        item.magic = true;
 	        item.mana = 15;
 	        item.width = 64;
@@ -58,8 +58,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             {
                 num80 = num72 / num80;
             }
-            int num107 = Main.rand.Next(3, 5);
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int num108 = 0; num108 < 3; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(51) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - /* - */ player.position.X), player.MountedCenter.Y + 600f); //-
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-50, 51); //200

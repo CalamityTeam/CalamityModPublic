@@ -50,20 +50,13 @@ namespace CalamityMod.Projectiles
 				Main.dust[num98].velocity *= 0.25f;
 				Main.dust[num98].velocity += projectile.velocity * 0.5f;
 			}
-			if (projectile.velocity.Y > 20f)
-			{
-				projectile.velocity.Y = 20f;
-				return;
-			}
         }
 
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)
         	{
-        		int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                Main.projectile[boom].melee = false;
-                Main.projectile[boom].ranged = true;
+        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
 

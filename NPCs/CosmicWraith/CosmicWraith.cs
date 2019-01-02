@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             {
                 npc.lifeMax = 209250;
             }
-            if (CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Signus");
                 npc.lifeMax = CalamityWorld.revenge ? 445500 : 280000;
@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4400000 : 3900000;
+                npc.lifeMax = CalamityWorld.death ? 4800000 : 4300000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -124,7 +124,14 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
 			if (Vector2.Distance(player.Center, vectorCenter) > 6400f)
 			{
-                CalamityGlobalNPC.DoGSecondStageCountdown = 0;
+                CalamityWorld.DoGSecondStageCountdown = 0;
+                if (Main.netMode == 2)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                    netMessage.Send();
+                }
                 if (npc.timeLeft > 10)
 				{
 					npc.timeLeft = 10;
@@ -201,7 +208,7 @@ namespace CalamityMod.NPCs.CosmicWraith
                 if (Main.netMode != 1)
 				{
 					npc.localAI[1] += 1f;
-                    if (npc.localAI[1] >= (float)(200 + Main.rand.Next(200)))
+                    if (npc.localAI[1] >= 120f)
 					{
 						npc.localAI[1] = 0f;
 						npc.TargetClosest(true);
@@ -649,21 +656,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 		}
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            Player player = Main.player[npc.target];
-            if (player.vortexStealthActive && projectile.ranged)
-            {
-                damage /= 2;
-                crit = false;
-            }
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 8;
-            }
-        }
-
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
@@ -743,7 +735,6 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             Microsoft.Xna.Framework.Rectangle frame2 = npc.frame;
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
-            Microsoft.Xna.Framework.Color color9 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Main.spriteBatch.Draw(NPCTexture,
                 new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
                 npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)frameCount + 4f + vector11.Y * scale + 0f + offsetY),
@@ -830,7 +821,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 600, true);
+				player.AddBuff(mod.BuffType("Horror"), 300, true);
 			}
 		}
 	}

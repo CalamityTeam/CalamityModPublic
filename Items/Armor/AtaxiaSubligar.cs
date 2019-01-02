@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ataxia Subligar");
-            Tooltip.SetDefault("5% increased critical strike chance\n" +
+            Tooltip.SetDefault("3% increased critical strike chance\n" +
                 "15% increased movement speed");
         }
 
@@ -30,10 +31,10 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 5;
-            player.magicCrit += 5;
-            player.rangedCrit += 5;
-            player.thrownCrit += 5;
+            player.meleeCrit += 3;
+            player.magicCrit += 3;
+            player.rangedCrit += 3;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
             player.moveSpeed += 0.15f;
         }
 

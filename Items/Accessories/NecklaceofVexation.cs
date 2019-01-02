@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 28;
-            item.value = 150000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 6;
             item.accessory = true;
         }
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Accessories
                 player.meleeDamage += 0.15f;
                 player.magicDamage += 0.15f;
                 player.rangedDamage += 0.15f;
-                player.thrownDamage += 0.15f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
                 player.minionDamage += 0.15f;
             }
         }

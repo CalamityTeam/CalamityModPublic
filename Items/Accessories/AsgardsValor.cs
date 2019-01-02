@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
                 "Immune to most debuffs including Brimstone Flames, Holy Flames, and Glacial State\n" +
                 "10% damage reduction while submerged in liquid\n" +
                 "Increased defense by 10 when below 25% life\n" +
-                "+20 max life and increased life regen\n" +
+                "+20 max life\n" +
                 "Grants an improved holy dash\n" +
                 "Can be used to ram enemies\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 38;
             item.height = 44;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 45, 0, 0);
             item.rare = 9;
             item.defense = 5;
             item.accessory = true;
@@ -55,7 +55,6 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
             player.buffImmune[mod.BuffType("HolyLight")] = true;
             player.buffImmune[mod.BuffType("GlacialState")] = true;
-            player.lifeRegen += 1;
             player.statLifeMax2 += 20;
             if (player.statLife <= (int)((double)player.statLifeMax2 * 0.25)) { player.statDefense += 10; }
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) { player.endurance += 0.1f; }

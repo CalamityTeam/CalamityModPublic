@@ -33,14 +33,14 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.lifeMax = 75000;
             }
-            if (CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 npc.lifeMax = 300000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 3000000;
+                npc.lifeMax = 4500000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -125,17 +125,6 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            Player player = Main.player[npc.target];
-            if (player.vortexStealthActive && projectile.ranged)
-            {
-                damage /= 2;
-                crit = false;
-            }
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 8;
-            }
             if (projectile.penetrate == -1)
 			{
 				damage /= 5;
@@ -158,6 +147,9 @@ namespace CalamityMod.NPCs.StormWeaver
         {
             if (npc.life <= 0)
             {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNude2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNude3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNude4"), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 30;

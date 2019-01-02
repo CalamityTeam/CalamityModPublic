@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor 
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Demonshade Helm");
-            Tooltip.SetDefault("30% increased damage and critical strike chance, +10 max minions");
+            Tooltip.SetDefault("30% increased damage and 15% increased critical strike chance, +10 max minions");
         }
 
 	    public override void SetDefaults()
@@ -50,12 +51,13 @@ namespace CalamityMod.Items.Armor
 	
 	    public override void UpdateArmorSet(Player player)
 	    {
-	        player.setBonus = "All attacks inflict the demon flame debuff\n" +
+	        player.setBonus = "100% increased minion damage\n" +
+                "All attacks inflict the demon flame debuff\n" +
 	        	"Shadowbeams and demon scythes will fire down when you are hit\n" +
 	        	"A friendly red devil follows you around\n" +
                 "Removes the damage and critical strike chance caps\n" +
                 "Press Y to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
-                "This makes them do 1.5 times more damage but they also take three times as much damage";
+                "This makes them do 1.5 times more damage but they also take five times as much damage";
 	        CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 	        modPlayer.dsSetBonus = true;
 	        modPlayer.redDevil = true;
@@ -70,20 +72,21 @@ namespace CalamityMod.Items.Armor
 					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("RedDevil"), 0, 0f, Main.myPlayer, 0f, 0f);
 				}
 			}
-	    }
+            player.minionDamage += 1f;
+        }
 	    
 	    public override void UpdateEquip(Player player)
 	    {
 	    	player.maxMinions += 10;
 			player.meleeDamage += 0.3f;
-	       	player.thrownDamage += 0.3f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.3f;
 		    player.rangedDamage += 0.3f;
 	        player.magicDamage += 0.3f;
 	        player.minionDamage += 0.3f;
-	   	    player.meleeCrit += 30;
-			player.magicCrit += 30;
-			player.rangedCrit += 30;
-			player.thrownCrit += 30;
+	   	    player.meleeCrit += 15;
+			player.magicCrit += 15;
+			player.rangedCrit += 15;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 15;
 	    }
 	
 	    public override void AddRecipes()

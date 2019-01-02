@@ -81,7 +81,9 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargePerf4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargePerf5"), 1f);
+            }
 		}
 		
 		public override bool CheckActive()
@@ -99,13 +101,11 @@ namespace CalamityMod.NPCs.Perforator
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.7f);
 		}
-		
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Bleeding, 100, true);
-			}
-		}
-	}
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("BurningBlood"), 90, true);
+            player.AddBuff(BuffID.Bleeding, 90, true);
+        }
+    }
 }

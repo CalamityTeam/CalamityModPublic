@@ -32,16 +32,12 @@ namespace CalamityMod.Tiles.Astral
 		
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
-            //ASTRAL_IMPLEMENT: UNDO THIS COMMENT
-            //return CalamityWorld.downedStarGod;
-            return true;
+            return CalamityWorld.downedStarGod;
 		}
 		
 		public override bool CanExplode(int i, int j)
         {
-            //ASTRAL_IMPLEMENT: UNDO THIS COMMENT
-            //return CalamityWorld.downedStarGod;
-            return true;
+            return CalamityWorld.downedStarGod;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

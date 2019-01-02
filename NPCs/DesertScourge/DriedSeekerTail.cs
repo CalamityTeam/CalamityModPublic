@@ -76,13 +76,5 @@ namespace CalamityMod.NPCs.DesertScourge
 		{
 			return false;
 		}
-		
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Bleeding, 50, true);
-			}
-		}
 	}
 }

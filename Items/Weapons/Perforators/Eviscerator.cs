@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 57;
+	        item.damage = 65;
 	        item.ranged = true;
 	        item.width = 58;
 	        item.height = 22;

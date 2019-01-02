@@ -28,13 +28,13 @@ namespace CalamityMod.Items.Weapons
             item.useAnimation = 30;
             item.useStyle = 5;
             item.noMelee = true;
-            item.knockBack = 4.25f;
+            item.knockBack = 2f;
             item.value = 80000;
             item.rare = 1;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("WintersFury");
-            item.shootSpeed = 11f;
+            item.shootSpeed = 16f;
         }
 
         public override void AddRecipes()

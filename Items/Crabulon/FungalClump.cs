@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Crabulon
 	    {
 	        item.width = 20;
 	        item.height = 26;
-	        item.value = 40000;
-	        item.expert = true;
+            item.value = Item.buyPrice(0, 9, 0, 0);
+            item.expert = true;
 	        item.accessory = true;
 	    }
 

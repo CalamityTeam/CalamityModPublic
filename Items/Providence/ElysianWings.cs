@@ -16,14 +16,17 @@ namespace CalamityMod.Items.Providence
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elysian Wings");
-            Tooltip.SetDefault("Excellent acceleration: 2.5\nExcellent flight time: 220\nTemporary immunity to lava");
+            Tooltip.SetDefault("Horizontal speed: 9.75\n" +
+                "Acceleration multiplier: 2.5\n" +
+                "Great vertical speed\n" +
+                "Flight time: 180");
         }
 
         public override void SetDefaults()
         {
             item.width = 36;
             item.height = 32;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 45, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -33,7 +36,7 @@ namespace CalamityMod.Items.Providence
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             player.moveSpeed += 0.4f;
             player.lavaMax += 920;
-            player.wingTimeMax = 220;
+            player.wingTimeMax = 180;
             modPlayer.elysianFire = true;
             if (hideVisual)
             {
@@ -52,7 +55,7 @@ namespace CalamityMod.Items.Providence
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 11f;
+            speed = 9.75f;
             acceleration *= 2.5f;
         }
     }

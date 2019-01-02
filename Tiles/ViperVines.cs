@@ -25,20 +25,25 @@ namespace CalamityMod.Tiles
             num = fail ? 1 : 3;
         }
 
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            //GIVE VINE ROPE IF SPECIAL VINE BOOK
+            if (WorldGen.genRand.Next(2) == 0 && Main.player[(int)Player.FindClosest(new Vector2((float)(i * 16), (float)(j * 16)), 16, 16)].cordage)
+            {
+                Item.NewItem(new Vector2(i * 16 + 8f, j * 16 + 8f), ItemID.VineRope);
+            }
+        }
+
         public override void RandomUpdate(int i, int j)
         {
-            int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {
-                if (Main.tile[i, j + 1].active())
+                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)mod.TileType("ViperVines"))
                 {
-                    if (Main.tile[i, j + 1].liquid == 255 &&
-                        (Main.tile[i, j + 1].wall == (byte)mod.WallType("MossyGravelWall") || 
-                        Main.tile[i, j + 1].wall == (byte)mod.WallType("AbyssGravelWall")) &&
-                        !Main.tile[i, j + 1].lava())
+                    if (Main.tile[i, j + 1].liquid >= 128 && !Main.tile[i, j + 1].lava())
                     {
                         bool flag13 = false;
-                        for (int num52 = num8; num52 > num8 - 10; num52--)
+                        for (int num52 = j; num52 > j - 10; j--)
                         {
                             if (Main.tile[i, num52].bottomSlope())
                             {

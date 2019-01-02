@@ -69,10 +69,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	if (Main.rand.Next(20) == 0)
-			{
-				target.AddBuff(47, 60, true);
-			}
+            target.AddBuff(BuffID.Frostburn, 90, true);
+            target.AddBuff(BuffID.Chilled, 60, true);
+            target.AddBuff(BuffID.Frozen, 30, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

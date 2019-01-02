@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			DisplayName.SetDefault("Heart of the Elements");
 			Tooltip.SetDefault("The heart of the world\n" +
-            	"Increases max life by 20, life regen by 2, and all damage and crit chance by 5%\n" +
+            	"Increases max life by 20, life regen by 1, and all damage by 8%\n" +
             	"Increases movement speed by 10% and jump speed by 200%\n" +
             	"Increases damage reduction by 5%\n" +
             	"Increases max mana by 50 and reduces mana usage by 5%\n" +
@@ -30,8 +31,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 20;
-            item.value = 10000000;
-            item.defense = 6;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.defense = 9;
 			item.accessory = true;
         }
         
@@ -64,22 +65,18 @@ namespace CalamityMod.Items.Accessories
             modPlayer.elementalHeart = true;
             if (!hideVisual)
             {
-                player.lifeRegen += 2;
+                player.lifeRegen += 1;
                 player.statLifeMax2 += 20;
                 player.moveSpeed += 0.1f;
                 player.jumpSpeedBoost += 2.0f;
                 player.endurance += 0.05f;
                 player.statManaMax2 += 50;
                 player.manaCost *= 0.95f;
-                player.meleeCrit += 5;
-                player.meleeDamage += 0.05f;
-                player.magicCrit += 5;
-                player.magicDamage += 0.05f;
-                player.rangedCrit += 5;
-                player.rangedDamage += 0.05f;
-                player.thrownCrit += 5;
-                player.thrownDamage += 0.05f;
-                player.minionDamage += 0.05f;
+                player.meleeDamage += 0.08f;
+                player.magicDamage += 0.08f;
+                player.rangedDamage += 0.08f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.08f;
+                player.minionDamage += 0.08f;
                 int damage = NPC.downedMoonlord ? 150 : 90;
                 float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
                 if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 1 ||
@@ -115,22 +112,18 @@ namespace CalamityMod.Items.Accessories
             }
             else
             {
-                player.lifeRegen += 3;
+                player.lifeRegen += 2;
                 player.statLifeMax2 += 25;
                 player.moveSpeed += 0.12f;
                 player.jumpSpeedBoost += 2.2f;
                 player.endurance += 0.06f;
                 player.statManaMax2 += 60;
                 player.manaCost *= 0.93f;
-                player.meleeCrit += 6;
-                player.meleeDamage += 0.06f;
-                player.magicCrit += 6;
-                player.magicDamage += 0.06f;
-                player.rangedCrit += 6;
-                player.rangedDamage += 0.06f;
-                player.thrownCrit += 6;
-                player.thrownDamage += 0.06f;
-                player.minionDamage += 0.06f;
+                player.meleeDamage += 0.1f;
+                player.magicDamage += 0.1f;
+                player.rangedDamage += 0.1f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+                player.minionDamage += 0.1f;
                 if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 0 ||
                     player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 0 ||
                     player.ownedProjectileCounts[mod.ProjectileType("CloudWaifu")] > 0)

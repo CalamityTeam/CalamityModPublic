@@ -143,9 +143,13 @@ namespace CalamityMod.Projectiles.Boss
 				Main.dust[num805].noGravity = true;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
-			return;
         }
-        
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 180);
+        }
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, 50, 50, projectile.alpha);

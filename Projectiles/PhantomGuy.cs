@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles
         	float num633 = 700f;
 			float num634 = 1300f;
 			float num635 = 2600f;
-			float num636 = 150f;
+			float num636 = 600f;
 			bool flag64 = projectile.type == mod.ProjectileType("PhantomGuy");
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -124,13 +124,13 @@ namespace CalamityMod.Projectiles
 				vector47.Normalize();
 				if (num648 > 200f)
 				{
-					float scaleFactor2 = 14f; //12
+					float scaleFactor2 = 18f; //12
 					vector47 *= scaleFactor2;
 					projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
 				}
 				else
 				{
-					float num649 = 4f;
+					float num649 = 9f;
 					vector47 *= -num649;
 					projectile.velocity = (projectile.velocity * 40f + vector47) / 41f;
 				}

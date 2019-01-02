@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -42,7 +43,8 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	float damageMult = player.meleeDamage + player.rangedDamage + player.magicDamage + player.thrownDamage + player.minionDamage;
+	    	float damageMult = player.meleeDamage + player.rangedDamage + player.magicDamage + 
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage + player.minionDamage;
 	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * damageMult), knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}

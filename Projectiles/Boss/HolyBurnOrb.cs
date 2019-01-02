@@ -74,7 +74,6 @@ namespace CalamityMod.Projectiles.Boss
                 NetMessage.SendData(66, -1, -1, null, num487, (float)num492, 0f, 0f, 0, 0, 0);
                 projectile.Kill();
             }
-			return;
         }
 
         public override void Kill(int timeLeft)

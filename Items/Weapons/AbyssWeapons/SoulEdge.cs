@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
         public override void SetDefaults()
         {
             item.width = 88;
-            item.damage = 265;
+            item.damage = 365;
             item.melee = true;
             item.useAnimation = 18;
             item.useStyle = 1;

@@ -64,11 +64,6 @@ namespace CalamityMod.Projectiles
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("Plague"), 360);
-        	damage += target.defense;
-        	if (damage > 30)
-        	{
-        		damage = 30;
-        	}
         }
 		
 		public override void Kill(int timeLeft)

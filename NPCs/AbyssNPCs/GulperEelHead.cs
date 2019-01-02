@@ -30,11 +30,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 120;
+			npc.damage = 135;
 			npc.width = 66; //36
 			npc.height = 86; //20
 			npc.defense = 50;
-			npc.lifeMax = 35000;
+			npc.lifeMax = 80000;
 			npc.aiStyle = -1;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -458,7 +458,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GulperEel"), 1f);
+            }
 		}
 
         public override bool CheckActive()
@@ -488,8 +489,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(mod.BuffType("CrushDepth"), 300, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 300);
-                player.AddBuff(mod.BuffType("Horror"), 300, true);
+                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(mod.BuffType("Horror"), 180, true);
             }
         }
 	}

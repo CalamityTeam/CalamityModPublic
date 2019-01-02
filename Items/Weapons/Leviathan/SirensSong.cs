@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 
         public override void SetDefaults()
         {
-            item.damage = 55;
+            item.damage = 77;
             item.magic = true;
             item.mana = 7;
             item.width = 56;

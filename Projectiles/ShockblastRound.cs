@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles
 			{
 				return;
 			}
-			Main.player[Main.myPlayer].lifeSteal -= num;
+			Main.player[Main.myPlayer].lifeSteal -= num * 2f;
 			int num2 = projectile.owner;
 			Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("TransfusionTrail"), 0, 0f, projectile.owner, (float)num2, num);
         }

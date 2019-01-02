@@ -140,29 +140,17 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 return false;
             }
             double protection = CalamityWorld.death ? 0.05 : 0.08;
-            if (CalamityWorld.defiled)
-            {
-                protection *= 0.75;
-            }
             damage = (int)((double)damage * protection);
             return true;
 		}
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Player player = Main.player[npc.target];
-            if (player.vortexStealthActive && projectile.ranged)
-            {
-                damage /= 2;
-                crit = false;
-            }
             if (ProjectileID.Sets.StardustDragon[projectile.type])
             {
                 damage /= 2;
             }
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("TerraBulletSplit") ||
-                projectile.type == mod.ProjectileType("TerraArrow2"))
+            if (projectile.type == mod.ProjectileType("SulphuricAcidMist2"))
             {
                 damage /= 8;
             }
@@ -237,12 +225,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Frostburn, 200, true);
-				player.AddBuff(BuffID.Darkness, 100, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 240, true);
+			player.AddBuff(BuffID.Frostburn, 240, true);
+			player.AddBuff(BuffID.Darkness, 240, true);
 		}
 	}
 }

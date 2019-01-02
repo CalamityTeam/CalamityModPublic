@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(BuffID.Venom, 240, true);
+			player.AddBuff(BuffID.Venom, 120, true);
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

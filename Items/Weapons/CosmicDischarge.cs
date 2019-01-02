@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons
 		{
 			item.width = 16;
 			item.height = 16;
-			item.damage = 1050;
+			item.damage = 1000;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.channel = true;

@@ -17,18 +17,6 @@ namespace CalamityMod.Items.LORED
 			item.width = 20;
 			item.height = 20;
 			item.rare = 10;
-			item.useAnimation = 45;
-			item.useTime = 45;
-			item.useStyle = 4;
-			item.consumable = false;
-		}
-		
-		public override bool UseItem(Player player)
-		{
-            /*NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("THELORDE"));
-            Main.PlaySound(SoundID.Roar, player.position, 0);*/
-            Main.instance = null;
-			return true;
 		}
 	}
 }

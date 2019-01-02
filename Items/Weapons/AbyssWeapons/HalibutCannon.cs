@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 6;
+			item.damage = 3;
 			item.ranged = true;
 			item.width = 108;
 			item.height = 54;
@@ -44,8 +44,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.hardMode) { item.damage = 12; }
-            if (NPC.downedMoonlord) { item.damage = 24; }
+            if (Main.hardMode) { item.damage = 6; }
+            if (NPC.downedMoonlord) { item.damage = 12; }
             int num6 = Main.rand.Next(25, 36);
             for (int index = 0; index < num6; ++index)
             {

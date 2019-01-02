@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -35,8 +36,8 @@ namespace CalamityMod.Items.Armor
             player.magicDamage += 0.03f;
             player.rangedCrit += 3;
             player.rangedDamage += 0.03f;
-            player.thrownCrit += 3;
-            player.thrownDamage += 0.03f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
             player.minionDamage += 0.03f;
         }
 

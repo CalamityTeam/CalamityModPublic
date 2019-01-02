@@ -18,8 +18,10 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Celestial Tracers");
             Tooltip.SetDefault("Counts as wings\n" +
-                "Excellent acceleration: 3\n" +
-                "Excellent flight time: 280\n" +
+                "Horizontal speed: 12\n" +
+                "Acceleration multiplier: 3\n" +
+                "Excellent vertical speed\n" +
+                "Flight time: 280\n" +
                 "Taking speed EVEN FURTHER BEYOND!\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
@@ -31,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 36;
             item.height = 32;
-            item.value = 20000000;
+            item.value = Item.buyPrice(1, 20, 0, 0);
             item.accessory = true;
         }
 
@@ -80,16 +82,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
-            ascentWhenRising = 0.15f;
-            maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            ascentWhenFalling = 1f; //0.85
+            ascentWhenRising = 0.175f; //0.15
+            maxCanAscendMultiplier = 1.2f; //1
+            maxAscentMultiplier = 3.25f; //3
+            constantAscend = 0.15f; //0.135
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 13f;
+            speed = 12f;
             acceleration *= 3f;
         }
 

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Headgear");
-            Tooltip.SetDefault("10% increased throwing damage, 5% increased throwing velocity and critical strike chance\n" +
+            Tooltip.SetDefault("10% increased rogue damage, 5% increased rogue velocity and critical strike chance\n" +
                 "10% increased movement speed and can move freely through liquids");
         }
 
@@ -43,19 +44,18 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.reaverSpore = true;
-            player.setBonus = "5% increased throwing damage and critical strike chance\n" +
+            player.setBonus = "5% increased rogue damage\n" +
                 "You emit a cloud of spores when you are hit\n" +
                 "Rage activates when you are damaged";
-            player.thrownDamage += 0.05f;
-            player.thrownCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 5;
-            player.thrownVelocity += 0.05f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.05f;
             player.moveSpeed += 0.1f;
         }
 

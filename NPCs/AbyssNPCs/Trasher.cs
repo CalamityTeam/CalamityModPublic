@@ -314,8 +314,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 240, true);
-            player.AddBuff(BuffID.Venom, 240, true);
+            player.AddBuff(BuffID.Bleeding, 180, true);
+            player.AddBuff(BuffID.Venom, 180, true);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -360,7 +360,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trasher"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trasher2"), 1f);
+            }
 		}
 	}
 }

@@ -25,11 +25,7 @@ namespace CalamityMod.Projectiles
             projectile.timeLeft = 200;
             projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20 -
-				(NPC.downedGolemBoss ? 5 : 0) -
-        		(NPC.downedMoonlord ? 5 : 0) -
-        		(CalamityWorld.downedDoG ? 4 : 0) -
-        		(CalamityWorld.downedYharon ? 3 : 0);
+			projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Armor
                        "15% increased movement speed\n" +
                        "Enemies take damage when they hit you\n" +
                        "Attacks have a 2% chance to do no damage to you\n" +
-                       "10% increased damage and 6% increased critical strike chance");
+                       "11% increased damage and 6% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -49,15 +50,15 @@ namespace CalamityMod.Items.Armor
             player.statLifeMax2 += 60;
             player.statManaMax2 += 60;
             player.moveSpeed += 0.15f;
-            player.meleeDamage += 0.1f;
+            player.meleeDamage += 0.11f;
             player.meleeCrit += 6;
-            player.magicDamage += 0.1f;
+            player.magicDamage += 0.11f;
             player.magicCrit += 6;
-            player.rangedDamage += 0.1f;
+            player.rangedDamage += 0.11f;
             player.rangedCrit += 6;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 6;
-            player.minionDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.11f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 6;
+            player.minionDamage += 0.11f;
         }
 
         public override void AddRecipes()

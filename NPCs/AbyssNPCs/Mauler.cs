@@ -23,11 +23,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
             npc.noGravity = true;
-            npc.damage = 115;
-			npc.width = 166;
-			npc.height = 66;
+            npc.damage = 135;
+			npc.width = 180;
+			npc.height = 90;
 			npc.defense = 50;
-			npc.lifeMax = 144000;
+			npc.lifeMax = 165000;
             npc.aiStyle = -1;
 			aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -324,8 +324,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(BuffID.Rabies, 300, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 150);
-                player.AddBuff(mod.BuffType("Horror"), 150, true);
+                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+                player.AddBuff(mod.BuffType("Horror"), 180, true);
             }
         }
 
@@ -377,7 +377,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler5"), 1f);
+            }
 		}
 	}
 }

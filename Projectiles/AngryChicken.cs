@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles
         	float num633 = 800f;
 			float num634 = 1200f;
 			float num635 = 3000f;
-			float num636 = 150f;
+			float num636 = 500f;
 			float num = (float)Main.rand.Next(90, 111) * 0.01f;
         	num *= Main.essScale;
 			Lighting.AddLight(projectile.Center, 1.2f * num, 0.8f * num, 0f * num);

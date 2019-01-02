@@ -439,11 +439,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 300, true);
+            player.AddBuff(BuffID.Bleeding, 180, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 150);
-                player.AddBuff(mod.BuffType("Horror"), 120, true);
+                player.AddBuff(mod.BuffType("MarkedforDeath"), 90);
+                player.AddBuff(mod.BuffType("Horror"), 90, true);
             }
         }
 	}

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Mask");
-            Tooltip.SetDefault("13% increased throwing damage and critical strike chance");
+            Tooltip.SetDefault("13% increased rogue damage and critical strike chance");
         }
 
         public override void SetDefaults()
@@ -60,14 +61,14 @@ namespace CalamityMod.Items.Armor
                 "If you get reduced to 0 HP again while this effect is active you will lose 100 max life\n" +
                 "This effect only triggers once per life\n" +
                 "Your max life will return to normal if you die\n" +
-                "Throwing weapons have a faster throwing rate while you are above 90% life\n" +
-                "After the silva invulnerability time your throwing weapons will do 20% more damage";
+                "Rogue weapons have a faster throwing rate while you are above 90% life\n" +
+                "After the silva invulnerability time your rogue weapons will do 10% more damage";
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.13f;
-            player.thrownCrit += 13;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.13f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 13;
         }
 
         public override void AddRecipes()

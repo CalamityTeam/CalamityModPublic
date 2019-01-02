@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Mask");
-            Tooltip.SetDefault("3% increased throwing damage");
+            Tooltip.SetDefault("3% increased rogue damage");
         }
 
         public override void SetDefaults()
@@ -45,7 +46,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.03f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
         }
 
         public override void AddRecipes()

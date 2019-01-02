@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles
         
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	healAmt *= 1.5f;
+        	healAmt *= 1.4f;
         	projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -60,9 +60,9 @@ namespace CalamityMod.Projectiles
 			}
             if (target.type == mod.NPCType("DevourerofGodsBody") || target.type == mod.NPCType("DevourerofGodsBodyS"))
             {
-                healAmt *= 0.5f;
+                healAmt *= 0.4f;
             }
-        	healAmt *= 1.5f;
+        	healAmt *= 1.4f;
         	Player player = Main.player[projectile.owner];
         	player.statLife += (int)healAmt;
         	player.HealEffect((int)healAmt);

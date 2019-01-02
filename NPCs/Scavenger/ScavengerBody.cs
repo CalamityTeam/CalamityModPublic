@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4200000 : 3600000;
+                npc.lifeMax = CalamityWorld.death ? 4600000 : 4100000;
             }
         }
 		
@@ -293,9 +293,9 @@ namespace CalamityMod.NPCs.Scavenger
 					{
 						npc.ai[2] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f);
-                        int damage = 0;
+                        int damage = expertMode ? 28 : 40;
                         int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, 326 + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-						Main.projectile[fire].timeLeft = 210;
+						Main.projectile[fire].timeLeft = 180;
 					}
 				}
 			}
@@ -325,9 +325,9 @@ namespace CalamityMod.NPCs.Scavenger
 					{
 						npc.ai[3] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f);
-                        int damage = 0;
+                        int damage = expertMode ? 28 : 40;
                         int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, 326 + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-						Main.projectile[fire].timeLeft = 210;
+						Main.projectile[fire].timeLeft = 180;
 					}
 				}
 			}
@@ -468,15 +468,6 @@ namespace CalamityMod.NPCs.Scavenger
 				}
 			}
 		}
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 4;
-            }
-        }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{

@@ -43,7 +43,7 @@ namespace CalamityMod.Items
             }
             if (!CalamityWorld.bossRushActive)
             {
-                CalamityPlayer.bossRushStage = 0;
+                CalamityWorld.bossRushStage = 0;
                 CalamityWorld.bossRushActive = true;
                 string key = "Mods.CalamityMod.BossRushStartText";
                 Color messageColor = Color.LightCoral;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items
             }
             else
             {
-                CalamityPlayer.bossRushStage = 0;
+                CalamityWorld.bossRushStage = 0;
                 CalamityWorld.bossRushActive = false;
             }
             if (Main.netMode == 2)
@@ -66,7 +66,7 @@ namespace CalamityMod.Items
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                netMessage.Write(CalamityPlayer.bossRushStage);
+                netMessage.Write(CalamityWorld.bossRushStage);
                 netMessage.Send();
             }
             return true;

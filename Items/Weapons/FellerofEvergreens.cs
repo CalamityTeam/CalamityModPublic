@@ -38,14 +38,16 @@ namespace CalamityMod.Items.Weapons
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(ItemID.Wood, 15);
-	        recipe.AddIngredient(ItemID.TungstenBar, 10);
+            recipe.anyWood = true;
+            recipe.AddIngredient(ItemID.TungstenBar, 10);
 	        recipe.AddIngredient(ItemID.TungstenAxe);
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 	        recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(ItemID.Wood, 15);
-	        recipe.AddIngredient(ItemID.SilverBar, 10);
+            recipe.anyWood = true;
+            recipe.AddIngredient(ItemID.SilverBar, 10);
 	        recipe.AddIngredient(ItemID.SilverAxe);
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(this);

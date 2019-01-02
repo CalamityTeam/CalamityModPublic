@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Leviathan
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Leviathan
         {
             item.width = 20;
             item.height = 22;
-            item.value = 900000;
+            item.value = Item.buyPrice(0, 30, 0, 0);
             item.accessory = true;
             item.expert = true;
         }
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Leviathan
             {
                 player.endurance += 0.05f;
                 player.meleeDamage -= 0.05f;
-                player.thrownDamage -= 0.05f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage -= 0.05f;
                 player.rangedDamage -= 0.05f;
                 player.magicDamage -= 0.05f;
                 player.minionDamage -= 0.05f;
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Leviathan
             else
             {
                 player.meleeDamage += 0.1f;
-                player.thrownDamage += 0.1f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
                 player.rangedDamage += 0.1f;
                 player.magicDamage += 0.1f;
                 player.minionDamage += 0.1f;

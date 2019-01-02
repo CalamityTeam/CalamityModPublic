@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.lifeMax = 510;
             npc.knockBackResist = 0.1f;
             npc.value = 450f;
-            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyDeath");
+            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
         }
 
         public override void AI()
@@ -110,6 +110,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 npc.velocity.X *= 0.95f;
                 if (npc.ai[2] == 25f)
                 {
+                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 71);
                     Vector2 vector = Main.player[npc.target].Center - npc.Center;
                     vector.Normalize();
                     Projectile.NewProjectile(npc.Center + (npc.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, mod.ProjectileType("MantisRing"), 76, 0.5f);
@@ -185,7 +186,18 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit" + Main.rand.Next(3)), npc.Center);
+            switch (Main.rand.Next(3))
+            {
+                case 0:
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), npc.Center);
+                    break;
+                case 1:
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), npc.Center);
+                    break;
+                case 2:
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), npc.Center);
+                    break;
+            }
 
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, mod.DustType("AstralOrange"), 1f, 4, 24);
         }

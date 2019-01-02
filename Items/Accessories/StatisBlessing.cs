@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 45, 0, 0);
             item.rare = 9;
             item.accessory = true;
         }

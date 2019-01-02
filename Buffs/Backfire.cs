@@ -22,8 +22,8 @@ namespace CalamityMod.Buffs
             player.rangedDamage -= 0.9f;
             player.thrownDamage -= 0.9f;
             player.minionDamage -= 0.9f;
-            player.statDefense -= 30;
-            player.endurance -= 0.3f;
+            player.statDefense -= 20;
+            player.endurance -= 0.2f;
             player.wingTimeMax /= 2;
         }
 	}

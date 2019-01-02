@@ -26,6 +26,8 @@ namespace CalamityMod.Projectiles
 			projectile.ignoreWater = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 25;
         }
         
         public override void AI()

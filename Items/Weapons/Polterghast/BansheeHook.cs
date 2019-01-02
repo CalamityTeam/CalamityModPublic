@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
         public override void SetDefaults()
         {
             item.width = 16;
-            item.damage = 130;
+            item.damage = 155;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Tarragon Leggings");
             Tooltip.SetDefault("20% increased movement speed; greater speed boost if health is lower\n" +
-                "10% increased damage and critical strike chance\n" +
+                "6% increased damage and critical strike chance\n" +
                 "Leggings of a fabled explorer");
         }
 
@@ -46,15 +47,15 @@ namespace CalamityMod.Items.Armor
             {
                 player.moveSpeed += 0.15f;
             }
-            player.meleeDamage += 0.1f;
-            player.meleeCrit += 10;
-            player.magicDamage += 0.1f;
-            player.magicCrit += 10;
-            player.rangedDamage += 0.1f;
-            player.rangedCrit += 10;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
-            player.minionDamage += 0.1f;
+            player.meleeDamage += 0.06f;
+            player.meleeCrit += 6;
+            player.magicDamage += 0.06f;
+            player.magicCrit += 6;
+            player.rangedDamage += 0.06f;
+            player.rangedCrit += 6;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.06f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 6;
+            player.minionDamage += 0.06f;
         }
 
         public override void AddRecipes()

@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 			npc.npcSlots = 1f;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 200;
+			npc.damage = 140;
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.scale = 0.66f;

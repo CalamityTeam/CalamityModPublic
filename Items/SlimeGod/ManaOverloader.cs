@@ -23,7 +23,7 @@ namespace CalamityMod.Items.SlimeGod
         {
             item.width = 30;
             item.height = 30;
-            item.value = 15000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
             item.accessory = true;
             item.expert = true;

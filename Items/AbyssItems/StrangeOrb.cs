@@ -15,7 +15,7 @@ namespace CalamityMod.Items.AbyssItems
         {
             DisplayName.SetDefault("Strange Orb");
             Tooltip.SetDefault("Summons a young Siren light pet\n" +
-                "Provides a large amount of light in the abyss");
+                "Provides a large amount of light while underwater");
         }
 
         public override void SetDefaults()

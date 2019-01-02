@@ -47,7 +47,7 @@ namespace CalamityMod.Items
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "SupremeHealingPotion");
 			recipe.AddIngredient(null, "BloodOrb", 10);
-			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.AddTile(null, "DraedonsForge");
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

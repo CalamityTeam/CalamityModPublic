@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Cuisses");
-            Tooltip.SetDefault("5% increased critical strike chance\n12% increased movement speed");
+            Tooltip.SetDefault("5% increased critical strike chance\n" +
+                "12% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Armor
             player.meleeCrit += 5;
             player.magicCrit += 5;
             player.rangedCrit += 5;
-            player.thrownCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
             player.moveSpeed += 0.12f;
         }
 

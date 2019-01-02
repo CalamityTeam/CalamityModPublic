@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4200000 : 3700000;
+                npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -108,11 +108,7 @@ namespace CalamityMod.NPCs.Leviathan
 			bool isNotOcean = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
 			int npcType = mod.NPCType("Leviathan");
             bool halfLife = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool leviAlive = false;
-			if (NPC.CountNPCS(npcType) > 0)
-			{
-				leviAlive = true;
-			}
+            bool leviAlive = NPC.AnyNPCs(npcType);
 			float num1000 = leviAlive ? 14f : 18f;
 			float num1005 = leviAlive ? 14f : 18f;
 			num1006 *= num1005;
@@ -125,8 +121,8 @@ namespace CalamityMod.NPCs.Leviathan
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, mod.NPCType("SirenClone"));
                     }
 					music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
-					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("Leviathan"));
-					spawnedLevi = true;
+                    NPC.SpawnOnPlayer(player.whoAmI, npcType);
+                    spawnedLevi = true;
 				}
 				phase2 = true;
 			}
@@ -391,14 +387,7 @@ namespace CalamityMod.NPCs.Leviathan
 			else if (npc.ai[0] == 2f)
 			{
 				npc.rotation = npc.velocity.X * 0.02f;
-				float num1065 = 6f;
-				float num1066 = 0.12f;
-                float num10662 = 0.04f;
-				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
-				Vector2 vector122 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				float num1067 = player.position.X + (float)(player.width / 2) - vector122.X;
-				float num1068 = player.position.Y + (float)(player.height / 2) - 300f - vector122.Y;
-				float num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
+                Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				npc.ai[1] += 1f;
 				bool flag104 = false;
                 if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
@@ -436,7 +425,7 @@ namespace CalamityMod.NPCs.Leviathan
 						flag104 = true;
 					}
 				}
-				if (flag104 && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(vector121, 1, 1, player.position, player.width, player.height))
+				if (flag104 && (npc.position.Y + (float)npc.height < player.position.Y || (!leviAlive && halfLife)) && Collision.CanHit(vector121, 1, 1, player.position, player.width, player.height))
 				{
 					if (Main.netMode != 1)
 					{
@@ -484,88 +473,58 @@ namespace CalamityMod.NPCs.Leviathan
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
-				if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, player.position, player.width, player.height))
-				{
-					num1065 = 14f;
-					num1066 = 0.15f;
-                    num10662 = 0.05f;
-					vector122 = vector121;
-					num1067 = player.position.X + (float)(player.width / 2) - vector122.X;
-					num1068 = player.position.Y + (float)(player.height / 2) - vector122.Y;
-					num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
-					num1069 = num1065 / num1069;
-					if (npc.velocity.X < num1067)
-					{
-						npc.velocity.X = npc.velocity.X + num1066;
-						if (npc.velocity.X < 0f && num1067 > 0f)
-						{
-							npc.velocity.X = npc.velocity.X + num1066;
-						}
-					}
-					else if (npc.velocity.X > num1067)
-					{
-						npc.velocity.X = npc.velocity.X - num1066;
-						if (npc.velocity.X > 0f && num1067 < 0f)
-						{
-							npc.velocity.X = npc.velocity.X - num1066;
-						}
-					}
-					if (npc.velocity.Y < num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y + num10662;
-						if (npc.velocity.Y < 0f && num1068 > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y + num10662;
-						}
-					}
-					else if (npc.velocity.Y > num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y - num10662;
-						if (npc.velocity.Y > 0f && num1068 < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y - num10662;
-						}
-					}
-				}
-				else if (num1069 > 240f) //120
-				{
-					npc.TargetClosest(true);
-					npc.spriteDirection = npc.direction;
-					num1069 = num1065 / num1069;
-					if (npc.velocity.X < num1067)
-					{
-						npc.velocity.X = npc.velocity.X + num1066;
-						if (npc.velocity.X < 0f && num1067 > 0f)
-						{
-							npc.velocity.X = npc.velocity.X + num1066 * 2f;
-						}
-					}
-					else if (npc.velocity.X > num1067)
-					{
-						npc.velocity.X = npc.velocity.X - num1066;
-						if (npc.velocity.X > 0f && num1067 < 0f)
-						{
-							npc.velocity.X = npc.velocity.X - num1066 * 2f;
-						}
-					}
-					if (npc.velocity.Y < num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y + num10662;
-						if (npc.velocity.Y < 0f && num1068 > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y + num10662 * 2f;
-						}
-					}
-					else if (npc.velocity.Y > num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y - num10662;
-						if (npc.velocity.Y > 0f && num1068 < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y - num10662 * 2f;
-						}
-					}
-				}
-				if (npc.ai[1] > 300f)
+                if (npc.position.Y > player.position.Y - 150f) //200
+                {
+                    if (npc.velocity.Y > 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y * 0.98f;
+                    }
+                    npc.velocity.Y = npc.velocity.Y - 0.1f;
+                    if (npc.velocity.Y > 2f)
+                    {
+                        npc.velocity.Y = 2f;
+                    }
+                }
+                else if (npc.position.Y < player.position.Y - 400f) //500
+                {
+                    if (npc.velocity.Y < 0f)
+                    {
+                        npc.velocity.Y = npc.velocity.Y * 0.98f;
+                    }
+                    npc.velocity.Y = npc.velocity.Y + 0.1f;
+                    if (npc.velocity.Y < -2f)
+                    {
+                        npc.velocity.Y = -2f;
+                    }
+                }
+                if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 100f)
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X * 0.98f;
+                    }
+                    npc.velocity.X = npc.velocity.X - 0.1f;
+                    if (npc.velocity.X > 8f)
+                    {
+                        npc.velocity.X = 8f;
+                    }
+                }
+                if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 100f)
+                {
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X * 0.98f;
+                    }
+                    npc.velocity.X = npc.velocity.X + 0.1f;
+                    if (npc.velocity.X < -8f)
+                    {
+                        npc.velocity.X = -8f;
+                    }
+                }
+                float playerLocation = npc.Center.X - player.Center.X;
+                npc.direction = (playerLocation < 0 ? 1 : -1);
+                npc.spriteDirection = npc.direction;
+                if (npc.ai[1] > 300f)
 				{
 					npc.ai[0] = -1f;
 					npc.ai[1] = 0f;
@@ -735,15 +694,6 @@ namespace CalamityMod.NPCs.Leviathan
 				return;
 			}
 		}
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 2;
-            }
-        }
 
         public override void HitEffect(int hitDirection, double damage)
 		{

@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -16,8 +17,8 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Statis' Belt of Curses");
             Tooltip.SetDefault("Increases jump speed and allows constant jumping\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-                "10% increased throwing damage and velocity\n" +
-                "10% increased throwing crit chance\n" +
+                "10% increased rogue damage and velocity\n" +
+                "5% increased rogue crit chance\n" +
                 "Increased max minions by 3 and 10% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Grants shadowflame powers to all minions\n" +
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = 15000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
         }
 
@@ -59,9 +60,9 @@ namespace CalamityMod.Items.Accessories
             player.blackBelt = true;
             player.dash = 1;
             player.spikedBoots = 2;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
-            player.thrownVelocity += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.1f;
         }
 
         public override void AddRecipes()

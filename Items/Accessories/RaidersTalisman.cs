@@ -14,16 +14,16 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Raider's Talisman");
-            Tooltip.SetDefault("Whenever you crit an enemy with a throwing weapon your throwing damage increases\n" +
+            Tooltip.SetDefault("Whenever you crit an enemy with a rogue weapon your throwing damage increases\n" +
                 "This effect can stack up to 250 times\n" +
-                "Max throwing damage boost is 15%");
+                "Max rogue damage boost is 15%");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.value = 30000;
+            item.value = Item.buyPrice(0, 9, 0, 0);
             item.rare = 2;
             item.accessory = true;
         }

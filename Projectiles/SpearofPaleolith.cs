@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles
             projectile.width = 14;
             projectile.height = 14;
             projectile.friendly = true;
-            projectile.thrown = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
@@ -45,9 +44,7 @@ namespace CalamityMod.Projectiles
 			{
         		if (projectile.owner == Main.myPlayer)
         		{
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, mod.ProjectileType("FossilShard"), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[shard].ranged = false;
-                    Main.projectile[shard].thrown = true;
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, mod.ProjectileType("FossilShardThrown"), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
 				shardRainTimer = 3;
 			}

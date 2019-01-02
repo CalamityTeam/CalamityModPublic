@@ -180,6 +180,10 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().chibii)
                 dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
 
+            if ((Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobs && !Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsHide) ||
+                (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsAlt && !Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsAltHide))
+                dialogue.Add("Nice...scales...did it get hot in here?");
+
             if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().fabsolVodka)
                 dialogue.Add("Oh yeah now you're drinking the good stuff! Do you like it? I created the recipe by mixing fairy dust, crystals, and other magical crap.");
 
@@ -189,6 +193,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Are you coming on to me?");
                 dialogue.Add("If I was a magical horse in this reality I'd be out in space swirling cocktails as I watch space worms battle for my enjoyment.");
             }
+
+            dialogue.Add("Hey " + CalamityMod.donatorList[Main.rand.Next(CalamityMod.donatorList.Count)] + "! You're pretty good! ...wait, what's your name again?");
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
@@ -299,7 +305,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
-            damage = 30;
+            damage = 15;
             knockback = 2f;
         }
 

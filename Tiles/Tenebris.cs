@@ -70,9 +70,7 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.tile[i, j].active())
                     {
-                        if (Main.tile[i, j].liquid == 255 && 
-                            (Main.tile[i, j].type == (ushort)mod.TileType("PlantyMush") || (Main.tile[i, j].type == (ushort)mod.TileType("AbyssGravel") && Main.rand.Next(5) == 0)) && 
-                            !Main.tile[i, j].lava())
+                        if (Main.rand.Next(5) == 0 && !Main.tile[i, j].lava())
                         {
                             Main.tile[i, j].type = (ushort)mod.TileType("Tenebris");
                             WorldGen.SquareTileFrame(i, j, true);

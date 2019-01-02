@@ -14,7 +14,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Eldritch Soul Artifact");
 			Tooltip.SetDefault("Knowledge\n" +
-                "Boosts melee speed by 10%, shoot speed by 25%, throwing damage by 10%, max minions by 2, and reduces mana cost by 15%");
+                "Boosts melee speed by 10%, shoot speed by 25%, rogue damage by 10%, max minions by 2, and reduces mana cost by 15%");
 		}
 		
 		public override void SetDefaults()

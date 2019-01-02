@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
+            projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
         }
@@ -73,9 +74,12 @@ namespace CalamityMod.Projectiles
 				return;
 			}
         	Player player = Main.player[projectile.owner];
-			player.statLife += 1;
-    		player.HealEffect(1);
-    		target.AddBuff(mod.BuffType("BrimstoneFlames"), 360);
+            if (Main.rand.Next(2) == 0)
+            {
+                player.statLife += 1;
+                player.HealEffect(1);
+            }
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 360);
         }
     }
 }

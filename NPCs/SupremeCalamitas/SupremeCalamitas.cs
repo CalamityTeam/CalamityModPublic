@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 450;
+			npc.damage = 350;
 			npc.npcSlots = 50f;
 			npc.width = 120; //324
 			npc.height = 120; //216
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4500000 : 4000000;
+                npc.lifeMax = CalamityWorld.death ? 4600000 : 4100000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -117,10 +117,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			Player player = Main.player[npc.target];
-            if (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight) //works good
-            {
-                player.velocity.Y = -100f;
-            }
             if (!startText)
             {
                 if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalKillCount == 4)
@@ -484,7 +480,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
                 if (Main.netMode != 1)
                 {
-                    int damage = expertMode ? 160 : 210; //640 420
+                    int damage = expertMode ? 150 : 200;
                     if (npc.localAI[2] % 180 == 0) //blasts from top
                     {
                         Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
@@ -548,7 +544,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
                 if (Main.netMode != 1) //more clustered attack
                 {
-                    int damage = expertMode ? 175 : 220; //700 440
+                    int damage = expertMode ? 150 : 200;
                     if (npc.localAI[2] % 180 == 0) //blasts from top
                     {
                         Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
@@ -617,7 +613,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
                 if (Main.netMode != 1)
                 {
-                    int damage = expertMode ? 200 : 250; //800 500
+                    int damage = expertMode ? 150 : 200;
                     if (npc.localAI[2] % 240 == 0) //blasts from top
                     {
                         Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
@@ -2082,17 +2078,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 damage /= 2;
             }
-            Player player = Main.player[npc.target];
-            if (player.vortexStealthActive && projectile.ranged)
-            {
-                damage /= 2;
-                crit = false;
-            }
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 8;
-            }
             if (projectile.type == mod.ProjectileType("ApothMark") || projectile.type == mod.ProjectileType("ApothJaws"))
             {
                 damage /= 25;
@@ -2131,10 +2116,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (protectionBoost)
             {
                 protection = 0.99f; //99%
-            }
-            if (CalamityWorld.defiled)
-            {
-                protection += (1f - protection) * 0.5f;
             }
             if (newDamage >= 1.0)
 			{

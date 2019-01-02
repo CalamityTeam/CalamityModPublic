@@ -71,9 +71,7 @@ namespace CalamityMod.Projectiles
         	target.immune[projectile.owner] = 4;
         	if (projectile.owner == Main.myPlayer)
         	{
-        		int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                Main.projectile[boom].melee = false;
-                Main.projectile[boom].magic = true;
+        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

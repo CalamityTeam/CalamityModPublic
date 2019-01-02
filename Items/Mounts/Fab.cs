@@ -4,6 +4,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -72,7 +73,7 @@ namespace CalamityMod.Items.Mounts
                 player.rangedDamage += 0.1f;
                 player.magicDamage += 0.1f;
                 player.minionDamage += 0.1f;
-                player.thrownDamage += 0.1f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
             }
             if (Math.Abs(player.velocity.X) > 15f)
             {

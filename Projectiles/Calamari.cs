@@ -271,7 +271,7 @@ namespace CalamityMod.Projectiles
                 {
                     num21 = 13.5f; //9
                 }
-                if (num23 < 100f && projectile.ai[0] == 1f)
+                if (num23 < 400f && projectile.ai[0] == 1f)
                 {
                     projectile.ai[0] = 0f;
                     projectile.netUpdate = true;

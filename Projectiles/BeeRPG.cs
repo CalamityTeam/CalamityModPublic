@@ -101,8 +101,6 @@ namespace CalamityMod.Projectiles
 						num518 += projectile.oldVelocity.X / 6f;
 						num519 += projectile.oldVelocity.Y / 6f;
 						int num520 = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 4), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
-						Main.projectile[num520].magic = false;
-						Main.projectile[num520].ranged = true;
 						Main.projectile[num520].penetrate = 2;
 					}
 				}

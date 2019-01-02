@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 30;
-            item.value = 150000;
+            item.value = Item.buyPrice(0, 21, 0, 0);
             item.accessory = true;
         }
 
@@ -38,22 +38,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.statLife <= (player.statLifeMax2 * 0.8f) && player.statLife > (player.statLifeMax2 * 0.6f))
-            {
-                player.meleeSpeed += 0.05f;
-            }
-            else if (player.statLife <= (player.statLifeMax2 * 0.6f) && player.statLife > (player.statLifeMax2 * 0.4f))
-            {
-                player.meleeSpeed += 0.1f;
-            }
-            else if (player.statLife <= (player.statLifeMax2 * 0.4f) && player.statLife > (player.statLifeMax2 * 0.2f))
-            {
-                player.meleeSpeed += 0.15f;
-            }
-            else if (player.statLife <= (player.statLifeMax2 * 0.2f))
-            {
-                player.meleeSpeed += 0.2f;
-            }
+            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            modPlayer.badgeOfBravery = true;
         }
 
         public override void AddRecipes()

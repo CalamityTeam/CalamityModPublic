@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Calamitas
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 70;
+			npc.damage = 60;
 			npc.npcSlots = 5f;
 			npc.width = 120; //324
 			npc.height = 120; //216
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Calamitas
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 1700000 : 1400000;
+                npc.lifeMax = CalamityWorld.death ? 1900000 : 1500000;
             }
         }
 		
@@ -361,14 +361,6 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 		}
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged))
-            {
-                damage /= 2;
-            }
-        }
-
         public override bool CheckActive()
         {
             return canDespawn;
@@ -437,10 +429,10 @@ namespace CalamityMod.NPCs.Calamitas
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("MarkedforDeath"), 300);
-				player.AddBuff(mod.BuffType("Horror"), 300, true);
+				player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
-			player.AddBuff(mod.BuffType("BrimstoneFlames"), 180, true);
+			player.AddBuff(mod.BuffType("BrimstoneFlames"), 300, true);
 		}
 	}
 }

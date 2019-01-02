@@ -64,10 +64,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(mod.BuffType("HolyLight"), 60, true);
-			}
+			player.AddBuff(mod.BuffType("HolyLight"), 180, true);
 		}
 		
 		public override void NPCLoot()

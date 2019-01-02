@@ -33,7 +33,6 @@ namespace CalamityMod.Projectiles
         {
             if (projectile.ai[1] == 1f)
             {
-                projectile.thrown = true;
                 projectile.melee = false;
             }
             if (projectile.alpha > 0)

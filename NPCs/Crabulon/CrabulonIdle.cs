@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Crabulon
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 14f;
-			npc.damage = 30;
+			npc.damage = 40;
 			npc.width = 164; //324
 			npc.height = 154; //216
 			npc.defense = 8;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 3600000 : 3000000;
+                npc.lifeMax = CalamityWorld.death ? 4500000 : 3900000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -197,8 +197,7 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			else if (npc.ai[0] == 2f)
 			{
-                int damageBoost = (int)(20f * (1f - (float)npc.life / (float)npc.lifeMax));
-                npc.damage = npc.defDamage + damageBoost;
+                npc.damage = expertMode ? 64 : 40;
                 float num823 = 1.25f;
 				bool flag51 = false;
 				if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive) 
@@ -300,8 +299,7 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			else if (npc.ai[0] == 3f)
 			{
-                int damageBoost = (int)(20f * (1f - (float)npc.life / (float)npc.lifeMax));
-                npc.damage = npc.defDamage + damageBoost;
+                npc.damage = expertMode ? 64 : 40;
                 npc.noTileCollide = false;
 				if (npc.velocity.Y == 0f) 
 				{
@@ -377,7 +375,7 @@ namespace CalamityMod.NPCs.Crabulon
 					if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width) 
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
-						npc.velocity.Y = npc.velocity.Y + 0.2f; //0.2
+						npc.velocity.Y = npc.velocity.Y + 0.15f; //0.2
 					} 
 					else 
 					{

@@ -22,11 +22,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 50; //70
+			npc.damage = 65; //70
 			npc.width = 54; //28
 			npc.height = 76; //28
 			npc.defense = 100;
-            npc.lifeMax = 35000;
+            npc.lifeMax = 80000;
             npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.knockBackResist = 0f;
@@ -305,6 +305,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GulperEel4"), 1f);
             }
         }
 

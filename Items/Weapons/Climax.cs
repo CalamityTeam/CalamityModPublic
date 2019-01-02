@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 110;
+	        item.damage = 90;
 	        item.magic = true;
 	        item.mana = 30;
 	        item.width = 78;
@@ -70,11 +70,7 @@ namespace CalamityMod.Items.Weapons
             {
                 num80 = num72 / num80;
             }
-            float num208 = num78;
-            float num209 = num79;
-            num208 += (float)Main.rand.Next(-1, 2) * 0.5f;
-            num209 += (float)Main.rand.Next(-1, 2) * 0.5f;
-            vector2 += new Vector2(num208, num209);
+            vector2 += new Vector2(num78, num79);
             float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
             double deltaAngle = spread / 8f;

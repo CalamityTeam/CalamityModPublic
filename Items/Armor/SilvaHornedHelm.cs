@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
                 "This effect only triggers once per life\n" +
                 "Your max life will return to normal if you die\n" +
                 "Increases your rate of fire with all ranged weapons\n" +
-                "During the silva invulnerability time your ranged weapons will do 50% more damage";
+                "During the silva invulnerability time your ranged weapons will do 40% more damage";
         }
 
         public override void UpdateEquip(Player player)

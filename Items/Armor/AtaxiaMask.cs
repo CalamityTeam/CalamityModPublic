@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased magic damage and critical strike chance\n" +
+            player.setBonus = "5% increased magic damage\n" +
                 "Inferno effect when below 50% life\n" +
                 "Magic attacks summon damaging and healing flare orbs on hit\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
@@ -53,7 +53,6 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Inferno, 2);
             }
             player.magicDamage += 0.05f;
-            player.magicCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(BuffID.Confused, 60);
+        	target.AddBuff(BuffID.Confused, 120);
         }
     }
 }

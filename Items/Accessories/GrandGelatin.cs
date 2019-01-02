@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Accessories
 		{
 			item.width = 20;
 			item.height = 24;
-			item.value = 300000;
-			item.rare = 6;
+            item.value = Item.buyPrice(0, 15, 0, 0);
+            item.rare = 6;
 			item.accessory = true;
 		}
 		
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
         	player.statManaMax2 += 20;
 			if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
 			{
-				player.lifeRegen += 5;
+				player.lifeRegen += 2;
 				player.manaRegenBonus += 2;
 			}
 		}

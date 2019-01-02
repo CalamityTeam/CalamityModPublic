@@ -32,9 +32,10 @@ namespace CalamityMod.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.CalmingPotion);
-			recipe.AddIngredient(ItemID.PinkGel, 3);
-			recipe.AddIngredient(null, "EbonianGel", 3);
+            recipe.AddIngredient(null, "EssenceofEleum", 3);
+            recipe.AddIngredient(null, "EbonianGel", 2);
+            recipe.AddIngredient(ItemID.PinkGel);
+            recipe.AddIngredient(ItemID.BottledWater);
 			recipe.AddTile(TileID.AlchemyTable);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

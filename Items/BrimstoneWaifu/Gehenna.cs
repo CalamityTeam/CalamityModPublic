@@ -25,7 +25,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
         {
             item.width = 26;
             item.height = 26;
-            item.value = 100000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
         {
             if (FireCountdown == 0)
             {
-                FireCountdown = 300;
+                FireCountdown = 600;
             }
             if (FireCountdown > 0)
             {

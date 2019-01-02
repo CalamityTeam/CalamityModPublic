@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.65f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.1f) / 255f);
         	Player player = Main.player[projectile.owner];
 			float num = 0f;
-			bool shoot = true;
 			Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
 			if (projectile.spriteDirection == -1)
 			{
@@ -77,33 +76,73 @@ namespace CalamityMod.Projectiles
 			{
 				if (player.statMana < manaCost) 
 				{
-					shoot = false;
-				}
+                    if (player.manaFlower)
+                    {
+                        player.QuickMana();
+                        if (player.statMana >= (int)((float)manaCost))
+                        {
+                            player.manaRegenDelay = (int)player.maxRegenDelay;
+                            player.statMana -= manaCost;
+                        }
+                        else
+                        {
+                            projectile.Kill();
+                        }
+                    }
+                    else
+                    {
+                        projectile.Kill();
+                    }
+                }
 				else
 				{
-					player.statMana -= manaCost;
-				}
+                    if (player.statMana >= (int)((float)manaCost))
+                    {
+                        player.statMana -= manaCost;
+                        player.manaRegenDelay = (int)player.maxRegenDelay;
+                    }
+                }
 				projectile.localAI[1] += 1f;
 				Main.PlaySound(SoundID.Item117, projectile.position);
 			}
 			if (projectile.soundDelay <= 0 && flag16)
 			{
-				if (player.statMana < manaCost) 
-				{
-					shoot = false;
-				}
-				else
-				{
-					player.statMana -= manaCost;
-				}
-				projectile.soundDelay = num40 - num41 * num39;
+                if (player.statMana < manaCost)
+                {
+                    if (player.manaFlower)
+                    {
+                        player.QuickMana();
+                        if (player.statMana >= (int)((float)manaCost))
+                        {
+                            player.manaRegenDelay = (int)player.maxRegenDelay;
+                            player.statMana -= manaCost;
+                        }
+                        else
+                        {
+                            projectile.Kill();
+                        }
+                    }
+                    else
+                    {
+                        projectile.Kill();
+                    }
+                }
+                else
+                {
+                    if (player.statMana >= (int)((float)manaCost))
+                    {
+                        player.statMana -= manaCost;
+                        player.manaRegenDelay = (int)player.maxRegenDelay;
+                    }
+                }
+                projectile.soundDelay = num40 - num41 * num39;
 				if (projectile.ai[0] != 1f)
 				{
 					Main.PlaySound(SoundID.Item117, projectile.position);
 				}
 				projectile.localAI[0] = 12f;
 			}
-			if (flag15 && shoot && Main.myPlayer == projectile.owner)
+			if (flag15 && Main.myPlayer == projectile.owner)
 			{
 				int num42 = mod.ProjectileType("GhastlyBlast");
 				float scaleFactor11 = 6f;

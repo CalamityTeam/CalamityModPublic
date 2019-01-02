@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles
                 float num547 = Main.player[projectile.owner].Center.X - vector42.X;
                 float num548 = Main.player[projectile.owner].Center.Y - vector42.Y - 60f;
                 float num549 = (float)Math.Sqrt((double)(num547 * num547 + num548 * num548));
-                if (num549 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                if (num549 < 400f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 {
                     projectile.ai[0] = 0f;
                 }

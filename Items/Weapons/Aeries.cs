@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 40;
+	        item.damage = 35;
 	        item.ranged = true;
 	        item.width = 50;
 	        item.height = 32;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
 	        item.value = 350000;
 	        item.rare = 7;
 	        item.UseSound = SoundID.Item41;
-	        item.autoReuse = false;
+	        item.autoReuse = true;
 	        item.shootSpeed = 24f;
 	        item.shoot = mod.ProjectileType("ShockblastRound");
 	        item.useAmmo = 97;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(ItemID.SpectreBar, 5);
-	        recipe.AddIngredient(ItemID.PhoenixBlaster);
+	        recipe.AddIngredient(null, "CursedCapper");
 	        recipe.AddIngredient(ItemID.ShroomiteBar, 5);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(this);

@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles
             projectile.width = 40;
             projectile.height = 40;
             projectile.friendly = true;
+            projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.alpha = 150;
             projectile.melee = true;
@@ -29,6 +30,10 @@ namespace CalamityMod.Projectiles
 
         public override void AI()
         {
+            if (projectile.timeLeft < 60)
+            {
+                projectile.tileCollide = true;
+            }
         	if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale -= 0.02f;
@@ -118,7 +123,7 @@ namespace CalamityMod.Projectiles
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("HolyLight"), 200);
+        	target.AddBuff(mod.BuffType("HolyLight"), 900);
         }
     }
 }

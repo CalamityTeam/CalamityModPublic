@@ -103,13 +103,10 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.velocity.Normalize();
 				projectile.velocity *= scaleFactor2;
 			}
-			if (projectile.ai[0] < 0f)
-			{
-				if (projectile.velocity.Length() < 18f)
-				{
-					projectile.velocity *= 1.02f;
-				}
-			}
+            if (projectile.velocity.Length() < 18f)
+            {
+                projectile.velocity *= 1.02f;
+            }
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f);
             if (Main.rand.Next(3) == 0)
@@ -129,7 +126,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 150, true);
+            target.AddBuff(BuffID.Frostburn, 240, true);
+            target.AddBuff(BuffID.Chilled, 120, true);
+            target.AddBuff(BuffID.Frozen, 30, true);
         }
     }
 }

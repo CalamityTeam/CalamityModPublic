@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 82;
+            item.damage = 85;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -45,7 +45,6 @@ namespace CalamityMod.Items.Weapons
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
             int i = Main.myPlayer;
             float num72 = Main.rand.Next(18, 27);
-            int num73 = Main.rand.Next(60, 91);
             float num74 = knockBack;
             num74 = player.GetWeaponKnockback(item, num74);
             player.itemTime = item.useTime;
@@ -94,10 +93,8 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-160, 161) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
-                int star = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, num73, num74, i, 0f, (float)Main.rand.Next(10));
-                Main.projectile[star].ranged = false;
-                Main.projectile[star].melee = true;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), num73, num74, i, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, num74, i, 1f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), damage, num74, i, 0f, (float)Main.rand.Next(5));
             }
             return false;
         }

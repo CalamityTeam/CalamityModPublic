@@ -18,7 +18,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 7;
             item.melee = true;
             item.width = 62;
             item.height = 48;

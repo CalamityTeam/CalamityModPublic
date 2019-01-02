@@ -22,14 +22,13 @@ namespace CalamityMod.Items.Weapons.Yharon
             DisplayName.SetDefault("Yharon's Kindle Staff");
             Tooltip.SetDefault("Summons the Son of Yharon to fight for you\n" +
                                "The dragon increases your life regen, defense, and movement speed while summoned\n" +
-                               "The dragon imbues your melee attacks with Holy Flames while summoned\n" +
                                "Requires 4 minion slots to use");
         }
 
         public override void SetDefaults()
         {
             item.mana = 50;
-            item.damage = 232;
+            item.damage = 160;
             item.useStyle = 1;
             item.width = 32;
             item.height = 32;

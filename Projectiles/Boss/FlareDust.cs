@@ -46,11 +46,6 @@ namespace CalamityMod.Projectiles.Boss
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
         }
         
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("HolyLight"), 120);
-        }
-        
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, Main.DiscoG, 53, projectile.alpha);

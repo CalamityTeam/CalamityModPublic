@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.defense = 99999;
             npc.lifeMax = 20000;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            if (CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 npc.lifeMax = 100000;
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		public override void AI()
 		{
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			if (npc.defense < 99999 && CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+			if (npc.defense < 99999 && CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				npc.defense = 99999;
 			}
@@ -177,7 +177,14 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 				if ((double)npc.position.Y > Main.rockLayer * 16.0)
 				{
-                    CalamityGlobalNPC.DoGSecondStageCountdown = 0;
+                    CalamityWorld.DoGSecondStageCountdown = 0;
+                    if (Main.netMode == 2)
+                    {
+                        var netMessage = mod.GetPacket();
+                        netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                        netMessage.Send();
+                    }
                     for (int num957 = 0; num957 < 200; num957++)
 					{
 						if (Main.npc[num957].aiStyle == npc.aiStyle)
@@ -189,7 +196,14 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 10000f)
             {
-                CalamityGlobalNPC.DoGSecondStageCountdown = 0;
+                CalamityWorld.DoGSecondStageCountdown = 0;
+                if (Main.netMode == 2)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                    netMessage.Send();
+                }
                 for (int num957 = 0; num957 < 200; num957++)
                 {
                     if (Main.npc[num957].aiStyle == npc.aiStyle)
@@ -455,7 +469,8 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor"), 1f);
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;

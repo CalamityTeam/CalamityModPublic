@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles
 		
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-    		float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
+    		float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800 : projectile.position.X - 800);
     		Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
     		float num80 = xPos;
     		float speedX = (float)target.position.X - vector2.X;
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles
             }
             if (projectile.owner == Main.myPlayer)
     		{
-    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("OMGWTH"), (int)((double)projectile.damage), 1f, projectile.owner);
+    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("OMGWTH"), (int)((double)projectile.damage * 0.8), 1f, projectile.owner);
     		}
 		}
 	}

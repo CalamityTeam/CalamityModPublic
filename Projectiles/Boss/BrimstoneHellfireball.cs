@@ -34,9 +34,9 @@ namespace CalamityMod.Projectiles.Boss
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
 				projectile.localAI[0] += 1f;
 			}
-			for (int num457 = 0; num457 < 10; num457++)
+			for (int num457 = 0; num457 < 5; num457++)
 			{
-				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default(Color), 1.2f);
+				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default(Color), 1.6f);
 				Main.dust[num458].noGravity = true;
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 360);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 600);
         }
     }
 }

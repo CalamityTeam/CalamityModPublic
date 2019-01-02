@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons
 			item.consumable = true;
 			item.knockBack = 5.5f;
 			item.value = 500;
-			item.rare = 1;
+			item.rare = 3;
 			item.shoot = mod.ProjectileType("EnhancedNanoRound");
 			item.shootSpeed = 8f;
 			item.ammo = 97;

@@ -16,14 +16,18 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Wings");
-            Tooltip.SetDefault("Born of the jungle\nExcellent acceleration: 2.5\nExcellent flight time: 250");
+            Tooltip.SetDefault("Born of the jungle\n" +
+                "Horizontal speed: 9.5\n" +
+                "Acceleration multiplier: 2.5\n" +
+                "Great vertical speed\n" +
+                "Flight time: 210");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = 750000;
+            item.value = Item.buyPrice(0, 39, 99, 99);
             item.accessory = true;
         }
 
@@ -56,7 +60,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 250;
+            player.wingTimeMax = 210;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
@@ -70,7 +74,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 11f;
+            speed = 9.5f;
             acceleration *= 2.5f;
         }
 

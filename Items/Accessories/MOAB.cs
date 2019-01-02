@@ -17,16 +17,18 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("MOAB");
             Tooltip.SetDefault("The mother of all balloons\n" +
-                               "Counts as wings\n" +
-                               "Decent acceleration: 1.3\n" +
-                               "Low flight time: 50");
+                "Counts as wings\n" +
+                "Horizontal speed: 6\n" +
+                "Acceleration multiplier: 1\n" +
+                "Good vertical speed\n" +
+                "Flight time: 60");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 32;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 39, 99, 99);
             item.rare = 8;
             item.accessory = true;
         }
@@ -94,22 +96,21 @@ namespace CalamityMod.Items.Accessories
             player.autoJump = true;
             player.noFallDmg = true;
             player.jumpSpeedBoost += 1.4f;
-            player.wingTimeMax = 50;
+            player.wingTimeMax = 60;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
+            ascentWhenFalling = 0.75f;
             ascentWhenRising = 0.15f;
             maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            maxAscentMultiplier = 2.5f;
+            constantAscend = 0.125f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 9f;
-            acceleration *= 1.3f;
+            speed = 6f;
         }
 
         public override void AddRecipes()

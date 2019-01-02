@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DesertScourge
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 15;
+	        item.damage = 18;
 	        item.magic = true;
 	        item.mana = 8;
 	        item.width = 42;

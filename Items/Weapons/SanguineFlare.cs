@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 182;
+	        item.damage = 500;
 	        item.magic = true;
 	        item.mana = 22;
 	        item.width = 56;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
 	        item.UseSound = SoundID.Item20;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("SanguineFlare");
-	        item.shootSpeed = 8f;
+	        item.shootSpeed = 14f;
 	    }
 	    
 	    public override void ModifyTooltips(List<TooltipLine> list)

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Everclear");
-			Tooltip.SetDefault(@"Boosts damage and critical strike chance by 20%
+			Tooltip.SetDefault(@"Boosts damage by 25%
 Reduces life regen by 20 and defense by 40
 This is the most potent booze I have, be careful with it");
 		}

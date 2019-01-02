@@ -59,16 +59,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Weak, 200, true);
-				player.AddBuff(mod.BuffType("BrimstoneFlames"), 100, true);
-			}
-			else
-			{
-				player.AddBuff(BuffID.Weak, 60, true);
-				player.AddBuff(mod.BuffType("BrimstoneFlames"), 50, true);
-			}
+			player.AddBuff(BuffID.Weak, 120, true);
+			player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
 		}
 		
 		public override void NPCLoot()

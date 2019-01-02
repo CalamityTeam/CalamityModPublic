@@ -37,8 +37,14 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath15;
 		}
-		
-		public override void AI()
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Frostburn, 90, true);
+            player.AddBuff(BuffID.Chilled, 60, true);
+        }
+
+        public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.01f, 0.35f, 0.35f);
 		}
@@ -60,7 +66,8 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CryoSpirit"), 1f);
+            }
 		}
 	}
 }

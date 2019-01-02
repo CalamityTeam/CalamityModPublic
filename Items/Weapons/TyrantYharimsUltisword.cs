@@ -13,7 +13,9 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tyrant Yharim's Ultisword");
-            Tooltip.SetDefault("Necrotic blade of Jungle King Yharim\n50% chance to give the player the tyrant's fury buff on enemy hits\nThis buff increases melee damage, speed, and crit chance by 30%");
+            Tooltip.SetDefault("Necrotic blade of Jungle King Yharim\n" +
+                "50% chance to give the player the tyrant's fury buff on enemy hits\n" +
+                "This buff increases melee damage by 30% and melee crit chance by 10%");
         }
 
         public override void SetDefaults()

@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 740000 : 610000;
+                npc.lifeMax = CalamityWorld.death ? 840000 : 720000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -256,15 +256,16 @@ namespace CalamityMod.NPCs.AstrumDeus
 				Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 				npc.localAI[1] = 1f;
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-				int num954 = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 150 : 300);
-				bool flag95 = true;
+                int rectX = 300;
+                int rectY = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 50 : 100);
+                bool flag95 = true;
 				if (npc.position.Y > Main.player[npc.target].position.Y)
 				{
 					for (int num955 = 0; num955 < 255; num955++)
 					{
 						if (Main.player[num955].active)
 						{
-							Rectangle rectangle13 = new Rectangle((int)Main.player[num955].position.X - num954, (int)Main.player[num955].position.Y - num954, num954 * 2, num954 * 2);
+							Rectangle rectangle13 = new Rectangle((int)Main.player[num955].position.X - rectX, (int)Main.player[num955].position.Y - rectY, rectX * 2, rectY * 2);
 							if (rectangle12.Intersects(rectangle13))
 							{
 								flag95 = false;
@@ -548,11 +549,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 2;
-            }
             if (projectile.penetrate == -1 && !projectile.minion && !projectile.thrown)
 			{
 				damage /= 5;
@@ -601,10 +597,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (CalamityWorld.downedStarGod)
-			{
-				player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
 		}
 		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

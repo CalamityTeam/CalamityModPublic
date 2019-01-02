@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ataxia Helmet");
-            Tooltip.SetDefault("12% increased summon damage and increased minion knockback\n" +
+            Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "+2 max minions\n" +
                 "Immune to lava and fire damage");
         }
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased summon damage\n" +
+            player.setBonus = "40% increased minion damage\n" +
                 "Inferno effect when below 50% life\n" +
                 "Summons a chaos spirit to protect you\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
@@ -63,12 +63,12 @@ namespace CalamityMod.Items.Armor
             {
                 player.AddBuff(BuffID.Inferno, 2);
             }
-            player.minionDamage += 0.05f;
+            player.minionDamage += 0.4f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.12f;
+            player.minionDamage += 0.05f;
             player.minionKB += 1.5f;
             player.maxMinions += 2;
             player.lavaImmune = true;

@@ -5,7 +5,6 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-//REMINDER TO MAKE CRYOGEN SPAWN A DILF ON KILL IF ONE DOES NOT CURRENTLY EXIST
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -160,6 +159,10 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(mod.ItemType("DeliciousMeat"));
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("EnchantedMetal"));
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("BearEye"));
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("Popo"));
             nextSlot++;
         }
 

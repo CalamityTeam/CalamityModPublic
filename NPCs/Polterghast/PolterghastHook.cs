@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.Polterghast
                 num147 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector17.X;
                 num148 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector17.Y;
                 num149 = (float)Math.Sqrt((double)(num147 * num147 + num148 * num148));
-                if (num149 > 800f)
+                if (num149 > 1200f)
                 {
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
@@ -444,7 +444,8 @@ namespace CalamityMod.NPCs.Polterghast
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("Horror"), 180, true);
+            if (CalamityWorld.revenge)
+			    player.AddBuff(mod.BuffType("Horror"), 180, true);
 		}
 		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

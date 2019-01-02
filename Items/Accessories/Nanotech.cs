@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,17 +15,17 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nanotech");
-            Tooltip.SetDefault("Throwing projectiles leave behind nanoblades as they travel\n" +
-                "While holding a throwing weapon your defense is boosted by 15 and your damage reduction is boosted by 10%\n" +
-                "Throwing weapons have a chance to instantly kill normal enemies\n" +
-                "10% increased throwing damage, crit chance, and velocity");
+            Tooltip.SetDefault("Rogue projectiles leave behind nanoblades as they travel\n" +
+                "While holding a rogue weapon your defense is boosted by 15 and your damage reduction is boosted by 10%\n" +
+                "Rogue weapons have a chance to instantly kill normal enemies\n" +
+                "15% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity");
         }
 
         public override void SetDefaults()
         {
             item.width = 28;
             item.height = 32;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
         }
 
@@ -43,9 +44,9 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.nanotech = true;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
-            player.thrownVelocity += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.15f;
         }
 
         public override void AddRecipes()

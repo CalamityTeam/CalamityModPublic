@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 55;
+	        item.damage = 63;
 	        item.ranged = true;
 	        item.width = 30;
 	        item.height = 62;
@@ -59,18 +59,24 @@ namespace CalamityMod.Items.Weapons
 				{
 					value9 -= vector7;
 				}
-				switch (Main.rand.Next(12))
-				{
-		    		case 1: type = 408; break;
-		    		default: break;
-				}
-				switch (Main.rand.Next(25))
-				{
-		    		case 1: type = mod.ProjectileType("TyphoonArrow"); break;
-		    		default: break;
-				}
-				int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
-				Main.projectile[num121].noDropItem = true;
+                if (type == ProjectileID.WoodenArrowFriendly)
+                {
+                    if (Main.rand.Next(12) == 0)
+                    {
+                        type = 408;
+                    }
+                    if (Main.rand.Next(25) == 0)
+                    {
+                        type = mod.ProjectileType("TyphoonArrow");
+                    }
+                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, (type == 408 ? 2f : 0.0f), 0.0f);
+                    Main.projectile[num121].noDropItem = true;
+                }
+                else
+                {
+                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Main.projectile[num121].noDropItem = true;
+                }
 			}
 			return false;
 	    }

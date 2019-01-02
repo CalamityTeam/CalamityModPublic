@@ -201,12 +201,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
 			if (Main.player[npc.target].dead)
 			{
-				npc.TargetClosest(false);
 				flies = false;
-				npc.velocity.Y = npc.velocity.Y + 10f;
+				npc.velocity.Y = npc.velocity.Y + 2f;
 				if ((double)npc.position.Y > Main.worldSurface * 16.0)
 				{
-					npc.velocity.Y = npc.velocity.Y + 10f;
+					npc.velocity.Y = npc.velocity.Y + 2f;
 				}
 				if ((double)npc.position.Y > Main.rockLayer * 16.0)
 				{
@@ -243,9 +242,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				if (Main.netMode != 2)
 				{
-					if (!Main.player[npc.target].dead && Main.player[npc.target].active)
+					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
 					{
-						Main.player[npc.target].AddBuff(mod.BuffType("Warped"), 2);
+                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("Warped"), 2);
 					}
 				}
 				phaseSwitch += 1f;
@@ -525,11 +524,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				if (Main.netMode != 2)
 				{
-					if (!Main.player[npc.target].dead && Main.player[npc.target].active)
-					{
-						Main.player[npc.target].AddBuff(mod.BuffType("ExtremeGrav"), 2);
-					}
-				}
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
+                    {
+                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("ExtremeGrav"), 2);
+                    }
+                }
 				phaseSwitch += 1f;
                 float speed = playerRunAcceleration * 19f;
                 float turnSpeed = playerRunAcceleration * 0.28f;
@@ -847,15 +846,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			Player player = Main.player[npc.target];
-			if (player.vortexStealthActive && projectile.ranged)
-			{
-				damage /= 2;
-				crit = false;
-			}
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("TerraBulletSplit") || 
-                projectile.type == mod.ProjectileType("TerraArrow2"))
+            if (projectile.type == mod.ProjectileType("SulphuricAcidMist2"))
             {
                 damage /= 8;
             }
@@ -932,7 +923,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 300, true);
 			if (CalamityWorld.death)
 			{
                 player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
@@ -968,11 +959,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Frostburn, 400, true);
-				player.AddBuff(BuffID.Darkness, 400, true);
-			}
+			player.AddBuff(BuffID.Frostburn, 300, true);
+			player.AddBuff(BuffID.Darkness, 300, true);
 		}
 	}
 }

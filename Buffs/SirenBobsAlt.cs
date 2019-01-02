@@ -32,7 +32,6 @@ namespace CalamityMod.Buffs
                 player.dangerSense = true;
                 player.lifeRegen += 0 +
                     (NPC.downedBoss3 ? 1 : 0) +
-                    (Main.hardMode ? 1 : 0) +
                     (NPC.downedMoonlord ? 1 : 0);
                 player.ignoreWater = NPC.downedBoss3;
                 player.accFlipper = true;

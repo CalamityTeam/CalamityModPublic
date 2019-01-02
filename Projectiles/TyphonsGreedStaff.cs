@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles
             player.itemAnimation = 2;
             player.itemRotation = MathHelper.WrapAngle(projectile.rotation);
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 24f)
+            if (projectile.localAI[0] >= 12f)
             {
                 projectile.localAI[0] = 0f;
                 float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800f : projectile.position.X - 800f);
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles
                 if (projectile.owner == Main.myPlayer)
                 {
                     float ai1 = (Main.rand.NextFloat() + 0.5f);
-                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, mod.ProjectileType("TyphonsGreed"), (int)((double)projectile.damage * 0.7), 2f, projectile.owner, 0.0f, ai1);
+                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, mod.ProjectileType("TyphonsGreed"), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
                 }
             }
         }

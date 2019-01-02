@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 15f)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 0.8f);
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity *= 0f;
                 if (projectile.alpha > 0)
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(mod.BuffType("GodSlayerInferno"), 60);
+        	target.AddBuff(mod.BuffType("GodSlayerInferno"), 120);
         }
 
         public override void Kill(int timeLeft)
@@ -114,14 +114,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 50, default(Color), 1.5f);
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 50, default(Color), 1f);
             }
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 0, default(Color), 2.5f);
+                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 0, default(Color), 1.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 50, default(Color), 1.5f);
+                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 50, default(Color), 1f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Helmet");
             Tooltip.SetDefault("You can move freely through liquids and you are immune to lava\n" +
-                "10% increased summon damage and +3 max minions");
+                "+3 max minions");
         }
 
         public override void SetDefaults()
@@ -53,21 +53,22 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareSummon = true;
-            player.setBonus = "Greatly increases life regen\n" +
+            player.setBonus = "55% increased minion damage\n" +
+                "Greatly increases life regen\n" +
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
                 "Enemies above 50% life have a chance to drop mana stars when struck\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
                 "Summons polterghast mines to circle you\n" +
-                "At 90% life and above you gain 15% increased minion damage\n" +
-                "At 50% life and below you gain 20 defense and 3 life regen";
+                "At 90% life and above you gain 10% increased minion damage\n" +
+                "At 50% life and below you gain 20 defense and 2 life regen";
             player.crimsonRegen = true;
+            player.minionDamage += 0.55f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.lavaImmune = true;
             player.ignoreWater = true;
-            player.minionDamage += 0.1f;
             player.maxMinions += 3;
         }
 

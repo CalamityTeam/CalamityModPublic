@@ -48,14 +48,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             recipe.AddIngredient(ItemID.CrimstoneBlock, 50);
             recipe.AddIngredient(ItemID.TissueSample, 5);
             recipe.AddIngredient(ItemID.IronBar, 4);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "EbonianGel", 15);
-            recipe.AddIngredient(ItemID.CrimstoneBlock, 50);
-            recipe.AddIngredient(ItemID.TissueSample, 5);
-            recipe.AddIngredient(ItemID.LeadBar, 4);
+            recipe.anyIronBar = true;
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();

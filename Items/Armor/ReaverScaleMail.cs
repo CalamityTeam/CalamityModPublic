@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,14 +16,14 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Scale Mail");
-            Tooltip.SetDefault("9% increased damage and 4% increased critical strike chance\nProvides life regeneration\n+20 max life");
+            Tooltip.SetDefault("9% increased damage and 4% increased critical strike chance\n" +
+                "+20 max life");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.lifeRegen = 1;
             item.value = 300000;
             item.rare = 6;
             item.defense = 19;
@@ -37,8 +38,8 @@ namespace CalamityMod.Items.Armor
             player.magicDamage += 0.09f;
             player.rangedCrit += 4;
             player.rangedDamage += 0.09f;
-            player.thrownCrit += 4;
-            player.thrownDamage += 0.09f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 4;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.09f;
             player.minionDamage += 0.09f;
         }
 

@@ -44,7 +44,12 @@ namespace CalamityMod.Projectiles
 		
 		public override void AI()
         {
-			for (int num136 = 0; num136 < 5; num136++)
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            if (projectile.alpha > 0)
+            {
+                projectile.alpha -= 85;
+            }
+            for (int num136 = 0; num136 < 2; num136++)
 			{
 				float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
 				float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;

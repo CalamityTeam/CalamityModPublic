@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-            projectile.thrown = true;
         }
 
         public override void AI()
@@ -108,7 +107,7 @@ namespace CalamityMod.Projectiles
 			{
 				return;
 			}
-			Main.player[Main.myPlayer].lifeSteal -= num;
+			Main.player[Main.myPlayer].lifeSteal -= num * 0.2f;
 			int num2 = projectile.owner;
 			Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("RoyalHeal"), 0, 0f, projectile.owner, (float)num2, num);
         }

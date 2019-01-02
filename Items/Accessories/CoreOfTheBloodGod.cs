@@ -14,9 +14,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Core of the Blood God");
-            Tooltip.SetDefault("You have a damaging life-draining aura around you\n" +
-                "5% increased damage reduction\n" +
-                "5% increased damage and critical strike chance\n" +
+            Tooltip.SetDefault("5% increased damage reduction\n" +
+                "7% increased damage\n" +
                 "When below 100 defense you gain 15% increased damage\n" +
                 "Halves enemy contact damage\n" +
                 "When you take contact damage this effect has a 15 second cooldown\n" +
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.expert = true;
             item.accessory = true;
         }

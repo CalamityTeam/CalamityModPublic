@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased ranged damage and critical strike chance\n" +
+            player.setBonus = "5% increased ranged damage\n" +
                 "Inferno effect when below 50% life\n" +
                 "You have a 50% chance to fire a homing chaos flare when using ranged weapons\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
@@ -59,7 +59,6 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Inferno, 2);
             }
             player.rangedDamage += 0.05f;
-            player.rangedCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

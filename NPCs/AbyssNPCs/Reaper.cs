@@ -26,11 +26,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
             npc.npcSlots = 6f;
             npc.noGravity = true;
-            npc.damage = 125;
+            npc.damage = 160;
 			npc.width = 280;
 			npc.height = 150;
 			npc.defense = 70;
-			npc.lifeMax = 150000;
+			npc.lifeMax = 190000;
             npc.aiStyle = -1;
 			aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -164,9 +164,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         }
                         if (flag14)
                         {
-                            if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                            if (npc.ai[3] > 0f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                             {
-                                if (npc.ai[3] > 0f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                                if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                                 {
                                     npc.ai[3] = 0f;
                                     npc.ai[1] = 0f;
@@ -185,12 +185,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                             }
                             if (npc.ai[3] == 0f)
                             {
-                                npc.alpha = 0;
                                 npc.noTileCollide = false;
                             }
                             else
                             {
-                                npc.alpha = 200;
                                 npc.noTileCollide = true;
                             }
                             npc.TargetClosest(true);
@@ -612,7 +610,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             player.AddBuff(mod.BuffType("CrushDepth"), 300, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 300);
+                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
                 player.AddBuff(mod.BuffType("Horror"), 120, true);
             }
         }

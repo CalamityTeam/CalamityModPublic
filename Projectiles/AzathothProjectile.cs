@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles
         
         public override void AI()
         {
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.Next(6) == 0)
         	{
             	if (projectile.owner == Main.myPlayer)
             	{

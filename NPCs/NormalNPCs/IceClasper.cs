@@ -241,22 +241,15 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.player.ZoneDungeon &&
                 Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
         }
-		
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Frostburn, 300, true);
-                if (Main.rand.Next(3) == 0)
-                {
-                    player.AddBuff(mod.BuffType("GlacialState"), 30, true);
-                }
-			}
-			else
-			{
-				player.AddBuff(BuffID.Frostburn, 160, true);
-			}
-		}
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Frostburn, 300, true);
+            if (Main.rand.Next(3) == 0)
+            {
+                player.AddBuff(mod.BuffType("GlacialState"), 30, true);
+            }
+        }
 		
 		public override void HitEffect(int hitDirection, double damage)
 		{

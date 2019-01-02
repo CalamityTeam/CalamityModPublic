@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Calamitas
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Calamitas
         {
             item.width = 20;
             item.height = 22;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 24, 0, 0);
             item.rare = 7;
             item.accessory = true;
             item.expert = true;
@@ -41,17 +42,17 @@ namespace CalamityMod.Items.Calamitas
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.calamityRing = true;
-            player.meleeDamage *= 1.15f;
-            player.thrownDamage *= 1.15f;
-            player.rangedDamage *= 1.15f;
-            player.magicDamage *= 1.15f;
-            player.minionDamage *= 1.15f;
+            player.meleeDamage += 0.15f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
+            player.rangedDamage += 0.15f;
+            player.magicDamage += 0.15f;
+            player.minionDamage += 0.15f;
             player.endurance -= 0.3f;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.immune)
                 {
-                    if (Main.rand.Next(8) == 0)
+                    if (Main.rand.Next(10) == 0)
                     {
                         for (int l = 0; l < 1; l++)
                         {

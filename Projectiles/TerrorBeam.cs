@@ -54,6 +54,14 @@ namespace CalamityMod.Projectiles
             return false;
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("TerrorBoom"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            }
+        }
+
         public override void AI()
         {
         	if (projectile.localAI[1] == 0f)

@@ -68,9 +68,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(mod.BuffType("AbyssalFlames"), 120);
+        	target.AddBuff(mod.BuffType("AbyssalFlames"), 180);
             if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
-                target.AddBuff(mod.BuffType("VulnerabilityHex"), 90, true);
+                target.AddBuff(mod.BuffType("VulnerabilityHex"), 120, true);
         }
 
         public override void Kill(int timeLeft)

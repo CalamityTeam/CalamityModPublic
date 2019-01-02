@@ -107,12 +107,12 @@ namespace CalamityMod.Projectiles
             }
             float num535 = projectile.position.X;
             float num536 = projectile.position.Y;
-            float num537 = 900f;
+            float num537 = 1300f;
             bool flag19 = false;
-            int num538 = 500;
+            int num538 = 1100;
             if (projectile.ai[1] != 0f)
             {
-                num538 = 1400;
+                num538 = 1800;
             }
             if (Math.Abs(projectile.Center.X - Main.player[projectile.owner].Center.X) + Math.Abs(projectile.Center.Y - Main.player[projectile.owner].Center.Y) > (float)num538)
             {
@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.ai[1] == -1f)
                 {
-                    projectile.ai[1] = 17f;
+                    projectile.ai[1] = 11f;
                 }
                 if (projectile.ai[1] > 0f)
                 {

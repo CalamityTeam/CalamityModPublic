@@ -429,7 +429,9 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MediumPerf"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MediumPerf2"), 1f);
+            }
 		}
 		
 		public override void BossLoot(ref string name, ref int potionType)
@@ -453,14 +455,11 @@ namespace CalamityMod.NPCs.Perforator
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("BurningBlood"), 200, true);
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Bleeding, 160, true);
-			}
+			player.AddBuff(mod.BuffType("BurningBlood"), 240, true);
+			player.AddBuff(BuffID.Bleeding, 240, true);
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 300, true);
+				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
 		}
 	}

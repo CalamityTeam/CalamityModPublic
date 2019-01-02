@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4900000 : 4200000;
+                npc.lifeMax = CalamityWorld.death ? 6000000 : 5400000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Cryogen
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			npc.TargetClosest(true);
-			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != 1 && npc.ai[0] != 4f)
+			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != 1 && npc.ai[0] < 4f) //spawn shield for phase 0 1 2 3, not 4 5
 			{
 				int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("CryogenIce"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				npc.ai[2] = (float)(num6 + 1);
@@ -676,8 +676,6 @@ namespace CalamityMod.NPCs.Cryogen
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore1"), 1f);
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore2"), 1f);
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore3"), 1f);
-                    npc.dontTakeDamage = false;
-                    npc.chaseable = true;
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
                     npc.localAI[0] = 0f;
@@ -700,6 +698,8 @@ namespace CalamityMod.NPCs.Cryogen
             }
             else
             {
+                npc.dontTakeDamage = false;
+                npc.chaseable = true;
                 float num1372 = isChill ? 16f : 22f;
                 if (CalamityWorld.bossRushActive)
                 {
@@ -841,14 +841,6 @@ namespace CalamityMod.NPCs.Cryogen
             return true;
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged))
-            {
-                damage /= 2;
-            }
-        }
-
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
@@ -952,7 +944,12 @@ namespace CalamityMod.NPCs.Cryogen
 		
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 0)
+            int permadongo = NPC.FindFirstNPC(mod.NPCType("DILF"));
+            if (permadongo == -1 && Main.netMode != 1)
+            {
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("DILF"), 0, 0f, 0f, 0f, 0f, 255);
+            }
+            if (Main.rand.Next(10) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryogenTrophy"));
 			}
@@ -1018,14 +1015,8 @@ namespace CalamityMod.NPCs.Cryogen
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode && Main.rand.Next(3) == 0)
-			{
-				player.AddBuff(BuffID.Frostburn, 100, true);
-			}
-			else if (Main.rand.Next(5) == 0)
-			{
-				player.AddBuff(BuffID.Frostburn, 100, true);
-			}
-		}
+            player.AddBuff(BuffID.Frostburn, 120, true);
+            player.AddBuff(BuffID.Chilled, 90, true);
+        }
 	}
 }

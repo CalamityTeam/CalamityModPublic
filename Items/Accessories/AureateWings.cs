@@ -17,15 +17,17 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Aureate Booster");
             Tooltip.SetDefault("Mach speed with style!\n" +
-                               "Good acceleration: 2\n" +
-                               "Good flight time: 90");
+                "Horizontal speed: 8\n" +
+                "Acceleration multiplier: 1.5\n" +
+                "Good vertical speed\n" +
+                "Flight time: 120");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 39, 99, 99);
             item.rare = 6;
             item.accessory = true;
         }
@@ -86,22 +88,22 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            player.wingTimeMax = 90;
+            player.wingTimeMax = 120;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
+            ascentWhenFalling = 0.75f;
             ascentWhenRising = 0.15f;
             maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            maxAscentMultiplier = 2.5f;
+            constantAscend = 0.125f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 10f;
-            acceleration *= 2f;
+            speed = 8f;
+            acceleration *= 1.5f;
         }
 
         public override void AddRecipes()

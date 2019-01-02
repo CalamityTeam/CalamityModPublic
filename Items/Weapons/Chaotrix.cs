@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 	    public override void SetDefaults()
 	    {
 	    	item.CloneDefaults(ItemID.Yelets);
-	        item.damage = 110;
+	        item.damage = 150;
 	        item.useTime = 22;
 	        item.useAnimation = 22;
 	        item.useStyle = 5;

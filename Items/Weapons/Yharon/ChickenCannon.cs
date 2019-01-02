@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Yharon
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 12;
             item.ranged = true;
             item.width = 76;
             item.height = 24;

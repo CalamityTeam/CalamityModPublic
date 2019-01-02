@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 74;
 			npc.height = 56;
 			npc.defense = 20;
-			npc.lifeMax = 400;
+			npc.lifeMax = 800;
             npc.aiStyle = -1;
 			aiType = -1;
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 							{
 								if (!Main.player[npc.target].dead && Main.player[npc.target].active)
 								{
-									Main.player[npc.target].AddBuff(mod.BuffType("FishAlert"), 180, true);
+									Main.player[npc.target].AddBuff(mod.BuffType("FishAlert"), 360, true);
 								}
 							}
 						}
@@ -251,7 +251,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(mod.BuffType("CrushDepth"), 120, true);
+            player.AddBuff(mod.BuffType("CrushDepth"), 180, true);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -23,12 +23,12 @@ namespace CalamityMod.NPCs.Bumblefuck
 			npc.npcSlots = 1f;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 200;
+			npc.damage = 170;
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.scale = 0.85f;
 			npc.defense = 40;
-			npc.lifeMax = 120000;
+			npc.lifeMax = 60000;
 			npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{

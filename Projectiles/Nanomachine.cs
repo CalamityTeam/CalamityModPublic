@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles
 		
 		public override void AI()
         {
-			for (int num136 = 0; num136 < 10; num136++)
+			for (int num136 = 0; num136 < 3; num136++)
 			{
 				float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
 				float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;

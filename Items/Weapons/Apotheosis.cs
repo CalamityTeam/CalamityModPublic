@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 267;
+			item.damage = 333;
 			item.magic = true;
 			item.mana = 42;
 			item.width = 16;
@@ -26,14 +27,24 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 5;
 			item.useTurn = false;
 			item.noMelee = true;
-			item.knockBack = 4;
+			item.knockBack = 4f;
 			item.value = 85000000;
-			item.rare = 12;
 			item.UseSound = SoundID.Item92;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("ApothMark");
             item.shootSpeed = 15;
 		}
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                {
+                    line2.overrideColor = new Color(255, 0, 255);
+                }
+            }
+        }
 
         public override void AddRecipes()
         {
@@ -47,6 +58,7 @@ namespace CalamityMod.Items.Weapons
             recipe.AddIngredient(null, "EndothermicEnergy", 77);
             recipe.AddIngredient(null, "CosmiliteBar", 77);
             recipe.AddIngredient(null, "Phantoplasm", 77);
+            recipe.AddIngredient(null, "ShadowspecBar", 5);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

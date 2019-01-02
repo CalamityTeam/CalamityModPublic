@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 60;
-            projectile.thrown = true;
         }
 
         public override void AI()

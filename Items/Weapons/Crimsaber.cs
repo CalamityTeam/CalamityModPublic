@@ -97,9 +97,7 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float speedX4 = num78;
 				float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-				int piss = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.GoldenShowerFriendly, (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
-                Main.projectile[piss].magic = false;
-                Main.projectile[piss].melee = true;
+				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.GoldenShowerFriendly, (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 1f, (float)Main.rand.Next(10));
             }
         }
         

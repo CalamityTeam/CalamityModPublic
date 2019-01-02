@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Armor
             player.endurance += 0.05f;
             player.meleeCrit += 5;
             player.rangedCrit += 5;
-            player.thrownCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
             player.magicCrit += 5;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {

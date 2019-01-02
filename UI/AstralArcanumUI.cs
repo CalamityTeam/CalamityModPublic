@@ -72,7 +72,7 @@ namespace CalamityMod.UI
         public static void UpdateAndDraw(SpriteBatch sb)
         {
             //Don't do anything if not open
-            bool forceOpenAndTeleport = CalamityPlayer.bossRushStage == 12 && !NPCs.CalamityGlobalNPC.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
+            bool forceOpenAndTeleport = CalamityWorld.bossRushStage == 12 && !NPCs.CalamityGlobalNPC.AnyBossNPCS() && !Main.player[Main.myPlayer].ZoneUnderworldHeight;
             if (forceOpenAndTeleport)
             {
                 Open = true;

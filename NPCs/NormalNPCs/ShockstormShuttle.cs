@@ -565,14 +565,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Electrified, 200, true);
-			}
-			else
-			{
-				player.AddBuff(BuffID.Electrified, 120, true);
-			}
+			player.AddBuff(BuffID.Electrified, 120, true);
 		}
 		
 		public override void NPCLoot()

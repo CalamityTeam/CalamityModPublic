@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			if (target.type == NPCID.TargetDummy || target.type == mod.NPCType("DevourerofGodsBody") || target.type == mod.NPCType("DevourerofGodsBody2"))
+			if (target.type == mod.NPCType("DevourerofGodsBodyS") || target.type == mod.NPCType("DevourerofGodsBody"))
 			{
 				return;
 			}
@@ -51,8 +51,8 @@ namespace CalamityMod.Items.Weapons
 			}
 			if (target.defense <= 0)
 			{
-		    	player.statLife += 12;
-		    	player.HealEffect(12);
+		    	player.statLife += 6;
+		    	player.HealEffect(6);
 			}
 			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("RainbowBoom"), (int)((double)((float)item.damage * player.meleeDamage) * 0.5), knockback, Main.myPlayer);
 			float spread = 180f * 0.0174f;

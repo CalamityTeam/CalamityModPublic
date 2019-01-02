@@ -62,8 +62,11 @@ namespace CalamityMod.Projectiles
 				return;
 			}
         	Player player = Main.player[projectile.owner];
-			player.statLife += 1;
-    		player.HealEffect(1);
+            if (Main.rand.Next(2) == 0)
+            {
+                player.statLife += 1;
+                player.HealEffect(1);
+            }
             target.AddBuff(BuffID.OnFire, 200);
 			target.AddBuff(BuffID.CursedInferno, 200);
         }

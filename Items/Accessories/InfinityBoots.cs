@@ -18,8 +18,10 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Seraph Tracers");
             Tooltip.SetDefault("Counts as wings\n" +
-                "Excellent acceleration: 2.25\n" +
-                "Excellent flight time: 120\n" +
+                "Horizontal speed: 9\n" +
+                "Acceleration multiplier: 2.5\n" +
+                "Good vertical speed\n" +
+                "Flight time: 120\n" +
                 "Ludicrous speed!\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
@@ -30,7 +32,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 36;
             item.height = 32;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
         }
 
@@ -78,17 +80,17 @@ namespace CalamityMod.Items.Accessories
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
+            ascentWhenFalling = 0.75f;
             ascentWhenRising = 0.15f;
             maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            maxAscentMultiplier = 2.5f;
+            constantAscend = 0.125f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 10f;
-            acceleration *= 2.25f;
+            speed = 9f;
+            acceleration *= 2.5f;
         }
 
         public override void AddRecipes()

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Perforator
         {
             item.width = 12;
             item.height = 15;
-            item.value = 100000;
+            item.value = Item.buyPrice(0, 9, 0, 0);
             item.expert = true;
             item.accessory = true;
         }

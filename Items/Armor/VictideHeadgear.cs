@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Victide Headgear");
-            Tooltip.SetDefault("5% increased throwing damage");
+            Tooltip.SetDefault("5% increased rogue damage");
         }
 
         public override void SetDefaults()
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Increased life regen and throwing damage while submerged in liquid\n" +
+            player.setBonus = "Increased life regen and rogue damage while submerged in liquid\n" +
                 "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                 "This seashell does true damage and does not benefit from any damage class\n" +
                 "Slightly reduces breath loss in the abyss";
@@ -43,14 +44,14 @@ namespace CalamityMod.Items.Armor
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.thrownDamage += 0.1f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
                 player.lifeRegen += 3;
             }
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.05f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
         }
 
         public override void AddRecipes()

@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
 			npc.damage = 0; //70
-			npc.width = 38; //28
-			npc.height = 40; //28
+			npc.width = 46; //28
+			npc.height = 66; //28
 			npc.defense = 0;
             npc.lifeMax = 200000;
             npc.aiStyle = -1; //new
@@ -267,6 +267,23 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
         }
 
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            SpriteEffects spriteEffects = SpriteEffects.None;
+            if (npc.spriteDirection == 1)
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+            Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
+            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+            Vector2 vector = center - Main.screenPosition;
+            vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmTailGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmTailGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightYellow);
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/EidolonWyrmTailGlow"), vector,
+                new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
+        }
+
         public override bool CheckActive()
         {
             return false;
@@ -289,6 +306,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Wyrm4"), 1f);
             }
         }
 

@@ -15,7 +15,7 @@ namespace CalamityMod.Items.AbyssItems
         {
             DisplayName.SetDefault("Reaper Tooth Necklace");
             Tooltip.SetDefault("Increases armor penetration by 100\n" +
-                "Increases all damage and critical strike chance by 25%\n" +
+                "Increases all damage by 25%\n" +
                 "Cuts your defense and damage reduction in half");
         }
 
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.AbyssItems
         {
             item.width = 26;
             item.height = 26;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 10;
             item.accessory = true;
         }

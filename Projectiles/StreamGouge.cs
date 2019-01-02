@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles
 				if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
 				{
 					projectile.localAI[0] = 1f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1f, projectile.velocity.Y * 1f, mod.ProjectileType("EssenceBeam"), (int)((double)projectile.damage * 2f), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 1f, projectile.velocity.Y * 1f, mod.ProjectileType("EssenceBeam"), (int)((double)projectile.damage * 4.0), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
         	}
         	else

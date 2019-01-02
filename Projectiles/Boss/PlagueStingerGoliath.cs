@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("Plague"), 240);
+        	target.AddBuff(mod.BuffType("Plague"), 180);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Abyssal Diving Suit");
             Tooltip.SetDefault("Transforms the holder into an armored diver\n" +
                 "Increases movement speed while underwater and moves slowly outside of water\n" +
-                "The suits' armored plates reduce damage taken by 25%\n" +
+                "The suits' armored plates reduce damage taken by 15%\n" +
                 "The plates will only take damage if the damage taken is over 50\n" +
                 "After the suit has taken too much damage its armored plates will take 3 minutes to regenerate\n" +
                 "Reduces the damage caused by the pressure of the abyss while out of breath\n" +
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.accessory = true;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.rare = 10;
         }
 

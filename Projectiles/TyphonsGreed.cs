@@ -106,11 +106,11 @@ namespace CalamityMod.Projectiles
 			projectile.width = (projectile.height = 64);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for (int num193 = 0; num193 < 6; num193++)
+			for (int num193 = 0; num193 < 2; num193++)
 			{
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
 			}
-			for (int num194 = 0; num194 < 10; num194++)
+			for (int num194 = 0; num194 < 6; num194++)
 			{
 				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
 				Main.dust[num195].noGravity = true;

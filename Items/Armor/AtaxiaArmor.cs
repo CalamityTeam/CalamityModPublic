@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Ataxia Armor");
             Tooltip.SetDefault("+20 max mana and life\n" +
-                "8% increased damage and 5% increased critical strike chance");
+                "8% increased damage and 4% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -32,14 +33,14 @@ namespace CalamityMod.Items.Armor
         {
             player.statManaMax2 += 20;
             player.statLifeMax2 += 20;
-            player.meleeCrit += 5;
+            player.meleeCrit += 4;
             player.meleeDamage += 0.08f;
-            player.magicCrit += 5;
+            player.magicCrit += 4;
             player.magicDamage += 0.08f;
-            player.rangedCrit += 5;
+            player.rangedCrit += 4;
             player.rangedDamage += 0.08f;
-            player.thrownCrit += 5;
-            player.thrownDamage += 0.08f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 4;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.08f;
             player.minionDamage += 0.08f;
         }
 

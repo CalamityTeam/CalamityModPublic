@@ -11,7 +11,7 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tequila");
-			Tooltip.SetDefault(@"Boosts damage, critical strike chance, damage reduction, and knockback by 3% and defense by 5 during daytime
+			Tooltip.SetDefault(@"Boosts damage, damage reduction, and knockback by 4%, crit chance by 2%, and defense by 5 during daytime
 Reduces life regen by 2
 Great for mixing up daytime drinks");
 		}

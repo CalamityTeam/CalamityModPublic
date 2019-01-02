@@ -35,7 +35,13 @@ namespace CalamityMod.Items.Weapons
             item.shoot = 408;
             item.shootSpeed = 11f;
         }
-        
+
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 1f, 0.0f);
+            return false;
+        }
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.Next(5) == 0)

@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.lifeMax = 1400;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 170000;
+                npc.lifeMax = 200000;
             }
             npc.alpha = 255;
 			npc.HitSound = SoundID.NPCHit5;
@@ -60,11 +60,16 @@ namespace CalamityMod.NPCs.Cryogen
 				npc.life = 0;
 				npc.HitEffect(0, 10.0);
 				npc.active = false;
-				return;
 			}
 		}
-		
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Frostburn, 90, true);
+            player.AddBuff(BuffID.Chilled, 60, true);
+        }
+
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
 			npc.damage *= 2;

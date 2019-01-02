@@ -35,7 +35,7 @@ namespace CalamityMod
 			userBar = new UserInterface();
 			userBar.SetState(uiBar);
 
-            Texture2D borderTex2 = mod.GetTexture("ExtraTextures/UI/BarStressBorder"), barTex2 = mod.GetTexture("ExtraTextures/UI/BarAdrenaline"); //replace 'null' with your textures.
+            Texture2D borderTex2 = mod.GetTexture("ExtraTextures/UI/BarAdrenalineBorder"), barTex2 = mod.GetTexture("ExtraTextures/UI/BarAdrenaline"); //replace 'null' with your textures.
             uiBar2 = new UIBar2(borderTex2, barTex2, 4); //the 4 is how many pixels inwards to stick the bar, which in this case is 4.
             userBar2 = new UserInterface();
             userBar2.SetState(uiBar2);

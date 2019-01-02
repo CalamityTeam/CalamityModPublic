@@ -17,8 +17,10 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Drew's Wings");
             Tooltip.SetDefault("Absolutely Fabulous\n" +
-                "Excellent acceleration: 3\n" +
-                "Excellent flight time: 361\n" +
+                "Horizontal speed: 12\n" +
+                "Acceleration multiplier: 3\n" +
+                "Excellent vertical speed\n" +
+                "Flight time: 361\n" +
                 "Revengeance drop");
         }
 
@@ -26,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 22;
             item.height = 20;
-            item.value = 10000000;
+            item.value = Item.buyPrice(1, 0, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -54,16 +56,16 @@ namespace CalamityMod.Items.Accessories
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
-            ascentWhenRising = 0.15f;
-            maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            ascentWhenFalling = 1f; //0.85
+            ascentWhenRising = 0.175f; //0.15
+            maxCanAscendMultiplier = 1.2f; //1
+            maxAscentMultiplier = 3.25f; //3
+            constantAscend = 0.15f; //0.135
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 13f;
+            speed = 12f;
             acceleration *= 3f;
         }
     }

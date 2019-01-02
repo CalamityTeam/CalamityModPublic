@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 2500;
+            item.damage = 3500;
             item.useAnimation = 14;
             item.useStyle = 1;
             item.useTime = 14;
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons
         public override void GetWeaponDamage(Player player, ref int damage)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            float damageAdd = ((float)lifeAmount + 2100f);
+            float damageAdd = ((float)lifeAmount + (float)item.damage);
             damage = (int)(damageAdd * player.meleeDamage);
         }
 
@@ -121,7 +121,7 @@ namespace CalamityMod.Items.Weapons
             {
                 return;
             }
-            int healAmount = (Main.rand.Next(10) + 5);
+            int healAmount = (Main.rand.Next(5) + 5);
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }

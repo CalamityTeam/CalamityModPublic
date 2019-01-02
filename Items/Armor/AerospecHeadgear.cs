@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aerospec Headgear");
-            Tooltip.SetDefault("8% increased throwing damage");
+            Tooltip.SetDefault("8% increased rogue damage");
         }
 
         public override void SetDefaults()
@@ -45,14 +46,14 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased movement speed and throwing critical strike chance\n" +
+            player.setBonus = "5% increased movement speed and rogue critical strike chance\n" +
                     "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
                     "Allows you to fall more quickly and disables fall damage";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;
-            player.thrownCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

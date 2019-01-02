@@ -67,5 +67,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             return new Color(250, 150, 0, projectile.alpha);
         }
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(mod.BuffType("HolyLight"), 120);
+        }
     }
 }

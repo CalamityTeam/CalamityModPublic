@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.Armor
             player.meleeCrit += 5;
             player.magicCrit += 5;
             player.rangedCrit += 5;
-            player.thrownCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
         }
 
         public override void AddRecipes()

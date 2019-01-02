@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 200;
-            projectile.thrown = true;
             projectile.tileCollide = false;
         }
 
@@ -57,7 +56,7 @@ namespace CalamityMod.Projectiles
 				{
 					for (int num228 = num225; num228 < num226; num228++)
 					{
-						if (Main.tile[num227, num228] != null && Main.tile[num227, num228].nactive() && (Main.tileSolid[(int)Main.tile[num227, num228].type] || (Main.tileSolidTop[(int)Main.tile[num227, num228].type] && Main.tile[num227, num228].frameY == 0)))
+						if (Main.tile[num227, num228] != null && !TileID.Sets.Platforms[Main.tile[num227, num228].type] && Main.tile[num227, num228].nactive() && (Main.tileSolid[(int)Main.tile[num227, num228].type] || (Main.tileSolidTop[(int)Main.tile[num227, num228].type] && Main.tile[num227, num228].frameY == 0)))
 						{
 							Vector2 vector19;
 							vector19.X = (float)(num227 * 16);

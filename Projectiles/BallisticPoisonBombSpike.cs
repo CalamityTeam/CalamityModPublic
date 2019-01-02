@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles
             projectile.ignoreWater = true;
             projectile.penetrate = 3;
             projectile.alpha = 255;
-            projectile.thrown = true;
             projectile.extraUpdates = 2;
             projectile.aiStyle = 93;
             aiType = 514;

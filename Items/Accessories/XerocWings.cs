@@ -16,14 +16,18 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Xeroc Wings");
-            Tooltip.SetDefault("Highly radioactive\nExcellent acceleration: 2.25\nExcellent flight time: 160");
+            Tooltip.SetDefault("Highly radioactive\n" +
+                "Horizontal speed: 8.5\n" +
+                "Acceleration multiplier: 2\n" +
+                "Good vertical speed\n" +
+                "Flight time: 180");
         }
 
         public override void SetDefaults()
         {
             item.width = 22;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 39, 99, 99);
             item.rare = 9;
             item.accessory = true;
         }
@@ -46,22 +50,22 @@ namespace CalamityMod.Items.Accessories
                 }
                 Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
             }
-            player.wingTimeMax = 160;
+            player.wingTimeMax = 180;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
+            ascentWhenFalling = 0.75f;
             ascentWhenRising = 0.15f;
             maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            maxAscentMultiplier = 2.5f;
+            constantAscend = 0.125f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 9f;
-            acceleration *= 2.25f;
+            speed = 8.5f;
+            acceleration *= 2f;
         }
 
         public override void AddRecipes()

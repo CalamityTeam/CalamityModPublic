@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.consumable = true;
 			item.knockBack = 1.25f;
 			item.value = 600;
-			item.rare = 5;
+			item.rare = 3;
 			item.shoot = mod.ProjectileType("FrostsparkBullet");
 			item.shootSpeed = 14f;
 			item.ammo = 97;

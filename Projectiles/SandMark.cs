@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles
 			projectile.ignoreWater = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 30 -
 				(NPC.downedGolemBoss ? 5 : 0) -
         		(NPC.downedMoonlord ? 5 : 0) -

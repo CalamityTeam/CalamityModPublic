@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 5;
             item.accessory = true;
         }
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             if (player.ZoneJungle)
             {
-                player.lifeRegen += 2;
+                player.lifeRegen += 1;
                 player.statDefense += 5;
                 player.endurance += 0.05f;
             }

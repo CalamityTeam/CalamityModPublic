@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Sigil of Calamitas");
             Tooltip.SetDefault("10% increased magic damage and 10% decreased mana usage\n" +
-                "+100 max mana, increases life regen, and reveals treasure locations\n" +
+                "+100 max mana and reveals treasure locations\n" +
                 "Reduces the cooldown of healing potions");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
         }
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 9;
             item.accessory = true;
         }
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Accessories
         {
             player.findTreasure = true;
             player.pStone = true;
-            player.lifeRegen += 1;
             player.statManaMax2 += 100;
             player.magicDamage += 0.1f;
             player.manaCost *= 0.9f;

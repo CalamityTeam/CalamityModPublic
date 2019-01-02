@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
+            projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.alpha = 255;
             projectile.timeLeft = 120;

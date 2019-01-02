@@ -44,11 +44,11 @@ namespace CalamityMod.Tiles
             int num8 = WorldGen.genRand.Next((int)Main.rockLayer, (int)(Main.rockLayer + (double)Main.maxTilesY * 0.143));
             if (Main.tile[i, j + 1] != null)
             {
-                if (!Main.tile[i, j + 1].active())
+                if (!Main.tile[i, j + 1].active() && Main.tile[i, j + 1].type != (ushort)mod.TileType("ViperVines"))
                 {
                     if (Main.tile[i, j + 1].liquid == 255 && 
-                        (Main.tile[i, j + 1].wall == (byte)mod.WallType("MossyGravelWall") || 
-                        Main.tile[i, j + 1].wall == (byte)mod.WallType("AbyssGravelWall")) && 
+                        (Main.tile[i, j + 1].wall == (ushort)mod.WallType("MossyGravelWall") || 
+                        Main.tile[i, j + 1].wall == (ushort)mod.WallType("AbyssGravelWall")) && 
                         !Main.tile[i, j + 1].lava())
                     {
                         bool flag13 = false;

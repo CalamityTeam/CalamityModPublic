@@ -47,16 +47,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 150, true);
+				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Confused, 200, true);
-			}
-			else
-			{
-				player.AddBuff(BuffID.Confused, 60, true);
-			}
+			player.AddBuff(BuffID.Confused, 180, true);
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

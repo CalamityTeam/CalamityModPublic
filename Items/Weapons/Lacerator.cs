@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.TheEyeOfCthulhu);
-            item.damage = 700;
+            item.damage = 900;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 5;

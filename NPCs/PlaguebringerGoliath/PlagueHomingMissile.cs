@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("Plague"), 120, true);
+			player.AddBuff(mod.BuffType("Plague"), 180, true);
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

@@ -41,12 +41,11 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased ranged damage and critical strike chance\n" +
+            player.setBonus = "5% increased ranged damage\n" +
                 "Getting hit causes you to emit a blast of crystal shards";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.daedalusShard = true;
             player.rangedDamage += 0.05f;
-            player.rangedCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

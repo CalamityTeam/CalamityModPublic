@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
+            projectile.magic = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

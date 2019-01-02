@@ -31,9 +31,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
             npc.npcSlots = 24f;
-			npc.damage = 0;
-			npc.width = 252; //36
-			npc.height = 112; //20
+			npc.damage = 1500;
+			npc.width = 254; //36
+			npc.height = 138; //20
 			npc.defense = 3000;
 			npc.lifeMax = 1000000;
 			npc.aiStyle = -1;
@@ -57,7 +57,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
             if (npc.justHit || (double)npc.life <= (double)npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
             {
                 detectsPlayer = true;
-                npc.damage = Main.expertMode ? 1500 : 1100;
+                npc.damage = 1500;
+            }
+            else
+            {
+                npc.damage = 0;
             }
             npc.chaseable = detectsPlayer;
             if (detectsPlayer)
@@ -186,20 +190,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     }
                 }
             }
-            /*Vector2 value = npc.Center + (npc.rotation - 1.57079637f).ToRotationVector2() * 8f; //8
-            Vector2 value2 = npc.rotation.ToRotationVector2() * 120f; //16
-            Dust expr_1AAB = Main.dust[Dust.NewDust(value + value2, 0, 0, 20, npc.velocity.X, npc.velocity.Y, 100, Color.Transparent, 2f + Main.rand.NextFloat() * 3f)];
-            expr_1AAB.noGravity = true;
-            expr_1AAB.noLight = true;
-            expr_1AAB.position -= new Vector2(4f);
-            expr_1AAB.fadeIn = 1f;
-            expr_1AAB.velocity = Vector2.Zero;
-            Dust expr_1B33 = Main.dust[Dust.NewDust(value - value2, 0, 0, 20, npc.velocity.X, npc.velocity.Y, 100, Color.Transparent, 2f + Main.rand.NextFloat() * 3f)];
-            expr_1B33.noGravity = true;
-            expr_1B33.noLight = true;
-            expr_1B33.position -= new Vector2(4f);
-            expr_1B33.fadeIn = 1f;
-            expr_1B33.velocity = Vector2.Zero;*/
             int num180 = (int)(npc.position.X / 16f) - 1;
             int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;
@@ -238,7 +228,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 4200f || !NPC.AnyNPCs(mod.NPCType("EidolonWyrmTailHuge")))
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(mod.NPCType("EidolonWyrmTailHuge")))
             {
                 for (int num957 = 0; num957 < 200; num957++)
                 {
@@ -565,7 +555,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WyrmAdult"), 1f);
+            }
 		}
 
         public override bool CheckActive()
@@ -596,8 +587,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(mod.BuffType("CrushDepth"), 1200, true);
-            player.AddBuff(mod.BuffType("Horror"), 1200, true);
-            player.AddBuff(mod.BuffType("MarkedforDeath"), 1200);
+            if (CalamityWorld.revenge)
+            {
+                player.AddBuff(mod.BuffType("Horror"), 1200, true);
+                player.AddBuff(mod.BuffType("MarkedforDeath"), 1200);
+            }
         }
 	}
 }

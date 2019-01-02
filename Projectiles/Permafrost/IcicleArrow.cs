@@ -45,7 +45,6 @@ namespace CalamityMod.Projectiles.Permafrost
 		public override void Kill(int timeLeft)
 		{
             Main.PlaySound(SoundID.Item27, projectile.position);
-            //crystal bullet shards
             for (int index1 = 0; index1 < 5; ++index1)
             {
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, 0f, 0, new Color(), 1f);

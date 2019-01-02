@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Yharon
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 10000000 : 9000000;
+                npc.lifeMax = CalamityWorld.death ? 10500000 : 9500000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -344,7 +344,8 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			else
 			{
-				protectionBoost = false;
+                npc.damage = expertMode ? 528 : 330;
+                protectionBoost = false;
 			}
             #endregion
             #region Rotation
@@ -1940,6 +1941,7 @@ namespace CalamityMod.NPCs.Yharon
             }
             else
             {
+                npc.damage = expertMode ? 528 : 330;
                 protectionBoost = false;
                 if (npc.timeLeft < 3600)
                 {
@@ -2360,7 +2362,7 @@ namespace CalamityMod.NPCs.Yharon
                     }
                     num2 *= 0.85f;
                     bool flag3 = npc.ai[1] == 20f || npc.ai[1] == 45f || npc.ai[1] == 70f;
-                    if (NPC.CountNPCS(mod.NPCType("Bumblefuck3")) > 4)
+                    if (NPC.CountNPCS(mod.NPCType("Bumblefuck3")) > 2)
                     {
                         flag3 = false;
                     }
@@ -2372,10 +2374,7 @@ namespace CalamityMod.NPCs.Yharon
                             Point point2 = vector7.ToPoint();
                             NPC.NewNPC(point2.X, point2.Y, mod.NPCType("Bumblefuck3"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         }
-                        for (int num41 = 0; num41 < 2; num41++)
-                        {
-                            NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(2) == 0 ? 800 : -800), (int)npc.Center.Y - 200, mod.NPCType("Bumblefuck3"), 0, 0f, 0f, 0f, 0f, 255);
-                        }
+                        NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(2) == 0 ? 800 : -800), (int)npc.Center.Y - 200, mod.NPCType("Bumblefuck3"), 0, 0f, 0f, 0f, 0f, 255);
                     }
                     npc.ai[1] += 1f;
                 }
@@ -2599,21 +2598,6 @@ namespace CalamityMod.NPCs.Yharon
 			potionType = mod.ItemType("SupremeHealingPotion");
 		}
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            Player player = Main.player[npc.target];
-            if (player.vortexStealthActive && projectile.ranged)
-            {
-                damage /= 2;
-                crit = false;
-            }
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 8;
-            }
-        }
-
         #region DamageFormula
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
@@ -2633,20 +2617,12 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     float protection = (((npc.ichor || npc.onFire2) ? 0.17f : 0.22f) +
                     (protectionBoost ? 0.68f : 0f)); //0.85 or 0.9
-                    if (CalamityWorld.defiled)
-                    {
-                        protection += (1f - protection) * 0.5f;
-                    }
                     newDamage = (double)((int)((double)(1f - protection) * newDamage));
                 }
                 else
                 {
                     float protection = (((npc.ichor || npc.onFire2) ? 0.12f : 0.17f) +
                     (protectionBoost ? 0.73f : 0f)); //0.85 or 0.9
-                    if (CalamityWorld.defiled)
-                    {
-                        protection += (1f - protection) * 0.5f;
-                    }
                     newDamage = (double)((int)((double)(1f - protection) * newDamage));
                 }
 				if (newDamage < 1.0)

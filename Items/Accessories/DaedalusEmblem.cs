@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Emblem");
-            Tooltip.SetDefault("5% increased ranged damage, critical strike chance, and 20% reduced ammo usage\n" +
+            Tooltip.SetDefault("10% increased ranged damage, 5% increased ranged critical strike chance, and 20% reduced ammo usage\n" +
                 "Increases life regen, minion knockback, defense, and pick speed");
         }
 
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 9;
             item.accessory = true;
         }
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             player.ammoCost80 = true;
             player.lifeRegen += 2;
             player.statDefense += 5;
-            player.rangedDamage += 0.05f;
+            player.rangedDamage += 0.1f;
             player.rangedCrit += 5;
             player.pickSpeed -= 0.15f;
             player.minionKB += 0.5f;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CelestialStone);
             recipe.AddIngredient(null, "CoreofCalamity");
-            recipe.AddIngredient(ItemID.SniperScope);
+            recipe.AddIngredient(ItemID.RangerEmblem);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -20,7 +21,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
 
 		public override void SetDefaults()
 		{
-            item.damage = 360;
+            item.damage = 410;
 			item.knockBack = 1f;
             item.shootSpeed = 18f;
 			item.useStyle = 5;
@@ -31,7 +32,6 @@ Right click to fire two devastating barrages of five empowered fireballs.
 			item.height = 84;
 			item.UseSound = SoundID.Item5;
 			item.shoot = mod.ProjectileType("Drataliornus");
-			item.rare = 15;
 			item.value = Item.sellPrice(18, 0, 0, 0);
 			item.noMelee = true;
             item.noUseGraphic = true;
@@ -41,6 +41,17 @@ Right click to fire two devastating barrages of five empowered fireballs.
 			item.useAmmo = AmmoID.Arrow;
 			item.autoReuse = true;
 		}
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                {
+                    line2.overrideColor = new Color(255, 0, 255);
+                }
+            }
+        }
 
         public override bool AltFunctionUse(Player player)
         {

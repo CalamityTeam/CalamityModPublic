@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Leggings");
-            Tooltip.SetDefault("4% increased critical strike chance\n10% increased movement speed");
+            Tooltip.SetDefault("3% increased critical strike chance\n" +
+                "10% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -29,10 +31,10 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeCrit += 4;
-            player.magicCrit += 4;
-            player.rangedCrit += 4;
-            player.thrownCrit += 4;
+            player.meleeCrit += 3;
+            player.magicCrit += 3;
+            player.rangedCrit += 3;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
             player.moveSpeed += 0.1f;
         }
 

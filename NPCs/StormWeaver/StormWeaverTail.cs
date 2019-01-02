@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.defense = 0;
             npc.lifeMax = 20000;
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            if (CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 npc.lifeMax = 100000;
@@ -117,7 +117,8 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWArmor5"), 1f);
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 30;
 				npc.height = 30;

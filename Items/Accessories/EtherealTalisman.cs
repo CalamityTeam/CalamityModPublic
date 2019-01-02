@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ethereal Talisman");
-            Tooltip.SetDefault("10% increased magic damage, critical strike chance, and 10% decreased mana usage\n" +
+            Tooltip.SetDefault("15% increased magic damage, 5% increased magic critical strike chance, and 10% decreased mana usage\n" +
                 "+150 max mana\n" +
-                "Increases life regen and reveals treasure locations\n" +
+                "Reveals treasure locations\n" +
                 "Reduces the cooldown of healing potions\n" +
                 "You automatically use mana potions when needed\n" +
                 "Magic attacks have a chance to instantly kill normal enemies");
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
         }
 
@@ -48,11 +48,10 @@ namespace CalamityMod.Items.Accessories
             player.findTreasure = true;
             player.pStone = true;
             player.manaFlower = true;
-            player.lifeRegen += 2;
             player.statManaMax2 += 150;
-            player.magicDamage += 0.1f;
+            player.magicDamage += 0.15f;
             player.manaCost *= 0.9f;
-            player.magicCrit += 10;
+            player.magicCrit += 5;
         }
 
         public override void AddRecipes()

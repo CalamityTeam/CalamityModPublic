@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Providence
         {
             item.width = 48;
             item.height = 42;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.expert = true;
             item.rare = 9;
             item.defense = 8;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Providence
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
-            player.lifeRegen += 3;
+            player.lifeRegen += 2;
             player.statLifeMax2 += 40;
         }
     }

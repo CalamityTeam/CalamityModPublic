@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Scavenger
             item.width = 26;
             item.height = 26;
             item.rare = 8;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 24, 0, 0);
             item.accessory = true;
         }
 

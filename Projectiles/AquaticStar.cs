@@ -72,10 +72,6 @@ namespace CalamityMod.Projectiles
         
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
             return false;
         }
 

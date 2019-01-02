@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 2250000 : 1900000;
+                npc.lifeMax = CalamityWorld.death ? 2500000 : 2200000;
             }
             npc.damage = 40;
 			npc.width = 150;
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						npc.TargetClosest(true);
                         if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
-                            float num179 = (CalamityWorld.bossRushActive ? 18f : 11f);
+                            float num179 = (CalamityWorld.bossRushActive ? 18f : 8f);
                             Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
                             float num181 = Math.Abs(num180) * 0.1f;
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 					{
-						float num179 = (CalamityWorld.bossRushActive ? 18f : 11f);
+						float num179 = (CalamityWorld.bossRushActive ? 18f : 8f);
 						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             else if (npc.ai[0] == 2f)
             {
-                if ((Main.player[npc.target].Center - vector).Length() > (hyperMode ? 1200f : 2400f))
+                if ((Main.player[npc.target].Center - vector).Length() > (hyperMode ? 1200f : 3600f))
                 {
                     npc.ai[0] = 5f;
                     npc.ai[1] = 0f;
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         value74.Normalize();
                         value74 *= 10f;
                     }
-                    npc.velocity = (npc.velocity * 4f + value74) / 4.5f;
+                    npc.velocity = (npc.velocity * 4f + value74) / 4.7f;
                     return;
                 }
                 if (npc.ai[0] == 6f)

@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.thrown = true;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.extraUpdates = 1;
@@ -66,9 +65,7 @@ namespace CalamityMod.Projectiles
 			target.AddBuff(BuffID.Bleeding, 600);
 			if (projectile.owner == Main.myPlayer)
 			{
-				int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                Main.projectile[boom].melee = false;
-                Main.projectile[boom].thrown = true;
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
     }

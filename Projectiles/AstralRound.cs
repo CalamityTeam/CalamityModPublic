@@ -50,16 +50,15 @@ namespace CalamityMod.Projectiles
 				int randomDust = Main.rand.Next(2);
 				if (randomDust == 0)
 				{
-					randomDust = 87;
+					randomDust = mod.DustType("AstralOrange");
 				}
 				else
 				{
-					randomDust = 86;
+					randomDust = mod.DustType("AstralBlue");
 				}
 				float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
 				float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
 				int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, randomDust, 0f, 0f, 0, default(Color), 1.5f);
-				Main.dust[num137].alpha = projectile.alpha;
 				Main.dust[num137].position.X = x2;
 				Main.dust[num137].position.Y = y2;
 				Main.dust[num137].velocity *= 0f;

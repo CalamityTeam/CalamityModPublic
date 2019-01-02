@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.lifeMax = 400;
             }
             music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            if (CalamityGlobalNPC.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Void");
             }
@@ -88,7 +88,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 if (!player.active || player.dead)
                 {
                     npc.velocity = new Vector2(0f, -10f);
-                    CalamityGlobalNPC.DoGSecondStageCountdown = 0;
+                    CalamityWorld.DoGSecondStageCountdown = 0;
+                    if (Main.netMode == 2)
+                    {
+                        var netMessage = mod.GetPacket();
+                        netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                        netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                        netMessage.Send();
+                    }
                     if (npc.timeLeft > 150)
                     {
                         npc.timeLeft = 150;

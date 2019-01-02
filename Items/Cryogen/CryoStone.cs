@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Cryogen
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Cryogen
 		{
 			DisplayName.SetDefault("Cryo Stone");
 			Tooltip.SetDefault("One of the ancient relics\n" +
-            	"Increases damage reduction by 5% and all damage and crit chance by 2%");
+            	"Increases damage reduction by 5% and all damage by 3%");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
 		}
     	
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Cryogen
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
             item.defense = 6;
 			item.accessory = true;
@@ -33,15 +34,11 @@ namespace CalamityMod.Items.Cryogen
 		{
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0f, 0.25f, 0.6f);
 			player.endurance += 0.05f;
-			player.meleeCrit += 2;
-			player.meleeDamage += 0.02f;
-			player.magicCrit += 2;
-			player.magicDamage += 0.02f;
-			player.rangedCrit += 2;
-			player.rangedDamage += 0.02f;
-			player.thrownCrit += 2;
-			player.thrownDamage += 0.02f;
-			player.minionDamage += 0.02f;
+			player.meleeDamage += 0.03f;
+			player.magicDamage += 0.03f;
+			player.rangedDamage += 0.03f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
+			player.minionDamage += 0.03f;
 		}
     }
 }

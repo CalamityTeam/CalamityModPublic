@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 			projectile.ai[1] += 1f;
-			if (projectile.ai[1] >= 7200f)
+			if (projectile.ai[1] >= 300f)
 			{
 				projectile.alpha += 5;
 				if (projectile.alpha > 255)
@@ -56,33 +56,6 @@ namespace CalamityMod.Projectiles.Boss
 					int num414 = (int)(projectile.position.X + 14f + (float)Main.rand.Next(projectile.width - 28));
 					int num415 = (int)(projectile.position.Y + (float)projectile.height + 4f);
 					Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, mod.ProjectileType("ShaderainHostile"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-				}
-			}
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 10f)
-			{
-				projectile.localAI[0] = 0f;
-				int num416 = 0;
-				int num417 = 0;
-				float num418 = 0f;
-				int num419 = projectile.type;
-				for (int num420 = 0; num420 < 1000; num420++)
-				{
-					if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
-					{
-						num416++;
-						if (Main.projectile[num420].ai[1] > num418)
-						{
-							num417 = num420;
-							num418 = Main.projectile[num420].ai[1];
-						}
-					}
-				}
-				if (num416 > 2)
-				{
-					Main.projectile[num417].netUpdate = true;
-					Main.projectile[num417].ai[1] = 36000f;
-					return;
 				}
 			}
         }

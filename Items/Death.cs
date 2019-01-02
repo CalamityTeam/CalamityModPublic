@@ -87,5 +87,13 @@ namespace CalamityMod.Items
             }
             return true;
 		}
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddTile(TileID.DemonAltar);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

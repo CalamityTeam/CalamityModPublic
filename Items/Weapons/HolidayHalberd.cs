@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 64;
+			item.width = 70;
 			item.damage = 94;
 			item.melee = true;
 			item.useAnimation = 17;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 7.5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.height = 66;
+			item.height = 72;
 			item.value = 800000;
 			item.rare = 8;
 			item.shoot = mod.ProjectileType("RedBall");

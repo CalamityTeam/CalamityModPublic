@@ -11,7 +11,7 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Whiskey");
-			Tooltip.SetDefault(@"Boosts damage, critical strike chance, and knockback by 3%
+			Tooltip.SetDefault(@"Boosts damage and knockback by 4% and critical strike chance by 2%
 Reduces defense by 8
 The burning sensation makes it tastier");
 		}

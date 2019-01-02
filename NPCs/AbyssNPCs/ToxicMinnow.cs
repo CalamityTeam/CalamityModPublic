@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 double deltaAngleBoom = spreadBoom / 8f;
                 double offsetAngleBoom;
                 int iBoom;
-                int damageBoom = 20;
+                int damageBoom = 30;
                 for (iBoom = 0; iBoom < 5; iBoom++)
                 {
                     int projectileType = mod.ProjectileType("ToxicMinnowCloud");

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Crabulon
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 13;
+	        item.damage = 20;
 	        item.magic = true;
 	        item.mana = 7;
 	        item.width = 34;
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Crabulon
 	        item.useTime = 24;
 	        item.useAnimation = 24;
 	        item.useStyle = 5;
-	        item.noMelee = true; //so the item's animation doesn't do damage
-	        item.knockBack = 4.25f;
+	        item.noMelee = true;
+	        item.knockBack = 2f;
 	        item.value = 40000;
 	        item.rare = 2;
 	        item.UseSound = SoundID.Item8;

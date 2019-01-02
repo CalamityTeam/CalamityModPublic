@@ -30,15 +30,18 @@ namespace CalamityMod.Projectiles
 
         public override void AI()
         {
-            if (projectile.localAI[0] == 0f)
-            {
-                Lighting.AddLight(projectile.Center, 2.5f, 2f, 0f); //4.5
-            }
-            else
-            {
-                Lighting.AddLight(projectile.Center, 1.65f, 1.32f, 0f); //3
-            }
             Player player = Main.player[projectile.owner];
+            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+            {
+                if (projectile.localAI[0] == 0f)
+                {
+                    Lighting.AddLight(projectile.Center, 2.5f, 2f, 0f); //4.5
+                }
+                else
+                {
+                    Lighting.AddLight(projectile.Center, 1.65f, 1.32f, 0f); //3
+                }
+            }
             if (!player.active)
             {
                 projectile.active = false;

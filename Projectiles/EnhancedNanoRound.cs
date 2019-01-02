@@ -66,10 +66,9 @@ namespace CalamityMod.Projectiles
         	target.AddBuff(BuffID.Confused, 300);
         	if (target.life <= 0)
         	{
-	        	int num251 = Main.rand.Next(2, 4);
 	        	if (projectile.owner == Main.myPlayer)
 	        	{
-					for (int num252 = 0; num252 < num251; num252++)
+					for (int num252 = 0; num252 < 2; num252++)
 					{
 						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 						while (value15.X == 0f && value15.Y == 0f)
@@ -78,7 +77,7 @@ namespace CalamityMod.Projectiles
 						}
 						value15.Normalize();
 						value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-						Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("Nanomachine"), (int)((double)projectile.damage), 0f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("Nanomachine"), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
 					}
 	        	}
         	}
@@ -87,7 +86,7 @@ namespace CalamityMod.Projectiles
 		public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93);
-            int num212 = Main.rand.Next(10, 20);
+            int num212 = Main.rand.Next(5, 10);
 			for (int num213 = 0; num213 < num212; num213++)
 			{
 				int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default(Color), 2f);

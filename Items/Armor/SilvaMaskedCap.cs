@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Armor
                 "This effect only triggers once per life\n" +
                 "Your max life will return to normal if you die\n" +
                 "Magic projectiles have a 10% chance to cause a massive explosion on enemy hits\n" +
-                "After the silva invulnerability time your magic weapons will have 10% more critical strike chance and damage";
+                "After the silva invulnerability time your magic weapons will do 10% more damage";
         }
 
         public override void UpdateEquip(Player player)

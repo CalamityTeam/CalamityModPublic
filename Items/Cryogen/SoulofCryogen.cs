@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Cryogen
 {
@@ -17,10 +17,12 @@ namespace CalamityMod.Items.Cryogen
             DisplayName.SetDefault("Soul of Cryogen");
             Tooltip.SetDefault("The magic of the ancient ice castle is yours\n" +
                 "Counts as wings\n" +
-                "Decent acceleration: 1.35\n" +
-                "Decent flight time: 60\n" +
+                "Horizontal speed: 6.25\n" +
+                "Acceleration multiplier: 1\n" +
+                "Average vertical speed\n" +
+                "Flight time: 100\n" +
                 "5% increase to all damage and pick speed\n" +
-                "Frost damage added to melee swings");
+                "Frost damage added to melee projectiles and melee attacks");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -28,7 +30,7 @@ namespace CalamityMod.Items.Cryogen
         {
             item.width = 26;
             item.height = 26;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 39, 99, 99);
             item.expert = true;
             item.accessory = true;
         }
@@ -43,30 +45,30 @@ namespace CalamityMod.Items.Cryogen
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            ascentWhenFalling = 0.85f;
-            ascentWhenRising = 0.15f;
-            maxCanAscendMultiplier = 1f;
-            maxAscentMultiplier = 3f;
-            constantAscend = 0.135f;
+            ascentWhenFalling = 0.5f;
+            ascentWhenRising = 0.1f;
+            maxCanAscendMultiplier = 0.5f;
+            maxAscentMultiplier = 1.5f;
+            constantAscend = 0.1f;
         }
 
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
-            speed = 8f;
-            acceleration *= 1.35f;
+            speed = 6.25f;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
             modPlayer.cryogenSoul = true;
             player.pickSpeed -= 0.05f;
             player.magicDamage += 0.05f;
             player.rangedDamage += 0.05f;
             player.meleeDamage += 0.05f;
             player.minionDamage += 0.05f;
-            player.thrownDamage += 0.05f;
-            player.wingTimeMax = 60;
+            modPlayer2.throwingDamage += 0.05f;
+            player.wingTimeMax = 100;
         }
     }
 }

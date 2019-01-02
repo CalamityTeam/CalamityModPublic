@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Tarragon Breastplate");
             Tooltip.SetDefault("10% increased damage and 5% increased critical strike chance\n" +
-                       "+3 life regen\n" +
+                       "+2 life regen\n" +
                        "+40 max life and mana\n" +
                        "Breastplate of the exiler");
         }
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.lifeRegen = 3;
+            item.lifeRegen = 2;
             item.value = 1500000;
             item.defense = 37;
         }
@@ -51,8 +52,8 @@ namespace CalamityMod.Items.Armor
             player.magicCrit += 5;
             player.rangedDamage += 0.1f;
             player.rangedCrit += 5;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
             player.minionDamage += 0.1f;
         }
 

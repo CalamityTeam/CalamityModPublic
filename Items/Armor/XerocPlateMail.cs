@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Xeroc Plate Mail");
             Tooltip.SetDefault("+20 max life and mana\n" +
                 "6% increased movement speed\n" +
-                "6% increased damage and critical strike chance\n" +
+                "7% increased rogue damage and critical strike chance\n" +
                 "Armor of the cosmos");
         }
 
@@ -35,15 +36,8 @@ namespace CalamityMod.Items.Armor
             player.statLifeMax2 += 20;
             player.statManaMax2 += 20;
             player.moveSpeed += 0.06f;
-            player.meleeCrit += 6;
-            player.meleeDamage += 0.06f;
-            player.magicCrit += 6;
-            player.magicDamage += 0.06f;
-            player.rangedCrit += 6;
-            player.rangedDamage += 0.06f;
-            player.thrownCrit += 6;
-            player.thrownDamage += 0.06f;
-            player.minionDamage += 0.06f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.07f;
         }
 
         public override void AddRecipes()

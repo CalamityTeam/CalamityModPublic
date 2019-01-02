@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.defense = 4;
             item.width = 20;
             item.height = 20;
-            item.value = 5000000;
+            item.value = Item.buyPrice(0, 45, 0, 0);
             item.rare = 10;
             item.accessory = true;
         }
@@ -46,7 +46,9 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(null, "ArchaicPowder");
             recipe.AddIngredient(null, "RadiantOoze");
             recipe.AddIngredient(null, "HoneyDew");
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "Stardust", 15);
+            recipe.AddIngredient(null, "CryoBar", 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
@@ -54,7 +56,9 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(null, "ArchaicPowder");
             recipe.AddIngredient(null, "RadiantOoze");
             recipe.AddIngredient(null, "HoneyDew");
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "Stardust", 15);
+            recipe.AddIngredient(null, "CryoBar", 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

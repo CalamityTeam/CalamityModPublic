@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Calamitas
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Calamitas
 		{
 			DisplayName.SetDefault("Chaos Stone");
 			Tooltip.SetDefault("One of the ancient relics\n" +
-            	"Increases max mana by 50, all damage and crit chance by 2%, and reduces mana usage by 5%");
+            	"Increases max mana by 50, all damage by 3%, and reduces mana usage by 5%");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
 		}
     	
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Calamitas
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
 			item.accessory = true;
         }
@@ -33,15 +34,11 @@ namespace CalamityMod.Items.Calamitas
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.85f, 0f, 0f);
 			player.statManaMax2 += 50;
 			player.manaCost *= 0.95f;
-			player.meleeCrit += 2;
-			player.meleeDamage += 0.02f;
-			player.magicCrit += 2;
-			player.magicDamage += 0.02f;
-			player.rangedCrit += 2;
-			player.rangedDamage += 0.02f;
-			player.thrownCrit += 2;
-			player.thrownDamage += 0.02f;
-			player.minionDamage += 0.02f;
+			player.meleeDamage += 0.03f;
+			player.magicDamage += 0.03f;
+			player.rangedDamage += 0.03f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
+			player.minionDamage += 0.03f;
 		}
     }
 }

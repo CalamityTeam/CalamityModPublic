@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("God Slayer Leggings");
             Tooltip.SetDefault("35% increased movement speed\n" +
-                "10% increased damage and critical strike chance");
+                "10% increased damage and 6% increased critical strike chance");
         }
 
         public override void SetDefaults()
@@ -42,13 +43,13 @@ namespace CalamityMod.Items.Armor
         {
             player.moveSpeed += 0.35f;
             player.meleeDamage += 0.1f;
-            player.meleeCrit += 10;
+            player.meleeCrit += 6;
             player.magicDamage += 0.1f;
-            player.magicCrit += 10;
+            player.magicCrit += 6;
             player.rangedDamage += 0.1f;
-            player.rangedCrit += 10;
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
+            player.rangedCrit += 6;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 6;
             player.minionDamage += 0.1f;
         }
 

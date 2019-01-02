@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Xeroc Mask");
-            Tooltip.SetDefault("12% increased damage and critical strike chance and +3 max minions\n" +
+            Tooltip.SetDefault("11% increased rogue damage and critical strike chance\n" +
                 "Immune to lava, cursed, fire, cursed inferno, and chilled\n" +
                 "Wrath of the cosmos");
         }
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.xerocSet = true;
-            player.setBonus = "7% increased damage and critical strike chance\n" +
+            player.setBonus = "9% increased rogue damage and velocity\n" +
                 "All projectile types have special effects on enemy hits\n" +
                 "Imbued with cosmic wrath and rage when you are damaged";
             if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
@@ -52,29 +53,14 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
             }
-            player.meleeDamage += 0.07f;
-            player.meleeCrit += 7;
-            player.rangedDamage += 0.07f;
-            player.rangedCrit += 7;
-            player.magicDamage += 0.07f;
-            player.magicCrit += 7;
-            player.thrownDamage += 0.07f;
-            player.thrownCrit += 7;
-            player.minionDamage += 0.07f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.09f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.09f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.maxMinions += 3;
-            player.meleeDamage += 0.12f;
-            player.meleeCrit += 12;
-            player.rangedDamage += 0.12f;
-            player.rangedCrit += 12;
-            player.magicDamage += 0.12f;
-            player.magicCrit += 12;
-            player.thrownDamage += 0.12f;
-            player.thrownCrit += 12;
-            player.minionDamage += 0.12f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.11f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 11;
             player.lavaImmune = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.CursedInferno] = true;

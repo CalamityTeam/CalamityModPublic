@@ -18,19 +18,19 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.width = 160;  //The width of the .png file in pixels divided by 2.
-            item.damage = 3500;  //Keep this reasonable please.
-            item.noMelee = true;  //Dictates whether this is a melee-class weapon.
+            item.width = 160;
+            item.damage = 5000;
+            item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
             item.useAnimation = 10;
             item.useStyle = 1;
             item.useTime = 10;
-            item.knockBack = 50f;  //Ranges from 1 to 9.
+            item.knockBack = 50f;
             item.UseSound = SoundID.Item1;
-            item.melee = true;  //Dictates whether the weapon can be "auto-fired".
-            item.height = 160;  //The height of the .png file in pixels divided by 2.
-            item.value = 100000000;  //Value is calculated in copper coins.
+            item.melee = true;
+            item.height = 160;
+            item.value = 100000000;
             item.shoot = mod.ProjectileType("TriactisOPHammerMelee");
             item.shootSpeed = 25f;
         }

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcanum of the Void");
-            Tooltip.SetDefault("You have a 10% chance to reflect projectiles when they hit you\n" +
+            Tooltip.SetDefault("You have a 5% chance to reflect projectiles when they hit you\n" +
                                "If this effect triggers you get healed for the projectile's damage");
         }
 
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = 1500000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
         }
 

@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 92;
-			item.damage = 300;
+			item.damage = 840;
 			item.melee = true;
 			item.useAnimation = 16;
 			item.useStyle = 1;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons
 			{
 				target.defense -= 50;
 			}
-			int heal = Main.rand.Next(20, 69);
+			int heal = Main.rand.Next(1, 69);
 		    player.statLife += heal;
 		   	player.HealEffect(heal);
 			float num72 = 25f;

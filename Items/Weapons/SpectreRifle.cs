@@ -38,9 +38,7 @@ public class SpectreRifle : ModItem
     
     public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	{
-    	int projectile2 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-    	Main.projectile[projectile2].magic = false;
-		Main.projectile[projectile2].ranged = true;
+    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 1f, 0.0f);
     	return false;
 	}
 

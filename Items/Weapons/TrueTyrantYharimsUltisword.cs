@@ -13,7 +13,9 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("True Tyrant's Ultisword");
-            Tooltip.SetDefault("Contains the essence of a forgotten age\n50% chance to give the player the tyrant's fury buff on enemy hits\nThis buff increases melee damage, speed, and crit chance by 30%");
+            Tooltip.SetDefault("Contains the essence of a forgotten age\n" +
+                "50% chance to give the player the tyrant's fury buff on enemy hits\n" +
+                "This buff increases melee damage by 30% and melee crit chance by 10%");
         }
 
         public override void SetDefaults()

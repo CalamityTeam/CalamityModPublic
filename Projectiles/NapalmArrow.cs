@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
+            projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.aiStyle = 1;
@@ -97,10 +98,9 @@ namespace CalamityMod.Projectiles
 				Gore expr_13D1F_cp_0 = Main.gore[num626];
 				expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
 			}
-			int num251 = Main.rand.Next(2, 4);
 			if (projectile.owner == Main.myPlayer)
 			{
-				for (int num252 = 0; num252 < num251; num252++)
+				for (int num252 = 0; num252 < 3; num252++)
 				{
 					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					while (value15.X == 0f && value15.Y == 0f)
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, Main.rand.Next(400, 403), 9, 0f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, Main.rand.Next(400, 403), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
 				}
 			}
         }

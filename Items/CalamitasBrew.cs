@@ -9,7 +9,7 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 	 	{
 	 		DisplayName.SetDefault("Calamitas' Brew");
-	 		Tooltip.SetDefault("Adds abyssal flames to your melee weapons\n" +
+	 		Tooltip.SetDefault("Adds abyssal flames to your melee projectiles and melee attacks\n" +
 	 		                   "Increases your movement speed by 15%");
 	 	}
 	

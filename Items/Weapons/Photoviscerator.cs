@@ -15,12 +15,12 @@ namespace CalamityMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Photoviscerator");
 			Tooltip.SetDefault("90% chance to not consume gel\n" +
-                "Fires a stream of exo flames that literally melt everything");
+                "Fires a stream of exo flames that literally melts everything");
 		}
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 92;
+			item.damage = 165;
 			item.ranged = true;
 			item.width = 84;
 			item.height = 30;

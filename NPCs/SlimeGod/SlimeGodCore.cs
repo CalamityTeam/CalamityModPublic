@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 3000000 : 2700000;
+                npc.lifeMax = CalamityWorld.death ? 3400000 : 3000000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -300,11 +300,11 @@ namespace CalamityMod.NPCs.SlimeGod
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(BuffID.VortexDebuff, 180, true);
+			player.AddBuff(BuffID.VortexDebuff, 240, true);
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 300, true);
-				player.AddBuff(mod.BuffType("MarkedforDeath"), 300);
+				player.AddBuff(mod.BuffType("Horror"), 120, true);
+				player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
 			}
 		}
 	}

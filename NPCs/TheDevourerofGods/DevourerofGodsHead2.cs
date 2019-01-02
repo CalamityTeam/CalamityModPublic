@@ -125,14 +125,24 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
+            if (!NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")))
+            {
+                for (int num569 = 0; num569 < 200; num569++)
+                {
+                    if (Main.npc[num569].active && (Main.npc[num569].type == mod.NPCType("DevourerofGodsHead2") || Main.npc[num569].type == mod.NPCType("DevourerofGodsBody2") || Main.npc[num569].type == mod.NPCType("DevourerofGodsTail2")))
+                    {
+                        Main.npc[num569].active = false;
+                    }
+                }
+            }
             if (Main.player[npc.target].dead)
             {
                 npc.TargetClosest(false);
                 flies = false;
-                npc.velocity.Y = npc.velocity.Y + 10f;
+                npc.velocity.Y = npc.velocity.Y + 2f;
                 if ((double)npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 10f;
+                    npc.velocity.Y = npc.velocity.Y + 2f;
                 }
                 if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {
@@ -441,16 +451,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			potionType = ItemID.None;
 		}
-		
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			Player player = Main.player[npc.target];
-			if (player.vortexStealthActive && projectile.ranged)
-			{
-				damage /= 2;
-				crit = false;
-			}
-		}
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
@@ -477,7 +477,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			if (npc.life <= 0)
 			{
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DoGHead"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DoT"), 1f);
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 50;
@@ -507,16 +507,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			if (CalamityWorld.revenge)
-			{
-				player.AddBuff(mod.BuffType("Horror"), 600, true);
-			}
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Frostburn, 400, true);
-				player.AddBuff(BuffID.Darkness, 400, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
+			player.AddBuff(BuffID.Frostburn, 180, true);
+			player.AddBuff(BuffID.Darkness, 180, true);
 		}
 	}
 }

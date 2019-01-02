@@ -20,14 +20,13 @@ namespace CalamityMod.Projectiles
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 1;
-            projectile.aiStyle = 1;
             projectile.timeLeft = 600;
-            aiType = 1;
         }
         
         public override void AI()
         {
-        	projectile.localAI[0] += 1f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 4f)
 			{
 				for (int num468 = 0; num468 < 3; num468++)

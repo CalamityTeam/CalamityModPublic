@@ -23,11 +23,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
             npc.noGravity = true;
-            npc.damage = 30;
+            npc.damage = 60;
 			npc.width = 72;
 			npc.height = 30;
 			npc.defense = 15;
-			npc.lifeMax = 80;
+			npc.lifeMax = 160;
             npc.aiStyle = -1;
 			aiType = -1;
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
@@ -236,12 +236,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
-            player.AddBuff(mod.BuffType("CrushDepth"), 180, true);
+            player.AddBuff(BuffID.Bleeding, 120, true);
+            player.AddBuff(mod.BuffType("CrushDepth"), 120, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
-                player.AddBuff(mod.BuffType("Horror"), 120, true);
+                player.AddBuff(mod.BuffType("MarkedforDeath"), 90);
+                player.AddBuff(mod.BuffType("Horror"), 90, true);
             }
         }
 
@@ -297,7 +297,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ViperFish"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ViperFish2"), 1f);
+            }
 		}
 	}
 }

@@ -261,10 +261,14 @@ namespace CalamityMod.Projectiles
 				projectile.ai[1] = 0f;
 				projectile.netUpdate = true;
 			}
+            if (projectile.localAI[0] < 120f)
+            {
+                projectile.localAI[0] += 1f;
+            }
 			if (projectile.ai[0] == 0f)
 			{
 				int num658 = mod.ProjectileType("CactusHealOrb");
-				if (projectile.ai[1] == 0f)
+				if (projectile.ai[1] == 0f && projectile.localAI[0] >= 120f)
 				{
 					projectile.ai[1] += 1f;
 					if (Main.myPlayer == projectile.owner && Main.player[projectile.owner].statLife < Main.player[projectile.owner].statLifeMax2)

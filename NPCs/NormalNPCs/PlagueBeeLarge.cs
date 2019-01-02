@@ -64,14 +64,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (Main.expertMode)
-			{
-				player.AddBuff(mod.BuffType("Plague"), 300, true);
-			}
-			else
-			{
-				player.AddBuff(mod.BuffType("Plague"), 280, true);
-			}
+			player.AddBuff(mod.BuffType("Plague"), 180, true);
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

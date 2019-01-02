@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = 80;
             item.ranged = true;
             item.width = 46;
             item.height = 24;
@@ -33,6 +33,11 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shootSpeed = 20f;
             item.shoot = mod.ProjectileType("Triploon");
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -63,7 +68,9 @@ namespace CalamityMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Dualpoon");
             recipe.AddIngredient(ItemID.Harpoon);
-            recipe.AddIngredient(ItemID.Ectoplasm, 5);
+            recipe.AddIngredient(null, "DepthCells", 15);
+            recipe.AddIngredient(null, "Lumenite", 5);
+            recipe.AddIngredient(null, "Tenebris", 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -5,5 +5,5 @@ It currently contains:
 4 new modes for extra challenge
 3 new biomes
 250+ new enemy NPCs
-1200+ new items
+1250+ new items
 Cross-content support for GRealm

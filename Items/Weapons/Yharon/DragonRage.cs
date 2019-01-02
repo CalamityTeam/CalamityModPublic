@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Yharon
         public override void SetDefaults()
         {
             item.width = 68;
-            item.damage = 683;
+            item.damage = 800;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 80;
-            item.maxStack = 1;
             item.value = 10000000;
             item.shoot = mod.ProjectileType("DragonRage");
             item.shootSpeed = 14f;

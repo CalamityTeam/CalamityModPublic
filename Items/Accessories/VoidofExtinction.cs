@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 30, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -61,21 +62,21 @@ namespace CalamityMod.Items.Accessories
             modPlayer.calamityRing = true;
             player.lavaImmune = true;
             player.meleeDamage += 0.15f;
-            player.thrownDamage += 0.15f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
             player.rangedDamage += 0.15f;
             player.magicDamage += 0.15f;
             player.minionDamage += 0.15f;
             if (player.lavaWet)
             {
                 player.meleeDamage += 0.25f;
-                player.thrownDamage += 0.25f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.25f;
                 player.rangedDamage += 0.25f;
                 player.magicDamage += 0.25f;
                 player.minionDamage += 0.25f;
             }
             if (player.immune)
             {
-                if (Main.rand.Next(8) == 0)
+                if (Main.rand.Next(10) == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -100,7 +101,7 @@ namespace CalamityMod.Items.Accessories
             }
             if (FireCountdown == 0)
             {
-                FireCountdown = 300;
+                FireCountdown = 600;
             }
             if (FireCountdown > 0)
             {

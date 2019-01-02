@@ -24,11 +24,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
             npc.npcSlots = 9f;
             npc.noGravity = true;
-			npc.damage = 110;
+			npc.damage = 150;
 			npc.width = 180;
 			npc.height = 180;
 			npc.defense = 50;
-			npc.lifeMax = 181500;
+			npc.lifeMax = 220000;
             npc.aiStyle = -1;
 			aiType = -1;
             npc.knockBackResist = 0f;
@@ -312,9 +312,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     {
                         Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 34);
                     }
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    if (npc.ai[3] > 0f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                     {
-                        if (npc.ai[3] > 0f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+                        if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
                             npc.ai[3] = 0f;
                             npc.ai[1] = 0f;
@@ -333,12 +333,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     }
                     if (npc.ai[3] == 0f)
                     {
-                        npc.alpha = 0;
                         npc.noTileCollide = false;
                     }
                     else
                     {
-                        npc.alpha = 200;
                         npc.noTileCollide = true;
                     }
                     npc.localAI[3] += 1f;
@@ -361,10 +359,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     {
                         npc.localAI[0] = 0f;
                         npc.netUpdate = true;
-                        int damage = 65;
+                        int damage = 70;
                         if (Main.expertMode)
                         {
-                            damage = 50;
+                            damage = 55;
                         }
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 111);
                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 60, 0f, 2f, mod.ProjectileType("InkBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
@@ -565,7 +563,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid4"), 1f);
+            }
 		}
 	}
 }

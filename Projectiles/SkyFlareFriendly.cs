@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
+            projectile.extraUpdates = 1;
             projectile.penetrate = 1;
         }
 
@@ -47,11 +48,11 @@ namespace CalamityMod.Projectiles
 						num247 = projectile.velocity.X * 0.5f;
 						num248 = projectile.velocity.Y * 0.5f;
 					}
-					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default(Color), 1f);
+					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default(Color), 0.6f);
 					Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
 					Main.dust[num249].velocity *= 0.2f;
 					Main.dust[num249].noGravity = true;
-					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default(Color), 0.5f);
+					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default(Color), 0.3f);
 					Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
 					Main.dust[num249].velocity *= 0.05f;
 				}
@@ -62,13 +63,13 @@ namespace CalamityMod.Projectiles
 			}
 			else if (Main.rand.Next(2) == 0)
 			{
-				int num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 1f);
+				int num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 0.6f);
 				Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
 				Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
 				Main.dust[num252].noGravity = true;
 				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default(Vector2)) * 1.1f;
 				Main.rand.Next(2);
-				num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 1f);
+				num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 0.6f);
 				Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
 				Main.dust[num252].noGravity = true;
 				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default(Vector2)) * 1.1f;
@@ -114,7 +115,7 @@ namespace CalamityMod.Projectiles
 			projectile.height = 200;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			for (int num621 = 0; num621 < 40; num621++)
+			for (int num621 = 0; num621 < 4; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num622].velocity *= 3f;
@@ -124,7 +125,7 @@ namespace CalamityMod.Projectiles
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			for (int num623 = 0; num623 < 70; num623++)
+			for (int num623 = 0; num623 < 12; num623++)
 			{
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[num624].noGravity = true;

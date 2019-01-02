@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 280;
+	        item.damage = 240;
 	        item.magic = true;
 	        item.mana = 5;
 	        item.width = 84;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons
 	    {
 	    	if (player.altFunctionUse == 2)
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BigBeamofDeath"), (int)((double)damage * 2f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BigBeamofDeath"), (int)((double)damage * 1.7), knockBack, player.whoAmI, 0.0f, 0.0f);
 	    		return false;
 	    	}
 	    	else
@@ -82,8 +82,8 @@ namespace CalamityMod.Items.Weapons
 					{
 						value9 -= vector7;
 					}
-					Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
-					int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, 440, (int)((double)damage * 0.5f), knockBack, player.whoAmI, 0.0f, 0.0f);
+					Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage * 0.8), knockBack, player.whoAmI, 0.0f, 0.0f);
+					int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, 440, (int)((double)damage * 0.4), knockBack, player.whoAmI, 0.0f, 0.0f);
 					Main.projectile[laser].timeLeft = 120;
 		        	Main.projectile[laser].tileCollide = false;
 				}
@@ -95,8 +95,8 @@ namespace CalamityMod.Items.Weapons
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(null, "GalacticaSingularity", 5);
-	        recipe.AddIngredient(null, "CosmiliteBar", 8);
-	        recipe.AddIngredient(null, "Wingman", 2);
+            recipe.AddIngredient(null, "DarksunFragment", 15);
+            recipe.AddIngredient(null, "Wingman", 2);
 	        recipe.AddIngredient(null, "Genisis");
 	        recipe.AddTile(TileID.LunarCraftingStation);
 	        recipe.SetResult(this);

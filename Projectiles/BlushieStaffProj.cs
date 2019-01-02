@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles
             player.itemAnimation = 2;
 
             projectile.ai[0] += 1f;
-            projectile.damage = ((int)projectile.ai[0] - 120) / 5;
+            projectile.damage = ((int)projectile.ai[0] - 120) / 2;
             if (projectile.damage >= 100 && Main.myPlayer == projectile.owner)
             {
                 if (player.statMana <= 0 && player.manaFlower)

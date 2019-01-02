@@ -14,9 +14,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodflare Core");
-            Tooltip.SetDefault("You have a damaging life-draining aura around you\n" +
-                "When below 50% life you gain 5% increased damage reduction, 10% increased damage, and 10% increased critical strike chance\n" +
-                "When below 15% life you gain 10% increased damage reduction, 15% increased damage, and 15% increased critical strike chance\n" +
+            Tooltip.SetDefault("When below 50% life you gain 5% increased damage reduction and 10% increased damage\n" +
+                "When below 15% life you gain 10% increased damage reduction and 20% increased damage\n" +
                 "When below 100 defense you gain 15% increased damage");
         }
 
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = 2500000;
+            item.value = Item.buyPrice(0, 45, 0, 0);
             item.expert = true;
             item.accessory = true;
         }

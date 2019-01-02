@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Abyssal Diving Suit Plates");
-			Description.SetDefault("The plates will absorb 25% damage");
+			Description.SetDefault("The plates will absorb 15% damage");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = false;
 			Main.pvpBuff[Type] = true;

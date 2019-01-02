@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 95;
             item.magic = true;
             item.channel = true;
             item.mana = 20;

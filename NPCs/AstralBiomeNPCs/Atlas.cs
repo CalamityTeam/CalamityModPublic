@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 else
                 {
                     //PLAY SOUND (SAD) *but this time it has a target. more like an indicator. he sad because he has to kill you now :c
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AtlasSad1"), npc.Center);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AtlasSad0"), npc.Center);
                 }
             }
 
@@ -347,7 +347,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 target_counter = 0;
 
                 //PLAY SOUND (SAD)        he sad cos he lost his target :C
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AtlasSad2"), npc.Center);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AtlasSad1"), npc.Center);
             }
             else if (target_counter == 0 && npc.velocity.Y == 0)
             {
@@ -393,7 +393,18 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void HitEffect(int hitDirection, double damage)
         {
             //play sound
-            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt0" + Main.rand.Next(3)), npc.Center);
+            switch (Main.rand.Next(3))
+            {
+                case 0:
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt0"), npc.Center);
+                    break;
+                case 1:
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt1"), npc.Center);
+                    break;
+                case 2:
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt2"), npc.Center);
+                    break;
+            }
 
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 30);
 

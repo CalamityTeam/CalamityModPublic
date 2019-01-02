@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(null, "SmoothAbyssGravel", 8);
             recipe.AddIngredient(ItemID.IronBar, 2);
             recipe.anyIronBar = true;
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddTile(null, "VoidCondenser");
             recipe.AddRecipe();
         }

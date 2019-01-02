@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.TheEyeOfCthulhu);
-            item.damage = 88;
+            item.damage = 63;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 5;

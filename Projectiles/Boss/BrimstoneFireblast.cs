@@ -12,7 +12,8 @@ namespace CalamityMod.Projectiles.Boss
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fireblast");
-		}
+            Main.projFrames[projectile.type] = 6;
+        }
     	
         public override void SetDefaults()
         {
@@ -27,7 +28,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-        	projectile.alpha -= 1;
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 5)
+            {
+                projectile.frame = 0;
+            }
+            projectile.alpha -= 1;
         	if (projectile.alpha <= 0)
         	{
         		projectile.Kill();
@@ -50,13 +61,6 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
 				projectile.velocity.Normalize();
 				projectile.velocity *= scaleFactor2;
-			}
-			if (projectile.ai[0] < 0f)
-			{
-				if (projectile.velocity.Length() < 18f)
-				{
-					projectile.velocity *= 1.02f;
-				}
 			}
         }
 

@@ -9,10 +9,12 @@ namespace CalamityMod.Projectiles
 {
     public class SanguineFlare : ModProjectile
     {
-    	public int x;
-    	public double speed = 10;
-    	
-    	public override void SetStaticDefaults()
+    	private int x;
+    	private double speed = 10;
+        private float startSpeedX = 0f;
+        private float startSpeedY = 0f;
+
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flare");
 		}
@@ -31,12 +33,18 @@ namespace CalamityMod.Projectiles
 
         public override void AI()
         {
+            if (projectile.localAI[0] == 0f)
+            {
+                projectile.velocity.X = projectile.velocity.X + (Main.player[projectile.owner].velocity.X * 0.5f);
+                startSpeedY = projectile.velocity.Y + (Main.player[projectile.owner].velocity.Y * 0.5f);
+                projectile.velocity.Y = startSpeedY;
+            }
         	projectile.localAI[0] += 1f;
         	if (projectile.localAI[0] >= 180f)
         	{
 	        	x++;
 	        	speed += 0.1;
-	        	projectile.velocity.Y = (float)(speed * Math.Sin(x/4));
+	        	projectile.velocity.Y = startSpeedY + (float)(speed * Math.Sin(x/4));
         	}
         	projectile.rotation += projectile.velocity.Y * 0.02f;
         	projectile.alpha -= 5;

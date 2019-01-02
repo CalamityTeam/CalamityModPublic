@@ -280,10 +280,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (CalamityWorld.downedStarGod)
-			{
-				player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 90, true);
 			if (CalamityWorld.revenge)
 			{
 				player.AddBuff(mod.BuffType("MarkedforDeath"), 120);

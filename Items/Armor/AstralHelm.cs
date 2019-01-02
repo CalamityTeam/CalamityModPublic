@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -40,20 +41,20 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "25% increased movement speed\n" +
-                "22% increased damage and critical strike chance\n" +
+                "22% increased damage and 17% increased critical strike chance\n" +
                 "Whenever you crit an enemy fallen, hallowed, and astral stars will rain down\n" +
-                "This effect has a 2 second cooldown before it can trigger again";
+                "This effect has a 1 second cooldown before it can trigger again";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.astralStarRain = true;
             player.moveSpeed += 0.25f;
             player.meleeDamage += 0.22f;
-            player.meleeCrit += 22;
+            player.meleeCrit += 17;
             player.rangedDamage += 0.22f;
-            player.rangedCrit += 22;
+            player.rangedCrit += 17;
             player.magicDamage += 0.22f;
-            player.magicCrit += 22;
-            player.thrownDamage += 0.22f;
-            player.thrownCrit += 22;
+            player.magicCrit += 17;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.22f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 17;
             player.minionDamage += 0.22f;
         }
 

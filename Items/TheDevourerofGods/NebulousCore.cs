@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.TheDevourerofGods
 {
@@ -14,7 +15,7 @@ namespace CalamityMod.Items.TheDevourerofGods
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nebulous Core");
-            Tooltip.SetDefault("10% increased damage and critical strike chance\n" +
+            Tooltip.SetDefault("12% increased damage\n" +
                                "Summons floating nebula stars to protect you\n" +
                                "You have a 10% chance to survive an attack that would have killed you\n" +
                                "If this effect activates you will be healed by 100 HP");
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.TheDevourerofGods
         {
             item.width = 16;
             item.height = 14;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
             item.expert = true;
         }
@@ -40,15 +41,11 @@ namespace CalamityMod.Items.TheDevourerofGods
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.nCore = true;
-            player.magicCrit += 10;
-            player.magicDamage += 0.1f;
-            player.meleeCrit += 10;
-            player.meleeDamage += 0.1f;
-            player.thrownCrit += 10;
-            player.thrownDamage += 0.1f;
-            player.rangedCrit += 10;
-            player.rangedDamage += 0.1f;
-            player.minionDamage += 0.1f;
+            player.magicDamage += 0.12f;
+            player.meleeDamage += 0.12f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
+            player.rangedDamage += 0.12f;
+            player.minionDamage += 0.12f;
             int damage = 300;
             float knockBack = 3f;
             if (Main.rand.Next(15) == 0)

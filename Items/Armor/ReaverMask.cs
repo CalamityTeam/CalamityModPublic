@@ -43,11 +43,10 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.reaverBurst = true;
-            player.setBonus = "5% increased magic damage and critical strike chance\n" +
+            player.setBonus = "5% increased magic damage\n" +
                 "Your magic projectiles emit a burst of spore gas on enemy hits\n" +
                 "Rage activates when you are damaged";
             player.magicDamage += 0.05f;
-            player.magicCrit += 5;
         }
 
         public override void UpdateEquip(Player player)

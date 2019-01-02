@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
+            projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.aiStyle = 1;
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("GlacialState"), 120);
+        	target.AddBuff(mod.BuffType("GlacialState"), 180);
         }
     }
 }

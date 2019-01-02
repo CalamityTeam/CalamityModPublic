@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Amalgam");
-            Tooltip.SetDefault("10% increased damage and critical strike chance\n" +
+            Tooltip.SetDefault("15% increased damage\n" +
                                "Shade rains down when you are hit\n" +
                                "You will confuse nearby enemies when you are struck\n" +
                                "Drops brimstone fireballs from the sky occasionally\n" +
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 34;
             item.height = 34;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.expert = true;
             item.accessory = true;
         }
@@ -66,21 +67,17 @@ namespace CalamityMod.Items.Accessories
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), 250, 1f, Main.myPlayer, 0f, 0f);
                 }
             }
-            player.meleeCrit += 10;
-            player.magicCrit += 10;
-            player.rangedCrit += 10;
-            player.thrownCrit += 10;
-            player.meleeDamage += 0.1f;
-            player.thrownDamage += 0.1f;
-            player.rangedDamage += 0.1f;
-            player.magicDamage += 0.1f;
-            player.minionDamage += 0.1f;
+            player.meleeDamage += 0.15f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
+            player.rangedDamage += 0.15f;
+            player.magicDamage += 0.15f;
+            player.minionDamage += 0.15f;
             player.ignoreWater = true;
             player.lavaImmune = true;
             if (player.lavaWet)
             {
                 player.meleeDamage += 0.15f;
-                player.thrownDamage += 0.15f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
                 player.rangedDamage += 0.15f;
                 player.magicDamage += 0.15f;
                 player.minionDamage += 0.15f;
@@ -88,7 +85,7 @@ namespace CalamityMod.Items.Accessories
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.meleeDamage += 0.1f;
-                player.thrownDamage += 0.1f;
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
                 player.rangedDamage += 0.1f;
                 player.magicDamage += 0.1f;
                 player.minionDamage += 0.1f;
@@ -105,7 +102,7 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
-                if (Main.rand.Next(16) == 0)
+                if (Main.rand.Next(20) == 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 8000000 : 7000000;
+                npc.lifeMax = CalamityWorld.death ? 12000000 : 11000000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -372,10 +372,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             damageTaken += (crit ? (damage * 2) : damage);
             double protection = CalamityWorld.death ? 0.01 : 0.015;
-            if (CalamityWorld.defiled)
-            {
-                protection *= 0.75;
-            }
             if (damageTaken >= 5000.0)
             {
                 damage = (int)((double)damage * protection);
@@ -389,19 +385,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Player player = Main.player[npc.target];
-            if (player.vortexStealthActive && projectile.ranged)
-            {
-                damage /= 2;
-                crit = false;
-            }
             if (ProjectileID.Sets.StardustDragon[projectile.type])
             {
                 damage /= 2;
             }
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("TerraBulletSplit") ||
-                projectile.type == mod.ProjectileType("TerraArrow2"))
+            if (projectile.type == mod.ProjectileType("SulphuricAcidMist2"))
             {
                 damage /= 8;
             }
@@ -438,9 +426,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			if (npc.life <= 0)
 			{
 				float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGS3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGS4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGS5"), 1f);
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 50;
@@ -476,12 +464,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Frostburn, 200, true);
-				player.AddBuff(BuffID.Darkness, 100, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 240, true);
+			player.AddBuff(BuffID.Frostburn, 240, true);
+			player.AddBuff(BuffID.Darkness, 240, true);
 		}
 	}
 }

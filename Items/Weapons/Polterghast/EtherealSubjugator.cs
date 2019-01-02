@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
 
         public override void SetDefaults()
         {
-            item.damage = 110;
+            item.damage = 75;
             item.mana = 10;
             item.width = 60;
             item.height = 60;

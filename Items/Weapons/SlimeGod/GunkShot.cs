@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 25;
+			item.damage = 30;
 			item.ranged = true;
 			item.width = 42;
 			item.height = 18;
@@ -38,11 +38,11 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 		
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{    
-		    int num6 = Main.rand.Next(3, 4);
+		    int num6 = Main.rand.Next(3, 5);
 		    for (int index = 0; index < num6; ++index)
 		    {
-		        float SpeedX = speedX + (float) Main.rand.Next(-30, 31) * 0.05f;
-		        float SpeedY = speedY + (float) Main.rand.Next(-30, 31) * 0.05f;
+		        float SpeedX = speedX + (float) Main.rand.Next(-25, 26) * 0.05f;
+		        float SpeedY = speedY + (float) Main.rand.Next(-25, 26) * 0.05f;
 		        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 		    }
 		    return false;

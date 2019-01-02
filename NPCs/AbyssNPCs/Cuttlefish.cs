@@ -288,10 +288,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Darkness, 180, true);
+            player.AddBuff(BuffID.Darkness, 120, true);
             if (CalamityWorld.revenge)
             {
-                player.AddBuff(mod.BuffType("Horror"), 120, true);
+                player.AddBuff(mod.BuffType("Horror"), 60, true);
             }
         }
 

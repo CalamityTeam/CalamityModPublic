@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 6000000 : 5400000;
+                npc.lifeMax = CalamityWorld.death ? 6600000 : 6000000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -281,8 +281,8 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 if (speedBoost1)
                 {
-                    npc.defense *= 2;
-                    npc.damage *= 2;
+                    npc.defense = 300;
+                    npc.damage = (int)(200f * Main.damageMultiplier);
                 }
                 else
                 {
@@ -420,8 +420,8 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.GivenName = "Necroghast";
                 if (speedBoost1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
                 {
-                    npc.defense *= 3;
-                    npc.damage *= 3;
+                    npc.defense = 200;
+                    npc.damage = (int)(300f * Main.damageMultiplier);
                 }
                 else
                 {
@@ -564,8 +564,8 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.GivenName = "Necroplasm";
                 if (speedBoost1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
                 {
-                    npc.defense = 400;
-                    npc.damage *= 4;
+                    npc.defense = 200;
+                    npc.damage = (int)(400f * Main.damageMultiplier);
                 }
                 else
                 {
@@ -661,21 +661,6 @@ namespace CalamityMod.NPCs.Polterghast
 			potionType = ItemID.SuperHealingPotion;
 		}
 		
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			Player player = Main.player[npc.target];
-			if (player.vortexStealthActive && projectile.ranged)
-			{
-				damage /= 2;
-				crit = false;
-			}
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 8;
-            }
-        }
-		
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
             double newDamage = (damage + (int)((double)defense * 0.25));
@@ -683,10 +668,6 @@ namespace CalamityMod.NPCs.Polterghast
                     ((double)npc.life <= (double)npc.lifeMax * 0.75 ? 0.05f : 0f) + //.15
                     ((double)npc.life <= (double)npc.lifeMax * (CalamityWorld.revenge ? 0.5 : 0.33) ? 0.05f : 0f) + //.2
                     (boostDR ? 0.6f : 0f); //.8
-            if (CalamityWorld.defiled)
-            {
-                protection += (1f - protection) * 0.5f;
-            }
             if (npc.ichor)
             {
                 protection *= 0.88f;
@@ -753,7 +734,8 @@ namespace CalamityMod.NPCs.Polterghast
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("Horror"), 180, true);
+            if (CalamityWorld.revenge)
+			    player.AddBuff(mod.BuffType("Horror"), 300, true);
 		}
 		
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

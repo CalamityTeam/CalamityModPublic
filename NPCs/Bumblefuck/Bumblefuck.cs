@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 			npc.npcSlots = 32f;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 250;
+			npc.damage = 200;
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.defense = 60;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Bumblefuck
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 1310000 : 1140000;
+                npc.lifeMax = CalamityWorld.death ? 1900000 : 1700000;
             }
             npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -83,30 +83,11 @@ namespace CalamityMod.NPCs.Bumblefuck
 					npc.timeLeft = 10;
 				}
 			}
-			if (npc.target < 0 || player.dead || !player.active) 
-			{
-				npc.TargetClosest(true);
-				if (player.dead) 
-				{
-					npc.ai[0] = -1f;
-				}
-			}
-			else
-			{
-				Vector2 vector205 = player.Center - npc.Center;
-				if (npc.ai[0] > 1f && vector205.Length() > 3600f) 
-				{
-					npc.ai[0] = 1f;
-				}
-			}
-			if (npc.ai[0] == -1f) 
-			{
-				Vector2 value50 = new Vector2(0f, -8f);
-				npc.velocity = (npc.velocity * 9f + value50) / 10f; //9
-				npc.noTileCollide = true;
-				npc.dontTakeDamage = true;
-				return;
-			}
+			Vector2 vector205 = player.Center - npc.Center;
+            if (npc.ai[0] > 1f && vector205.Length() > 5200f)
+            {
+                npc.ai[0] = 1f;
+            }
 			if (npc.ai[0] == 0f) 
 			{
 				npc.TargetClosest(true);
@@ -535,22 +516,6 @@ namespace CalamityMod.NPCs.Bumblefuck
 				}
 			}
 		}
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            Player player = Main.player[npc.target];
-            if (player.vortexStealthActive && projectile.ranged)
-            {
-                damage /= 2;
-                crit = false;
-            }
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") ||
-                projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 8;
-            }
-        }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{

@@ -12,7 +12,8 @@ namespace CalamityMod.Projectiles.Boss
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Giga Blast");
-		}
+            Main.projFrames[projectile.type] = 6;
+        }
     	
         public override void SetDefaults()
         {
@@ -28,7 +29,17 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-        	bool revenge = CalamityWorld.revenge;
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 5)
+            {
+                projectile.frame = 0;
+            }
+            bool revenge = CalamityWorld.revenge;
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.9f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         	if (projectile.ai[1] == 0f)

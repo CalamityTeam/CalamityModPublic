@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Tarragon Helmet");
             Tooltip.SetDefault("Immune to lava, cursed inferno, fire, cursed, and chilled debuffs\n" +
                 "Can move freely through liquids\n" +
-                "10% increased throwing damage and critical strike chance\n" +
+                "10% increased rogue damage and critical strike chance\n" +
                 "5% increased damage reduction");
         }
 
@@ -59,15 +60,15 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
-                "After every 25 throwing critical hits you will gain 5 seconds of damage immunity\n" +
+                "After every 25 rogue critical hits you will gain 5 seconds of damage immunity\n" +
                 "This effect can only occur once every 30 seconds\n" +
-                "While under the effects of a debuff you gain 10% increased throwing damage";
+                "While under the effects of a debuff you gain 10% increased rogue damage";
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.thrownDamage += 0.1f;
-            player.thrownCrit += 10;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
             player.endurance += 0.05f;
             player.lavaImmune = true;
             player.ignoreWater = true;

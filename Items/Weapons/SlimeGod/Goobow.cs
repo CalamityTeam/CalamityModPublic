@@ -19,15 +19,15 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 
         public override void SetDefaults()
         {
-            item.damage = 42;
+            item.damage = 46;
             item.ranged = true;
             item.width = 30;
             item.height = 48;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = 5;
             item.noMelee = true;
-            item.knockBack = 4.5f;
+            item.knockBack = 3f;
             item.value = 105000;
             item.rare = 4;
             item.UseSound = SoundID.Item5;

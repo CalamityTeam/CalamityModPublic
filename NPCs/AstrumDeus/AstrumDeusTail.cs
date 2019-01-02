@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 740000 : 610000;
+                npc.lifeMax = CalamityWorld.death ? 840000 : 720000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -94,11 +94,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 2;
-            }
             if (projectile.penetrate == -1 && !projectile.minion && !projectile.thrown)
 			{
 				damage /= 5;
@@ -152,10 +147,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (CalamityWorld.downedStarGod)
-			{
-				player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 90, true);
 		}
 		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

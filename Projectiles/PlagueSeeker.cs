@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.melee = true;
-            projectile.timeLeft = 150;
+            projectile.timeLeft = 180;
         }
 
         public override void AI()

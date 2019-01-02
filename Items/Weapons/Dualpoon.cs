@@ -34,15 +34,20 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 20f;
 	        item.shoot = mod.ProjectileType("Triploon");
 	    }
-	    
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-5, 0);
+        }
+
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	    	Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
 	    	float num117 = 0.314159274f;
 			int num118 = 2;
 			Vector2 vector7 = new Vector2(speedX, speedY);
 			vector7.Normalize();
-			vector7 *= 80f;
+			vector7 *= 40f;
 			bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
 			for (int num119 = 0; num119 < num118; num119++)
 			{
@@ -62,7 +67,8 @@ namespace CalamityMod.Items.Weapons
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(ItemID.Harpoon, 2);
-	        recipe.AddIngredient(ItemID.SoulofMight, 10);
+            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddIngredient(ItemID.SoulofMight, 10);
 	        recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();

@@ -19,7 +19,6 @@ namespace CalamityMod.Projectiles
             projectile.width = 56;
             projectile.height = 56;
             projectile.friendly = true;
-            projectile.thrown = true;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 6;

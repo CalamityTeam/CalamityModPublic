@@ -17,7 +17,6 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Tarragon Horned Helm");
             Tooltip.SetDefault("Immune to lava, cursed inferno, fire, cursed, and chilled debuffs\n" +
                 "Can move freely through liquids\n" +
-                "10% increased summon damage\n" +
                 "5% increased damage reduction and +3 max minions");
         }
 
@@ -56,16 +55,17 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
-            player.setBonus = "Reduces enemy spawn rates\n" +
+            player.setBonus = "50% increased minion damage\n" +
+                "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
-                "At full health you gain +2 max minions and 10% increased summon damage\n" +
+                "At full health you gain +2 max minions and 10% increased minion damage\n" +
                 "Summons a life aura around you that damages nearby enemies";
+            player.minionDamage += 0.5f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.1f;
             player.maxMinions += 3;
             player.endurance += 0.05f;
             player.lavaImmune = true;

@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Contagion Arrow");
-			Main.projFrames[projectile.type] = 4;
 		}
     	
         public override void SetDefaults()
@@ -32,16 +31,6 @@ namespace CalamityMod.Projectiles
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        	projectile.frameCounter++;
-			if (projectile.frameCounter > 4)
-			{
-			    projectile.frame++;
-			    projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 3)
-			{
-			   projectile.frame = 0;
-			}
         	addBallTimer--;
         	if (addBallTimer <= 0)
         	{
@@ -52,7 +41,7 @@ namespace CalamityMod.Projectiles
         		addBallTimer = 5;
         	}
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
-			if (projectile.ai[0] <= 3f)
+			if (projectile.ai[0] <= 60f)
 			{
 				projectile.ai[0] += 1f;
 				return;

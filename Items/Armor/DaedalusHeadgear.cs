@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Circlet");
-            Tooltip.SetDefault("10% increased minion damage and +2 max minions\n" +
+            Tooltip.SetDefault("5% increased minion damage and +2 max minions\n" +
                 "Immune to Cursed and gives control over gravity");
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "5% increased summon damage\n" +
+            player.setBonus = "20% increased minion damage\n" +
                 "A daedalus crystal floats above you to protect you";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.daedalusCrystal = true;
@@ -56,12 +56,12 @@ namespace CalamityMod.Items.Armor
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DaedalusCrystal"), 0, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-            player.minionDamage += 0.05f;
+            player.minionDamage += 0.2f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.1f;
+            player.minionDamage += 0.05f;
             player.maxMinions += 2;
             player.AddBuff(BuffID.Gravitation, 2);
             player.buffImmune[BuffID.Cursed] = true;

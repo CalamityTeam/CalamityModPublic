@@ -25,17 +25,23 @@ namespace CalamityMod.Projectiles
 			projectile.ranged = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 600;
+            projectile.alpha = 255;
 			projectile.extraUpdates = 1;
 			aiType = ProjectileID.Bullet;
 		}
 		
 		public override void AI()
 		{
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
         	projectile.localAI[0] += 1f;
         	if (projectile.localAI[0] >= 6f)
         	{
-				for (int num136 = 0; num136 < 10; num136++)
+                if (projectile.alpha > 0)
+                {
+                    projectile.alpha -= 17;
+                }
+				for (int num136 = 0; num136 < 3; num136++)
 				{
 					float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
 					float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
@@ -63,10 +69,9 @@ namespace CalamityMod.Projectiles
 		
 		public override void Kill(int timeLeft)
         {
-        	int num251 = Main.rand.Next(2, 4);
         	if (projectile.owner == Main.myPlayer)
         	{
-				for (int num252 = 0; num252 < num251; num252++)
+				for (int num252 = 0; num252 < 2; num252++)
 				{
 					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					while (value15.X == 0f && value15.Y == 0f)

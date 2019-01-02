@@ -14,7 +14,7 @@ namespace CalamityMod.Sounds.NPCHit
         {
             soundInstance = sound.CreateInstance();
             soundInstance.Pan = pan;
-            soundInstance.Volume = volume * 0.5f;
+            soundInstance.Volume = volume * 1f;
             Main.PlaySoundInstance(soundInstance);
             return soundInstance;
         }

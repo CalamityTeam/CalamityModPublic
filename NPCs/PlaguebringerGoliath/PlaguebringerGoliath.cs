@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 90; //150
+			npc.damage = 100; //150
 			npc.npcSlots = 64f;
 			npc.width = 198; //324
 			npc.height = 198; //216
@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 7500000 : 6800000;
+                npc.lifeMax = CalamityWorld.death ? 8000000 : 7200000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -114,8 +114,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			}
 			if (expertMode)
 			{
-				int num1041 = (int)(50f * (1f - (float)npc.life / (float)npc.lifeMax));
-				npc.damage = npc.defDamage - num1041;
 				int num1040 = (int)(50f * (1f - (float)npc.life / (float)npc.lifeMax));
 				npc.defense = npc.defDefense + num1040;
 			}
@@ -667,14 +665,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             else if (npc.ai[0] == 3f)
             {
-                float num1065 = 6f; //changed from 6 to 7.5 modifies speed while firing projectiles
-                float num1066 = 0.15f; //changed from 0.075 to 0.09375 modifies speed while firing projectiles
-                float num10662 = 0.05f;
                 Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
-                Vector2 vector122 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                float num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
-                float num1068 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 360f - vector122.Y;
-                float num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
                 npc.ai[1] += 1f;
                 bool flag104 = false;
                 if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
@@ -719,62 +710,21 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1071 *= num1073;
                         num1072 *= num1073;
                         int num1074 = 40; //projectile damage
-                        int num1075 = mod.ProjectileType("PlagueStingerGoliathV2"); //projectile type
+                        int num1075 = (Main.rand.Next(2) == 0 ? mod.ProjectileType("PlagueStingerGoliath") : mod.ProjectileType("PlagueStingerGoliathV2"));
                         if (expertMode)
                         {
-                            if (Main.rand.Next(2) == 0)
+                            num1074 = 28; //112
+                            int damageBoost = (int)(6f * (1f - (float)npc.life / (float)npc.lifeMax));
+                            num1074 += damageBoost; //112 to 136
+                            if (Main.rand.Next(6) == 0)
                             {
-                                num1075 = mod.ProjectileType("PlagueStingerGoliath");
-                            }
-                            num1074 = 28;
-                            if (npc.life >= (npc.lifeMax * 0.75f))
-                            {
-                                if (Main.rand.Next(13) == 0)
-                                {
-                                    num1074 = 36;
-                                    num1075 = mod.ProjectileType("HiveBombGoliath");
-                                }
-                            }
-                            else if (npc.life < (npc.lifeMax * 0.75f) && npc.life >= (npc.lifeMax * 0.5f))
-                            {
-                                if (Main.rand.Next(9) == 0)
-                                {
-                                    num1074 = 38;
-                                    num1075 = mod.ProjectileType("HiveBombGoliath");
-                                }
-                                else
-                                {
-                                    num1074 = 30;
-                                }
-                            }
-                            else if (npc.life < (npc.lifeMax * 0.5f) && npc.life >= (npc.lifeMax * 0.25f))
-                            {
-                                if (Main.rand.Next(5) == 0)
-                                {
-                                    num1074 = 40;
-                                    num1075 = mod.ProjectileType("HiveBombGoliath");
-                                }
-                                else
-                                {
-                                    num1074 = 32;
-                                }
-                            }
-                            else if (npc.life < (npc.lifeMax * 0.25f))
-                            {
-                                if (Main.rand.Next(3) == 0)
-                                {
-                                    num1074 = 42;
-                                    num1075 = mod.ProjectileType("HiveBombGoliath");
-                                }
-                                else
-                                {
-                                    num1074 = 34;
-                                }
+                                num1074 += 8; //144 to 168
+                                num1075 = mod.ProjectileType("HiveBombGoliath");
                             }
                         }
                         else
                         {
-                            if (Main.rand.Next(13) == 0)
+                            if (Main.rand.Next(9) == 0)
                             {
                                 num1074 = 50;
                                 num1075 = mod.ProjectileType("HiveBombGoliath");
@@ -783,87 +733,57 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, -1f, 0f);
                     }
                 }
-                if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                if (npc.position.Y > Main.player[npc.target].position.Y - 200f) //200
                 {
-                    num1065 = 14f; //changed from 14 not a prob
-                    num1066 = 0.2f; //changed from 0.1 not a prob
-                    num10662 = 0.07f;
-                    vector122 = vector121;
-                    num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
-                    num1068 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector122.Y;
-                    num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
-                    num1069 = num1065 / num1069;
-                    if (npc.velocity.X < num1067)
+                    if (npc.velocity.Y > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + num1066;
-                        if (npc.velocity.X < 0f && num1067 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num1066;
-                        }
+                        npc.velocity.Y = npc.velocity.Y * 0.98f;
                     }
-                    else if (npc.velocity.X > num1067)
+                    npc.velocity.Y = npc.velocity.Y - 0.1f;
+                    if (npc.velocity.Y > 2f)
                     {
-                        npc.velocity.X = npc.velocity.X - num1066;
-                        if (npc.velocity.X > 0f && num1067 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num1066;
-                        }
-                    }
-                    if (npc.velocity.Y < num1068)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num10662;
-                        if (npc.velocity.Y < 0f && num1068 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num10662;
-                        }
-                    }
-                    else if (npc.velocity.Y > num1068)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num10662;
-                        if (npc.velocity.Y > 0f && num1068 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num10662;
-                        }
+                        npc.velocity.Y = 2f;
                     }
                 }
-                else if (num1069 > 250f)
+                else if (npc.position.Y < Main.player[npc.target].position.Y - 500f) //500
                 {
-                    npc.TargetClosest(true);
-                    npc.spriteDirection = npc.direction;
-                    num1069 = num1065 / num1069;
-                    if (npc.velocity.X < num1067)
+                    if (npc.velocity.Y < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + num1066;
-                        if (npc.velocity.X < 0f && num1067 > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num1066 * 2f;
-                        }
+                        npc.velocity.Y = npc.velocity.Y * 0.98f;
                     }
-                    else if (npc.velocity.X > num1067)
+                    npc.velocity.Y = npc.velocity.Y + 0.1f;
+                    if (npc.velocity.Y < -2f)
                     {
-                        npc.velocity.X = npc.velocity.X - num1066;
-                        if (npc.velocity.X > 0f && num1067 < 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X - num1066 * 2f;
-                        }
-                    }
-                    if (npc.velocity.Y < num1068)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num10662;
-                        if (npc.velocity.Y < 0f && num1068 > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num10662 * 2f;
-                        }
-                    }
-                    else if (npc.velocity.Y > num1068)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num10662;
-                        if (npc.velocity.Y > 0f && num1068 < 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num10662 * 2f;
-                        }
+                        npc.velocity.Y = -2f;
                     }
                 }
+                if (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) + 100f)
+                {
+                    if (npc.velocity.X > 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X * 0.98f;
+                    }
+                    npc.velocity.X = npc.velocity.X - 0.1f;
+                    if (npc.velocity.X > 8f)
+                    {
+                        npc.velocity.X = 8f;
+                    }
+                }
+                if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - 100f)
+                {
+                    if (npc.velocity.X < 0f)
+                    {
+                        npc.velocity.X = npc.velocity.X * 0.98f;
+                    }
+                    npc.velocity.X = npc.velocity.X + 0.1f;
+                    if (npc.velocity.X < -8f)
+                    {
+                        npc.velocity.X = -8f;
+                    }
+                }
+                float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+                npc.direction = (playerLocation < 0 ? 1 : -1);
+                npc.spriteDirection = npc.direction;
                 if (npc.ai[1] > 300f)
                 {
                     npc.ai[0] = -1f;
@@ -1025,15 +945,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged) ||
-                projectile.type == mod.ProjectileType("TerraBulletSplit") || projectile.type == mod.ProjectileType("TerraArrow2"))
-            {
-                damage /= 4;
-            }
-        }
-
         public override bool CheckActive()
         {
             return canDespawn;
@@ -1047,7 +958,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			}
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg"), 2f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg2"), 2f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg3"), 2f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg4"), 2f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg5"), 2f);
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 100;
 				npc.height = 100;
@@ -1197,11 +1113,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("Plague"), 180, true);
+			player.AddBuff(mod.BuffType("Plague"), 300, true);
 			if (CalamityWorld.revenge)
 			{
-				player.AddBuff(mod.BuffType("Horror"), 300, true);
-				player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
+				player.AddBuff(mod.BuffType("Horror"), 180, true);
+				player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
 			}
 		}
 	}

@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles
             projectile.friendly = true;
             projectile.penetrate = 5;
             projectile.tileCollide = false;
+            projectile.magic = true;
         }
 
         public override void Kill(int timeLeft)

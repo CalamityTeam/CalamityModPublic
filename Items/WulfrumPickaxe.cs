@@ -18,7 +18,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.damage = 8;
+            item.damage = 5;
             item.melee = true;
             item.width = 48;
             item.height = 48;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items
             item.useTurn = true;
             item.pick = 35;
             item.useStyle = 1;
-            item.knockBack = 2;
+            item.knockBack = 1f;
             item.value = 25000;
             item.rare = 1;
             item.UseSound = SoundID.Item1;

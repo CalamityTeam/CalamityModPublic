@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Permafrost
 			projectile.height = 10;
             projectile.coldDamage = true;
             projectile.friendly = true;
-            projectile.thrown = true;
 			projectile.penetrate = -1;
             projectile.timeLeft = 300;
 		}
@@ -51,7 +50,6 @@ namespace CalamityMod.Projectiles.Permafrost
                     vel *= 30f;
                     int p = Projectile.NewProjectile(pos, vel + projectile.velocity / 4f, mod.ProjectileType("FrostShardFriendly"), projectile.damage, projectile.knockBack, projectile.owner);
                     Main.projectile[p].minion = false;
-                    Main.projectile[p].thrown = true;
                 }
 
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172);
@@ -76,7 +74,6 @@ namespace CalamityMod.Projectiles.Permafrost
                         vel *= 30f;
                         int p = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, mod.ProjectileType("FrostShardFriendly"), projectile.damage, projectile.knockBack, projectile.owner);
                         Main.projectile[p].minion = false;
-                        Main.projectile[p].thrown = true;
                     }
                 }
                 else

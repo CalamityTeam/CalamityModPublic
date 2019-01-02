@@ -21,9 +21,9 @@ namespace CalamityMod.Items.Weapons
 			item.width = 66;
 			item.damage = 63;
 			item.melee = true;
-			item.useAnimation = 19;
+			item.useAnimation = 13;
 			item.useStyle = 1;
-			item.useTime = 19;
+			item.useTime = 13;
 			item.useTurn = true;
 			item.knockBack = 7.25f;
 			item.UseSound = SoundID.Item8;
@@ -31,8 +31,6 @@ namespace CalamityMod.Items.Weapons
 			item.height = 66;
 			item.value = 355000;
 			item.rare = 6;
-			item.shoot = 8;
-			item.shootSpeed = 16f;
 		}
 	
 		public override void AddRecipes()
@@ -43,14 +41,6 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            int thorn = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            Main.projectile[thorn].magic = false;
-            Main.projectile[thorn].melee = true;
-            return false;
-        }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {

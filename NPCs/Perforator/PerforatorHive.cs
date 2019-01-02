@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Perforator
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 3000000 : 2400000;
+                npc.lifeMax = CalamityWorld.death ? 4000000 : 3500000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.Perforator
                     num183 = num179 / num183;
                     num180 *= num183;
                     num182 *= num183;
-                    int num184 = expertMode ? 12 : 16;
+                    int num184 = expertMode ? 14 : 18;
                     int num185 = (Main.rand.Next(2) == 0 ? mod.ProjectileType("IchorShot") : mod.ProjectileType("BloodGeyser"));
                     value9.X += num180;
                     value9.Y += num182;
@@ -164,100 +164,56 @@ namespace CalamityMod.NPCs.Perforator
                     }
                 }
 	       	}
-			if (npc.ai[0] == 0f)
-			{
-				npc.rotation = npc.velocity.X * 0.04f;
-				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-				float num1065 = 6f; //changed from 6 to 7.5 modifies speed while firing projectiles
-				float num1066 = 0.12f; //changed from 0.075 to 0.09375 modifies speed while firing projectiles
-                float num10662 = 0.04f;
-				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
-				Vector2 vector122 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				float num1067 = player.position.X + (float)(player.width / 2) - vector122.X;
-				float num1068 = player.position.Y + (float)(player.height / 2) - 300f - vector122.Y;
-				float num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
-				if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, player.position, player.width, player.height))
-				{
-					num1065 = 14f; //changed from 14 not a prob
-					num1066 = 0.15f; //changed from 0.1 not a prob
-                    num10662 = 0.05f;
-					vector122 = vector121;
-					num1067 = player.position.X + (float)(player.width / 2) - vector122.X;
-					num1068 = player.position.Y + (float)(player.height / 2) - vector122.Y;
-					num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
-					num1069 = num1065 / num1069;
-					if (npc.velocity.X < num1067)
-					{
-						npc.velocity.X = npc.velocity.X + num1066;
-						if (npc.velocity.X < 0f && num1067 > 0f)
-						{
-							npc.velocity.X = npc.velocity.X + num1066;
-						}
-					}
-					else if (npc.velocity.X > num1067)
-					{
-						npc.velocity.X = npc.velocity.X - num1066;
-						if (npc.velocity.X > 0f && num1067 < 0f)
-						{
-							npc.velocity.X = npc.velocity.X - num1066;
-						}
-					}
-					if (npc.velocity.Y < num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y + num10662;
-						if (npc.velocity.Y < 0f && num1068 > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y + num10662;
-						}
-					}
-					else if (npc.velocity.Y > num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y - num10662;
-						if (npc.velocity.Y > 0f && num1068 < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y - num10662;
-						}
-					}
-				}
-				else if (num1069 > 100f)
-				{
-					npc.TargetClosest(true);
-					npc.spriteDirection = npc.direction;
-					num1069 = num1065 / num1069;
-					if (npc.velocity.X < num1067)
-					{
-						npc.velocity.X = npc.velocity.X + num1066;
-						if (npc.velocity.X < 0f && num1067 > 0f)
-						{
-							npc.velocity.X = npc.velocity.X + num1066 * 2f;
-						}
-					}
-					else if (npc.velocity.X > num1067)
-					{
-						npc.velocity.X = npc.velocity.X - num1066;
-						if (npc.velocity.X > 0f && num1067 < 0f)
-						{
-							npc.velocity.X = npc.velocity.X - num1066 * 2f;
-						}
-					}
-					if (npc.velocity.Y < num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y + num10662;
-						if (npc.velocity.Y < 0f && num1068 > 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y + num10662 * 2f;
-						}
-					}
-					else if (npc.velocity.Y > num1068)
-					{
-						npc.velocity.Y = npc.velocity.Y - num10662;
-						if (npc.velocity.Y > 0f && num1068 < 0f)
-						{
-							npc.velocity.Y = npc.velocity.Y - num10662 * 2f;
-						}
-					}
-				}
-			}
+			npc.rotation = npc.velocity.X * 0.04f;
+			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            if (npc.position.Y > player.position.Y - 100f) //200
+            {
+                if (npc.velocity.Y > 0f)
+                {
+                    npc.velocity.Y = npc.velocity.Y * 0.98f;
+                }
+                npc.velocity.Y = npc.velocity.Y - 0.1f;
+                if (npc.velocity.Y > 2f)
+                {
+                    npc.velocity.Y = 2f;
+                }
+            }
+            else if (npc.position.Y < player.position.Y - 300f) //500
+            {
+                if (npc.velocity.Y < 0f)
+                {
+                    npc.velocity.Y = npc.velocity.Y * 0.98f;
+                }
+                npc.velocity.Y = npc.velocity.Y + 0.1f;
+                if (npc.velocity.Y < -2f)
+                {
+                    npc.velocity.Y = -2f;
+                }
+            }
+            if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 50f)
+            {
+                if (npc.velocity.X > 0f)
+                {
+                    npc.velocity.X = npc.velocity.X * 0.98f;
+                }
+                npc.velocity.X = npc.velocity.X - 0.1f;
+                if (npc.velocity.X > 8f)
+                {
+                    npc.velocity.X = 8f;
+                }
+            }
+            if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 50f)
+            {
+                if (npc.velocity.X < 0f)
+                {
+                    npc.velocity.X = npc.velocity.X * 0.98f;
+                }
+                npc.velocity.X = npc.velocity.X + 0.1f;
+                if (npc.velocity.X < -8f)
+                {
+                    npc.velocity.X = -8f;
+                }
+            }
             if (npc.ai[3] == 0f && npc.life > 0)
             {
                 npc.ai[3] = (float)npc.lifeMax;
@@ -385,7 +341,11 @@ namespace CalamityMod.NPCs.Perforator
 			}
 			if (npc.life <= 0)
 			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hive"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hive2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hive3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Hive4"), 1f);
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 100;
 				npc.height = 100;

@@ -21,7 +21,7 @@ namespace CalamityMod.Items.DesertScourge
         {
             item.width = 20;
             item.height = 20;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
 			item.accessory = true;
         }

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 		
 		public override void SetDefaults()
 		{
-			item.damage = 13;
+			item.damage = 9;
 			item.ranged = true;
 			item.width = 22;
 			item.height = 36;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons
 			item.consumable = true;
 			item.knockBack = 1.5f;
 			item.value = 2000;
-			item.rare = 3;
+			item.rare = 7;
 			item.shoot = mod.ProjectileType("TerraArrow");
 			item.shootSpeed = 15f;
 			item.ammo = 40;

@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles
             {
                 return;
             }
-            target.AddBuff(BuffID.Poisoned, 120);
+            target.AddBuff(BuffID.Venom, 120);
             projectile.Kill();
         }
 

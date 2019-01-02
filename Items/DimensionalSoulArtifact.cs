@@ -14,8 +14,8 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Dimensional Soul Artifact");
 			Tooltip.SetDefault("Power\n" +
-                "Boosts all damage and critical strike chance by 15%\n" +
-                "This boost bypasses the damage and critical strike chance caps, but at what cost?");
+                "Boosts all damage by 25%\n" +
+                "But at what cost?");
 		}
 		
 		public override void SetDefaults()

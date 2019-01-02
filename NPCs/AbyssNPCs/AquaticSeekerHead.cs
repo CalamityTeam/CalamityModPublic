@@ -375,9 +375,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 return 0f;
             }
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur && spawnInfo.water && NPC.CountNPCS(mod.NPCType("AquaticSeekerHead")) < 1)
+            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur && spawnInfo.water)
             {
-                return 0.2f;
+                if (!NPC.AnyNPCs(mod.NPCType("AquaticSeekerHead")))
+                    return 0.01f;
             }
             return 0f;
         }
@@ -420,8 +421,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.Bleeding, 180, true);
-            player.AddBuff(BuffID.Venom, 180, true);
+            player.AddBuff(BuffID.Bleeding, 120, true);
+            player.AddBuff(BuffID.Venom, 120, true);
             if (CalamityWorld.revenge)
             {
                 player.AddBuff(mod.BuffType("MarkedforDeath"), 60);

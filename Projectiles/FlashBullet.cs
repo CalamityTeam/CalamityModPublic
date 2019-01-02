@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93);
         	if (projectile.owner == Main.myPlayer)
         	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Flash"), 1, 0f, projectile.owner, 0f, 0f);
+        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Flash"), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
         	}
             for (int k = 0; k < 5; k++)
             {

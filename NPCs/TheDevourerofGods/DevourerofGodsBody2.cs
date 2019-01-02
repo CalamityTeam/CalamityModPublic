@@ -118,10 +118,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			if (npc.life <= 0)
 			{
 				float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoGBody3"), 1f);
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoT2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoT3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoT4"), 1f);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/DoT5"), 1f);
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 50;
 				npc.height = 50;
@@ -150,12 +151,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("GodSlayerInferno"), 60, true);
-			if (Main.expertMode)
-			{
-				player.AddBuff(BuffID.Frostburn, 200, true);
-				player.AddBuff(BuffID.Darkness, 100, true);
-			}
+			player.AddBuff(mod.BuffType("GodSlayerInferno"), 120, true);
+			player.AddBuff(BuffID.Frostburn, 120, true);
+			player.AddBuff(BuffID.Darkness, 120, true);
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.useTime = 27;
 			item.knockBack = 5;
 			item.UseSound = SoundID.Item1;
-			item.autoReuse = false;
+			item.autoReuse = true;
 			item.height = 48;
 			item.value = 160000;
 			item.rare = 3;

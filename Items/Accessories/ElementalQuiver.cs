@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Elemental Quiver");
             Tooltip.SetDefault("Ranged projectiles have a chance to split\n" +
                 "Ranged weapons have a chance to instantly kill normal enemies\n" +
-                "10% increased ranged damage and critical strike chance\n" +
+                "10% increased ranged damage and 5% increased ranged critical strike chance\n" +
                 "Daedalus Emblem effects");
         }
 
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
         }
 
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.eQuiver = true;
             player.rangedDamage += 0.1f;
-            player.rangedCrit += 10;
+            player.rangedCrit += 5;
             player.ammoCost80 = true;
             player.lifeRegen += 2;
             player.statDefense += 5;

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spirit Generator");
+            DisplayName.SetDefault("Spirit Glyph");
             Tooltip.SetDefault("Whenever your minions hit an enemy you will gain a random buff\n" +
                 "These buffs will either boost your defense, summon damage, or life regen for a while");
         }
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = 50000;
+            item.value = Item.buyPrice(0, 9, 0, 0);
             item.rare = 2;
             item.accessory = true;
         }

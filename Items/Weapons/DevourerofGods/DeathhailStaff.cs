@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 
         public override void SetDefaults()
         {
-            item.damage = 100;
+            item.damage = 180;
             item.magic = true;
             item.mana = 12;
             item.width = 62;

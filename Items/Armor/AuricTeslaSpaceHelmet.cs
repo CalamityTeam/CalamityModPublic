@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Space Helmet");
-            Tooltip.SetDefault("120% increased summon damage and +7 max minions\n" +
+            Tooltip.SetDefault("+7 max minions\n" +
                                "Not moving boosts all damage and critical strike chance");
         }
 
@@ -51,9 +51,10 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Summoner Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
-                "Reduces all damage taken by 10%, this is calculated separately from damage reduction\n" +
+                "Reduces all damage taken by 5%, this is calculated separately from damage reduction\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
-                "Max run speed and acceleration boosted by 10%";
+                "Max run speed and acceleration boosted by 10%\n" +
+                "120% increased minion damage";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
@@ -68,6 +69,7 @@ namespace CalamityMod.Items.Armor
             player.lavaImmune = true;
             player.ignoreWater = true;
             player.crimsonRegen = true;
+            player.minionDamage += 1.2f;
             if (player.lavaWet)
             {
                 player.statDefense += 30;
@@ -210,7 +212,6 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.auricBoost = true;
-            player.minionDamage += 1.2f;
             player.maxMinions += 7;
         }
 

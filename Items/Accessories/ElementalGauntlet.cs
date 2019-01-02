@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Gauntlet");
-            Tooltip.SetDefault("Melee attacks inflict most debuffs\n" +
-                "10% increased melee speed, damage, and critical strike chance\n" +
+            Tooltip.SetDefault("Melee attacks and projectiles inflict most debuffs\n" +
+                "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
                 "Increased invincibility after taking damage\n" +
                 "You are immune to lava\n" +
                 "Increased melee knockback\n" +
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 22;
             item.height = 38;
-            item.value = 10000000;
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
         }
 
@@ -45,12 +45,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.eGauntlet = true;
-            player.longInvince = true;
-            player.kbGlove = true;
-            player.meleeDamage += 0.1f;
-            player.meleeCrit += 10;
-            player.meleeSpeed += 0.1f;
-            player.lavaImmune = true;
         }
 
         public override void AddRecipes()
