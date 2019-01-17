@@ -36,7 +36,11 @@ namespace CalamityMod.NPCs.CosmicWraith
 			npc.width = 130;
 			npc.height = 130;
 			npc.defense = 70;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            else
+                music = MusicID.Boss4;
             npc.lifeMax = CalamityWorld.revenge ? 229500 : 140000;
             if (CalamityWorld.death)
             {
@@ -44,7 +48,10 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Signus");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Signus");
+                else
+                    music = MusicID.Boss4;
                 npc.lifeMax = CalamityWorld.revenge ? 445500 : 280000;
                 if (CalamityWorld.death)
                 {
@@ -58,7 +65,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
-			npc.value = Item.buyPrice(0, 15, 0, 0);
+			npc.value = Item.buyPrice(0, 35, 0, 0);
 			npc.boss = true;
             for (int k = 0; k < npc.buffImmune.Length; k++)
 			{

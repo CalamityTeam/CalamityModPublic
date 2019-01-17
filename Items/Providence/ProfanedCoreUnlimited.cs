@@ -13,7 +13,10 @@ namespace CalamityMod.Items.Providence
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Profaned Core");
-			Tooltip.SetDefault("The core of the unholy flame\nCan only be used during daytime\nNot consumable");
+			Tooltip.SetDefault("The core of the unholy flame\n" +
+                "Summons Providence\n" +
+                "Can only be used during daytime\n" +
+                "Not consumable");
 		}
 		
 		public override void SetDefaults()

@@ -21,8 +21,9 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 72;
-			item.damage = 666;
-			item.melee = true;
+			item.damage = 999;
+            item.crit += 30;
+            item.melee = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.channel = true;
@@ -32,8 +33,9 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 6.5f;
 			item.autoReuse = false;
 			item.height = 78;
-			item.value = 30000000;
-			item.shoot = mod.ProjectileType("Murasama");
+            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("Murasama");
 			item.shootSpeed = 15f;
 		}
 		

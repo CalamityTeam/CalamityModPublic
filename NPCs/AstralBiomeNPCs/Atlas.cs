@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.defense = 50;
             npc.lifeMax = 1600;
             npc.knockBackResist = 0.04f;
-            npc.value = 1800;
+            npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.aiStyle = -1;
 
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
@@ -393,17 +393,21 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void HitEffect(int hitDirection, double damage)
         {
             //play sound
-            switch (Main.rand.Next(3))
+            if (npc.soundDelay == 0)
             {
-                case 0:
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt0"), npc.Center);
-                    break;
-                case 1:
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt1"), npc.Center);
-                    break;
-                case 2:
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt2"), npc.Center);
-                    break;
+                npc.soundDelay = 15;
+                switch (Main.rand.Next(3))
+                {
+                    case 0:
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt0"), npc.Center);
+                        break;
+                    case 1:
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt1"), npc.Center);
+                        break;
+                    case 2:
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt2"), npc.Center);
+                        break;
+                }
             }
 
             CalamityGlobalNPC.DoHitDust(npc, hitDirection, (Main.rand.Next(0, Math.Max(0, npc.life)) == 0) ? 5 : mod.DustType("AstralEnemy"), 1f, 3, 30);
@@ -594,6 +598,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             if (Main.expertMode)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
+            }
+            if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TitanArm"));
             }
         }
     }

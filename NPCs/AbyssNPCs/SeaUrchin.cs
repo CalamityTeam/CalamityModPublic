@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.defense = 10;
 			npc.lifeMax = 30;
 			npc.knockBackResist = 0.8f;
-			npc.value = Item.buyPrice(0, 0, 5, 0);
+			npc.value = Item.buyPrice(0, 0, 0, 80);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath15;
 			npc.behindTiles = true;

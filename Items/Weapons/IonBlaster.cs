@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 			item.autoReuse = true;
 			item.noMelee = true;
 			item.height = 28;
-			item.value = 750000;
-			item.rare = 6;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 			item.shoot = mod.ProjectileType("IonBlast");
 			item.shootSpeed = 3f;
 		}

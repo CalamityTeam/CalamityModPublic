@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 2f;
-	        item.value = 300000;
-	        item.rare = 5;
+            item.value = Item.buyPrice(0, 12, 0, 0);
+            item.rare = 4;
 	        item.UseSound = SoundID.Item75;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("LunarBolt");

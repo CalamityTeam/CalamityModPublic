@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 6.5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.value = 500000;
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 			item.shoot = mod.ProjectileType("MarianaProjectile");
 			item.shootSpeed = 16f;
 		}

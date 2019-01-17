@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = 100000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item20;
             item.shoot = mod.ProjectileType("ShiftingSands");

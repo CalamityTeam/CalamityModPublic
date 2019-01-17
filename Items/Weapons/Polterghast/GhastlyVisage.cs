@@ -32,8 +32,9 @@ namespace CalamityMod.Items.Weapons.Polterghast
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5f;
-	        item.value = 1000000;
-	        item.shootSpeed = 9f;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.shootSpeed = 9f;
 	        item.shoot = mod.ProjectileType("GhastlyVisage");
 	    }
 

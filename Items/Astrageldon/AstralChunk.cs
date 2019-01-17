@@ -9,7 +9,8 @@ namespace CalamityMod.Items.Astrageldon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Chunk");
-		}
+            Tooltip.SetDefault("Summons Astrum Aureus");
+        }
 		
 		public override void SetDefaults()
 		{

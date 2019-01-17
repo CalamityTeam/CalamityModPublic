@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.defense = 40;
 			npc.lifeMax = 60;
 			npc.knockBackResist = 0.65f;
-			npc.value = Item.buyPrice(0, 0, 50, 0);
+			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.lavaImmune = true;
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				npc.damage = 170;
 				npc.defense = 200;
 				npc.lifeMax = 3000;
-				npc.value = Item.buyPrice(0, 3, 0, 0);
+				npc.value = Item.buyPrice(0, 0, 50, 0);
 			}
 		}
 		

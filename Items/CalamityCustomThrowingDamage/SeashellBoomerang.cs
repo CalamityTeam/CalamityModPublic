@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.knockBack = 5.5f;
             item.UseSound = SoundID.Item1;
             item.height = 34;
-            item.value = 50000;
+            item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
             item.shoot = mod.ProjectileType("SeashellBoomerangProjectile");
             item.shootSpeed = 11.5f;

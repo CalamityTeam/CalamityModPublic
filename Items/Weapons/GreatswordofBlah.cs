@@ -33,8 +33,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 110;
-			item.value = 10000000;
-			item.shoot = mod.ProjectileType("JudgementBlah");
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("JudgementBlah");
 			item.shootSpeed = 12f;
 		}
 		
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Weapons
 	        {
 	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
 	            {
-	                line2.overrideColor = new Color(108, 45, 199);
+	                line2.overrideColor = new Color(43, 96, 222);
 	            }
 	        }
 	    }

@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5;
-	        item.value = 55000;
-	        item.rare = 4;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 	        item.UseSound = SoundID.Item43;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("FlamePillar");

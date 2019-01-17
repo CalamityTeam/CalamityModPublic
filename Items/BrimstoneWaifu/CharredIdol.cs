@@ -9,7 +9,8 @@ namespace CalamityMod.Items.BrimstoneWaifu
 		public override void SetStaticDefaults()
  		{
  			DisplayName.SetDefault("Charred Idol");
- 			Tooltip.SetDefault("Use in the Calamity biome at your own risk");
+ 			Tooltip.SetDefault("Use in the Brimstone Crag at your own risk\n" +
+                "Summons the Brimstone Elemental");
  		}
 		
 		public override void SetDefaults()

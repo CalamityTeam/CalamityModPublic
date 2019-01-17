@@ -29,9 +29,8 @@ namespace CalamityMod.Items.Weapons.Crabulon
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 24;
-			item.maxStack = 1;
-			item.value = 40000;
-			item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 		}
 		
 		public override void MeleeEffects(Player player, Rectangle hitbox)

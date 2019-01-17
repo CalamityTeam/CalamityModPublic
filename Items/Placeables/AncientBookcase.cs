@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Placeables
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.useStyle = 1;
-			item.consumable = true;
+            item.rare = 3;
+            item.consumable = true;
 			item.createTile = mod.TileType("AncientBookcase");
 		}
 
@@ -30,18 +31,6 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.Book, 10);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AncientAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenBookcase", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenBookcase", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
             recipe.AddRecipe();
         }
     }

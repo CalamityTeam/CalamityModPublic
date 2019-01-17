@@ -9,14 +9,15 @@ namespace CalamityMod.Items.GreatSandShark
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sandstorm's Core");
-		}
+            Tooltip.SetDefault("Summons the Great Sand Shark");
+        }
 		
 		public override void SetDefaults()
 		{
 			item.width = 20;
 			item.height = 20;
 			item.maxStack = 20;
-			item.rare = 7;
+			item.rare = 8;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;

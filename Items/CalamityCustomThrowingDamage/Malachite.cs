@@ -33,8 +33,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 58;
-			item.value = 5000000;
-			item.shoot = mod.ProjectileType("Malachite");
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
+            item.shoot = mod.ProjectileType("Malachite");
 			item.shootSpeed = 10f;
 		}
 		

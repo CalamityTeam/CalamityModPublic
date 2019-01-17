@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Weapons
             item.useTime = 50;
             item.useAnimation = 50;
             item.useStyle = 5;
-            item.noMelee = true; //so the item's animation doesn't do damage
+            item.noMelee = true;
             item.knockBack = 5.75f;
-            item.value = 100000000;
+            item.value = Item.buyPrice(1, 0, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;

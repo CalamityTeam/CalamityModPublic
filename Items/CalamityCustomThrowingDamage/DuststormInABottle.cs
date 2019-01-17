@@ -30,8 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.height = 24;
-            item.maxStack = 1;
-            item.value = 100000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.shoot = mod.ProjectileType("DuststormInABottle");
             item.shootSpeed = 12f;

@@ -30,8 +30,9 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 5;
 			item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item116;
-			item.value = 3000000;
-			item.shootSpeed = 24f;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
+            item.shootSpeed = 24f;
 			item.shoot = 611;
 		}
 		

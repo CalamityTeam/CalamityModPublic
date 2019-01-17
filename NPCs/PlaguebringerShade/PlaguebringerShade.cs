@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			npc.height = 66; //216
 			npc.defense = 30;
 			npc.lifeMax = CalamityWorld.death ? 4000 : 3000; //250000
+            npc.value = Item.buyPrice(0, 1, 50, 0);
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 200000;

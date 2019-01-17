@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.height = 58;
-			item.value = 100000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 			item.shoot = mod.ProjectileType("BloodScythe");
 			item.shootSpeed = 6f;
 		}

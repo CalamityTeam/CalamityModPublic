@@ -34,8 +34,9 @@ namespace CalamityMod.Items.Weapons
 	        item.noUseGraphic = true;
 			item.channel = true;
 	        item.knockBack = 0f;
-	        item.value = 100000000;
-	        item.shoot = mod.ProjectileType("YharimsCrystal");
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("YharimsCrystal");
 	        item.shootSpeed = 30f;
 	    }
 	    

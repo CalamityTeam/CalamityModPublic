@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
 			item.useTime = 24;
 			item.useAnimation = 24;
 			item.useStyle = 5;
-			item.noMelee = true; //so the item's animation doesn't do damage
+			item.noMelee = true;
 			item.knockBack = 6.75f;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
-			item.value = 500000;
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("SeethingDischargeBrimstoneBarrage"); //idk why but all the guns in the vanilla source have this
+			item.shoot = mod.ProjectileType("SeethingDischargeBrimstoneBarrage");
 			item.shootSpeed = 6f;
 		}
 	    

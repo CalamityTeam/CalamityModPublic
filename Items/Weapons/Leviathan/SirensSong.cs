@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 6.5f;
-            item.value = 750000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item26;
             item.autoReuse = true;

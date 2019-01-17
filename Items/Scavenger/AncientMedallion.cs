@@ -9,7 +9,8 @@ namespace CalamityMod.Items.Scavenger
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient Medallion");
-			Tooltip.SetDefault("A very old temple medallion");
+			Tooltip.SetDefault("A very old temple medallion\n" +
+                "Summons the Ravager");
 		}
 		
 		public override void SetDefaults()
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Scavenger
 			item.width = 20;
 			item.height = 20;
 			item.maxStack = 20;
-			item.rare = 9;
+			item.rare = 8;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;

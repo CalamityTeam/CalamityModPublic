@@ -45,7 +45,6 @@ namespace CalamityMod.NPCs.Perforator
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.alpha = 255;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
@@ -55,7 +54,6 @@ namespace CalamityMod.NPCs.Perforator
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/BloodCoagulant");
         }
 		
 		public override void AI()

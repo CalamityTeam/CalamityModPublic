@@ -28,8 +28,9 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 			item.useAnimation = 7;
 			item.useStyle = 5;
 			item.knockBack = 3f;
-			item.value = 1000000;
-			item.UseSound = SoundID.Item41;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item41;
 			item.autoReuse = true;
 			item.shoot = 10;
 			item.shootSpeed = 20f;

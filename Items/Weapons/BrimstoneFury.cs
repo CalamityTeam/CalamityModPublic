@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3.75f;
-	        item.value = 300000;
-	        item.rare = 6;
+            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.rare = 6;
 	        item.UseSound = SoundID.Item5;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("BrimstoneBolt");

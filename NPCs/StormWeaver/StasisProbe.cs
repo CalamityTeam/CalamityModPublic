@@ -32,7 +32,6 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.lifeMax = 25000;
             }
             npc.knockBackResist = 0.9f;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;

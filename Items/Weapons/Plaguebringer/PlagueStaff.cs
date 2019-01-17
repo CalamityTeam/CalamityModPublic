@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 	        item.useAnimation = 21;
 	        item.useStyle = 5;
 	        item.noMelee = true;
-	        item.knockBack = 8;
-	        item.value = 1250000;
-	        item.rare = 8;
+	        item.knockBack = 8f;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 	        item.UseSound = SoundID.Item43;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("PlagueFang");

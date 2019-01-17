@@ -30,8 +30,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 44;
-			item.value = 52000;
-			item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 			item.shoot = mod.ProjectileType("Crystalline");
 			item.shootSpeed = 10f;
 		}

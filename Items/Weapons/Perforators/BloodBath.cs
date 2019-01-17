@@ -28,10 +28,10 @@ namespace CalamityMod.Items.Weapons.Perforators
 	        item.useTime = 15;
 	        item.useAnimation = 30;
 	        item.useStyle = 5;
-	        item.noMelee = true; //so the item's animation doesn't do damage
+	        item.noMelee = true;
 	        item.knockBack = 5.75f;
-	        item.value = 90000;
-	        item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 	        item.UseSound = SoundID.Item21;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("BloodBeam");

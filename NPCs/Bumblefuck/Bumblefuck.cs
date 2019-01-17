@@ -54,10 +54,14 @@ namespace CalamityMod.NPCs.Bumblefuck
                 npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
             npc.boss = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Murderswarm");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Murderswarm");
+            else
+                music = MusicID.Boss4;
             npc.lavaImmune = true;
 			npc.noGravity = true;
-			npc.value = Item.buyPrice(1, 0, 0, 0);
+			npc.value = Item.buyPrice(0, 30, 0, 0);
 			npc.HitSound = SoundID.NPCHit51;
 			npc.DeathSound = SoundID.NPCDeath46;
             bossBag = mod.ItemType("BumblebirbBag");

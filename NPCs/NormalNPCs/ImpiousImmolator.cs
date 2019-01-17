@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.buffImmune[k] = true;
                 npc.buffImmune[BuffID.Ichor] = false;
             }
-            npc.value = Item.buyPrice(0, 5, 0, 0);
+            npc.value = Item.buyPrice(0, 0, 50, 0);
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath7;
             npc.knockBackResist = 0.2f;

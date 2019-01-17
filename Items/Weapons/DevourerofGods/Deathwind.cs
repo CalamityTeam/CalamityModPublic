@@ -27,8 +27,9 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.useAnimation = 14;
             item.useStyle = 5;
             item.noMelee = true;
-            item.knockBack = 5;
-            item.value = 1250000;
+            item.knockBack = 5f;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("NebulaShot");

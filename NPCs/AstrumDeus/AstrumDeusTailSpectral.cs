@@ -54,7 +54,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.buffImmune[k] = true;
 			}
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
+            else
+                music = MusicID.Boss3;
             npc.dontCountMe = true;
 		}
 		

@@ -52,16 +52,20 @@ namespace CalamityMod.NPCs.Scavenger
             }
 			npc.boss = true;
 			npc.alpha = 255;
-			npc.value = Item.buyPrice(0, 30, 0, 0);
+			npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager");
+            else
+                music = MusicID.Boss4;
             bossBag = mod.ItemType("RavagerBag");
             if (CalamityWorld.downedProvidence)
 			{
 				npc.defense = 180;
 				npc.lifeMax = 350000;
-				npc.value = Item.buyPrice(5, 0, 0, 0);
+				npc.value = Item.buyPrice(0, 35, 0, 0);
 			}
             if (CalamityWorld.bossRushActive)
             {
@@ -179,7 +183,7 @@ namespace CalamityMod.NPCs.Scavenger
 				}
 				if (Main.netMode != 1)
 				{
-					npc.localAI[1] += (enrage ? 2f : 1f);
+					npc.localAI[1] += (enrage ? 6f : 1f);
 					if (npc.localAI[1] >= 600f)
 					{
 						npc.localAI[1] = 0f;

@@ -28,8 +28,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 60;
-            item.maxStack = 1;
-            item.value = 250000;
+            item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.shoot = mod.ProjectileType("GelWave");
             item.shootSpeed = 9f;

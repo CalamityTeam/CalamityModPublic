@@ -20,7 +20,8 @@ namespace CalamityMod.Items.Placeables
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.useStyle = 1;
-			item.consumable = true;
+            item.rare = 3;
+            item.consumable = true;
 			item.value = 500;
             item.createTile = mod.TileType("AncientTable");
         }
@@ -31,18 +32,6 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(null, "BrimstoneSlag", 8);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AncientAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenTable", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenTable", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
             recipe.AddRecipe();
         }
 	}

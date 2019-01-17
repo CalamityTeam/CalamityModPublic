@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.maxStack = 1;
-            item.value = 8000000;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("RoyalKnifeMelee");
             item.shootSpeed = 9f;
         }

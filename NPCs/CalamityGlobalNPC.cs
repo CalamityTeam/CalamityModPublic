@@ -38,6 +38,8 @@ namespace CalamityMod.NPCs
 		
 		public float defProtection = 0f;
 
+        public bool setNewName = true;
+
         public bool weaknessCold = false;
 
         public bool weaknessFire = false;
@@ -168,11 +170,6 @@ namespace CalamityMod.NPCs
 		{
 			bool hardMode = Main.hardMode;
 			int npcDefense = npc.defense;
-			if (Main.raining && NPC.downedMoonlord && npc.damage > 0 && !npc.boss && !CalamityWorld.bossRushActive &&
-                !npc.friendly && !npc.dontTakeDamage && (double)(npc.position.Y / 16f) < Main.worldSurface)
-			{
-				npc.AddBuff(mod.BuffType("Irradiated"), 2);
-			}
             int x = Main.maxTilesX;
             int y = Main.maxTilesY;
             int genLimit = x / 2;
@@ -216,6 +213,12 @@ namespace CalamityMod.NPCs
             if (hurtByPiss)
             {
                 npc.AddBuff(BuffID.Poisoned, 2);
+            }
+            if (Main.raining && npc.damage > 0 && !npc.boss &&
+                !npc.friendly && !npc.dontTakeDamage && CalamityWorld.sulphurTiles > 30 &&
+                !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[mod.BuffType("CrushDepth")])
+            {
+                npc.AddBuff(mod.BuffType("Irradiated"), 2);
             }
             if (npc.venom)
             {
@@ -451,7 +454,7 @@ namespace CalamityMod.NPCs
             }
             if (CalamityWorld.defiled)
             {
-                npc.value = (float)((int)((double)npc.value * 2.0));
+                npc.value = (float)((int)((double)npc.value * 1.5));
             }
             if (CalamityWorld.bossRushActive)
             {
@@ -684,7 +687,7 @@ namespace CalamityMod.NPCs
             }
             if (CalamityWorld.revenge)
             {
-                npc.value = (float)((int)((double)npc.value * 2.0));
+                npc.value = (float)((int)((double)npc.value * 1.5));
                 if (npc.type == NPCID.MoonLordFreeEye)
                 {
                     npc.lifeMax = (int)((double)npc.lifeMax * 150.0);
@@ -713,7 +716,7 @@ namespace CalamityMod.NPCs
                     }
                     else
                     {
-                        npc.lifeMax = (int)((double)npc.lifeMax * 1.75); //75% boost
+                        npc.lifeMax = (int)((double)npc.lifeMax * 1.2); //20% boost
                     }
                     npc.npcSlots = 12f;
                 }
@@ -1150,7 +1153,7 @@ namespace CalamityMod.NPCs
             {
                 this.defProtection = this.protection;
             }
-            if (Main.raining && NPC.downedMoonlord && !npc.boss && !npc.friendly && !npc.dontTakeDamage && npc.lifeMax <= 2000)
+            if (Main.raining && CalamityWorld.sulphurTiles > 30 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && npc.lifeMax <= 2000)
             {
                 npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
                 npc.damage = (int)((double)npc.damage * 1.25);
@@ -1368,12 +1371,41 @@ namespace CalamityMod.NPCs
         #region PreAI
         public override bool PreAI(NPC npc)
         {
-            if (npc.type == NPCID.KingSlime)
+            if (setNewName)
             {
-                if (Main.player[Main.myPlayer].pulley && Main.player[Main.myPlayer].active &&
-                    !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 2800f)
+                setNewName = false;
+                if (npc.type == NPCID.Guide)
                 {
-                    Main.player[Main.myPlayer].pulley = false;
+                    switch (Main.rand.Next(35)) //34 guide names
+                    {
+                        case 0:
+                            npc.GivenName = "Lapp";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (npc.type == NPCID.Wizard)
+                {
+                    switch (Main.rand.Next(24)) //23 wizard names
+                    {
+                        case 0:
+                            npc.GivenName = "Mage One-Trick";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (npc.type == NPCID.Steampunker)
+                {
+                    switch (Main.rand.Next(22)) //21 steampunker names
+                    {
+                        case 0:
+                            npc.GivenName = "Vorbis";
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
             if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
@@ -6016,7 +6048,7 @@ namespace CalamityMod.NPCs
 					}
 					if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 11f)
 					{
-						npc.velocity *= 1.02f; //20, 24, 30
+						npc.velocity *= 1.01f; //20, 24, 30
 					}
                     if (npc.ai[0] == 0f && !Main.player[npc.target].dead)
 					{
@@ -6043,8 +6075,23 @@ namespace CalamityMod.NPCs
                 #region Golem
                 else if (npc.type == NPCID.GolemHeadFree && !CalamityWorld.bossRushActive)
 				{
+                    bool enrage = true;
+                    if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+                    {
+                        int num = (int)Main.player[npc.target].Center.X / 16;
+                        int num2 = (int)Main.player[npc.target].Center.Y / 16;
+                        Tile tile = Framing.GetTileSafely(num, num2);
+                        if (tile.wall == 87)
+                        {
+                            enrage = false;
+                        }
+                    }
                     if (NPC.CountNPCS(NPCID.Golem) > 0)
                     {
+                        if (enrage)
+                        {
+                            npc.ai[1] += 3f;
+                        }
                         npc.ai[1] -= 0.25f; //0.75
                         if ((double)Main.npc[NPC.golemBoss].life < (double)Main.npc[NPC.golemBoss].lifeMax * 0.8)
                         {
@@ -6061,6 +6108,10 @@ namespace CalamityMod.NPCs
                         if ((double)Main.npc[NPC.golemBoss].life < (double)Main.npc[NPC.golemBoss].lifeMax * 0.1)
                         {
                             npc.ai[1] -= 0.75f; //1.75
+                        }
+                        if (enrage)
+                        {
+                            npc.ai[2] += 3f;
                         }
                         npc.ai[2] -= 0.25f; //0.75
                         if (Main.npc[NPC.golemBoss].life < Main.npc[NPC.golemBoss].lifeMax / 2)
@@ -6087,8 +6138,23 @@ namespace CalamityMod.NPCs
                 }
 				else if (npc.type == NPCID.GolemHead && !CalamityWorld.bossRushActive)
 				{
+                    bool enrage = true;
+                    if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+                    {
+                        int num = (int)Main.player[npc.target].Center.X / 16;
+                        int num2 = (int)Main.player[npc.target].Center.Y / 16;
+                        Tile tile = Framing.GetTileSafely(num, num2);
+                        if (tile.wall == 87)
+                        {
+                            enrage = false;
+                        }
+                    }
                     if (npc.ai[0] == 1f)
 					{
+                        if (enrage)
+                        {
+                            npc.ai[1] += 3f;
+                        }
                         npc.ai[1] -= 0.25f; //0.75
                         if ((double)npc.life < (double)npc.lifeMax * 0.4)
 						{
@@ -6098,6 +6164,10 @@ namespace CalamityMod.NPCs
 						{
 							npc.ai[1] -= 0.75f; //1.25
 						}
+                        if (enrage)
+                        {
+                            npc.ai[2] += 3f;
+                        }
                         npc.ai[2] -= 0.25f; //0.75
                         if (npc.life < npc.lifeMax / 3)
 						{
@@ -6125,18 +6195,18 @@ namespace CalamityMod.NPCs
 					bool jungle = Main.player[npc.target].ZoneJungle;
                     if (npc.life < npc.lifeMax / 8 || CalamityWorld.bossRushActive)
                     {
-                        npc.velocity.X *= 1.006f;
-                        npc.velocity.Y *= 1.006f;
-                    }
-                    else if (npc.life < npc.lifeMax / 4)
-                    {
                         npc.velocity.X *= 1.003f;
                         npc.velocity.Y *= 1.003f;
                     }
+                    else if (npc.life < npc.lifeMax / 4)
+                    {
+                        npc.velocity.X *= 1.001f;
+                        npc.velocity.Y *= 1.001f;
+                    }
                     else if (npc.life < npc.lifeMax / 2)
                     {
-                        npc.velocity.X *= 1.0015f;
-                        npc.velocity.Y *= 1.0015f;
+                        npc.velocity.X *= 1.0005f;
+                        npc.velocity.Y *= 1.0005f;
                     }
                     if (npc.life > npc.lifeMax / 2)
 					{
@@ -6148,7 +6218,7 @@ namespace CalamityMod.NPCs
 						}
 						if (Main.netMode != 1)
 						{
-							npc.localAI[1] += (enraged ? 4f : 2f);
+							npc.localAI[1] += (enraged ? 3f : 1.5f);
                         }
 					}
 					else
@@ -6212,7 +6282,7 @@ namespace CalamityMod.NPCs
                                 }
                             }
                         }
-                        npc.localAI[1] += 2f;
+                        npc.localAI[1] += 1f;
                     }
 				}
                 if (npc.type == NPCID.PlanterasTentacle)
@@ -6311,7 +6381,7 @@ namespace CalamityMod.NPCs
                     }
                     if (npc.ai[1] == 1f)
 					{
-						int speed = CalamityWorld.bossRushActive ? 9 : 5;
+						int speed = CalamityWorld.bossRushActive ? 7 : 4;
 						if ((double)npc.life <= (double)npc.lifeMax * 0.7)
 						{
 							speed++;
@@ -6320,21 +6390,13 @@ namespace CalamityMod.NPCs
 						{
 							speed++;
 						}
-						if ((double)npc.life <= (double)npc.lifeMax * 0.1)
-						{
-							speed++;
-						}
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            speed++;
-                        }
                         if (enraged)
                         {
                             speed += 3;
                         }
                         float speed2 = (float)speed;
-						float speedBuff = 3.8f + (3.8f * (1f - (float)npc.life / (float)npc.lifeMax));
-						float speedBuff2 = 13f + (13f * (1f - (float)npc.life / (float)npc.lifeMax));
+						float speedBuff = 3f + (3f * (1f - (float)npc.life / (float)npc.lifeMax));
+						float speedBuff2 = 11f + (11f * (1f - (float)npc.life / (float)npc.lifeMax));
 						Vector2 vector45 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num444 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector45.X;
 						float num445 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector45.Y;
@@ -6572,19 +6634,19 @@ namespace CalamityMod.NPCs
                                 }
                             }
                             npc.ai[2] += (retAlive ? 1.5f : 2f);
-							npc.velocity.X *= (retAlive ? 1.003f : 1.004f);
-							npc.velocity.Y *= (retAlive ? 1.003f : 1.004f);
+							npc.velocity.X *= 1.005f;
+							npc.velocity.Y *= 1.005f;
                             if (enraged)
                             {
-                                npc.velocity.X *= 1.002f;
-                                npc.velocity.Y *= 1.002f;
+                                npc.velocity.X *= 1.01f;
+                                npc.velocity.Y *= 1.01f;
                             }
 						}
 						else
 						{
 							npc.ai[2] += (retAlive ? 0.1f : 0.5f);
-							npc.velocity.X *= (retAlive ? 1.001f : 1.005f);
-							npc.velocity.Y *= (retAlive ? 1.001f : 1.005f);
+							npc.velocity.X *= (retAlive ? 1.001f : 1.002f);
+							npc.velocity.Y *= (retAlive ? 1.001f : 1.002f);
                             if (CalamityWorld.death || CalamityWorld.bossRushActive)
                             {
                                 npc.velocity.X *= (retAlive ? 1.0005f : 1.001f);
@@ -6692,11 +6754,11 @@ namespace CalamityMod.NPCs
 				{
                     if (enraged)
                     {
-                        npc.velocity.X *= 2f;
+                        npc.velocity.X *= 1.7f;
                     }
                     else if (CalamityWorld.bossRushActive)
                     {
-                        npc.velocity.X *= 1.5f;
+                        npc.velocity.X *= 1.3f;
                     }
                     else if (CalamityWorld.death)
                     {
@@ -7156,6 +7218,26 @@ namespace CalamityMod.NPCs
                 {
                     target.AddBuff(mod.BuffType("PopoNoseless"), 36000);
                 }
+            }
+            if (npc.type == NPCID.GolemHead)
+            {
+                target.AddBuff(mod.BuffType("ArmorCrunch"), 300);
+            }
+            else if (npc.type == NPCID.GolemHeadFree)
+            {
+                target.AddBuff(mod.BuffType("ArmorCrunch"), 300);
+            }
+            else if (npc.type == NPCID.Golem)
+            {
+                target.AddBuff(mod.BuffType("ArmorCrunch"), 300);
+            }
+            else if (npc.type == NPCID.GolemFistRight)
+            {
+                target.AddBuff(mod.BuffType("ArmorCrunch"), 300);
+            }
+            else if (npc.type == NPCID.GolemFistLeft)
+            {
+                target.AddBuff(mod.BuffType("ArmorCrunch"), 300);
             }
             if (CalamityWorld.revenge)
 			{
@@ -8134,38 +8216,56 @@ namespace CalamityMod.NPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge20"));
             }
-            if (!NPC.downedBoss1 && npc.type == NPCID.EyeofCthulhu)
+            if (!NPC.downedSlimeKing && npc.type == NPCID.KingSlime)
             {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
+            }
+            else if (!NPC.downedBoss1 && npc.type == NPCID.EyeofCthulhu)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge3"));
             }
             else if (!NPC.downedQueenBee && npc.type == NPCID.QueenBee)
             {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge16"));
             }
             else if (!NPC.downedMechBoss1 && npc.type == NPCID.TheDestroyer)
             {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge21"));
             }
             else if (!NPC.downedMechBoss2 && npc.type == NPCID.Spazmatism)
             {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge22"));
             }
             else if (!NPC.downedMechBoss3 && npc.type == NPCID.SkeletronPrime)
             {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge23"));
             }
             else if (!NPC.downedPlantBoss && npc.type == NPCID.Plantera)
             {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge25"));
             }
             else if (!NPC.downedFishron && npc.type == NPCID.DukeFishron)
             {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge2"));
             }
             else if (npc.type == NPCID.CultistBoss)
             {
                 if (!NPC.downedAncientCultist)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge4"));
                 }
                 if (Main.bloodMoon)
@@ -8938,6 +9038,7 @@ namespace CalamityMod.NPCs
                 }
                 if (!CalamityWorld.downedDesertScourge)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge"));
                 }
                 CalamityWorld.downedDesertScourge = true;
@@ -9135,6 +9236,8 @@ namespace CalamityMod.NPCs
                 }
                 if (!CalamityWorld.downedAquaticScourge)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge27"));
                 }
                 CalamityWorld.downedAquaticScourge = true;
@@ -9145,6 +9248,8 @@ namespace CalamityMod.NPCs
                 Color messageColor = Color.Gold;
                 if (!CalamityWorld.downedStarGod)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge29"));
                     if (Main.netMode == 0)
                     {
@@ -9253,6 +9358,8 @@ namespace CalamityMod.NPCs
                 Color messageColor2 = Color.Orange;
                 if (!CalamityWorld.downedDoG)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
                     if (Main.netMode == 0)
                     {
                         Main.NewText(Language.GetTextValue(key), messageColor);
@@ -10264,6 +10371,7 @@ namespace CalamityMod.NPCs
 					CalamityWorld.downedWhar = true;
                     if (!downedEvil)
 					{
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
                         if (WorldGen.crimson)
                         {
                             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge8"));
@@ -10283,6 +10391,8 @@ namespace CalamityMod.NPCs
 				CalamityWorld.downedSkullHead = true;
 				if (!downedSkull)
 				{
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge17"));
 				}
 			}
@@ -10373,6 +10483,8 @@ namespace CalamityMod.NPCs
 				Color messageColor3 = Color.Cyan;
 				if (!hardMode)
 				{
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge7"));
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge18"));
                     if (Main.netMode == 0)
@@ -10411,6 +10523,8 @@ namespace CalamityMod.NPCs
                 {
                     if (!CalamityWorld.downedBrimstoneElemental)
                     {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge6"));
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge26"));
                     }
@@ -10457,6 +10571,8 @@ namespace CalamityMod.NPCs
                     npc.DropItemInstanced(npc.position, npc.Size, ItemID.BrokenHeroSword, 1, true);
                     if (!CalamityWorld.downedCalamitas)
                     {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge24"));
                     }
                     CalamityWorld.downedCalamitas = true;
@@ -10507,6 +10623,8 @@ namespace CalamityMod.NPCs
 				Color messageColor2 = Color.Yellow;
 				if (!downedIdiot)
 				{
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge31"));
                     npc.DropItemInstanced(npc.position, npc.Size, ItemID.Picksaw, 1, true);
                     if (Main.netMode == 0)
@@ -10541,6 +10659,8 @@ namespace CalamityMod.NPCs
                 Color messageColor5 = Color.LightGray;
                 if (!downedMoonDude)
 				{
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     CalamityWorld.spawnOre(mod.TileType("ExodiumOre"), 12E-05, .01f, .07f);
                     if (Main.netMode == 0)
 					{
@@ -10566,6 +10686,11 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.DD2Betsy)
 			{
+                if (!CalamityWorld.downedBetsy)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
+                }
 				CalamityWorld.downedBetsy = true;
 			}
 			else if (npc.type == NPCID.Pumpking && CalamityWorld.downedDoG)
@@ -10603,6 +10728,8 @@ namespace CalamityMod.NPCs
                 }
                 if (!CalamityWorld.downedAstrageldon)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge30"));
                 }
                 CalamityWorld.downedAstrageldon = true;
@@ -10639,6 +10766,7 @@ namespace CalamityMod.NPCs
                             NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                         }
                     }
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge14"));
                 }
                 CalamityWorld.downedHiveMind = true;
@@ -10665,6 +10793,7 @@ namespace CalamityMod.NPCs
                             NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                         }
                     }
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge13"));
                 }
 				CalamityWorld.downedPerforator = true;
@@ -10685,6 +10814,8 @@ namespace CalamityMod.NPCs
                             npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("PurifiedJam"), Main.rand.Next(6, 9), true);
                             Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop = true;
                         }
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge15"));
                     }
                     if (Main.rand.Next(10) == 0)
@@ -10760,6 +10891,8 @@ namespace CalamityMod.NPCs
                             npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("PurifiedJam"), Main.rand.Next(6, 9), true);
                             Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop = true;
                         }
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge15"));
                     }
                     if (Main.rand.Next(10) == 0)
@@ -10835,6 +10968,8 @@ namespace CalamityMod.NPCs
                             npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("PurifiedJam"), Main.rand.Next(6, 9), true);
                             Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop = true;
                         }
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge15"));
                     }
                     if (Main.rand.Next(10) == 0)
@@ -10916,6 +11051,8 @@ namespace CalamityMod.NPCs
                     {
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                     }
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge19"));
                 }
                 CalamityWorld.downedCryogen = true;
@@ -10931,6 +11068,8 @@ namespace CalamityMod.NPCs
 				{
                     if (!CalamityWorld.downedLeviathan)
                     {
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge10"));
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge28"));
                     }
@@ -10941,12 +11080,19 @@ namespace CalamityMod.NPCs
 			{
                 if (!CalamityWorld.downedPlaguebringer)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge32"));
                 }
                 CalamityWorld.downedPlaguebringer = true;
 			}
 			else if (npc.type == mod.NPCType("ProfanedGuardianBoss")) //boss 10
 			{
+                if (!CalamityWorld.downedGuardians)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
+                }
 				CalamityWorld.downedGuardians = true;
 			}
 			else if (npc.type == mod.NPCType("Providence")) //boss 11
@@ -10957,6 +11103,8 @@ namespace CalamityMod.NPCs
                 Color messageColor3 = Color.LightGreen;
                 if (!CalamityWorld.downedProvidence)
 				{
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     CalamityWorld.spawnOre(mod.TileType("UelibloomOre"), 15E-05, .4f, .8f);
                     if (Main.netMode == 0)
 					{
@@ -10977,6 +11125,11 @@ namespace CalamityMod.NPCs
             }
 			else if (npc.type == mod.NPCType("CeaselessVoid")) //boss 12
 			{
+                if (!CalamityWorld.downedSentinel1)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
+                }
 				CalamityWorld.downedSentinel1 = true; //21600
                 if (CalamityWorld.DoGSecondStageCountdown > 14460)
                 {
@@ -10996,6 +11149,11 @@ namespace CalamityMod.NPCs
             }
 			else if (npc.type == mod.NPCType("StormWeaverHeadNaked")) //boss 13
 			{
+                if (!CalamityWorld.downedSentinel2)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
+                }
 				CalamityWorld.downedSentinel2 = true; //21600
                 if (CalamityWorld.DoGSecondStageCountdown > 7260)
                 {
@@ -11015,6 +11173,11 @@ namespace CalamityMod.NPCs
             }
 			else if (npc.type == mod.NPCType("CosmicWraith")) //boss 14
 			{
+                if (!CalamityWorld.downedSentinel3)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
+                }
                 CalamityWorld.downedSentinel3 = true; //21600
                 if (CalamityWorld.DoGSecondStageCountdown > 600)
                 {
@@ -11034,6 +11197,11 @@ namespace CalamityMod.NPCs
             }
 			else if (npc.type == mod.NPCType("Bumblefuck")) //boss 16
 			{
+                if (!CalamityWorld.downedBumble)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
+                }
 				CalamityWorld.downedBumble = true;
                 if (revenge)
                 {
@@ -11048,6 +11216,8 @@ namespace CalamityMod.NPCs
                 Color messageColor2 = Color.Gold;
                 if (!CalamityWorld.downedYharon && npc.localAI[2] == 1f)
 				{
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
                     CalamityWorld.spawnOre(mod.TileType("AuricOre"), 2E-05, .6f, .8f);
                     if (Main.netMode == 0)
 					{
@@ -11085,12 +11255,18 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == mod.NPCType("SupremeCalamitas")) //boss 18
 			{
+                if (!CalamityWorld.downedSCal)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
+                }
 				CalamityWorld.downedSCal = true;
 			}
             else if (npc.type == mod.NPCType("CrabulonIdle")) //boss 19
 			{
                 if (!CalamityWorld.downedCrabulon)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge5"));
                 }
 				CalamityWorld.downedCrabulon = true;
@@ -11099,6 +11275,8 @@ namespace CalamityMod.NPCs
 			{
                 if (!CalamityWorld.downedScavenger)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
                     Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge33"));
                 }
                 CalamityWorld.downedScavenger = true;
@@ -11113,6 +11291,8 @@ namespace CalamityMod.NPCs
                 Color messageColor = Color.RoyalBlue;
                 if (!CalamityWorld.downedPolterghast)
                 {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
                     if (Main.netMode == 0)
                     {
                         Main.NewText(Language.GetTextValue(key), messageColor);
@@ -11132,6 +11312,10 @@ namespace CalamityMod.NPCs
             {
                 CalamityWorld.downedLORDE = true;
             }
+            /*else if (npc.type == mod.NPCType("OldDuke")) //boss 23
+            {
+                CalamityWorld.downedOldDuke = true;
+            }*/
             #endregion
             #region DeathDowns
             if (CalamityWorld.death)
@@ -11148,15 +11332,15 @@ namespace CalamityMod.NPCs
         #region EditSpawnRate
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
 		{
-			if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && NPC.downedMoonlord && Main.raining)
-			{
-				spawnRate = (int)((double)spawnRate * 0.7);
-				maxSpawns = (int)((float)maxSpawns * 1.2f);
-			}
             if (player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
             {
                 spawnRate = (int)((double)spawnRate * 1.1);
                 maxSpawns = (int)((float)maxSpawns * 0.8f);
+                if (Main.raining)
+                {
+                    spawnRate = (int)((double)spawnRate * 0.7);
+                    maxSpawns = (int)((float)maxSpawns * 1.2f);
+                }
             }
             else if (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
             {
@@ -11451,7 +11635,7 @@ namespace CalamityMod.NPCs
                         chat = "Each night seems only more foreboding than the last. I feel unthinkable terrors are watching your every move.";
                     if (Main.rand.Next(5) == 0 && Main.eclipse)
                         chat = "Are you daft?! Turn off those lamps!";
-                    if (Main.rand.Next(5) == 0 && Main.raining && NPC.downedMoonlord)
+                    if (Main.rand.Next(5) == 0 && Main.raining && CalamityWorld.sulphurTiles > 30)
                         chat = "If this acid rain keeps up, there'll be a shortage of Dirt Blocks soon enough!";
                     break;
                 case NPCID.Mechanic:
@@ -11615,7 +11799,19 @@ namespace CalamityMod.NPCs
                         nextSlot++;
                     }
 				}
-			}
+                if (Main.hardMode)
+                {
+                    shop.item[nextSlot].SetDefaults(mod.ItemType("MagnumRounds"));
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 50, 0, 0);
+                    nextSlot++;
+                }
+                if (NPC.downedPlantBoss)
+                {
+                    shop.item[nextSlot].SetDefaults(mod.ItemType("GrenadeRounds"));
+                    shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+                    nextSlot++;
+                }
+            }
 			if (type == NPCID.Dryad)
 			{
                 shop.item[nextSlot].SetDefaults(ItemID.JungleRose);
@@ -11930,6 +12126,46 @@ namespace CalamityMod.NPCs
                 }
             }
             return false;
+        }
+        #endregion
+
+        #region OldDukeSpawn
+        public static void OldDukeSpawn(int plr, int Type)
+        {
+            Mod mod = ModLoader.GetMod("CalamityMod");
+            Player player = Main.player[plr];
+            if (!player.active || player.dead)
+            {
+                return;
+            }
+            int m = 0;
+            while (m < 1000)
+            {
+                Projectile projectile = Main.projectile[m];
+                if (projectile.active && projectile.bobber && projectile.owner == plr)
+                {
+                    int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, mod.NPCType("OldDuke"), 0, 0f, 0f, 0f, 0f, 255);
+                    string typeName2 = Main.npc[num8].TypeName;
+                    if (Main.netMode == 0)
+                    {
+                        Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName2), 175, 75, 255, false);
+                        return;
+                    }
+                    if (Main.netMode == 2)
+                    {
+                        NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
+                        {
+                                Main.npc[num8].GetTypeNetName()
+                        }), new Color(175, 75, 255), -1);
+                        return;
+                    }
+                    break;
+                }
+                else
+                {
+                    m++;
+                }
+            }
         }
         #endregion
 

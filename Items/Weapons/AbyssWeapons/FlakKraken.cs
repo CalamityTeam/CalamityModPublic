@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 0f;
-	        item.value = 500000;
-	        item.rare = 7;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 	        item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
 	        item.shoot = mod.ProjectileType("FlakKrakenGun");
 	        item.shootSpeed = 30f; //30

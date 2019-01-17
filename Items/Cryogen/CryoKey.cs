@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Cryogen
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryo Key");
-			Tooltip.SetDefault("Summons the magic of the ancient ice castle");
+			Tooltip.SetDefault("Summons Cryogen");
 		}
 		
 		public override void SetDefaults()

@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.knockBack = 8.5f;
 			item.UseSound = SoundID.Item1;
 			item.height = 48;
-			item.value = 800000;
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 			item.shoot = mod.ProjectileType("FlameScytheProjectile");
 			item.shootSpeed = 16f;
 		}

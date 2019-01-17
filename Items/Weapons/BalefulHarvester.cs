@@ -26,11 +26,11 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 1;
 			item.useTime = 22;
 			item.useTurn = true;
-			item.knockBack = 8;
+			item.knockBack = 8f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.value = 475000;
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 			item.shoot = mod.ProjectileType("BalefulHarvesterProjectile");
 			item.shootSpeed = 6f;
 		}

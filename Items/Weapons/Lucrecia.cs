@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("DNA");
 			item.shootSpeed = 32f;
-			item.value = 3000000;
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 		}
 	
 		public override void AddRecipes()

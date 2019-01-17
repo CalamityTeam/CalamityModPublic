@@ -29,8 +29,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 90;
-			item.value = 8000000;
-		}
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
+        }
 		
 		public override void ModifyTooltips(List<TooltipLine> list)
 	    {

@@ -30,8 +30,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5f;
-	        item.value = 10000000;
-	        item.UseSound = SoundID.Item20;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item20;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("Climax");
 	        item.shootSpeed = 12f;
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Weapons
 	        {
 	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
 	            {
-                    line2.overrideColor = new Color(108, 45, 199);
+                    line2.overrideColor = new Color(43, 96, 222);
                 }
 	        }
 	    }

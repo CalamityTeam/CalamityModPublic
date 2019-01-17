@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Calamitas
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Calamitas");
-			Main.npcFrameCount[npc.type] = 3;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 		
 		public override void SetDefaults()
@@ -27,7 +27,6 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.width = 120; //324
 			npc.height = 120; //216
 			npc.defense = 15;
-			animationType = 125;
 			npc.value = 0f;
 			npc.lifeMax = CalamityWorld.revenge ? 15000 : 10000;
             if (CalamityWorld.death)
@@ -71,8 +70,16 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.lifeMax = CalamityWorld.death ? 2600000 : 2200000;
             }
         }
-		
-		public override void AI()
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.15f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+
+        public override void AI()
 		{
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -153,8 +160,8 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			if (npc.ai[1] == 0f)
 			{
-				float num823 = expertMode ? 10f : 8.5f;
-				float num824 = expertMode ? 0.185f : 0.165f;
+				float num823 = expertMode ? 9.5f : 8f;
+				float num824 = expertMode ? 0.175f : 0.15f;
 				Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
 				float num826 = player.position.Y + (float)(player.height / 2) - 300f - vector82.Y;
@@ -246,8 +253,8 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					num831 = -1;
 				}
-				float num832 = expertMode ? 10f : 8.5f;
-				float num833 = expertMode ? 0.275f : 0.225f;
+				float num832 = expertMode ? 9.5f : 8f;
+				float num833 = expertMode ? 0.25f : 0.2f;
 				Vector2 vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * 360) - vector83.X;
 				float num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;

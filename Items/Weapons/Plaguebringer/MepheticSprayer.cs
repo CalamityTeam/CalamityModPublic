@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 			item.useTime = 10;
 			item.useAnimation = 30;
 			item.useStyle = 5;
-			item.noMelee = true; //so the item's animation doesn't do damage
+			item.noMelee = true;
 			item.knockBack = 2f;
 			item.UseSound = SoundID.Item34;
-			item.value = 1200000;
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("CorossiveFlames"); //idk why but all the guns in the vanilla source have this
+			item.shoot = mod.ProjectileType("CorossiveFlames");
 			item.shootSpeed = 7.5f;
 			item.useAmmo = 23;
 		}

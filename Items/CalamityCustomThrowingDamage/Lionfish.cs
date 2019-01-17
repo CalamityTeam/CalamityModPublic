@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 40;
-			item.value = 50000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 			item.shoot = mod.ProjectileType("Lionfish");
 			item.shootSpeed = 12f;
 		}

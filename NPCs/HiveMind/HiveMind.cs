@@ -41,9 +41,14 @@ namespace CalamityMod.NPCs.HiveMind
             aiType = -1; //new
 			npc.knockBackResist = 0f;
 			npc.boss = true;
-			npc.HitSound = SoundID.NPCHit1;
+            npc.value = 0f;
+            npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
+            else
+                music = MusicID.Boss2;
         }
 
         public override void FindFrame(int frameHeight)

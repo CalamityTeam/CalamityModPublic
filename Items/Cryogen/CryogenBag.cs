@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Cryogen
 			}
 			if (Main.rand.Next(3) == 0)
 			{
-				player.QuickSpawnItem(mod.ItemType("Permafrost"));
+				player.QuickSpawnItem(mod.ItemType("Avalanche"));
 			}
 			if (Main.rand.Next(3) == 0)
 			{

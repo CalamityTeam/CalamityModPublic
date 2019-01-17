@@ -73,7 +73,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath");
+            else
+                music = MusicID.Boss3;
 			bossBag = mod.ItemType("PlaguebringerGoliathBag");
 		}
 		

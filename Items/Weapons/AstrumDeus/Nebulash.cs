@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 			item.useStyle = 5;
 			item.knockBack = 2f;
 			item.UseSound = SoundID.Item117;
-			item.value = 500000;
-			item.shootSpeed = 24f;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.shootSpeed = 24f;
 			item.shoot = mod.ProjectileType("Nebulash");
 		}
 		

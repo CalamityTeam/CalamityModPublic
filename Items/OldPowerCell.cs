@@ -26,7 +26,6 @@ namespace CalamityMod.Items
 		
 		public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             bool canSummon = false;
             if ((double)player.Center.Y > Main.worldSurface * 16.0)
             {

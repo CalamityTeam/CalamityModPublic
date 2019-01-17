@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.Calamitas
 			aiType = 139;
 			npc.knockBackResist = 0.25f;
 			animationType = 2;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;

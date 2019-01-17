@@ -47,7 +47,8 @@ namespace CalamityMod.Projectiles.Patreon
             {
                 projectile.timeLeft = 2;
             }
-            if (!modPlayer.pArtifact || (!modPlayer.tarraSummon && !modPlayer.bloodflareSummon && !modPlayer.godSlayerSummon && !modPlayer.silvaSummon && !modPlayer.dsSetBonus))
+            if (!modPlayer.pArtifact || (!modPlayer.tarraSummon && !modPlayer.bloodflareSummon && 
+                !modPlayer.godSlayerSummon && !modPlayer.silvaSummon && !modPlayer.dsSetBonus && !modPlayer.omegaBlueSet))
             {
                 projectile.active = false;
                 return;

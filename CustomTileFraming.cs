@@ -83,7 +83,7 @@ namespace CalamityMod
             if (y + 1 < Main.maxTilesY && below != null && below.nactive() && !below.halfBrick() && below.slope() == 0)
                 checkType = below.type;
 
-            if (checkType == -1) return;
+            if (checkType == -1 || checkType == null) return;
 
             //Check if this plant needs an update
             if (PlantNeedsUpdate(plantType, checkType))

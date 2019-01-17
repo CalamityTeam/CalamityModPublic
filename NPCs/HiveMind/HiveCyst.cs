@@ -29,7 +29,6 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.defense = 0;
 			npc.lifeMax = 1000;
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.chaseable = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.rarity = 2;

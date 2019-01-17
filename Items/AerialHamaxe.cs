@@ -29,7 +29,7 @@ namespace CalamityMod.Items
             item.hammer = 75;
             item.useStyle = 1;
             item.knockBack = 7;
-            item.value = 50000;
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);  //Specific hamaxe 1 recipe.
+            ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AerialiteBar", 6);
             recipe.AddIngredient(ItemID.SunplateBlock, 5);
             recipe.AddTile(TileID.SkyMill);

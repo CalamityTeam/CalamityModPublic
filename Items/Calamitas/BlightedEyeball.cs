@@ -9,7 +9,8 @@ namespace CalamityMod.Items.Calamitas
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eye of Desolation");
-			Tooltip.SetDefault("Tonight is going to be a horrific night...");
+			Tooltip.SetDefault("Tonight is going to be a horrific night...\n" +
+                "Summons Calamitas");
 		}
 		
 		public override void SetDefaults()

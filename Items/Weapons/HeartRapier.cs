@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.height = 44;
-			item.value = 400000;
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 			item.shoot = mod.ProjectileType("HeartRapierProjectile");
 			item.shootSpeed = 5f;
 		}

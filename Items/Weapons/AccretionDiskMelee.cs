@@ -31,8 +31,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
 			item.height = 38;
-			item.value = 10000000;
-			item.shoot = mod.ProjectileType("AccretionDiskMelee");
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("AccretionDiskMelee");
 			item.shootSpeed = 13f;
 		}
 

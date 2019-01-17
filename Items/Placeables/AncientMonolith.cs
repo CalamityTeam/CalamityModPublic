@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Placeables
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.useStyle = 1;
-			item.consumable = true;
+            item.rare = 3;
+            item.consumable = true;
 			item.value = 500;
 			item.createTile = mod.TileType("AncientMonolith");
 		}
@@ -27,23 +28,10 @@ namespace CalamityMod.Items.Placeables
 		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CharredOre", 3);
-            recipe.AddIngredient(null, "UnholyCore", 6);
             recipe.AddIngredient(null, "BrimstoneSlag", 10);
+            recipe.AddIngredient(null, "CharredOre", 9);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AncientAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenMonolith", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AshenMonolith", 1);
-            recipe.AddIngredient(null, "EssenceofChaos", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
             recipe.AddRecipe();
         }
 	}

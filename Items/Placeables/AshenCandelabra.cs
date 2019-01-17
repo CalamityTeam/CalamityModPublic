@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Placeables
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.useStyle = 1;
-			item.consumable = true;
+            item.rare = 3;
+            item.consumable = true;
 			item.value = 500;
 			item.createTile = mod.TileType("AshenCandelabra");
 		}

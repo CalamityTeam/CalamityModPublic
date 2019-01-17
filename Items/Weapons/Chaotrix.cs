@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.channel = true;
 	        item.melee = true;
-	        item.knockBack = 3.6f;
-	        item.value = 300000;
-	        item.rare = 8;
+	        item.knockBack = 4f;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("ChaotrixProjectile");
 	    }

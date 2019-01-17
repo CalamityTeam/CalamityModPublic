@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.knockBackResist = 0.45f;
 			animationType = 257;
 			aiType = NPCID.AnomuraFungus;
-			npc.value = Item.buyPrice(0, 0, 2, 50);
+			npc.value = Item.buyPrice(0, 0, 1, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath36;
 		}

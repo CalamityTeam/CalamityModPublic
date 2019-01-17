@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles
 
         public override bool CanExplode(int i, int j)
         {
-            return NPC.downedPlantBoss;
+            return NPC.downedPlantBoss || CalamityWorld.downedCalamitas;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles
         public override void RandomUpdate(int i, int j)
         {
             Main.tileValue[Type] = (short)(Main.hardMode ? 690 : 0);
-            if (NPC.downedPlantBoss)
+            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 int random = WorldGen.genRand.Next(4);
                 if (random == 0)

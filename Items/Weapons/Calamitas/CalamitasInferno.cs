@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Weapons.Calamitas
             item.useTime = 25;
             item.useAnimation = 25;
             item.useStyle = 5;
-            item.noMelee = true; //so the item's animation doesn't do damage
+            item.noMelee = true;
             item.knockBack = 7.5f;
-            item.value = 550000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("BrimstoneHellfireballFriendly");

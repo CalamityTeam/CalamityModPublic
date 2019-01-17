@@ -30,7 +30,6 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.defense = 0;
 			npc.lifeMax = 3000;
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.chaseable = false;
 			npc.dontTakeDamage = true;
@@ -78,7 +77,7 @@ namespace CalamityMod.NPCs.Leviathan
                         case 4:
                         case 5: type = mod.ProjectileType("WaterSpear"); break;
                     }
-                    int damage = Main.expertMode ? 35 : 48;
+                    int damage = Main.expertMode ? 26 : 32;
 					Projectile.NewProjectile(center.X, center.Y, direction.X, direction.Y, type, damage, 1f, npc.target);
 				}
 				timer = 0;

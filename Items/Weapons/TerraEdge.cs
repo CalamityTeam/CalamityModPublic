@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
             item.height = 58;
-            item.value = 1060000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shoot = mod.ProjectileType("TerraEdgeBeam");
             item.shootSpeed = 12f;
@@ -40,12 +40,14 @@ namespace CalamityMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "TrueBloodyEdge");
             recipe.AddIngredient(ItemID.TrueExcalibur);
+            recipe.AddIngredient(null, "LivingShard", 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TrueNightsEdge);
             recipe.AddIngredient(ItemID.TrueExcalibur);
+            recipe.AddIngredient(null, "LivingShard", 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

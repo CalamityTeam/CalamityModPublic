@@ -28,9 +28,10 @@ namespace CalamityMod.Items.Weapons
 	        item.useAnimation = 3;
 	        item.useStyle = 5;
 	        item.noMelee = true;
-	        item.knockBack = 3;
-	        item.value = 1250000;
-	        item.UseSound = SoundID.Item33;
+	        item.knockBack = 3f;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item33;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("GammaLaser");
 	        item.shootSpeed = 20f;

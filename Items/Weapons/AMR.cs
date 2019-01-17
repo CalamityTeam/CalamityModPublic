@@ -30,7 +30,8 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 9.5f;
-            item.value = 10000000;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
             item.shoot = 10;

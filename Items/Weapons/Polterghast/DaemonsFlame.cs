@@ -26,8 +26,9 @@ namespace CalamityMod.Items.Weapons.Polterghast
 	        item.useAnimation = 12;
 	        item.useStyle = 5;
 	        item.knockBack = 4f;
-	        item.value = 1000000;
-	        item.UseSound = SoundID.Item5;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item5;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.ranged = true;

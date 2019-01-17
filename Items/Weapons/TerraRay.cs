@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = 1000000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item60;
             item.autoReuse = true;
@@ -40,14 +40,14 @@ namespace CalamityMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LivingShard", 7);
             recipe.AddIngredient(null, "NightsRay");
+            recipe.AddIngredient(null, "LivingShard", 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "LivingShard", 7);
             recipe.AddIngredient(null, "CarnageRay");
+            recipe.AddIngredient(null, "LivingShard", 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

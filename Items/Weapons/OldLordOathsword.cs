@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 4.5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.value = 120000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 		}
 	}
 }

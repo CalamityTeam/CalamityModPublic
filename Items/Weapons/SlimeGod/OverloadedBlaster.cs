@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 			item.useStyle = 5;
 			item.noMelee = true;
 			item.knockBack = 1.5f;
-			item.value = 100000;
-			item.rare = 4;
+            item.value = Item.buyPrice(0, 12, 0, 0);
+            item.rare = 4;
 			item.UseSound = SoundID.Item9;
 			item.autoReuse = true;
 			item.shootSpeed = 6.5f;

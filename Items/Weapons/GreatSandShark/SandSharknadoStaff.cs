@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
 	        item.useStyle = 1;
 	        item.noMelee = true;
 	        item.knockBack = 2f;
-	        item.value = 100000;
-	        item.rare = 9;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 	        item.UseSound = SoundID.Item44;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("Sandnado");

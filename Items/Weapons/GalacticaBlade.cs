@@ -26,12 +26,13 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 1;
 			item.useTime = 17;
 			item.useTurn = true;
-			item.knockBack = 6;
+			item.knockBack = 6f;
 			item.UseSound = SoundID.Item105;
 			item.autoReuse = true;
 			item.height = 68;
-			item.value = 10000000;
-			item.shoot = mod.ProjectileType("GalacticaComet");
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("GalacticaComet");
 			item.shootSpeed = 23f;
 		}
 		

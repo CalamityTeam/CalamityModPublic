@@ -32,8 +32,9 @@ namespace CalamityMod.Items.Weapons
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("ElementBallShiv");
 			item.shootSpeed = 14f;
-			item.value = 10000000;
-		}
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+        }
 		
 		public override void ModifyTooltips(List<TooltipLine> list)
 	    {

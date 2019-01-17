@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 56;
-			item.value = 750000;
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.rare = 6;
 			item.shoot = mod.ProjectileType("CalamityAura");
 			item.shootSpeed = 11f;
 		}

@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 88;
-            item.value = 10000000;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("SpatialLanceProjectile");
             item.shootSpeed = 12f;
         }

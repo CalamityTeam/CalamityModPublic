@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.AquaticScourge
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3f;
-	        item.value = 500000;
-	        item.rare = 5;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 	        item.UseSound = SoundID.Item13;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("WaterStream");

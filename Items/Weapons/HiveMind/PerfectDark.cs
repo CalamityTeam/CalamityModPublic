@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.HiveMind
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 50;
-			item.value = 50000;
-			item.rare = 4;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 			item.shoot = mod.ProjectileType("DarkBall");
 			item.shootSpeed = 5f;
 		}

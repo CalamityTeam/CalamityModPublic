@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Perforators
 	        item.channel = true;
 	        item.melee = true;
 	        item.knockBack = 4.25f;
-	        item.value = 70000;
-	        item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 	        item.autoReuse = false;
 	        item.shoot = mod.ProjectileType("AortaProjectile");
 	    }

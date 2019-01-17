@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 52;
-			item.value = 300000;
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 			item.shoot = mod.ProjectileType("IchorSpear");
 			item.shootSpeed = 20f;
 		}

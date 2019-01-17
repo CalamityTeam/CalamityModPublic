@@ -9,7 +9,8 @@ namespace CalamityMod.Items.SlimeGod
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overloaded Sludge");
-			Tooltip.SetDefault("It looks corrupted");
+			Tooltip.SetDefault("It looks corrupted\n" +
+                "Summons the Slime God");
 		}
 		
 		public override void SetDefaults()
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.SlimeGod
 			item.width = 20;
 			item.height = 20;
 			item.maxStack = 20;
-			item.rare = 5;
+			item.rare = 4;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;

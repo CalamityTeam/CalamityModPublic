@@ -30,8 +30,9 @@ namespace CalamityMod.Items.Weapons.Providence
 			item.noMelee = true;
 			item.knockBack = 4.5f;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
-			item.value = 5000000;
-			item.autoReuse = true;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.autoReuse = true;
 			item.shoot = mod.ProjectileType("HolyLaser");
 			item.shootSpeed = 6f;
 		}

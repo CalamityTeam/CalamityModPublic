@@ -37,6 +37,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private bool gettingTired4 = false; //2%
         private bool gettingTired5 = false; //1%
         private bool willCharge = false;
+        private bool canFireSplitingFireball = true;
 
         private int giveUpCounter = 1200;
         private int lootTimer = 0; //900 * 5 = 4500
@@ -65,7 +66,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 120; //324
 			npc.height = 120; //216
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 5500000 : 5000000;
+            npc.value = Item.buyPrice(10, 0, 0, 0);
+            npc.lifeMax = CalamityWorld.revenge ? 5500000 : 5000000;
             if (CalamityWorld.death)
             {
                 npc.lifeMax = 6250000;
@@ -90,7 +92,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC1");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCG");
+            else
+                music = MusicID.Boss2;
 		}
 		
 		public override void AI()
@@ -513,7 +519,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startThirdAttack && ((double)npc.life <= (double)npc.lifeMax * 0.5))
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC2");
+                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCL");
+                else
+                    music = MusicID.Boss3;
                 string key = "Mods.CalamityMod.SupremeBossText5";
                 Color messageColor = Color.Orange;
                 if (Main.netMode == 0)
@@ -582,7 +592,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             if (!startFourthAttack && ((double)npc.life <= (double)npc.lifeMax * 0.3))
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC3");
+                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCE");
+                else
+                    music = MusicID.LunarBoss;
                 string key = "Mods.CalamityMod.SupremeBossText7";
                 Color messageColor = Color.Orange;
                 if (Main.netMode == 0)
@@ -676,7 +690,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 if (gettingTired5)
                 {
-                    music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SC4");
+                    Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                    if (calamityModMusic != null)
+                        music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SCA");
+                    else
+                        music = MusicID.Eerie;
                     npc.noGravity = false;
                     npc.noTileCollide = false;
                     npc.damage = 0;
@@ -863,13 +881,19 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 for (int x = 0; x < 1000; x = proj + 1)
                 {
                     Projectile projectile = Main.projectile[x];
-                    if (projectile.active && (projectile.type == mod.ProjectileType("BrimstoneHellblast2") || 
-                        projectile.type == mod.ProjectileType("BrimstoneGigaBlast") || 
-                        projectile.type == mod.ProjectileType("BrimstoneBarrage") || 
-                        projectile.type == mod.ProjectileType("BrimstoneFireblast") ||
-                        projectile.type == mod.ProjectileType("BrimstoneWave")))
+                    if (projectile.active)
                     {
-                        projectile.Kill();
+                        if (projectile.type == mod.ProjectileType("BrimstoneHellblast2") ||
+                            projectile.type == mod.ProjectileType("BrimstoneBarrage") ||
+                            projectile.type == mod.ProjectileType("BrimstoneWave"))
+                        {
+                            projectile.Kill();
+                        }
+                        else if (projectile.type == mod.ProjectileType("BrimstoneGigaBlast") ||
+                            projectile.type == mod.ProjectileType("BrimstoneFireblast"))
+                        {
+                            projectile.active = false;
+                        }
                     }
                     proj = x;
                 }
@@ -1101,8 +1125,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							value9.X += num180;
 							value9.Y += num182;
 							int randomShot = Main.rand.Next(6); //0 to 5
-							if (randomShot == 0)
+							if (randomShot == 0 && canFireSplitingFireball)
 							{
+                                canFireSplitingFireball = false;
 								randomShot = mod.ProjectileType("BrimstoneFireblast");
 								num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
 								num827 = num828 / num827;
@@ -1112,8 +1137,21 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								vector82.Y += num826 * 15f;
 								Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 							}
-							else if (randomShot <= 4)
+                            else if (randomShot == 1 && canFireSplitingFireball)
+                            {
+                                canFireSplitingFireball = false;
+                                randomShot = mod.ProjectileType("BrimstoneGigaBlast");
+                                num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+                                num827 = num828 / num827;
+                                num825 *= num827;
+                                num826 *= num827;
+                                vector82.X += num825 * 15f;
+                                vector82.Y += num826 * 15f;
+                                Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+                            }
+							else
 							{
+                                canFireSplitingFireball = true;
 								randomShot = mod.ProjectileType("BrimstoneBarrage");
 								for (int num186 = 1; num186 <= 8; num186++)
 								{
@@ -1126,17 +1164,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									num182 *= num183;
 									Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 								}
-							}
-							else
-							{
-								randomShot = mod.ProjectileType("BrimstoneGigaBlast");
-								num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-								num827 = num828 / num827;
-								num825 *= num827;
-								num826 *= num827;
-								vector82.X += num825 * 15f;
-								vector82.Y += num826 * 15f;
-								Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 							}
 							return;
 						}
@@ -1576,20 +1603,34 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							value9.X += num180;
 							value9.Y += num182;
 							int randomShot = Main.rand.Next(6);
-							if (randomShot == 0)
-							{
-								randomShot = mod.ProjectileType("BrimstoneFireblast");
-								num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-								num827 = num828 / num827;
-								num825 *= num827;
-								num826 *= num827;
-								vector82.X += num825 * 15f;
-								vector82.Y += num826 * 15f;
-								int shot = Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-							}
-							else if (randomShot <= 4)
-							{
-								randomShot = mod.ProjectileType("BrimstoneBarrage");
+                            if (randomShot == 0 && canFireSplitingFireball)
+                            {
+                                canFireSplitingFireball = false;
+                                randomShot = mod.ProjectileType("BrimstoneFireblast");
+                                num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+                                num827 = num828 / num827;
+                                num825 *= num827;
+                                num826 *= num827;
+                                vector82.X += num825 * 15f;
+                                vector82.Y += num826 * 15f;
+                                Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+                            }
+                            else if (randomShot == 1 && canFireSplitingFireball)
+                            {
+                                canFireSplitingFireball = false;
+                                randomShot = mod.ProjectileType("BrimstoneGigaBlast");
+                                num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+                                num827 = num828 / num827;
+                                num825 *= num827;
+                                num826 *= num827;
+                                vector82.X += num825 * 15f;
+                                vector82.Y += num826 * 15f;
+                                Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+                            }
+                            else
+                            {
+                                canFireSplitingFireball = true;
+                                randomShot = mod.ProjectileType("BrimstoneBarrage");
                                 for (int num186 = 1; num186 <= 8; num186++)
                                 {
                                     num180 = player.position.X + (float)player.width * 0.5f - value9.X;
@@ -1599,21 +1640,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                                     num183 = (8f + speedBoost) / num183;
                                     num180 *= num183;
                                     num182 *= num183;
-                                    Projectile.NewProjectile(value9.X, value9.Y, num180, num182, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
+                                    Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
                                 }
                             }
-							else
-							{
-								randomShot = mod.ProjectileType("BrimstoneGigaBlast");
-								num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
-								num827 = num828 / num827;
-								num825 *= num827;
-								num826 *= num827;
-								vector82.X += num825 * 15f;
-								vector82.Y += num826 * 15f;
-								int shot = Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
-							}
-							return;
+                            return;
 						}
 					}
 				}
@@ -2060,13 +2090,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		}
         #endregion
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            if (willCharge)
-                return new Color(100, 0, 0, 0);
-            return null;
-        }
-
         public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = mod.ItemType("SupremeHealingPotion");
@@ -2145,35 +2168,33 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			cooldownSlot = 1;
 			return true;
 		}
-		
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frameCounter += 1.0;
-			if (npc.frameCounter < 7.0)
-			{
-				npc.frame.Y = 0;
-			}
-			else if (npc.frameCounter < 14.0)
-			{
-				npc.frame.Y = frameHeight;
-			}
-			else if (npc.frameCounter < 21.0)
-			{
-				npc.frame.Y = frameHeight * 2;
-			}
-			else
-			{
-				npc.frameCounter = 0.0;
-				npc.frame.Y = 0;
-			}
-			if (npc.ai[0] > 1f)
-			{
-				npc.frame.Y = npc.frame.Y + frameHeight * 3;
-				return;
-			}
-		}
-		
-		public override void HitEffect(int hitDirection, double damage)
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.15f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Mod mod = ModLoader.GetMod("CalamityMod");
+            Texture2D texture = Main.npcTexture[npc.type];
+            Texture2D texture2 = mod.GetTexture("NPCs/SupremeCalamitas/SupremeCalamitas2");
+            Color newColor = (willCharge ? new Color(100, 0, 0, 0) : drawColor);
+            if (npc.ai[0] > 1f)
+            {
+                CalamityMod.DrawTexture(spriteBatch, texture2, 0, npc, newColor);
+            }
+            else
+            {
+                CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, newColor);
+            }
+            return false;
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
 			{

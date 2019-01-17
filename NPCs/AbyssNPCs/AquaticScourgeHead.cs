@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.buffImmune[k] = true;
             }
             npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 15, 0, 0);
+			npc.value = Item.buyPrice(0, 12, 0, 0);
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -74,7 +74,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 250 : 80;
                 npc.boss = true;
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
+                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
+                else
+                    music = MusicID.Boss2;
             }
             else
             {

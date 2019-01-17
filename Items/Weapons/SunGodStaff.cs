@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 1.25f;
-            item.value = 120000;
+            item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;

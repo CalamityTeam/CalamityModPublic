@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
             npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

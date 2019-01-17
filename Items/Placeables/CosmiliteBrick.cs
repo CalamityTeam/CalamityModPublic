@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-// If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
 using Terraria.Localization;
 
 namespace CalamityMod.Items.Placeables
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "CosmiliteBar");
+            recipe.AddIngredient(mod.GetItem("CosmiliteBar"), 1);
             recipe.AddIngredient(ItemID.StoneBlock, 20);
             recipe.SetResult(this, 20);
             recipe.AddTile(null, "DraedonsForge");

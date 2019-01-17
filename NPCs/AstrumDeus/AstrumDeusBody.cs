@@ -55,7 +55,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.buffImmune[k] = true;
 			}
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
             npc.dontCountMe = true;
 		}
 		
@@ -97,25 +96,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 			if (Main.netMode != 1)
 			{
 				int shootTime = 4;
-				if ((double)npc.life <= (double)npc.lifeMax * 0.65)
-				{
-					shootTime += 2;
-				}
 				if ((double)npc.life <= (double)npc.lifeMax * 0.3 || CalamityWorld.bossRushActive)
 				{
 					shootTime += 2;
-				}
-				if ((double)Main.player[npc.target].statLife < (double)Main.player[npc.target].statLifeMax2 * 0.9)
-				{
-					shootTime += 1;
-				}
-				if ((double)Main.player[npc.target].statLife < (double)Main.player[npc.target].statLifeMax2 * 0.7)
-				{
-					shootTime += 1;
-				}
-				if ((double)Main.player[npc.target].statLife < (double)Main.player[npc.target].statLifeMax2 * 0.4)
-				{
-					shootTime += 1;
 				}
 				npc.localAI[0] += (float)Main.rand.Next(shootTime);
 				if (npc.localAI[0] >= (float)Main.rand.Next(1400, 26000))

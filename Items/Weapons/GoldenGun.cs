@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 2f;
-	        item.value = 50000;
-	        item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 	        item.UseSound = SoundID.Item11;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("GoldenGun");

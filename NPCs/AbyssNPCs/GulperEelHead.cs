@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.buffImmune[k] = true;
             }
             npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 5, 0, 0);
+			npc.value = Item.buyPrice(0, 0, 50, 0);
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -429,11 +429,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 if (Main.rand.Next(2) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(6, 9));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(2, 4));
                 }
                 if (Main.expertMode && Main.rand.Next(2) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(2, 4));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
                 }
                 if (Main.rand.Next(2) == 0)
                 {

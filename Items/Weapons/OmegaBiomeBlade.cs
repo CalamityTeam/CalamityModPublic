@@ -29,13 +29,24 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 62;
-			item.value = 1200000;
-			item.rare = 9;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
 			item.shoot = mod.ProjectileType("OmegaBiomeOrb");
 			item.shootSpeed = 15f;
 		}
-		
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "ItemName")
+                {
+                    line2.overrideColor = new Color(0, 255, 200);
+                }
+            }
+        }
+
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int projectiles = 0; projectiles <= 2; projectiles++)
 			{

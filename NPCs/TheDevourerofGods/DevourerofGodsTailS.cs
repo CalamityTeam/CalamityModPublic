@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 12000000 : 11000000;
+                npc.lifeMax = CalamityWorld.death ? 9000000 : 8000000;
             }
             npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
             npc.aiStyle = -1; //new
@@ -56,8 +56,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.buffImmune[k] = true;
 			}
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-			npc.dontCountMe = true;
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
+            else
+                music = MusicID.LunarBoss;
+            npc.dontCountMe = true;
 		}
 		
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

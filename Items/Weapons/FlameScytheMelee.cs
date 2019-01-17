@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
 			item.height = 48;
-			item.value = 800000;
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 			item.shoot = mod.ProjectileType("FlameScytheProjectileMelee");
 			item.shootSpeed = 16f;
 		}

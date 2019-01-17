@@ -40,7 +40,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(1, 0, 0, 0);
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;

@@ -20,29 +20,18 @@ namespace CalamityMod.Items.Placeables
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.useStyle = 1;
-			item.consumable = true;
+            item.rare = 3;
+            item.consumable = true;
 			item.createTile = mod.TileType("AshenBasin");
 		}
 
 		public override void AddRecipes()
 		{
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "SmoothBrimstoneSlag", 25);
-            recipe.AddIngredient(null, "Cinderplate", 25);
+            recipe.AddIngredient(null, "SmoothBrimstoneSlag", 10);
+            recipe.AddIngredient(null, "UnholyCore", 5);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBasin", 1);
-            recipe.AddIngredient(null, "UnholyCore", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientBasin", 1);
-            recipe.AddIngredient(null, "UnholyCore", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
             recipe.AddRecipe();
         }
 	}

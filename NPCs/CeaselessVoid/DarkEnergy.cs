@@ -44,7 +44,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			{
 				npc.buffImmune[k] = true;
 			}
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit53;
 			npc.DeathSound = SoundID.NPCDeath44;
 		}

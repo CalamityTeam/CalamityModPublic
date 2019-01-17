@@ -15,7 +15,7 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Red Lightning Container");
-			Tooltip.SetDefault("Permanently makes Rage Mode do 20% (80% in Death Mode) more damage\n" +
+			Tooltip.SetDefault("Permanently makes Rage Mode do 15% (60% in Death Mode) more damage\n" +
                 "Revengeance drop");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 6));
         }

@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.channel = true;
 	        item.melee = true;
-	        item.knockBack = 3.4f;
-	        item.value = 150000;
-	        item.rare = 6;
+	        item.knockBack = 3.5f;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("QuagmireProjectile");
 	    }

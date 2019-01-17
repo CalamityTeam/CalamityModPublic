@@ -41,11 +41,15 @@ namespace CalamityMod.NPCs.SlimeGod
 			aiType = -1;
 			npc.knockBackResist = 0f;
 			animationType = 50;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
+			npc.value = 0f;
 			npc.alpha = 60;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
+            else
+                music = MusicID.Boss1;
         }
 		
 		public override void AI()

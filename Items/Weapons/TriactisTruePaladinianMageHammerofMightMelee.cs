@@ -30,7 +30,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 160;
-            item.value = 100000000;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("TriactisOPHammerMelee");
             item.shootSpeed = 25f;
         }

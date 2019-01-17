@@ -31,8 +31,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.autoReuse = true;
 			item.height = 32;
 			item.rare = 2;
-			item.value = 40000;
-			item.shoot = mod.ProjectileType("Mycoroot");
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.shoot = mod.ProjectileType("Mycoroot");
 			item.shootSpeed = 20f;
 		}
 		

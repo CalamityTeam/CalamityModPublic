@@ -13,7 +13,9 @@ namespace CalamityMod.Items.ProfanedGuardian
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Profaned Shard");
-			Tooltip.SetDefault("A shard of the unholy flame\nCan only be used during daytime");
+			Tooltip.SetDefault("A shard of the unholy flame\n" +
+                "Summons the Profaned Guardians\n" +
+                "Can only be used during daytime");
 		}
 		
 		public override void SetDefaults()

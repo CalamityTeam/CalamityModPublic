@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.melee = true;
 			item.height = 38;
-			item.value = 500000;
-			item.rare = 6;
-			item.shoot = mod.ProjectileType("MangroveChakramProjectileMelee");
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
+            item.shoot = mod.ProjectileType("MangroveChakramProjectileMelee");
 			item.shootSpeed = 15.5f;
 		}
 		

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
@@ -37,6 +38,42 @@ namespace CalamityMod.Tiles
                 {
                     Main.tile[i, j].liquid = 255;
                     Main.tile[i, j].lava(false);
+                }
+            }
+        }
+
+        public override void RandomUpdate(int i, int j)
+        {
+            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+            {
+                int random = WorldGen.genRand.Next(3);
+                if (random == 0)
+                {
+                    i++;
+                }
+                if (random == 1)
+                {
+                    i--;
+                }
+                if (random == 2)
+                {
+                    j--;
+                }
+                if (Main.tile[i, j] != null)
+                {
+                    if (!Main.tile[i, j].active())
+                    {
+                        if (Main.rand.Next(20) == 0 && !Main.tile[i, j].lava())
+                        {
+                            Main.tile[i, j].type = (ushort)mod.TileType("LumenylCrystals");
+                            Main.tile[i, j].active(true);
+                            WorldGen.SquareTileFrame(i, j, true);
+                            if (Main.netMode == 2)
+                            {
+                                NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
+                            }
+                        }
+                    }
                 }
             }
         }

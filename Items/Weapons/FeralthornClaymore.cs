@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;
 			item.height = 66;
-			item.value = 355000;
-			item.rare = 6;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 		}
 	
 		public override void AddRecipes()

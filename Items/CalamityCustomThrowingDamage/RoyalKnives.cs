@@ -29,7 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = 8000000;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("RoyalKnife");
             item.shootSpeed = 9f;
         }

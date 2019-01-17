@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3.25f;
-	        item.value = 500000;
-	        item.UseSound = SoundID.Item105;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.UseSound = SoundID.Item105;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("AstralStarMagic");
 	        item.shootSpeed = 12f;

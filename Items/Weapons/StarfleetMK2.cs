@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
             item.height = 32;
             item.UseSound = SoundID.Item92;
             item.shoot = mod.ProjectileType("StarfleetMK2");
-            item.rare = 15;
-            item.value = Item.sellPrice(5, 0, 0, 0);
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.ranged = true;

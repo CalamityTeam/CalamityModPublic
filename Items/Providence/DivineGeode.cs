@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Providence
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-            item.rare = 9;
+            item.rare = 11;
             item.value = 120000;
         }
 

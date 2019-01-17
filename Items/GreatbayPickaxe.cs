@@ -14,6 +14,7 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Greatbay Pickaxe");
+            Tooltip.SetDefault("Can mine Meteorite");
         }
 
         public override void SetDefaults()
@@ -28,7 +29,7 @@ namespace CalamityMod.Items
             item.pick = 60;
             item.useStyle = 1;
             item.knockBack = 2;
-            item.value = 57000;
+            item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

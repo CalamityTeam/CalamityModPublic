@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 54; //324
 			npc.height = 54; //216
 			npc.defense = 15;
-			npc.lifeMax = 40000;
+			npc.lifeMax = 30000;
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
             aiType = -1;
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.localAI[1] = 0f;
             }
             float num17 = 16f;
-            if (Main.player[npc.target].dead || (double)Main.player[npc.target].position.Y < Main.rockLayer)
+            if (Main.player[npc.target].dead || (double)Main.player[npc.target].position.Y < Main.rockLayer * 16.0)
             {
                 flag2 = false;
                 npc.velocity.Y = npc.velocity.Y + 1f;

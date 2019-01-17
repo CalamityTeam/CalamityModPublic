@@ -37,15 +37,19 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 8, 0, 0);
-			npc.alpha = 80;
+            npc.value = Item.buyPrice(0, 8, 0, 0);
+            npc.alpha = 80;
 			animationType = 10;
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
+            else
+                music = MusicID.Boss1;
             bossBag = mod.ItemType("SlimeGodBag");
 		}
 		

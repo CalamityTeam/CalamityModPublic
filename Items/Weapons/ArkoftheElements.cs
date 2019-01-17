@@ -30,8 +30,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item60;
 			item.autoReuse = true;
 			item.height = 84;
-			item.value = 10000000;
-			item.shoot = mod.ProjectileType("EonBeam");
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("EonBeam");
 			item.shootSpeed = 16f;
 		}
 		

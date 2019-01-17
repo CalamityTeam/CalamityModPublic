@@ -512,7 +512,7 @@ namespace CalamityMod.Tiles
                     }
                 }
             }
-            if (Main.hardMode)
+            if (Main.hardMode && !NPC.downedPlantBoss && !NPC.downedGolemBoss && !NPC.downedAncientCultist && !NPC.downedMoonlord && !CalamityWorld.downedCalamitas)
             {
                 if (j > (int)Main.worldSurface)
                 {
@@ -523,57 +523,60 @@ namespace CalamityMod.Tiles
                             if (type == 60)
                             {
                                 int j2 = j - 1;
-                                if (Main.tile[i, j2].liquid == 0)
+                                if (Main.tile[i, j2] != null)
                                 {
-                                    if (WorldGen.genRand.Next(3) == 0)
+                                    if (Main.tile[i, j2].liquid == 0)
                                     {
-                                        bool flag18 = true;
-                                        int num80 = 400;
-                                        for (int num81 = i - num80; num81 < i + num80; num81 += 2)
+                                        if (WorldGen.genRand.Next(3) == 0)
                                         {
-                                            for (int num82 = j - num80; num82 < j + num80; num82 += 2)
+                                            bool flag18 = true;
+                                            int num80 = 400;
+                                            for (int num81 = i - num80; num81 < i + num80; num81 += 2)
                                             {
-                                                if (num81 > 1 && num81 < Main.maxTilesX - 2 && num82 > 1 && num82 < Main.maxTilesY - 2 && Main.tile[num81, num82].active() && Main.tile[num81, num82].type == 238)
+                                                for (int num82 = j - num80; num82 < j + num80; num82 += 2)
                                                 {
-                                                    flag18 = false;
-                                                    break;
+                                                    if (num81 > 1 && num81 < Main.maxTilesX - 2 && num82 > 1 && num82 < Main.maxTilesY - 2 && Main.tile[num81, num82].active() && Main.tile[num81, num82].type == 238)
+                                                    {
+                                                        flag18 = false;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            if (flag18)
+                                            {
+                                                WorldGen.PlaceJunglePlant(i, j2, 238, 0, 0);
+                                                WorldGen.SquareTileFrame(i, j2, true);
+                                                WorldGen.SquareTileFrame(i + 1, j2 + 1, true);
+                                                if (Main.tile[i, j2].type == 238 && Main.netMode == 2)
+                                                {
+                                                    NetMessage.SendTileSquare(-1, i, j2, 4, TileChangeType.None);
                                                 }
                                             }
                                         }
-                                        if (flag18)
+                                        if (NPC.downedMechBossAny && WorldGen.genRand.Next(6) == 0)
                                         {
-                                            WorldGen.PlaceJunglePlant(i, j2, 238, 0, 0);
-                                            WorldGen.SquareTileFrame(i, j2, true);
-                                            WorldGen.SquareTileFrame(i + 1, j2 + 1, true);
-                                            if (Main.tile[i, j2].type == 238 && Main.netMode == 2)
+                                            bool flag19 = true;
+                                            int num83 = 150;
+                                            for (int num84 = i - num83; num84 < i + num83; num84 += 2)
                                             {
-                                                NetMessage.SendTileSquare(-1, i, j2, 4, TileChangeType.None);
-                                            }
-                                        }
-                                    }
-                                    if (NPC.downedMechBossAny && WorldGen.genRand.Next(6) == 0)
-                                    {
-                                        bool flag19 = true;
-                                        int num83 = 150;
-                                        for (int num84 = i - num83; num84 < i + num83; num84 += 2)
-                                        {
-                                            for (int num85 = j - num83; num85 < j + num83; num85 += 2)
-                                            {
-                                                if (num84 > 1 && num84 < Main.maxTilesX - 2 && num85 > 1 && num85 < Main.maxTilesY - 2 && Main.tile[num84, num85].active() && Main.tile[num84, num85].type == 236)
+                                                for (int num85 = j - num83; num85 < j + num83; num85 += 2)
                                                 {
-                                                    flag19 = false;
-                                                    break;
+                                                    if (num84 > 1 && num84 < Main.maxTilesX - 2 && num85 > 1 && num85 < Main.maxTilesY - 2 && Main.tile[num84, num85].active() && Main.tile[num84, num85].type == 236)
+                                                    {
+                                                        flag19 = false;
+                                                        break;
+                                                    }
                                                 }
                                             }
-                                        }
-                                        if (flag19)
-                                        {
-                                            WorldGen.PlaceJunglePlant(i, j2, 236, WorldGen.genRand.Next(3), 0);
-                                            WorldGen.SquareTileFrame(i, j2, true);
-                                            WorldGen.SquareTileFrame(i + 1, j2 + 1, true);
-                                            if (Main.tile[i, j2].type == 236 && Main.netMode == 2)
+                                            if (flag19)
                                             {
-                                                NetMessage.SendTileSquare(-1, i, j2, 4, TileChangeType.None);
+                                                WorldGen.PlaceJunglePlant(i, j2, 236, WorldGen.genRand.Next(3), 0);
+                                                WorldGen.SquareTileFrame(i, j2, true);
+                                                WorldGen.SquareTileFrame(i + 1, j2 + 1, true);
+                                                if (Main.tile[i, j2].type == 236 && Main.netMode == 2)
+                                                {
+                                                    NetMessage.SendTileSquare(-1, i, j2, 4, TileChangeType.None);
+                                                }
                                             }
                                         }
                                     }

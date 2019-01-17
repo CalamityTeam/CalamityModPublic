@@ -32,8 +32,9 @@ Right click to fire two devastating barrages of five empowered fireballs.
 			item.height = 84;
 			item.UseSound = SoundID.Item5;
 			item.shoot = mod.ProjectileType("Drataliornus");
-			item.value = Item.sellPrice(18, 0, 0, 0);
-			item.noMelee = true;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
+            item.noMelee = true;
             item.noUseGraphic = true;
 			item.ranged = true;
             item.channel = true;

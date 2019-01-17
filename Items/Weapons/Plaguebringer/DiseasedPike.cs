@@ -32,8 +32,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 58;
-            item.maxStack = 1;
-            item.value = 800000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shoot = mod.ProjectileType("DiseasedPike");
             item.shootSpeed = 9f;

@@ -29,8 +29,9 @@ namespace CalamityMod.Items.Weapons.Polterghast
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 80;
-			item.value = 1000000;
-			item.shoot = mod.ProjectileType("TerrorBeam");
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("TerrorBeam");
 			item.shootSpeed = 20f;
 		}
 		

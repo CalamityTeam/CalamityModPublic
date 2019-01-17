@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 120;
-			item.value = 1500000;
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
 		}
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

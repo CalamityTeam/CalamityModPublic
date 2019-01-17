@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 
         public override void SetDefaults()
         {
-            item.width = 42;
+            item.width = 50;
             item.damage = 96;
             item.melee = true;
             item.useAnimation = 15;
@@ -28,9 +28,8 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.knockBack = 5.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 52;
-            item.maxStack = 1;
-            item.value = 755000;
+            item.height = 56;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shoot = mod.ProjectileType("PlagueDust");
             item.shootSpeed = 9f;

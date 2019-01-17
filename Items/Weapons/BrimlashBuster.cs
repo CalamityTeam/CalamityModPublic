@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 68;
-			item.value = 3000000;
-			item.rare = 9;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
 			item.shoot = mod.ProjectileType("Brimlash");
 			item.shootSpeed = 18f;
 		}

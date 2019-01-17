@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.Cryogen
             }
             npc.knockBackResist = 0f;
 			animationType = 472;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath15;
 		}

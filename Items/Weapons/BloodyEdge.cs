@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.autoReuse = true;
             item.useTurn = true;
 			item.height = 60;
-			item.value = 160000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 		}
 	
 		public override void AddRecipes()

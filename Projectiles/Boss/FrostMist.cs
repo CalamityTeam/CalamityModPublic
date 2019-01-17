@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.velocity.Normalize();
 				projectile.velocity *= scaleFactor2;
 			}
-            if (projectile.velocity.Length() < 18f)
+            if (projectile.velocity.Length() < 12f)
             {
                 projectile.velocity *= 1.02f;
             }

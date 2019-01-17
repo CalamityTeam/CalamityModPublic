@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.channel = true;
             item.melee = true;
             item.knockBack = 3.5f;
-            item.value = 300000;
+            item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("TheGodsGambitProjectile");

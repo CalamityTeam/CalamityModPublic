@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 60;
-			item.value = 900000;
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 			item.shoot = mod.ProjectileType("DepthOrb");
 			item.shootSpeed = 19f;
 		}

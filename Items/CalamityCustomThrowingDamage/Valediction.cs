@@ -29,8 +29,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 64;
-			item.value = 3000000;
-			item.shoot = mod.ProjectileType("Valediction");
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("Valediction");
 			item.shootSpeed = 20f;
 		}
 	}

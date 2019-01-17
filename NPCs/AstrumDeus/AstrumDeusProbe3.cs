@@ -21,12 +21,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 		{
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.npcSlots = 8f;
+			npc.npcSlots = 2f;
 			npc.damage = 30;
 			npc.width = 30; //324
 			npc.height = 30; //216
 			npc.defense = 30;
-			npc.lifeMax = 2000;
+			npc.lifeMax = 600;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 120000;

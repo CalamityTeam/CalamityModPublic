@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 	        item.noMelee = true;
             item.noUseGraphic = true;
 	        item.knockBack = 8f;
-	        item.value = 50000;
-	        item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 	        item.UseSound = SoundID.Item1;
 	        item.autoReuse = true;
             item.channel = true;

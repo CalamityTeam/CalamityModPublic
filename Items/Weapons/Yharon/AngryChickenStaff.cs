@@ -36,7 +36,8 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.useAnimation = 36;
             item.noMelee = true;
             item.knockBack = 7f;
-            item.value = 10000000;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("AngryChicken");

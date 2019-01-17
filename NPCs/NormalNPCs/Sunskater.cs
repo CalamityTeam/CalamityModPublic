@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.lifeMax = 100;
             npc.aiStyle = -1;
 			aiType = -1;
-            npc.value = Item.buyPrice(0, 0, 20, 0);
+            npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit50;
 			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
             npc.knockBackResist = 0.7f;

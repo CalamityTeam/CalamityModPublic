@@ -49,7 +49,6 @@ namespace CalamityMod.NPCs.Providence
                 npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
                 npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
-			npc.value = Item.buyPrice(0, 5, 0, 0);
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}

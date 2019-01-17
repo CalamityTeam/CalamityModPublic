@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.HiveMind
 	        item.useStyle = 1;
 	        item.noMelee = true;
 	        item.knockBack = 0f;
-	        item.value = 40000;
-	        item.rare = 2;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 	        item.UseSound = SoundID.Item66;
 	        item.shoot = mod.ProjectileType("ShadeNimbus");
 	        item.shootSpeed = 16f;

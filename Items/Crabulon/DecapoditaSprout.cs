@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Crabulon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Decapodita Sprout");
-			Tooltip.SetDefault("Summons the giant mushroom crab");
+			Tooltip.SetDefault("Summons Crabulon");
 		}
 		
 		public override void SetDefaults()

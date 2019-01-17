@@ -21,18 +21,17 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 3;
             item.useTurn = false;
             item.useAnimation = 12;
-            item.useTime = 12;  //Ranges from 1 to 55.
-            item.width = 28;  //The width of the .png file in pixels divided by 2.
-            item.height = 28;  //The height of the .png file in pixels divided by 2.
-            item.damage = 33;  //Keep this reasonable please.
-            item.melee = true;  //Dictates whether this is a melee-class weapon.
-            item.knockBack = 5.75f;  //Ranges from 1 to 9.
+            item.useTime = 12;
+            item.width = 28;
+            item.height = 28;
+            item.damage = 33;
+            item.melee = true;
+            item.knockBack = 5.75f;
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
-            item.autoReuse = true;  //Dictates whether the weapon can be "auto-fired".
-            item.maxStack = 1;
-            item.value = 45000;  //Value is calculated in copper coins.
-            item.rare = 3;  //Ranges from 1 to 11.
+            item.autoReuse = true;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
         }
 
         public override void AddRecipes()

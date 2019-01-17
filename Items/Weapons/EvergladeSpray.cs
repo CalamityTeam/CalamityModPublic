@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 4.5f;
-	        item.value = 550000;
-	        item.rare = 6;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 	        item.UseSound = SoundID.Item13;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("EvergladeSprayProjectile");

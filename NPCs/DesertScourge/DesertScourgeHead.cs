@@ -65,7 +65,11 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;
 			bossBag = mod.ItemType("DesertScourgeBag");
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
+            else
+                music = MusicID.Boss1;
 			if (Main.expertMode)
 			{
 				npc.scale = 1.15f;

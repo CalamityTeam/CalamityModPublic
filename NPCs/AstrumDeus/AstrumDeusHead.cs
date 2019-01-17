@@ -58,7 +58,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.scale = 1.35f;
 			}
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.alpha = 255;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -70,7 +69,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
+            else
+                music = MusicID.Boss3;
         }
 		
 		public override void AI()

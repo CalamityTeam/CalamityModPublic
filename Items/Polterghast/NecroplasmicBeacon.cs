@@ -12,7 +12,9 @@ namespace CalamityMod.Items.Polterghast
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Necroplasmic Beacon");
-			Tooltip.SetDefault("It's spooky\nNot consumable");
+			Tooltip.SetDefault("It's spooky\n" +
+                "Summons Polterghast\n" +
+                "Not consumable");
 		}
 		
 		public override void SetDefaults()

@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 			item.autoReuse = true;
 			item.noMelee = true;
 			item.height = 50;
-			item.value = 100000;
-			item.shoot = mod.ProjectileType("LunicBeam");
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.shoot = mod.ProjectileType("LunicBeam");
 			item.shootSpeed = 13f;
 		}
 		

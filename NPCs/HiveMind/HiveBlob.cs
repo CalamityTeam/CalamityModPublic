@@ -31,7 +31,6 @@ namespace CalamityMod.NPCs.HiveMind
                 npc.lifeMax = 13000;
             }
             aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit1;

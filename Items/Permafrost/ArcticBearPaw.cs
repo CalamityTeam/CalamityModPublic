@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Permafrost
 			item.useTurn = false;
 			item.noMelee = true;
 			item.knockBack = 10f;
-			item.value = Item.buyPrice(0, 40, 0, 0);
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
 			item.UseSound = SoundID.Item8;
 			item.autoReuse = true;

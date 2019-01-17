@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
-			npc.value = Item.buyPrice(0, 10, 0, 0);
+			npc.value = Item.buyPrice(0, 12, 0, 0);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
                 npc.buffImmune[k] = true;
@@ -61,14 +61,18 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.netAlways = true;
 			npc.HitSound = SoundID.NPCHit23;
 			npc.DeathSound = SoundID.NPCDeath39;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone");
+            else
+                music = MusicID.Boss4;
             bossBag = mod.ItemType("BrimstoneWaifuBag");
 			if (CalamityWorld.downedProvidence)
 			{
 				npc.damage = 210;
 				npc.defense = 120;
 				npc.lifeMax = 300000;
-				npc.value = Item.buyPrice(1, 0, 0, 0);
+				npc.value = Item.buyPrice(0, 35, 0, 0);
 			}
             if (CalamityWorld.bossRushActive)
             {
@@ -303,7 +307,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				{
 					if (Main.netMode != 1)
 					{
-						float projectileSpeed = 7f; //changed from 10
+						float projectileSpeed = 6f; //changed from 10
                         if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
                         {
                             projectileSpeed += 4f;

@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 	        item.noUseGraphic = true;
 			item.channel = true;
 	        item.knockBack = 3f;
-	        item.value = 900000;
-	        item.rare = 9;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("Purge");
 	        item.shootSpeed = 24f;

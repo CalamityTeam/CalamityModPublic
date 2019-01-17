@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 5.5f;
-            item.value = 1000000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
@@ -58,8 +58,7 @@ namespace CalamityMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "FrigidflashBolt");
             recipe.AddIngredient(ItemID.WaterBolt);
-            recipe.AddIngredient(null, "CoreofCinder", 3);
-            recipe.AddIngredient(null, "EssenceofCinder", 3);
+            recipe.AddIngredient(null, "CoreofCinder", 5);
             recipe.AddTile(TileID.Bookcases);
             recipe.SetResult(this);
             recipe.AddRecipe();

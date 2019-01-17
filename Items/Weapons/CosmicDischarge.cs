@@ -34,8 +34,9 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 5;
 			item.knockBack = 0.5f;
 			item.UseSound = SoundID.Item122;
-			item.value = 5000000;
-			item.shootSpeed = 24f;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.shootSpeed = 24f;
 			item.shoot = mod.ProjectileType("CosmicDischarge");
 		}
 		

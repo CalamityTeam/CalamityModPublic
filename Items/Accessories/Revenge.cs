@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Accessories
                 "You gain rage whenever you take damage.\n" +
                 "Activates adrenaline, which is a new stat.  When adrenaline is maxed press B to activate adrenaline mode.\n" +
                 "You gain adrenaline whenever a boss is alive.  Getting hit drops adrenaline back to 0.\n" +
-                "If you hit max adrenaline and don't use it within 5 seconds your adrenaline damage will drop gradually.\n" +
-				"All enemies drop twice the cash and enemy spawn rates are boosted.\n" +
+                "If you hit max adrenaline and don't use it within 3 seconds your adrenaline damage will drop gradually.\n" +
+				"All enemies drop 50% more cash and enemy spawn rates are boosted.\n" +
 				"Before you have killed your first boss you take 20% LESS damage from everything.\n" +
                 "Changes the Expert Mode 75% defense back to the Normal Mode 50% defense for the duration of prehardmode.\n" +
                 "Changes ALL boss AIs in vanilla and the Calamity Mod.\n" +
@@ -34,10 +34,10 @@ namespace CalamityMod.Items.Accessories
 		{
 			item.width = 28;
 			item.height = 28;
-			item.expert = true;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;
+            item.rare = 11;
 			item.UseSound = SoundID.Item119;
 			item.consumable = true;
 		}

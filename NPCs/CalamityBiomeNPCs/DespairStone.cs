@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.defense = 38;
 			npc.lifeMax = 120;
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 50, 0);
+			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.behindTiles = true;
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				npc.damage = 190;
 				npc.defense = 185;
 				npc.lifeMax = 5000;
-				npc.value = Item.buyPrice(0, 3, 0, 0);
+				npc.value = Item.buyPrice(0, 0, 50, 0);
 			}
 		}
 		

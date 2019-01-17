@@ -55,7 +55,6 @@ namespace CalamityMod.Items.Armor
                 "All attacks inflict the demon flame debuff\n" +
 	        	"Shadowbeams and demon scythes will fire down when you are hit\n" +
 	        	"A friendly red devil follows you around\n" +
-                "Removes the damage and critical strike chance caps\n" +
                 "Press Y to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
                 "This makes them do 1.5 times more damage but they also take five times as much damage";
 	        CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);

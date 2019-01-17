@@ -13,6 +13,7 @@ namespace CalamityMod.Items.SupremeCalamitas
 		{
 			DisplayName.SetDefault("Eye of Extinction");
 			Tooltip.SetDefault("Death\n" +
+                "Summons Supreme Calamitas\n" +
                 "Creates a large square arena of blocks around your player\n" +
                 "Your player is the CENTER of the arena so be sure to use this item in a good location\n" +
                 "Not consumable");

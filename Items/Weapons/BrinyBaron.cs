@@ -32,8 +32,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 62;
-			item.value = 5000000;
-			item.shootSpeed = 4f;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
+            item.shootSpeed = 4f;
 			item.shoot = mod.ProjectileType("NobodyKnows");
 		}
 		

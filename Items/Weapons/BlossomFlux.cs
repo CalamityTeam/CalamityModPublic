@@ -32,8 +32,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 0.15f;
-	        item.value = 5000000;
-	        item.UseSound = SoundID.Item5;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
+            item.UseSound = SoundID.Item5;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("LeafArrow");
 	        item.shootSpeed = 10f;

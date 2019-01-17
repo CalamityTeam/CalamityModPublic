@@ -25,8 +25,8 @@ namespace CalamityMod.Projectiles
         public override void SetDefaults()
         {
             projectile.netImportant = true;
-            projectile.width = 52;
-            projectile.height = 46;
+            projectile.width = 44;
+            projectile.height = 44;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;

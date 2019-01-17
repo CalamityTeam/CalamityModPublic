@@ -22,11 +22,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 0; //70
+			npc.damage = 100; //70
 			npc.width = 48; //36
 			npc.height = 58;
 			npc.defense = 0;
-            npc.lifeMax = 200000;
+            npc.lifeMax = 160000;
             npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.knockBackResist = 0f;
@@ -53,6 +53,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		
 		public override void AI()
 		{
+            npc.damage = 0;
             if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];

@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.lifeMax = 130;
 			npc.knockBackResist = 0.3f;
 			animationType = 244;
-			npc.value = Item.buyPrice(0, 0, 5, 0);
+			npc.value = Item.buyPrice(0, 0, 2, 0);
 			npc.alpha = 105;
 			npc.lavaImmune = false;
 			npc.noGravity = false;

@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Leviathan
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
-			npc.damage = 42;
+			npc.damage = 60;
 			npc.width = 70; //324
 			npc.height = 40; //216
 			npc.defense = 18;
@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}

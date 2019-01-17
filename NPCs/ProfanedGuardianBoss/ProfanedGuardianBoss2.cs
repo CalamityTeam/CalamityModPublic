@@ -28,6 +28,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.height = 80; //216
 			npc.defense = 40;
 			npc.lifeMax = 40000;
+            npc.value = 0f;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 800000 : 600000;
@@ -37,7 +38,11 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.noTileCollide = true;
 			aiType = -1;
 			npc.boss = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
+            else
+                music = MusicID.Boss1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -52,7 +57,6 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                 npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
                 npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
-			npc.value = Item.buyPrice(1, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}

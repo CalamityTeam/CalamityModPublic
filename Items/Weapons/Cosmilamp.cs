@@ -35,8 +35,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 1;
 	        item.noMelee = true;
 	        item.knockBack = 4f;
-	        item.value = 1550000;
-	        item.UseSound = SoundID.Item44;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item44;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("Cosmilamp");
 	        item.shootSpeed = 10f;

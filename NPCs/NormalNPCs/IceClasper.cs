@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.knockBackResist = 0.35f;
             npc.aiStyle = -1;
 			aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 50, 0);
+			npc.value = Item.buyPrice(0, 0, 25, 0);
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath7;
 			npc.coldDamage = true;

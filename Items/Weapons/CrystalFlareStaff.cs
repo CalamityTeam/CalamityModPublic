@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5.25f;
-	        item.value = 650000;
-	        item.rare = 6;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 	        item.UseSound = SoundID.Item20;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("SpiritFlameCurse");

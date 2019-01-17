@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.Ravager
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3.75f;
-	        item.value = 600000;
-	        item.UseSound = SoundID.Item21;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.UseSound = SoundID.Item21;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("BloodBlast");
 	        item.shootSpeed = 10f;

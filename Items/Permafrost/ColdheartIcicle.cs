@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Permafrost
             item.UseSound = SoundID.Item1;
             item.useTurn = true;
 			item.knockBack = 3f;
-			item.value = Item.buyPrice(0, 35, 0, 0);
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
 		}
         public override void ModifyHitPvp(Player player, Player target, ref int damage, ref bool crit)

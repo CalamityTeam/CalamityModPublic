@@ -28,8 +28,9 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 	        item.noMelee = true;
             item.knockBack = 6f;
             item.autoReuse = true;
-            item.value = 3000000;
-	        item.UseSound = SoundID.Item95;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item95;
 	        item.shoot = mod.ProjectileType("SulphuricAcidCannon2");
 	        item.shootSpeed = 7f;
 	    }

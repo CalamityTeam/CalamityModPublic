@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Weapons.Crabulon
 	        item.useTime = 20;
 	        item.useAnimation = 20;
 	        item.useStyle = 5;
-	        item.noMelee = true; //so the item's animation doesn't do damage
+	        item.noMelee = true;
 	        item.knockBack = 2.5f;
-	        item.value = 40000;
-	        item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 	        item.UseSound = SoundID.Item61;
 	        item.autoReuse = true;
-	        item.shoot = mod.ProjectileType("FungiOrb"); //idk why but all the guns in the vanilla source have this
+	        item.shoot = mod.ProjectileType("FungiOrb");
 	        item.shootSpeed = 14f;
 	        item.useAmmo = 97;
 	    }

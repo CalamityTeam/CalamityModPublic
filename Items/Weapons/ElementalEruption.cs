@@ -29,8 +29,9 @@ namespace CalamityMod.Items.Weapons
 			item.noMelee = true;
 			item.knockBack = 3.5f;
 			item.UseSound = SoundID.Item34;
-			item.value = 10000000;
-			item.autoReuse = true;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.autoReuse = true;
 			item.shoot = mod.ProjectileType("TerraFireGreen2");
 			item.shootSpeed = 10f;
 			item.useAmmo = 23;

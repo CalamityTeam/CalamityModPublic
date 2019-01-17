@@ -33,7 +33,6 @@ namespace CalamityMod.NPCs.Cryogen
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0.75f;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit5;

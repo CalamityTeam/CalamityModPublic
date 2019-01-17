@@ -75,13 +75,17 @@ namespace CalamityMod.NPCs.HiveMind
             npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 5, 0, 0);
+			npc.value = Item.buyPrice(0, 6, 0, 0);
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind");
+            else
+                music = MusicID.Boss2;
             bossBag = mod.ItemType("HiveMindBag");
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;

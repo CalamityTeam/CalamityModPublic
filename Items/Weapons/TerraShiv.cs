@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("ShortTerraBeam");
             item.shootSpeed = 12f;
-            item.value = 1500000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
         }
 
@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "TrueNightsStabber");
             recipe.AddIngredient(null, "TrueExcaliburShortsword");
+            recipe.AddIngredient(null, "LivingShard", 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

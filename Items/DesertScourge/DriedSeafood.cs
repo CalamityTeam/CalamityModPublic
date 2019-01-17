@@ -9,7 +9,8 @@ namespace CalamityMod.Items.DesertScourge
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Desert Medallion");
-			Tooltip.SetDefault("The desert sand stirs...");
+			Tooltip.SetDefault("The desert sand stirs...\n" +
+                "Summons the Desert Scourge");
 		}
 		
 		public override void SetDefaults()

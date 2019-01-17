@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 66;
-            item.value = 400000;
+            item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
             item.shoot = mod.ProjectileType("PlasmaBall");
             item.shootSpeed = 12f;

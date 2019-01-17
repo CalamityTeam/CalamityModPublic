@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Calamitas
             item.channel = true;
             item.melee = true;
             item.knockBack = 4f;
-            item.value = 500000;
-            item.rare = 6;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("TheEyeofCalamitasProjectile");
         }

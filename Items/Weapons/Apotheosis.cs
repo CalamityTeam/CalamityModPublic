@@ -28,8 +28,9 @@ namespace CalamityMod.Items.Weapons
 			item.useTurn = false;
 			item.noMelee = true;
 			item.knockBack = 4f;
-			item.value = 85000000;
-			item.UseSound = SoundID.Item92;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item92;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("ApothMark");
             item.shootSpeed = 15;

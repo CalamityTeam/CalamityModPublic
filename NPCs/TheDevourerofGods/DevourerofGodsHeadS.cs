@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 12000000 : 11000000;
+                npc.lifeMax = CalamityWorld.death ? 9000000 : 8000000;
             }
             npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
 			npc.aiStyle = -1; //new
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.knockBackResist = 0f;
 			npc.scale = 1.1f;
 			npc.boss = true;
-			npc.value = Item.buyPrice(5, 0, 0, 0);
+			npc.value = Item.buyPrice(3, 0, 0, 0);
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;
@@ -72,8 +72,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.buffImmune[k] = true;
 			}
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
-			bossBag = mod.ItemType("DevourerofGodsBag");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
+            else
+                music = MusicID.LunarBoss;
+            bossBag = mod.ItemType("DevourerofGodsBag");
 		}
 
         public override void BossHeadRotation(ref float rotation)

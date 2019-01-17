@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.noMelee = true;
 			item.knockBack = 1.25f;
 			item.UseSound = SoundID.Item34;
-			item.value = 100000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 12, 0, 0);
+            item.rare = 4;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("MeowFire");
 			item.shootSpeed = 5.5f;

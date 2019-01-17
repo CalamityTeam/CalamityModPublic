@@ -36,7 +36,6 @@ namespace CalamityMod.NPCs.Perforator
 			npc.alpha = 255;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/BloodCoagulant");
             npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

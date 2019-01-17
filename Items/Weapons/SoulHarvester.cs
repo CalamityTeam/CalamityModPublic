@@ -30,9 +30,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
             item.height = 64;
-            item.maxStack = 1;
-            item.value = 550000;
-            item.rare = 9;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
             item.shoot = mod.ProjectileType("SoulScythe");
             item.shootSpeed = 18f;
         }

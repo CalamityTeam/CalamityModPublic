@@ -30,8 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 54;
-            item.maxStack = 1;
-            item.value = 330000;
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = mod.ProjectileType("SpearofPaleolith");
             item.shootSpeed = 35f;

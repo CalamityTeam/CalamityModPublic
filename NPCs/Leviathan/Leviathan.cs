@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Leviathan
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 20f;
-			npc.damage = 75;
+			npc.damage = 90;
 			npc.width = 850;
 			npc.height = 450;
 			npc.defense = 40;
@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.Leviathan
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.value = Item.buyPrice(0, 30, 0, 0);
-			for (int k = 0; k < npc.buffImmune.Length; k++)
+            npc.value = Item.buyPrice(0, 15, 0, 0);
+            for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
                 npc.buffImmune[k] = true;
                 npc.buffImmune[BuffID.Ichor] = false;
@@ -62,7 +62,11 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.noGravity = true;
 			npc.boss = true;
 			npc.netAlways = true;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
+            else
+                music = MusicID.Boss3;
 			bossBag = mod.ItemType("LeviathanBag");
 		}
 		
@@ -72,7 +76,6 @@ namespace CalamityMod.NPCs.Leviathan
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			Vector2 vector = npc.Center;
 			Player player = Main.player[npc.target];
-			bool playerWet = player.wet;
 			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
 			int npcType = mod.NPCType("Siren");
 			bool sirenAlive = false;
@@ -153,8 +156,8 @@ namespace CalamityMod.NPCs.Leviathan
 				if (npc.ai[0] == 0f)
 				{
 					npc.TargetClosest(true);
-					float num412 = sirenAlive ? 4f : 9f;
-					float num413 = sirenAlive ? 0.2f : 0.35f;
+					float num412 = sirenAlive ? 3.5f : 7f;
+					float num413 = sirenAlive ? 0.1f : 0.2f;
                     if (CalamityWorld.bossRushActive)
                     {
                         num412 = 12f;
@@ -224,10 +227,6 @@ namespace CalamityMod.NPCs.Leviathan
 							}
 							else
 							{
-								if (!playerWet)
-								{
-									npc.ai[2] += 0.5f;
-								}
                                 if (sirenAlive)
                                 {
                                     if (Siren.phase2)
@@ -250,12 +249,12 @@ namespace CalamityMod.NPCs.Leviathan
 							if (Main.netMode != 1) 
 							{
 								float num418 = sirenAlive ? 13.5f : 16f;
-								int num419 = playerWet ? 40 : 48;
+								int num419 = 48;
 								int num420 = mod.ProjectileType("LeviathanBomb");
 								if (expertMode)
 								{
 									num418 = sirenAlive ? 14f : 17f;
-									num419 = playerWet ? 29 : 33;
+									num419 = 33;
 								}
                                 if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
                                 {
@@ -399,8 +398,7 @@ namespace CalamityMod.NPCs.Leviathan
                 else if (npc.ai[0] == 2f)
                 {
                     Vector2 distFromPlayer = Main.player[npc.target].Center - npc.Center;
-                    int num1043 = 1; //2
-                    if ((npc.ai[1] > (float)(2 * num1043) && npc.ai[1] % 2f == 0f) || distFromPlayer.Length() > 2400f)
+                    if (npc.ai[1] > 1f || distFromPlayer.Length() > 2400f)
                     {
                         npc.ai[0] = 0f;
                         npc.ai[1] = 0f;
@@ -519,7 +517,7 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.direction = 1;
                         }
                         npc.spriteDirection = npc.direction;
-                        int num1050 = sirenAlive ? 900 : 800; //600 not a prob
+                        int num1050 = sirenAlive ? 1100 : 900; //600 not a prob
                         int num1051 = 1;
                         if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
                         {
@@ -608,7 +606,7 @@ namespace CalamityMod.NPCs.Leviathan
 			int bossAlive = mod.NPCType("Siren");
 			if (!NPC.AnyNPCs(bossAlive))
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedPearl")); //done
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedPearl")); //done
 				if (Main.rand.Next(10) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HotlineFishingHook);

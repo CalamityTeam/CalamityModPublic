@@ -29,7 +29,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 92;
-            item.value = 1000000;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("PlagueBeeDust");
             item.shootSpeed = 9f;
         }

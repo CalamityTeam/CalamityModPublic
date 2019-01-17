@@ -28,14 +28,21 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.height = 40; //216
 			npc.defense = 0;
             npc.lifeMax = 100000;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            else
+                music = MusicID.Boss3;
             if (CalamityWorld.death)
             {
                 npc.lifeMax = 75000;
             }
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
+                else
+                    music = MusicID.Boss3;
                 npc.lifeMax = 300000;
             }
             if (CalamityWorld.bossRushActive)

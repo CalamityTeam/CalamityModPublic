@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 6f;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("GranitePulse");

@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
             item.autoReuse = true;
             item.height = 16;
-            item.value = 1000000;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("BansheeHook");
             item.shootSpeed = 42f;
         }

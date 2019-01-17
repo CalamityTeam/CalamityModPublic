@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.buffImmune[k] = true;
             }
             npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(10, 0, 0, 0);
+			npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -544,10 +544,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(8, 13));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(26, 39));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(6, 9));
                 if (Main.expertMode && Main.rand.Next(2) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(5, 8));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(2, 4));
                 }
             }
         }

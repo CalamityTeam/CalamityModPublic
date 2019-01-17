@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Providence
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
-			npc.value = Item.buyPrice(3, 0, 0, 0);
+			npc.value = Item.buyPrice(1, 0, 0, 0);
 			npc.boss = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -67,7 +67,11 @@ namespace CalamityMod.NPCs.Providence
 			npc.noTileCollide = true;
 			npc.netAlways = true;
 			npc.chaseable = true;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme");
+            else
+                music = MusicID.LunarBoss;
 			npc.HitSound = SoundID.NPCHit44;
 			npc.DeathSound = SoundID.NPCDeath46;
 			bossBag = mod.ItemType("ProvidenceBag");
@@ -84,7 +88,7 @@ namespace CalamityMod.NPCs.Providence
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
             bool canAttack = true;
-            bool attackMore = (double)npc.life <= (double)npc.lifeMax * 0.5;
+            bool attackMore = (double)npc.life <= (double)npc.lifeMax * 0.25;
             if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
             {
                 if (immuneTimer > 0)
@@ -238,8 +242,8 @@ namespace CalamityMod.NPCs.Providence
                 }
                 if (firingLaser)
                 {
-                    num854 *= 0.66f;
-                    num853 *= 0.66f;
+                    num854 *= (canAttack ? 0.5f : 0.25f);
+                    num853 *= (canAttack ? 0.5f : 0.25f);
                 }
                 npc.velocity.X = npc.velocity.X + flightPath * num853;
                 if (npc.velocity.X > num854)
@@ -259,13 +263,14 @@ namespace CalamityMod.NPCs.Providence
                 {
                     npc.velocity.Y = npc.velocity.Y + 0.2f;
                 }
-                if (npc.velocity.Y > (firingLaser ? 4f : 6f)) //8
+                float speedVariance = (canAttack ? 3f : 1.5f);
+                if (npc.velocity.Y > (firingLaser ? speedVariance : 6f)) //8
                 {
-                    npc.velocity.Y = (firingLaser ? 4f : 6f);
+                    npc.velocity.Y = (firingLaser ? speedVariance : 6f);
                 }
-                if (npc.velocity.Y < (firingLaser ? -4f : -6f)) //8
+                if (npc.velocity.Y < (firingLaser ? -speedVariance : -6f)) //8
                 {
-                    npc.velocity.Y = (firingLaser ? -4f : -6f);
+                    npc.velocity.Y = (firingLaser ? -speedVariance : -6f);
                 }
             }
             if (npc.ai[0] == 0f)

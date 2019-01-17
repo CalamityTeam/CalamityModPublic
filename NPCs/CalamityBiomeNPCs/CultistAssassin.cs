@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.knockBackResist = 0.5f;
 			animationType = 331;
 			aiType = NPCID.ChaosElemental;
-			npc.value = Item.buyPrice(0, 2, 0, 0);
+			npc.value = Item.buyPrice(0, 0, 2, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath50;
 			if (CalamityWorld.downedProvidence)
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				npc.damage = 250;
 				npc.defense = 130;
 				npc.lifeMax = 5000;
-				npc.value = Item.buyPrice(0, 10, 0, 0);
+				npc.value = Item.buyPrice(0, 0, 50, 0);
 			}
 		}
 		

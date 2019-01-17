@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Calamitas
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cataclysm");
-			Main.npcFrameCount[npc.type] = 3;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 		
 		public override void SetDefaults()
@@ -28,8 +28,8 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.width = 120; //324
 			npc.height = 120; //216
 			npc.defense = 10;
-			animationType = 126;
 			npc.alpha = 50;
+            npc.value = 0f;
 			npc.lifeMax = CalamityWorld.revenge ? 4400 : 3000;
             if (CalamityWorld.death)
             {
@@ -60,7 +60,11 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
+            else
+                music = MusicID.Boss2;
 			if (CalamityWorld.downedProvidence)
 			{
 				npc.damage = 170;
@@ -72,8 +76,16 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.lifeMax = CalamityWorld.death ? 1900000 : 1500000;
             }
         }
-		
-		public override void AI()
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.15f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+
+        public override void AI()
 		{
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -155,7 +167,7 @@ namespace CalamityMod.NPCs.Calamitas
             }
 			if (npc.ai[1] == 0f)
 			{
-				float num861 = 4f;
+				float num861 = 5f;
 				float num862 = 0.1f;
 				int num863 = 1;
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
@@ -237,7 +249,8 @@ namespace CalamityMod.NPCs.Calamitas
 					npc.target = 255;
 					npc.netUpdate = true;
 				}
-				if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+                bool fireDelay = npc.ai[2] > 120f || (double)npc.life < (double)npc.lifeMax * 0.9;
+                if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && fireDelay)
 				{
 					npc.localAI[2] += 1f;
 					if (npc.localAI[2] > 22f)
@@ -323,7 +336,7 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if (revenge)
 					{
-						npc.ai[2] += 0.5f;
+						npc.ai[2] += 0.1f;
 					}
 					if (npc.ai[2] >= 50f)
 					{
@@ -348,7 +361,7 @@ namespace CalamityMod.NPCs.Calamitas
 						npc.ai[2] = 0f;
 						npc.target = 255;
 						npc.rotation = num842;
-						if (npc.ai[3] >= 5f)
+						if (npc.ai[3] >= 4f)
 						{
 							npc.ai[1] = 0f;
 							npc.ai[3] = 0f;

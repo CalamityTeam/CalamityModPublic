@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.rare = 10;
 			item.noMelee = true;
 			item.knockBack = 1f;
-			item.value = 150000;
-			item.UseSound = SoundID.Item38;
+            item.value = Item.buyPrice(1, 0, 0, 0);
+            item.UseSound = SoundID.Item38;
 			item.autoReuse = true;
 			item.shoot = 10;
 			item.shootSpeed = 12f;

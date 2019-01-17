@@ -41,7 +41,11 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.noTileCollide = true;
 			aiType = -1;
 			npc.boss = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
+            else
+                music = MusicID.Boss1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -56,7 +60,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                 npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
                 npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
-			npc.value = Item.buyPrice(1, 0, 0, 0);
+			npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}
@@ -84,15 +88,19 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 50 : 99999;
 			Vector2 vectorCenter = npc.Center;
 			npc.TargetClosest(false);
-			if (!Main.dayTime)
+			if (!Main.dayTime || !player.active || player.dead)
 			{
 				npc.TargetClosest(false);
-				npc.velocity = new Vector2(0f, -10f);
-				if (npc.timeLeft > 150)
-				{
-					npc.timeLeft = 150;
-				}
-				return;
+                player = Main.player[npc.target];
+                if (!Main.dayTime || !player.active || player.dead)
+                {
+                    npc.velocity = new Vector2(0f, -10f);
+                    if (npc.timeLeft > 150)
+                    {
+                        npc.timeLeft = 150;
+                    }
+                    return;
+                }
 			}
 			if (npc.timeLeft < 1800)
 			{

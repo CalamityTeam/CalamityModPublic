@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Placeables
 
 		public override void SetDefaults()
 		{
+            item.SetNameOverride("Ashen Pipe Organ");
 			item.width = 26;
 			item.height = 26;
 			item.maxStack = 99;
@@ -19,7 +20,8 @@ namespace CalamityMod.Items.Placeables
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.useStyle = 1;
-			item.consumable = true;
+            item.rare = 3;
+            item.consumable = true;
 			item.value = 500;
 			item.createTile = mod.TileType("AshenPiano");
 		}
@@ -32,18 +34,6 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ItemID.Book);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientPiano", 1);
-            recipe.AddIngredient(null, "UnholyCore", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientPiano", 1);
-            recipe.AddIngredient(null, "UnholyCore", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
             recipe.AddRecipe();
         }
 	}

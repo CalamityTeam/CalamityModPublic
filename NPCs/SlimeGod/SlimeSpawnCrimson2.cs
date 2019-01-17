@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             npc.knockBackResist = 0f;
 			animationType = 81;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.alpha = 60;
 			npc.lavaImmune = false;
 			npc.noGravity = false;

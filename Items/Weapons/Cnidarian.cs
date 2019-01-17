@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons
 	        item.channel = true;
 	        item.melee = true;
 	        item.knockBack = 3;
-	        item.value = 30000;
-	        item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("CnidarianProjectile");
 	    }

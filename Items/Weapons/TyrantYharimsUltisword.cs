@@ -20,19 +20,19 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.width = 84;  //The width of the .png file in pixels divided by 2.
-            item.damage = 64;  //Keep this reasonable please.
-            item.melee = true;  //Dictates whether this is a melee-class weapon.
+            item.width = 84;
+            item.damage = 64;
+            item.melee = true;
             item.useAnimation = 26;
             item.useStyle = 1;
             item.useTime = 26;
             item.useTurn = true;
-            item.knockBack = 5.50f;  //Ranges from 1 to 9.
+            item.knockBack = 5.5f;
             item.UseSound = SoundID.Item1;
-            item.autoReuse = true;  //Dictates whether the weapon can be "auto-fired".
-            item.height = 84;  //The height of the .png file in pixels divided by 2.
-            item.value = 1250000;  //Value is calculated in copper coins.
-            item.rare = 9;  //Ranges from 1 to 11.
+            item.autoReuse = true;
+            item.height = 84;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
             item.shoot = mod.ProjectileType("BlazingPhantomBlade");
             item.shootSpeed = 12f;
         }

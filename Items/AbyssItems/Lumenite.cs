@@ -19,6 +19,13 @@ namespace CalamityMod.Items.AbyssItems
 
         public override void SetDefaults()
         {
+            item.createTile = mod.TileType("LumenylCrystals");
+            item.useStyle = 1;
+            item.useTurn = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.autoReuse = true;
+            item.consumable = true;
             item.width = 26;
             item.height = 26;
             item.maxStack = 999;

@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.HiveMind
 			item.noMelee = true;
 			item.knockBack = 1.5f;
 			item.UseSound = SoundID.Item34;
-			item.value = 50000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("ShadeFire");
 			item.shootSpeed = 5.5f;

@@ -30,7 +30,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
             item.height = 20;
-            item.value = 4000000;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("EmpyreanKnives");
             item.shootSpeed = 15f;
         }

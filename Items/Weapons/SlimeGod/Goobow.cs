@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 3f;
-            item.value = 105000;
+            item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;

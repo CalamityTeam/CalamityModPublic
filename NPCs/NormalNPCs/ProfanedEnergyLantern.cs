@@ -27,7 +27,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.height = 30; //216
 			npc.lifeMax = 1;
 			aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 10, 0);
 			npc.lavaImmune = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

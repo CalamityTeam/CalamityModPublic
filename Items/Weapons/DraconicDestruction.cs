@@ -29,8 +29,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 94;
-			item.value = 10000000;
-			item.shoot = mod.ProjectileType("DracoBeam");
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
+            item.shoot = mod.ProjectileType("DracoBeam");
 			item.shootSpeed = 14f;
 		}
 		

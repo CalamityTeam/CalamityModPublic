@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 66;
-			item.value = 155000;
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 			item.shoot = mod.ProjectileType("CrystalDust");
 			item.shootSpeed = 3f;
 		}

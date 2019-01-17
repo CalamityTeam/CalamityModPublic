@@ -28,7 +28,8 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 2f;
-            item.value = 10000000;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
             item.UseSound = SoundID.Item40;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("SlashRound");

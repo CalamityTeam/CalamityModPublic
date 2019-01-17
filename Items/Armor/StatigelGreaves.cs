@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
             item.width = 18;
             item.height = 18;
             item.value = 122500;
-            item.rare = 5;
+            item.rare = 4;
             item.defense = 8;
         }
 

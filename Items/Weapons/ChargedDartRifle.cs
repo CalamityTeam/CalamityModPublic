@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 7f;
-	        item.value = 1050000;
-	        item.rare = 8;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
 	        item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
 	        item.autoReuse = true;
 	        item.shootSpeed = 22f;

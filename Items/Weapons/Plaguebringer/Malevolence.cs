@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.useTime = 18;
             item.useAnimation = 18;
             item.useStyle = 5;
-            item.noMelee = true; //so the item's animation doesn't do damage
+            item.noMelee = true;
             item.knockBack = 3f;
-            item.value = 500000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item97;
             item.autoReuse = true;
             item.shootSpeed = 12f;
-            item.shoot = mod.ProjectileType("PlagueArrow"); //idk why but all the guns in the vanilla source have this
+            item.shoot = mod.ProjectileType("PlagueArrow");
             item.useAmmo = 40;
         }
 

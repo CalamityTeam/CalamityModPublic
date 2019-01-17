@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0.85f;
-			npc.value = Item.buyPrice(0, 0, 15, 0);
+			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
@@ -199,17 +199,21 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 		
 		public override void HitEffect(int hitDirection, double damage)
 		{
-            switch (Main.rand.Next(3))
+            if (npc.soundDelay == 0)
             {
-                case 0:
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), npc.Center);
-                    break;
-                case 1:
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), npc.Center);
-                    break;
-                case 2:
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), npc.Center);
-                    break;
+                npc.soundDelay = 15;
+                switch (Main.rand.Next(3))
+                {
+                    case 0:
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit"), npc.Center);
+                        break;
+                    case 1:
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit2"), npc.Center);
+                        break;
+                    case 2:
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstralEnemyHit3"), npc.Center);
+                        break;
+                }
             }
 
             if (npc.life <= 0)

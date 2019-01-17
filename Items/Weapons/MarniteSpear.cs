@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.height = 50;
-			item.value = 65000;
-			item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 			item.shoot = mod.ProjectileType("MarniteSpearProjectile");
 			item.shootSpeed = 5f;
 		}

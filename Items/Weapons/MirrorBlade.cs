@@ -32,8 +32,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 60;
-			item.value = 2000000;
-			item.shootSpeed = 16f;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.shootSpeed = 16f;
 	        item.shoot = mod.ProjectileType("MirrorBlast");
 		}
 		

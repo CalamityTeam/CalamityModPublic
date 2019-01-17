@@ -14,6 +14,7 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blossom Pickaxe");
+            Tooltip.SetDefault("Can mine Auric Ore");
         }
 
         public override void SetDefaults()
@@ -28,7 +29,8 @@ namespace CalamityMod.Items
             item.pick = 275;
             item.useStyle = 1;
             item.knockBack = 6.5f;
-            item.value = 300000;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 6;

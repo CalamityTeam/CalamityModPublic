@@ -30,8 +30,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5f;
-	        item.value = 500000;
-	        item.autoReuse = true;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("ProfanedEnergy");
 	    }
 	    

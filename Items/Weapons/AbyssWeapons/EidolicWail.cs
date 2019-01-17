@@ -29,8 +29,9 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 1f;
-	        item.value = 3000000;
-	        item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream");
 	        item.autoReuse = true;
 	        item.shootSpeed = 5f;
 	        item.shoot = mod.ProjectileType("EidolicWail");

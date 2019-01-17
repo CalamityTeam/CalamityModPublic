@@ -28,13 +28,13 @@ namespace CalamityMod.Items.Placeables
             item.width = 16;
             item.height = 16;
             item.maxStack = 99;
+            item.rare = 7;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            //ASTRAL_IMPLEMENT: UNDO THIS COMMENT
-            //recipe.AddIngredient(null, "Stardust", 12);
+            recipe.AddIngredient(null, "Stardust", 12);
             recipe.AddIngredient(mod.ItemType("AstralOre"), 8);
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this, 4);

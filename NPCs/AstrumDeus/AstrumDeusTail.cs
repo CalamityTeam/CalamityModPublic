@@ -53,7 +53,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.buffImmune[k] = true;
 			}
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus");
             npc.dontCountMe = true;
 		}
 		

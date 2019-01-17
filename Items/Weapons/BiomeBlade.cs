@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 36;
-			item.value = 300000;
-			item.rare = 4;
+            item.value = Item.buyPrice(0, 12, 0, 0);
+            item.rare = 4;
 			item.shoot = mod.ProjectileType("BiomeOrb");
 			item.shootSpeed = 12f;
 		}

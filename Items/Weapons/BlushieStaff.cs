@@ -28,10 +28,10 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 1f;
 			item.autoReuse = false;
 			item.useTurn = false;
-			item.rare = 11;
 			item.magic = true;
-			item.value = 100000000;
-			item.UseSound = SoundID.Item1;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item1;
 			item.shoot = mod.ProjectileType("BlushieStaffProj");
 			item.mana = 200;
 			item.shootSpeed = 0f;

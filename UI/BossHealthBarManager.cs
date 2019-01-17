@@ -229,6 +229,7 @@ namespace CalamityMod.UI
                 MinibossHPBarList.Add(calamity.NPCType("Horse"));
                 MinibossHPBarList.Add(calamity.NPCType("GreatSandShark"));
                 MinibossHPBarList.Add(calamity.NPCType("PlaguebringerShade"));
+                MinibossHPBarList.Add(calamity.NPCType("ArmoredDiggerHead"));
 
                 //Abyss
                 MinibossHPBarList.Add(calamity.NPCType("EidolonWyrmHeadHuge"));
@@ -551,7 +552,7 @@ namespace CalamityMod.UI
                     dead = true;
 
                 int life = _npc.life;
-                if (life < 0 || !_npc.active)
+                if (life < 0 || !_npc.active || _npc.lifeMax < 400)
                     dead = true;
 
                 if (_oneToMany)

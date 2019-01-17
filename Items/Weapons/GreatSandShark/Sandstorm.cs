@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5f;
-	        item.value = 100000;
-	        item.rare = 7;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 	        item.UseSound = SoundID.Item11;
 	        item.autoReuse = true;
 	        item.shootSpeed = 12f;

@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.knockBackResist = 0.3f;
 			animationType = 329;
 			aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 8, 0);
+			npc.value = Item.buyPrice(0, 0, 3, 0);
 			npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
 			npc.DeathSound = SoundID.NPCDeath5;
 		}

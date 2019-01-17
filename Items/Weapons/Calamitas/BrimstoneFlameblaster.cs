@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Weapons.Calamitas
 			item.useTime = 20;
 			item.useAnimation = 20;
 			item.useStyle = 5;
-			item.noMelee = true; //so the item's animation doesn't do damage
+			item.noMelee = true;
 			item.knockBack = 3.5f;
 			item.UseSound = SoundID.Item34;
-			item.value = 500000;
-			item.rare = 6;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("BrimstoneBallFriendly"); //idk why but all the guns in the vanilla source have this
+			item.shoot = mod.ProjectileType("BrimstoneBallFriendly");
 			item.shootSpeed = 8.5f;
 			item.useAmmo = 23;
 		}

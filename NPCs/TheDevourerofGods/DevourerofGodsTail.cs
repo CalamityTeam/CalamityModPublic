@@ -49,8 +49,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.buffImmune[k] = true;
 			}
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-			npc.dontCountMe = true;
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            else
+                music = MusicID.Boss3;
+            npc.dontCountMe = true;
 			if (Main.expertMode)
 			{
 				npc.scale = 1.5f;

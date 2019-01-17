@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 			item.useTurn = true;
             item.useStyle = 1;
             item.knockBack = 7;
-            item.value = 750000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

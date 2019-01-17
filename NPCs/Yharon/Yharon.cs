@@ -36,19 +36,19 @@ namespace CalamityMod.NPCs.Yharon
 			npc.width = 200; //150
 			npc.height = 200; //100
 			npc.defense = 200;
-			npc.lifeMax = CalamityWorld.revenge ? 2625000 : 2375000;
+			npc.lifeMax = CalamityWorld.revenge ? 2525000 : 2275000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 3125000;
+                npc.lifeMax = 3025000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 10500000 : 9500000;
+                npc.lifeMax = CalamityWorld.death ? 8000000 : 7000000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
-			npc.value = Item.buyPrice(10, 0, 0, 0);
+			npc.value = Item.buyPrice(5, 0, 0, 0);
 			npc.boss = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -61,10 +61,17 @@ namespace CalamityMod.NPCs.Yharon
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
+            else
+                music = MusicID.Boss1;
             if (CalamityWorld.downedProvidence && CalamityWorld.downedDoG && CalamityWorld.downedBuffedMothron || CalamityWorld.bossRushActive)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARONREBIRTH");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARONREBIRTH");
+                else
+                    music = MusicID.Boss3;
             }
             npc.HitSound = SoundID.NPCHit56;
 			npc.DeathSound = SoundID.NPCDeath60;
@@ -1877,7 +1884,11 @@ namespace CalamityMod.NPCs.Yharon
             }
             if (!moveCloser)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DragonGod");
+                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DragonGod");
+                else
+                    music = MusicID.LunarBoss;
                 moveCloser = true;
                 if ((CalamityWorld.death || CalamityWorld.bossRushActive) && Main.netMode != 1)
                 {
@@ -2368,13 +2379,13 @@ namespace CalamityMod.NPCs.Yharon
                     }
                     if (flag3 && Main.netMode != 1)
                     {
-                        Vector2 vector7 = npc.Center + (6.28318548f * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 300f * (0.6f + Main.rand.NextFloat() * 0.4f);
+                        Vector2 vector7 = npc.Center + (6.28318548f * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 100f * (0.6f + Main.rand.NextFloat() * 0.4f);
                         if (Vector2.Distance(vector7, targetData.Center) > 100f)
                         {
                             Point point2 = vector7.ToPoint();
                             NPC.NewNPC(point2.X, point2.Y, mod.NPCType("Bumblefuck3"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         }
-                        NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(2) == 0 ? 800 : -800), (int)npc.Center.Y - 200, mod.NPCType("Bumblefuck3"), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(2) == 0 ? 100 : -100), (int)npc.Center.Y - 100, mod.NPCType("Bumblefuck3"), 0, 0f, 0f, 0f, 0f, 255);
                     }
                     npc.ai[1] += 1f;
                 }

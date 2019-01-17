@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.height = 30;
-            item.value = 600000;
+            item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.shoot = mod.ProjectileType("BrackishFlask");
             item.shootSpeed = 12f;

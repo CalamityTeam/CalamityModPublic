@@ -28,8 +28,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 6f;
-	        item.value = 1250000;
-	        item.UseSound = SoundID.Item108;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item108;
 	        item.autoReuse = true;
 	        item.shootSpeed = 9f;
 	        item.shoot = mod.ProjectileType("Spyker");

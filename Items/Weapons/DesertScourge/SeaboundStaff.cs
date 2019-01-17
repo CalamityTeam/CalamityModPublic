@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Weapons.DesertScourge
 	        item.useStyle = 1;
 	        item.noMelee = true;
 	        item.knockBack = 2f;
-	        item.value = 35000;
-	        item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 	        item.UseSound = SoundID.Item44;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("BrittleStar");

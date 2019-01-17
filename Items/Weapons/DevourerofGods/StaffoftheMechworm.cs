@@ -36,8 +36,9 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 			item.useStyle = 1;
 			item.noMelee = true;
 			item.knockBack = 2f;
-			item.value = 1250000;
-			item.UseSound = SoundID.Item113;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item113;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("MechwormHead");
 			item.shootSpeed = 10f;

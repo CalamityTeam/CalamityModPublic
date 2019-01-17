@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item20;
 			item.autoReuse = true;
 			item.height = 28;
-			item.value = 75000;
-			item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 			item.shoot = mod.ProjectileType("MeteorFist");
 			item.shootSpeed = 10f;
 		}

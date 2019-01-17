@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.channel = true;
             item.melee = true;
             item.knockBack = 2.5f;
-            item.value = 1000000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("ThePlaguebringer");

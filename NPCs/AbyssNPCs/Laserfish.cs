@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.aiStyle = -1;
 			aiType = -1;
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
-            npc.value = Item.buyPrice(0, 0, 20, 0);
+            npc.value = Item.buyPrice(0, 0, 10, 0);
 			npc.HitSound = SoundID.NPCHit51;
 			npc.DeathSound = SoundID.NPCDeath26;
             npc.knockBackResist = 0.65f;
@@ -280,11 +280,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 if (Main.rand.Next(2) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(2, 5));
-                }
-                if (Main.expertMode && Main.rand.Next(2) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(1, 3));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
                 }
             }
         }

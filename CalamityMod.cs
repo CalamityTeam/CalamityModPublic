@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -197,34 +198,6 @@ namespace CalamityMod
                 AstralSky = GetTexture("ExtraTextures/AstralSky");
                 CustomShader = GetEffect("Effects/CustomShader");
 
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen"), ItemType("CryogenMusicbox"), TileType("CryogenMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas"), ItemType("CalamitasMusicbox"), TileType("CalamitasMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse"), ItemType("DoGMusicbox"), TileType("DoGMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Sulphur"), ItemType("SulphurousMusicbox"), TileType("SulphurousMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss"), ItemType("HigherAbyssMusicbox"), TileType("HigherAbyssMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/PlaguebringerGoliath"), ItemType("PlaguebringerMusicbox"), TileType("PlaguebringerMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge"), ItemType("AquaticScourgeMusicbox"), TileType("AquaticScourgeMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon"), ItemType("AstrageldonMusicbox"), TileType("AstrageldonMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"), ItemType("AstralMusicbox"), TileType("AstralMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/RUIN"), ItemType("PolterghastMusicbox"), TileType("PolterghastMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Signus"), ItemType("SignusMusicbox"), TileType("SignusMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver"), ItemType("StormWeaverMusicbox"), TileType("StormWeaverMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/HiveMind"), ItemType("HiveMindMusicbox"), TileType("HiveMindMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/BloodCoagulant"), ItemType("PerforatorMusicbox"), TileType("PerforatorMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Void"), ItemType("CeaselessVoidMusicbox"), TileType("CeaselessVoidMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge"), ItemType("DesertScourgeMusicbox"), TileType("DesertScourgeMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Crabulon"), ItemType("CrabulonMusicbox"), TileType("CrabulonMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod"), ItemType("SlimeGodMusicbox"), TileType("SlimeGodMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/ProvidenceTheme"), ItemType("ProvidenceMusicbox"), TileType("ProvidenceMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians"), ItemType("ProfanedGuardianMusicbox"), TileType("ProfanedGuardianMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Ravager"), ItemType("RavagerMusicbox"), TileType("RavagerMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/AstrumDeus"), ItemType("AstrumDeusMusicbox"), TileType("AstrumDeusMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse"), ItemType("DoGP2Musicbox"), TileType("DoGP2Musicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss"), ItemType("AbyssLowerMusicbox"), TileType("AbyssLowerMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Calamity"), ItemType("CalamityMusicbox"), TileType("CalamityMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/Crag"), ItemType("CragMusicbox"), TileType("CragMusicbox"));
-                AddMusicBox(GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone"), ItemType("BrimmyMusicbox"), TileType("BrimmyMusicbox"));
-
                 Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
 				SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
 
@@ -261,9 +234,6 @@ namespace CalamityMod
 
             BossHealthBarManager.Load(this);
             base.Load();
-
-            //Injections.Load();
-            //base.Load();
 
             SetupLists();
 
@@ -648,6 +618,10 @@ namespace CalamityMod
             text.SetDefault("Hmm?  You expected a reward beyond this mere pebble?  Patience, the true reward will come apparent in time...");
             AddTranslation(text);
 
+            text = CreateTranslation("BossSpawnText");
+            text.SetDefault("Something is approaching...");
+            AddTranslation(text);
+
             text = CreateTranslation("MeleeLevelUp");
             text.SetDefault("Melee weapon proficiency level up!");
             AddTranslation(text);
@@ -794,6 +768,10 @@ namespace CalamityMod
             donatorList.Add("pixlgray");
             donatorList.Add("Arkhine");
             donatorList.Add("Lodude");
+            donatorList.Add("DevAesthetic");
+            donatorList.Add("Mister Winchester");
+            donatorList.Add("Zacky");
+            donatorList.Add("Veine");
 
             rangedProjectileExceptionList = new List<int>();
 
@@ -1719,6 +1697,8 @@ namespace CalamityMod
                 revengeanceEnemyBuffList.Add(calamity.NPCType("Cnidrion"));
                 revengeanceEnemyBuffList.Add(calamity.NPCType("Horse"));
                 revengeanceEnemyBuffList.Add(calamity.NPCType("ScornEater"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("OldDuke"));
+                revengeanceEnemyBuffList.Add(calamity.NPCType("DukeUrchin"));
 
                 revengeanceProjectileBuffList.Add(calamity.ProjectileType("AbyssMine"));
                 revengeanceProjectileBuffList.Add(calamity.ProjectileType("AbyssMine2"));
@@ -1772,42 +1752,95 @@ namespace CalamityMod
         #region Music
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
-    		Mod mod = ModLoader.GetMod("CalamityMod");
+    		Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (Main.musicVolume != 0)
             {
                 if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
                 {
                     if (NPC.AnyNPCs(NPCID.CultistBoss))
                     {
-                        music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Doomsayer"); priority = MusicPriority.BossMedium;
+                        if (calamityModMusic != null)
+                            music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Doomsayer");
+                        else
+                            music = MusicID.Boss4;
+                        priority = MusicPriority.BossMedium;
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneCalamity)
                     {
-                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Crag"); priority = MusicPriority.Environment; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Crag");
+                            else
+                                music = MusicID.Eerie;
+                            priority = MusicPriority.Environment;
+                        }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAstral)
                     {
-                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral"); priority = MusicPriority.Environment; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral");
+                            else
+                                music = MusicID.Space;
+                            priority = MusicPriority.Environment;
+                        }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer1 || Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer2)
                     {
-                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/TheAbyss");
+                            else
+                                music = MusicID.Hell;
+                            priority = MusicPriority.BiomeHigh;
+                        }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer3)
                     {
-                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/TheDeepAbyss");
+                            else
+                                music = MusicID.Hell;
+                            priority = MusicPriority.BiomeHigh;
+                        }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer4)
                     {
-                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/TheVoid"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/TheVoid");
+                            else
+                                music = MusicID.Hell;
+                            priority = MusicPriority.BiomeHigh;
+                        }
                     }
                     if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneSulphur)
                     {
-                        if (!CalamityPlayer.areThereAnyDamnBosses) { music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Sulphur"); priority = MusicPriority.BiomeHigh; }
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Sulphur");
+                            else
+                                music = MusicID.Desert;
+                            priority = MusicPriority.BiomeHigh;
+                        }
                     }
                     if (CalamityWorld.DoGSecondStageCountdown <= 540 && CalamityWorld.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
                     {
-                        music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse"); priority = MusicPriority.BossMedium;
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/UniversalCollapse");
+                            else
+                                music = MusicID.LunarBoss;
+                            priority = MusicPriority.BossMedium;
+                        }
                     }
                 }
             }
@@ -1837,6 +1870,7 @@ namespace CalamityMod
                 bossChecklist.Call("AddBossWithInfo", "Astrum Deus", 10.6f, (Func<bool>)(() => CalamityWorld.downedStarGod), "Use a [i:" + mod.ItemType("Starcore") + "] at Night"); //8.5
                 bossChecklist.Call("AddBossWithInfo", "Plaguebringer Goliath", 11.5f, (Func<bool>)(() => CalamityWorld.downedPlaguebringer), "Use an [i:" + mod.ItemType("Abomination") + "] in the Jungle Biome"); //9
                 bossChecklist.Call("AddBossWithInfo", "Ravager", 12.5f, (Func<bool>)(() => CalamityWorld.downedScavenger), "Use an [i:" + mod.ItemType("AncientMedallion") + "]"); //9.5
+                //bossChecklist.Call("AddBossWithInfo", "The Old Duke", 13.5f, (Func<bool>)(() => CalamityWorld.downedOldDuke), "Fishing with some type of bait in the Sulphuric Sea"); //9.6
                 bossChecklist.Call("AddBossWithInfo", "Profaned Guardians", 14.5f, (Func<bool>)(() => CalamityWorld.downedGuardians), "Use a [i:" + mod.ItemType("ProfanedShard") + "] in the Hallow or Underworld Biomes"); //10
                 bossChecklist.Call("AddBossWithInfo", "Providence", 15f, (Func<bool>)(() => CalamityWorld.downedProvidence), "Use a [i:" + mod.ItemType("ProfanedCore") + "] in the Hallow or Underworld Biomes"); //11
                 bossChecklist.Call("AddBossWithInfo", "Ceaseless Void", 15.1f, (Func<bool>)(() => CalamityWorld.downedSentinel1), "Use a [i:" + mod.ItemType("RuneofCos") + "] in the Dungeon"); //12
@@ -2549,10 +2583,32 @@ namespace CalamityMod
 	        recipe.SetResult(ItemID.Muramasa);
 	        recipe.AddRecipe();
 
-	        recipe = new ModRecipe(this);
+            Mod calamity = ModLoader.GetMod("CalamityMod");
+
+            //Change Terra Blade's recipe to require 7 living shards
+            List<Recipe> rec = Main.recipe.ToList();
+            rec.Where(x => x.createItem.type == ItemID.TerraBlade).ToList().ForEach(s =>
+            {
+                for (int i = 0; i < s.requiredItem.Length; i++)
+                {
+                    s.requiredItem[i] = new Item();
+                }
+                s.requiredItem[0].SetDefaults(ItemID.TrueNightsEdge, false);
+                s.requiredItem[0].stack = 1;
+                s.requiredItem[1].SetDefaults(ItemID.TrueExcalibur, false);
+                s.requiredItem[1].stack = 1;
+                s.requiredItem[2].SetDefaults(calamity.ItemType("LivingShard"), false);
+                s.requiredItem[2].stack = 7;
+
+                s.createItem.SetDefaults(ItemID.TerraBlade, false);
+                s.createItem.stack = 1;
+            });
+
+            recipe = new ModRecipe(this);
 			recipe.AddIngredient(null, "TrueBloodyEdge");
 			recipe.AddIngredient(ItemID.TrueExcalibur);
-	        recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(null, "LivingShard", 7);
+            recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(ItemID.TerraBlade);
 	        recipe.AddRecipe();
 
@@ -3180,6 +3236,14 @@ namespace CalamityMod
                     int countdown = reader.ReadInt32();
                     CalamityWorld.DoGSecondStageCountdown = countdown;
                     break;
+                case CalamityModMessageType.BossSpawnCountdownSync:
+                    int countdown2 = reader.ReadInt32();
+                    CalamityWorld.bossSpawnCountdown = countdown2;
+                    break;
+                case CalamityModMessageType.BossTypeSync:
+                    int type = reader.ReadInt32();
+                    CalamityWorld.bossType = type;
+                    break;
                 default:
 					ErrorLogger.Log("CalamityMod: Unknown Message type: " + msgType);
 					break;
@@ -3215,6 +3279,8 @@ namespace CalamityMod
         TeleportPlayer,
         BossRushStage,
         SupremeCal,
-        DoGCountdownSync
+        DoGCountdownSync,
+        BossSpawnCountdownSync,
+        BossTypeSync
     }
 }

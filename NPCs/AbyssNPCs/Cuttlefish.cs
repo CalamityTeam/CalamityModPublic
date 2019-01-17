@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.aiStyle = -1;
 			aiType = -1;
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
-            npc.value = Item.buyPrice(0, 0, 9, 0);
+            npc.value = Item.buyPrice(0, 0, 1, 0);
 			npc.HitSound = SoundID.NPCHit33;
 			npc.DeathSound = SoundID.NPCDeath28;
             npc.knockBackResist = 0.3f;
@@ -317,17 +317,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
             if (Main.rand.Next(2) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"));
-            }
-            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
-            {
-                if (Main.rand.Next(2) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(1, 3));
-                }
-                if (Main.expertMode && Main.rand.Next(2) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
-                }
             }
         }
 

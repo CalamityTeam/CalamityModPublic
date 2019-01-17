@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Leviathan
 	    {
 	        item.width = 56;
 	        item.height = 56;
-	        item.value = 500000;
-	        item.rare = 7;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 7;
 	        item.accessory = true;
 	    }
 

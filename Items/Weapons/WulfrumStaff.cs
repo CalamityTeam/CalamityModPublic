@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3;
-	        item.value = 20000;
-	        item.rare = 1;
+            item.value = Item.buyPrice(0, 1, 0, 0);
+            item.rare = 1;
 	        item.UseSound = SoundID.Item43;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("WulfrumBolt");

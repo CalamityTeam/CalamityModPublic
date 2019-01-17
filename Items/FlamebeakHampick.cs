@@ -14,6 +14,7 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Flamebeak Hampick");
+            Tooltip.SetDefault("Capable of mining Lihzahrd Bricks");
         }
 
         public override void SetDefaults()
@@ -29,7 +30,7 @@ namespace CalamityMod.Items
             item.hammer = 130;
             item.useStyle = 1;
             item.knockBack = 3.5f;
-            item.value = 197000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

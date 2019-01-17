@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.Cryogen
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 10, 0, 0);
+			npc.value = Item.buyPrice(0, 12, 0, 0);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -70,7 +70,11 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath15;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Cryogen");
+            else
+                music = MusicID.FrostMoon;
 			bossBag = mod.ItemType("CryogenBag");
 		}
 		
@@ -1000,7 +1004,7 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				if (Main.rand.Next(4) == 0)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Permafrost"));
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Avalanche"));
 				}
 				if (Main.rand.Next(4) == 0)
 				{

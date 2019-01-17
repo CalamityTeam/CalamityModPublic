@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 2.5f;
-            item.value = 3000000;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
             item.UseSound = SoundID.Item83;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("Calamari");

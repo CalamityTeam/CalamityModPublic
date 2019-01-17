@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Leviathan
 			aiType = -1;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.damage = 34;
+			npc.damage = 45;
 			npc.width = 90; //324
 			npc.height = 20; //216
 			npc.defense = 9;
@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.lifeMax = 50000;
             }
             npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}

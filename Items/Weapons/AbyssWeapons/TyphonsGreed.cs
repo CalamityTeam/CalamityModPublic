@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 	        item.noMelee = true;
             item.noUseGraphic = true;
 	        item.knockBack = 5f;
-	        item.value = 500000;
-	        item.rare = 7;
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.rare = 7;
 	        item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
 	        item.autoReuse = true;
             item.channel = true;

@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 1f;
-            item.value = 1000000;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
             item.UseSound = SoundID.Item82;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("PhantomGuy");

@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons.DesertScourge
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 2f;
-	        item.value = 35000;
-	        item.rare = 2;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 	        item.UseSound = SoundID.Item13;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("WaterStream");

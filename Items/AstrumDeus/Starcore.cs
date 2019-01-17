@@ -9,7 +9,8 @@ namespace CalamityMod.Items.AstrumDeus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starcore");
-			Tooltip.SetDefault("May the stars guide your way");
+			Tooltip.SetDefault("May the stars guide your way\n" +
+                "Summons Astrum Deus");
 		}
 		
 		public override void SetDefaults()

@@ -28,12 +28,13 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.defense = 0;
 			npc.lifeMax = 3000;
 			npc.knockBackResist = 0f;
-			npc.value = 0f;
 			npc.noGravity = true;
 			npc.chaseable = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.rarity = 2;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/SirenLure");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SirenLure");
 		}
 		
 		public override void FindFrame(int frameHeight)

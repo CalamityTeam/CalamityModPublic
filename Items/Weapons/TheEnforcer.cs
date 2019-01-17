@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
             item.height = 64;
-            item.maxStack = 1;
-            item.value = 1350000;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("EssenceBurst");
             item.shootSpeed = 24f;
         }

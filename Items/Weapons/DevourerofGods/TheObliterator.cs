@@ -27,7 +27,8 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.channel = true;
             item.melee = true;
             item.knockBack = 7.5f;
-            item.value = 1250000;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("TheObliterator");
         }

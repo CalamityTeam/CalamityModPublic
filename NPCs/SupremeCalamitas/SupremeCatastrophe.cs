@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Catastrophe");
-			Main.npcFrameCount[npc.type] = 3;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 		
 		public override void SetDefaults()
@@ -28,7 +28,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 120; //324
 			npc.height = 120; //216
 			npc.defense = 150;
-			animationType = 126;
             npc.lifeMax = CalamityWorld.revenge ? 700000 : 600000;
             if (CalamityWorld.death)
             {
@@ -46,8 +45,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
-		
-		public override void AI()
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.15f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
+
+        public override void AI()
 		{
 			bool expertMode = Main.expertMode;
             if (CalamityGlobalNPC.SCal <= 0)

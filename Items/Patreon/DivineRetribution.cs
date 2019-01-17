@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Patreon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Divine Retribution");
+            Tooltip.SetDefault("Mage is superior to rogue; look, we got a donor weapon to prove it!");
             Item.staff[item.type] = true;
         }
 
@@ -28,8 +29,9 @@ namespace CalamityMod.Items.Patreon
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3.5f;
-	        item.value = Item.sellPrice(1, 0, 0, 0);
-	        item.UseSound = SoundID.Item73;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item73;
 	        item.autoReuse = true;
 	        item.shootSpeed = 19f;
 	        item.shoot = mod.ProjectileType("DivineRetribution");

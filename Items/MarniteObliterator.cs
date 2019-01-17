@@ -27,7 +27,7 @@ namespace CalamityMod.Items
 			item.tileBoost++;
 			item.useStyle = 5;
 			item.knockBack = 3;
-			item.value = Item.buyPrice(0, 1, 0, 0);
+			item.value = Item.buyPrice(0, 2, 0, 0);
 			item.rare = 2;
 			item.UseSound = SoundID.Item23;
 			item.autoReuse = true;

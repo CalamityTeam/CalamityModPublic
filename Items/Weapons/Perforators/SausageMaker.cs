@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Perforators
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.height = 42;
-			item.value = 105000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 			item.shoot = mod.ProjectileType("SausageMaker");
 			item.shootSpeed = 6f;
 		}

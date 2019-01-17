@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.buffImmune[k] = true;
             }
             npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(25, 0, 0, 0);
+			npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -230,13 +230,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(mod.NPCType("EidolonWyrmTailHuge")))
             {
-                for (int num957 = 0; num957 < 200; num957++)
-                {
-                    if (Main.npc[num957].aiStyle == npc.aiStyle)
-                    {
-                        Main.npc[num957].active = false;
-                    }
-                }
+                npc.active = false;
             }
             float num188 = speed;
             float num189 = turnSpeed;

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 68;
-            item.value = 300000;
+            item.value = Item.buyPrice(0, 48, 0, 0);
             item.rare = 6;
             item.shoot = mod.ProjectileType("PwnagehammerMelee");
             item.shootSpeed = 12f;

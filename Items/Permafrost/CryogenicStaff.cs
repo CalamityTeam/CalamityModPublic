@@ -27,8 +27,8 @@ Fire rate and range increase the longer it targets an enemy");
 			item.useStyle = 1;
 			item.noMelee = true;
 			item.knockBack = 4f;
-			item.value = Item.sellPrice(0, 9, 0, 0);
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
 			item.UseSound = SoundID.Item78;
 			item.shoot = mod.ProjectileType("IceSentry");
 		}

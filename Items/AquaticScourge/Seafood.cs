@@ -9,7 +9,8 @@ namespace CalamityMod.Items.AquaticScourge
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seafood");
-			Tooltip.SetDefault("The sulphuric sand stirs...");
+			Tooltip.SetDefault("The sulphuric sand stirs...\n" +
+                "Summons the Aquatic Scourge");
 		}
 		
 		public override void SetDefaults()

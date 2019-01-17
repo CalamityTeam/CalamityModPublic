@@ -265,6 +265,7 @@ namespace CalamityMod.Projectiles
                 //holy fire: base 100 + bullet damage 27 = 127 + (explosion damage 127 * 0.85 = 107) = 234
 
                 //ARROWS
+
                 //holy arrow: base 100 + arrow damage 13 = 113 + (star damage 113 * 0.5 = 56 * 0.7 = 39 * 2 total stars = 78) = 191
                 //terra arrow: base 100 + arrow damage 9 = 109 + (terra arrow split damage 109 * 0.5 = 54 * 2 total arrows = 106) = 215
                 //elysian arrow: base 100 + arrow damage 20 = 120 + meteor damage 120 = 240
@@ -313,15 +314,6 @@ namespace CalamityMod.Projectiles
                     Player player = Main.player[projectile.owner];
                     if (player.minionDamage != spawnedPlayerMinionDamageValue)
                     {
-                        //base stat of 120
-                        //test going from 120 to 240: minion damage going from 1f to 2f
-                        //120 / 1 = 120 * 2 = 240
-                        //test going from 240 to 120: minion damage going from 2f to 1f
-                        //240 / 2 = 120 * 1 = 120
-                        //test going from 150 to 240: minion damage going from 1.25f to 2f
-                        //150 / 1.25 = 120 * 2 = 240
-                        //test going from 240 to 150: minion damage going from 2f to 1.25f
-                        //240 / 2f = 120 * 1.25 = 150
                         float damage2 = (((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue) * player.minionDamage);
                         damage = Main.DamageVar(damage2);
                     }
@@ -369,31 +361,37 @@ namespace CalamityMod.Projectiles
                         damage = (int)((double)damage * 1.1);
                     }
                 }
-                if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode &&
+                if (CalamityWorld.revenge)
+                {
+                    if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode &&
                     Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineMode)
-                {
-                    if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
                     {
-                        damage = (int)((double)damage * (CalamityWorld.death ? 13.0 : 4.0));
+                        if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) ||
+                            projectile.melee || projectile.ranged || projectile.magic || CalamityMod.throwingProjectileList.Contains(projectile.type))
+                        {
+                            damage = (int)((double)damage * (CalamityWorld.death ? 9.0 : 3.0));
+                        }
                     }
-                }
-                else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode)
-                {
-                    if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
+                    else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode)
                     {
-                        double rageDamageBoost = 0.0 +
-                            (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostOne ? (CalamityWorld.death ? 0.8 : 0.2) : 0.0) + //4.8 or 1.2
-                            (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostTwo ? (CalamityWorld.death ? 0.8 : 0.2) : 0.0) + //5.6 or 1.4
-                            (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostThree ? (CalamityWorld.death ? 0.8 : 0.2) : 0.0); //6.4 or 1.6
-                        double rageDamage = (CalamityWorld.death ? 5.0 : 2.0) + rageDamageBoost;
-                        damage = (int)((double)damage * rageDamage);
+                        if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) ||
+                            projectile.melee || projectile.ranged || projectile.magic || CalamityMod.throwingProjectileList.Contains(projectile.type))
+                        {
+                            double rageDamageBoost = 0.0 +
+                                (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostOne ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //3.6 or 1.65
+                                (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostTwo ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //4.2 or 1.8
+                                (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostThree ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0); //4.8 or 1.95
+                            double rageDamage = (CalamityWorld.death ? 3.0 : 1.5) + rageDamageBoost;
+                            damage = (int)((double)damage * rageDamage);
+                        }
                     }
-                }
-                else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineMode)
-                {
-                    if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
+                    else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineMode)
                     {
-                        damage = (int)((double)damage * ((CalamityWorld.death ? 11.0 : 3.5) * Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineDmgMult));
+                        if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) ||
+                            projectile.melee || projectile.ranged || projectile.magic || CalamityMod.throwingProjectileList.Contains(projectile.type))
+                        {
+                            damage = (int)((double)damage * ((CalamityWorld.death ? 7.0 : 2.5) * Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineDmgMult));
+                        }
                     }
                 }
                 if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).uberBees &&

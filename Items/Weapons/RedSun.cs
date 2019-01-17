@@ -31,7 +31,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 72;
-            item.value = 10000000;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("SolarFlare");
             item.shootSpeed = 15f;
         }

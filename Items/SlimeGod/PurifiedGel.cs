@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.SlimeGod {
-public class PurifiedGel : ModItem
+namespace CalamityMod.Items.SlimeGod
 {
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Purified Gel");
-	}
-	
-	public override void SetDefaults()
-	{
-		item.width = 16;
-		item.height = 14;
-		item.maxStack = 999;
-		item.value = 3750;
-		item.rare = 5;
-	}
-}}
+    public class PurifiedGel : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Purified Gel");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 16;
+            item.height = 14;
+            item.maxStack = 999;
+            item.value = 3750;
+            item.rare = 4;
+        }
+    }
+}

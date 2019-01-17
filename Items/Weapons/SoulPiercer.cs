@@ -29,7 +29,8 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 8f;
-            item.value = 1350000;
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.rare = 10;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("SoulPiercer");

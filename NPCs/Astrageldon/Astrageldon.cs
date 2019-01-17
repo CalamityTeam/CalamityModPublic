@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 20, 0, 0);
+			npc.value = Item.buyPrice(0, 15, 0, 0);
             for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
                 npc.buffImmune[k] = true;
@@ -55,9 +55,12 @@ namespace CalamityMod.NPCs.Astrageldon
                 npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
 			npc.boss = true;
-			npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstrumAureusHit");
 			npc.DeathSound = SoundID.NPCDeath14;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astrageldon");
+            else
+                music = MusicID.Boss3;
             bossBag = mod.ItemType("AstrageldonBag");
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
@@ -763,7 +766,13 @@ namespace CalamityMod.NPCs.Astrageldon
 		
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			for (int k = 0; k < 5; k++)
+            if (npc.soundDelay == 0)
+            {
+                npc.soundDelay = 15;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstrumAureusHit"), npc.Center);
+            }
+
+            for (int k = 0; k < 5; k++)
 			{
 				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default(Color), 1f);
 			}

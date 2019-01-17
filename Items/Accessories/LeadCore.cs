@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lead Core");
-            Tooltip.SetDefault("Grants immunity to the irradiated debuff");
+            Tooltip.SetDefault("Grants immunity to the acid rain debuff");
         }
 
         public override void SetDefaults()

@@ -34,7 +34,6 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.knockBackResist = 0.3f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}

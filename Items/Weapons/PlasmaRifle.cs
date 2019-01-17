@@ -29,8 +29,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 4f;
-	        item.value = 1500000;
-	        item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
 	        item.autoReuse = true;
 	        item.shootSpeed = 20f;
 	        item.shoot = mod.ProjectileType("PlasmaShot");

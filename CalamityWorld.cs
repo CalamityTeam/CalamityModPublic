@@ -35,6 +35,10 @@ namespace CalamityMod
 
         public static int bossRushSpawnCountdown = 180;
 
+        public static int bossSpawnCountdown = 0;
+
+        public static int bossType = 0;
+
         private const int ExpandWorldBy = 200;
 
         private const int saveVersion = 0;
@@ -193,6 +197,8 @@ namespace CalamityMod
 
         public static bool downedBuffedMothron = false;
 
+        public static bool downedOldDuke = false;
+
         public static bool ironHeart = false;
         #endregion
 
@@ -218,6 +224,8 @@ namespace CalamityMod
             CalamityGlobalNPC.brimstoneElemental = -1;
             bossRushActive = false;
             bossRushSpawnCountdown = 180;
+            bossSpawnCountdown = 0;
+            bossType = 0;
             abyssSide = false;
             downedDesertScourge = false;
             downedAquaticScourge = false;
@@ -262,6 +270,7 @@ namespace CalamityMod
 			downedPolterghast = false;
             downedLORDE = false;
             downedBuffedMothron = false;
+            downedOldDuke = false;
             death = false;
             defiled = false;
             armageddon = false;
@@ -316,6 +325,7 @@ namespace CalamityMod
 			if (downedPolterghast) downed.Add("polterghast");
             if (downedLORDE) downed.Add("lorde");
             if (downedBuffedMothron) downed.Add("moth");
+            if (downedOldDuke) downed.Add("oldDuke");
             if (death) downed.Add("death");
             if (defiled) downed.Add("defiled");
             if (armageddon) downed.Add("armageddon");
@@ -379,6 +389,7 @@ namespace CalamityMod
 			downedPolterghast = downed.Contains("polterghast");
             downedLORDE = downed.Contains("lorde");
             downedBuffedMothron = downed.Contains("moth");
+            downedOldDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
             defiled = downed.Contains("defiled");
             armageddon = downed.Contains("armageddon");
@@ -456,6 +467,7 @@ namespace CalamityMod
 
                 BitsByte flags7 = reader.ReadByte();
                 bossRushActive = flags7[0];
+                downedOldDuke = flags7[1];
             }
 			else
 			{
@@ -529,6 +541,7 @@ namespace CalamityMod
 
             BitsByte flags7 = new BitsByte();
             flags7[0] = bossRushActive;
+            flags7[1] = downedOldDuke;
 
             writer.Write(flags);
 			writer.Write(flags2);
@@ -605,6 +618,7 @@ namespace CalamityMod
 
             BitsByte flags7 = reader.ReadByte();
             bossRushActive = flags7[0];
+            downedOldDuke = flags7[1];
         }
         #endregion
 
@@ -1337,13 +1351,22 @@ namespace CalamityMod
         #region SafeTileFrame
         public static void SafeSquareTileFrame(int i, int j, bool resetFrame = true)
         {
-            for (int x = i - 1; x <= i + 1; x++)
+            if (Main.tile[i, j] != null)
             {
-                for (int y = j - 1; y <= j + 1; y++)
+                for (int x = i - 1; x <= i + 1; x++)
                 {
-                    if (x < 0 || y < 0 || x >= Main.maxTilesX || y >= Main.maxTilesY) continue;
-                    if (x == i && y == j) WorldGen.TileFrame(i, j, resetFrame, false);
-                    else WorldGen.TileFrame(x, y, false, false);
+                    for (int y = j - 1; y <= j + 1; y++)
+                    {
+                        if (x < 0 || y < 0 || x >= Main.maxTilesX || y >= Main.maxTilesY) continue;
+                        if (x == i && y == j)
+                        {
+                            WorldGen.TileFrame(i, j, resetFrame, false);
+                        }
+                        else
+                        {
+                            WorldGen.TileFrame(x, y, false, false);
+                        }
+                    }
                 }
             }
         }
@@ -1753,11 +1776,14 @@ namespace CalamityMod
 						float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
 						if ((double)num6 < (double)num * 0.9 + (double)Main.rand.Next(-4, 5))
 						{
-							if (!Main.tileSolid[(int)Main.tile[num2, num3].type])
-							{
-								Main.tile[num2, num3].active(false);
-							}
-							Main.tile[num2, num3].type = (ushort)mod.TileType("AstralOre");
+                            if (Main.tile[num2, num3] != null)
+                            {
+                                if (!Main.tileSolid[(int)Main.tile[num2, num3].type])
+                                {
+                                    Main.tile[num2, num3].active(false);
+                                }
+                                Main.tile[num2, num3].type = (ushort)mod.TileType("AstralOre");
+                            }
 						}
 					}
 				}
@@ -1774,7 +1800,8 @@ namespace CalamityMod
 						float num11 = (float)Math.Sqrt((double)(num9 * num9 + num10 * num10));
 						if ((double)num11 < (double)num * 0.8 + (double)Main.rand.Next(-3, 4))
 						{
-							Main.tile[num7, num8].active(false);
+                            if (Main.tile[num7, num8] != null)
+                                Main.tile[num7, num8].active(false);
 						}
 					}
 				}
@@ -1787,27 +1814,30 @@ namespace CalamityMod
 					float num14 = (float)Math.Abs(i - num12);
 					float num15 = (float)Math.Abs(j - num13);
 					float num16 = (float)Math.Sqrt((double)(num14 * num14 + num15 * num15));
-					if ((double)num16 < (double)num * 0.7)
-					{
-						if (Main.tile[num12, num13].type == 5 || Main.tile[num12, num13].type == 32 || Main.tile[num12, num13].type == 352)
-						{
-							WorldGen.KillTile(num12, num13, false, false, false);
-						}
-						Main.tile[num12, num13].liquid = 0;
-					}
-					if (Main.tile[num12, num13].type == (ushort)mod.TileType("AstralOre"))
-					{
-						if (!WorldGen.SolidTile(num12 - 1, num13) && !WorldGen.SolidTile(num12 + 1, num13) && !WorldGen.SolidTile(num12, num13 - 1) && !WorldGen.SolidTile(num12, num13 + 1))
-						{
-							Main.tile[num12, num13].active(false);
-						}
-						else if ((Main.tile[num12, num13].halfBrick() || Main.tile[num12 - 1, num13].topSlope()) && !WorldGen.SolidTile(num12, num13 + 1))
-						{
-							Main.tile[num12, num13].active(false);
-						}
-					}
-					WorldGen.SquareTileFrame(num12, num13, true);
-					WorldGen.SquareWallFrame(num12, num13, true);
+                    if (Main.tile[num12, num13] != null)
+                    {
+                        if ((double)num16 < (double)num * 0.7)
+                        {
+                            if (Main.tile[num12, num13].type == 5 || Main.tile[num12, num13].type == 32 || Main.tile[num12, num13].type == 352)
+                            {
+                                WorldGen.KillTile(num12, num13, false, false, false);
+                            }
+                            Main.tile[num12, num13].liquid = 0;
+                        }
+                        if (Main.tile[num12, num13].type == (ushort)mod.TileType("AstralOre"))
+                        {
+                            if (!WorldGen.SolidTile(num12 - 1, num13) && !WorldGen.SolidTile(num12 + 1, num13) && !WorldGen.SolidTile(num12, num13 - 1) && !WorldGen.SolidTile(num12, num13 + 1))
+                            {
+                                Main.tile[num12, num13].active(false);
+                            }
+                            else if ((Main.tile[num12, num13].halfBrick() || Main.tile[num12 - 1, num13].topSlope()) && !WorldGen.SolidTile(num12, num13 + 1))
+                            {
+                                Main.tile[num12, num13].active(false);
+                            }
+                        }
+                        WorldGen.SquareTileFrame(num12, num13, true);
+                        WorldGen.SquareWallFrame(num12, num13, true);
+                    }
 				}
 			}
 			num = WorldGen.genRand.Next(23, 32);
@@ -1822,12 +1852,15 @@ namespace CalamityMod
 						float num21 = (float)Math.Sqrt((double)(num19 * num19 + num20 * num20));
 						if ((double)num21 < (double)num * 0.8)
 						{
-							if (Main.tile[num17, num18].type == 5 || Main.tile[num17, num18].type == 32 || Main.tile[num17, num18].type == 352)
-							{
-								WorldGen.KillTile(num17, num18, false, false, false);
-							}
-							Main.tile[num17, num18].type = (ushort)mod.TileType("AstralOre");
-							WorldGen.SquareTileFrame(num17, num18, true);
+                            if (Main.tile[num17, num18] != null)
+                            {
+                                if (Main.tile[num17, num18].type == 5 || Main.tile[num17, num18].type == 32 || Main.tile[num17, num18].type == 352)
+                                {
+                                    WorldGen.KillTile(num17, num18, false, false, false);
+                                }
+                                Main.tile[num17, num18].type = (ushort)mod.TileType("AstralOre");
+                                WorldGen.SquareTileFrame(num17, num18, true);
+                            }
 						}
 					}
 				}
@@ -1844,12 +1877,15 @@ namespace CalamityMod
 						float num26 = (float)Math.Sqrt((double)(num24 * num24 + num25 * num25));
 						if ((double)num26 < (double)num * 0.85)
 						{
-							if (Main.tile[num22, num23].type == 5 || Main.tile[num22, num23].type == 32 || Main.tile[num22, num23].type == 352)
-							{
-								WorldGen.KillTile(num22, num23, false, false, false);
-							}
-							Main.tile[num22, num23].type = (ushort)mod.TileType("AstralOre");
-							WorldGen.SquareTileFrame(num22, num23, true);
+                            if (Main.tile[num22, num23] != null)
+                            {
+                                if (Main.tile[num22, num23].type == 5 || Main.tile[num22, num23].type == 32 || Main.tile[num22, num23].type == 352)
+                                {
+                                    WorldGen.KillTile(num22, num23, false, false, false);
+                                }
+                                Main.tile[num22, num23].type = (ushort)mod.TileType("AstralOre");
+                                WorldGen.SquareTileFrame(num22, num23, true);
+                            }
 						}
 					}
 				}
@@ -1929,220 +1965,234 @@ namespace CalamityMod
                 int type = Main.tile[x, y].type;
                 int wallType = Main.tile[x, y].wall;
 
-                if (WallID.Sets.Conversion.Grass[wallType])
+                if (Main.tile[x, y] != null)
                 {
-                    Main.tile[x, y].wall = (ushort)mod.WallType("AstralGrassWallUnsafe");
-                }
-                else if (WallID.Sets.Conversion.HardenedSand[wallType])
-                {
-                    Main.tile[x, y].wall = (ushort)mod.WallType("HardenedAstralSandWallUnsafe");
-                }
-                else if (WallID.Sets.Conversion.Sandstone[wallType])
-                {
-                    Main.tile[x, y].wall = (ushort)mod.WallType("AstralSandstoneWallUnsafe");
-                }
-                else if (WallID.Sets.Conversion.Stone[wallType])
-                {
-                    Main.tile[x, y].wall = (ushort)mod.WallType("AstralStoneWallUnsafe");
-                }
-                else
-                {
-                    switch (wallType)
+                    if (WallID.Sets.Conversion.Grass[wallType])
                     {
-                        case WallID.DirtUnsafe:
-                        case WallID.DirtUnsafe1:
-                        case WallID.DirtUnsafe2:
-                        case WallID.DirtUnsafe3:
-                        case WallID.DirtUnsafe4:
-                        case WallID.Cave6Unsafe:
-                        case WallID.Dirt:
-                            Main.tile[x, y].wall = (ushort)mod.WallType("AstralDirtWallUnsafe");
-                            break;
-                        case WallID.IceUnsafe:
-                            Main.tile[x, y].wall = (ushort)mod.WallType("AstralIceWallUnsafe");
-                            break;
+                        Main.tile[x, y].wall = (ushort)mod.WallType("AstralGrassWallUnsafe");
                     }
-                }
-
-                if (TileID.Sets.Conversion.Grass[type] && !TileID.Sets.GrassSpecial[type])
-                {
-                    Main.tile[x, y].type = (ushort)mod.TileType("AstralGrass");
-                }
-                else if (TileID.Sets.Conversion.Stone[type] || Main.tileMoss[type])
-                {
-                    Main.tile[x, y].type = (ushort)mod.TileType("AstralStone");
-                }
-                else if (TileID.Sets.Conversion.Sand[type])
-                {
-                    Main.tile[x, y].type = (ushort)mod.TileType("AstralSand");
-                }
-                else if (TileID.Sets.Conversion.HardenedSand[type])
-                {
-                    Main.tile[x, y].type = (ushort)mod.TileType("HardenedAstralSand");
-                }
-                else if (TileID.Sets.Conversion.Sandstone[type])
-                {
-                    Main.tile[x, y].type = (ushort)mod.TileType("AstralSandstone");
-                }
-                else if (TileID.Sets.Conversion.Ice[type])
-                {
-                    Main.tile[x, y].type = (ushort)mod.TileType("AstralIce");
-                }
-                else
-                {
-                    Tile tile = Main.tile[x, y];
-                    switch (type)
+                    else if (WallID.Sets.Conversion.HardenedSand[wallType])
                     {
-                        case TileID.Dirt:
-                            Main.tile[x, y].type = (ushort)mod.TileType("AstralDirt");
-                            break;
-                        case TileID.Vines:
-                            Main.tile[x, y].type = (ushort)mod.TileType("AstralVines");
-                            break;
-                        case TileID.LargePiles:
-                            if (tile.frameX <= 1170)
-                            {
-                                RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 0, 1170, 0, 18);
-                            }
-                            if (tile.frameX >= 1728)
-                            {
-                                RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 1728, 1872, 0, 18);
-                            }
-                            if (tile.frameX >= 1404 && tile.frameX <= 1710)
-                            {
-                                RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralIceLargePiles"), x, y, 324, 1404, 1710, 0, 18);
-                            }
-                            break;
-                        case TileID.LargePiles2:
-                            if (tile.frameX >= 1566 && tile.frameY < 36)
-                            {
-                                RecursiveReplaceToAstral(TileID.LargePiles2, (ushort)mod.TileType("AstralDesertLargePiles"), x, y, 324, 1566, 1872, 0, 18);
-                            }
-                            if (tile.frameX >= 756 && tile.frameX <= 900)
-                            {
-                                RecursiveReplaceToAstral(TileID.LargePiles2, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 756, 900, 0, 18);
-                            }
-                            break;
-                        case TileID.SmallPiles:
-                            if (tile.frameY == 18)
-                            {
-                                ushort newType = 9999;
-                                if (tile.frameX >= 1476 && tile.frameX <= 1674)
+                        Main.tile[x, y].wall = (ushort)mod.WallType("HardenedAstralSandWallUnsafe");
+                    }
+                    else if (WallID.Sets.Conversion.Sandstone[wallType])
+                    {
+                        Main.tile[x, y].wall = (ushort)mod.WallType("AstralSandstoneWallUnsafe");
+                    }
+                    else if (WallID.Sets.Conversion.Stone[wallType])
+                    {
+                        Main.tile[x, y].wall = (ushort)mod.WallType("AstralStoneWallUnsafe");
+                    }
+                    else
+                    {
+                        switch (wallType)
+                        {
+                            case WallID.DirtUnsafe:
+                            case WallID.DirtUnsafe1:
+                            case WallID.DirtUnsafe2:
+                            case WallID.DirtUnsafe3:
+                            case WallID.DirtUnsafe4:
+                            case WallID.Cave6Unsafe:
+                            case WallID.Dirt:
+                                Main.tile[x, y].wall = (ushort)mod.WallType("AstralDirtWallUnsafe");
+                                break;
+                            case WallID.IceUnsafe:
+                                Main.tile[x, y].wall = (ushort)mod.WallType("AstralIceWallUnsafe");
+                                break;
+                        }
+                    }
+                    if (TileID.Sets.Conversion.Grass[type] && !TileID.Sets.GrassSpecial[type])
+                    {
+                        Main.tile[x, y].type = (ushort)mod.TileType("AstralGrass");
+                    }
+                    else if (TileID.Sets.Conversion.Stone[type] || Main.tileMoss[type])
+                    {
+                        Main.tile[x, y].type = (ushort)mod.TileType("AstralStone");
+                    }
+                    else if (TileID.Sets.Conversion.Sand[type])
+                    {
+                        Main.tile[x, y].type = (ushort)mod.TileType("AstralSand");
+                    }
+                    else if (TileID.Sets.Conversion.HardenedSand[type])
+                    {
+                        Main.tile[x, y].type = (ushort)mod.TileType("HardenedAstralSand");
+                    }
+                    else if (TileID.Sets.Conversion.Sandstone[type])
+                    {
+                        Main.tile[x, y].type = (ushort)mod.TileType("AstralSandstone");
+                    }
+                    else if (TileID.Sets.Conversion.Ice[type])
+                    {
+                        Main.tile[x, y].type = (ushort)mod.TileType("AstralIce");
+                    }
+                    else
+                    {
+                        Tile tile = Main.tile[x, y];
+                        switch (type)
+                        {
+                            case TileID.Dirt:
+                                Main.tile[x, y].type = (ushort)mod.TileType("AstralDirt");
+                                break;
+                            case TileID.Vines:
+                                Main.tile[x, y].type = (ushort)mod.TileType("AstralVines");
+                                break;
+                            case TileID.LargePiles:
+                                if (tile.frameX <= 1170)
                                 {
-                                    newType = (ushort)mod.TileType("AstralDesertMediumPiles");
+                                    RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 0, 1170, 0, 18);
                                 }
-                                else if (tile.frameX <= 558 || (tile.frameX >= 1368 && tile.frameX <= 1458))
+                                if (tile.frameX >= 1728)
                                 {
-                                    newType = (ushort)mod.TileType("AstralNormalMediumPiles");
+                                    RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 1728, 1872, 0, 18);
                                 }
-                                else if (tile.frameX >= 900 && tile.frameX <= 1098)
+                                if (tile.frameX >= 1404 && tile.frameX <= 1710)
                                 {
-                                    newType = (ushort)mod.TileType("AstralIceMediumPiles");
+                                    RecursiveReplaceToAstral(TileID.LargePiles, (ushort)mod.TileType("AstralIceLargePiles"), x, y, 324, 1404, 1710, 0, 18);
+                                }
+                                break;
+                            case TileID.LargePiles2:
+                                if (tile.frameX >= 1566 && tile.frameY < 36)
+                                {
+                                    RecursiveReplaceToAstral(TileID.LargePiles2, (ushort)mod.TileType("AstralDesertLargePiles"), x, y, 324, 1566, 1872, 0, 18);
+                                }
+                                if (tile.frameX >= 756 && tile.frameX <= 900)
+                                {
+                                    RecursiveReplaceToAstral(TileID.LargePiles2, (ushort)mod.TileType("AstralNormalLargePiles"), x, y, 324, 756, 900, 0, 18);
+                                }
+                                break;
+                            case TileID.SmallPiles:
+                                if (tile.frameY == 18)
+                                {
+                                    ushort newType = 9999;
+                                    if (tile.frameX >= 1476 && tile.frameX <= 1674)
+                                    {
+                                        newType = (ushort)mod.TileType("AstralDesertMediumPiles");
+                                    }
+                                    else if (tile.frameX <= 558 || (tile.frameX >= 1368 && tile.frameX <= 1458))
+                                    {
+                                        newType = (ushort)mod.TileType("AstralNormalMediumPiles");
+                                    }
+                                    else if (tile.frameX >= 900 && tile.frameX <= 1098)
+                                    {
+                                        newType = (ushort)mod.TileType("AstralIceMediumPiles");
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                    int leftMost = x;
+                                    if (tile.frameX % 36 != 0) //this means it's the right tile of the two
+                                    {
+                                        leftMost--;
+                                    }
+                                    if (Main.tile[leftMost, y] != null)
+                                        Main.tile[leftMost, y].type = newType;
+                                    if (Main.tile[leftMost + 1, y] != null)
+                                        Main.tile[leftMost + 1, y].type = newType;
+                                    while (Main.tile[leftMost, y].frameX >= 216)
+                                    {
+                                        if (Main.tile[leftMost, y] != null)
+                                            Main.tile[leftMost, y].frameX -= 216;
+                                        if (Main.tile[leftMost + 1, y] != null)
+                                            Main.tile[leftMost + 1, y].frameX -= 216;
+                                    }
+                                }
+                                else if (tile.frameY == 0)
+                                {
+                                    ushort newType3 = 9999;
+                                    if (tile.frameX >= 972 && tile.frameX <= 1062)
+                                    {
+                                        newType3 = (ushort)mod.TileType("AstralDesertSmallPiles");
+                                    }
+                                    else if (tile.frameX <= 486)
+                                    {
+                                        newType3 = (ushort)mod.TileType("AstralNormalSmallPiles");
+                                    }
+                                    else if (tile.frameX >= 648 && tile.frameX <= 846)
+                                    {
+                                        newType3 = (ushort)mod.TileType("AstralIceSmallPiles");
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                    Main.tile[x, y].type = newType3;
+                                    while (Main.tile[x, y].frameX >= 108) //REFRAME IT
+                                    {
+                                        Main.tile[x, y].frameX -= 108;
+                                    }
+                                }
+                                break;
+                            case TileID.Stalactite:
+                                int topMost = tile.frameY <= 54 ? (tile.frameY % 36 == 0 ? y : y - 1) : y;
+                                bool twoTall = tile.frameY <= 54;
+                                bool hanging = tile.frameY <= 18 || tile.frameY == 72;
+                                ushort newType2 = 9999;
+                                if (tile.frameX >= 378 && tile.frameX <= 414) //DESERT
+                                {
+                                    newType2 = (ushort)mod.TileType("AstralDesertStalactite");
+                                }
+                                else if ((tile.frameX >= 54 && tile.frameX <= 90) || (tile.frameX >= 216 && tile.frameX <= 360))
+                                {
+                                    newType2 = (ushort)mod.TileType("AstralNormalStalactite");
+                                }
+                                else if (tile.frameX <= 36)
+                                {
+                                    newType2 = (ushort)mod.TileType("AstralIceStalactite");
                                 }
                                 else
                                 {
                                     break;
                                 }
-                                int leftMost = x;
-                                if (tile.frameX % 36 != 0) //this means it's the right tile of the two
+
+                                //Set types
+                                if (Main.tile[x, topMost] != null)
+                                    Main.tile[x, topMost].type = newType2;
+                                if (twoTall)
                                 {
-                                    leftMost--;
+                                    if (Main.tile[x, topMost + 1] != null)
+                                        Main.tile[x, topMost + 1].type = newType2;
                                 }
-                                Main.tile[leftMost, y].type = newType;
-                                Main.tile[leftMost + 1, y].type = newType;
-                                while (Main.tile[leftMost, y].frameX >= 216)
+
+                                //Fix frames
+                                while (Main.tile[x, topMost].frameX >= 54)
                                 {
-                                    Main.tile[leftMost, y].frameX -= 216;
-                                    Main.tile[leftMost + 1, y].frameX -= 216;
+                                    if (Main.tile[x, topMost] != null)
+                                        Main.tile[x, topMost].frameX -= 54;
+                                    if (twoTall)
+                                    {
+                                        if (Main.tile[x, topMost + 1] != null)
+                                            Main.tile[x, topMost + 1].frameX -= 54;
+                                    }
                                 }
-                            }
-                            else if (tile.frameY == 0)
-                            {
-                                ushort newType3 = 9999;
-                                if (tile.frameX >= 972 && tile.frameX <= 1062)
+
+                                if (hanging)
                                 {
-                                    newType3 = (ushort)mod.TileType("AstralDesertSmallPiles");
-                                }
-                                else if (tile.frameX <= 486)
-                                {
-                                    newType3 = (ushort)mod.TileType("AstralNormalSmallPiles");
-                                }
-                                else if (tile.frameX >= 648 && tile.frameX <= 846)
-                                {
-                                    newType3 = (ushort)mod.TileType("AstralIceSmallPiles");
+                                    ConvertToAstral(x, topMost - 1);
+                                    break;
                                 }
                                 else
                                 {
+                                    if (twoTall)
+                                    {
+                                        ConvertToAstral(x, topMost + 2);
+                                        break;
+                                    }
+                                    ConvertToAstral(x, topMost + 1);
                                     break;
                                 }
-                                Main.tile[x, y].type = newType3;
-                                while (Main.tile[x, y].frameX >= 108) //REFRAME IT
-                                {
-                                    Main.tile[x, y].frameX -= 108;
-                                }
-                            }
-                            break;
-                        case TileID.Stalactite:
-                            int topMost = tile.frameY <= 54 ? (tile.frameY % 36 == 0 ? y : y - 1) : y;
-                            bool twoTall = tile.frameY <= 54;
-                            bool hanging = tile.frameY <= 18 || tile.frameY == 72;
-                            ushort newType2 = 9999;
-                            if (tile.frameX >= 378 && tile.frameX <= 414) //DESERT
-                            {
-                                newType2 = (ushort)mod.TileType("AstralDesertStalactite");
-                            }
-                            else if ((tile.frameX >= 54 && tile.frameX <= 90) || (tile.frameX >= 216 && tile.frameX <= 360))
-                            {
-                                newType2 = (ushort)mod.TileType("AstralNormalStalactite");
-                            }
-                            else if (tile.frameX <= 36)
-                            {
-                                newType2 = (ushort)mod.TileType("AstralIceStalactite");
-                            }
-                            else
-                            {
-                                break;
-                            }
-
-                            //Set types
-                            Main.tile[x, topMost].type = newType2;
-                            if (twoTall)
-                                Main.tile[x, topMost + 1].type = newType2;
-
-                            //Fix frames
-                            while (Main.tile[x, topMost].frameX >= 54)
-                            {
-                                Main.tile[x, topMost].frameX -= 54;
-                                if (twoTall)
-                                    Main.tile[x, topMost + 1].frameX -= 54;
-                            }
-
-                            if (hanging)
-                            {
-                                ConvertToAstral(x, topMost - 1);
-                                break;
-                            }
-                            else
-                            {
-                                if (twoTall)
-                                {
-                                    ConvertToAstral(x, topMost + 2);
-                                    break;
-                                }
-                                ConvertToAstral(x, topMost + 1);
-                                break;
-                            }
+                        }
                     }
-                }
-                if (tileframe)
-                {
-                    if (Main.netMode == 0)
+                    if (tileframe)
                     {
-                        WorldGen.SquareTileFrame(x, y, true);
-                    }
-                    else if (Main.netMode == 2)
-                    {
-                        NetMessage.SendTileSquare(-1, x, y, 1);
+                        if (Main.netMode == 0)
+                        {
+                            WorldGen.SquareTileFrame(x, y, true);
+                        }
+                        else if (Main.netMode == 2)
+                        {
+                            NetMessage.SendTileSquare(-1, x, y, 1);
+                        }
                     }
                 }
             }
@@ -2158,178 +2208,184 @@ namespace CalamityMod
             if (WorldGen.InWorld(x, y, 1))
             {
                 #region WALL
-                if (wallType == mod.WallType("AstralDirtWall"))
+                if (Main.tile[x, y] != null)
                 {
-                    Main.tile[x, y].wall = WallID.DirtUnsafe;
-                }
-                else if (wallType == mod.WallType("AstralGrassWall"))
-                {
-                    switch (convert)
+                    if (wallType == mod.WallType("AstralDirtWall"))
                     {
-                        case ConvertType.Corrupt:
-                            Main.tile[x, y].wall = WallID.CorruptGrassUnsafe;
-                            break;
-                        case ConvertType.Crimson:
-                            Main.tile[x, y].wall = WallID.CrimsonGrassUnsafe;
-                            break;
-                        case ConvertType.Hallow:
-                            Main.tile[x, y].wall = WallID.HallowedGrassUnsafe;
-                            break;
-                        case ConvertType.Pure:
-                            Main.tile[x, y].wall = WallID.GrassUnsafe;
-                            break;
+                        Main.tile[x, y].wall = WallID.DirtUnsafe;
                     }
-                }
-                else if (wallType == mod.WallType("AstralIceWall"))
-                {
-                    Main.tile[x, y].wall = WallID.IceUnsafe;
-                }
-                else if (wallType == mod.WallType("AstralStoneWall"))
-                {
-                    switch (convert)
+                    else if (wallType == mod.WallType("AstralGrassWall"))
                     {
-                        case ConvertType.Corrupt:
-                            Main.tile[x, y].wall = WallID.EbonstoneUnsafe;
-                            break;
-                        case ConvertType.Crimson:
-                            Main.tile[x, y].wall = WallID.CrimstoneUnsafe;
-                            break;
-                        case ConvertType.Hallow:
-                            Main.tile[x, y].wall = WallID.PearlstoneBrickUnsafe;
-                            break;
-                        case ConvertType.Pure:
-                            Main.tile[x, y].wall = WallID.Stone;
-                            break;
+                        switch (convert)
+                        {
+                            case ConvertType.Corrupt:
+                                Main.tile[x, y].wall = WallID.CorruptGrassUnsafe;
+                                break;
+                            case ConvertType.Crimson:
+                                Main.tile[x, y].wall = WallID.CrimsonGrassUnsafe;
+                                break;
+                            case ConvertType.Hallow:
+                                Main.tile[x, y].wall = WallID.HallowedGrassUnsafe;
+                                break;
+                            case ConvertType.Pure:
+                                Main.tile[x, y].wall = WallID.GrassUnsafe;
+                                break;
+                        }
+                    }
+                    else if (wallType == mod.WallType("AstralIceWall"))
+                    {
+                        Main.tile[x, y].wall = WallID.IceUnsafe;
+                    }
+                    else if (wallType == mod.WallType("AstralStoneWall"))
+                    {
+                        switch (convert)
+                        {
+                            case ConvertType.Corrupt:
+                                Main.tile[x, y].wall = WallID.EbonstoneUnsafe;
+                                break;
+                            case ConvertType.Crimson:
+                                Main.tile[x, y].wall = WallID.CrimstoneUnsafe;
+                                break;
+                            case ConvertType.Hallow:
+                                Main.tile[x, y].wall = WallID.PearlstoneBrickUnsafe;
+                                break;
+                            case ConvertType.Pure:
+                                Main.tile[x, y].wall = WallID.Stone;
+                                break;
+                        }
                     }
                 }
                 #endregion
 
                 #region TILE
-                if (type == mod.TileType("AstralDirt"))
+                if (Main.tile[x, y] != null)
                 {
-                    tile.type = TileID.Dirt;
-                }
-                else if (type == mod.TileType("AstralGrass"))
-                {
-                    SetTileFromConvert(x, y, convert, TileID.CorruptGrass, TileID.FleshGrass, TileID.HallowedGrass, TileID.Grass);
-                }
-                else if (type == mod.TileType("AstralStone"))
-                {
-                    SetTileFromConvert(x, y, convert, TileID.Ebonstone, TileID.Crimstone, TileID.Pearlstone, TileID.Stone);
-                }
-                else if (type == mod.TileType("AstralSand"))
-                {
-                    SetTileFromConvert(x, y, convert, TileID.Ebonsand, TileID.Crimsand, TileID.Pearlsand, TileID.Sand);
-                }
-                else if (type == mod.TileType("AstralSandstone"))
-                {
-                    SetTileFromConvert(x, y, convert, TileID.CorruptSandstone, TileID.CrimsonSandstone, TileID.HallowSandstone, TileID.Sandstone);
-                }
-                else if (type == mod.TileType("HardenedAstralSand"))
-                {
-                    SetTileFromConvert(x, y, convert, TileID.CorruptHardenedSand, TileID.CrimsonHardenedSand, TileID.HallowHardenedSand, TileID.HardenedSand);
-                }
-                else if (type == mod.TileType("AstralIce"))
-                {
-                    SetTileFromConvert(x, y, convert, TileID.CorruptIce, TileID.FleshIce, TileID.HallowedIce, TileID.IceBlock);
-                }
-                else if (type == mod.TileType("AstralVines"))
-                {
-                    SetTileFromConvert(x, y, convert, ushort.MaxValue, TileID.CrimsonVines, TileID.HallowedVines, TileID.Vines);
-                }
-                else if (type == mod.TileType("AstralShortPlants"))
-                {
-                    SetTileFromConvert(x, y, convert, TileID.CorruptPlants, ushort.MaxValue, TileID.HallowedPlants, TileID.Plants);
-                }
-                else if (type == mod.TileType("AstralTallPlants"))
-                {
-                    SetTileFromConvert(x, y, convert, ushort.MaxValue, ushort.MaxValue, TileID.HallowedPlants2, TileID.Plants2);
-                }
-                else if (type == mod.TileType("AstralNormalLargePiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles, x, y, 378, 0);
-                }
-                else if (type == mod.TileType("AstralNormalMediumPiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 0, 18);
-                }
-                else if (type == mod.TileType("AstralNormalSmallPiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 0, 0);
-                }
-                else if (type == mod.TileType("AstralDesertLargePiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles2, x, y, 1566, 0);
-                }
-                else if (type == mod.TileType("AstralDesertMediumPiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 1476, 18);
-                }
-                else if (type == mod.TileType("AstralDesertSmallPiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 972, 0);
-                }
-                else if (type == mod.TileType("AstralIceLargePiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles, x, y, 1404, 0);
-                }
-                else if (type == mod.TileType("AstralIceMediumPiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 900, 18);
-                }
-                else if (type == mod.TileType("AstralIceSmallPiles"))
-                {
-                    RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 648, 0);
-                }
-                else if (type == mod.TileType("AstralNormalStalactite"))
-                {
-                    ushort originType = TileID.Stone;
-                    int frameXAdd = 54;
-                    switch (convert)
+                    if (type == mod.TileType("AstralDirt"))
                     {
-                        case ConvertType.Corrupt:
-                            originType = TileID.Ebonstone;
-                            frameXAdd = 324;
-                            break;
-                        case ConvertType.Crimson:
-                            originType = TileID.Crimstone;
-                            frameXAdd = 270;
-                            break;
-                        case ConvertType.Hallow:
-                            originType = TileID.Pearlstone;
-                            frameXAdd = 216;
-                            break;
+                        tile.type = TileID.Dirt;
                     }
-                    ReplaceAstralStalactite((ushort)type, TileID.Stalactite, originType, x, y, frameXAdd, 0);
-                }
-                else if (type == mod.TileType("AstralDesertStalactite"))
-                {
-                    ushort originType = TileID.Sandstone;
-                    int frameXAdd = 378;
-                    switch (convert)
+                    else if (type == mod.TileType("AstralGrass"))
                     {
-                        case ConvertType.Corrupt:
-                            originType = TileID.CorruptSandstone;
-                            frameXAdd = 324;
-                            break;
-                        case ConvertType.Crimson:
-                            originType = TileID.CrimsonSandstone;
-                            frameXAdd = 270;
-                            break;
-                        case ConvertType.Hallow:
-                            originType = TileID.HallowSandstone;
-                            frameXAdd = 216;
-                            break;
+                        SetTileFromConvert(x, y, convert, TileID.CorruptGrass, TileID.FleshGrass, TileID.HallowedGrass, TileID.Grass);
                     }
-                    ReplaceAstralStalactite((ushort)type, TileID.Stalactite, originType, x, y, frameXAdd, 0);
-                }
-                else if (type == mod.TileType("AstralIceStalactite"))
-                {
-                    ReplaceAstralStalactite((ushort)type, TileID.Stalactite, TileID.IceBlock, x, y, 0, 0);
-                }
-                if (TileID.Sets.Conversion.Grass[type] || type == TileID.Dirt)
-                {
-                    WorldGen.SquareTileFrame(x, y);
+                    else if (type == mod.TileType("AstralStone"))
+                    {
+                        SetTileFromConvert(x, y, convert, TileID.Ebonstone, TileID.Crimstone, TileID.Pearlstone, TileID.Stone);
+                    }
+                    else if (type == mod.TileType("AstralSand"))
+                    {
+                        SetTileFromConvert(x, y, convert, TileID.Ebonsand, TileID.Crimsand, TileID.Pearlsand, TileID.Sand);
+                    }
+                    else if (type == mod.TileType("AstralSandstone"))
+                    {
+                        SetTileFromConvert(x, y, convert, TileID.CorruptSandstone, TileID.CrimsonSandstone, TileID.HallowSandstone, TileID.Sandstone);
+                    }
+                    else if (type == mod.TileType("HardenedAstralSand"))
+                    {
+                        SetTileFromConvert(x, y, convert, TileID.CorruptHardenedSand, TileID.CrimsonHardenedSand, TileID.HallowHardenedSand, TileID.HardenedSand);
+                    }
+                    else if (type == mod.TileType("AstralIce"))
+                    {
+                        SetTileFromConvert(x, y, convert, TileID.CorruptIce, TileID.FleshIce, TileID.HallowedIce, TileID.IceBlock);
+                    }
+                    else if (type == mod.TileType("AstralVines"))
+                    {
+                        SetTileFromConvert(x, y, convert, ushort.MaxValue, TileID.CrimsonVines, TileID.HallowedVines, TileID.Vines);
+                    }
+                    else if (type == mod.TileType("AstralShortPlants"))
+                    {
+                        SetTileFromConvert(x, y, convert, TileID.CorruptPlants, ushort.MaxValue, TileID.HallowedPlants, TileID.Plants);
+                    }
+                    else if (type == mod.TileType("AstralTallPlants"))
+                    {
+                        SetTileFromConvert(x, y, convert, ushort.MaxValue, ushort.MaxValue, TileID.HallowedPlants2, TileID.Plants2);
+                    }
+                    else if (type == mod.TileType("AstralNormalLargePiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles, x, y, 378, 0);
+                    }
+                    else if (type == mod.TileType("AstralNormalMediumPiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 0, 18);
+                    }
+                    else if (type == mod.TileType("AstralNormalSmallPiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 0, 0);
+                    }
+                    else if (type == mod.TileType("AstralDesertLargePiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles2, x, y, 1566, 0);
+                    }
+                    else if (type == mod.TileType("AstralDesertMediumPiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 1476, 18);
+                    }
+                    else if (type == mod.TileType("AstralDesertSmallPiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 972, 0);
+                    }
+                    else if (type == mod.TileType("AstralIceLargePiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.LargePiles, x, y, 1404, 0);
+                    }
+                    else if (type == mod.TileType("AstralIceMediumPiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 900, 18);
+                    }
+                    else if (type == mod.TileType("AstralIceSmallPiles"))
+                    {
+                        RecursiveReplaceFromAstral((ushort)type, TileID.SmallPiles, x, y, 648, 0);
+                    }
+                    else if (type == mod.TileType("AstralNormalStalactite"))
+                    {
+                        ushort originType = TileID.Stone;
+                        int frameXAdd = 54;
+                        switch (convert)
+                        {
+                            case ConvertType.Corrupt:
+                                originType = TileID.Ebonstone;
+                                frameXAdd = 324;
+                                break;
+                            case ConvertType.Crimson:
+                                originType = TileID.Crimstone;
+                                frameXAdd = 270;
+                                break;
+                            case ConvertType.Hallow:
+                                originType = TileID.Pearlstone;
+                                frameXAdd = 216;
+                                break;
+                        }
+                        ReplaceAstralStalactite((ushort)type, TileID.Stalactite, originType, x, y, frameXAdd, 0);
+                    }
+                    else if (type == mod.TileType("AstralDesertStalactite"))
+                    {
+                        ushort originType = TileID.Sandstone;
+                        int frameXAdd = 378;
+                        switch (convert)
+                        {
+                            case ConvertType.Corrupt:
+                                originType = TileID.CorruptSandstone;
+                                frameXAdd = 324;
+                                break;
+                            case ConvertType.Crimson:
+                                originType = TileID.CrimsonSandstone;
+                                frameXAdd = 270;
+                                break;
+                            case ConvertType.Hallow:
+                                originType = TileID.HallowSandstone;
+                                frameXAdd = 216;
+                                break;
+                        }
+                        ReplaceAstralStalactite((ushort)type, TileID.Stalactite, originType, x, y, frameXAdd, 0);
+                    }
+                    else if (type == mod.TileType("AstralIceStalactite"))
+                    {
+                        ReplaceAstralStalactite((ushort)type, TileID.Stalactite, TileID.IceBlock, x, y, 0, 0);
+                    }
+                    if (TileID.Sets.Conversion.Grass[type] || type == TileID.Dirt)
+                    {
+                        WorldGen.SquareTileFrame(x, y);
+                    }
                 }
                 #endregion
             }
@@ -2382,10 +2438,14 @@ namespace CalamityMod
                 Main.tile[x, y].frameX -= (short)replaceTextureWidth;
             }
 
-            RecursiveReplaceToAstral(checkType, replaceType, x - 1, y, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
-            RecursiveReplaceToAstral(checkType, replaceType, x + 1, y, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
-            RecursiveReplaceToAstral(checkType, replaceType, x, y - 1, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
-            RecursiveReplaceToAstral(checkType, replaceType, x, y + 1, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+            if (Main.tile[x - 1, y] != null)
+                RecursiveReplaceToAstral(checkType, replaceType, x - 1, y, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+            if (Main.tile[x + 1, y] != null)
+                RecursiveReplaceToAstral(checkType, replaceType, x + 1, y, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+            if (Main.tile[x, y - 1] != null)
+                RecursiveReplaceToAstral(checkType, replaceType, x, y - 1, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
+            if (Main.tile[x, y + 1] != null)
+                RecursiveReplaceToAstral(checkType, replaceType, x, y + 1, replaceTextureWidth, minFrameX, maxFrameX, minFrameY, maxFrameY);
         }
 
         private static void RecursiveReplaceFromAstral(ushort checkType, ushort replaceType, int x, int y, int addFrameX, int addFrameY)
@@ -2398,10 +2458,14 @@ namespace CalamityMod
             Main.tile[x, y].frameX += (short)addFrameX;
             Main.tile[x, y].frameY += (short)addFrameY;
 
-            RecursiveReplaceFromAstral(checkType, replaceType, x - 1, y, addFrameX, addFrameY);
-            RecursiveReplaceFromAstral(checkType, replaceType, x + 1, y, addFrameX, addFrameY);
-            RecursiveReplaceFromAstral(checkType, replaceType, x, y - 1, addFrameX, addFrameY);
-            RecursiveReplaceFromAstral(checkType, replaceType, x, y + 1, addFrameX, addFrameY);
+            if (Main.tile[x - 1, y] != null)
+                RecursiveReplaceFromAstral(checkType, replaceType, x - 1, y, addFrameX, addFrameY);
+            if (Main.tile[x + 1, y] != null)
+                RecursiveReplaceFromAstral(checkType, replaceType, x + 1, y, addFrameX, addFrameY);
+            if (Main.tile[x, y - 1] != null)
+                RecursiveReplaceFromAstral(checkType, replaceType, x, y - 1, addFrameX, addFrameY);
+            if (Main.tile[x, y + 1] != null)
+                RecursiveReplaceFromAstral(checkType, replaceType, x, y + 1, addFrameX, addFrameY);
         }
 
         private static void ReplaceAstralStalactite(ushort checkType, ushort replaceType, ushort replaceOriginTile, int x, int y, int addFrameX, int addFrameY)
@@ -2414,12 +2478,15 @@ namespace CalamityMod
 
             int yOriginTile = (hanging ? topMost - 1 : (twoTall ? topMost + 2 : y + 1));
 
-            Main.tile[x, topMost++].type = replaceType;
+            if (Main.tile[x, topMost++] != null)
+                Main.tile[x, topMost++].type = replaceType;
             if (twoTall)
             {
-                Main.tile[x, topMost].type = replaceType;
+                if (Main.tile[x, topMost] != null)
+                    Main.tile[x, topMost].type = replaceType;
             }
-            Main.tile[x, yOriginTile].type = replaceOriginTile;
+            if (Main.tile[x, yOriginTile] != null)
+                Main.tile[x, yOriginTile].type = replaceOriginTile;
         }
 
         private static bool CheckInEllipse(Point tile, Vector2 focus1, Vector2 focus2, float distanceConstant, Vector2 center, out float distance, bool collapse = false)
@@ -4958,13 +5025,16 @@ namespace CalamityMod
                     NPC.SpawnOnPlayer(closestPlayer, NPCID.DungeonGuardian); //your hell is as vast as my bonergrin, pray your life ends quickly
             }
             if (Main.player[closestPlayer].ZoneRockLayerHeight && 
-                !Main.player[closestPlayer].ZoneUnderworldHeight) //works
+                !Main.player[closestPlayer].ZoneUnderworldHeight &&
+                !Main.player[closestPlayer].ZoneDungeon &&
+                !CalamityPlayer.areThereAnyDamnBosses) //works
             {
                 if (NPC.downedPlantBoss && 
                     !Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss && 
                     Main.player[closestPlayer].townNPCs < 3f)
                 {
-                    if ((Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg && Main.rand.Next(1000) == 0) || Main.rand.Next(25000) == 0)
+                    if ((Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg && Main.rand.Next(2000) == 0) || 
+                        (Main.rand.Next(50000) == 0 && !Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zen))
                     {
                         if (!NPC.AnyNPCs(mod.NPCType("ArmoredDiggerHead")) && Main.netMode != 1)
                             NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ArmoredDiggerHead"));
@@ -4992,116 +5062,313 @@ namespace CalamityMod
                 }
             }
             #region DeathModeBossSpawns
-            if (death)
+            if (death && !CalamityPlayer.areThereAnyDamnBosses)
             {
-                if (!CalamityPlayer.areThereAnyDamnBosses && Main.netMode != 1)
+                if (bossSpawnCountdown <= 0) //check for countdown being 0
                 {
-                    if (!NPC.downedBoss1)
-                        if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
-                            NPC.SpawnOnPlayer(closestPlayer, NPCID.EyeofCthulhu);
-
-                    if (!NPC.downedBoss2)
-                        if (Main.player[closestPlayer].ZoneCorrupt && Main.rand.Next(1000) == 0)
-                            NPC.SpawnOnPlayer(closestPlayer, NPCID.EaterofWorldsHead);
-
-                    if (!NPC.downedBoss2)
-                        if (Main.player[closestPlayer].ZoneCrimson && Main.rand.Next(1000) == 0)
-                            NPC.SpawnOnPlayer(closestPlayer, NPCID.BrainofCthulhu);
-
-                    if (!NPC.downedQueenBee)
-                        if (Main.player[closestPlayer].ZoneJungle && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
-                            NPC.SpawnOnPlayer(closestPlayer, NPCID.QueenBee);
-
-                    if (!downedDesertScourge)
+                    if (Main.rand.Next(50000) == 0)
                     {
-                        if (Main.player[closestPlayer].ZoneDesert && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                        {
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHead"));
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
-                        }
-                    }
-
-                    if (!downedPerforator)
-                        if (Main.player[closestPlayer].ZoneCrimson && Main.rand.Next(1000) == 0)
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PerforatorHive"));
-
-                    if (!downedHiveMind)
-                        if (Main.player[closestPlayer].ZoneCorrupt && Main.rand.Next(1000) == 0)
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("HiveMind"));
-
-                    if (!downedCrabulon)
-                        if (Main.player[closestPlayer].ZoneGlowshroom && Main.rand.Next(1000) == 0)
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CrabulonIdle"));
-
-                    if (!downedSlimeGod)
-                    {
-                        if (Main.slimeRain && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                        {
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGod"));
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodRun"));
-                            NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SlimeGodCore"));
-                        }
-                    }
-
-                    if (Main.hardMode)
-                    {
-                        if (!NPC.downedMechBoss1)
-                            if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, NPCID.TheDestroyer);
-
-                        if (!NPC.downedMechBoss2)
-                        {
-                            if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
+                        if (!NPC.downedBoss1 && bossType == 0) //only set countdown and boss type if conditions are met
+                            if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight))
                             {
-                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Spazmatism);
-                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
+                                BossText();
+                                bossType = NPCID.EyeofCthulhu;
+                                bossSpawnCountdown = 3600; //1 minute
                             }
-                        }
 
-                        if (!NPC.downedMechBoss3)
-                            if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight) && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronPrime);
-
-                        if (!NPC.downedPlantBoss)
-                            if (Main.player[closestPlayer].ZoneJungle && !Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
-
-                        if (!NPC.downedFishron)
-                            if (Main.player[closestPlayer].ZoneBeach && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, NPCID.DukeFishron);
-
-                        if (!downedCryogen)
-                            if (Main.player[closestPlayer].ZoneSnow && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Cryogen"));
-
-                        if (!downedCalamitas)
-                            if (!Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Calamitas"));
-
-                        if (!downedAstrageldon)
-                            if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Astrageldon"));
-
-                        if (!downedPlaguebringer)
-                            if (Main.player[closestPlayer].ZoneJungle && NPC.downedGolemBoss && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("PlaguebringerGoliath"));
-
-                        if (NPC.downedMoonlord)
-                        {
-                            if (!downedGuardians)
+                        if (!NPC.downedBoss2 && bossType == 0)
+                            if (Main.player[closestPlayer].ZoneCorrupt)
                             {
-                                if ((Main.player[closestPlayer].ZoneUnderworldHeight || (Main.player[closestPlayer].ZoneHoly && Main.player[closestPlayer].ZoneOverworldHeight)) && Main.rand.Next(1000) == 0)
+                                BossText();
+                                bossType = NPCID.EaterofWorldsHead;
+                                bossSpawnCountdown = 3600;
+                            }
+
+                        if (!NPC.downedBoss2 && bossType == 0)
+                            if (Main.player[closestPlayer].ZoneCrimson)
+                            {
+                                BossText();
+                                bossType = NPCID.BrainofCthulhu;
+                                bossSpawnCountdown = 3600;
+                            }
+
+                        if (!NPC.downedQueenBee && bossType == 0)
+                            if (Main.player[closestPlayer].ZoneJungle && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight))
+                            {
+                                BossText();
+                                bossType = NPCID.QueenBee;
+                                bossSpawnCountdown = 3600;
+                            }
+
+                        if (!downedDesertScourge && bossType == 0)
+                            if (Main.player[closestPlayer].ZoneDesert)
+                            {
+                                BossText();
+                                bossType = mod.NPCType("DesertScourgeHead");
+                                bossSpawnCountdown = 3600;
+                            }
+
+                        if (!downedPerforator && bossType == 0)
+                            if (Main.player[closestPlayer].ZoneCrimson)
+                            {
+                                BossText();
+                                bossType = mod.NPCType("PerforatorHive");
+                                bossSpawnCountdown = 3600;
+                            }
+
+                        if (!downedHiveMind && bossType == 0)
+                            if (Main.player[closestPlayer].ZoneCorrupt)
+                            {
+                                BossText();
+                                bossType = mod.NPCType("HiveMind");
+                                bossSpawnCountdown = 3600;
+                            }
+
+                        if (!downedCrabulon && bossType == 0)
+                            if (Main.player[closestPlayer].ZoneGlowshroom)
+                            {
+                                BossText();
+                                bossType = mod.NPCType("CrabulonIdle");
+                                bossSpawnCountdown = 3600;
+                            }
+
+                        if (Main.hardMode)
+                        {
+                            if (!NPC.downedMechBoss1 && bossType == 0)
+                                if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight))
                                 {
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss2"));
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss3"));
+                                    BossText();
+                                    bossType = NPCID.TheDestroyer;
+                                    bossSpawnCountdown = 3600;
                                 }
-                            }
 
-                            if (!downedBumble)
-                                if (Main.player[closestPlayer].ZoneJungle && Main.player[closestPlayer].ZoneOverworldHeight && Main.rand.Next(1000) == 0)
-                                    NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Bumblefuck"));
+                            if (!NPC.downedMechBoss2 && bossType == 0)
+                                if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight))
+                                {
+                                    BossText();
+                                    bossType = NPCID.Spazmatism;
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (!NPC.downedMechBoss3 && bossType == 0)
+                                if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight))
+                                {
+                                    BossText();
+                                    bossType = NPCID.SkeletronPrime;
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (!NPC.downedPlantBoss && bossType == 0)
+                                if (Main.player[closestPlayer].ZoneJungle && !Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight)
+                                {
+                                    BossText();
+                                    bossType = NPCID.Plantera;
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (!NPC.downedFishron && bossType == 0)
+                                if (Main.player[closestPlayer].ZoneBeach)
+                                {
+                                    BossText();
+                                    bossType = NPCID.DukeFishron;
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (!downedCryogen && bossType == 0)
+                                if (Main.player[closestPlayer].ZoneSnow && Main.player[closestPlayer].ZoneOverworldHeight)
+                                {
+                                    BossText();
+                                    bossType = mod.NPCType("Cryogen");
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (!downedCalamitas && bossType == 0)
+                                if (!Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight)
+                                {
+                                    BossText();
+                                    bossType = mod.NPCType("Calamitas");
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (!downedAstrageldon && bossType == 0)
+                                if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral && 
+                                    !Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight)
+                                {
+                                    BossText();
+                                    bossType = mod.NPCType("Astrageldon");
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (!downedPlaguebringer && bossType == 0)
+                                if (Main.player[closestPlayer].ZoneJungle && NPC.downedGolemBoss && Main.player[closestPlayer].ZoneOverworldHeight)
+                                {
+                                    BossText();
+                                    bossType = mod.NPCType("PlaguebringerGoliath");
+                                    bossSpawnCountdown = 3600;
+                                }
+
+                            if (NPC.downedMoonlord)
+                            {
+                                if (!downedGuardians && bossType == 0)
+                                    if (Main.player[closestPlayer].ZoneUnderworldHeight ||
+                                        (Main.player[closestPlayer].ZoneHoly && Main.player[closestPlayer].ZoneOverworldHeight))
+                                    {
+                                        BossText();
+                                        bossType = mod.NPCType("ProfanedGuardianBoss");
+                                        bossSpawnCountdown = 3600;
+                                    }
+
+                                if (!downedBumble && bossType == 0)
+                                    if (Main.player[closestPlayer].ZoneJungle && Main.player[closestPlayer].ZoneOverworldHeight)
+                                    {
+                                        BossText();
+                                        bossType = mod.NPCType("Bumblefuck");
+                                        bossSpawnCountdown = 3600;
+                                    }
+                            }
+                        }
+                        if (Main.netMode == 2)
+                        {
+                            var netMessage = mod.GetPacket();
+                            netMessage.Write((byte)CalamityModMessageType.BossSpawnCountdownSync);
+                            netMessage.Write(bossSpawnCountdown);
+                            netMessage.Send();
+                            var netMessage2 = mod.GetPacket();
+                            netMessage2.Write((byte)CalamityModMessageType.BossTypeSync);
+                            netMessage2.Write(bossType);
+                            netMessage2.Send();
+                        }
+                    }
+                }
+                else
+                {
+                    bossSpawnCountdown--;
+                    if (Main.netMode == 2)
+                    {
+                        var netMessage = mod.GetPacket();
+                        netMessage.Write((byte)CalamityModMessageType.BossSpawnCountdownSync);
+                        netMessage.Write(bossSpawnCountdown);
+                        netMessage.Send();
+                    }
+                    if (bossSpawnCountdown <= 0)
+                    {
+                        bool canSpawn = true;
+                        switch (bossType)
+                        {
+                            case NPCID.EyeofCthulhu:
+                                if (Main.dayTime || (!Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight))
+                                    canSpawn = false;
+                                break;
+                            case NPCID.EaterofWorldsHead:
+                                if (!Main.player[closestPlayer].ZoneCorrupt)
+                                    canSpawn = false;
+                                break;
+                            case NPCID.BrainofCthulhu:
+                                if (!Main.player[closestPlayer].ZoneCrimson)
+                                    canSpawn = false;
+                                break;
+                            case NPCID.QueenBee:
+                                if (!Main.player[closestPlayer].ZoneJungle || (!Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight))
+                                    canSpawn = false;
+                                break;
+                            case NPCID.TheDestroyer:
+                                if (Main.dayTime || (!Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight))
+                                    canSpawn = false;
+                                break;
+                            case NPCID.Spazmatism:
+                                if (Main.dayTime || (!Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight))
+                                    canSpawn = false;
+                                break;
+                            case NPCID.SkeletronPrime:
+                                if (Main.dayTime || (!Main.player[closestPlayer].ZoneOverworldHeight && !Main.player[closestPlayer].ZoneSkyHeight))
+                                    canSpawn = false;
+                                break;
+                            case NPCID.Plantera:
+                                if (!Main.player[closestPlayer].ZoneJungle || Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight)
+                                    canSpawn = false;
+                                break;
+                            case NPCID.DukeFishron:
+                                if (!Main.player[closestPlayer].ZoneBeach)
+                                    canSpawn = false;
+                                break;
+                        }
+
+                        if (bossType == mod.NPCType("DesertScourgeHead"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneDesert)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("PerforatorHive"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneCrimson)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("HiveMind"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneCorrupt)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("CrabulonIdle"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneGlowshroom)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("Cryogen"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneSnow || !Main.player[closestPlayer].ZoneOverworldHeight)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("Calamitas"))
+                        {
+                            if (Main.dayTime || !Main.player[closestPlayer].ZoneOverworldHeight)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("Astrageldon"))
+                        {
+                            if (!Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral ||
+                                    Main.dayTime || !Main.player[closestPlayer].ZoneOverworldHeight)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("PlaguebringerGoliath"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneJungle || !Main.player[closestPlayer].ZoneOverworldHeight)
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("ProfanedGuardianBoss"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneUnderworldHeight &&
+                                        (!Main.player[closestPlayer].ZoneHoly || !Main.player[closestPlayer].ZoneOverworldHeight))
+                                canSpawn = false;
+                        }
+                        else if (bossType == mod.NPCType("Bumblefuck"))
+                        {
+                            if (!Main.player[closestPlayer].ZoneJungle || !Main.player[closestPlayer].ZoneOverworldHeight)
+                                canSpawn = false;
+                        }
+
+                        if (canSpawn && Main.netMode != 1)
+                        {
+                            if (bossType == NPCID.Spazmatism)
+                                NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
+                            else if (bossType == mod.NPCType("ProfanedGuardianBoss"))
+                            {
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss2"));
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ProfanedGuardianBoss3"));
+                            }
+                            else if (bossType == mod.NPCType("DesertScourgeHead"))
+                            {
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                                NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DesertScourgeHeadSmall"));
+                            }
+                            NPC.SpawnOnPlayer(closestPlayer, bossType);
+                        }
+                        bossType = 0;
+                        if (Main.netMode == 2)
+                        {
+                            var netMessage = mod.GetPacket();
+                            netMessage.Write((byte)CalamityModMessageType.BossTypeSync);
+                            netMessage.Write(bossType);
+                            netMessage.Send();
                         }
                     }
                 }
@@ -5247,6 +5514,22 @@ namespace CalamityMod
             if (Main.netMode == 2)
             {
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+            }
+        }
+        #endregion
+
+        #region BossText
+        public void BossText()
+        {
+            string key = "Mods.CalamityMod.BossSpawnText";
+            Color messageColor = Color.Crimson;
+            if (Main.netMode == 0)
+            {
+                Main.NewText(Language.GetTextValue(key), messageColor);
+            }
+            else if (Main.netMode == 2)
+            {
+                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
         }
         #endregion

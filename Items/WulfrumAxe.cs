@@ -28,7 +28,7 @@ namespace CalamityMod.Items
             item.axe = 7;
             item.useStyle = 1;
             item.knockBack = 3f;
-            item.value = 25000;
+            item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 1;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

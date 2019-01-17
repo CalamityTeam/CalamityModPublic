@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 64;
-            item.value = 560000;
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shoot = mod.ProjectileType("BloodyBlade");
             item.shootSpeed = 11f;

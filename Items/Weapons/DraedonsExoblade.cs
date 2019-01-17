@@ -34,7 +34,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 114;
-            item.value = 100000000;
+            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("Exobeam");
             item.shootSpeed = 19f;
         }

@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 2.5f;
-	        item.value = 60000;
-	        item.rare = 3;
+            item.value = Item.buyPrice(0, 1, 0, 0);
+            item.rare = 1;
 	        item.UseSound = SoundID.Item109;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("PlasmaRay");

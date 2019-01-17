@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.defense = 18;
             npc.lifeMax = 310;
             npc.knockBackResist = 0f;
-            npc.value = 400f;
+            npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.alpha = 60;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;

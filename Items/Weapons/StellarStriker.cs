@@ -30,9 +30,9 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 86;
-			item.maxStack = 1;
-			item.value = 800000;
-			item.shootSpeed = 12f;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.shootSpeed = 12f;
 		}
 		
 		public override void ModifyTooltips(List<TooltipLine> list)

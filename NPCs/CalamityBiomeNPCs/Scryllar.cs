@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.lifeMax = 90;
 			npc.alpha = 100;
 			npc.knockBackResist = 0.7f;
-			npc.value = Item.buyPrice(0, 0, 50, 0);
+			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit49;
 			npc.DeathSound = SoundID.NPCDeath51;
 			npc.noGravity = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				npc.damage = 260;
 				npc.defense = 90;
 				npc.lifeMax = 4000;
-				npc.value = Item.buyPrice(0, 3, 0, 0);
+				npc.value = Item.buyPrice(0, 0, 50, 0);
 			}
 		}
 		

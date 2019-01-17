@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.knockBackResist = 0.3f;
 			animationType = 329;
 			aiType = NPCID.Wolf;
-			npc.value = Item.buyPrice(0, 0, 4, 0);
+			npc.value = Item.buyPrice(0, 0, 2, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath5;
 		}

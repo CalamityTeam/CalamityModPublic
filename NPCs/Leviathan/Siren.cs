@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Leviathan
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 60; //150
+			npc.damage = 70; //150
 			npc.npcSlots = 16f;
 			npc.width = 120; //324
 			npc.height = 120; //216
@@ -52,8 +52,8 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.boss = true;
-			npc.value = Item.buyPrice(0, 30, 0, 0);
-			for (int k = 0; k < npc.buffImmune.Length; k++)
+            npc.value = Item.buyPrice(0, 15, 0, 0);
+            for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
                 npc.buffImmune[k] = true;
                 npc.buffImmune[BuffID.Ichor] = false;
@@ -75,7 +75,11 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Siren");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Siren");
+            else
+                music = MusicID.Boss3;
 			bossBag = mod.ItemType("LeviathanBag");
 		}
 		
@@ -120,7 +124,11 @@ namespace CalamityMod.NPCs.Leviathan
                     {
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, mod.NPCType("SirenClone"));
                     }
-					music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
+                    Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                    if (calamityModMusic != null)
+                        music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
+                    else
+                        music = MusicID.Boss3;
                     NPC.SpawnOnPlayer(player.whoAmI, npcType);
                     spawnedLevi = true;
 				}
@@ -473,7 +481,7 @@ namespace CalamityMod.NPCs.Leviathan
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
-                if (npc.position.Y > player.position.Y - 150f) //200
+                if (npc.position.Y > player.position.Y - 200f) //200
                 {
                     if (npc.velocity.Y > 0f)
                     {
@@ -485,7 +493,7 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.velocity.Y = 2f;
                     }
                 }
-                else if (npc.position.Y < player.position.Y - 400f) //500
+                else if (npc.position.Y < player.position.Y - 500f) //500
                 {
                     if (npc.velocity.Y < 0f)
                     {
@@ -778,7 +786,7 @@ namespace CalamityMod.NPCs.Leviathan
 			int bossAlive = mod.NPCType("Leviathan");
 			if (!NPC.AnyNPCs(bossAlive))
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedPearl")); //done
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedPearl")); //done
 				if (Main.rand.Next(10) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HotlineFishingHook);

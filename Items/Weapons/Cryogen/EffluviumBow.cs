@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Weapons.Cryogen
             item.useTime = 25;
             item.useAnimation = 25;
             item.useStyle = 5;
-            item.noMelee = true; //so the item's animation doesn't do damage
+            item.noMelee = true;
             item.knockBack = 4f;
-            item.value = 425000;
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;

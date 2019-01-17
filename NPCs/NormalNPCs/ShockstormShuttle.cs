@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.aiStyle = -1; //new multiplayer desync fix
             aiType = -1; //new multiplayer desync fix
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 1, 0, 0);
+			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.noGravity = true;

@@ -28,9 +28,10 @@ namespace CalamityMod.Items.Weapons
 	        item.useAnimation = 25;
 	        item.useStyle = 5;
 	        item.noMelee = true;
-	        item.knockBack = 5;
-	        item.value = 2500000;
-	        item.UseSound = SoundID.Item84;
+	        item.knockBack = 5f;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item84;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("NuclearFuryProjectile");
 	        item.shootSpeed = 16f;

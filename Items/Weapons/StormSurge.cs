@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Weapons
 			item.useTime = 15;
 			item.useAnimation = 15;
 			item.useStyle = 5;
-			item.noMelee = true; //so the item's animation doesn't do damage
+			item.noMelee = true;
 			item.knockBack = 5f;
 			item.UseSound = SoundID.Item122;
-			item.value = 10000;
-			item.rare = 2;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 			item.autoReuse = false;
-			item.shoot = mod.ProjectileType("StormSurge"); //idk why but all the guns in the vanilla source have this
+			item.shoot = mod.ProjectileType("StormSurge");
 			item.shootSpeed = 10f;
 		}
 	    

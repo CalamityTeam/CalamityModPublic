@@ -37,10 +37,17 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.height = 74; //216
 			npc.defense = 99999;
             npc.lifeMax = 20000;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            else
+                music = MusicID.Boss3;
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
+                else
+                    music = MusicID.Boss3;
                 npc.lifeMax = 100000;
             }
             if (CalamityWorld.bossRushActive)
@@ -52,7 +59,7 @@ namespace CalamityMod.NPCs.StormWeaver
             animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.boss = true;
-			npc.value = Item.buyPrice(0, 30, 0, 0);
+			npc.value = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;

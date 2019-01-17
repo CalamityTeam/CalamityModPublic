@@ -43,7 +43,11 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.buffImmune[k] = true;
 			}
 			npc.boss = true;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
+            else
+                music = MusicID.Boss1;
             npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 5.5f;
-	        item.value = 90000;
-	        item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
 	        item.UseSound = SoundID.Item20;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("FlareBoltProjectile");

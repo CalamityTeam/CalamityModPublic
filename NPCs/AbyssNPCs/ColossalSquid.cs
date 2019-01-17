@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.buffImmune[BuffID.CursedInferno] = false;
             }
             npc.timeLeft = NPC.activeTime * 30;
-            npc.value = Item.buyPrice(0, 0, 25, 0);
+            npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.HitSound = SoundID.NPCHit20;
 			npc.DeathSound = SoundID.NPCDeath23;
             npc.rarity = 2;

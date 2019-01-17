@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Cryogen
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 5;
-            item.value = 650000;
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.UseSound = SoundID.Item46;
             item.autoReuse = true;

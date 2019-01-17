@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.buffImmune[k] = true;
             }
             npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 5, 0);
+			npc.value = Item.buyPrice(0, 0, 0, 80);
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

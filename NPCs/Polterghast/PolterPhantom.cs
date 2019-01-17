@@ -40,7 +40,6 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.alpha = 255;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -55,7 +54,6 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/RUIN");
 			npc.HitSound = SoundID.NPCHit36;
 			npc.DeathSound = SoundID.NPCDeath39;
 		}

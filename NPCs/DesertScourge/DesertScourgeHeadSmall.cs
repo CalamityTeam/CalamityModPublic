@@ -44,14 +44,12 @@ namespace CalamityMod.NPCs.DesertScourge
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.alpha = 255;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
                 npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
             }
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
             npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

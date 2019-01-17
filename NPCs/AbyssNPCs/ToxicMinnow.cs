@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.lifeMax = 240;
             npc.aiStyle = -1;
 			aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 0, 1);
+			npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
@@ -235,7 +235,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
             }
-            if (NPC.downedPlantBoss)
+            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 if (Main.rand.Next(2) == 0)
                 {

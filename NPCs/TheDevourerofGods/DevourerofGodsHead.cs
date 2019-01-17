@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.knockBackResist = 0f;
 			npc.scale = 1.4f;
 			npc.boss = true;
-			npc.value = Item.buyPrice(5, 0, 0, 0);
+			npc.value = Item.buyPrice(1, 50, 0, 0);
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;
@@ -63,8 +63,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.buffImmune[k] = true;
 			}
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-			if (Main.expertMode)
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            else
+                music = MusicID.Boss3;
+            if (Main.expertMode)
 			{
 				npc.scale = 1.5f;
 			}

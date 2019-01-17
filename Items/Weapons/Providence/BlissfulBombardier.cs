@@ -28,7 +28,8 @@ namespace CalamityMod.Items.Weapons.Providence
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 7.5f;
-            item.value = 5000000;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shootSpeed = 24f;

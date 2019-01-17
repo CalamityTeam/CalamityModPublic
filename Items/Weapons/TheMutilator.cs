@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 80;
-            item.maxStack = 1;
-            item.value = 1000000;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
             item.shootSpeed = 10f;
         }
 

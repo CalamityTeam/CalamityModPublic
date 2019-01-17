@@ -31,19 +31,19 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.width = 90;
 			npc.height = 120;
 			npc.defense = 150;
-			npc.lifeMax = CalamityWorld.revenge ? 510000 : 440000;
+			npc.lifeMax = CalamityWorld.revenge ? 660000 : 550000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 705000;
+                npc.lifeMax = 880000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 6600000 : 6000000;
+                npc.lifeMax = CalamityWorld.death ? 7600000 : 7000000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
-			npc.value = Item.buyPrice(5, 0, 0, 0);
+			npc.value = Item.buyPrice(1, 20, 0, 0);
 			npc.boss = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -59,7 +59,11 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
-			music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/RUIN");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/RUIN");
+            else
+                music = MusicID.Plantera;
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath39;
 			bossBag = mod.ItemType("PolterghastBag");

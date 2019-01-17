@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.knockBack = 20f;
             item.UseSound = SoundID.Item1;
             item.height = 28;
-            item.value = 9000000;
-            item.rare = 9;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
             item.shoot = mod.ProjectileType("OPHammer");
             item.shootSpeed = 14f;
         }

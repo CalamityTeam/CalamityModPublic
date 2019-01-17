@@ -19,7 +19,8 @@ namespace CalamityMod.Items.Placeables
 			item.useAnimation = 15;
 			item.useTime = 10;
 			item.useStyle = 1;
-			item.consumable = true;
+            item.rare = 3;
+            item.consumable = true;
 			item.value = 150;
 			item.createTile = mod.TileType("AshenDoorClosed");
 		}
@@ -30,18 +31,6 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(null, "SmoothBrimstoneSlag", 6);
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientDoor", 1);
-            recipe.AddIngredient(null, "UnholyCore", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "AncientDoor", 1);
-            recipe.AddIngredient(null, "UnholyCore", 1);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
             recipe.AddRecipe();
         }
 	}

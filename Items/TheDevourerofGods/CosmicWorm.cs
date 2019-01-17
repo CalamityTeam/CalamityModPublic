@@ -16,7 +16,8 @@ namespace CalamityMod.Items.TheDevourerofGods
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Worm");
-			Tooltip.SetDefault("Summons the devourer of the cosmos\nNot consumable");
+			Tooltip.SetDefault("Summons the Devourer of Gods\n" +
+                "Not consumable");
 		}
 		
 		public override void SetDefaults()

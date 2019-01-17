@@ -7,43 +7,45 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons {
-public class Tradewinds : ModItem
+namespace CalamityMod.Items.Weapons
 {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Tradewinds");
-			Tooltip.SetDefault("Casts fast moving sunlight feathers");
-		}
-
-    public override void SetDefaults()
+    public class Tradewinds : ModItem
     {
-        item.damage = 17;
-        item.magic = true;
-        item.mana = 7;
-        item.width = 28;
-        item.height = 30;
-        item.useTime = 13;
-        item.useAnimation = 13;
-        item.useStyle = 5;
-        item.noMelee = true; //so the item's animation doesn't do damage
-        item.knockBack = 5;
-        item.value = 150000;
-        item.rare = 3;
-        item.UseSound = SoundID.Item7;
-        item.autoReuse = true;
-        item.shoot = mod.ProjectileType("TradewindsProjectile");
-        item.shootSpeed = 20f;
-    }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Tradewinds");
+            Tooltip.SetDefault("Casts fast moving sunlight feathers");
+        }
 
-    public override void AddRecipes()
-    {
-        ModRecipe recipe = new ModRecipe(mod);
-        recipe.AddIngredient(null, "AerialiteBar", 6);
-        recipe.AddIngredient(ItemID.SunplateBlock, 5);
-        recipe.AddIngredient(ItemID.Feather, 3);
-        recipe.AddTile(TileID.SkyMill);
-        recipe.SetResult(this);
-        recipe.AddRecipe();
+        public override void SetDefaults()
+        {
+            item.damage = 17;
+            item.magic = true;
+            item.mana = 7;
+            item.width = 28;
+            item.height = 30;
+            item.useTime = 13;
+            item.useAnimation = 13;
+            item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 5;
+            item.value = Item.buyPrice(0, 4, 0, 0);
+            item.rare = 3;
+            item.UseSound = SoundID.Item7;
+            item.autoReuse = true;
+            item.shoot = mod.ProjectileType("TradewindsProjectile");
+            item.shootSpeed = 20f;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "AerialiteBar", 6);
+            recipe.AddIngredient(ItemID.SunplateBlock, 5);
+            recipe.AddIngredient(ItemID.Feather, 3);
+            recipe.AddTile(TileID.SkyMill);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
-}}
+}

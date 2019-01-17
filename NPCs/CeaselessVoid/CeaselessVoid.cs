@@ -32,14 +32,22 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.height = 100; //216
 			npc.defense = 0;
 			npc.lifeMax = 200;
+            npc.value = Item.buyPrice(0, 35, 0, 0);
             if (Main.expertMode)
             {
                 npc.lifeMax = 400;
             }
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+            else
+                music = MusicID.Boss3;
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Void");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Void");
+                else
+                    music = MusicID.Boss3;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new

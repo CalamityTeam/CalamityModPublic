@@ -37,8 +37,9 @@ namespace CalamityMod.Items.Weapons
 	        item.knockBack = 5f;
 	        item.buffType = mod.BuffType("ElementalAxe");
 	        item.buffTime = 3600;
-	        item.value = 10000000;
-	        item.UseSound = SoundID.Item44;
+            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.rare = 10;
+            item.UseSound = SoundID.Item44;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("ElementalAxe");
 	        item.shootSpeed = 10f;

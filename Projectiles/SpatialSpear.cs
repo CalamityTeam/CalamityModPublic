@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles
 	            for (int i = 0; i < numProj + 1; i++)
 	            {
 	                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-	                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.25f, perturbedSpeed.Y * 0.25f, mod.ProjectileType("SpatialSpear2"), (int)((double)projectile.damage * 0.2), projectile.knockBack * 0.2f, projectile.owner, 0f, 0f);
+	                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.25f, perturbedSpeed.Y * 0.25f, mod.ProjectileType("SpatialSpear2"), (int)((double)projectile.damage * 0.15), projectile.knockBack * 0.2f, projectile.owner, 0f, 0f);
 	            }
             }
         }

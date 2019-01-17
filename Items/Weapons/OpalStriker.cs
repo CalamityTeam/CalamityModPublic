@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 5;
 			item.noMelee = true;
 			item.knockBack = 0f;
-			item.value = 90000;
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 2;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/OpalStrike");
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("OpalStrike");

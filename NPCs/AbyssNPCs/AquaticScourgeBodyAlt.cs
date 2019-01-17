@@ -70,7 +70,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 104 : 65;
                 npc.boss = true;
-                music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
+                Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+                if (calamityModMusic != null)
+                    music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AquaticScourge");
+                else
+                    music = MusicID.Boss2;
             }
             else
             {

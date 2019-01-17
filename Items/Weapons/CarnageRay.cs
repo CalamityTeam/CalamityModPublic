@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3.25f;
-	        item.value = 100000;
-	        item.rare = 5;
+            item.value = Item.buyPrice(0, 12, 0, 0);
+            item.rare = 4;
 	        item.UseSound = SoundID.Item72;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("BloodRay");

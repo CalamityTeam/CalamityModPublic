@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.buffImmune[k] = true;
             }
-            npc.value = Item.buyPrice(0, 2, 0, 0);
+            npc.value = Item.buyPrice(0, 1, 0, 0);
 			npc.alpha = 50;
 			npc.noGravity = true;
 			npc.noTileCollide = false;

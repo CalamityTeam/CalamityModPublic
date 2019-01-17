@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 68;
-            item.value = 300000;
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = mod.ProjectileType("StormBeam");
             item.shootSpeed = 12f;

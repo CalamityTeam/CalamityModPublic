@@ -29,9 +29,9 @@ namespace CalamityMod.Items.Weapons
 	        item.useAnimation = 30;
 	        item.useStyle = 5;
 	        item.noMelee = true;
-	        item.knockBack = 7;
-	        item.value = 300000;
-	        item.rare = 6;
+	        item.knockBack = 7f;
+            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.rare = 6;
 	        item.UseSound = SoundID.Item43;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("BrimstoneBeam");

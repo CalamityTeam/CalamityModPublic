@@ -30,7 +30,8 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.UseSound = SoundID.Item1;
             item.melee = true;
             item.height = 54;
-            item.value = 1250000;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.rare = 10;
             item.shoot = mod.ProjectileType("EradicatorMeleeProjectile");
             item.shootSpeed = 12f;
         }

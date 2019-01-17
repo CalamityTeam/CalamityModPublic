@@ -16,7 +16,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Defiled Rune");
 			Tooltip.SetDefault("Wings do nothing\n" +
-                "Increases most rare item drop chances and enemies drop 2 times the cash\n" +
+                "Increases most rare item drop chances and enemies drop 50% more cash\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss\n" +
                 "Can only be used in revengeance and death mode\n" +
                 "Can be toggled on and off");

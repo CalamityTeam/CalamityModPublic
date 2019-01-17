@@ -43,13 +43,17 @@ namespace CalamityMod.NPCs.Perforator
             npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 5, 0, 0);
+			npc.value = Item.buyPrice(0, 6, 0, 0);
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath19;
-            music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/BloodCoagulant");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/BloodCoagulant");
+            else
+                music = MusicID.Boss2;
             bossBag = mod.ItemType("PerforatorBag");
 		}
 		
@@ -166,7 +170,7 @@ namespace CalamityMod.NPCs.Perforator
 	       	}
 			npc.rotation = npc.velocity.X * 0.04f;
 			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-            if (npc.position.Y > player.position.Y - 100f) //200
+            if (npc.position.Y > player.position.Y - 160f) //200
             {
                 if (npc.velocity.Y > 0f)
                 {
@@ -178,7 +182,7 @@ namespace CalamityMod.NPCs.Perforator
                     npc.velocity.Y = 2f;
                 }
             }
-            else if (npc.position.Y < player.position.Y - 300f) //500
+            else if (npc.position.Y < player.position.Y - 400f) //500
             {
                 if (npc.velocity.Y < 0f)
                 {
@@ -190,7 +194,7 @@ namespace CalamityMod.NPCs.Perforator
                     npc.velocity.Y = -2f;
                 }
             }
-            if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 50f)
+            if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 80f)
             {
                 if (npc.velocity.X > 0f)
                 {
@@ -202,7 +206,7 @@ namespace CalamityMod.NPCs.Perforator
                     npc.velocity.X = 8f;
                 }
             }
-            if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 50f)
+            if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 80f)
             {
                 if (npc.velocity.X < 0f)
                 {
