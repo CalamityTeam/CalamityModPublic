@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stress Pills");
-            Tooltip.SetDefault("Boosts your damage by 6%, \n" +
-                               "defense by 5, and max movement speed and acceleration by 5%\n" +
+            Tooltip.SetDefault("Boosts your damage by 8%,\n" +
+                               "defense by 8, and max movement speed and acceleration by 5%\n" +
                                "Revengeance drop");
         }
 

@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 2, 0);
 			npc.HitSound = SoundID.NPCHit2;
 			npc.DeathSound = SoundID.NPCDeath2;
+			banner = npc.type;
+			bannerItem = mod.ItemType("OverloadedSoldierBanner");
 		}
 
         public override void AI()
@@ -40,7 +42,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ||
+				spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
             {
                 return 0f;
             }

@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Permafrost
             projectile.friendly = true;
             projectile.minion = true;
 			projectile.penetrate = 1;
+			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
 		
 		public override void SetStaticDefaults()

@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 40000;
-            item.rare = 2;
+			item.value = Item.buyPrice(0, 1, 50, 0);
+			item.rare = 2;
             item.defense = 1; //8
         }
 
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("Urchin")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Urchin"), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Urchin"), (int)(7f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.ignoreWater = true;

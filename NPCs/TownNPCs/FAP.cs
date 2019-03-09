@@ -298,10 +298,26 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 35, 0, 0);
             nextSlot++;
 
-            /*shop.item[nextSlot].SetDefaults(mod.ItemType("OddMushroom")); //trips you out and boosts all stats
-            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
-            nextSlot++;*/
-        }
+			shop.item[nextSlot].SetDefaults(mod.ItemType("BlueCandle"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(mod.ItemType("PinkCandle"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(mod.ItemType("PurpleCandle"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(mod.ItemType("YellowCandle"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+			nextSlot++;
+
+			shop.item[nextSlot].SetDefaults(mod.ItemType("OddMushroom"));
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(3, 0, 0, 0);
+            nextSlot++;
+		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

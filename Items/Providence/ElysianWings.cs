@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Providence
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             player.moveSpeed += 0.4f;
-            player.lavaMax += 920;
+            player.lavaMax += 240;
             player.wingTimeMax = 180;
             modPlayer.elysianFire = true;
             if (hideVisual)

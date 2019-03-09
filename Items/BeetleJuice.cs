@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items {
-public class BeetleJuice : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class BeetleJuice : ModItem
 	{
-		DisplayName.SetDefault("Beetle Juice");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Beetle Juice");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 20;
+			item.height = 20;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 3, 0, 0);
+			item.rare = 5;
+		}
 	}
-	
-	public override void SetDefaults()
-	{
-		item.width = 20;
-		item.height = 20;
-		item.maxStack = 999;
-		item.value = 10000;
-		item.rare = 5;
-	}
-}}
+}

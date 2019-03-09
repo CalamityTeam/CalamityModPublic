@@ -46,6 +46,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath13;
 			npc.netAlways = true;
@@ -58,22 +59,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
         {
-            if (damageTaken >= (CalamityWorld.death ? 25000.0 : 10000.0))
-            {
-                npc.dontTakeDamage = true;
-            }
-            else
-            {
-                if (invinceTime > 0)
-                {
-                    invinceTime--;
-                    npc.dontTakeDamage = true;
-                }
-                else
-                {
-                    npc.dontTakeDamage = false;
-                }
-            }
             if (Main.npc[(int)npc.ai[1]].alpha < 128)
             {
                 npc.alpha -= 42;
@@ -102,21 +87,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 npc.HitEffect(0, 10.0);
                 npc.active = false;
             }
-        }
-
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            if (damage > npc.lifeMax / 25)
-            {
-                damage = 0;
-                return false;
-            }
-            damageTaken += damage;
-            if (crit)
-            {
-                damageTaken += damage;
-            }
-            return true;
         }
 
         public override bool CheckActive()

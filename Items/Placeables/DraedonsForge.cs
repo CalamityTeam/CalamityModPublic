@@ -29,18 +29,8 @@ namespace CalamityMod.Items.Placeables
 			item.value = 5000000;
 			item.rare = 10;
 			item.createTile = mod.TileType("DraedonsForge");
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-	            }
-	        }
-	    }
 		
 		public override void AddRecipes()
 		{

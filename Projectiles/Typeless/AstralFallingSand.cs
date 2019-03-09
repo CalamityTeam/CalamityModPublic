@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+using Microsoft.Xna.Framework;
+
+namespace CalamityMod.Projectiles.Typeless
+{
+    public class AstralFallingSand : ModProjectile
+    {
+        public override void SetDefaults()
+        {
+            projectile.knockBack = 6f;
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.aiStyle = -1;
+            projectile.friendly = true;
+            projectile.hostile = true;
+            projectile.penetrate = -1;
+            base.SetDefaults();
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            int tileX = (int)(projectile.Center.X / 16f);
+            int tileY = (int)(projectile.Center.Y / 16f);
+            //Move the set tile upwards based on certain conditions
+            if (Main.tile[tileX, tileY].halfBrick() && projectile.velocity.Y > 0f && Math.Abs(projectile.velocity.Y) > Math.Abs(projectile.velocity.X))
+            {
+                tileY--;
+            }
+            if (!Main.tile[tileX, tileY].active())
+            {
+                if (Main.tile[tileX, tileY].type == TileID.MinecartTrack) return;
+
+                WorldGen.PlaceTile(tileX, tileY, mod.TileType("AstralSand"), false, true);
+                WorldGen.SquareTileFrame(tileX, tileY);
+            }
+        }
+
+        public override void AI()
+        {
+            if (Main.rand.Next(2) == 0)
+            {
+                int i = Dust.NewDust(projectile.position, projectile.width, projectile.height, 108, 0f, projectile.velocity.Y * 0.5f);
+                Main.dust[i].velocity.X *= 0.2f;
+            }
+            projectile.velocity.Y += 0.2f;
+            projectile.rotation += 0.1f;
+            if (projectile.velocity.Y > 10f)
+            {
+                projectile.velocity.Y = 10f;
+            }
+            base.AI();
+        }
+    }
+}

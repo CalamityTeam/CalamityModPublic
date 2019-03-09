@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
 				}
 				if (player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] < 1)
 				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("CloudyWaifu"), 45, 2f, Main.myPlayer, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("CloudyWaifu"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 		}

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.mana = 100;
-            item.damage = 0;
+            item.damage = 3000;
             item.useStyle = 1;
             item.width = 74;
             item.height = 72;
@@ -46,18 +46,8 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("CosmicEnergy");
             item.shootSpeed = 10f;
             item.summon = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(108, 45, 199);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+		}
 
         public override bool CanUseItem(Player player)
         {
@@ -74,7 +64,9 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            player.itemTime = item.useTime;
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon;
+			player.itemTime = item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -98,7 +90,7 @@ namespace CalamityMod.Items.Weapons
             num79 = 0f;
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, type, (int)((double)damage * (hasSummonerSet ? 1.0 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

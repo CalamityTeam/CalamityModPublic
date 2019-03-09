@@ -7,11 +7,11 @@ namespace CalamityMod.Items.Perforator
 	public class PerforatorBag : ModItem
 	{
 		public override void SetStaticDefaults()
- 		{
- 			DisplayName.SetDefault("Treasure Bag");
- 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
- 		}
-		
+		{
+			DisplayName.SetDefault("Treasure Bag");
+			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+		}
+
 		public override void SetDefaults()
 		{
 			item.maxStack = 999;
@@ -30,6 +30,24 @@ namespace CalamityMod.Items.Perforator
 
 		public override void OpenBossBag(Player player)
 		{
+			if (CalamityWorld.revenge)
+			{
+				if (Main.rand.Next(20) == 0)
+				{
+					switch (Main.rand.Next(3))
+					{
+						case 0:
+							player.QuickSpawnItem(mod.ItemType("StressPills"));
+							break;
+						case 1:
+							player.QuickSpawnItem(mod.ItemType("Laudanum"));
+							break;
+						case 2:
+							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
+							break;
+					}
+				}
+			}
 			if (Main.rand.Next(7) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("PerforatorMask"));
@@ -70,10 +88,10 @@ namespace CalamityMod.Items.Perforator
 			player.QuickSpawnItem(ItemID.Vertebrae, Main.rand.Next(10, 21));
 			player.QuickSpawnItem(ItemID.CrimtaneBar, Main.rand.Next(9, 15));
 			player.QuickSpawnItem(mod.ItemType("BloodSample"), Main.rand.Next(30, 41));
-            if (Main.hardMode)
-            {
-                player.QuickSpawnItem(ItemID.Ichor, Main.rand.Next(15, 31));
-            }
+			if (Main.hardMode)
+			{
+				player.QuickSpawnItem(ItemID.Ichor, Main.rand.Next(15, 31));
+			}
 		}
 	}
 }

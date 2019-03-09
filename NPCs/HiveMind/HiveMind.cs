@@ -35,10 +35,12 @@ namespace CalamityMod.NPCs.HiveMind
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 1600000 : 1300000;
+                npc.lifeMax = CalamityWorld.death ? 800000 : 700000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
+			npc.buffImmune[mod.BuffType("GlacialState")] = true;
+			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 			npc.knockBackResist = 0f;
 			npc.boss = true;
             npc.value = 0f;
@@ -288,13 +290,20 @@ namespace CalamityMod.NPCs.HiveMind
                     num285++;
                 }
             }
-            else if (Main.netMode != 1)
+            else
             {
-                if (NPC.CountNPCS(mod.NPCType("HiveMindP2")) < 1)
-                {
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("HiveMindP2"), npc.whoAmI, 0f, 0f, 0f, 0f, npc.target);
-					Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
-                }
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore4"), 1f);
+				if (Main.netMode != 1)
+				{
+					if (NPC.CountNPCS(mod.NPCType("HiveMindP2")) < 1)
+					{
+						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("HiveMindP2"), npc.whoAmI, 0f, 0f, 0f, 0f, npc.target);
+						Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
+					}
+				}
             }
 		}
 

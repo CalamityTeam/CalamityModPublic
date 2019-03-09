@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 2100000 : 1700000;
+                npc.lifeMax = CalamityWorld.death ? 1100000 : 900000;
             }
             npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -54,6 +54,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit36;
 			npc.DeathSound = SoundID.NPCDeath39;
 		}
@@ -198,7 +199,7 @@ namespace CalamityMod.NPCs.Polterghast
             if (speedBoost1)
             {
                 npc.defense = 400;
-                npc.damage *= 4;
+                npc.damage = 1200;
             }
             else
             {

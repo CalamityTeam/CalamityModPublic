@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 1, 0);
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
+			banner = npc.type;
+			bannerItem = mod.ItemType("HeatSpiritBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -95,7 +97,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.Next(4) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
 			}

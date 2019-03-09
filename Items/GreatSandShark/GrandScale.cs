@@ -22,8 +22,8 @@ namespace CalamityMod.Items.GreatSandShark
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-            item.value = 50000;
-            item.rare = 7;
+			item.value = Item.buyPrice(0, 4, 50, 0);
+			item.rare = 7;
         }
     }
 }

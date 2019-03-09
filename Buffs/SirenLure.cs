@@ -7,8 +7,8 @@ namespace CalamityMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Siren Lure");
-			Description.SetDefault("The siren lure will protect you");
+			DisplayName.SetDefault("Siren");
+			Description.SetDefault("The siren will protect you");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}

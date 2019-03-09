@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Weapons.SunkenSea
+{
+    public class Whirlpool : ModItem
+    {
+		public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Riptide");
+            Tooltip.SetDefault("Sprays a spiral of aqua streams in random directions");
+        }
+		
+        public override void SetDefaults()
+        {
+            item.CloneDefaults(ItemID.TheEyeOfCthulhu);
+            item.damage = 18;
+            item.width = 30;
+			item.height = 44;
+			item.value = Item.buyPrice(0, 2, 0, 0);
+			item.rare = 2;
+            item.knockBack = 1;
+            item.channel = true;
+			item.melee = true;
+            item.useStyle = 8;
+            item.useAnimation = 8;
+            item.useTime = 8;
+            item.shoot = mod.ProjectileType("WhirlpoolProjectile");
+            item.shootSpeed = 18f;
+            item.UseSound = SoundID.Item1;
+            ItemID.Sets.Yoyo[item.type] = true;
+        }
+		
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+	        recipe.AddIngredient(null, "SeaPrism", 7);
+			recipe.AddIngredient(null, "Navystone", 10);
+	        recipe.AddTile(TileID.Anvils);
+	        recipe.SetResult(this);
+	        recipe.AddRecipe();
+		}
+    }
+}

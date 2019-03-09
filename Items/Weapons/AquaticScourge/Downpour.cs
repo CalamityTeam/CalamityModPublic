@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.AquaticScourge
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 48;
+	        item.damage = 43;
 	        item.magic = true;
 	        item.mana = 10;
 	        item.width = 42;

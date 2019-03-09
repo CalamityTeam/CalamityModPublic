@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Laudanum");
             Tooltip.SetDefault("Boosts your damage by 6%,\n" +
-                               "defense by 8, and max movement speed and acceleration by 5%\n" +
+                               "defense by 6, and max movement speed and acceleration by 5%\n" +
                                "Makes you immune to The Horror debuff\n" +
                                "Revengeance drop");
         }

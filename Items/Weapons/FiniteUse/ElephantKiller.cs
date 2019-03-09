@@ -36,18 +36,8 @@ namespace CalamityMod.Items.Weapons.FiniteUse
 	        item.shootSpeed = 12f;
 	        item.shoot = mod.ProjectileType("MagnumRound");
 	        item.useAmmo = mod.ItemType("MagnumRounds");
-	    }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override Vector2? HoldoutOffset()
 		{

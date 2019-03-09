@@ -23,8 +23,8 @@ namespace CalamityMod.Items
             item.width = 28;
             item.height = 28;
             item.maxStack = 999;
-            item.value = 500000;
-            item.rare = 10;
+			item.value = Item.buyPrice(0, 6, 0, 0);
+			item.rare = 10;
         }
 
         public override void AddRecipes()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            maxFallSpeed *= 0.0001f;
+            maxFallSpeed = 0f;
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 1f * num, 0.3f * num, 0.3f * num);

@@ -56,8 +56,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water)
             {
                 if (!NPC.AnyNPCs(mod.NPCType("BobbitWormSegment")))
-                    return 0.01f;
-            }
+					return SpawnCondition.CaveJellyfish.Chance * 0.3f;
+			}
             return 0f;
         }
 

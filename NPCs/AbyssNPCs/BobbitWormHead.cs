@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.buffImmune[mod.BuffType("CrushDepth")] = true;
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = mod.ItemType("BobbitWormBanner");
 		}
 		
 		public override void AI()

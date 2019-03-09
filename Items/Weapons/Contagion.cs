@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 600;
+	        item.damage = 4000;
 	        item.ranged = true;
 	        item.width = 22;
 	        item.height = 50;
@@ -35,18 +35,8 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("Contagion");
 	        item.shootSpeed = 20f;
 	        item.useAmmo = 40;
-	    }
-	    
-	    public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(255, 0, 255);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+		}
 	    
 	    public override void AddRecipes()
 		{

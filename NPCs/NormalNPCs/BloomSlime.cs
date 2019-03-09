@@ -35,11 +35,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = mod.ItemType("BloomSlimeBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !CalamityWorld.downedProvidence || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+			if (spawnInfo.playerSafe || !CalamityWorld.downedProvidence || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ||
+				spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
 			{
 				return 0f;
 			}

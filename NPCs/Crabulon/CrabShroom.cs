@@ -32,6 +32,7 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.knockBackResist = 0.75f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}

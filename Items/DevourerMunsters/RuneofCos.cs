@@ -29,18 +29,8 @@ namespace CalamityMod.Items.DevourerMunsters
 			item.UseSound = SoundID.Item44;
 			item.consumable = false;
 			item.shoot = mod.ProjectileType("VoidSpawn");
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 0);
-	            }
-	        }
-	    }
 		
 		public override bool CanUseItem(Player player)
 		{

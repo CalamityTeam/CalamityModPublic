@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
     	
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Laser");
+			DisplayName.SetDefault("Brimstone Laser");
 		}
     	
         public override void SetDefaults()

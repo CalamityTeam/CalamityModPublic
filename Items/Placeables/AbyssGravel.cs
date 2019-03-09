@@ -28,8 +28,6 @@ namespace CalamityMod.Items.Placeables
             item.width = 13;
             item.height = 10;
             item.maxStack = 999;
-            item.value = 1000;
-            item.rare = 0;
         }
     }
 }

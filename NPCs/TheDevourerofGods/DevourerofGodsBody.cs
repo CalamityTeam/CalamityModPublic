@@ -41,7 +41,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.noGravity = true;
 			npc.noTileCollide = true;
             npc.chaseable = false;
-            npc.HitSound = SoundID.NPCHit4;
+			npc.canGhostHeal = false;
+			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
 			npc.boss = true;

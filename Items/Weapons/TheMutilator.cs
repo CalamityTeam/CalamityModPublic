@@ -34,22 +34,12 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 10f;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.life <= (target.lifeMax * 0.2f))
+            if (target.life <= (target.lifeMax * 0.2f) && target.canGhostHeal)
             {
                 int heartDrop = Main.rand.Next(1, 3);
                 for (int i = 0; i < heartDrop; i++)

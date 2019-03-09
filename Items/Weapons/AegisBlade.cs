@@ -36,18 +36,8 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.shootSpeed = 9f;
 			item.shoot = mod.ProjectileType("NobodyKnows");
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(255, Main.DiscoG, 53);
-	            }
-	        }
-	    }
 		
 		public override bool AltFunctionUse(Player player)
 		{

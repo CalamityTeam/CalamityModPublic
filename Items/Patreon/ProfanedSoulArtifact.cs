@@ -29,18 +29,8 @@ namespace CalamityMod.Items.Patreon
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(139, 0, 0);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

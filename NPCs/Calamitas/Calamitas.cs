@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.Calamitas
 			DisplayName.SetDefault("Calamitas");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 70;
@@ -29,31 +29,33 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.defense = 15;
 			npc.value = 0f;
 			npc.lifeMax = CalamityWorld.revenge ? 15000 : 10000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 22500;
-            }
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 22500;
+			}
+			npc.aiStyle = -1; //new
+			aiType = -1; //new
 			npc.knockBackResist = 0f;
+			NPCID.Sets.TrailCacheLength[npc.type] = 8;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
-                npc.buffImmune[k] = true;
-                npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[BuffID.Daybreak] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("HolyLight")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Plague")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
-                npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-                npc.buffImmune[mod.BuffType("SilvaStun")] = false;
-            }
+				npc.buffImmune[k] = true;
+				npc.buffImmune[BuffID.Ichor] = false;
+				npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+				npc.buffImmune[BuffID.CursedInferno] = false;
+				npc.buffImmune[BuffID.Daybreak] = false;
+				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+				npc.buffImmune[mod.BuffType("HolyLight")] = false;
+				npc.buffImmune[mod.BuffType("Nightwither")] = false;
+				npc.buffImmune[mod.BuffType("Plague")] = false;
+				npc.buffImmune[mod.BuffType("Shred")] = false;
+				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+			}
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -65,21 +67,21 @@ namespace CalamityMod.NPCs.Calamitas
 				npc.defense = 130;
 				npc.lifeMax = 80000;
 			}
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2600000 : 2200000;
-            }
-        }
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 1300000 : 1100000;
+			}
+		}
 
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
-        }
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += 0.15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
 
-        public override void AI()
+		public override void AI()
 		{
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -345,11 +347,52 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 		}
 
-        public override bool PreNPCLoot()
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+			Texture2D texture2D3 = Main.npcTexture[npc.type];
+			int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+			int y3 = num156 * (int)npc.frameCounter;
+			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+			Vector2 origin2 = rectangle.Size() / 2f;
+			int num157 = 8;
+			int num158 = 2;
+			int num159 = 1;
+			float num160 = 0f;
+			int num161 = num159;
+			while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
+			{
+				Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+				{
+					goto IL_6899;
+				}
+			IL_6881:
+				num161 += num158;
+				continue;
+			IL_6899:
+				float num164 = (float)(num157 - num161);
+				if (num158 < 0)
+				{
+					num164 = (float)(num159 - num161);
+				}
+				color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
+				Vector2 value4 = (npc.oldPos[num161]);
+				float num165 = npc.rotation;
+				Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
+				goto IL_6881;
+			}
+			var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+			return false;
+		}
+
+		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life > 0)
@@ -387,7 +430,7 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 			}
 		}
-		
+
 		public override bool CheckDead()
 		{
 			if (Main.netMode != 1)
@@ -411,13 +454,13 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			return true;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)

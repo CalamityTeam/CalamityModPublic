@@ -7,11 +7,11 @@ namespace CalamityMod.Items.Polterghast
 	public class PolterghastBag : ModItem
 	{
 		public override void SetStaticDefaults()
- 		{
- 			DisplayName.SetDefault("Treasure Bag");
- 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
- 		}
-		
+		{
+			DisplayName.SetDefault("Treasure Bag");
+			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+		}
+
 		public override void SetDefaults()
 		{
 			item.maxStack = 999;
@@ -30,7 +30,26 @@ namespace CalamityMod.Items.Polterghast
 
 		public override void OpenBossBag(Player player)
 		{
-            player.TryGettingDevArmor();
+			if (CalamityWorld.revenge)
+			{
+				player.QuickSpawnItem(mod.ItemType("Ectoheart"));
+				if (Main.rand.Next(20) == 0)
+				{
+					switch (Main.rand.Next(3))
+					{
+						case 0:
+							player.QuickSpawnItem(mod.ItemType("StressPills"));
+							break;
+						case 1:
+							player.QuickSpawnItem(mod.ItemType("Laudanum"));
+							break;
+						case 2:
+							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
+							break;
+					}
+				}
+			}
+			player.TryGettingDevArmor();
 			if (Main.rand.Next(3) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("BansheeHook"));
@@ -61,10 +80,6 @@ namespace CalamityMod.Items.Polterghast
 			}
 			player.QuickSpawnItem(mod.ItemType("RuinousSoul"), Main.rand.Next(6, 11));
 			player.QuickSpawnItem(mod.ItemType("Affliction"));
-            if (CalamityWorld.revenge)
-            {
-                player.QuickSpawnItem(mod.ItemType("Ectoheart"));
-            }
 		}
 	}
 }

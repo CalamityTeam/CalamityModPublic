@@ -27,20 +27,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 4250000;
-            item.defense = 41;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(43, 96, 222);
-                }
-            }
-        }
+			item.value = Item.buyPrice(0, 60, 0, 0);
+			item.defense = 41;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
 
         public override void UpdateEquip(Player player)
         {

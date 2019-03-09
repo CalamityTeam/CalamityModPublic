@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
+			banner = npc.type;
+			bannerItem = mod.ItemType("AstralProbeBanner");
 		}
 		
 		public override void AI()

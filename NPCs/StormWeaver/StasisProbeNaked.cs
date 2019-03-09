@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.knockBackResist = 0.925f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath19;
 			npc.buffImmune[24] = true;

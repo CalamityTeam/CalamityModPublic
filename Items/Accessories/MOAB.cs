@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Accessories
             player.jumpBoost = true;
             player.autoJump = true;
             player.noFallDmg = true;
-            player.jumpSpeedBoost += 1.4f;
+            player.jumpSpeedBoost += 0.8f;
             player.wingTimeMax = 60;
         }
 

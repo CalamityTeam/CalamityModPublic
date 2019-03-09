@@ -38,6 +38,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.lavaImmune = false;
 			npc.noGravity = false;
 			npc.noTileCollide = false;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.buffImmune[24] = true;

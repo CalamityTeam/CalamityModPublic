@@ -33,18 +33,8 @@ namespace CalamityMod.Items.Weapons.Providence
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shootSpeed = 10f;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
@@ -56,8 +46,8 @@ namespace CalamityMod.Items.Weapons.Providence
             for (i = 0; i < 4; i++)
             {
                 offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyColliderHolyFire"), (int)((double)((float)item.damage * player.meleeDamage) * 0.4), knockback, Main.myPlayer);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyColliderHolyFire"), (int)((double)((float)item.damage * player.meleeDamage) * 0.4), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyColliderHolyFire"), (int)((double)((float)item.damage * player.meleeDamage) * 0.3), knockback, Main.myPlayer);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyColliderHolyFire"), (int)((double)((float)item.damage * player.meleeDamage) * 0.3), knockback, Main.myPlayer);
             }
         }
     }

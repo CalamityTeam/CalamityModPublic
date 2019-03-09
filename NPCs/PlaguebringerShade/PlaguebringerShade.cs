@@ -59,6 +59,8 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
+			banner = npc.type;
+			bannerItem = mod.ItemType("PlaguebringerBanner");
 		}
 		
 		public override void AI()

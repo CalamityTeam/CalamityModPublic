@@ -44,6 +44,7 @@ namespace CalamityMod.NPCs.Scavenger
                 npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
 			npc.noGravity = true;
+			npc.canGhostHeal = false;
 			npc.alpha = 255;
 			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
@@ -56,7 +57,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 550000 : 440000;
+                npc.lifeMax = CalamityWorld.death ? 300000 : 260000;
             }
         }
 		
@@ -202,7 +203,7 @@ namespace CalamityMod.NPCs.Scavenger
 				num668 += 40f;
 				num667 -= 110f;
 				float num669 = (float)Math.Sqrt((double)(num667 * num667 + num668 * num668));
-				if (num669 > 700f || npc.collideX || npc.collideY) 
+				if ((num669 > 700f || npc.collideX || npc.collideY) | npc.justHit)
 				{
 					npc.noTileCollide = true;
 					npc.ai[0] = 0f;
@@ -317,6 +318,12 @@ namespace CalamityMod.NPCs.Scavenger
                     num285++;
                 }
             }
+			else
+			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawLeft"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawLeft2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawLeft3"), 1f);
+			}
         }
 	}
 }

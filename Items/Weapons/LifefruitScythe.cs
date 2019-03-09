@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 60;
-			item.damage = 115;
+			item.damage = 250;
 			item.melee = true;
 			item.useAnimation = 18;
 			item.useStyle = 1;
@@ -34,18 +34,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("LifeScythe");
 			item.shootSpeed = 9f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
 	
 		public override void AddRecipes()
 		{
@@ -66,7 +56,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	if (target.type == NPCID.TargetDummy)
+	    	if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
 			{
 				return;
 			}

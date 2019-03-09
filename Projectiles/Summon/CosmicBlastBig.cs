@@ -1,0 +1,148 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Projectiles.Summon
+{
+    public class CosmicBlastBig : ModProjectile
+    {
+    	public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Blast");
+		}
+    	
+        public override void SetDefaults()
+        {
+            projectile.width = 24;
+            projectile.height = 24;
+            projectile.friendly = true;
+            projectile.tileCollide = false;
+            projectile.ignoreWater = true;
+            projectile.minionSlots = 0f;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 600;
+            projectile.minion = true;
+        }
+
+        public override void AI()
+        {
+            if (projectile.soundDelay == 0)
+            {
+                projectile.soundDelay = 20 + Main.rand.Next(40);
+                if (Main.rand.Next(5) == 0)
+                {
+                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                }
+            }
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+            if (Main.rand.Next(8) == 0)
+            {
+                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
+                int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
+                Main.dust[num59].noGravity = true;
+                Main.dust[num59].velocity = value3 * 0.66f;
+                Main.dust[num59].position = projectile.Center + value3 * 12f;
+            }
+            if (Main.rand.Next(24) == 0)
+            {
+                int num60 = Gore.NewGore(projectile.Center, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), 16, 1f);
+                Main.gore[num60].velocity *= 0.66f;
+                Main.gore[num60].velocity += projectile.velocity * 0.3f;
+            }
+            if (projectile.ai[1] == 1f)
+            {
+                if (Main.rand.Next(5) == 0)
+                {
+                    int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
+                    Main.dust[num59].noGravity = true;
+                }
+                if (Main.rand.Next(10) == 0)
+                {
+                    Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
+                }
+            }
+            float num472 = projectile.Center.X;
+			float num473 = projectile.Center.Y;
+			float num474 = 600f;
+			bool flag17 = false;
+			for (int num475 = 0; num475 < 200; num475++)
+			{
+				if (Main.npc[num475].CanBeChasedBy(projectile, false))
+				{
+					float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
+					float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
+					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+					if (num478 < num474)
+					{
+						num474 = num478;
+						num472 = num476;
+						num473 = num477;
+						flag17 = true;
+					}
+				}
+			}
+			if (flag17)
+			{
+				float num483 = 45f;
+				Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+				float num484 = num472 - vector35.X;
+				float num485 = num473 - vector35.Y;
+				float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
+				num486 = num483 / num486;
+				num484 *= num486;
+				num485 *= num486;
+				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
+				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
+				return;
+			}
+        }
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 255);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (Main.rand.Next(30) == 0)
+            {
+                target.AddBuff(mod.BuffType("ExoFreeze"), 240);
+            }
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
+            target.AddBuff(mod.BuffType("GlacialState"), 100);
+            target.AddBuff(mod.BuffType("Plague"), 100);
+            target.AddBuff(mod.BuffType("HolyLight"), 100);
+            target.AddBuff(BuffID.CursedInferno, 100);
+            target.AddBuff(BuffID.Frostburn, 100);
+            target.AddBuff(BuffID.OnFire, 100);
+            target.AddBuff(BuffID.Ichor, 100);
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);
+            projectile.position = projectile.Center;
+            projectile.width = (projectile.height = 288);
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            for (int num193 = 0; num193 < 3; num193++)
+            {
+                int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
+                Main.dust[dust].noGravity = true;
+            }
+            for (int num194 = 0; num194 < 30; num194++)
+            {
+                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 2.5f);
+                Main.dust[num195].noGravity = true;
+                Main.dust[num195].velocity *= 3f;
+                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
+                Main.dust[num195].velocity *= 2f;
+                Main.dust[num195].noGravity = true;
+            }
+            projectile.Damage();
+        }
+    }
+}

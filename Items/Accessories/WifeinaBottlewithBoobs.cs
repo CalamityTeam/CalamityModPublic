@@ -19,8 +19,9 @@ namespace CalamityMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Rare Waifu in a Bottle");
-			Tooltip.SetDefault("Summons a sand elemental to fight for you\n;D");
+			DisplayName.SetDefault("Madame in a Bottle");
+			Tooltip.SetDefault("Summons a sand elemental to heal you\n" +
+				";D");
 		}
 		
 	    public override void SetDefaults()
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Accessories
 				}
 				if (player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] < 1)
 				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DrewsSandyWaifu"), 45, 2f, Main.myPlayer, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DrewsSandyWaifu"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 		}

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Flare");
+			DisplayName.SetDefault("Big Flare");
 			Main.projFrames[projectile.type] = 4;
 		}
     	

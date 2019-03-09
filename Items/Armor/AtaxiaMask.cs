@@ -17,15 +17,15 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Ataxia Mask");
             Tooltip.SetDefault("12% increased magic damage, reduces mana usage by 10%, and 10% increased magic critical strike chance\n" +
                 "+100 Max Mana\n" +
-                "Immune to lava and fire damage");
+                "Temporary immunity to lava and immunity to fire damage");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = 450000;
-            item.rare = 8;
+			item.value = Item.buyPrice(0, 30, 0, 0);
+			item.rare = 8;
             item.defense = 9; //45
         }
 
@@ -48,10 +48,6 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaMage = true;
-            if (player.statLife <= (player.statLifeMax2 * 0.5f))
-            {
-                player.AddBuff(BuffID.Inferno, 2);
-            }
             player.magicDamage += 0.05f;
         }
 
@@ -61,8 +57,8 @@ namespace CalamityMod.Items.Armor
             player.statManaMax2 += 100;
             player.magicDamage += 0.12f;
             player.magicCrit += 10;
-            player.lavaImmune = true;
-            player.buffImmune[BuffID.OnFire] = true;
+			player.lavaMax += 240;
+			player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()

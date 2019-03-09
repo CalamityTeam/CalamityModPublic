@@ -15,7 +15,7 @@ namespace CalamityMod.NPCs.Leviathan
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("???");
-			Main.npcFrameCount[npc.type] = 4;
+			Main.npcFrameCount[npc.type] = 6;
 		}
 		
 		public override void SetDefaults()
@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 0;
-			npc.width = 120; //324
-			npc.height = 120; //216
+			npc.width = 70; //324
+			npc.height = 70; //216
 			npc.defense = 0;
 			npc.lifeMax = 3000;
 			npc.knockBackResist = 0f;

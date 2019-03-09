@@ -35,18 +35,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("AccretionDiskMelee");
 			item.shootSpeed = 13f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
 
         public override void AddRecipes()
 		{

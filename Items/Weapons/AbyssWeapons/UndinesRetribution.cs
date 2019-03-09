@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 36;
+	        item.damage = 30;
 	        item.magic = true;
 	        item.mana = 15;
 	        item.width = 64;

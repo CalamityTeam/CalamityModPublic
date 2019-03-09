@@ -43,6 +43,7 @@ namespace CalamityMod.NPCs.Scavenger
                 npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
             }
 			npc.noGravity = true;
+			npc.canGhostHeal = false;
 			npc.alpha = 255;
 			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
@@ -54,7 +55,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 870000 : 650000;
+                npc.lifeMax = CalamityWorld.death ? 450000 : 400000;
             }
         }
 		
@@ -142,6 +143,8 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegLeft"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegLeft2"), 1f);
 				for (int k = 0; k < 20; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Dust");
+			DisplayName.SetDefault("Cosmic Dust");
 		}
     	
         public override void SetDefaults()

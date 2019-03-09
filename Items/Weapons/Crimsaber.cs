@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 45;
+            item.damage = 54;
             item.melee = true;
             item.width = 56;
             item.height = 70;
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons
 			}
 	    	num78 *= num80;
 			num79 *= num80;
-			int num107 = 8;
+			int num107 = 4;
 			for (int num108 = 0; num108 < num107; num108++)
 			{
 				vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);

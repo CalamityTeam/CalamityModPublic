@@ -41,18 +41,8 @@ Right click to fire two devastating barrages of five empowered fireballs.
 			item.useTurn = false;
 			item.useAmmo = AmmoID.Arrow;
 			item.autoReuse = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(255, 0, 255);
-                }
-            }
-        }
 
         public override bool AltFunctionUse(Player player)
         {

@@ -32,6 +32,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath15;
 			npc.behindTiles = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("SeaUrchinBanner");
 		}
 		
 		public override void AI()

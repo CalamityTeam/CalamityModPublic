@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Blob");
+			DisplayName.SetDefault("Molten Blob");
 			Main.projFrames[projectile.type] = 2;
 		}
     	
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 1200;
-            cooldownSlot = 1;
-        }
+			cooldownSlot = 0;
+		}
 
         public override void AI()
         {

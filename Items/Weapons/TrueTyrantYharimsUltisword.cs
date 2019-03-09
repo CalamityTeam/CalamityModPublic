@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 86;
-            item.damage = 165;
+            item.damage = 185;
             item.melee = true;
             item.useAnimation = 18;
             item.useStyle = 1;
@@ -35,18 +35,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("BlazingPhantomBlade");
             item.shootSpeed = 12f;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

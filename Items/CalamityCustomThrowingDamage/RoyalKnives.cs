@@ -19,7 +19,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 18;
-            item.damage = 1320;
+            item.damage = 1600;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 12;
@@ -33,7 +33,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("RoyalKnife");
             item.shootSpeed = 9f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

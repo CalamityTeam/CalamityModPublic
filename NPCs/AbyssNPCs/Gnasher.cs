@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 npc.buffImmune[k] = true;
             }
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("GnasherBanner");
+		}
 
         public override void AI()
         {

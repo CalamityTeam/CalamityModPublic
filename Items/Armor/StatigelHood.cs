@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 200000;
-            item.rare = 4;
+			item.value = Item.buyPrice(0, 5, 0, 0);
+			item.rare = 4;
             item.defense = 4; //20
         }
 
@@ -52,11 +52,11 @@ namespace CalamityMod.Items.Armor
                 }
                 if (WorldGen.crimson && player.ownedProjectileCounts[mod.ProjectileType("SlimeGodAlt")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SlimeGodAlt"), 33, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SlimeGodAlt"), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
                 else if (!WorldGen.crimson && player.ownedProjectileCounts[mod.ProjectileType("SlimeGod")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SlimeGod"), 33, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SlimeGod"), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath4;
+			banner = npc.type;
+			bannerItem = mod.ItemType("SunBatBanner");
 		}
 
         public override void FindFrame(int frameHeight)
@@ -48,7 +50,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+			if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ||
+				spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
 			{
 				return 0f;
 			}
@@ -78,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.Next(3) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
 			}

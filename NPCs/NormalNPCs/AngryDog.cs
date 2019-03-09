@@ -40,6 +40,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 3, 0);
 			npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
 			npc.DeathSound = SoundID.NPCDeath5;
+			banner = npc.type;
+			bannerItem = mod.ItemType("AngryDogBanner");
 		}
 
         public override void AI()
@@ -379,13 +381,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 npc.ai[3] = 0f;
             }
-            if (npc.type == 155)
-            {
-                if (npc.velocity.Y == 0f && num40 < 100f && Math.Abs(npc.velocity.X) > 3f && ((npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) && npc.velocity.X > 0f) || (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) && npc.velocity.X < 0f)))
-                {
-                    npc.velocity.Y = npc.velocity.Y - 4f;
-                }
-            }
             if (npc.ai[3] < (float)num19)
             {
                 npc.TargetClosest(true);
@@ -419,17 +414,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             float num70 = 0.07f;
             if (!flag19&& (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
             {
-                if (npc.type == 155)
-                {
-                    if (npc.velocity.X > 0f && npc.direction < 0)
-                    {
-                        npc.velocity.X = npc.velocity.X * 0.95f;
-                    }
-                    if (npc.velocity.X < 0f && npc.direction > 0)
-                    {
-                        npc.velocity.X = npc.velocity.X * 0.95f;
-                    }
-                }
                 if (npc.velocity.X < -num6 || npc.velocity.X > num6)
                 {
                     if (npc.velocity.Y == 0f)
@@ -634,7 +618,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             	!spawnInfo.player.ZoneTowerVortex &&
             	!spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon && 
-                !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
+				!spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea &&
+				!spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
         }
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)

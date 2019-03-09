@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 300000;
-            item.rare = 5;
+			item.value = Item.buyPrice(0, 25, 0, 0);
+			item.rare = 5;
             item.defense = 7; //37
         }
 
@@ -49,10 +49,14 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased rogue damage\n" +
-                "Rogue projectiles throw out crystal shards as they travel";
+                "Rogue projectiles throw out crystal shards as they travel\n" +
+				"Rogue stealth builds while not attacking and not moving, up to a max of 110\n" +
+				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.daedalusSplit = true;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
+			modPlayer.rogueStealthMax = 1.1f;
+			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
         }
 
         public override void UpdateEquip(Player player)

@@ -40,10 +40,10 @@ namespace CalamityMod.Items.Weapons
 			{
 				target.defense -= 10;
 			}
-			if (target.defense <= 0)
+			if (target.defense <= 0 && target.canGhostHeal)
 			{
-		    	player.statLife += 4;
-		    	player.HealEffect(4);
+		    	player.statLife += 3;
+		    	player.HealEffect(3);
 			}
 		}
 	

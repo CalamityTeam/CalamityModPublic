@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ornate Shield");
-            Tooltip.SetDefault("Increased defense by 8 when below 25% life");
         }
 
         public override void SetDefaults()
@@ -23,16 +22,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 5;
-            item.defense = 4;
+            item.defense = 6;
             item.accessory = true;
-        }
-
-        public override void UpdateAccessory(Player player, bool hideVisual)
-        {
-            if (player.statLife <= (player.statLifeMax2 * 0.25f))
-            {
-                player.statDefense += 8;
-            }
         }
 
         public override void AddRecipes()

@@ -33,9 +33,12 @@ namespace CalamityMod.NPCs.Leviathan
             npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			aiType = -1;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = mod.ItemType("AquaticAberrationBanner");
 		}
 		
 		public override void FindFrame(int frameHeight)

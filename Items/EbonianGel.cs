@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items {
-public class EbonianGel : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class EbonianGel : ModItem
 	{
-		DisplayName.SetDefault("Blighted Gel");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Blighted Gel");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 16;
+			item.height = 14;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 1;
+		}
 	}
-		
-	public override void SetDefaults()
-	{
-		item.width = 16;
-		item.height = 14;
-		item.maxStack = 999;
-		item.value = 1000;
-		item.rare = 2;
-	}
-}}
+}

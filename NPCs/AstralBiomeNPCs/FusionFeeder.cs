@@ -37,9 +37,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.7f;
             npc.behindTiles = true;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-
             animationType = NPCID.SandShark;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("FusionFeederBanner");
+		}
 
         public override void FindFrame(int frameHeight)
         {

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spear");
+			DisplayName.SetDefault("Holy Spear");
 		}
     	
         public override void SetDefaults()

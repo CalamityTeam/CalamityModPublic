@@ -30,15 +30,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.statLife < (player.statLifeMax2 * 0.5f))
-            {
-                player.meleeDamage += 0.15f;
-                player.magicDamage += 0.15f;
-                player.rangedDamage += 0.15f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-                player.minionDamage += 0.15f;
-            }
-        }
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			modPlayer.vexation = true;
+		}
 
         public override void AddRecipes()
         {

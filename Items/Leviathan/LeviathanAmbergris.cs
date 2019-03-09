@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Leviathan
             Tooltip.SetDefault("You leave behind poisonous seawater as you move\n" +
                                "75% increased movement speed, 10% increase to all damage, and plus 20 defense while submerged in liquid\n" +
                                "If you are damaged while submerged in liquid you will gain a damaging aura for a short time\n" +
-                               "Being outside of liquid decreases all damage done by 5% but increases damage reduction by 5%");
+                               "Being outside of liquid increases all damage by 5% and increases damage reduction by 5%");
         }
 
         public override void SetDefaults()
@@ -33,25 +33,28 @@ namespace CalamityMod.Items.Leviathan
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.ignoreWater = true;
-            if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-            {
-                player.endurance += 0.05f;
-                player.meleeDamage -= 0.05f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage -= 0.05f;
-                player.rangedDamage -= 0.05f;
-                player.magicDamage -= 0.05f;
-                player.minionDamage -= 0.05f;
-            }
-            else
-            {
-                player.meleeDamage += 0.1f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-                player.rangedDamage += 0.1f;
-                player.magicDamage += 0.1f;
-                player.minionDamage += 0.1f;
-                player.statDefense += 20;
-                player.moveSpeed += 0.75f;
-            }
+			if (!player.lavaWet && !player.honeyWet)
+			{
+				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+				{
+					player.endurance += 0.05f;
+					player.meleeDamage += 0.05f;
+					CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
+					player.rangedDamage += 0.05f;
+					player.magicDamage += 0.05f;
+					player.minionDamage += 0.05f;
+				}
+				else
+				{
+					player.meleeDamage += 0.1f;
+					CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+					player.rangedDamage += 0.1f;
+					player.magicDamage += 0.1f;
+					player.minionDamage += 0.1f;
+					player.statDefense += 20;
+					player.moveSpeed += 0.75f;
+				}
+			}
             if (((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1))
             {
                 if (player.whoAmI == Main.myPlayer)

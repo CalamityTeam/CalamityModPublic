@@ -33,7 +33,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.5f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("FrogfishBanner");
+		}
 
         public override void AI()
         {

@@ -44,6 +44,10 @@ namespace CalamityMod.Items.Weapons
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	player.statLife -= 5;
+			if (player.statLife <= 0)
+			{
+				player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
+			}
 	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("NullShot"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}

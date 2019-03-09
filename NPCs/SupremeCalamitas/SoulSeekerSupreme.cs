@@ -25,6 +25,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.height = 40;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.damage = 0;
 			npc.defense = 100;
 			npc.lifeMax = Main.expertMode ? 90000 : 50000;

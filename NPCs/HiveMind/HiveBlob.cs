@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.HiveMind
 			DisplayName.SetDefault("Hive Blob");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 0.1f;
@@ -26,17 +26,19 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 25; //324
 			npc.height = 25; //216
 			npc.lifeMax = 75;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 13000;
-            }
-            aiType = -1;
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = 13000;
+			}
+			aiType = -1;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
+			npc.chaseable = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
-		
+
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
@@ -48,14 +50,14 @@ namespace CalamityMod.NPCs.HiveMind
 				return;
 			}
 			int num750 = CalamityGlobalNPC.hiveMind;
-			if (npc.ai[3] > 0f) 
+			if (npc.ai[3] > 0f)
 			{
 				num750 = (int)npc.ai[3] - 1;
 			}
-			if (Main.netMode != 1) 
+			if (Main.netMode != 1)
 			{
 				npc.localAI[0] -= 1f;
-				if (npc.localAI[0] <= 0f) 
+				if (npc.localAI[0] <= 0f)
 				{
 					npc.localAI[0] = (float)Main.rand.Next(120, 480);
 					npc.ai[0] = (float)Main.rand.Next(-100, 101);
@@ -66,15 +68,15 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.TargetClosest(true);
 			float num751 = 0.02f;
 			float num752 = 400f;
-			if ((double)Main.npc[CalamityGlobalNPC.hiveMind].life < (double)Main.npc[CalamityGlobalNPC.hiveMind].lifeMax * 0.5) 
+			if ((double)Main.npc[CalamityGlobalNPC.hiveMind].life < (double)Main.npc[CalamityGlobalNPC.hiveMind].lifeMax * 0.5)
 			{
 				num752 += 60f;
 			}
-			if ((double)Main.npc[CalamityGlobalNPC.hiveMind].life < (double)Main.npc[CalamityGlobalNPC.hiveMind].lifeMax * 0.15) 
+			if ((double)Main.npc[CalamityGlobalNPC.hiveMind].life < (double)Main.npc[CalamityGlobalNPC.hiveMind].lifeMax * 0.15)
 			{
 				num752 += 120f;
 			}
-			if (expertMode) 
+			if (expertMode)
 			{
 				float num753 = 1f - (float)npc.life / (float)npc.lifeMax;
 				num752 += num753 * 100f;
@@ -84,7 +86,7 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				num751 += 0.1f;
 			}
-			if (!Main.npc[num750].active || CalamityGlobalNPC.hiveMind < 0) 
+			if (!Main.npc[num750].active || CalamityGlobalNPC.hiveMind < 0)
 			{
 				npc.active = false;
 				return;
@@ -104,69 +106,99 @@ namespace CalamityMod.NPCs.HiveMind
 			num760 = num752 / num760;
 			num758 *= num760;
 			num759 *= num760;
-			if (npc.position.X < num754 + num758) 
+			if (npc.position.X < num754 + num758)
 			{
 				npc.velocity.X = npc.velocity.X + num751;
-				if (npc.velocity.X < 0f && num758 > 0f) 
+				if (npc.velocity.X < 0f && num758 > 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.9f;
 				}
-			} 
-			else if (npc.position.X > num754 + num758) 
+			}
+			else if (npc.position.X > num754 + num758)
 			{
 				npc.velocity.X = npc.velocity.X - num751;
-				if (npc.velocity.X > 0f && num758 < 0f) 
+				if (npc.velocity.X > 0f && num758 < 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.9f;
 				}
 			}
-			if (npc.position.Y < num755 + num759) 
+			if (npc.position.Y < num755 + num759)
 			{
 				npc.velocity.Y = npc.velocity.Y + num751;
-				if (npc.velocity.Y < 0f && num759 > 0f) 
-				{
-					npc.velocity.Y = npc.velocity.Y * 0.9f;
-				}
-			} 
-			else if (npc.position.Y > num755 + num759) 
-			{
-				npc.velocity.Y = npc.velocity.Y - num751;
-				if (npc.velocity.Y > 0f && num759 < 0f) 
+				if (npc.velocity.Y < 0f && num759 > 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.9f;
 				}
 			}
-			if (npc.velocity.X > 8f) 
+			else if (npc.position.Y > num755 + num759)
+			{
+				npc.velocity.Y = npc.velocity.Y - num751;
+				if (npc.velocity.Y > 0f && num759 < 0f)
+				{
+					npc.velocity.Y = npc.velocity.Y * 0.9f;
+				}
+			}
+			if (npc.velocity.X > 8f)
 			{
 				npc.velocity.X = 8f;
 			}
-			if (npc.velocity.X < -8f) 
+			if (npc.velocity.X < -8f)
 			{
 				npc.velocity.X = -8f;
 			}
-			if (npc.velocity.Y > 8f) 
+			if (npc.velocity.Y > 8f)
 			{
 				npc.velocity.Y = 8f;
 			}
-			if (npc.velocity.Y < -8f) 
+			if (npc.velocity.Y < -8f)
 			{
 				npc.velocity.Y = -8f;
 			}
+			if (Main.netMode != 1)
+			{
+				npc.localAI[1] += 1f;
+				if (npc.localAI[1] >= 600f)
+				{
+					npc.localAI[1] = 0f;
+					npc.TargetClosest(true);
+					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+					{
+						float num941 = revenge ? 9f : 8f; //speed
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						{
+							num941 = 11f;
+						}
+						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+						float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
+						float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
+						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+						num944 = num941 / num944;
+						num942 *= num944;
+						num943 *= num944;
+						int num945 = expertMode ? 12 : 15;
+						int num946 = mod.ProjectileType("VileClot");
+						vector104.X += num942 * 5f;
+						vector104.Y += num943 * 5f;
+						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+						npc.netUpdate = true;
+					}
+				}
+			}
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 0.1f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
-        }
-		
+		{
+			npc.frameCounter += 0.1f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

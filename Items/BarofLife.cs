@@ -7,31 +7,33 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items {
-public class BarofLife : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class BarofLife : ModItem
 	{
-		DisplayName.SetDefault("Bar of Life");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Bar of Life");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 30;
+			item.height = 24;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 5, 0, 0);
+			item.rare = 8;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "VerstaltiteBar");
+			recipe.AddIngredient(null, "DraedonBar");
+			recipe.AddIngredient(null, "CruptixBar");
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
-	
-	public override void SetDefaults()
-	{
-		item.width = 15;
-		item.height = 12;
-		item.maxStack = 999;
-		item.value = 900000;
-		item.rare = 10;
-	}
-	
-	public override void AddRecipes()
-	{
-		ModRecipe recipe = new ModRecipe(mod);
-		recipe.AddIngredient(null, "VerstaltiteBar");
-        recipe.AddIngredient(null, "DraedonBar");
-        recipe.AddIngredient(null, "CruptixBar");
-        recipe.AddTile(TileID.MythrilAnvil);
-        recipe.SetResult(this);
-        recipe.AddRecipe();
-	}
-}}
+}

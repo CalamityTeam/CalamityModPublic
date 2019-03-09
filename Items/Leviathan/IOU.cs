@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Leviathan {
-public class IOU : ModItem
+namespace CalamityMod.Items.Leviathan
 {
-	public override void SetStaticDefaults()
+	public class IOU : ModItem
 	{
-		DisplayName.SetDefault("IOU an item");
-		Tooltip.SetDefault("Use to craft any Leviathan weapon you want\nCombine with Living Shards from Plantera to get your item!");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("IOU an item");
+			Tooltip.SetDefault("Use to craft any Leviathan weapon you want\nCombine with Living Shards from Plantera to get your item!");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 26;
+			item.height = 26;
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 1;
+		}
 	}
-	
-	public override void SetDefaults()
-	{
-		item.width = 26;
-		item.height = 26;
-		item.value = 100;
-		item.rare = 1;
-	}
-}}
+}

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Monster");
+			DisplayName.SetDefault("Brimstone Monster");
 		}
     	
         public override void SetDefaults()

@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.DesertScourge {
-public class VictoryShard : ModItem
+namespace CalamityMod.Items.DesertScourge
 {
-	public override void SetStaticDefaults()
+	public class VictoryShard : ModItem
 	{
-		DisplayName.SetDefault("Victory Shard");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Victory Shard");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 14;
+			item.height = 14;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 1;
+		}
 	}
-	
-	public override void SetDefaults()
-	{
-		item.width = 14;
-		item.height = 14;
-		item.maxStack = 999;
-		item.value = 5000;
-		item.rare = 2;
-	}
-}}
+}

@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.75f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("MorayEelBanner");
+		}
 
         public override void AI()
         {
@@ -243,7 +245,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer1 && spawnInfo.water)
             {
-                return 0.2f;
+                return SpawnCondition.CaveJellyfish.Chance * 1.2f;
             }
             return SpawnCondition.OceanMonster.Chance * 0.1f;
         }

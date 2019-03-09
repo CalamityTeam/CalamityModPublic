@@ -36,11 +36,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 npc.lifeMax = 100000;
             }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 8600000 : 7900000;
-            }
-            for (int k = 0; k < npc.buffImmune.Length; k++)
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 4300000 : 4000000;
+			}
+			for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
             }
@@ -52,7 +52,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.netAlways = true;
 			npc.dontCountMe = true;
             npc.chaseable = false;
-            if (Main.expertMode)
+			npc.canGhostHeal = false;
+			if (Main.expertMode)
             {
                 npc.scale = 1.15f;
             }
@@ -339,7 +340,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
                 }
-            }
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASTail"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASTail2"), 1f);
+			}
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

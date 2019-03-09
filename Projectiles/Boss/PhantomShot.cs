@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Shot");
+			DisplayName.SetDefault("Phantom Shot");
 		}
     	
         public override void SetDefaults()

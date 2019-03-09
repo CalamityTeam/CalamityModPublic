@@ -34,18 +34,8 @@ namespace CalamityMod.Items.Weapons
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("ApothMark");
             item.shootSpeed = 15;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(255, 0, 255);
-                }
-            }
-        }
 
         public override void AddRecipes()
         {

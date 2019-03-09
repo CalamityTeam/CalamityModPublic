@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Brimstone Waifu");
+			DisplayName.SetDefault("Miss Brimmy");
 			Description.SetDefault("The brimstone elemental will protect you");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;

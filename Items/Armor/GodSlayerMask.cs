@@ -23,20 +23,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 5000000;
-            item.defense = 29; //96
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(43, 96, 222);
-                }
-            }
-        }
+			item.value = Item.buyPrice(0, 75, 0, 0);
+			item.defense = 29; //96
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -53,11 +43,15 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.godSlayer = true;
             modPlayer.godSlayerThrowing = true;
-            player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
+			modPlayer.rogueStealthMax = 1.4f;
+			player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
                 "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
                 "While at full HP all of your rogue stats are boosted by 10%\n" +
-                "If you take over 80 damage in one hit you will be given extra immunity frames";
+                "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
+				"Rogue stealth builds while not attacking and not moving, up to a max of 140\n" +
+				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
         }
 
         public override void UpdateEquip(Player player)

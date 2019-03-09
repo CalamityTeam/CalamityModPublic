@@ -33,18 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shootSpeed = 12f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
@@ -98,7 +88,7 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float num114 = num78;
 				float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-				Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)((float)item.damage * player.meleeDamage), knockback, i, 0f, (float)Main.rand.Next(3));
+				Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)((double)((float)item.damage * player.meleeDamage) * 0.7), knockback, i, 0f, (float)Main.rand.Next(3));
 			}
 		}
 		

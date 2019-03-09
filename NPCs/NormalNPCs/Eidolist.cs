@@ -45,7 +45,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath59;
             npc.timeLeft = NPC.activeTime * 2;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("EidolistBanner");
+		}
 
         public override void AI()
         {

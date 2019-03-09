@@ -62,7 +62,7 @@ namespace CalamityMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TargetDummy);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

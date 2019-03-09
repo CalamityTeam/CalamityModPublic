@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("HiveBanner");
+		}
 
         public override void AI()
         {

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
 		public override void SetDefaults()
 		{
 			item.width = 88;
-			item.damage = 262;
+			item.damage = 250;
 			item.melee = true;
 			item.useAnimation = 18;
 			item.useTime = 18;
@@ -33,18 +33,8 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.rare = 10;
             item.shoot = mod.ProjectileType("TerrorBeam");
 			item.shootSpeed = 20f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 0);
-	            }
-	        }
-	    }
 	
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {

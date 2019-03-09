@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
@@ -63,7 +64,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 return;
             }
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = (npc.ai[3] >= 600f ? false : true);
+            npc.dontTakeDamage = (npc.ai[3] >= 180f ? false : true);
             if (npc.ai[3] >= 480f)
             {
                 npc.velocity.Y *= 0.985f;

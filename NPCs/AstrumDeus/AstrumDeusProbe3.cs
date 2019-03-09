@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.buffImmune[24] = true;
@@ -132,10 +133,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					int num8 = 40;
+					int num8 = 37;
 					if (Main.expertMode)
 					{
-						num8 = 26;
+						num8 = 29;
 					}
 					int num9 = 84;
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);

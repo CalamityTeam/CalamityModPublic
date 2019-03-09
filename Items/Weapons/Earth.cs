@@ -37,35 +37,14 @@ namespace CalamityMod.Items.Weapons
 			item.height = 104;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-        }
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(255, 0, 255);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+		}
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			if (target.type == NPCID.TargetDummy)
-			{
-				return;
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				target.defense -= 50;
-			}
-			int heal = Main.rand.Next(1, 69);
-		    player.statLife += heal;
-		   	player.HealEffect(heal);
 			float num72 = 25f;
-		   	Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-		   	float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
+			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+			float num78 = (float)Main.mouseX - Main.screenPosition.X - vector2.X;
 			float num79 = (float)Main.mouseY - Main.screenPosition.Y - vector2.Y;
 			if (player.gravDir == -1f)
 			{
@@ -83,7 +62,7 @@ namespace CalamityMod.Items.Weapons
 			{
 				num80 = num72 / num80;
 			}
-		   	num78 *= num80;
+			num78 *= num80;
 			num79 *= num80;
 			int num107 = 3;
 			for (int num108 = 0; num108 < num107; num108++)
@@ -109,6 +88,17 @@ namespace CalamityMod.Items.Weapons
 				float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
 				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("Earth"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
 			}
+			if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+			{
+				return;
+			}
+			if (Main.rand.Next(2) == 0)
+			{
+				target.defense -= 50;
+			}
+			int heal = Main.rand.Next(1, 69);
+		    player.statLife += heal;
+		   	player.HealEffect(heal);
 		}
 	
 		public override void AddRecipes()

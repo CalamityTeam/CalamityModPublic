@@ -35,15 +35,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.noTileCollide = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = mod.ItemType("IrradiatedSlimeBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !NPC.downedMoonlord || !Main.raining)
+			if (spawnInfo.playerSafe || !spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur || !NPC.downedMoonlord || !Main.raining)
 			{
 				return 0f;
 			}
-			return SpawnCondition.OverworldDaySlime.Chance * 0.15f;
+			return 0.05f;
 		}
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

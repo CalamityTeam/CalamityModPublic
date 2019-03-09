@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -23,8 +24,8 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.damage = 180;
             item.magic = true;
             item.mana = 12;
-            item.width = 62;
-            item.height = 62;
+            item.width = 80;
+            item.height = 84;
             item.useTime = 6;
             item.useAnimation = 12;
             item.useStyle = 5;
@@ -36,20 +37,16 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("MagicNebulaShot");
             item.shootSpeed = 18f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(40f, 42f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/DevourerofGods/DeathhailStaffGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
             float num72 = item.shootSpeed;
@@ -103,7 +100,6 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
                 float speedX4 = num78 + (float)Main.rand.Next(-50, 51) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-50, 51) * 0.02f;
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, num73, num74, i, 0f, (float)Main.rand.Next(10));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("MagicIceBeam"), num73, num74, i, 0f, (float)Main.rand.Next(5));
             }
             return false;
         }

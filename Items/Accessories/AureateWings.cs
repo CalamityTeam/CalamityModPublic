@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "Horizontal speed: 8\n" +
                 "Acceleration multiplier: 1.5\n" +
                 "Good vertical speed\n" +
-                "Flight time: 100");
+                "Flight time: 80");
         }
 
         public override void SetDefaults()
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            player.wingTimeMax = 100;
+            player.wingTimeMax = 80;
         }
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)

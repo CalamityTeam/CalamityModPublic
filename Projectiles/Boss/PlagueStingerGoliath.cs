@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stinger");
+			DisplayName.SetDefault("Plague Homing Stinger");
 		}
     	
         public override void SetDefaults()

@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fire");
+			DisplayName.SetDefault("Dragon Fireball");
 		}
     	
         public override void SetDefaults()
@@ -29,7 +29,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 120;
             projectile.aiStyle = 1;
             aiType = 686;
-        }
+			cooldownSlot = 1;
+		}
 
         public override bool PreAI()
         {

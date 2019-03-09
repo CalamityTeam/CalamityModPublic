@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.knockBackResist = 0.5f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath15;
 		}

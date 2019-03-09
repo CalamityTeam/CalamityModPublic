@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Xeroc Mask");
             Tooltip.SetDefault("11% increased rogue damage and critical strike chance\n" +
-                "Immune to lava, cursed, fire, cursed inferno, and chilled\n" +
+                "Temporary immunity to lava and immunity to cursed, fire, cursed inferno, and chilled\n" +
                 "Wrath of the cosmos");
         }
 
@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 500000;
-            item.rare = 9;
+			item.value = Item.buyPrice(0, 40, 0, 0);
+			item.rare = 9;
             item.defense = 20; //71
         }
 
@@ -45,9 +45,13 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.xerocSet = true;
-            player.setBonus = "9% increased rogue damage and velocity\n" +
+			modPlayer.rogueStealthMax = 1.25f;
+			player.setBonus = "9% increased rogue damage and velocity\n" +
                 "All projectile types have special effects on enemy hits\n" +
-                "Imbued with cosmic wrath and rage when you are damaged";
+                "Imbued with cosmic wrath and rage when you are damaged\n" +
+				"Rogue stealth builds while not attacking and not moving, up to a max of 125\n" +
+				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Wrath, 2);
@@ -61,8 +65,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.11f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 11;
-            player.lavaImmune = true;
-            player.buffImmune[BuffID.OnFire] = true;
+			player.lavaMax += 240;
+			player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Chilled] = true;

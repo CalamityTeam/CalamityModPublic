@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = mod.ItemType("CalamityEyeBanner");
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)
@@ -65,11 +67,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(3) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CalamityDust"));
-			}
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.Next(2) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BlightedLens"));
 			}

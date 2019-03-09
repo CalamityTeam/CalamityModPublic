@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Providence
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.TheEyeOfCthulhu);
-            item.damage = 50;
+            item.damage = 60;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 5;
@@ -31,18 +31,8 @@ namespace CalamityMod.Items.Weapons.Providence
             item.rare = 10;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("SolarFlareYoyo");
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

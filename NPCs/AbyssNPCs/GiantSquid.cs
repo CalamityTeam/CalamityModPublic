@@ -34,7 +34,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.value = Item.buyPrice(0, 0, 15, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("GiantSquidBanner");
+		}
 
         public override void AI()
         {
@@ -211,12 +213,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer2 && spawnInfo.water)
             {
-                return 0.1f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
+			}
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water)
             {
-                return 0.2f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
+			}
             return 0f;
         }
 		

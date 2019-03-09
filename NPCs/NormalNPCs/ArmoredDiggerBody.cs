@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 38; //324
 			npc.height = 38; //216
 			npc.defense = 40;
-			npc.lifeMax = 30000;
+			npc.lifeMax = 20000;
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
             aiType = -1;
@@ -39,6 +39,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             npc.netAlways = true;
 			npc.dontCountMe = true;
+			banner = mod.NPCType("ArmoredDiggerHead");
+			bannerItem = mod.ItemType("ArmoredDiggerBanner");
 		}
 		
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

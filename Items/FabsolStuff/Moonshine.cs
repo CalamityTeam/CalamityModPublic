@@ -12,7 +12,7 @@ namespace CalamityMod.Items.FabsolStuff
 		{
 			DisplayName.SetDefault("Moonshine");
 			Tooltip.SetDefault(@"Increases defense by 10 and damage reduction by 5%
-Reduces life regen by 2
+Reduces life regen by 1
 This stuff is pretty strong but I'm sure you can handle it");
 		}
 

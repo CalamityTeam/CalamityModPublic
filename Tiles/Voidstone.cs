@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles
         {
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
-                int random = WorldGen.genRand.Next(3);
+                int random = WorldGen.genRand.Next(4);
                 if (random == 0)
                 {
                     i++;
@@ -57,17 +57,38 @@ namespace CalamityMod.Tiles
                 }
                 if (random == 2)
                 {
-                    j--;
+                    j++;
                 }
+				if (random == 3)
+				{
+					j--;
+				}
                 if (Main.tile[i, j] != null)
                 {
                     if (!Main.tile[i, j].active())
                     {
-                        if (Main.rand.Next(20) == 0 && !Main.tile[i, j].lava())
+                        if (Main.rand.Next(20) == 0 && !Main.tile[i, j].lava() && Main.tile[i, j].slope() == 0 && !Main.tile[i, j].halfBrick())
                         {
                             Main.tile[i, j].type = (ushort)mod.TileType("LumenylCrystals");
                             Main.tile[i, j].active(true);
-                            WorldGen.SquareTileFrame(i, j, true);
+							if (Main.tile[i, j + 1].active() && Main.tileSolid[Main.tile[i, j + 1].type] && Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick())
+							{
+								Main.tile[i, j].frameY = (short)(0 * 18);
+							}
+							else if (Main.tile[i, j - 1].active() && Main.tileSolid[Main.tile[i, j - 1].type] && Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].halfBrick())
+							{
+								Main.tile[i, j].frameY = (short)(1 * 18);
+							}
+							else if (Main.tile[i + 1, j].active() && Main.tileSolid[Main.tile[i + 1, j].type] && Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].halfBrick())
+							{
+								Main.tile[i, j].frameY = (short)(2 * 18);
+							}
+							else if (Main.tile[i - 1, j].active() && Main.tileSolid[Main.tile[i - 1, j].type] && Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].halfBrick())
+							{
+								Main.tile[i, j].frameY = (short)(3 * 18);
+							}
+							Main.tile[i, j].frameX = (short)(WorldGen.genRand.Next(18) * 18);
+							WorldGen.SquareTileFrame(i, j, true);
                             if (Main.netMode == 2)
                             {
                                 NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);

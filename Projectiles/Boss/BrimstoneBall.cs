@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ball");
+			DisplayName.SetDefault("Brimstone Fireball");
 		}
     	
         public override void SetDefaults()

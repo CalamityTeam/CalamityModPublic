@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 2, 0);
 			npc.HitSound = SoundID.NPCHit31;
 			npc.DeathSound = SoundID.NPCDeath34;
+			banner = npc.type;
+			bannerItem = mod.ItemType("StormlionBanner");
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)
@@ -52,7 +54,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe)
+			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
 			{
 				return 0f;
 			}

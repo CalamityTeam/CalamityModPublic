@@ -53,7 +53,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(null, "Lumenite", 40);
             recipe.AddIngredient(null, "DepthCells", 40);
             recipe.AddIngredient(null, "Tenebris", 15);
-            recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(ItemID.LunarBar, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

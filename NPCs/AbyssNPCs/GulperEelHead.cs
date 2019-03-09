@@ -49,6 +49,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit9;
 			npc.DeathSound = SoundID.NPCDeath13;
 			npc.netAlways = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("GulperEelBanner");
 		}
 		
 		public override void AI()
@@ -410,12 +412,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("GulperEelHead")))
             {
-                return 0.05f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 0.3f;
+			}
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("GulperEelHead")))
             {
-                return 0.1f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
+			}
             return 0f;
         }
 

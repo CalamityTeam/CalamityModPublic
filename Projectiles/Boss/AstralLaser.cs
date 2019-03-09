@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Laser");
+			DisplayName.SetDefault("Astral Laser Volley");
             Main.projFrames[projectile.type] = 3;
         }
     	

@@ -38,7 +38,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath5;
             npc.knockBackResist = 0f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("TrasherBanner");
+		}
 
         public override void AI()
         {
@@ -342,7 +344,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DivingHelmet);
             }
-            if (Main.rand.Next(10) == 0 && Main.hardMode)
+			if (Main.rand.Next(20) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrashmanTrashcan"));
+			}
+			if (Main.rand.Next(10) == 0 && Main.hardMode)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gatligator);
             }

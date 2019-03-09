@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Tooth");
+			DisplayName.SetDefault("Sand Tooth");
 		}
     	
         public override void SetDefaults()

@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.width = 100; //324
 			npc.height = 80; //216
 			npc.defense = 40;
-			npc.lifeMax = 21875;
+			npc.lifeMax = 25000;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 360000 : 300000;
@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.Providence
                         double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
                         double offsetAngle;
-                        int damage = expertMode ? 33 : 48;
+                        int damage = expertMode ? 40 : 59;
                         int projectileShot = mod.ProjectileType("ProfanedSpear");
                         int i;
                         for (i = 0; i < 3; i++)
@@ -181,6 +181,9 @@ namespace CalamityMod.NPCs.Providence
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT3"), 1f);
 				for (int k = 0; k < 30; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);

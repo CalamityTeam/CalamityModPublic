@@ -28,18 +28,8 @@ namespace CalamityMod.Items
 			item.useStyle = 4;
 			item.UseSound = SoundID.Item4;
 			item.consumable = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(43, 96, 222);
-	            }
-	        }
-	    }
 		
 		public override bool CanUseItem(Player player)
 		{
@@ -72,7 +62,7 @@ namespace CalamityMod.Items
 			recipe.AddIngredient(ItemID.LifeFruit, 5);
 			recipe.AddIngredient(null, "Phantoplasm", 5);
 			recipe.AddIngredient(null, "CosmiliteBar", 5);
-			recipe.AddIngredient(null, "EffulgentFeather", 10);
+			recipe.AddIngredient(null, "DarksunFragment", 10);
 			recipe.AddIngredient(ItemID.FragmentSolar, 15);
 			recipe.AddIngredient(null, "NightmareFuel", 5);
         	recipe.AddIngredient(null, "EndothermicEnergy", 5);

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Rain");
+			DisplayName.SetDefault("Cursed Rain");
 		}
     	
         public override void SetDefaults()
@@ -40,5 +40,15 @@ namespace CalamityMod.Projectiles.Boss
 			Main.dust[num310].velocity += -projectile.oldVelocity * 0.25f;
 			Main.dust[num310].scale = 0.95f;
         }
-    }
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(102, 255, 102, projectile.alpha);
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.CursedInferno, 90);
+		}
+	}
 }

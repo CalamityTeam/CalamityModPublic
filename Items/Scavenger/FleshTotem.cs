@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Scavenger
         {
             DisplayName.SetDefault("Flesh Totem");
             Tooltip.SetDefault("Halves enemy contact damage\n" +
-                "When you take contact damage this effect has a 15 second cooldown");
+                "When you take contact damage this effect has a 20 second cooldown");
         }
 
         public override void SetDefaults()

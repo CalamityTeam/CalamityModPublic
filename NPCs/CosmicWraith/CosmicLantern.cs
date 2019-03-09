@@ -26,16 +26,13 @@ namespace CalamityMod.NPCs.CosmicWraith
 			npc.width = 25; //324
 			npc.height = 25; //216
 			npc.defense = 85;
-			npc.lifeMax = 100;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 5000;
-            }
+			npc.lifeMax = 25;
             npc.alpha = 255;
 			npc.knockBackResist = 0.85f;
 			npc.noGravity = true;
             npc.dontTakeDamage = true;
             npc.chaseable = false;
+			npc.canGhostHeal = false;
 			npc.noTileCollide = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Flame Skull");
+			DisplayName.SetDefault("Brimstone Flame Skull");
             Main.projFrames[projectile.type] = 4;
         }
     	

@@ -38,6 +38,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;

@@ -15,7 +15,7 @@ namespace CalamityMod.Items.AbyssItems
         {
             DisplayName.SetDefault("Lumenous Amulet");
             Tooltip.SetDefault("Attacks inflict the Crush Depth debuff\n" +
-                "While in the abyss you gain 15% increased max life\n" +
+                "While in the abyss you gain 25% increased max life\n" +
                 "Provides a moderate amount of light in the abyss");
         }
 

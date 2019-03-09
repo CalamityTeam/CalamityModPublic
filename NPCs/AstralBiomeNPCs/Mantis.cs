@@ -34,7 +34,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.1f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("MantisBanner");
+		}
 
         public override void AI()
         {

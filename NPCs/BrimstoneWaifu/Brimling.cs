@@ -54,6 +54,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             }
 			npc.noGravity = true;
 			npc.noTileCollide = false;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit23;
 			npc.DeathSound = SoundID.NPCDeath39;
             if (CalamityWorld.downedProvidence)
@@ -62,7 +63,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 200000;
+                npc.lifeMax = 100000;
             }
         }
 

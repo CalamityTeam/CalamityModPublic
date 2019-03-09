@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Permafrost
 {
 	public class IceSentry : ModProjectile
 	{
+		private bool setDamage = true;
+
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ice Sentry");
@@ -32,7 +34,21 @@ namespace CalamityMod.Projectiles.Permafrost
 
 		public override void AI()
         {
-            projectile.velocity = Vector2.Zero;
+			if (setDamage)
+			{
+				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				setDamage = false;
+			}
+			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+			{
+				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
+					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+					Main.player[projectile.owner].minionDamage);
+				projectile.damage = damage2;
+			}
+
+			projectile.velocity = Vector2.Zero;
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
@@ -102,7 +118,6 @@ namespace CalamityMod.Projectiles.Permafrost
                             Vector2 speed = npc.Center - projectile.Center;
                             speed.Normalize();
                             speed *= 8f;
-                            int damage = projectile.damage;
                             if (projectile.ai[1] >= 300f)
                                 speed = speed.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-5, 6))) * 1.5f + npc.velocity / 2f;
                             int p = Projectile.NewProjectile(projectile.Center, speed + npc.velocity / 2f, mod.ProjectileType("FrostBoltProjectile"), projectile.damage, projectile.knockBack, projectile.owner);
@@ -155,5 +170,10 @@ namespace CalamityMod.Projectiles.Permafrost
                 }
             }
         }
-    }
+
+		public override bool CanDamage()
+		{
+			return false;
+		}
+	}
 }

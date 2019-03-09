@@ -23,20 +23,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 10000000;
-            item.defense = 12; //132
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                }
-            }
-        }
+			item.value = Item.buyPrice(1, 80, 0, 0);
+			item.defense = 12; //132
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -66,8 +56,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaSummon = true;
             modPlayer.auricSet = true;
             player.thorns += 3f;
-            player.lavaImmune = true;
-            player.ignoreWater = true;
+			player.lavaMax += 240;
+			player.ignoreWater = true;
             player.crimsonRegen = true;
             player.minionDamage += 1.2f;
             if (player.lavaWet)
@@ -83,7 +73,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("SilvaCrystal")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SilvaCrystal"), (int)((double)3000 * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SilvaCrystal"), (int)(3000f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.FindBuffIndex(mod.BuffType("Mechworm")) == -1)
                 {

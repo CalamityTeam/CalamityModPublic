@@ -30,17 +30,36 @@ namespace CalamityMod.Items.Astrageldon
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
+			if (CalamityWorld.revenge)
+			{
+				if (NPC.downedMoonlord)
+				{
+					player.QuickSpawnItem(mod.ItemType("SquishyBeanMount"));
+				}
+				if (Main.rand.Next(20) == 0)
+				{
+					switch (Main.rand.Next(3))
+					{
+						case 0:
+							player.QuickSpawnItem(mod.ItemType("StressPills"));
+							break;
+						case 1:
+							player.QuickSpawnItem(mod.ItemType("Laudanum"));
+							break;
+						case 2:
+							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
+							break;
+					}
+				}
+			}
+			player.TryGettingDevArmor();
             player.QuickSpawnItem(mod.ItemType("AstralJelly"), Main.rand.Next(12, 17));
             player.QuickSpawnItem(mod.ItemType("Stardust"), Main.rand.Next(30, 41));
             player.QuickSpawnItem(ItemID.FallenStar, Main.rand.Next(30, 51));
-            if (NPC.downedMoonlord)
-            {
-                if (CalamityWorld.revenge)
-                {
-                    player.QuickSpawnItem(mod.ItemType("SquishyBeanMount"));
-                }
-            }
+			if (Main.rand.Next(7) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("AureusMask"));
+			}
         }
 	}
 }

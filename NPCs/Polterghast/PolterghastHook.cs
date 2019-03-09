@@ -226,7 +226,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         float num151 = 5f;
                         int num152 = 60;
-                        int num153 = 299;
+                        int num153 = mod.ProjectileType("PhantomHookShot");
                         num149 = num151 / num149;
                         num147 *= num149;
                         num148 *= num149;

@@ -45,11 +45,11 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 npc.lifeMax = 19400;
             }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 840000 : 720000;
-            }
-            npc.aiStyle = 6; //new
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 420000 : 360000;
+			}
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.localAI[1] = 1f;
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int rectX = 300;
-                int rectY = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 50 : 100);
+                int rectY = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 100 : 200);
                 bool flag95 = true;
 				if (npc.position.Y > Main.player[npc.target].position.Y)
 				{

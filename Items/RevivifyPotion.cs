@@ -24,7 +24,7 @@ namespace CalamityMod.Items
 			item.useStyle = 2;
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
-			item.value = 20000;
+			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
         public override bool UseItem(Player player)

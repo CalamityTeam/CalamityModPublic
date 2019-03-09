@@ -12,7 +12,7 @@ namespace CalamityMod.Items.FabsolStuff
 		{
 			DisplayName.SetDefault("Screwdriver");
 			Tooltip.SetDefault(@"Boosts piercing projectile damage by 10%
-Reduces life regen by 3
+Reduces life regen by 1
 Do you have a screw loose?");
 		}
 

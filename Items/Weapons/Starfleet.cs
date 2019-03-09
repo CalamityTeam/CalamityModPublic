@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("PlasmaBlast");
 			item.shootSpeed = 12f;
 			item.useAmmo = 75;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
 
         public override Vector2? HoldoutOffset()
@@ -41,21 +42,9 @@ namespace CalamityMod.Items.Weapons
             return new Vector2(-5, 0);
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
-
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{    
-		    int num6 = Main.rand.Next(5, 6);
-		    for (int index = 0; index < num6; ++index)
+		    for (int index = 0; index < 5; ++index)
 		    {
 		        float num7 = speedX;
 		        float num8 = speedY;

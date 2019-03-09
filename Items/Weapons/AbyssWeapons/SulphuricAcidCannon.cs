@@ -33,18 +33,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.UseSound = SoundID.Item95;
 	        item.shoot = mod.ProjectileType("SulphuricAcidCannon2");
 	        item.shootSpeed = 7f;
-	    }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override Vector2? HoldoutOffset()
         {

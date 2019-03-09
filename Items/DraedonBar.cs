@@ -18,11 +18,11 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
+            item.width = 30;
+            item.height = 24;
             item.maxStack = 999;
-            item.value = 120000;
-            item.rare = 7;
+			item.value = Item.buyPrice(0, 4, 50, 0);
+			item.rare = 7;
         }
 
         public override void AddRecipes()

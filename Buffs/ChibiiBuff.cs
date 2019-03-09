@@ -25,14 +25,6 @@ namespace CalamityMod.Buffs
 			{
 				Projectile.NewProjectile(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2), 0f, 0f, mod.ProjectileType("ChibiiDoggo"), 0, 0f, player.whoAmI, 0f, 0f);
 			}
-
-			//immunizes player to red devil buff
-			int devilbuff = mod.BuffType("RedDevil");
-			player.buffImmune[devilbuff] = true;
-
-			//makes game think red devil minion is always active so it doesnt spawn one
-			int devilprojectile = mod.ProjectileType("RedDevil");
-			player.ownedProjectileCounts[devilprojectile] = 1;
 		}
 	}
 }

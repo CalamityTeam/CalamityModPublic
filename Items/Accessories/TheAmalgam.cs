@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
                                "You will confuse nearby enemies when you are struck\n" +
                                "Drops brimstone fireballs from the sky occasionally\n" +
                                "Brimstone fire rains down while invincibility is active\n" +
-                               "Immunity to lava and 15% increased damage while in lava\n" +
+							   "Temporary immunity to lava, greatly reduces lava burn damage, and 15% increased damage while in lava\n" +
                                "Summons a fungal clump to fight for you\n" +
                                "You leave behind poisonous seawater as you move\n" +
                                "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in liquid\n" +
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), 250, 1f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(250f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.meleeDamage += 0.15f;
@@ -73,8 +73,9 @@ namespace CalamityMod.Items.Accessories
             player.magicDamage += 0.15f;
             player.minionDamage += 0.15f;
             player.ignoreWater = true;
-            player.lavaImmune = true;
-            if (player.lavaWet)
+			player.lavaRose = true;
+			player.lavaMax += 240;
+			if (player.lavaWet)
             {
                 player.meleeDamage += 0.15f;
                 CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;

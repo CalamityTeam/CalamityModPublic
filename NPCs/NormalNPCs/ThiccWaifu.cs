@@ -35,6 +35,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.rarity = 2;
+			banner = npc.type;
+			bannerItem = mod.ItemType("CloudElementalBanner");
 		}
 		
 		public override void AI()
@@ -430,6 +432,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void NPCLoot()
 		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"), Main.rand.Next(2, 4));
 			if (Main.expertMode)
 			{
 				if (Main.rand.Next(3) == 0)

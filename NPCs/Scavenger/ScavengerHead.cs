@@ -44,6 +44,7 @@ namespace CalamityMod.NPCs.Scavenger
                 npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
 			npc.noGravity = true;
+			npc.canGhostHeal = false;
 			npc.alpha = 255;
 			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
@@ -55,7 +56,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 960000 : 820000;
+                npc.lifeMax = CalamityWorld.death ? 500000 : 450000;
             }
         }
 
@@ -79,8 +80,8 @@ namespace CalamityMod.NPCs.Scavenger
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
             float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
-            centerY -= 25f;
-            centerX += 21f;
+            centerY -= 20f;
+            centerX += 1f;
             float totalSpeed = (float)Math.Sqrt((double)(centerX * centerX + centerY * centerY));
             if (totalSpeed < 20f)
             {

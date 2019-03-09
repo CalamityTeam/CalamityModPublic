@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		{
 			npc.npcSlots = 3f;
 			npc.aiStyle = -1;
-			npc.damage = 100;
+			npc.damage = 80;
 			npc.width = 100; //324
 			npc.height = 80; //216
 			npc.defense = 25;
@@ -31,11 +31,12 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
             npc.value = 0f;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 480000 : 400000;
+                npc.lifeMax = CalamityWorld.death ? 240000 : 200000;
             }
             npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			aiType = -1;
 			npc.boss = true;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
@@ -239,6 +240,11 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH5"), 1f);
 				for (int k = 0; k < 50; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);

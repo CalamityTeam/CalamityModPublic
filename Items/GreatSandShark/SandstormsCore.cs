@@ -17,7 +17,7 @@ namespace CalamityMod.Items.GreatSandShark
 			item.width = 20;
 			item.height = 20;
 			item.maxStack = 20;
-			item.rare = 8;
+			item.rare = 7;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;

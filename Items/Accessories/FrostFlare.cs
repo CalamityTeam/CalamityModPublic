@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
 				"Immunity to frostburn, chilled, and frozen\n" +
 				"Resistant to cold attacks and +1 life regen\n" +
 				"Being above 75% life grants the player 10% increased damage\n" +
-				"Being below 25% life grants the player 20 defense and 15% increased max movement speed and acceleration\n" +
+				"Being below 25% life grants the player 10 defense and 15% increased max movement speed and acceleration\n" +
                 "Revengeance drop");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
 		}
@@ -38,22 +38,6 @@ namespace CalamityMod.Items.Accessories
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			modPlayer.frostFlare = true;
-			player.resistCold = true;
-			player.buffImmune[44] = true;
-			player.buffImmune[46] = true;
-			player.buffImmune[47] = true;
-			if (player.statLife > (player.statLifeMax2 * 0.75f))
-			{
-				player.meleeDamage += 0.1f;
-				player.magicDamage += 0.1f;
-				player.rangedDamage += 0.1f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-				player.minionDamage += 0.1f;
-			}
-			if (player.statLife < (player.statLifeMax2 * 0.25f))
-			{
-				player.statDefense += 20;
-			}
 		}
 	}
 }

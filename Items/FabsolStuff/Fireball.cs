@@ -14,7 +14,7 @@ namespace CalamityMod.Items.FabsolStuff
 			Tooltip.SetDefault(@"Boosts all fire-based weapon damage by 10%
 Cursed flame, shadowflame, god slayer inferno, brimstone flame, and frostburn weapons will not receive this benefit
 The weapon must be more fire-related than anything else
-Reduces life regen by 3
+Reduces life regen by 1
 A great-tasting cinnamon whiskey");
 		}
 

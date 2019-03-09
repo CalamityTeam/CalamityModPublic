@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
@@ -20,8 +21,27 @@ namespace CalamityMod.World.Planets
             //Fluff is used to create padding between the planets. this is the minimum distance between planets (they can't be within "fluff" blocks)
             int fluff = 10;
             int myRadius = radius + fluff;
-            int diameter = myRadius * 2 ;
+            int diameter = myRadius * 2;
             _area = new Rectangle(origin.X - myRadius, origin.Y - myRadius, diameter, diameter);
+
+			Mod varia = ModLoader.GetMod("Varia");
+			for (int i = _area.Left; i < _area.Width; i++)
+			{
+				for (int j = _area.Top; j < _area.Height; j++)
+				{
+					if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
+					{
+						return false;
+					}
+					if (varia != null)
+					{
+						if (Main.tile[i, j].type == varia.TileType("StarplateBrick") || Main.tile[i, j].type == varia.TileType("ForgottenCloud"))
+						{
+							return false;
+						}
+					}
+				}
+			}
 
             if (!structures.CanPlace(_area))
             {

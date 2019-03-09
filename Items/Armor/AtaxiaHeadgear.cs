@@ -17,15 +17,15 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Ataxia Headgear");
             Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
                 "Reduces ammo cost by 25%\n" +
-                "Immune to lava and fire damage");
+                "Temporary immunity to lava and immunity to fire damage");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = 450000;
-            item.rare = 8;
+			item.value = Item.buyPrice(0, 30, 0, 0);
+			item.rare = 8;
             item.defense = 15; //53
         }
 
@@ -54,10 +54,6 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaBolt = true;
-            if (player.statLife <= (player.statLifeMax2 * 0.5f))
-            {
-                player.AddBuff(BuffID.Inferno, 2);
-            }
             player.rangedDamage += 0.05f;
         }
 
@@ -66,8 +62,8 @@ namespace CalamityMod.Items.Armor
             player.ammoCost75 = true;
             player.rangedDamage += 0.12f;
             player.rangedCrit += 10;
-            player.lavaImmune = true;
-            player.buffImmune[BuffID.OnFire] = true;
+			player.lavaMax += 240;
+			player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()

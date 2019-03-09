@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Providence Crystal");
+			DisplayName.SetDefault("Holy Crystal");
 		}
     	
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.width = 160;
             projectile.height = 160;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 3900;
+            projectile.timeLeft = CalamityWorld.death ? 2100 : 3600;
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.penetrate = -1;

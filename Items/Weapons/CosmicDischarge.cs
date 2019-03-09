@@ -38,18 +38,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shootSpeed = 24f;
 			item.shoot = mod.ProjectileType("CosmicDischarge");
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(150, Main.DiscoG, 255);
-	            }
-	        }
-	    }
 		
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

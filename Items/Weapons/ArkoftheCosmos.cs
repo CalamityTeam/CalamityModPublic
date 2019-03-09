@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 100;
-			item.damage = 350;
+			item.damage = 680;
 			item.melee = true;
 			item.useAnimation = 15;
 			item.useTime = 15;
@@ -36,18 +36,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("EonBeam");
 			item.shootSpeed = 28f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-		{
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(108, 45, 199);
-	            }
-	        }
-	    }
 		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

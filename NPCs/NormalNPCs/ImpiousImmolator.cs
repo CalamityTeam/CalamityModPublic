@@ -39,7 +39,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath7;
             npc.knockBackResist = 0.2f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("ImpiousImmolatorBanner");
+		}
 
         public override void AI()
         {

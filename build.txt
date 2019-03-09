@@ -1,7 +1,8 @@
 author = MountainDrew
-version = 1.4.1.004
+version = 1.4.2.001
 displayName = Calamity Mod (No Calamity Music)
 homepage = https://forums.terraria.org/index.php?threads/calamity-mod.44065/
+buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, .git\*, LICENSE, README.md, .editorconfig, .gitignore, .gitattributes
 hideCode = true
 hideResources = true
 includeSource = false

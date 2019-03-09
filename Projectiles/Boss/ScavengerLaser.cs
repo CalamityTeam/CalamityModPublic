@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Laser");
+			DisplayName.SetDefault("Homing Dart");
 			Main.projFrames[projectile.type] = 5;
 		}
     	

@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4600000 : 4100000;
+                npc.lifeMax = CalamityWorld.death ? 2300000 : 2100000;
             }
         }
 		
@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.Scavenger
 				NPC.NewNPC((int)npc.Center.X + 70, (int)npc.Center.Y + 88, mod.NPCType("ScavengerLegRight"), 0, 0f, 0f, 0f, 0f, 255);
 				NPC.NewNPC((int)npc.Center.X - 120, (int)npc.Center.Y + 50, mod.NPCType("ScavengerClawLeft"), 0, 0f, 0f, 0f, 0f, 255);
 				NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, mod.NPCType("ScavengerClawRight"), 0, 0f, 0f, 0f, 0f, 255);
-				NPC.NewNPC((int)npc.Center.X + 21, (int)npc.Center.Y - 25, mod.NPCType("ScavengerHead"), 0, 0f, 0f, 0f, 0f, 255);
+				NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, mod.NPCType("ScavengerHead"), 0, 0f, 0f, 0f, 0f, 255);
             }
 			if (npc.target >= 0 && Main.player[npc.target].dead)
 			{
@@ -518,6 +518,11 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerBody5"), 1f);
 				for (int k = 0; k < 50; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 2f);
@@ -531,7 +536,13 @@ namespace CalamityMod.NPCs.Scavenger
 			name = "Ravager";
 			potionType = ItemID.GreaterHealingPotion;
 		}
-		
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+			return true;
+		}
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -544,7 +555,7 @@ namespace CalamityMod.NPCs.Scavenger
 		{
             if (CalamityWorld.armageddon)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     npc.DropBossBags();
                 }

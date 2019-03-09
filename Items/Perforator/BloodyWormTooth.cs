@@ -29,18 +29,8 @@ namespace CalamityMod.Items.Perforator
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
-            {
-                player.meleeDamage += 0.1f;
-                player.meleeSpeed += 0.1f;
-                player.endurance += 0.1f;
-            }
-            else
-            {
-                player.meleeDamage += 0.05f;
-                player.meleeSpeed += 0.05f;
-                player.endurance += 0.05f;
-            }
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			modPlayer.bloodyWormTooth = true;
         }
     }
 }

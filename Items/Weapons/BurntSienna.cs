@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			float spread = 180f * 0.0174f;
-			double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed)- spread/2;
-			double deltaAngle = spread/8f;
+			double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
+			double deltaAngle = spread / 8f;
 			double offsetAngle;
 			int i;
 			if (target.life <= 0)

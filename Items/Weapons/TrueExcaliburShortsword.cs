@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons
             item.useTurn = false;
             item.useAnimation = 12;
             item.useTime = 12;
-            item.width = 50;
-            item.height = 50;
+            item.width = 42;
+            item.height = 42;
             item.damage = 70;
             item.melee = true;
             item.knockBack = 5.75f;

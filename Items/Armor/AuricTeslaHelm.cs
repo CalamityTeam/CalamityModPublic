@@ -23,20 +23,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 10000000;
-            item.defense = 54; //132
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                }
-            }
-        }
+			item.value = Item.buyPrice(1, 80, 0, 0);
+			item.defense = 54; //132
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -66,8 +56,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaMelee = true;
             modPlayer.auricSet = true;
             player.thorns += 3f;
-            player.lavaImmune = true;
-            player.ignoreWater = true;
+			player.lavaMax += 240;
+			player.ignoreWater = true;
             player.crimsonRegen = true;
             player.aggro += 1200;
             if (player.lavaWet)

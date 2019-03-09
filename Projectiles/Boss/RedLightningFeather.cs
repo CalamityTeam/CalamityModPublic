@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 1200;
-        }
+			cooldownSlot = 1;
+		}
 
         public override void AI()
         {

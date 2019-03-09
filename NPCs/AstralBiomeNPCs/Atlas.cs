@@ -107,9 +107,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.04f;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.aiStyle = -1;
-
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("AtlasBanner");
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {

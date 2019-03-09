@@ -34,6 +34,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.DeathSound = SoundID.NPCDeath39;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("PhantomSpiritBanner");
 		}
 		
 		public override void AI()

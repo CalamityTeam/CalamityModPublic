@@ -38,18 +38,8 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("SHPB");
 	        item.shootSpeed = 20f;
-	    }
-	    
-	    public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(255, Main.DiscoG, 155);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+		}
 	    
 	    public override Vector2? HoldoutOffset()
 		{

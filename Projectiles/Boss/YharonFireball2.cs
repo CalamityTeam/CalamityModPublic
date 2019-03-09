@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fire");
+			DisplayName.SetDefault("Dragon Fireball");
 		}
     	
         public override void SetDefaults()
@@ -23,7 +23,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 1200;
-        }
+			cooldownSlot = 1;
+		}
 
         public override void AI()
         {

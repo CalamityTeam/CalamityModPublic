@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-	    	if (target.type == NPCID.TargetDummy)
+	    	if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
 			{
 				return;
 			}

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Abyss Mine V2");
+			DisplayName.SetDefault("Abyss Mine");
 		}
     	
         public override void SetDefaults()

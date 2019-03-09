@@ -13,7 +13,7 @@ namespace CalamityMod.Items
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Portable Bulb");
+			DisplayName.SetDefault("Portabulb");
 			Tooltip.SetDefault("Summons Plantera");
 		}
 		
@@ -44,8 +44,12 @@ namespace CalamityMod.Items
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "BarofLife", 3);
-			recipe.AddIngredient(null, "LivingShard");
+			recipe.AddIngredient(ItemID.JungleSpores, 15);
+			recipe.AddIngredient(ItemID.SoulofNight, 10);
+			recipe.AddIngredient(ItemID.SoulofLight, 10);
+			recipe.AddIngredient(null, "MurkyPaste", 3);
+			recipe.AddIngredient(null, "ManeaterBulb");
+			recipe.AddIngredient(null, "TrapperBulb");
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "Drops brimstone fireballs from the sky occasionally\n" +
                 "15% increase to all damage\n" +
                 "Brimstone fire rains down while invincibility is active\n" +
-                "Immunity to lava and 25% increased damage while in lava");
+				"Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
         }
 
         public override void SetDefaults()
@@ -60,8 +60,9 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.calamityRing = true;
-            player.lavaImmune = true;
-            player.meleeDamage += 0.15f;
+			player.lavaRose = true;
+			player.lavaMax += 240;
+			player.meleeDamage += 0.15f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
             player.rangedDamage += 0.15f;
             player.magicDamage += 0.15f;

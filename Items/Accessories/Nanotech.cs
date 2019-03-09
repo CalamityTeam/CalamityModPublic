@@ -16,9 +16,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Nanotech");
             Tooltip.SetDefault("Rogue projectiles leave behind nanoblades as they travel\n" +
-                "While holding a rogue weapon your defense is boosted by 15 and your damage reduction is boosted by 10%\n" +
                 "Rogue weapons have a chance to instantly kill normal enemies\n" +
-                "15% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity");
+                "15% increased rogue damage, 10% increased rogue crit chance, and 15% increased rogue velocity");
         }
 
         public override void SetDefaults()
@@ -27,25 +26,15 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.nanotech = true;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.15f;
         }
 

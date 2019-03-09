@@ -33,7 +33,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.value = Item.buyPrice(0, 0, 0, 80);
 			npc.HitSound = SoundID.NPCHit25;
 			npc.DeathSound = SoundID.NPCDeath28;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("BoxJellyfishBanner");
+		}
 
         public override void AI()
         {
@@ -186,7 +188,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer1 && spawnInfo.water)
             {
-                return 0.2f;
+                return SpawnCondition.CaveJellyfish.Chance * 1.2f;
             }
             return SpawnCondition.OceanMonster.Chance * 0.1f;
         }

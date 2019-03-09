@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bomb");
+			DisplayName.SetDefault("Mushroom Shot");
             Main.projFrames[projectile.type] = 4;
         }
     	

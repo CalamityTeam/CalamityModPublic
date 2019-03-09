@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Cloud");
+			DisplayName.SetDefault("Toxic Cloud");
             Main.projFrames[projectile.type] = 4;
         }
     	

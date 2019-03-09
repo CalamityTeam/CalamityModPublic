@@ -34,7 +34,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.5f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("AriesBanner");
+		}
 
         public override void FindFrame(int frameHeight)
         {
@@ -108,6 +110,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-        }
+			if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StellarKnife"));
+			}
+		}
     }
 }

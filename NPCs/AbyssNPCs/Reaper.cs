@@ -45,7 +45,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.DeathSound = SoundID.NPCDeath60;
             npc.knockBackResist = 0f;
             npc.rarity = 2;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("ReaperSharkBanner");
+		}
 
         public override void AI()
         {
@@ -620,13 +622,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")) &&
                 !NPC.AnyNPCs(mod.NPCType("ColossalSquid")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")))
             {
-                return 0.1f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
+			}
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")) &&
                 !NPC.AnyNPCs(mod.NPCType("ColossalSquid")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")))
             {
-                return 0.2f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
+			}
             return 0f;
         }
 

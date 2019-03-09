@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.knockBackResist = 0.3f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
@@ -102,6 +103,9 @@ namespace CalamityMod.NPCs.HiveMind
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 13, hitDirection, -1f, 0, default(Color), 1f);
 				}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore3"), 1f);
 			}
 		}
 		

@@ -30,6 +30,25 @@ namespace CalamityMod.Items.AquaticScourge
 
 		public override void OpenBossBag(Player player)
 		{
+			if (CalamityWorld.revenge)
+			{
+				if (Main.rand.Next(20) == 0)
+				{
+					switch (Main.rand.Next(3))
+					{
+						case 0:
+							player.QuickSpawnItem(mod.ItemType("StressPills"));
+							break;
+						case 1:
+							player.QuickSpawnItem(mod.ItemType("Laudanum"));
+							break;
+						case 2:
+							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
+							break;
+					}
+				}
+			}
+			player.TryGettingDevArmor();
 			if (Main.rand.Next(3) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("DeepseaStaff"));

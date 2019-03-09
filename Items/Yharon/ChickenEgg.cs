@@ -27,18 +27,8 @@ namespace CalamityMod.Items.Yharon
 			item.useTime = 45;
 			item.useStyle = 4;
 			item.consumable = false;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(43, 96, 222);
-	            }
-	        }
-	    }
 		
 		public override bool CanUseItem(Player player)
 		{
@@ -57,7 +47,7 @@ namespace CalamityMod.Items.Yharon
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "EffulgentFeather", 15);
 			recipe.AddIngredient(null, "BarofLife", 15);
-			recipe.AddTile(null, "DraedonsForge");
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

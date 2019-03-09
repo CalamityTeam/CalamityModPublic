@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
-            player.lavaMax += 420;
+            player.lavaMax += 240;
         }
 
         public override void AddRecipes()

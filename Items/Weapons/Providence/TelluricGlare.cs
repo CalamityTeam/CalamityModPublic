@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
-//using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons.Providence
 {
@@ -35,23 +34,8 @@ namespace CalamityMod.Items.Weapons.Providence
             item.shoot = mod.ProjectileType("TelluricGlare");
             item.shootSpeed = 12f;
             item.useAmmo = 40;
-        }
-
-        /*public void OverhaulInit()
-        {
-            this.SetTag("bow");
-        }*/
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

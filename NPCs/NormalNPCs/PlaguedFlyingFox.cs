@@ -44,16 +44,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
             npc.buffImmune[mod.BuffType("HolyLight")] = true;
             npc.buffImmune[mod.BuffType("Plague")] = true;
-        }
-
-        /*public override void AI()
-        {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-        }*/
+			banner = npc.type;
+			bannerItem = mod.ItemType("MelterBanner");
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss)
+            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
             {
                 return 0f;
             }

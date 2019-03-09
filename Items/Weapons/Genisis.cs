@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 52;
+	        item.damage = 48;
 	        item.magic = true;
 	        item.mana = 4;
 	        item.width = 74;
@@ -34,23 +34,13 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shootSpeed = 6f;
 	        item.shoot = mod.ProjectileType("BigBeamofDeath");
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
 	    
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {

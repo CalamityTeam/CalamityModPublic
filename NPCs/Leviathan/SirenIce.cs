@@ -24,11 +24,11 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.canGhostHeal = false;
 			npc.noTileCollide = true;
 			npc.damage = 45;
-			npc.width = 160; //324
-			npc.height = 160; //216
+			npc.width = 100;
+			npc.height = 100;
 			npc.defense = 10;
 			npc.lifeMax = 650;
-            if (CalamityWorld.bossRushActive)
+			if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 400000;
             }
@@ -51,8 +51,8 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.spriteDirection = Main.npc[num989].direction;
                 npc.velocity = Vector2.Zero;
                 npc.position = Main.npc[num989].Center;
-                npc.position.X = npc.position.X - (float)(npc.width / 2) + ((npc.spriteDirection == 1) ? -30f : 30f);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (float)(npc.width / 2) + ((npc.spriteDirection == 1) ? -20f : 20f);
+                npc.position.Y = npc.position.Y - (float)(npc.height / 2) - 30;
                 npc.gfxOffY = Main.npc[num989].gfxOffY;
                 Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0f, 0.8f, 1.1f);
                 return;
@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.HitEffect(0, 10.0);
             npc.active = false;
         }
-		
+
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
             if (projectile.type != mod.ProjectileType("FlakKraken"))
@@ -76,7 +76,12 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 		}
-		
+
+		public override Color? GetAlpha(Color drawColor)
+		{
+			return new Color(200, 200, 200, npc.alpha);
+		}
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Frostburn, 240, true);

@@ -48,6 +48,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("OarfishBanner");
 		}
 		
 		public override void AI()
@@ -373,12 +375,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer2 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
             {
-                return 0.05f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 0.3f;
+			}
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
             {
-                return 0.1f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
+			}
             return 0f;
         }
 

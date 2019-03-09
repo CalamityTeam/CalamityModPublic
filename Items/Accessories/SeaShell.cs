@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Accessories
 				player.statDefense += 3;
 				player.endurance += 0.05f;
 				player.moveSpeed += 0.15f;
+				player.ignoreWater = true;
 			}
 		}
 	}

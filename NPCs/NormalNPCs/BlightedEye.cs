@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 2, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = mod.ItemType("BlightedEyeBanner");
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

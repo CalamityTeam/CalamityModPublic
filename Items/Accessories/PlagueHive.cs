@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Hive");
-            Tooltip.SetDefault("Blinds and weakens the player if above 90% life\n" +
-                "Summons a damaging plague aura around the player to destroy nearby enemies\n" +
+            Tooltip.SetDefault("Summons a damaging plague aura around the player to destroy nearby enemies\n" +
                 "Releases bees when damaged\n" +
                 "Friendly bees inflict the plague\n" +
                 "All of your attacks inflict the plague\n" +
@@ -53,12 +52,6 @@ namespace CalamityMod.Items.Accessories
             modPlayer.uberBees = true;
             player.strongBees = true;
             modPlayer.alchFlask = true;
-            if (player.statLife >= (player.statLifeMax * 0.9f))
-            {
-                player.blind = true;
-                player.statDefense -= 5;
-                player.moveSpeed -= 0.05f;
-            }
             int plagueCounter = 0;
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0.1f, 2f, 0.2f);
             int num = mod.BuffType("Plague");

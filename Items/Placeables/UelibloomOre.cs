@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Placeables
             item.width = 10;
             item.height = 10;
             item.maxStack = 999;
-            item.value = 8750;
-        }
+			item.value = Item.buyPrice(0, 0, 10, 0);
+		}
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {

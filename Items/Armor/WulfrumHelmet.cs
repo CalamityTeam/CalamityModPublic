@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 20000;
-            item.rare = 1;
+			item.value = Item.buyPrice(0, 0, 75, 0);
+			item.rare = 1;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

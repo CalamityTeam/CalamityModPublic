@@ -32,11 +32,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 3, 0);
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
+			banner = npc.type;
+			bannerItem = mod.ItemType("CnidrionBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
 			{
 				return 0f;
 			}

@@ -34,7 +34,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.HitSound = SoundID.NPCHit50;
 			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
             npc.knockBackResist = 0.7f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("SunskaterBanner");
+		}
 
         public override void AI()
         {
@@ -221,7 +223,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.hardMode)
+            if (Main.hardMode && Main.rand.Next(3) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
             }

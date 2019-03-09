@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Weapons.Leviathan
             item.knockBack = 6.5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-            item.UseSound = SoundID.Item26;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("SirensSong");
             item.shootSpeed = 13f;
@@ -56,7 +55,8 @@ namespace CalamityMod.Items.Weapons.Leviathan
         {
             float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+			float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, soundPitch, 0f);
             return false;
         }
     }

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Abyss Ball Volley V2");
+			DisplayName.SetDefault("Abyss Ball Volley");
 		}
     	
         public override void SetDefaults()

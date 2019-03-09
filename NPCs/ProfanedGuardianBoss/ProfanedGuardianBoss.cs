@@ -13,9 +13,9 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
     [AutoloadBossHead]
     public class ProfanedGuardianBoss : ModNPC
 	{
-		public int flareTimer = 0; //projectile stuff
-		public int flareProjectiles = 1;
-		public int dustTimer = 3;
+		private int flareTimer = 0;
+		private int flareProjectiles = 1;
+		private int dustTimer = 3;
 		
 		public override void SetStaticDefaults()
 		{
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.lifeMax = 102500;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 1200000 : 1000000;
+                npc.lifeMax = CalamityWorld.death ? 600000 : 500000;
             }
             npc.knockBackResist = 0f;
 			npc.noGravity = true;
@@ -46,7 +46,9 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
             else
                 music = MusicID.Boss1;
-            for (int k = 0; k < npc.buffImmune.Length; k++)
+			NPCID.Sets.TrailCacheLength[npc.type] = 8;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
 				npc.buffImmune[BuffID.Ichor] = false;
@@ -226,6 +228,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					}
 				}
 			}
+			npc.damage = expertMode ? 200 : 100;
 			if (npc.ai[0] == 0f) 
 			{
 				npc.knockBackResist = 0f;
@@ -302,6 +305,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			       		dustTimer = 3;
 					}
 				}
+				npc.damage = expertMode ? 240 : 120;
 				npc.knockBackResist = 0f;
 				float num1016 = num1003;
 				npc.ai[1] += 1f;
@@ -342,7 +346,51 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				npc.velocity *= 0.95f;
 			}
 		}
-		
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+			{
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			}
+			Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+			Texture2D texture2D3 = Main.npcTexture[npc.type];
+			int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+			int y3 = num156 * (int)npc.frameCounter;
+			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+			Vector2 origin2 = rectangle.Size() / 2f;
+			int num157 = 8;
+			int num158 = 2;
+			int num159 = 1;
+			float num160 = 0f;
+			int num161 = num159;
+			spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+			while (npc.ai[0] == 2f && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
+			{
+				Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+				{
+					goto IL_6899;
+				}
+				IL_6881:
+				num161 += num158;
+				continue;
+				IL_6899:
+				float num164 = (float)(num157 - num161);
+				if (num158 < 0)
+				{
+					num164 = (float)(num159 - num161);
+				}
+				color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
+				Vector2 value4 = (npc.oldPos[num161]);
+				float num165 = npc.rotation;
+				Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
+				goto IL_6881;
+			}
+			return false;
+		}
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
@@ -379,6 +427,10 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA4"), 1f);
 				for (int k = 0; k < 50; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);

@@ -11,8 +11,8 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Moscow Mule");
-			Tooltip.SetDefault(@"Boosts damage and knockback by 12% and critical strike chance by 3%
-Reduces life regen by 3
+			Tooltip.SetDefault(@"Boosts damage and knockback by 9% and critical strike chance by 3%
+Reduces life regen by 2
 I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm already poisoning myself'");
 		}
 

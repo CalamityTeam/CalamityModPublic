@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "7% increased damage\n" +
                 "When below 100 defense you gain 15% increased damage\n" +
                 "Halves enemy contact damage\n" +
-                "When you take contact damage this effect has a 15 second cooldown\n" +
+                "When you take contact damage this effect has a 20 second cooldown\n" +
                 "Boosts your max HP by 10%");
         }
 

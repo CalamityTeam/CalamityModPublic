@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 300000;
-            item.rare = 5;
+			item.value = Item.buyPrice(0, 25, 0, 0);
+			item.rare = 5;
             item.defense = 3; //33
         }
 
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("DaedalusCrystal")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DaedalusCrystal"), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DaedalusCrystal"), (int)(95f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.2f;

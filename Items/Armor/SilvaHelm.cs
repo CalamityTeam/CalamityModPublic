@@ -22,20 +22,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 9000000;
-            item.defense = 52; //110
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(108, 45, 199);
-                }
-            }
-        }
+			item.value = Item.buyPrice(0, 90, 0, 0);
+			item.defense = 52; //110
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -61,7 +51,7 @@ namespace CalamityMod.Items.Armor
                 "This effect only triggers once per life\n" +
                 "Your max life will return to normal if you die\n" +
                 "True melee strikes have a 25% chance to do five times damage\n" +
-                "After the silva invincibility is over you will take halved contact damage\n" +
+                "After the silva invincibility is over you will take 20% less contact damage\n" +
                 "Melee projectiles have a 25% chance to stun enemies for a very brief moment";
         }
 

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Flame");
+			DisplayName.SetDefault("Blue Flame");
 		}
     	
         public override void SetDefaults()

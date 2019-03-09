@@ -37,19 +37,16 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.width = 74; //324
 			npc.height = 74; //216
 			npc.defense = 0;
-            npc.lifeMax = 100000;
+            npc.lifeMax = 50000;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
                 music = MusicID.Boss3;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 75000;
-            }
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                if (calamityModMusic != null)
+				npc.value = Item.buyPrice(0, 35, 0, 0);
+				if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 else
                     music = MusicID.Boss3;
@@ -57,14 +54,13 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 4500000;
+                npc.lifeMax = 2300000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.boss = true;
-			npc.value = Item.buyPrice(0, 35, 0, 0);
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;
@@ -72,6 +68,8 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath13;
 			npc.netAlways = true;
+			NPCID.Sets.TrailCacheLength[npc.type] = 8;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -459,7 +457,48 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
 		}
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(drawColor);
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+			Texture2D texture2D3 = Main.npcTexture[npc.type];
+			int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+			int y3 = num156 * (int)npc.frameCounter;
+			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+			Vector2 origin2 = rectangle.Size() / 2f;
+			int num157 = 8;
+			int num158 = 2;
+			int num159 = 1;
+			float num160 = 0f;
+			int num161 = num159;
+			while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
+			{
+				Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+				{
+					goto IL_6899;
+				}
+				IL_6881:
+				num161 += num158;
+				continue;
+				IL_6899:
+				float num164 = (float)(num157 - num161);
+				if (num158 < 0)
+				{
+					num164 = (float)(num159 - num161);
+				}
+				color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
+				Vector2 value4 = (npc.oldPos[num161]);
+				float num165 = npc.rotation;
+				Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
+				goto IL_6881;
+			}
+			var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+			return false;
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
@@ -521,18 +560,21 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void NPCLoot()
 		{
-            npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("ArmoredShell"), Main.rand.Next(5, 9), true);
-			if (Main.rand.Next(10) == 0)
+			if (CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WeaverTrophy"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheStorm"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormDragoon"));
+				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("ArmoredShell"), Main.rand.Next(5, 9), true);
+				if (Main.rand.Next(10) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WeaverTrophy"));
+				}
+				if (Main.rand.Next(3) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheStorm"));
+				}
+				if (Main.rand.Next(3) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormDragoon"));
+				}
 			}
 		}
 		

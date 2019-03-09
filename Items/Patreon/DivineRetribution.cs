@@ -35,18 +35,8 @@ namespace CalamityMod.Items.Patreon
 	        item.autoReuse = true;
 	        item.shootSpeed = 19f;
 	        item.shoot = mod.ProjectileType("DivineRetribution");
-	    }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(139, 0, 0);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {

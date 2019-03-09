@@ -12,7 +12,7 @@ namespace CalamityMod.Items.FabsolStuff
 		{
 			DisplayName.SetDefault("Margarita");
 			Tooltip.SetDefault(@"Makes you immune to most debuffs
-Reduces defense by 6 and life regen by 3
+Reduces defense by 6 and life regen by 1
 One of the best drinks ever created, enjoy it while it lasts
 Restores 200 life and mana");
 		}

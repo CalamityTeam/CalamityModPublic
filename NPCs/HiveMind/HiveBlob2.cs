@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.HiveMind
             aiType = -1;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
+			npc.chaseable = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
@@ -151,6 +153,36 @@ namespace CalamityMod.NPCs.HiveMind
 			if (npc.velocity.Y < -8f) 
 			{
 				npc.velocity.Y = -8f;
+			}
+			if (Main.netMode != 1)
+			{
+				npc.localAI[1] += 1f;
+				if (npc.localAI[1] >= 600f)
+				{
+					npc.localAI[1] = 0f;
+					npc.TargetClosest(true);
+					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+					{
+						float num941 = revenge ? 9f : 8f; //speed
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						{
+							num941 = 11f;
+						}
+						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+						float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
+						float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
+						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+						num944 = num941 / num944;
+						num942 *= num944;
+						num943 *= num944;
+						int num945 = expertMode ? 12 : 15;
+						int num946 = mod.ProjectileType("VileClot");
+						vector104.X += num942 * 5f;
+						vector104.Y += num943 * 5f;
+						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+						npc.netUpdate = true;
+					}
+				}
 			}
 		}
 		

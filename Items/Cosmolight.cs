@@ -37,22 +37,16 @@ namespace CalamityMod.Items
 
         public override bool UseItem(Player player)
 		{
-			if (!Main.dayTime)
+			Main.time = 0.0;
+			Main.dayTime = !Main.dayTime;
+			if (Main.dayTime)
 			{
-				Main.time = 0.0;
-				Main.dayTime = true;
-    		}
-    		else
-    		{
-    			Main.time = 0.0;
-				Main.dayTime = false;
-				Main.moonPhase++;
-				if (Main.moonPhase >= 8)
+				if (++Main.moonPhase >= 8)
 				{
 					Main.moonPhase = 0;
 				}
-    		}
-    		if (Main.netMode == 2)
+			}
+			if (Main.netMode == 2)
 			{
 				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 			}

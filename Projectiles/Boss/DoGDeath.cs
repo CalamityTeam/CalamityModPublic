@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Death");
+			DisplayName.SetDefault("Death Beam");
 		}
     	
         public override void SetDefaults()

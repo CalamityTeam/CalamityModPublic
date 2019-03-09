@@ -38,18 +38,8 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = 10;
 			item.shootSpeed = 12f;
 			item.useAmmo = 97;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-	    
-	    public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
 	    
 	    public override Vector2? HoldoutOffset()
 		{
@@ -63,10 +53,10 @@ namespace CalamityMod.Items.Weapons
 		
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
+			int bulletAmt = 4;
 			if (player.altFunctionUse == 2)
     		{
-				int num6 = Main.rand.Next(5, 12);
-			    for (int index = 0; index < num6; ++index)
+			    for (int index = 0; index < bulletAmt; ++index)
 			    {
 			        float num7 = speedX;
 			        float num8 = speedY;
@@ -79,14 +69,13 @@ namespace CalamityMod.Items.Weapons
 			}
 			else
 			{
-				int num6 = Main.rand.Next(5, 12);
-			    for (int index = 0; index < num6; ++index)
+			    for (int index = 0; index < bulletAmt; ++index)
 			    {
 			        float num7 = speedX;
 			        float num8 = speedY;
 			        float SpeedX = speedX + (float) Main.rand.Next(-30, 31) * 0.05f;
 			        float SpeedY = speedY + (float) Main.rand.Next(-30, 31) * 0.05f;
-			        int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ChargedBlast"), (int)((double)damage * 1.2), knockBack, player.whoAmI, 0.0f, 0.0f);
+			        int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
                     Main.projectile[shot].timeLeft = 180;
                 }
 			    return false;

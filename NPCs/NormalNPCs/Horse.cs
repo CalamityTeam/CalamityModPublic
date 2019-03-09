@@ -41,11 +41,14 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;
             npc.rarity = 2;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("EarthElementalBanner");
+		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+			if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ||
+				spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
 			{
 				return 0f;
 			}

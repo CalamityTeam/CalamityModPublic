@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("ShockstormShuttleBanner");
 		}
 		
 		public override void AI()
@@ -571,11 +573,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
-			if (Main.rand.Next(4) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
-			}
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.Next(3) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
 			}

@@ -31,7 +31,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
             npc.buffImmune[189] = true;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("MantisShrimpBanner");
+		}
 
         public override void AI()
         {

@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Patreon
         {
         	float num953 = 25f * projectile.ai[1]; //100
         	float scaleFactor12 = 5f * projectile.ai[1]; //5
-			float num954 = 500f;
+			float num954 = 1000f;
             if ((double)Math.Abs(projectile.velocity.X) > 0.2)
             {
                 projectile.spriteDirection = -projectile.direction;

@@ -28,17 +28,17 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.width = 400;
 			npc.height = 280;
 			npc.defense = 120;
-			npc.lifeMax = CalamityWorld.revenge ? 65075 : 51000;
+			npc.lifeMax = CalamityWorld.revenge ? 81300 : 63750;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 100875;
+                npc.lifeMax = 126100;
             }
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 15, 0, 0);
-            for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+            {
                 npc.buffImmune[k] = true;
                 npc.buffImmune[BuffID.Ichor] = false;
                 npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
@@ -65,11 +65,11 @@ namespace CalamityMod.NPCs.Astrageldon
             if (NPC.downedMoonlord && CalamityWorld.revenge)
             {
                 npc.lifeMax = 400000;
-                npc.value = Item.buyPrice(3, 0, 0, 0);
+                npc.value = Item.buyPrice(0, 35, 0, 0);
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 2800000 : 2400000;
+                npc.lifeMax = CalamityWorld.death ? 1400000 : 1200000;
             }
         }
 		
@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.Astrageldon
                         {
                             laserDamage *= 3;
                         }
-                        if (npc.ai[0] >= 5f || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged) //teleporting
+                        if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged) //teleporting
                         {
                             Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             float spread = 45f * 0.0174f;
@@ -420,7 +420,7 @@ namespace CalamityMod.NPCs.Astrageldon
                         }
                         if (spawnFlag && Main.netMode != 1)
                         {
-                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 50, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
                         }
                         npc.localAI[1] = 0f;
                         npc.TargetClosest(true);
@@ -491,7 +491,7 @@ namespace CalamityMod.NPCs.Astrageldon
                     }
                     if (spawnFlag && Main.netMode != 1)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 50, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
                     }
                     npc.chaseable = true;
                     npc.dontTakeDamage = false;
@@ -635,6 +635,7 @@ namespace CalamityMod.NPCs.Astrageldon
             {
                 spriteEffects = SpriteEffects.FlipHorizontally;
             }
+
             if (npc.ai[0] == 0f)
             {
                 NPCTexture = Main.npcTexture[npc.type];
@@ -680,6 +681,7 @@ namespace CalamityMod.NPCs.Astrageldon
                     GlowMaskTexture = mod.GetTexture("NPCs/Astrageldon/AstrageldonJumpGlow");
                 }
             }
+
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Color lightColor = (drawColor != null ? (Color)drawColor : CalamityMod.GetNPCColor(((NPC)npc), npc.Center, false));
             int frameCount = Main.npcFrameCount[npc.type];
@@ -687,6 +689,7 @@ namespace CalamityMod.NPCs.Astrageldon
             float scale = npc.scale;
             float rotation = npc.rotation;
             float offsetY = npc.gfxOffY;
+
             Main.spriteBatch.Draw(NPCTexture,
                 new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
                 npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)Main.npcFrameCount[npc.type] + 4f + vector11.Y * scale + 0f + offsetY),
@@ -697,16 +700,18 @@ namespace CalamityMod.NPCs.Astrageldon
                 scale,
                 spriteEffects,
                 0f);
-            if (npc.ai[0] != 1) //draw only if not recharging
+
+			if (npc.ai[0] != 1) //draw only if not recharging
             {
                 Vector2 center = new Vector2(npc.Center.X, npc.Center.Y - 30f); //30
                 Vector2 vector = center - Main.screenPosition;
                 vector -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
                 vector += vector11 * 1f + new Vector2(0f, 0f + 4f + offsetY);
                 Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
-                Main.spriteBatch.Draw(GlowMaskTexture, vector,
+
+				Main.spriteBatch.Draw(GlowMaskTexture, vector,
                     new Microsoft.Xna.Framework.Rectangle?(frame), color, rotation, vector11, 1f, spriteEffects, 0f);
-            }
+			}
             return false;
         }
 
@@ -719,7 +724,7 @@ namespace CalamityMod.NPCs.Astrageldon
 		{
             if (CalamityWorld.armageddon)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     npc.DropBossBags();
                 }
@@ -737,7 +742,11 @@ namespace CalamityMod.NPCs.Astrageldon
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstralJelly"), Main.rand.Next(9, 13));
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(20, 31));
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FallenStar, Main.rand.Next(25, 41));
-            }
+				if (Main.rand.Next(7) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AureusMask"));
+				}
+			}
             if (NPC.downedMoonlord)
             {
                 int amount = Main.rand.Next(25, 41) / 2;

@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items {
-public class MeldBlob : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class MeldBlob : ModItem
 	{
-		DisplayName.SetDefault("Meld Blob");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Meld Blob");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 16;
+			item.height = 14;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 9;
+		}
 	}
-		
-	public override void SetDefaults()
-	{
-		item.width = 16;
-		item.height = 14;
-		item.maxStack = 999;
-		item.value = 23750;
-		item.rare = 8;
-	}
-}}
+}

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 422;
+	        item.damage = 460;
 	        item.mana = 40;
 	        item.magic = true;
 	        item.width = 48;
@@ -35,18 +35,8 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shootSpeed = 20f;
 	        item.shoot = mod.ProjectileType("PlasmaShot");
-	    }
-	    
-	    public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 	    
 	    public override bool AltFunctionUse(Player player)
 		{
@@ -81,7 +71,7 @@ namespace CalamityMod.Items.Weapons
 	    	}
 	    	else
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaBolt"), (int)((double)damage * 0.75f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaBolt"), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
 	    		return false;
 	    	}
 		}

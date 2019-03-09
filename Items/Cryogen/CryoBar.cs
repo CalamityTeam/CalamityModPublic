@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Cryogen
 
         public override void SetDefaults()
         {
-            item.width = 15;
-            item.height = 12;
+            item.width = 30;
+            item.height = 24;
             item.maxStack = 999;
-            item.value = 28750;
-            item.rare = 5;
+			item.value = Item.buyPrice(0, 3, 0, 0);
+			item.rare = 5;
         }
     }
 }

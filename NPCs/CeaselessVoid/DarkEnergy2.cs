@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 {
 	public class DarkEnergy2 : ModNPC
 	{
-        public int invinceTime = 180;
+        public int invinceTime = 120;
 
         public override void SetStaticDefaults()
 		{
@@ -23,22 +23,24 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
-			npc.damage = 120;
+			npc.damage = 0;
+			npc.dontTakeDamage = true;
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.defense = 68;
-            npc.lifeMax = 3000;
+            npc.lifeMax = 6000;
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                npc.lifeMax = 12000;
+                npc.lifeMax = 24000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 37000;
+                npc.lifeMax = 44000;
             }
             npc.knockBackResist = 0.1f;
             npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			aiType = -1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -62,8 +64,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
             if (invinceTime > 0)
             {
                 invinceTime--;
-                npc.damage = 0;
-                npc.dontTakeDamage = true;
             }
             else
             {

@@ -25,8 +25,8 @@ namespace CalamityMod.Items
             item.value = Item.sellPrice(0, 7, 0, 0);
             item.shoot = mod.ProjectileType("ChibiiDoggo");
             item.buffType = mod.BuffType("ChibiiBuff");
-			item.rare = 14;
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
 
         public override void UseStyle(Player player)

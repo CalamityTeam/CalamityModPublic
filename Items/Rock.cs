@@ -21,7 +21,7 @@ namespace CalamityMod.Items
         {
             item.width = 20;
             item.height = 20;
-            item.value = 1;
-        }
+			item.value = Item.buyPrice(0, 0, 0, 1);
+		}
     }
 }

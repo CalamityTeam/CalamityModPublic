@@ -32,6 +32,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 2, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath5;
+			banner = npc.type;
+			bannerItem = mod.ItemType("PitbullBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

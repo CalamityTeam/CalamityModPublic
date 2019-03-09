@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.knockBackResist = 0f;
 			npc.scale = 1.4f;
 			npc.boss = true;
-			npc.value = Item.buyPrice(1, 50, 0, 0);
+			npc.value = Item.buyPrice(0, 75, 0, 0);
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;

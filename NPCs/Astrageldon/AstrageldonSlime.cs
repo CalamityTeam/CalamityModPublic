@@ -41,6 +41,7 @@ namespace CalamityMod.NPCs.Astrageldon
             }
             npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
         }
@@ -77,7 +78,7 @@ namespace CalamityMod.NPCs.Astrageldon
                     npc.life = 0;
                     return;
                 }
-                float num1372 = 22f;
+                float num1372 = 18f;
                 Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
                 float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
                 float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
@@ -231,7 +232,7 @@ namespace CalamityMod.NPCs.Astrageldon
             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.damage = CalamityWorld.death ? 150 : 100;
+            npc.damage = CalamityWorld.death ? 225 : 150;
             npc.width = (npc.height = 216);
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);

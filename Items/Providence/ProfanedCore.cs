@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Providence
 			item.useStyle = 4;
 			item.consumable = true;
 			item.rare = 9;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
 		
 		public override bool CanUseItem(Player player)
@@ -41,16 +42,5 @@ namespace CalamityMod.Items.Providence
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			return true;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
 	}
 }

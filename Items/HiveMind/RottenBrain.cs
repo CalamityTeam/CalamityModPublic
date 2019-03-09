@@ -55,18 +55,8 @@ namespace CalamityMod.Items.HiveMind
                     }
                 }
             }
-            if (player.statLife <= (player.statLifeMax2 * 0.75f))
-            {
-                player.meleeDamage += 0.1f;
-                player.magicDamage += 0.1f;
-                player.rangedDamage += 0.1f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-                player.minionDamage += 0.1f;
-            }
-            if (player.statLife <= (player.statLifeMax2 * 0.5f))
-            {
-                player.moveSpeed -= 0.05f;
-            }
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			modPlayer.rBrain = true;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Cloudy Waifu");
+			DisplayName.SetDefault("Miss Cloudy");
 			Description.SetDefault("The cloud elemental will protect you");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;

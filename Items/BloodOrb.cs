@@ -21,8 +21,8 @@ namespace CalamityMod.Items
             item.width = 10;
             item.height = 10;
             item.maxStack = 999;
-            item.value = 37500;
-            item.rare = 1;
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 1;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

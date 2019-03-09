@@ -33,18 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("NeptuneOrb");
 			item.shootSpeed = 25f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(43, 96, 222);
-	            }
-	        }
-	    }
 		
 		public override void AddRecipes()
 	    {

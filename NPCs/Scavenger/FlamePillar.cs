@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.Scavenger
             }
             if (npc.alpha > 0)
             {
-                npc.alpha -= 10;
+                npc.alpha -= 3;
                 if (npc.alpha < 0)
                 {
                     if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)

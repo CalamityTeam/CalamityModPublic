@@ -38,10 +38,12 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 4000000 : 3400000;
+                npc.lifeMax = CalamityWorld.death ? 2000000 : 1600000;
             }
             npc.knockBackResist = 0f;
 			animationType = 50;
+			npc.buffImmune[mod.BuffType("GlacialState")] = true;
+			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 			npc.value = 0f;
 			npc.alpha = 60;
 			npc.lavaImmune = false;

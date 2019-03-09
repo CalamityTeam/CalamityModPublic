@@ -36,18 +36,8 @@ namespace CalamityMod.Items.Weapons
             item.shootSpeed = 24f;
             item.shoot = mod.ProjectileType("BloodfireBullet");
             item.useAmmo = 97;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override Vector2? HoldoutOffset()
         {

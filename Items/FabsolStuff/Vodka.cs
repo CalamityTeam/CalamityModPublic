@@ -11,8 +11,8 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vodka");
-			Tooltip.SetDefault(@"Boosts damage by 8% and critical strike chance by 2%
-Reduces life regen by 2 and defense by 4
+			Tooltip.SetDefault(@"Boosts damage by 6% and critical strike chance by 2%
+Reduces life regen by 1 and defense by 4
 The number one alcohol for creating great mixed drinks");
 		}
 

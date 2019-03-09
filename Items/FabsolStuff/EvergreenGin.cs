@@ -12,7 +12,7 @@ namespace CalamityMod.Items.FabsolStuff
 		{
 			DisplayName.SetDefault("Evergreen Gin");
 			Tooltip.SetDefault(@"Boosts nature-based weapon damage by 15% and damage reduction by 5%
-Reduces life regen by 3
+Reduces life regen by 1
 It tastes like a Christmas tree if you can imagine that");
 		}
 

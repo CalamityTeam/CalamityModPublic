@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Devourer of Thots");
+			DisplayName.SetDefault("Cosmic Guardian");
 		}
 		
 		public override void SetDefaults()
@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;

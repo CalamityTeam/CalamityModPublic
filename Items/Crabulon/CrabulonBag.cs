@@ -7,11 +7,11 @@ namespace CalamityMod.Items.Crabulon
 	public class CrabulonBag : ModItem
 	{
 		public override void SetStaticDefaults()
- 		{
- 			DisplayName.SetDefault("Treasure Bag");
- 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
- 		}
-		
+		{
+			DisplayName.SetDefault("Treasure Bag");
+			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+		}
+
 		public override void SetDefaults()
 		{
 			item.maxStack = 999;
@@ -30,11 +30,30 @@ namespace CalamityMod.Items.Crabulon
 
 		public override void OpenBossBag(Player player)
 		{
-            if (Main.rand.Next(7) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("CrabulonMask"));
-            }
-            if (Main.rand.Next(3) == 0)
+			if (CalamityWorld.revenge)
+			{
+				player.QuickSpawnItem(mod.ItemType("MushroomPlasmaRoot"));
+				if (Main.rand.Next(20) == 0)
+				{
+					switch (Main.rand.Next(3))
+					{
+						case 0:
+							player.QuickSpawnItem(mod.ItemType("StressPills"));
+							break;
+						case 1:
+							player.QuickSpawnItem(mod.ItemType("Laudanum"));
+							break;
+						case 2:
+							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
+							break;
+					}
+				}
+			}
+			if (Main.rand.Next(7) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("CrabulonMask"));
+			}
+			if (Main.rand.Next(3) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("HyphaeRod"));
 			}
@@ -53,10 +72,6 @@ namespace CalamityMod.Items.Crabulon
 			player.QuickSpawnItem(ItemID.GlowingMushroom, Main.rand.Next(25, 36));
 			player.QuickSpawnItem(ItemID.MushroomGrassSeeds, Main.rand.Next(5, 11));
 			player.QuickSpawnItem(mod.ItemType("FungalClump"));
-            if (CalamityWorld.revenge)
-            {
-                player.QuickSpawnItem(mod.ItemType("MushroomPlasmaRoot"));
-            }
 		}
 	}
 }

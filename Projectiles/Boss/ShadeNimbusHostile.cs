@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Nimbus");
+			DisplayName.SetDefault("Shade Nimbus");
 			Main.projFrames[projectile.type] = 6;
 		}
     	

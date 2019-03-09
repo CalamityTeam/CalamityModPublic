@@ -40,9 +40,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.buffImmune[20] = true;
             npc.buffImmune[31] = false;
             npc.timeLeft = NPC.activeTime * 2;
-
             animationType = NPCID.WallCreeper;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("AstralachneaBanner");
+		}
 
         public override void AI()
         {

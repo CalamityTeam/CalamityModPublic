@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sand");
+			DisplayName.SetDefault("Sand Blast");
 		}
     	
         public override void SetDefaults()

@@ -15,6 +15,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Heart of Darkness");
             Tooltip.SetDefault("Gives 10% increased damage while you have the heart attack debuff\n" +
+                "Increases your chance of getting the heart attack debuff\n" +
+                "Rage mode does more damage\n" +
                 "You gain rage over time\n" +
                 "Revengeance drop");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));

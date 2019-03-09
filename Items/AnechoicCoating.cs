@@ -26,7 +26,7 @@ namespace CalamityMod.Items
 			item.consumable = true;
 			item.buffType = mod.BuffType("AnechoicCoating");
 			item.buffTime = 7200;
-			item.value = 5000;
+			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
 		public override void AddRecipes()

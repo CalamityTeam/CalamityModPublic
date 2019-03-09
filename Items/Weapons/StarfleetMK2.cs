@@ -38,22 +38,12 @@ namespace CalamityMod.Items.Weapons
             item.useTurn = false;
             item.useAmmo = 75;
             item.autoReuse = true;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(43, 96, 222);
-                }
-            }
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

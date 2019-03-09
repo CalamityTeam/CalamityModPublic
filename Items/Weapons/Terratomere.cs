@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 64;
-            item.damage = 100;
+            item.damage = 135;
             item.melee = true;
             item.useAnimation = 20;
             item.useStyle = 1;
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons
             target.AddBuff(BuffID.Frostburn, 620);
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Ichor, 300);
-            if (target.type == NPCID.TargetDummy)
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
             {
                 return;
             }

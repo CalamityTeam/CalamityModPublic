@@ -34,6 +34,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.DeathSound = SoundID.NPCDeath39;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			banner = mod.NPCType("PhantomSpirit");
+			bannerItem = mod.ItemType("PhantomSpiritBanner");
 		}
 
         public override void FindFrame(int frameHeight)
@@ -101,7 +103,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     float num151 = 5f;
                     int num152 = 60;
-                    int num153 = 299;
+                    int num153 = mod.ProjectileType("PhantomGhostShot");
                     num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;

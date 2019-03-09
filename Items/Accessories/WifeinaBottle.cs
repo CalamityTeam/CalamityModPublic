@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Waifu in a Bottle");
+			DisplayName.SetDefault("Lady in a Bottle");
 			Tooltip.SetDefault("Summons a sand elemental to fight for you");
 		}
 		
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
 				}
 				if (player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] < 1)
 				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SandyWaifu"), 45, 2f, Main.myPlayer, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SandyWaifu"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 		}

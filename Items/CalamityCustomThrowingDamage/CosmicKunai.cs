@@ -20,7 +20,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SafeSetDefaults()
 		{
 			item.width = 26;
-			item.damage = 200;
+			item.damage = 75;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useTime = 1;
@@ -35,6 +35,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.shoot = mod.ProjectileType("CosmicKunai");
 			item.shootSpeed = 28f;
 			item.rare = 9;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
 	}
 }

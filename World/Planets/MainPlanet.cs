@@ -19,7 +19,8 @@ namespace CalamityMod.World.Planets
     {
         public override bool Place(Point origin, StructureMap structures)
         {
-            int radius = _random.Next(50, 65);
+			float scale = (float)Main.maxTilesX / 4200f;
+			int radius = (int)((float)_random.Next(30, 36) * scale); //50 to 65
 
             if (!CheckIfPlaceable(origin, radius, structures))
             {
@@ -63,14 +64,14 @@ namespace CalamityMod.World.Planets
 
             //PLACE STONE THEN DIRT PATCHES
             int numStone = _random.Next(30, 40);
-            while(numStone > 0)
+            while (numStone > 0)
             {
                 Point p = outerCore.RandomPointOnCircleEdge().ToTileCoordinates();
                 WorldGen.TileRunner(p.X, p.Y, _random.NextFloat(3f, 6f), _random.Next(5, 15), TileID.Stone);
                 numStone--;
             }
             int numDirt = _random.Next(80, 110);
-            while(numDirt > 0)
+            while (numDirt > 0)
             {
                 Point p = outerCore.RandomPointInCircle().ToTileCoordinates();
                 WorldGen.TileRunner(p.X, p.Y, _random.NextFloat(3f, 6f), _random.Next(7, 17), TileID.Dirt);

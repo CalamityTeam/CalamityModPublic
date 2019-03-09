@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
-//using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -39,23 +38,8 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("LeafArrow");
 	        item.shootSpeed = 10f;
 	        item.useAmmo = 40;
-	    }
-
-        /*public void OverhaulInit()
-        {
-            this.SetTag("bow");
-        }*/
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(Main.DiscoR, 203, 103);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+		}
 	    
 	    public override bool AltFunctionUse(Player player)
 		{

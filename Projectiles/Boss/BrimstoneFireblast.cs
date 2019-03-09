@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fireblast");
+			DisplayName.SetDefault("Brimstone Gigablast");
             Main.projFrames[projectile.type] = 6;
         }
     	

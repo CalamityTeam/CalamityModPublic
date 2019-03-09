@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.width = 100; //324
 			npc.height = 80; //216
 			npc.defense = 30;
-			npc.lifeMax = 37500;
+			npc.lifeMax = 40000;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 500000 : 400000;
@@ -182,6 +182,11 @@ namespace CalamityMod.NPCs.Providence
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossH5"), 1f);
 				for (int k = 0; k < 50; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);

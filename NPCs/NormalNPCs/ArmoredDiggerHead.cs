@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 54; //324
 			npc.height = 54; //216
 			npc.defense = 15;
-			npc.lifeMax = 30000;
+			npc.lifeMax = 20000;
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
             aiType = -1;
@@ -42,6 +42,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.buffImmune[k] = true;
             }
             npc.netAlways = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("ArmoredDiggerBanner");
 		}
 
         public override void AI()

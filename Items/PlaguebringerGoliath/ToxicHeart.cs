@@ -14,8 +14,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Heart");
-            Tooltip.SetDefault("Blinds and weakens the player if above 85% life\n" +
-                   "Summons a damaging plague aura around the player to destroy nearby enemies");
+            Tooltip.SetDefault("Summons a damaging plague aura around the player to destroy nearby enemies");
         }
 
         public override void SetDefaults()
@@ -29,12 +28,6 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.statLife >= (player.statLifeMax * 0.85f))
-            {
-                player.blind = true;
-                player.statDefense -= 5;
-                player.moveSpeed -= 0.05f;
-            }
             int plagueCounter = 0;
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0.05f, 1f, 0.1f);
             int num = mod.BuffType("Plague");

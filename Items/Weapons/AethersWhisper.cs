@@ -37,22 +37,12 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = mod.ProjectileType("AetherBeam");
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
         }
 
         public override bool AltFunctionUse(Player player)

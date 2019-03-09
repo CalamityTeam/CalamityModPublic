@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
-//using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -40,11 +39,6 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 1f;
 	        item.useAmmo = 40;
 	    }
-
-        /*public void OverhaulInit()
-        {
-            this.SetTag("bow");
-        }*/
 
         public override void ModifyTooltips(List<TooltipLine> list)
 	    {

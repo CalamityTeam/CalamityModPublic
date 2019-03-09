@@ -13,14 +13,12 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 	[AutoloadBossHead]
 	public class BrimstoneElemental : ModNPC
 	{
-        private int dustTimer = 90;
-		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Elemental");
 			Main.npcFrameCount[npc.type] = 12;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 64f;
@@ -29,44 +27,44 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.height = 150;
 			npc.defense = 20;
 			npc.lifeMax = CalamityWorld.revenge ? 35708 : 26000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 54050;
-            }
-            npc.knockBackResist = 0f;
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 54050;
+			}
+			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			aiType = -1; //new
 			npc.value = Item.buyPrice(0, 12, 0, 0);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
-                npc.buffImmune[k] = true;
-                npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[BuffID.Daybreak] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("HolyLight")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Plague")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
-                npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-                npc.buffImmune[mod.BuffType("SilvaStun")] = false;
-            }
+				npc.buffImmune[k] = true;
+				npc.buffImmune[BuffID.Ichor] = false;
+				npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+				npc.buffImmune[BuffID.CursedInferno] = false;
+				npc.buffImmune[BuffID.Daybreak] = false;
+				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+				npc.buffImmune[mod.BuffType("HolyLight")] = false;
+				npc.buffImmune[mod.BuffType("Nightwither")] = false;
+				npc.buffImmune[mod.BuffType("Plague")] = false;
+				npc.buffImmune[mod.BuffType("Shred")] = false;
+				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
+			}
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
 			npc.HitSound = SoundID.NPCHit23;
 			npc.DeathSound = SoundID.NPCDeath39;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone");
-            else
-                music = MusicID.Boss4;
-            bossBag = mod.ItemType("BrimstoneWaifuBag");
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			if (calamityModMusic != null)
+				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeftAlone");
+			else
+				music = MusicID.Boss4;
+			bossBag = mod.ItemType("BrimstoneWaifuBag");
 			if (CalamityWorld.downedProvidence)
 			{
 				npc.damage = 210;
@@ -74,16 +72,16 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.lifeMax = 300000;
 				npc.value = Item.buyPrice(0, 35, 0, 0);
 			}
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 4500000 : 4000000;
-            }
-        }
-		
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 2300000 : 2000000;
+			}
+		}
+
 		public override void AI()
 		{
-            CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
-            Player player = Main.player[npc.target];
+			CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
+			Player player = Main.player[npc.target];
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			bool brimTeleport = (double)npc.life <= (double)npc.lifeMax * 0.2;
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
@@ -99,13 +97,13 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			int dustAmt = (npc.ai[0] == 2f) ? 2 : 1;
 			int size = (npc.ai[0] == 2f) ? 50 : 35;
 			float speed = expertMode ? 5f : 4.5f;
-            if (CalamityWorld.death || CalamityWorld.bossRushActive)
-            {
-                speed = 5.5f;
-            }
-            for (int num1011 = 0; num1011 < 2; num1011++) 
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
-				if (Main.rand.Next(3) < dustAmt) 
+				speed = 5.5f;
+			}
+			for (int num1011 = 0; num1011 < 2; num1011++)
+			{
+				if (Main.rand.Next(3) < dustAmt)
 				{
 					int dust = Dust.NewDust(npc.Center - new Vector2((float)size), size * 2, size * 2, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
 					Main.dust[dust].noGravity = true;
@@ -124,10 +122,10 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			{
 				npc.timeLeft = 1800;
 			}
-            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
-            {
-                speed = 11f;
-            }
+			if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+			{
+				speed = 11f;
+			}
 			else if (!calamity)
 			{
 				speed = 7f;
@@ -152,36 +150,16 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					npc.velocity.Y = yDistance * totalDistance;
 				}
 			}
-            if (Main.netMode != 1)
-            {
-                dustTimer--;
-                if (dustTimer <= 0 && npc.alpha <= 0)
-                {
-                    int damage = expertMode ? 20 : 29;
-                    Vector2 position = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                    int projectile = Projectile.NewProjectile((int)position.X, (int)position.Y, 0f, 0f, mod.ProjectileType("BrimDust"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f); //changed
-                    Main.projectile[projectile].timeLeft = 90;
-                    dustTimer = 90;
-                }
-            }
-            if (npc.ai[0] == 0f) 
+			if (npc.ai[0] == 0f)
 			{
 				npc.defense = 20;
 				npc.chaseable = true;
 				if (Main.netMode != 1)
 				{
-                    npc.localAI[1] += 1f;
-                    if (npc.justHit)
+					npc.localAI[1] += 1f;
+					if (npc.justHit)
 					{
 						npc.localAI[1] += 1f;
-					}
-					if (brimTeleport)
-					{
-						npc.localAI[1] += 1f;
-					}
-					if (!calamity)
-					{
-						npc.localAI[1] += 2f;
 					}
 					if (npc.localAI[1] >= (float)(200 + Main.rand.Next(100)))
 					{
@@ -214,70 +192,70 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					}
 				}
 			}
-			else if (npc.ai[0] == 1f) 
+			else if (npc.ai[0] == 1f)
 			{
-                npc.damage = 0;
-                npc.dontTakeDamage = true;
-                npc.defense = 20;
-                npc.chaseable = false;
+				npc.damage = 0;
+				npc.dontTakeDamage = true;
+				npc.defense = 20;
+				npc.chaseable = false;
 				npc.alpha += (brimTeleport ? 5 : 4);
 				if (npc.alpha >= 255)
 				{
-                    if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("Brimling")) < 2 && revenge)
-                    {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Brimling"), 0, 0f, 0f, 0f, 0f, 255);
-                    }
-                    npc.alpha = 255;
+					if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("Brimling")) < 2 && revenge)
+					{
+						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Brimling"), 0, 0f, 0f, 0f, 0f, 255);
+					}
+					npc.alpha = 255;
 					npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
 					npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
 					npc.ai[0] = 2f;
-                    npc.netUpdate = true;
-                    return;
+					npc.netUpdate = true;
+					return;
 				}
 			}
-			else if (npc.ai[0] == 2f) 
+			else if (npc.ai[0] == 2f)
 			{
 				npc.alpha -= (brimTeleport ? 5 : 4);
 				if (npc.alpha <= 0)
 				{
-                    npc.damage = expertMode ? 96 : 60;
-                    npc.dontTakeDamage = false;
-                    npc.defense = 20;
-                    npc.chaseable = true;
-                    npc.ai[3] += 1f;
+					npc.damage = expertMode ? 96 : 60;
+					npc.dontTakeDamage = false;
+					npc.defense = 20;
+					npc.chaseable = true;
+					npc.ai[3] += 1f;
 					npc.alpha = 0;
-					if (npc.ai[3] >= 2f) 
+					if (npc.ai[3] >= 2f)
 					{
 						npc.ai[0] = 3f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
-					} 
+					}
 					else
 					{
 						npc.ai[0] = 0f;
 					}
-                    npc.netUpdate = true;
-                    return;
+					npc.netUpdate = true;
+					return;
 				}
 			}
-			else if (npc.ai[0] == 3f) 
+			else if (npc.ai[0] == 3f)
 			{
-                npc.defense = 20;
-                npc.dontTakeDamage = false;
-                npc.chaseable = true;
+				npc.defense = 20;
+				npc.dontTakeDamage = false;
+				npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
 				Vector2 shootFromVectorX = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				npc.ai[1] += 1f;
 				bool shootProjectile = false;
-                if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
-                {
-                    if (npc.ai[1] % 10f == 9f)
-                    {
-                        shootProjectile = true;
-                    }
-                }
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				{
+					if (npc.ai[1] % 10f == 9f)
+					{
+						shootProjectile = true;
+					}
+				}
 				else if (CalamityWorld.bossRushActive)
 				{
 					if (npc.ai[1] % 15f == 14f)
@@ -308,10 +286,10 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					if (Main.netMode != 1)
 					{
 						float projectileSpeed = 6f; //changed from 10
-                        if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
-                        {
-                            projectileSpeed += 4f;
-                        }
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						{
+							projectileSpeed += 4f;
+						}
 						if (revenge)
 						{
 							projectileSpeed += 1f;
@@ -340,55 +318,55 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						Main.projectile[projectileShot].timeLeft = 240;
 					}
 				}
-                if (npc.position.Y > player.position.Y - 150f) //200
-                {
-                    if (npc.velocity.Y > 0f)
-                    {
-                        npc.velocity.Y = npc.velocity.Y * 0.98f;
-                    }
-                    npc.velocity.Y = npc.velocity.Y - 0.1f;
-                    if (npc.velocity.Y > 2f)
-                    {
-                        npc.velocity.Y = 2f;
-                    }
-                }
-                else if (npc.position.Y < player.position.Y - 400f) //500
-                {
-                    if (npc.velocity.Y < 0f)
-                    {
-                        npc.velocity.Y = npc.velocity.Y * 0.98f;
-                    }
-                    npc.velocity.Y = npc.velocity.Y + 0.1f;
-                    if (npc.velocity.Y < -2f)
-                    {
-                        npc.velocity.Y = -2f;
-                    }
-                }
-                if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 100f)
-                {
-                    if (npc.velocity.X > 0f)
-                    {
-                        npc.velocity.X = npc.velocity.X * 0.98f;
-                    }
-                    npc.velocity.X = npc.velocity.X - 0.1f;
-                    if (npc.velocity.X > 8f)
-                    {
-                        npc.velocity.X = 8f;
-                    }
-                }
-                if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 100f)
-                {
-                    if (npc.velocity.X < 0f)
-                    {
-                        npc.velocity.X = npc.velocity.X * 0.98f;
-                    }
-                    npc.velocity.X = npc.velocity.X + 0.1f;
-                    if (npc.velocity.X < -8f)
-                    {
-                        npc.velocity.X = -8f;
-                    }
-                }
-                if (npc.ai[1] > 300f)
+				if (npc.position.Y > player.position.Y - 150f) //200
+				{
+					if (npc.velocity.Y > 0f)
+					{
+						npc.velocity.Y = npc.velocity.Y * 0.98f;
+					}
+					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					if (npc.velocity.Y > 2f)
+					{
+						npc.velocity.Y = 2f;
+					}
+				}
+				else if (npc.position.Y < player.position.Y - 400f) //500
+				{
+					if (npc.velocity.Y < 0f)
+					{
+						npc.velocity.Y = npc.velocity.Y * 0.98f;
+					}
+					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					if (npc.velocity.Y < -2f)
+					{
+						npc.velocity.Y = -2f;
+					}
+				}
+				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 150f) //100
+				{
+					if (npc.velocity.X > 0f)
+					{
+						npc.velocity.X = npc.velocity.X * 0.985f;
+					}
+					npc.velocity.X = npc.velocity.X - 0.1f;
+					if (npc.velocity.X > 8f)
+					{
+						npc.velocity.X = 8f;
+					}
+				}
+				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 150f) //100
+				{
+					if (npc.velocity.X < 0f)
+					{
+						npc.velocity.X = npc.velocity.X * 0.985f;
+					}
+					npc.velocity.X = npc.velocity.X + 0.1f;
+					if (npc.velocity.X < -8f)
+					{
+						npc.velocity.X = -8f;
+					}
+				}
+				if (npc.ai[1] > 300f)
 				{
 					npc.ai[0] = 4f;
 					npc.ai[1] = 0f;
@@ -401,19 +379,19 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			else if (npc.ai[0] == 4f)
 			{
 				npc.defense = 99999;
-                npc.dontTakeDamage = false;
-                npc.chaseable = false;
+				npc.dontTakeDamage = false;
+				npc.chaseable = false;
 				if (Main.netMode != 1)
 				{
 					npc.localAI[0] += (float)Main.rand.Next(4);
-                    if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
-                    {
-                        npc.localAI[0] += 3f;
-                    }
-                    if (CalamityWorld.death || !calamity)
-                    {
-                        npc.localAI[0] += 2f;
-                    }
+					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+					{
+						npc.localAI[0] += 3f;
+					}
+					if (CalamityWorld.death || !calamity)
+					{
+						npc.localAI[0] += 2f;
+					}
 					if (npc.localAI[0] >= 140f)
 					{
 						npc.localAI[0] = 0f;
@@ -447,19 +425,19 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							Main.projectile[projectile].tileCollide = false;
 						}
 						float spread = 45f * 0.0174f;
-					   	double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y)- spread / 2;
-					   	double deltaAngle = spread / 8f;
-					   	double offsetAngle;
-					   	int damage = expertMode ? 22 : 30;
-					   	int i;
-					   	for (i = 0; i < 6; i++ )
-					   	{
-					   		offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-					       	int projectile = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)( Math.Sin(offsetAngle) * 6f ), (float)( Math.Cos(offsetAngle) * 6f ), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-					       	int projectile2 = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)( -Math.Sin(offsetAngle) * 6f ), (float)( -Math.Cos(offsetAngle) * 6f ), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-					   	}
+						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
+						double deltaAngle = spread / 8f;
+						double offsetAngle;
+						int damage = expertMode ? 22 : 30;
+						int i;
+						for (i = 0; i < 6; i++)
+						{
+							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+							int projectile = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 6f), (float)(Math.Cos(offsetAngle) * 6f), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							int projectile2 = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 6f), (float)(-Math.Cos(offsetAngle) * 6f), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+						}
 					}
-		       	}
+				}
 				npc.TargetClosest(true);
 				npc.ai[1] += 1f;
 				npc.velocity *= 0.95f;
@@ -477,14 +455,14 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 		}
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
 			{
 				player.AddBuff(mod.BuffType("Horror"), 300, true);
 			}
 		}
-		
+
 		public override void FindFrame(int frameHeight) //9 total frames
 		{
 			npc.frameCounter += 1.0;
@@ -533,63 +511,62 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				}
 			}
 		}
-		
+
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.GreaterHealingPotion;
 		}
-		
+
 		public override void NPCLoot()
 		{
-			if (CalamityWorld.downedProvidence)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"), Main.rand.Next(20, 31));
-			}
 			if (Main.rand.Next(10) == 0)
 			{
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("RoseStone"), 1, true);
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneElementalTrophy"));
 			}
-            if (Main.rand.Next(10) == 0)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneElementalTrophy"));
-            }
-            if (CalamityWorld.armageddon)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    npc.DropBossBags();
-                }
-            }
-            if (Main.expertMode)
+			if (CalamityWorld.armageddon)
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					npc.DropBossBags();
+				}
+			}
+			if (Main.expertMode)
 			{
 				npc.DropBossBags();
 			}
 			else
 			{
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SoulofFright, Main.rand.Next(20, 41));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"), Main.rand.Next(2, 4));
-				int choice = Main.rand.Next(3);
-				if (choice == 0)
+				if (CalamityWorld.downedProvidence)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Abaddon"));
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"), Main.rand.Next(20, 31));
 				}
-				else if (choice == 1)
+				if (Main.rand.Next(10) == 0)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Brimlance"));
+					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("RoseStone"), 1, true);
 				}
-				else
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SoulofFright, Main.rand.Next(20, 41));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"), Main.rand.Next(4, 9));
+				switch (Main.rand.Next(3))
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeethingDischarge"));
+					case 0:
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Abaddon"));
+						break;
+					case 1:
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Brimlance"));
+						break;
+					case 2:
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeethingDischarge"));
+						break;
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

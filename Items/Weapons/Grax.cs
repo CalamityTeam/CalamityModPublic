@@ -34,25 +34,15 @@ namespace CalamityMod.Items.Weapons
 			item.height = 60;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-        }
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 	
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "FellerofEvergreens");
 			recipe.AddIngredient(null, "DraedonBar", 5);
-			recipe.AddRecipeGroup("LunarAxe");
+			recipe.AddRecipeGroup("LunarHamaxe");
 	        recipe.AddTile(TileID.LunarCraftingStation);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();

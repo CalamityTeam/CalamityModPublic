@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,8 +15,7 @@ namespace CalamityMod.Items
 		{
 			item.width = 20;
 			item.height = 20;
-			item.maxStack = 1;
-			item.value = 100;
+			item.value = Item.buyPrice(0, 0, 10, 0);
 			item.rare = 1;
 		}
 

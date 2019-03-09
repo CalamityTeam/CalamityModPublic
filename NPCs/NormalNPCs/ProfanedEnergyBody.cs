@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.noGravity = true;
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
+			banner = npc.type;
+			bannerItem = mod.ItemType("ProfanedEnergyBanner");
 		}
 		
 		public override void AI()

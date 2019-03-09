@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Sun Ring");
-            Tooltip.SetDefault("Increase to damage, melee speed, life regeneration,\n" +
-                "defense, pick speed, max minions, and minion knockback\n" +
-                "During the day the player has +1 life regen\n" +
+            Tooltip.SetDefault("10% increase to damage, minion knockback, and melee speed\n" +
+				"+1 life regen, 30% increased pick speed, and +2 max minions\n" +
+                "During the day the player has +2 life regen\n" +
                 "During the night the player has +20 defense\n" +
                 "Contains the power of the dark sun");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
@@ -27,19 +27,11 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = Item.buyPrice(0, 90, 0, 0);
+			item.defense = 10;
+			item.lifeRegen = 1;
             item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(108, 45, 199);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

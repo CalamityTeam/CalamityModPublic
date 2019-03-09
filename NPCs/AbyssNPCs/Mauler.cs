@@ -39,7 +39,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.DeathSound = SoundID.NPCDeath60;
             npc.knockBackResist = 0f;
             npc.rarity = 2;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("MaulerBanner");
+		}
 
         public override void AI()
         {

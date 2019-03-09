@@ -22,8 +22,8 @@ namespace CalamityMod.Items.AbyssItems
             item.width = 26;
             item.height = 26;
             item.maxStack = 999;
-            item.value = 100000;
-            item.rare = 8;
+			item.value = Item.buyPrice(0, 6, 0, 0);
+			item.rare = 10;
         }
     }
 }

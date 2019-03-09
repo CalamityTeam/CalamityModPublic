@@ -35,18 +35,8 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("EssenceFire");
 			item.shootSpeed = 14f;
 			item.useAmmo = 23;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-	    
-	    public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(43, 96, 222);
-	            }
-	        }
-	    }
 	    
 	    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -67,7 +57,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override bool ConsumeAmmo(Player player)
 	    {
-	    	if (Main.rand.Next(0, 100) <= 90)
+	    	if (Main.rand.Next(0, 100) < 90)
 	    		return false;
 	    	return true;
 	    }

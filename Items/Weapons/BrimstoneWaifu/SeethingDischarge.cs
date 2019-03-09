@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 62;
+			item.damage = 58;
 			item.magic = true;
 			item.mana = 15;
 			item.width = 28;

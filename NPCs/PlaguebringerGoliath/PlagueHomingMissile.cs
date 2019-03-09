@@ -23,13 +23,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.width = 22; //324
 			npc.height = 22; //216
 			npc.defense = 10;
-			npc.lifeMax = 1000;
+			npc.lifeMax = 200;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.noGravity = true;
+			npc.canGhostHeal = false;
 			npc.buffImmune[189] = true;
 			npc.buffImmune[153] = true;
 			npc.buffImmune[70] = true;
@@ -96,7 +97,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.ai[1] = (float)Player.FindClosest(npc.position, npc.width, npc.height);
                 npc.netUpdate = true;
                 float num754 = npc.velocity.Length();
-                npc.velocity = Vector2.Normalize(npc.velocity) * (num754 + 4.2f); //4f
+                npc.velocity = Vector2.Normalize(npc.velocity) * (num754 + 1f);
             }
             else if (npc.ai[0] == 1f)
             {

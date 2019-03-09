@@ -33,7 +33,7 @@ namespace CalamityMod.Items
 		{
             if (Main.netMode != 1)
             {
-                int num1302 = NPC.NewNPC((int)player.Center.X + 30, (int)player.Center.Y - 2, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
+                int num1302 = NPC.NewNPC((int)player.Center.X + 30, (int)player.Center.Y - 90, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num1302].direction = (Main.npc[num1302].spriteDirection = Math.Sign(player.Center.X - (float)player.Center.X - 30f));
             }
 			return true;

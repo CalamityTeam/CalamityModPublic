@@ -42,11 +42,11 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 npc.lifeMax = 53750;
             }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 3000000 : 2500000;
-            }
-            npc.aiStyle = 6; //new
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 1500000 : 1300000;
+			}
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -55,6 +55,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.scale = 1.35f;
 			}
+			NPCID.Sets.TrailCacheLength[npc.type] = 8;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 			npc.boss = true;
 			npc.value = Item.buyPrice(0, 20, 0, 0);
 			npc.alpha = 255;
@@ -382,16 +384,50 @@ namespace CalamityMod.NPCs.AstrumDeus
 			return false;
 		}
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            if (colorChange)
-            {
-                return new Color(250, 150, Main.DiscoB, npc.alpha);
-            }
-            return null;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			Color lightColor = new Color(250, 150, Main.DiscoB, npc.alpha);
+			Color newColor = (colorChange ? lightColor : drawColor);
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(newColor);
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+			Texture2D texture2D3 = Main.npcTexture[npc.type];
+			int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+			int y3 = num156 * (int)npc.frameCounter;
+			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+			Vector2 origin2 = rectangle.Size() / 2f;
+			int num157 = 8;
+			int num158 = 2;
+			int num159 = 1;
+			float num160 = 0f;
+			int num161 = num159;
+			while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
+			{
+				Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+				{
+					goto IL_6899;
+				}
+				IL_6881:
+				num161 += num158;
+				continue;
+				IL_6899:
+				float num164 = (float)(num157 - num161);
+				if (num158 < 0)
+				{
+					num164 = (float)(num159 - num161);
+				}
+				color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
+				Vector2 value4 = (npc.oldPos[num161]);
+				float num165 = npc.rotation;
+				Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
+				goto IL_6881;
+			}
+			var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+			return false;
+		}
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             if (colorChange)
             {

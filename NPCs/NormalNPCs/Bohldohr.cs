@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath35;
 			npc.behindTiles = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("BOHLDOHRBanner");
 		}
 		
 		public override void AI()

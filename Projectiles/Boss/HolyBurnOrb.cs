@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Orb");
+			DisplayName.SetDefault("Holy Orb");
 			Main.projFrames[projectile.type] = 4;
 		}
     	
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Main.player[num487].statLife = Main.player[num487].statLifeMax2;
                 }
-                if (Main.player[num487].statLife < 0)
+                if (Main.player[num487].statLife < 0 || CalamityWorld.armageddon)
                 {
                     Main.player[num487].KillMe(PlayerDeathReason.ByOther(12), 1000.0, 0, false);
                 }

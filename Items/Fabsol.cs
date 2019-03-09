@@ -20,8 +20,8 @@ namespace CalamityMod.Items
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 1;
-            item.value = 100000000;
-            item.expert = true;
+			item.value = Item.buyPrice(3, 0, 0, 0);
+			item.expert = true;
             item.UseSound = SoundID.Item3;
             item.noMelee = true;
             item.mountType = mod.MountType("Fab");

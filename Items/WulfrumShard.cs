@@ -21,8 +21,8 @@ namespace CalamityMod.Items
             item.width = 13;
             item.height = 10;
             item.maxStack = 999;
-            item.value = 1750;
-            item.rare = 1;
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 1;
         }
     }
 }

@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0.65f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("HadarianBanner");
+		}
 
         public override void AI()
         {
@@ -185,6 +187,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-        }
+			if (CalamityWorld.downedStarGod && Main.rand.Next(2) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HadarianMembrane"), Main.rand.Next(1, 3));
+			}
+		}
     }
 }

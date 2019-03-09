@@ -17,15 +17,15 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Ataxia Helm");
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
-                "Immune to lava and fire damage");
+                "Temporary immunity to lava and immunity to fire damage");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = 450000;
-            item.rare = 8;
+			item.value = Item.buyPrice(0, 30, 0, 0);
+			item.rare = 8;
             item.defense = 25; //67
         }
 
@@ -48,10 +48,6 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
-            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
-            {
-                player.AddBuff(BuffID.Inferno, 2);
-            }
             player.meleeDamage += 0.05f;
         }
 
@@ -61,8 +57,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.ataxiaFire = true;
             player.meleeDamage += 0.12f;
             player.meleeCrit += 10;
-            player.lavaImmune = true;
-            player.buffImmune[BuffID.OnFire] = true;
+			player.lavaMax += 240;
+			player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()

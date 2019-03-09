@@ -36,7 +36,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.7f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.aiStyle = -1;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("BigSightseerBanner");
+		}
 
         public override void FindFrame(int frameHeight)
         {

@@ -21,8 +21,8 @@ namespace CalamityMod.Items
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-            item.value = 58750;
-            item.rare = 5;
+			item.value = Item.buyPrice(0, 4, 0, 0);
+			item.rare = 6;
         }
 
         public override void AddRecipes()

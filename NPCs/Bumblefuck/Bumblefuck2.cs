@@ -23,15 +23,15 @@ namespace CalamityMod.NPCs.Bumblefuck
 			npc.npcSlots = 1f;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 140;
+			npc.damage = 110;
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.scale = 0.66f;
-			npc.defense = 40;
-			npc.lifeMax = 50000;
+			npc.defense = 25;
+			npc.lifeMax = 30000;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 30000;
+                npc.lifeMax = 60000;
             }
             npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -43,6 +43,7 @@ namespace CalamityMod.NPCs.Bumblefuck
             }
 			npc.lavaImmune = true;
 			npc.noGravity = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit51;
 			npc.DeathSound = SoundID.NPCDeath46;
 		}

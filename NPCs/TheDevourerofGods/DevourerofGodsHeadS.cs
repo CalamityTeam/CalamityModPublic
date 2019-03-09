@@ -44,23 +44,23 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 100; //130
 			npc.height = 144; //150
 			npc.defense = 0;
-            npc.lifeMax = CalamityWorld.revenge ? 625000 : 550000; //720000 672000
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 1020000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 9000000 : 8000000;
-            }
-            npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
+			npc.lifeMax = CalamityWorld.revenge ? 937500 : 825000; //720000 672000
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 1530000;
+			}
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 5000000 : 4600000;
+			}
+			npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.scale = 1.1f;
 			npc.boss = true;
-			npc.value = Item.buyPrice(3, 0, 0, 0);
+			npc.value = Item.buyPrice(1, 0, 0, 0);
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;
@@ -111,16 +111,15 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 }
                 else if (npc.localAI[3] == 1f)
                 {
-                    npc.damage = 0;
-                    npc.dontTakeDamage = true;
-                    npc.alpha += 5;
-                    if (npc.alpha == 255)
+                    //npc.damage = 0;
+                    npc.alpha += 4;
+                    if (npc.alpha == 204) //255
                     {
                         laserShoot = 0;
                     }
-                    if (npc.alpha >= 255)
+                    if (npc.alpha >= 204) //255
                     {
-                        npc.alpha = 255;
+                        npc.alpha = 204; //255
                         idleCounter--;
                         if (idleCounter <= 0)
                         {
@@ -139,8 +138,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         {
                             flameTimer = 270;
                         }
-                        npc.damage = expertMode ? 480 : 300;
-                        npc.dontTakeDamage = false;
+                        //npc.damage = expertMode ? 480 : 300;
                         npc.alpha = 0;
                         npc.localAI[3] = 0f;
                         npc.netUpdate = true;
@@ -149,19 +147,26 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             else
             {
-                npc.alpha -= 12;
+                npc.alpha -= 6;
                 if (npc.alpha < 0)
                 {
                     npc.alpha = 0;
                 }
-                if (npc.dontTakeDamage || npc.localAI[3] > 0f)
+                if (npc.localAI[3] > 0f)
                 {
-                    npc.damage = expertMode ? 480 : 300;
-                    npc.dontTakeDamage = false;
+                    //npc.damage = expertMode ? 480 : 300;
                     npc.localAI[3] = 0f;
                     npc.netUpdate = true;
                 }
             }
+			if (npc.alpha <= 0)
+			{
+				npc.damage = expertMode ? 480 : 300;
+			}
+			else
+			{
+				npc.damage = 0;
+			}
             if (speedBoost4)
 			{
 				if (!halfLife)

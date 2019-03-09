@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Flame");
+			DisplayName.SetDefault("Astral Homing Flame");
             Main.projFrames[projectile.type] = 4;
         }
     	

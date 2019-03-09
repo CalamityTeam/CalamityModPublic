@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.Calamitas
 			animationType = 2;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.buffImmune[24] = true;
@@ -63,6 +64,9 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
 				}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/LifeSeeker"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/LifeSeeker2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/LifeSeeker3"), 1f);
 			}
 		}
 	}

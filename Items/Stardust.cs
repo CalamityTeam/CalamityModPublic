@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items {
-public class Stardust : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class Stardust : ModItem
 	{
-		DisplayName.SetDefault("Stardust");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Stardust");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 26;
+			item.height = 18;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 3, 0, 0);
+			item.rare = 5;
+		}
 	}
-		
-	public override void SetDefaults()
-	{
-		item.width = 26;
-		item.height = 18;
-		item.maxStack = 999;
-		item.value = 5000;
-		item.rare = 5;
-	}
-}}
+}

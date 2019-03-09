@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Fire");
+			DisplayName.SetDefault("Holy Fire");
 			Main.projFrames[projectile.type] = 4;
 		}
     	

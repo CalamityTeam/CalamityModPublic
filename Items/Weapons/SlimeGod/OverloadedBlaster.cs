@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 	    
 	    public override bool ConsumeAmmo(Player player)
 	    {
-	    	if (Main.rand.Next(0, 100) <= 33)
+	    	if (Main.rand.Next(0, 100) < 33)
 	    		return false;
 	    	return true;
 	    }

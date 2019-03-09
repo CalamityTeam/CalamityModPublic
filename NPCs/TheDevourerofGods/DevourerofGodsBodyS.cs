@@ -28,14 +28,14 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 54; //34
 			npc.height = 54; //34
 			npc.defense = 0;
-            npc.lifeMax = CalamityWorld.revenge ? 625000 : 550000; //720000 672000
-            if (CalamityWorld.death)
+			npc.lifeMax = CalamityWorld.revenge ? 937500 : 825000; //720000 672000
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 1530000;
+			}
+			if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 1020000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 9000000 : 8000000;
+                npc.lifeMax = CalamityWorld.death ? 5000000 : 4600000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -46,7 +46,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.noGravity = true;
 			npc.noTileCollide = true;
             npc.chaseable = false;
-            npc.HitSound = SoundID.NPCHit4;
+			npc.canGhostHeal = false;
+			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
 			npc.boss = true;
@@ -128,7 +129,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             if (Main.npc[(int)npc.ai[2]].localAI[3] >= 1f)
             {
                 npc.damage = 0;
-                npc.dontTakeDamage = true;
                 npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
             }
             else if (Main.npc[(int)npc.ai[1]].alpha < 128)
@@ -137,7 +137,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				if (npc.alpha <= 0 && invinceTime <= 0)
 				{
                     npc.damage = expertMode ? 352 : 220;
-                    npc.dontTakeDamage = false;
                     npc.alpha = 0;
 				}
 			}

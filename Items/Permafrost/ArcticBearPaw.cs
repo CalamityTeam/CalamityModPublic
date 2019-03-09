@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Permafrost
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 77;
+			item.damage = 70;
 			item.magic = true;
             item.mana = 18;
 			item.width = 34;

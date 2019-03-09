@@ -37,7 +37,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.85f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("DevilFishBanner");
+		}
 
         public override void AI()
         {
@@ -277,11 +279,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer1 && spawnInfo.water)
             {
-                return 0.075f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.45f;
             }
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer2 && spawnInfo.water)
             {
-                return 0.1f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
             return 0f;
         }

@@ -32,9 +32,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.alpha = 60;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-
             animationType = NPCID.BlueSlime;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("AstralSlimeBanner");
+		}
 
         public override void FindFrame(int frameHeight)
         {

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 26;
-			item.damage = 90;
+			item.damage = 120;
 			item.melee = true;
 			item.useAnimation = 6;
 			item.useStyle = 1;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, 0, knockback, Main.myPlayer);
         }
     }
 }

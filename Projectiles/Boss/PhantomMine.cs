@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ghost Mine");
+			DisplayName.SetDefault("Phantom Orb");
 		}
     	
         public override void SetDefaults()

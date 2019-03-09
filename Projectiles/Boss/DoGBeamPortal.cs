@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
     	
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Portal");
+			DisplayName.SetDefault("Beam Portal");
 			Main.projFrames[projectile.type] = 6;
 		}
     	

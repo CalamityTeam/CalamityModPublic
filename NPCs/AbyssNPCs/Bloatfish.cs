@@ -33,7 +33,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.9f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("BloatfishBanner");
+		}
 
         public override void AI()
         {
@@ -178,8 +180,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && NPC.CountNPCS(mod.NPCType("Bloatfish")) < 3)
             {
-                return 0.05f;
-            }
+				return SpawnCondition.CaveJellyfish.Chance * 0.3f;
+			}
             return 0f;
         }
 
@@ -216,7 +218,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
 				}
 			}
-			if (npc.scale < 2f){
+			if (npc.scale < 2f)
+			{
 				npc.scale += 0.05f;
 			}
 		}

@@ -38,6 +38,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.alpha = 255;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -65,7 +66,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (projectile.type == mod.ProjectileType("Celestus2"))
             {
-                damage /= 8;
+                damage = (int)((double)damage * 0.66);
             }
         }
 

@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items {
-public class DemonicBoneAsh : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class DemonicBoneAsh : ModItem
 	{
-		DisplayName.SetDefault("Demonic Bone Ash");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Demonic Bone Ash");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 20;
+			item.height = 20;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 2, 0, 0);
+			item.rare = 3;
+		}
 	}
-		
-	public override void SetDefaults()
-	{
-		item.width = 20;
-		item.height = 20;
-		item.maxStack = 999;
-		item.value = 20000;
-		item.rare = 3;
-	}
-}}
+}

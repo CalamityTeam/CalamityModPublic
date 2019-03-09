@@ -31,7 +31,7 @@ namespace CalamityMod.Items.AbyssItems
 			item.consumable = true;
             item.buffType = BuffID.WellFed;
             item.buffTime = 216000;
-            item.value = 10000;
+			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
         public override bool CanUseItem(Player player)

@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Astrageldon
 			item.useStyle = 2;
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
-            item.value = 50000;
-            item.buffType = BuffID.WellFed;
+			item.value = Item.buyPrice(0, 4, 50, 0);
+			item.buffType = BuffID.WellFed;
             item.buffTime = 108000;
         }
 

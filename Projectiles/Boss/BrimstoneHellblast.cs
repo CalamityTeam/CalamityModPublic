@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hellblast");
+			DisplayName.SetDefault("Brimstone Hellblast");
             Main.projFrames[projectile.type] = 4;
         }
     	

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spear");
+			DisplayName.SetDefault("Water Spear");
 		}
     	
         public override void SetDefaults()
@@ -66,14 +66,15 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f);
-            if (Main.rand.Next(3) == 0)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 33, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
+        	Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f);
         }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);

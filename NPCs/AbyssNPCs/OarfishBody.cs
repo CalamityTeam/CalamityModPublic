@@ -43,6 +43,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.netAlways = true;
 			npc.dontCountMe = true;
             npc.chaseable = false;
+			banner = mod.NPCType("OarfishHead");
+			bannerItem = mod.ItemType("OarfishBanner");
 		}
 		
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

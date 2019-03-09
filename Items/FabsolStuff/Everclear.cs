@@ -12,7 +12,7 @@ namespace CalamityMod.Items.FabsolStuff
 		{
 			DisplayName.SetDefault("Everclear");
 			Tooltip.SetDefault(@"Boosts damage by 25%
-Reduces life regen by 20 and defense by 40
+Reduces life regen by 10 and defense by 40
 This is the most potent booze I have, be careful with it");
 		}
 

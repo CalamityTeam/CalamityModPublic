@@ -24,6 +24,7 @@ namespace CalamityMod.NPCs.Leviathan
 			aiType = -1;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.damage = 45;
 			npc.width = 90; //324
 			npc.height = 20; //216
@@ -36,6 +37,8 @@ namespace CalamityMod.NPCs.Leviathan
             npc.knockBackResist = 0f;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+			banner = npc.type;
+			bannerItem = mod.ItemType("ParaseaBanner");
 		}
 
         public override void AI()

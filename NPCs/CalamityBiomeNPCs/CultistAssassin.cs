@@ -39,6 +39,8 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				npc.lifeMax = 5000;
 				npc.value = Item.buyPrice(0, 0, 50, 0);
 			}
+			banner = npc.type;
+			bannerItem = mod.ItemType("CultistAssassinBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -75,9 +77,9 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"));
 			}
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.Next(3) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"), Main.rand.Next(1, 3));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
 			}
 		}
 	}

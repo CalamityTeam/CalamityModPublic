@@ -21,13 +21,13 @@ namespace CalamityMod.Items
 			item.height = 18;
 			item.useTurn = true;
 			item.maxStack = 30;
-			item.rare = 5;
+			item.rare = 3;
 			item.useAnimation = 17;
 			item.useTime = 17;
 			item.useStyle = 2;
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
-			item.value = 2000;
+			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
         public override bool CanUseItem(Player player)

@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 9000000 : 8100000;
+                npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new

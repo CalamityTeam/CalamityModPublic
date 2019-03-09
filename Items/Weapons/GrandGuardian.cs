@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Grand Guardian");
-			Tooltip.SetDefault("Has a chance to lower enemy defense by 30 when striking them\n" +
+			Tooltip.SetDefault("Has a chance to lower enemy defense by 15 when striking them\n" +
 			           "If enemy defense is 0 or below your attacks will heal you\n" +
 			           "Striking enemies causes a large explosion\n" +
 			           "Striking enemies that have under half life will make you release rainbow bolts\n" +
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 124;
-			item.damage = 200;
+			item.damage = 160;
 			item.melee = true;
 			item.useAnimation = 22;
 			item.useStyle = 1;
@@ -40,21 +40,17 @@ namespace CalamityMod.Items.Weapons
 		}
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-	    {
-			if (target.type == mod.NPCType("DevourerofGodsBodyS") || target.type == mod.NPCType("DevourerofGodsBody"))
+		{
+			if (Main.rand.Next(5) == 0)
 			{
-				return;
+				target.defense -= 15;
 			}
-			if (Main.rand.Next(2) == 0)
+			if (target.defense <= 0 && target.canGhostHeal)
 			{
-				target.defense -= 30;
+		    	player.statLife += 4;
+		    	player.HealEffect(4);
 			}
-			if (target.defense <= 0)
-			{
-		    	player.statLife += 6;
-		    	player.HealEffect(6);
-			}
-			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("RainbowBoom"), (int)((double)((float)item.damage * player.meleeDamage) * 0.5), knockback, Main.myPlayer);
+			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("RainbowBoom"), (int)((double)((float)item.damage * player.meleeDamage) * 0.5), 0f, Main.myPlayer);
 			float spread = 180f * 0.0174f;
 			double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
 			double deltaAngle = spread / 8f;

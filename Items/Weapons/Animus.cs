@@ -31,18 +31,8 @@ namespace CalamityMod.Items.Weapons
 			item.height = 90;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-        }
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(255, 0, 255);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+		}
 	
 		public override void AddRecipes()
 		{

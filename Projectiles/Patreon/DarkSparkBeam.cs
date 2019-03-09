@@ -118,10 +118,10 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy((double)num811, default(Vector2));
 			projectile.scale = 1.5f * (1.5f - num812);
 			projectile.damage = projectile2.damage;
-            double damageMult = 1.0 + (double)(projectile2.ai[0] * 0.0025f); //1 to 3.5
-            if (damageMult > 3.5)
+            double damageMult = 1.0 + (double)(projectile2.ai[0] * 0.0015f); //1 to 2.0 (1400 * x)
+            if (damageMult > 2.0)
             {
-                damageMult = 3.5;
+                damageMult = 2.0;
             }
             if (projectile2.ai[0] >= 720f) 
 			{

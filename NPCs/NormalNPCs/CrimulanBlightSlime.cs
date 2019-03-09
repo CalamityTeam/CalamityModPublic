@@ -36,6 +36,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.buffImmune[24] = true;
+			banner = npc.type;
+			bannerItem = mod.ItemType("CrimulanBlightSlimeBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

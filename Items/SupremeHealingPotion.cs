@@ -20,7 +20,7 @@ namespace CalamityMod.Items
 			item.width = 28;
 			item.height = 18;
 			item.useTurn = true;
-			item.maxStack = 30;
+			item.maxStack = 999;
 			item.healLife = 250;
 			item.useAnimation = 17;
 			item.useTime = 17;
@@ -28,19 +28,9 @@ namespace CalamityMod.Items
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
 			item.potion = true;
-			item.value = 10000;
+			item.value = Item.buyPrice(0, 6, 50, 0);
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
 
 		public override void AddRecipes()
 		{

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Clot");
+			DisplayName.SetDefault("Vile Clot");
 		}
     	
         public override void SetDefaults()
@@ -20,8 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 6;
             projectile.hostile = true;
             projectile.penetrate = 1;
-            projectile.aiStyle = 1;
-            aiType = 1;
+			projectile.timeLeft = 300;
         }
         
         public override void AI()

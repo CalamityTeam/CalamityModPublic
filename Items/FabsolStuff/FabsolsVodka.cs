@@ -9,7 +9,7 @@ namespace CalamityMod.Items.FabsolStuff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fabsol's Vodka");
-			Tooltip.SetDefault("Boosts all damage stats by 10% but lowers defense by 20\n" +
+			Tooltip.SetDefault("Boosts all damage stats by 8% but lowers defense by 20\n" +
 			                   "Increases immune time after being struck");
 		}
 		

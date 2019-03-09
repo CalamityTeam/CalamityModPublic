@@ -46,6 +46,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
 			npc.buffImmune[mod.BuffType("HolyLight")] = true;
 			npc.buffImmune[mod.BuffType("Plague")] = true;
+			banner = mod.NPCType("PlagueBee");
+			bannerItem = mod.ItemType("PlagueChargerBanner");
 		}
 		
 		public override void NPCLoot()
@@ -55,7 +57,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !NPC.downedGolemBoss)
+			if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
 			{
 				return 0f;
 			}

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.FiniteUse
 			item.damage = 200;
 			item.width = 18;
 			item.height = 18;
-			item.maxStack = 3;
+			item.maxStack = 9;
 			item.consumable = true;
 			item.knockBack = 10f;
 			item.value = 15000;

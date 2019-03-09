@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.DeathSound = SoundID.NPCDeath7;
 			npc.coldDamage = true;
             npc.rarity = 2;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("IceClasperBanner");
+		}
 
         public override void AI()
         {
@@ -239,7 +241,8 @@ namespace CalamityMod.NPCs.NormalNPCs
             	!spawnInfo.player.ZoneTowerVortex &&
             	!spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon &&
-                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
+				!spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea &&
+				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -268,7 +271,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"), Main.rand.Next(2, 4));
+			if (Main.rand.Next(2) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
+			}
             if (Main.rand.Next(10) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrostBarrier"));

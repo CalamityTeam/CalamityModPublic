@@ -33,6 +33,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("ExecutionersBlade");
 			item.shootSpeed = 26f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
 		
 		public override void AddRecipes()

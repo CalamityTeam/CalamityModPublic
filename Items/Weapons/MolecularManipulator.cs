@@ -34,28 +34,22 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shootSpeed = 25f;
 	        item.shoot = mod.ProjectileType("NullShot2");
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
 
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
-
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	player.statLife -= 5;
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("NullShot2"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+			if (player.statLife <= 0)
+			{
+				player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
+			}
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("NullShot2"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}
 

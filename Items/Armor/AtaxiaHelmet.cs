@@ -17,15 +17,15 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Ataxia Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "+2 max minions\n" +
-                "Immune to lava and fire damage");
+                "Temporary immunity to lava and immunity to fire damage");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.value = 450000;
-            item.rare = 8;
+			item.value = Item.buyPrice(0, 30, 0, 0);
+			item.rare = 8;
             item.defense = 6; //40
         }
 
@@ -56,12 +56,8 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("ChaosSpirit")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("ChaosSpirit"), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("ChaosSpirit"), (int)(190f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
-            }
-            if (player.statLife <= (player.statLifeMax2 * 0.5f))
-            {
-                player.AddBuff(BuffID.Inferno, 2);
             }
             player.minionDamage += 0.4f;
         }
@@ -71,8 +67,8 @@ namespace CalamityMod.Items.Armor
             player.minionDamage += 0.05f;
             player.minionKB += 1.5f;
             player.maxMinions += 2;
-            player.lavaImmune = true;
-            player.buffImmune[BuffID.OnFire] = true;
+			player.lavaMax += 240;
+			player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()

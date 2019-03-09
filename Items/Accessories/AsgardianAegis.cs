@@ -23,7 +23,6 @@ namespace CalamityMod.Items.Accessories
                 "Press N to activate buffs to all damage, crit chance, and defense\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
                 "10% damage reduction while submerged in liquid\n" +
-                "Increased defense by 10 when below 25% life\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
         }
 
@@ -34,18 +33,8 @@ namespace CalamityMod.Items.Accessories
             item.value = Item.buyPrice(0, 90, 0, 0); //30 gold reforge
             item.defense = 10;
             item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(43, 96, 222);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -69,7 +58,6 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
             player.buffImmune[mod.BuffType("HolyLight")] = true;
             player.buffImmune[mod.BuffType("GlacialState")] = true;
-            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.25)) { player.statDefense += 10; }
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) { player.endurance += 0.1f; }
         }
 

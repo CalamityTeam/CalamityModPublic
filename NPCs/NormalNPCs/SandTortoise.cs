@@ -23,19 +23,21 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 2f;
-			npc.damage = 90;
+			npc.damage = 110;
 			npc.aiStyle = 39;
 			npc.width = 46; 
 			npc.height = 32;
 			npc.defense = 34;
-			npc.scale = 1.25f;
-			npc.lifeMax = 490;
+			npc.scale = 1.5f;
+			npc.lifeMax = 580;
 			npc.knockBackResist = 0.2f;
 			animationType = 153;
 			npc.value = Item.buyPrice(0, 0, 15, 0);
 			npc.HitSound = SoundID.NPCHit24;
 			npc.DeathSound = SoundID.NPCDeath27;
 			npc.noGravity = false;
+			banner = npc.type;
+			bannerItem = mod.ItemType("SandTortoiseBanner");
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)
@@ -55,24 +57,15 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !Main.hardMode)
+			if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
 			{
 				return 0f;
 			}
 			return SpawnCondition.DesertCave.Chance * 0.05f;
 		}
 		
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("HolyLight"), 180, true);
-		}
-		
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
-			}
 			if (Main.rand.Next(10) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TurtleShell);

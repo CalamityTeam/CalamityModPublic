@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 300000;
-            item.rare = 5;
+			item.value = Item.buyPrice(0, 25, 0, 0);
+			item.rare = 5;
             item.defense = 5; //35
         }
 

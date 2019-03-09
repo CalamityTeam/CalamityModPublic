@@ -7,20 +7,22 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items {
-public class ManeaterBulb : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class ManeaterBulb : ModItem
 	{
-		DisplayName.SetDefault("Maneater Bulb");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Maneater Bulb");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 20;
+			item.height = 20;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 1;
+		}
 	}
-		
-	public override void SetDefaults()
-	{
-		item.width = 20;
-		item.height = 20;
-		item.maxStack = 999;
-		item.value = 10000;
-		item.rare = 2;
-	}
-}}
+}

@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 3000000 : 2500000;
+                npc.lifeMax = CalamityWorld.death ? 1500000 : 1300000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -44,10 +44,13 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.scale = 1.35f;
 			}
+			NPCID.Sets.TrailCacheLength[npc.type] = 8;
+			NPCID.Sets.TrailingMode[npc.type] = 1;
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
@@ -147,8 +150,42 @@ namespace CalamityMod.NPCs.AstrumDeus
             Color lightColor = new Color(250, 150, Main.DiscoB, npc.alpha);
             Mod mod = ModLoader.GetMod("CalamityMod");
             Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAltSpectral");
-            CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, 
-                (AstrumDeusHeadSpectral.colorChange ? lightColor : drawColor));
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			Color newColor = (AstrumDeusHeadSpectral.colorChange ? lightColor : drawColor);
+			Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(newColor);
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
+			Texture2D texture2D3 = (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]);
+			int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+			int y3 = num156 * (int)npc.frameCounter;
+			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
+			Vector2 origin2 = rectangle.Size() / 2f;
+			int num157 = 8;
+			int num158 = 2;
+			int num159 = 1;
+			float num160 = 0f;
+			int num161 = num159;
+			while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
+			{
+				Microsoft.Xna.Framework.Color color26 = npc.GetAlpha(color25);
+				{
+					goto IL_6899;
+				}
+				IL_6881:
+				num161 += num158;
+				continue;
+				IL_6899:
+				float num164 = (float)(num157 - num161);
+				if (num158 < 0)
+				{
+					num164 = (float)(num159 - num161);
+				}
+				color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
+				Vector2 value4 = (npc.oldPos[num161]);
+				float num165 = npc.rotation;
+				Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
+				goto IL_6881;
+			}
+			CalamityMod.DrawTexture(spriteBatch, texture2D3, 0, npc, newColor);
             return false;
         }
 

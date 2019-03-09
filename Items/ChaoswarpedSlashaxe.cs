@@ -20,8 +20,8 @@ namespace CalamityMod.Items
         {
             item.damage = 68;
             item.melee = true;
-            item.width = 42;
-            item.height = 42;
+            item.width = 50;
+            item.height = 50;
             item.useTime = 31;
             item.useAnimation = 31;
             item.useTurn = true;

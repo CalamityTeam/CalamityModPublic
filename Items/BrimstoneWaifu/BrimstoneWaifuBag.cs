@@ -7,11 +7,11 @@ namespace CalamityMod.Items.BrimstoneWaifu
 	public class BrimstoneWaifuBag : ModItem
 	{
 		public override void SetStaticDefaults()
- 		{
- 			DisplayName.SetDefault("Treasure Bag");
- 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
- 		}
-		
+		{
+			DisplayName.SetDefault("Treasure Bag");
+			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
+		}
+
 		public override void SetDefaults()
 		{
 			item.maxStack = 999;
@@ -30,31 +30,55 @@ namespace CalamityMod.Items.BrimstoneWaifu
 
 		public override void OpenBossBag(Player player)
 		{
+			if (CalamityWorld.revenge)
+			{
+				player.QuickSpawnItem(mod.ItemType("CharredRelic"));
+				if (CalamityWorld.downedProvidence)
+				{
+					player.QuickSpawnItem(mod.ItemType("Brimrose"));
+				}
+				if (Main.rand.Next(20) == 0)
+				{
+					switch (Main.rand.Next(3))
+					{
+						case 0:
+							player.QuickSpawnItem(mod.ItemType("StressPills"));
+							break;
+						case 1:
+							player.QuickSpawnItem(mod.ItemType("Laudanum"));
+							break;
+						case 2:
+							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
+							break;
+					}
+				}
+			}
 			player.TryGettingDevArmor();
-			int choice = Main.rand.Next(3);
-			if (choice == 0)
+			switch (Main.rand.Next(3))
 			{
-				player.QuickSpawnItem(mod.ItemType("Abaddon"));
+				case 0:
+					player.QuickSpawnItem(mod.ItemType("Abaddon"));
+					break;
+				case 1:
+					player.QuickSpawnItem(mod.ItemType("Abaddon"));
+					player.QuickSpawnItem(mod.ItemType("Brimlance"));
+					break;
+				case 2:
+					player.QuickSpawnItem(mod.ItemType("Abaddon"));
+					player.QuickSpawnItem(mod.ItemType("SeethingDischarge"));
+					break;
 			}
-			else if (choice == 1)
+			if (CalamityWorld.downedProvidence)
 			{
-				player.QuickSpawnItem(mod.ItemType("Brimlance"));
+				player.QuickSpawnItem(mod.ItemType("Bloodstone"), Main.rand.Next(25, 36));
 			}
-			else
+			if (Main.rand.Next(10) == 0)
 			{
-				player.QuickSpawnItem(mod.ItemType("SeethingDischarge"));
+				player.QuickSpawnItem(mod.ItemType("RoseStone"));
 			}
-            player.QuickSpawnItem(ItemID.SoulofFright, Main.rand.Next(25, 41));
-            player.QuickSpawnItem(mod.ItemType("EssenceofChaos"), Main.rand.Next(3, 5));
+			player.QuickSpawnItem(ItemID.SoulofFright, Main.rand.Next(25, 41));
+			player.QuickSpawnItem(mod.ItemType("EssenceofChaos"), Main.rand.Next(5, 10));
 			player.QuickSpawnItem(mod.ItemType("Gehenna"));
-            if (CalamityWorld.revenge)
-            {
-                player.QuickSpawnItem(mod.ItemType("CharredRelic"));
-                if (CalamityWorld.downedProvidence)
-                {
-                    player.QuickSpawnItem(mod.ItemType("Brimrose"));
-                }
-            }
 		}
 	}
 }

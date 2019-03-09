@@ -19,7 +19,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 230;
+            item.damage = 380;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -34,7 +34,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = 25000;
             item.shoot = mod.ProjectileType("TarragonThrowingDartProjectile");
             item.shootSpeed = 24f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override void AddRecipes()
         {

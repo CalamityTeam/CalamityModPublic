@@ -15,6 +15,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Viruling");
+			Main.npcFrameCount[npc.type] = 5;
 		}
 		
 		public override void SetDefaults()
@@ -42,9 +43,19 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
             npc.buffImmune[mod.BuffType("HolyLight")] = true;
             npc.buffImmune[mod.BuffType("Plague")] = true;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("VirulingBanner");
+		}
 
-        public override void AI()
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += 0.15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
+
+		public override void AI()
         {
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -146,7 +157,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss)
+            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -170,6 +181,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default(Color), 1f);
 				}
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling3"), 1f);
 			}
 		}
 		

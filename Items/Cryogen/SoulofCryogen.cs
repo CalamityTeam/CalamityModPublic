@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Cryogen
                 "Average vertical speed\n" +
                 "Flight time: 100\n" +
                 "5% increase to all damage and pick speed\n" +
-                "Frost damage added to melee projectiles and melee attacks");
+				"All melee attacks and projectiles inflict frostburn");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 

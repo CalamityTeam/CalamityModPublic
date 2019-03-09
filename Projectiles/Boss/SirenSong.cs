@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Song");
+			DisplayName.SetDefault("Musical Note");
 		}
     	
         public override void SetDefaults()
@@ -46,11 +46,19 @@ namespace CalamityMod.Projectiles.Boss
         	if (projectile.ai[1] == 0f)
         	{
         		projectile.ai[1] = 1f;
-        		Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 26);
-        	}
-        }
+				float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
+				Main.harpNote = soundPitch;
+				Main.PlaySound(SoundID.Item26, projectile.position);
+			}
+			Lighting.AddLight(projectile.Center, 0.7f, 0.5f, 0f);
+		}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, 255, 255, 0);
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
         	target.AddBuff(BuffID.Confused, 120);
         }

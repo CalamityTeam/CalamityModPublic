@@ -36,7 +36,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.HitSound = SoundID.NPCHit50;
 			npc.DeathSound = SoundID.NPCDeath53;
             npc.knockBackResist = 0.35f;
-        }
+			banner = npc.type;
+			bannerItem = mod.ItemType("FlounderBanner");
+		}
 
         public override void AI()
         {

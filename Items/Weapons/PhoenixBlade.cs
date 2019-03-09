@@ -14,36 +14,37 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phoenix Blade");
+			Tooltip.SetDefault("Enemies explode and emit healing flames on death");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 106;
-			item.damage = 35;
+			item.damage = 95;
 			item.melee = true;
-			item.useAnimation = 30;
+			item.useAnimation = 29;
 			item.useStyle = 1;
-			item.useTime = 30;
+			item.useTime = 29;
 			item.useTurn = true;
-			item.knockBack = 7f;
+			item.knockBack = 8f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 106;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.rare = 6;
 			item.shootSpeed = 12f;
 		}
 		
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, damage, knockback, Main.myPlayer);
-			float spread = 180f * 0.0174f;
-			double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed)- spread/2;
-			double deltaAngle = spread/8f;
-			double offsetAngle;
-			int i;
-			if (Main.rand.Next(4) == 0)
+			if (target.life <= 0)
 			{
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, damage, knockback, Main.myPlayer);
+				float spread = 180f * 0.0174f;
+				double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
+				double deltaAngle = spread / 8f;
+				double offsetAngle;
+				int i;
 				for (i = 0; i < 1; i++ )
 				{
 					float randomSpeedX = (float)Main.rand.Next(5);
@@ -72,8 +73,11 @@ namespace CalamityMod.Items.Weapons
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.BreakerBlade);
 			recipe.AddIngredient(ItemID.HellstoneBar, 10);
-			recipe.AddIngredient(null, "EssenceofCinder", 2);
-	        recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(null, "EssenceofCinder");
+			recipe.AddIngredient(ItemID.SoulofMight, 3);
+			recipe.AddIngredient(ItemID.SoulofSight, 3);
+			recipe.AddIngredient(ItemID.SoulofFright, 3);
+			recipe.AddTile(TileID.MythrilAnvil);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}

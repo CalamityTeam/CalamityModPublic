@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
     	
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Bomb");
+			DisplayName.SetDefault("Holy Bomb");
 			Main.projFrames[projectile.type] = 4;
 		}
     	

@@ -22,19 +22,9 @@ namespace CalamityMod.Items.DevourerMunsters
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-            item.value = 508750;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+			item.value = Item.buyPrice(0, 7, 0, 0);
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

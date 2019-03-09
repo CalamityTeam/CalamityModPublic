@@ -34,18 +34,8 @@ namespace CalamityMod.Items
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 6;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override void AddRecipes()
         {

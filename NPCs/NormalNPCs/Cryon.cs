@@ -31,6 +31,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath7;
+			banner = npc.type;
+			bannerItem = mod.ItemType("CryonBanner");
 		}
 
         public override void AI()
@@ -345,7 +347,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.player.ZoneTowerVortex &&
                 !spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon &&
-                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
+				!spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea &&
+				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -374,7 +377,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
+			if (Main.rand.Next(3) == 0)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
+			}
 		}
 	}
 }

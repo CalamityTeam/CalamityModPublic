@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 350000;
-            item.rare = 7;
+			item.value = Item.buyPrice(0, 30, 0, 0);
+			item.rare = 7;
             item.defense = 3; //36
         }
 
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("ReaverOrb")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("ReaverOrb"), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("ReaverOrb"), (int)(80f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.16f;

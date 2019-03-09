@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 840000 : 720000;
+                npc.lifeMax = CalamityWorld.death ? 420000 : 360000;
             }
             npc.aiStyle = 6; //new
             aiType = -1; //new
@@ -48,6 +48,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;

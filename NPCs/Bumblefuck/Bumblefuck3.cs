@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 			npc.npcSlots = 1f;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 170;
+			npc.damage = 190;
 			npc.width = 80; //324
 			npc.height = 80; //216
 			npc.scale = 0.85f;
@@ -39,6 +39,7 @@ namespace CalamityMod.NPCs.Bumblefuck
             }
 			npc.lavaImmune = true;
 			npc.noGravity = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit51;
 			npc.DeathSound = SoundID.NPCDeath46;
 		}

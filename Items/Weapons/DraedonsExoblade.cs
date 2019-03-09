@@ -24,13 +24,13 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 3500;
+            item.damage = 6700;
             item.useAnimation = 14;
             item.useStyle = 1;
             item.useTime = 14;
             item.useTurn = true;
             item.melee = true;
-            item.knockBack = 6f;
+            item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 114;
@@ -38,18 +38,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("Exobeam");
             item.shootSpeed = 19f;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(108, 45, 199);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+		}
 
         public override void GetWeaponDamage(Player player, ref int damage)
         {
@@ -118,7 +108,7 @@ namespace CalamityMod.Items.Weapons
                     Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Exocomet"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0.0f, ai1);
                 }
             }
-            if (target.type == NPCID.TargetDummy)
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
             {
                 return;
             }

@@ -18,7 +18,7 @@ namespace CalamityMod.Items
 			Tooltip.SetDefault("Makes any hit while a boss is alive instantly kill you\n" +
                 "Effect can be toggled on and off\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss\n" +
-                "If a boss is defeated with this effect active it will drop 11 treasure bags, 10 in normal mode\n" +
+                "If a boss is defeated with this effect active it will drop 6 treasure bags, 5 in normal mode\n" +
                 "If any player dies while a boss is alive the boss will instantly despawn");
 		}
 		

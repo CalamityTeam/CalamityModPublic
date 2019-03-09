@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.HiveMind
             aiType = -1; //new
 			npc.knockBackResist = 0.4f;
 			npc.noGravity = true;
+			npc.canGhostHeal = false;
+			npc.chaseable = false;
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath21;
 		}

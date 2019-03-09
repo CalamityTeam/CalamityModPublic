@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 				}
 				if (player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] < 1)
 				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SirenLure"), 0, 0f, Main.myPlayer, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SirenLure"), (int)(65f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 		}

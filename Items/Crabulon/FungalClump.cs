@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Crabulon
 				}
 				if (player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] < 1)
 				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), 10, 1f, Main.myPlayer, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(10f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
 				}
 			}
 		}

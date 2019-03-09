@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Nuke");
+			DisplayName.SetDefault("Homing Nuke");
             Main.projFrames[projectile.type] = 5;
         }
     	

@@ -14,14 +14,14 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lacerator");
-            Tooltip.SetDefault("Enemies that are close to the yoyo will have their life drained\n" +
+            Tooltip.SetDefault("Enemies that are hit by the yoyo will have their life drained\n" +
                 "Someone thought this was a viable weapon against DoG at one point lol");
         }
 
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.TheEyeOfCthulhu);
-            item.damage = 900;
+            item.damage = 150;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 5;
@@ -32,18 +32,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("LaceratorProjectile");
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override void AddRecipes()
         {

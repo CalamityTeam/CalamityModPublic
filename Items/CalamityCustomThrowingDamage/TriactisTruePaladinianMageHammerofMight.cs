@@ -19,7 +19,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 160;
-            item.damage = 5000;
+            item.damage = 10000;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -33,7 +33,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("TriactisOPHammer");
             item.shootSpeed = 25f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+		}
 
         public override void AddRecipes()
         {

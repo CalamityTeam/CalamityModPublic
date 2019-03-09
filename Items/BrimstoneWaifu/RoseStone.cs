@@ -59,7 +59,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
 				}
 				if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] < 1)
 				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("BigBustyRose"), 45, 2f, Main.myPlayer, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("BigBustyRose"), (int)(45f * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 		}

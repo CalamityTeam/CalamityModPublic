@@ -36,23 +36,13 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shootSpeed = 6f;
 	        item.shoot = mod.ProjectileType("ParticleBeamofDoom");
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-                    line2.overrideColor = new Color(43, 96, 222);
-                }
-	        }
-	    }
 	    
 	    public override bool AltFunctionUse(Player player)
 		{

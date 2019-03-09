@@ -21,9 +21,9 @@ namespace CalamityMod.Items.Accessories
             	"Increases damage reduction by 5%\n" +
             	"Increases max mana by 50 and reduces mana usage by 5%\n" +
             	"You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
-            	"Summons all waifus to protect you\n" +
-             "Toggling the visibility of this accessory also toggles the waifus on and off\n" +
-             "Stat increases are slightly higher if the waifus are turned off");
+            	"Summons all elementals to protect you\n" +
+				"Toggling the visibility of this accessory also toggles the elementals on and off\n" +
+				"Stat increases are slightly higher if the elementals are turned off");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
 		}
     	
@@ -34,18 +34,8 @@ namespace CalamityMod.Items.Accessories
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.defense = 9;
 			item.accessory = true;
-        }
-        
-        public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
-	            }
-	        }
-	    }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+		}
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
@@ -91,23 +81,23 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("BigBustyRose"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("BigBustyRose"), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SirenLure"), 0, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SirenLure"), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DrewsSandyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("DrewsSandyWaifu"), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SandyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("SandyWaifu"), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("CloudyWaifu"), (int)((float)damage * damageMult), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("CloudyWaifu"), (int)((float)damage * damageMult * player.minionDamage), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
             else

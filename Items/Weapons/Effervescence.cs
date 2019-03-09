@@ -16,36 +16,26 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Effervescence");
 		}
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 24;
-	        item.magic = true;
-	        item.mana = 17;
-	        item.width = 56;
-	        item.height = 26;
-	        item.useTime = 12;
-	        item.useAnimation = 12;
-	        item.useStyle = 5;
-	        item.noMelee = true;
-	        item.knockBack = 3.75f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.UseSound = SoundID.Item95;
-	        item.autoReuse = true;
-	        item.shootSpeed = 13f;
-	        item.shoot = mod.ProjectileType("UberBubble");
-	    }
-	    
-	    public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
+		public override void SetDefaults()
+		{
+			item.damage = 24;
+			item.magic = true;
+			item.mana = 17;
+			item.width = 56;
+			item.height = 26;
+			item.useTime = 12;
+			item.useAnimation = 12;
+			item.useStyle = 5;
+			item.noMelee = true;
+			item.knockBack = 3.75f;
+			item.value = Item.buyPrice(1, 20, 0, 0);
+			item.rare = 10;
+			item.UseSound = SoundID.Item95;
+			item.autoReuse = true;
+			item.shootSpeed = 13f;
+			item.shoot = mod.ProjectileType("UberBubble");
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 	    
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

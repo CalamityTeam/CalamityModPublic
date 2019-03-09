@@ -41,6 +41,8 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				npc.lifeMax = 3000;
 				npc.value = Item.buyPrice(0, 0, 50, 0);
 			}
+			banner = npc.type;
+			bannerItem = mod.ItemType("SoulSlurperBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
@@ -227,9 +229,9 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"));
 			}
-			if (Main.hardMode && Main.rand.Next(2) == 0)
+			if (Main.hardMode && Main.rand.Next(3) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"), Main.rand.Next(1, 3));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
 			}
 		}
 		
@@ -241,6 +243,10 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CalamitasGores/SoulSlurper4"), 1f);
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 50;

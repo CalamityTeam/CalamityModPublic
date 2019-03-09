@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Providence
 
         public override void SetDefaults()
         {
-            item.damage = 85;
+            item.damage = 62;
             item.ranged = true;
             item.width = 76;
             item.height = 30;
@@ -35,22 +35,12 @@ namespace CalamityMod.Items.Weapons.Providence
             item.shootSpeed = 24f;
             item.shoot = mod.ProjectileType("Nuke");
             item.useAmmo = 771;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

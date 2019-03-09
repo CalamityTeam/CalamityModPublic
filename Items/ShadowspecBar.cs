@@ -22,19 +22,9 @@ namespace CalamityMod.Items
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-            item.value = 1000000;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(108, 45, 199);
-                }
-            }
-        }
+			item.value = Item.buyPrice(0, 10, 0, 0);
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+		}
 
         public override void AddRecipes()
         {

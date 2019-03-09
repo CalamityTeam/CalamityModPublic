@@ -13,7 +13,7 @@ namespace CalamityMod.Items.FabsolStuff
 			DisplayName.SetDefault("Star Beam Rye");
 			Tooltip.SetDefault(@"Boosts max mana by 50, magic damage by 8%,
 and reduces mana usage by 10%
-Reduces defense by 6 and life regen by 3
+Reduces defense by 6 and life regen by 1
 Made from some stuff I found near the Astral Meteor crash site, don't worry it's safe, trust me");
 		}
 

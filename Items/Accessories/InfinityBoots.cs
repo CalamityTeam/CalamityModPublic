@@ -34,18 +34,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -72,7 +62,7 @@ namespace CalamityMod.Items.Accessories
             player.iceSkate = true;
             player.waterWalk = true;
             player.fireWalk = true;
-            player.lavaMax += 920;
+            player.lavaMax += 240;
             player.wingTimeMax = 120;
             modPlayer.IBoots = !hideVisual;
             modPlayer.sTracers = true;

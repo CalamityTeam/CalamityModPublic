@@ -30,6 +30,25 @@ namespace CalamityMod.Items.Calamitas
 
 		public override void OpenBossBag(Player player)
 		{
+			if (CalamityWorld.revenge)
+			{
+				player.QuickSpawnItem(mod.ItemType("Animosity"));
+				if (Main.rand.Next(20) == 0)
+				{
+					switch (Main.rand.Next(3))
+					{
+						case 0:
+							player.QuickSpawnItem(mod.ItemType("StressPills"));
+							break;
+						case 1:
+							player.QuickSpawnItem(mod.ItemType("Laudanum"));
+							break;
+						case 2:
+							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
+							break;
+					}
+				}
+			}
 			player.TryGettingDevArmor();
 			if (Main.rand.Next(3) == 0)
 			{
@@ -49,18 +68,14 @@ namespace CalamityMod.Items.Calamitas
 			}
             if (CalamityWorld.downedProvidence)
             {
-                player.QuickSpawnItem(mod.ItemType("Bloodstone"), Main.rand.Next(30, 41));
+                player.QuickSpawnItem(mod.ItemType("Bloodstone"), Main.rand.Next(35, 46));
             }
             if (Main.rand.Next(10) == 0)
             {
                 player.QuickSpawnItem(mod.ItemType("ChaosStone"));
             }
-            if (CalamityWorld.revenge)
-            {
-                player.QuickSpawnItem(mod.ItemType("Animosity"));
-            }
             player.QuickSpawnItem(mod.ItemType("CalamityDust"), Main.rand.Next(14, 19));
-			player.QuickSpawnItem(mod.ItemType("EssenceofChaos"), Main.rand.Next(4, 6));
+			player.QuickSpawnItem(mod.ItemType("EssenceofChaos"), Main.rand.Next(5, 10));
 			player.QuickSpawnItem(mod.ItemType("BlightedLens"), Main.rand.Next(1, 4));
 			player.QuickSpawnItem(mod.ItemType("CalamityRing"));
 		}

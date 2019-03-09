@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Brimstone");
+			DisplayName.SetDefault("Brimstone Dart");
 			Main.projFrames[projectile.type] = 4;
 		}
     	

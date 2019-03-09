@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-            item.value = 50000;
-            item.rare = 3;
+			item.value = Item.buyPrice(0, 5, 0, 0);
+			item.rare = 3;
             item.defense = 2; //13
         }
 
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("Valkyrie")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Valkyrie"), 25, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Valkyrie"), (int)(25f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.16f;

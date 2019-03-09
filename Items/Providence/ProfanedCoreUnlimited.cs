@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Providence
 			item.useStyle = 4;
 			item.consumable = false;
 			item.rare = 9;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
 		
 		public override bool CanUseItem(Player player)
@@ -41,23 +42,12 @@ namespace CalamityMod.Items.Providence
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			return true;
 		}
-		
-		public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(0, 255, 200);
-	            }
-	        }
-	    }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "ProfanedCore");
-            recipe.AddIngredient(null, "DivineGeode", 5);
+            recipe.AddIngredient(null, "UnholyEssence", 50);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

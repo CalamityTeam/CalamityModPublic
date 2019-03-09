@@ -13,14 +13,14 @@ namespace CalamityMod.NPCs.Crabulon
 	[AutoloadBossHead]
 	public class CrabulonIdle : ModNPC
 	{
-        private float shotSpacing = 1000f;
+		private float shotSpacing = 1000f;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crabulon");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 14f;
@@ -29,31 +29,33 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.height = 154; //216
 			npc.defense = 8;
 			npc.lifeMax = CalamityWorld.revenge ? 2640 : 1800;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 6930;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 4500000 : 3900000;
-            }
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
-            npc.noGravity = false;
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 6930;
+			}
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 2300000 : 2000000;
+			}
+			npc.aiStyle = -1; //new
+			aiType = -1; //new
+			npc.buffImmune[mod.BuffType("GlacialState")] = true;
+			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+			npc.noGravity = false;
 			npc.noTileCollide = false;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Crabulon");
-            else
-                music = MusicID.Boss4;
-            npc.boss = true;
-            npc.knockBackResist = 0f;
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			if (calamityModMusic != null)
+				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Crabulon");
+			else
+				music = MusicID.Boss4;
+			npc.boss = true;
+			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 4, 0, 0);
 			npc.HitSound = SoundID.NPCHit45;
 			npc.DeathSound = SoundID.NPCDeath1;
 			bossBag = mod.ItemType("CrabulonBag");
 		}
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 1f);
@@ -83,87 +85,87 @@ namespace CalamityMod.NPCs.Crabulon
 					npc.timeLeft = 1800;
 				}
 			}
-            if (npc.ai[0] != 0f && npc.ai[0] < 3f)
-            {
-                Vector2 vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                float num349 = player.position.X + (float)(player.width / 2) - vector34.X;
-                float num350 = player.position.Y + (float)(player.height / 2) - vector34.Y;
-                float num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
-                num349 *= num351;
-                num350 *= num351;
-                if (Main.netMode != 1)
-                {
-                    int num352 = 1;
-                    npc.localAI[3] += 2f;
-                    if (CalamityWorld.bossRushActive)
-                    {
-                        npc.localAI[3] += 2f;
-                        num352 += 3;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-                    {
-                        npc.localAI[3] += 1f;
-                        num352 += 2;
-                    }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-                    {
-                        npc.localAI[3] += 2f;
-                        num352 += 3;
-                    }
-                    if (npc.ai[3] == 0f)
-                    {
-                        if (npc.localAI[3] > 600f)
-                        {
-                            npc.ai[3] = 1f;
-                            npc.localAI[3] = 0f;
-                        }
-                    }
-                    else if (npc.localAI[3] > 45f)
-                    {
-                        npc.localAI[3] = 0f;
-                        npc.ai[3] += 1f;
-                        if (npc.ai[3] >= (float)num352)
-                        {
-                            npc.ai[3] = 0f;
-                        }
-                        float num353 = 10f;
-                        int num354 = expertMode ? 11 : 14;
-                        int num355 = mod.ProjectileType("MushBomb");
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
-                        if (CalamityWorld.bossRushActive)
-                        {
-                            num354 += 3;
-                            num353 += 3f;
-                        }
-                        if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-                        {
-                            num354++;
-                            num353 += 1f;
-                        }
-                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-                        {
-                            num354++;
-                            num353 += 1f;
-                        }
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            num354 += 3;
-                            num353 += 1f;
-                        }
-                        vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        num349 = player.position.X + (float)player.width * 0.5f - vector34.X;
-                        num350 = player.position.Y + (float)player.height * 0.5f - vector34.Y;
-                        num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
-                        num351 = num353 / num351;
-                        num349 *= num351;
-                        num350 *= num351;
-                        vector34.X += num349;
-                        vector34.Y += num350;
-                        Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350 - 5f, num355, num354, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
-            }
-            if (npc.ai[0] == 0f)
+			if (npc.ai[0] != 0f && npc.ai[0] < 3f)
+			{
+				Vector2 vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+				float num349 = player.position.X + (float)(player.width / 2) - vector34.X;
+				float num350 = player.position.Y + (float)(player.height / 2) - vector34.Y;
+				float num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
+				num349 *= num351;
+				num350 *= num351;
+				if (Main.netMode != 1)
+				{
+					int num352 = 1;
+					npc.localAI[3] += 2f;
+					if (CalamityWorld.bossRushActive)
+					{
+						npc.localAI[3] += 2f;
+						num352 += 3;
+					}
+					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
+					{
+						npc.localAI[3] += 1f;
+						num352 += 2;
+					}
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+					{
+						npc.localAI[3] += 2f;
+						num352 += 3;
+					}
+					if (npc.ai[3] == 0f)
+					{
+						if (npc.localAI[3] > 600f)
+						{
+							npc.ai[3] = 1f;
+							npc.localAI[3] = 0f;
+						}
+					}
+					else if (npc.localAI[3] > 45f)
+					{
+						npc.localAI[3] = 0f;
+						npc.ai[3] += 1f;
+						if (npc.ai[3] >= (float)num352)
+						{
+							npc.ai[3] = 0f;
+						}
+						float num353 = 10f;
+						int num354 = expertMode ? 11 : 14;
+						int num355 = mod.ProjectileType("MushBomb");
+						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+						if (CalamityWorld.bossRushActive)
+						{
+							num354 += 3;
+							num353 += 3f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
+						{
+							num354++;
+							num353 += 1f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+						{
+							num354++;
+							num353 += 1f;
+						}
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						{
+							num354 += 3;
+							num353 += 1f;
+						}
+						vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						num349 = player.position.X + (float)player.width * 0.5f - vector34.X;
+						num350 = player.position.Y + (float)player.height * 0.5f - vector34.Y;
+						num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
+						num351 = num353 / num351;
+						num349 *= num351;
+						num350 *= num351;
+						vector34.X += num349;
+						vector34.Y += num350;
+						Projectile.NewProjectile(vector34.X, vector34.Y, num349, num350 - 5f, num355, num354, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+			}
+			if (npc.ai[0] == 0f)
 			{
 				if (Main.netMode != 2)
 				{
@@ -175,14 +177,14 @@ namespace CalamityMod.NPCs.Crabulon
 				int sporeDust = Dust.NewDust(npc.position, npc.width, npc.height, 56, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
 				Main.dust[sporeDust].noGravity = true;
 				Main.dust[sporeDust].velocity *= 0.5f;
-                npc.damage = 0;
-                npc.ai[1] += 1f;
-                if (npc.justHit || npc.ai[1] >= 420f)
+				npc.damage = 0;
+				npc.ai[1] += 1f;
+				if (npc.justHit || npc.ai[1] >= 420f)
 				{
 					npc.ai[0] = 1f;
-                    npc.ai[1] = 0f;
-                    npc.netUpdate = true;
-                }
+					npc.ai[1] = 0f;
+					npc.netUpdate = true;
+				}
 			}
 			else if (npc.ai[0] == 1f)
 			{
@@ -196,46 +198,46 @@ namespace CalamityMod.NPCs.Crabulon
 					npc.noTileCollide = true;
 					npc.ai[0] = 2f;
 					npc.ai[1] = 0f;
-                    npc.netUpdate = true;
-                }
+					npc.netUpdate = true;
+				}
 			}
 			else if (npc.ai[0] == 2f)
 			{
-                npc.damage = expertMode ? 64 : 40;
-                float num823 = 1.25f;
+				npc.damage = expertMode ? 64 : 40;
+				float num823 = 1.25f;
 				bool flag51 = false;
-				if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive) 
+				if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 				{
 					num823 = 1.5f;
 				}
-				if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive) 
+				if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 				{
 					num823 = 2f;
 				}
-                if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
-                {
-                    num823 = 8f;
-                }
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f) 
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				{
+					num823 = 8f;
+				}
+				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f)
 				{
 					flag51 = true;
 				}
-				if (flag51) 
+				if (flag51)
 				{
 					npc.velocity.X = npc.velocity.X * 0.9f;
-					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1) 
+					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 					{
 						npc.velocity.X = 0f;
 					}
-				} 
-				else 
+				}
+				else
 				{
-                    npc.direction = -Main.player[npc.target].direction;
-                    if (npc.direction > 0) 
+					npc.direction = -Main.player[npc.target].direction;
+					if (npc.direction > 0)
 					{
 						npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
 					}
-					if (npc.direction < 0) 
+					if (npc.direction < 0)
 					{
 						npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
 					}
@@ -244,44 +246,44 @@ namespace CalamityMod.NPCs.Crabulon
 				int num855 = 20;
 				Vector2 position2 = new Vector2(npc.Center.X - (float)(num854 / 2), npc.position.Y + (float)npc.height - (float)num855);
 				bool flag52 = false;
-				if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y + (float)Main.player[npc.target].height - 16f) 
+				if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y + (float)Main.player[npc.target].height - 16f)
 				{
 					flag52 = true;
 				}
-				if (flag52) 
+				if (flag52)
 				{
 					npc.velocity.Y = npc.velocity.Y + 0.5f;
-				} 
+				}
 				else if (Collision.SolidCollision(position2, num854, num855))
 				{
-					if (npc.velocity.Y > 0f) 
+					if (npc.velocity.Y > 0f)
 					{
 						npc.velocity.Y = 0f;
 					}
-					if ((double)npc.velocity.Y > -0.2) 
+					if ((double)npc.velocity.Y > -0.2)
 					{
 						npc.velocity.Y = npc.velocity.Y - 0.025f;
-					} 
+					}
 					else
 					{
 						npc.velocity.Y = npc.velocity.Y - 0.2f;
 					}
-					if (npc.velocity.Y < -4f) 
+					if (npc.velocity.Y < -4f)
 					{
 						npc.velocity.Y = -4f;
 					}
-				} 
-				else 
+				}
+				else
 				{
-					if (npc.velocity.Y < 0f) 
+					if (npc.velocity.Y < 0f)
 					{
 						npc.velocity.Y = 0f;
 					}
-					if ((double)npc.velocity.Y < 0.1) 
+					if ((double)npc.velocity.Y < 0.1)
 					{
 						npc.velocity.Y = npc.velocity.Y + 0.025f;
-					} 
-					else 
+					}
+					else
 					{
 						npc.velocity.Y = npc.velocity.Y + 0.5f;
 					}
@@ -293,9 +295,9 @@ namespace CalamityMod.NPCs.Crabulon
 					npc.noTileCollide = false;
 					npc.ai[0] = 3f;
 					npc.ai[1] = 0f;
-                    npc.netUpdate = true;
-                }
-				if (npc.velocity.Y > 10f) 
+					npc.netUpdate = true;
+				}
+				if (npc.velocity.Y > 10f)
 				{
 					npc.velocity.Y = 10f;
 					return;
@@ -303,28 +305,28 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			else if (npc.ai[0] == 3f)
 			{
-                npc.damage = expertMode ? 64 : 40;
-                npc.noTileCollide = false;
-				if (npc.velocity.Y == 0f) 
+				npc.damage = expertMode ? 64 : 40;
+				npc.noTileCollide = false;
+				if (npc.velocity.Y == 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.8f;
 					npc.ai[1] += 1f;
 					if (npc.ai[1] > 0f)
 					{
-						if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive) 
+						if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
 						{
 							npc.ai[1] += 4f;
 						}
-						if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive) 
+						if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive)
 						{
 							npc.ai[1] += 8f;
 						}
 					}
-					if (npc.ai[1] >= 300f) 
+					if (npc.ai[1] >= 300f)
 					{
 						npc.ai[1] = -20f;
 						npc.frameCounter = 0.0;
-					} 
+					}
 					else if (npc.ai[1] == -1f)
 					{
 						npc.TargetClosest(true);
@@ -337,86 +339,86 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			else
 			{
-				if (npc.velocity.Y == 0f) 
+				if (npc.velocity.Y == 0f)
 				{
 					Main.PlaySound(SoundID.Item14, npc.position);
-                    if (Main.netMode != 1)
-                    {
-                        Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, mod.ProjectileType("Mushmash"), 20, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                    npc.ai[2] += 1f;
+					if (Main.netMode != 1)
+					{
+						Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, mod.ProjectileType("Mushmash"), 20, 0f, Main.myPlayer, 0f, 0f);
+					}
+					npc.ai[2] += 1f;
 					if (npc.ai[2] >= 3f)
 					{
-                        if (Main.netMode != 1 && revenge)
-                        {
-                            for (int x = 0; x < 20; x++)
-                            {
-                                int num354 = expertMode ? 11 : 14;
-                                Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, 0f, 0f, mod.ProjectileType("MushBombFall"), num354, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing -= 100f;
-                            }
-                            shotSpacing = 1000f;
-                        }
-                        npc.ai[0] = 1f;
+						if (Main.netMode != 1 && revenge)
+						{
+							for (int x = 0; x < 20; x++)
+							{
+								int num354 = expertMode ? 11 : 14;
+								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, 0f, 0f, mod.ProjectileType("MushBombFall"), num354, 0f, Main.myPlayer, 0f, 0f);
+								shotSpacing -= 100f;
+							}
+							shotSpacing = 1000f;
+						}
+						npc.ai[0] = 1f;
 						npc.ai[2] = 0f;
 					}
 					else
 					{
 						npc.ai[0] = 3f;
 					}
-					for (int num622 = (int)npc.position.X - 20; num622 < (int)npc.position.X + npc.width + 40; num622 += 20) 
+					for (int num622 = (int)npc.position.X - 20; num622 < (int)npc.position.X + npc.width + 40; num622 += 20)
 					{
-						for (int num623 = 0; num623 < 4; num623++) 
+						for (int num623 = 0; num623 < 4; num623++)
 						{
 							int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, 56, 0f, 0f, 100, default(Color), 1.5f);
 							Main.dust[num624].velocity *= 0.2f;
 						}
 					}
-				} 
-				else 
+				}
+				else
 				{
 					npc.TargetClosest(true);
-					if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width) 
+					if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
 						npc.velocity.Y = npc.velocity.Y + 0.15f; //0.2
-					} 
-					else 
+					}
+					else
 					{
-						if (npc.direction < 0) 
+						if (npc.direction < 0)
 						{
 							npc.velocity.X = npc.velocity.X - 0.2f;
 						}
-						else if (npc.direction > 0) 
+						else if (npc.direction > 0)
 						{
 							npc.velocity.X = npc.velocity.X + 0.2f;
 						}
 						float num626 = 2.5f; //4
-                        if (revenge)
-                        {
-                            num626 += 1f;
-                        }
-                        if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
-                        {
-                            num626 += 3f;
-                        }
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            num626 += 2f;
-                        }
-						if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive) 
+						if (revenge)
 						{
 							num626 += 1f;
 						}
-						if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive) 
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						{
+							num626 += 3f;
+						}
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						{
+							num626 += 2f;
+						}
+						if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
 						{
 							num626 += 1f;
 						}
-						if (npc.velocity.X < -num626) 
+						if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive)
+						{
+							num626 += 1f;
+						}
+						if (npc.velocity.X < -num626)
 						{
 							npc.velocity.X = -num626;
 						}
-						if (npc.velocity.X > num626) 
+						if (npc.velocity.X > num626)
 						{
 							npc.velocity.X = num626;
 						}
@@ -427,7 +429,7 @@ namespace CalamityMod.NPCs.Crabulon
 			{
 				npc.localAI[0] = (float)npc.lifeMax;
 			}
-	       	if (npc.life > 0)
+			if (npc.life > 0)
 			{
 				if (Main.netMode != 1)
 				{
@@ -454,16 +456,16 @@ namespace CalamityMod.NPCs.Crabulon
 					}
 				}
 			}
-        }
-		
+		}
+
 		public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
-        }
-		
+		{
+			npc.frameCounter += 0.15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
@@ -479,21 +481,21 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			return false;
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(10) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrabulonTrophy"));
 			}
-            if (CalamityWorld.armageddon)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    npc.DropBossBags();
-                }
-            }
-            if (Main.expertMode)
+			if (CalamityWorld.armageddon)
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					npc.DropBossBags();
+				}
+			}
+			if (Main.expertMode)
 			{
 				npc.DropBossBags();
 			}
@@ -501,11 +503,11 @@ namespace CalamityMod.NPCs.Crabulon
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GlowingMushroom, Main.rand.Next(20, 31));
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MushroomGrassSeeds, Main.rand.Next(3, 7));
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrabulonMask"));
-                }
-                if (Main.rand.Next(4) == 0)
+				if (Main.rand.Next(7) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrabulonMask"));
+				}
+				if (Main.rand.Next(4) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HyphaeRod"));
 				}
@@ -523,13 +525,13 @@ namespace CalamityMod.NPCs.Crabulon
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -562,15 +564,15 @@ namespace CalamityMod.NPCs.Crabulon
 					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 56, 0f, 0f, 100, default(Color), 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
-                float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon5"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon6"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon7"), 1f);
-            }
+				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon5"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon6"), 1f);
+				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Crabulon7"), 1f);
+			}
 		}
 	}
 }

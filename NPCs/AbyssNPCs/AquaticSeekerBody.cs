@@ -46,6 +46,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;
 			npc.dontCountMe = true;
+			banner = mod.NPCType("AquaticSeekerHead");
+			bannerItem = mod.ItemType("AquaticSeekerBanner");
 		}
 		
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -291,7 +293,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
                 }
-            }
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticSeekerBody"), 1f);
+			}
         }
 	}
 }

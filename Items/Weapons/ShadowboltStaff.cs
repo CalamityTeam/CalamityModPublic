@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 126;
+            item.damage = 170;
             item.magic = true;
             item.mana = 20;
             item.width = 58;
@@ -36,24 +36,14 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("Shadowbolt");
             item.shootSpeed = 6f;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "ArmoredShell", 3);
-            recipe.AddIngredient(null, "Phantoplasm", 5);
+            recipe.AddIngredient(null, "RuinousSoul", 2);
             recipe.AddIngredient(ItemID.ShadowbeamStaff);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

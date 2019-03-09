@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Badge of Bravery");
-            Tooltip.SetDefault("The lower the health the greater the melee speed");
+            Tooltip.SetDefault("15% increased melee speed");
         }
 
         public override void SetDefaults()
@@ -23,18 +23,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 30;
             item.value = Item.buyPrice(0, 21, 0, 0);
             item.accessory = true;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 200);
-                }
-            }
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

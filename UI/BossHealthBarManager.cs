@@ -158,7 +158,6 @@ namespace CalamityMod.UI
         {
             ExclusionList = new List<int>();
 
-            //True Eye of Cthulhu, can't kill em so
             ExclusionList.Add(NPCID.MoonLordFreeEye);
             ExclusionList.Add(NPCID.MoonLordHead);
             ExclusionList.Add(NPCID.MoonLordHand);
@@ -193,14 +192,14 @@ namespace CalamityMod.UI
             MinibossHPBarList.Add(NPCID.DD2Betsy);
             MinibossHPBarList.Add(NPCID.DD2OgreT2);
             MinibossHPBarList.Add(NPCID.DD2OgreT3);
-            MinibossHPBarList.Add(NPCID.DD2DarkMageT1);
+            MinibossHPBarList.Add(NPCID.DD2DarkMageT1); //800 HP
             MinibossHPBarList.Add(NPCID.DD2DarkMageT3);
 
             //Prehardmode
             MinibossHPBarList.Add(NPCID.DungeonGuardian);
 
             //Hardmode
-            MinibossHPBarList.Add(NPCID.GoblinSummoner);
+            MinibossHPBarList.Add(NPCID.GoblinSummoner); //2000 HP
             MinibossHPBarList.Add(NPCID.Paladin);
             MinibossHPBarList.Add(NPCID.IceGolem);
             MinibossHPBarList.Add(NPCID.SandElemental);
@@ -221,9 +220,6 @@ namespace CalamityMod.UI
             Mod calamity = ModLoader.GetMod("CalamityMod");
             if (calamity != null)
             {
-                //Prehardmode
-                MinibossHPBarList.Add(calamity.NPCType("Cnidrion"));
-
                 //Hardmode
                 MinibossHPBarList.Add(calamity.NPCType("ThiccWaifu"));
                 MinibossHPBarList.Add(calamity.NPCType("Horse"));
@@ -552,7 +548,7 @@ namespace CalamityMod.UI
                     dead = true;
 
                 int life = _npc.life;
-                if (life < 0 || !_npc.active || _npc.lifeMax < 400)
+                if (life < 0 || !_npc.active || _npc.lifeMax < 800)
                     dead = true;
 
                 if (_oneToMany)

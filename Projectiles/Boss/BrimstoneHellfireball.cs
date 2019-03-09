@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Hellfire");
+			DisplayName.SetDefault("Brimstone Hellfireball");
 		}
     	
         public override void SetDefaults()

@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons
         {
             item.damage = 150;
             item.ranged = true;
-            item.width = 68;
-            item.height = 24;
+            item.width = 88;
+            item.height = 30;
             item.crit += 22;
             item.useTime = 25;
             item.useAnimation = 25;
@@ -37,7 +37,12 @@ namespace CalamityMod.Items.Weapons
             item.useAmmo = 97;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override Vector2? HoldoutOffset()
+		{
+			return new Vector2(-10, 0);
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 1f, 0.0f);
             return false;

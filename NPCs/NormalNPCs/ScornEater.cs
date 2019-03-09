@@ -38,6 +38,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.value = Item.buyPrice(0, 0, 50, 0);
 			npc.HitSound = SoundID.NPCHit23;
 			npc.DeathSound = SoundID.NPCDeath26;
+			banner = npc.type;
+			bannerItem = mod.ItemType("ScornEaterBanner");
 		}
 		
 		public override void AI()

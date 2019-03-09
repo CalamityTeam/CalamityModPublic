@@ -8,20 +8,22 @@ using Terraria.ModLoader;
 using CalamityMod.Items;
 using CalamityMod.NPCs;
 
-namespace CalamityMod.Items {
-public class LivingShard : ModItem
+namespace CalamityMod.Items
 {
-	public override void SetStaticDefaults()
+	public class LivingShard : ModItem
 	{
-		DisplayName.SetDefault("Living Shard");
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Living Shard");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 14;
+			item.height = 14;
+			item.maxStack = 999;
+			item.value = Item.buyPrice(0, 4, 50, 0);
+			item.rare = 7;
+		}
 	}
-		
-	public override void SetDefaults()
-	{
-		item.width = 14;
-		item.height = 14;
-		item.maxStack = 999;
-		item.value = 15000;
-		item.rare = 7;
-	}
-}}
+}

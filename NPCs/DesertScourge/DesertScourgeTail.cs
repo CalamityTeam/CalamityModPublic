@@ -29,11 +29,11 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.lifeMax = 5100;
             }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 9000000 : 8100000;
-            }
-            npc.aiStyle = 6; //new
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
+			}
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -51,6 +51,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
+			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;

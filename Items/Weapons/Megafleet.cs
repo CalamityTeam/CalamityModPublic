@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 480;
+			item.damage = 1000;
 			item.ranged = true;
 			item.width = 96;
 			item.height = 38;
@@ -34,27 +34,17 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = 10;
 			item.shootSpeed = 18f;
 			item.useAmmo = 97;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
 
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);
         }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-	    {
-	        foreach (TooltipLine line2 in list)
-	        {
-	            if (line2.mod == "Terraria" && line2.Name == "ItemName")
-	            {
-	                line2.overrideColor = new Color(255, 0, 255);
-	            }
-	        }
-	    }
 	    
 	    public override bool ConsumeAmmo(Player player)
 	    {
-	    	if (Main.rand.Next(0, 100) <= 95)
+	    	if (Main.rand.Next(0, 100) < 95)
 	    		return false;
 	    	return true;
 	    }

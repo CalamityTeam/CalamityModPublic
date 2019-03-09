@@ -11,7 +11,7 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Grape Beer");
-			Tooltip.SetDefault(@"Reduces life regen by 1, defense by 2, and movement speed by 5%
+			Tooltip.SetDefault(@"Reduces defense by 2 and movement speed by 5%
 This crap is abhorrent but you might like it
 Restores 100 life and mana");
 		}

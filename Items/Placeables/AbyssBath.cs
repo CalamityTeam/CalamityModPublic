@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "SmoothAbyssGravel", 14);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddTile(null, "VoidCondenser");
             recipe.AddRecipe();
         }

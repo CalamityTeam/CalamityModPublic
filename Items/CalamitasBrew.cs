@@ -27,7 +27,7 @@ namespace CalamityMod.Items
 			item.consumable = true;
 			item.buffType = mod.BuffType("AbyssalWeapon");
 			item.buffTime = 36000;
-			item.value = 2000;
+			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
 		public override void AddRecipes()

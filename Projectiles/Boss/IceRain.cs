@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Boss
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ice");
+			DisplayName.SetDefault("Ice Rain");
 		}
     	
         public override void SetDefaults()

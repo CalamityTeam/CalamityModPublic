@@ -30,16 +30,16 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 80; //90
 			npc.height = 98; //90
 			npc.defense = 0;
-            npc.lifeMax = CalamityWorld.revenge ? 625000 : 550000; //720000 672000
+            npc.lifeMax = CalamityWorld.revenge ? 937500 : 825000; //720000 672000
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 1020000;
+                npc.lifeMax = 1530000;
             }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 9000000 : 8000000;
-            }
-            npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 5000000 : 4600000;
+			}
+			npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
             npc.aiStyle = -1; //new
             aiType = -1; //new
             animationType = 10; //new
@@ -48,7 +48,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
+			npc.canGhostHeal = false;
+			npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
             npc.netAlways = true;
 			npc.boss = true;
@@ -166,7 +167,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             if (Main.npc[(int)npc.ai[2]].localAI[3] >= 1f)
             {
                 npc.damage = 0;
-                npc.dontTakeDamage = true;
                 npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
             }
             else if (Main.npc[(int)npc.ai[1]].alpha < 128)
@@ -175,7 +175,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				if (npc.alpha <= 0 && invinceTime <= 0)
 				{
                     npc.damage = expertMode ? 288 : 180;
-                    npc.dontTakeDamage = false;
                     npc.alpha = 0;
 				}
 			}
@@ -450,7 +449,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             damage = (int)((double)damage * multiplier);
             if (damageTaken >= 50000.0)
             {
-                damage = (int)((double)damage * 0.5);
+                damage = (int)((double)damage * 0.2);
             }
             return true;
 		}

@@ -21,19 +21,9 @@ namespace CalamityMod.Items
             item.width = 13;
             item.height = 10;
             item.maxStack = 999;
-            item.value = 37500;
-            item.rare = 10;
-        }
-
-        public override void ModifyTooltips(List<TooltipLine> list)
-        {
-            foreach (TooltipLine line2 in list)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "ItemName")
-                {
-                    line2.overrideColor = new Color(0, 255, 0);
-                }
-            }
-        }
+			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.rare = 10;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
     }
 }
