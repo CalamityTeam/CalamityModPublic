@@ -306,6 +306,7 @@ namespace CalamityMod
 					ProjectileID.Phantasm,
 					ProjectileID.VortexBeater,
 					ProjectileID.DD2PhoenixBow,
+					479, // ichor darts
 					calamity.ProjectileType("Phangasm"),
 					calamity.ProjectileType("Contagion"),
 					calamity.ProjectileType("DaemonsFlame"),
