@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pearl of Enthrallment");
-			Tooltip.SetDefault("Summons a siren lure to fight for you\nThe lure stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies");
+			Tooltip.SetDefault("Summons a siren to fight for you\nThe siren stays above you, shooting water spears, ice mist, and treble clefs at nearby enemies");
 		}
 
 	    public override void SetDefaults()

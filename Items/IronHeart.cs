@@ -16,7 +16,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Iron Heart");
 			Tooltip.SetDefault("Makes dying while a boss is alive permanently kill you.\n" +
-                "This mode cannot be toggled on and off.\n" +
+                "Can be toggled on and off.\n" +
                 "Using this while a boss is alive will permanently kill you.\n" +
                 "Cannot be activated if any boss has been killed.");
 		}
@@ -30,7 +30,7 @@ namespace CalamityMod.Items
 			item.useTime = 45;
 			item.useStyle = 4;
 			item.UseSound = SoundID.Item119;
-			item.consumable = true;
+			item.consumable = false;
 		}
 
         public override bool CanUseItem(Player player)
@@ -56,11 +56,35 @@ namespace CalamityMod.Items
 			if (!CalamityWorld.ironHeart)
 			{
 				CalamityWorld.ironHeart = true;
-                if (Main.netMode == 2)
-                {
-                    NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                }
-            }
+				string key = "Mods.CalamityMod.IronHeartText";
+				Color messageColor = Color.LightSkyBlue;
+				if (Main.netMode == 0)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+				}
+				else if (Main.netMode == 2)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				}
+			}
+			else
+			{
+				CalamityWorld.ironHeart = false;
+				string key = "Mods.CalamityMod.IronHeartText2";
+				Color messageColor = Color.LightSkyBlue;
+				if (Main.netMode == 0)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+				}
+				else if (Main.netMode == 2)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				}
+			}
+			if (Main.netMode == 2)
+			{
+				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+			}
 			return true;
 		}
 	}

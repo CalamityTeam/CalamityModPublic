@@ -264,14 +264,14 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			}
 			if (npc.life <= 0)
 			{
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore1"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore5"), 1f);
 				for (int k = 0; k < 25; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default(Color), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore3"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore4"), 1f);
-					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/PrismTurtle/PrismTurtleGore5"), 1f);
 				}
 			}
 		}

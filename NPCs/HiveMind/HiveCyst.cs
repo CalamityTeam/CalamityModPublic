@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				return 0f;
 			}
-			return SpawnCondition.Corruption.Chance * (Main.hardMode ? 0.05f : 0.2f);
+			return SpawnCondition.Corruption.Chance * (Main.hardMode ? 0.05f : 0.5f);
 		}
 		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

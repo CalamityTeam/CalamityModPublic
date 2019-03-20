@@ -9,39 +9,39 @@ using CalamityMod.Items;
 
 namespace CalamityMod.Items
 {
-    public class ReefclawHamaxe : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Reefclaw Hamaxe");
-        }
+	public class ReefclawHamaxe : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Reefclaw Hamaxe");
+		}
 
-        public override void SetDefaults()
-        {
-            item.damage = 15;
-            item.melee = true;
-            item.width = 44;
-            item.height = 44;
-            item.useTime = 19;
-            item.useAnimation = 19;
-            item.useTurn = true;
-            item.axe = 13;
-            item.hammer = 50;
-            item.useStyle = 1;
-            item.knockBack = 4;
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 2;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-        }
+		public override void SetDefaults()
+		{
+			item.damage = 15;
+			item.melee = true;
+			item.width = 44;
+			item.height = 44;
+			item.useTime = 29;
+			item.useAnimation = 29;
+			item.useTurn = true;
+			item.axe = 13;
+			item.hammer = 50;
+			item.useStyle = 1;
+			item.knockBack = 6f;
+			item.value = Item.buyPrice(0, 2, 0, 0);
+			item.rare = 2;
+			item.UseSound = SoundID.Item1;
+			item.autoReuse = true;
+		}
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "VictideBar", 2);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "VictideBar", 2);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }

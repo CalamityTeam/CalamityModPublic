@@ -39,7 +39,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(ItemID.ThrowingKnife, 50);
+	        recipe.AddIngredient(null, "WulfrumKnife", 50);
 	        recipe.AddIngredient(ItemID.Diamond, 3);
 	        recipe.AddIngredient(ItemID.FallenStar, 3);
 	        recipe.AddTile(TileID.Anvils);

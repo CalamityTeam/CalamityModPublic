@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Scavenger
             bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
             Player player = Main.player[npc.target];
             npc.noTileCollide = true;
-            if (NPC.CountNPCS(mod.NPCType("ScavengerBody")) < 1)
+            if (!Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;

@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Madame Sandy");
+			DisplayName.SetDefault("Rare Sand Elemental");
 			Description.SetDefault("The sand elemental will heal you");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;

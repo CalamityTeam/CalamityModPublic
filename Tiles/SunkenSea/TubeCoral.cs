@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.SunkenSea
         {
             Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-            Main.tileBlockLight[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 3;
 			TileObjectData.newTile.CoordinateHeights = new[]

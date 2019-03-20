@@ -2086,7 +2086,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = mod.ItemType("SupremeHealingPotion");
+			potionType = mod.ItemType("OmegaHealingPotion");
 		}
 
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

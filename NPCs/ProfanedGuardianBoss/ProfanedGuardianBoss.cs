@@ -83,6 +83,12 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			bool fireDust = (double)npc.life <= (double)npc.lifeMax * 0.25;
 			Player player = Main.player[npc.target];
 			Vector2 vector = npc.Center;
+			if (Main.netMode != 1 && npc.localAI[1] == 0f)
+			{
+				npc.localAI[1] = 1f;
+				NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("ProfanedGuardianBoss2"), 0, 0f, 0f, 0f, 0f, 255);
+				NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("ProfanedGuardianBoss3"), 0, 0f, 0f, 0f, 0f, 255);
+			}
 			bool expertMode = Main.expertMode;
 			bool revenge = CalamityWorld.revenge;
 			bool isHoly = player.ZoneHoly;

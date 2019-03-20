@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Halibut Cannon");
-            Tooltip.SetDefault("Revengeance drop");
+            Tooltip.SetDefault("This weapon is overpowered, use at the risk of ruining your playthrough\n" +
+				"Revengeance drop");
         }
 
 	    public override void SetDefaults()

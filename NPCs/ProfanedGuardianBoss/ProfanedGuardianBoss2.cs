@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					Main.dust[num1012].fadeIn = 1f;
 				}
 			}
-			if (CalamityGlobalNPC.doughnutBoss < 0) 
+			if (!Main.npc[CalamityGlobalNPC.doughnutBoss].active) 
 			{
 				npc.active = false;
 				npc.netUpdate = true;

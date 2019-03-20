@@ -21,7 +21,6 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Cosmic Immaterializer");
             Tooltip.SetDefault("Summons a cosmic energy spiral to fight for you\n" +
-                               "While summoned you will take 25% less damage from projectiles\n" +
                                "The orb will fire swarms of homing energy bolts when enemies are detected by it\n" +
                                "Requires 10 minion slots to use\n" +
                                "There can only be one\n" +

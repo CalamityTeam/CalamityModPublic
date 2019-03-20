@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.lifeMax = CalamityWorld.death ? 5000000 : 4600000;
 			}
-			npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
+			npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1; //new
             aiType = -1; //new
             animationType = 10; //new

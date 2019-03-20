@@ -1,4 +1,3 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,7 +14,8 @@ namespace CalamityMod.Items
 		{
 			item.width = 20;
 			item.height = 20;
-			item.value = Item.buyPrice(0, 0, 10, 0);
+			item.maxStack = 1;
+			item.value = 100;
 			item.rare = 1;
 		}
 
@@ -24,12 +24,7 @@ namespace CalamityMod.Items
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.ShadowKey);
 			recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.ShadowKey);
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AncientAltar");
+            recipe.AddTile(18);
             recipe.AddRecipe();
         }
 	}

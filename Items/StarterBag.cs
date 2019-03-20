@@ -47,6 +47,9 @@ namespace CalamityMod.Items
             player.QuickSpawnItem(ItemID.Bomb, 10); //speedruns lul needs
             player.QuickSpawnItem(mod.ItemType("Death"));
             player.QuickSpawnItem(mod.ItemType("DefiledRune"));
-        }
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			if (calamityModMusic != null)
+				player.QuickSpawnItem(calamityModMusic.ItemType("CalamityMusicbox"));
+		}
 	}
 }

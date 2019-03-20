@@ -58,13 +58,6 @@ namespace CalamityMod.Projectiles.SunkenSea
 				}
 				spawnDust = false;
 			}
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
-			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
-					Main.player[projectile.owner].minionDamage);
-				projectile.damage = damage2;
-			}
 			bool flag64 = projectile.type == mod.ProjectileType("Shellfish");
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -93,6 +86,13 @@ namespace CalamityMod.Projectiles.SunkenSea
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.damage = 100;
+				if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+				{
+					int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
+						projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+						Main.player[projectile.owner].minionDamage);
+					projectile.damage = damage2;
+				}
 				float[] var0 = projectile.ai;
 				int var1 = 1;
 				float num73 = var0[var1];

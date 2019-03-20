@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.aiStyle = 27;
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = 2;
             projectile.timeLeft = 600;
             aiType = 156;
         }

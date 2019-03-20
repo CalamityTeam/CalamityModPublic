@@ -18,7 +18,6 @@ namespace CalamityMod.Tiles.SunkenSea
 			animationFrameHeight = 36;
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-            Main.tileBlockLight[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.addTile(Type);
 			dustType = 253;

@@ -1,7 +1,8 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles
 {
@@ -9,28 +10,29 @@ namespace CalamityMod.Tiles
 	{
 		public override void SetDefaults()
 		{
-            Main.tileLighted[Type] = true;
-            Main.tileSolid[Type] = true;
-            Main.tileBlendAll[this.Type] = true;
-            Main.tileBlockLight[Type] = true;
-            dustType = mod.DustType("CESparkle");
+			Main.tileSolid[Type] = true;
+			Main.tileMergeDirt[Type] = false;
+			Main.tileBlockLight[Type] = true;
 			drop = mod.ItemType("PerennialBrick");
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Perennial Brick");
-            AddMapEntry(new Color(200, 250, 100), name);
 			soundType = 21;
+			minPick = 150;
+			AddMapEntry(new Color(17, 133, 46));
+			animationFrameHeight = 90;
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
+		public override bool CreateDust(int i, int j, ref int type)
 		{
-			num = fail ? 1 : 3;
+			Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 128, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+			Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+			return false;
 		}
 
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = 0.04f;
-            g = 0.10f;
-            b = 0.02f;
-        }
-    }
+		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+		{
+			int xPos = i % 4;
+			int yPos = j % 4;
+			frameXOffset = xPos * 234;
+			frameYOffset = yPos * animationFrameHeight;
+		}
+	}
 }

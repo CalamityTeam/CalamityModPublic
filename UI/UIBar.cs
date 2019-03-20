@@ -23,7 +23,7 @@ namespace CalamityMod.UI
 		public UIBar(Texture2D imageBack, Texture2D imageBar, int barOff) : this(imageBack, imageBar, barOff, 10000, GetTickedValue) //uses textures and the test ticker for drawing
 		{
 		}
-		
+
 		public UIBar(Texture2D imageBack, Texture2D imageBar, int barOff, int valMax, Func<int> gValue) : this(valMax, gValue) //uses textures
 		{
 			backPanel = new UIImage(imageBack);
@@ -31,17 +31,17 @@ namespace CalamityMod.UI
 			barPanel = new UIImage(imageBar);
 			barWidth = (int)barPanel.Width.Pixels;
 		}
-		
+
 		public UIBar() : this(10000, GetTickedValue) //for testing purposes
 		{
 		}
-		
+
 		public UIBar(int valMax, Func<int> gValue) : base() //uses panels for drawing instead of textures
 		{
 			valueMax = valMax;
 			getValue = gValue;
 		}
-		
+
 		public static int tick; //for testing
 		public static int GetTickedValue() //ditto
 		{
@@ -52,7 +52,7 @@ namespace CalamityMod.UI
 
 		public override void OnInitialize()
 		{
-			float posX = 500f, posY = 30f; //CHANGE THESE TWO TO CHANGE WHERE IT STARTS ON SCREEN!
+			float posX = (float)Config.RageMeterXPos, posY = (float)Config.RageMeterYPos; //CHANGE THESE TWO TO CHANGE WHERE IT STARTS ON SCREEN!
 			if (backPanel == null) //if not using textures set up panels
 			{
 				backPanel = new UIPanel();
@@ -64,8 +64,8 @@ namespace CalamityMod.UI
 				((UIPanel)backPanel).BackgroundColor = new Color(73, 94, 171);
 
 				backPanel.OnMouseDown += new UIElement.MouseEvent(DragStart);
-				backPanel.OnMouseUp += new UIElement.MouseEvent(DragEnd);	
-				
+				backPanel.OnMouseUp += new UIElement.MouseEvent(DragEnd);
+
 				barPanel = new UIPanel();
 				((UIPanel)barPanel).SetPadding(0);
 				barPanel.Left.Set(10f, 0f);
@@ -78,24 +78,24 @@ namespace CalamityMod.UI
 			else //otherwise using images so just move it into position
 			{
 				backPanel.Left.Set(posX, 0f);
-				backPanel.Top.Set(posY, 0f);				
+				backPanel.Top.Set(posY, 0f);
 				backPanel.OnMouseDown += new UIElement.MouseEvent(DragStart);
 				backPanel.OnMouseUp += new UIElement.MouseEvent(DragEnd);
 
 				barPanel.Left.Set(barOffset, 0f);
-				barPanel.Top.Set(0f, 0f);		
-	
+				barPanel.Top.Set(0f, 0f);
+
 				backPanel.Append(barPanel);
 			}
-			
+
 			base.Append(backPanel);
 		}
-		
+
 		public float GetPercentile()
 		{
 			return ((float)getValue() / Math.Max(1, ((float)valueMax - 1)));
 		}
-		
+
 		Vector2 offset;
 		public bool dragging = false;
 		private void DragStart(UIMouseEvent evt, UIElement listeningElement)
@@ -127,7 +127,7 @@ namespace CalamityMod.UI
 			}
 			barPanel.Width.Set((GetPercentile() * barWidth), 0f); //set the bar's width to the given percentile.	
 		}
-		
+
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{
 			Vector2 MousePosition = new Vector2((float)Main.mouseX, (float)Main.mouseY);
@@ -135,7 +135,7 @@ namespace CalamityMod.UI
 			{
 				Main.LocalPlayer.mouseInterface = true;
 				Main.instance.MouseText("Rage: " + getValue() + "/" + valueMax + "", 0, 0, -1, -1, -1, -1); //only way I got this to show up consistently, otherwise it fucked up and showed up anywhere onscreen lol.
-			} 		
+			}
 			if (dragging)
 			{
 				backPanel.Left.Set(MousePosition.X - offset.X, 0f);

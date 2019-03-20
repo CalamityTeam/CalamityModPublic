@@ -220,8 +220,11 @@ namespace CalamityMod.UI
             Mod calamity = ModLoader.GetMod("CalamityMod");
             if (calamity != null)
             {
-                //Hardmode
-                MinibossHPBarList.Add(calamity.NPCType("ThiccWaifu"));
+				//Prehardmode
+				MinibossHPBarList.Add(calamity.NPCType("GiantClam"));
+
+				//Hardmode
+				MinibossHPBarList.Add(calamity.NPCType("ThiccWaifu"));
                 MinibossHPBarList.Add(calamity.NPCType("Horse"));
                 MinibossHPBarList.Add(calamity.NPCType("GreatSandShark"));
                 MinibossHPBarList.Add(calamity.NPCType("PlaguebringerShade"));

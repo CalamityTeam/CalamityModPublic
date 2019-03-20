@@ -17,7 +17,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
 	 		DisplayName.SetDefault("Rose Stone");
 	 		Tooltip.SetDefault("One of the ancient relics\n" +
             	"Increases max life by 20, life regen by 1, and all damage by 3%\n" +
-            	"Summons a brimstone elemental to protect you");
+            	"Summons a brimstone elemental to fight for you");
 	 	}
     	
         public override void SetDefaults()

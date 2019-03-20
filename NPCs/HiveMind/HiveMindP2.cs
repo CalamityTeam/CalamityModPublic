@@ -63,10 +63,10 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 150; //324
 			npc.height = 120; //216
 			npc.defense = 5;
-			npc.lifeMax = CalamityWorld.revenge ? 4320 : 3000;
+			npc.lifeMax = CalamityWorld.revenge ? 7560 : 5800;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 7200;
+				npc.lifeMax = 12500;
 			}
 			if (CalamityWorld.bossRushActive)
 			{

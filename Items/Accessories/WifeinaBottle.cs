@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Lady in a Bottle");
+			DisplayName.SetDefault("Elemental in a Bottle");
 			Tooltip.SetDefault("Summons a sand elemental to fight for you");
 		}
 		

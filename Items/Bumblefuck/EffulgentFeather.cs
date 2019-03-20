@@ -24,7 +24,8 @@ namespace CalamityMod.Items.Bumblefuck
 			item.height = 24;
 			item.maxStack = 999;
 			item.value = Item.buyPrice(0, 7, 50, 0);
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.rare = 10;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
 	}
 }

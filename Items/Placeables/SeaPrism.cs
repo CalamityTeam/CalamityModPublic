@@ -31,5 +31,14 @@ namespace CalamityMod.Items.Placeables
 			item.value = Item.buyPrice(0, 0, 10, 0);
 			item.rare = 2;
         }
-    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "PrismShard", 5);
+			recipe.SetResult(this);
+			recipe.AddTile(TileID.Anvils);
+			recipe.AddRecipe();
+		}
+	}
 }

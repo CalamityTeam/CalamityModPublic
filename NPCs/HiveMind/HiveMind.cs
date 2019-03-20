@@ -28,14 +28,14 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.width = 150; //324
 			npc.height = 120; //216
 			npc.defense = 10;
-			npc.lifeMax = CalamityWorld.revenge ? 3600 : 2000;
+			npc.lifeMax = CalamityWorld.revenge ? 1800 : 1200;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 6600;
+                npc.lifeMax = 3300;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = CalamityWorld.death ? 800000 : 700000;
+                npc.lifeMax = CalamityWorld.death ? 400000 : 350000;
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.HiveMind
 					if ((float)(npc.life + num660) < npc.ai[3])
 					{
 						npc.ai[3] = (float)npc.life;
-						int num661 = Main.rand.Next(5, 8);
+						int num661 = Main.rand.Next(3, 6);
 						for (int num662 = 0; num662 < num661; num662++)
 						{
 							int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
@@ -270,7 +270,7 @@ namespace CalamityMod.NPCs.HiveMind
 		{
             if (npc.life > 0)
             {
-                if (NPC.CountNPCS(NPCID.EaterofSouls) < 8 && NPC.CountNPCS(NPCID.DevourerHead) < 2)
+                if (NPC.CountNPCS(NPCID.EaterofSouls) < 3 && NPC.CountNPCS(NPCID.DevourerHead) < 1)
                 {
                     if (Main.rand.Next(60) == 0 && Main.netMode != 1)
                     {

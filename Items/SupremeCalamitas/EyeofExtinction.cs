@@ -37,6 +37,28 @@ namespace CalamityMod.Items.SupremeCalamitas
 		
 		public override bool UseItem(Player player)
 		{
+			int surface = (int)Main.worldSurface;
+			for (int i = 0; i < Main.maxTilesX; i++)
+			{
+				for (int j = 0; j < surface; j++)
+				{
+					if (Main.tile[i, j] != null)
+					{
+						if (Main.tile[i, j].type == mod.TileType("ArenaTile"))
+						{
+							WorldGen.KillTile(i, j, false, false, false);
+							if (Main.netMode == 2)
+							{
+								NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
+							}
+							else
+							{
+								WorldGen.SquareTileFrame(i, j, true);
+							}
+						}
+					}
+				}
+			}
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SupremeCalamitas"));
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			return true;

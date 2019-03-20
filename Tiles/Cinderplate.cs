@@ -22,8 +22,6 @@ namespace CalamityMod.Tiles
             name.SetDefault("Cinderplate");
             AddMapEntry(new Color(97, 22, 57), name);
 
-            minPick = 0;
-
             drop = mod.ItemType("Cinderplate");
             base.SetDefaults();
         }

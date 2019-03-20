@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Madame in a Bottle");
+			DisplayName.SetDefault("Rare Elemental in a Bottle");
 			Tooltip.SetDefault("Summons a sand elemental to heal you\n" +
 				";D");
 		}

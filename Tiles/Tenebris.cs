@@ -32,21 +32,20 @@ namespace CalamityMod.Tiles
 			num = fail ? 1 : 3;
 		}
 
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (!closer && j < Main.maxTilesY - 205)
-            {
-                if (Main.tile[i, j].liquid <= 0)
-                {
-                    Main.tile[i, j].liquid = 255;
-                    Main.tile[i, j].lava(false);
-                }
-            }
-        }
+		public override void NearbyEffects(int i, int j, bool closer)
+		{
+			if (!closer && j < Main.maxTilesY - 205)
+			{
+				if (Main.tile[i, j].liquid <= 0)
+				{
+					Main.tile[i, j].liquid = 255;
+					Main.tile[i, j].lava(false);
+				}
+			}
+		}
 
-        public override void RandomUpdate(int i, int j)
+		public override void RandomUpdate(int i, int j)
         {
-            Main.tileValue[Type] = (short)(Main.hardMode ? 690 : 0);
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {
                 int random = WorldGen.genRand.Next(4);

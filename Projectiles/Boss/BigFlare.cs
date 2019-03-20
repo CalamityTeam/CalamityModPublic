@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
@@ -140,10 +141,11 @@ namespace CalamityMod.Projectiles.Boss
 				{
 					num231 = Main.maxTilesY - num233 - 10;
 				}
-				for (int num234 = num231; num234 < num231 + num233; num234++) 
+				int spawnAreaY = Main.maxTilesY - num231;
+				for (int num234 = num231; num234 < num231 + spawnAreaY; num234++) 
 				{
-					Tile tile = Main.tile[num232, num234];
-					if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0)) 
+					Tile tile = Main.tile[num232, num234 + 10];
+					if (tile.active() && !TileID.Sets.Platforms[tile.type] && (Main.tileSolid[(int)tile.type] || tile.liquid != 0)) 
 					{
 						num231 = num234;
 						break;

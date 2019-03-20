@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 		
 		public override void AI()
 		{
-            colorChange = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
+			colorChange = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
             npc.dontTakeDamage = colorChange;
             npc.chaseable = !colorChange;
             bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -93,6 +93,11 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             float speedBoost = speedLimit * (1f - (float)((double)npc.life / (double)npc.lifeMax));
             float turnSpeedBoost = turnSpeedLimit * (1f - (float)((double)npc.life / (double)npc.lifeMax));
+			if (Main.player[npc.target].gravDir == -1f)
+			{
+				speedBoost = speedLimit;
+				turnSpeedBoost = turnSpeedLimit;
+			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 			if (npc.ai[3] > 0f)
 			{
@@ -172,14 +177,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 			}
             npc.localAI[1] = 0f;
             bool canFly = flies;
-            if (Main.player[npc.target].dead || Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 10000f)
+            if (Main.player[npc.target].dead || Main.dayTime)
             {
                 npc.TargetClosest(false);
                 canFly = false;
-                npc.velocity.Y = npc.velocity.Y + 10f;
+                npc.velocity.Y = npc.velocity.Y + 2f;
                 if ((double)npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 10f;
+                    npc.velocity.Y = npc.velocity.Y + 2f;
                 }
                 if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {
@@ -429,7 +434,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            if (colorChange)
+            if (colorChange && Main.player[npc.target].gravDir != -1f)
             {
                 return false;
             }

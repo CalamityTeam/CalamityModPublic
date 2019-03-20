@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 				timer = 0;
 			}
-			if (!NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+			if (!Main.npc[CalamityGlobalNPC.SCal].active)
 			{
 				npc.active = false;
                 npc.netUpdate = true;

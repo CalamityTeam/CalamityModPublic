@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles.SunkenSea
         {
             Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-            Main.tileBlockLight[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.addTile(Type);
 			dustType = 253;
@@ -43,10 +42,10 @@ namespace CalamityMod.Tiles.SunkenSea
 					{
 						if (!Main.tile[i, tileLocationY].active())
 						{
-							if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
-								Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
+							if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 && Main.tile[i, tileLocationY - 2].liquid == 255)
 							{
-								Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, mod.ProjectileType("CoralBubble"), 0, 0f, Main.myPlayer, 0f, 0f);
+								if (Main.netMode != 1)
+									Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, mod.ProjectileType("CoralBubble"), 0, 0f, Main.myPlayer, 0f, 0f);
 							}
 						}
 					}

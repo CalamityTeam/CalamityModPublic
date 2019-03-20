@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float num114 = num78;
 				float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-				Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)((double)((float)item.damage * player.meleeDamage) * 0.7), knockback, i, 0f, (float)Main.rand.Next(3));
+				Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)((double)((float)item.damage * player.meleeDamage) * 0.5), knockback, i, 0f, (float)Main.rand.Next(3));
 			}
 		}
 		

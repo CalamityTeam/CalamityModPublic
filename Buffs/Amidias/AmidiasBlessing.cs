@@ -13,7 +13,7 @@ namespace CalamityMod.Buffs.Amidias
         {
             DisplayName.SetDefault("Amidias' Blessing");
             Description.SetDefault("You are blessed by Amidias\n"
-								  +"Lets you breath underwater, even in the Abyss!\n"
+								  +"Lets you breathe underwater, even in the Abyss!\n"
 								  +"Just don't get hit...");
             Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;

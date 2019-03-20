@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.SunkenSea
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SeafoamBubble"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SeafoamBubble"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
         	for (int num625 = 0; num625 < 3; num625++)
             {
                 float scaleFactor10 = 0.33f;

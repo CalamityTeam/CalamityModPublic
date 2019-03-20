@@ -67,7 +67,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(null, "DarksunFragment", 5);
             recipe.AddIngredient(null, "EffulgentFeather", 5);
             recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "NightmareFuel", 14);
+			recipe.AddIngredient(null, "Tenebris", 6);
+			recipe.AddIngredient(null, "NightmareFuel", 14);
             recipe.AddIngredient(null, "EndothermicEnergy", 14);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);

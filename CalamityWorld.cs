@@ -144,9 +144,10 @@ namespace CalamityMod
 		#region Initialize
 		public override void Initialize()
 		{
-			NPC.LunarShieldPowerExpert = 100;
-			bossRushStage = 0;
-			DoGSecondStageCountdown = 0;
+			if (Config.ExpertPillarEnemyKillCountReduction)
+			{
+				NPC.LunarShieldPowerExpert = 100;
+			}
 			CalamityGlobalNPC.holyBoss = -1;
 			CalamityGlobalNPC.doughnutBoss = -1;
 			CalamityGlobalNPC.voidBoss = -1;
@@ -154,11 +155,16 @@ namespace CalamityMod
 			CalamityGlobalNPC.hiveMind = -1;
 			CalamityGlobalNPC.hiveMind2 = -1;
 			CalamityGlobalNPC.scavenger = -1;
+			CalamityGlobalNPC.bobbitWormBottom = -1;
 			CalamityGlobalNPC.DoGHead = -1;
+			CalamityGlobalNPC.SCal = -1;
 			CalamityGlobalNPC.ghostBoss = -1;
 			CalamityGlobalNPC.laserEye = -1;
 			CalamityGlobalNPC.fireEye = -1;
+			CalamityGlobalNPC.lordeBoss = -1;
 			CalamityGlobalNPC.brimstoneElemental = -1;
+			bossRushStage = 0;
+			DoGSecondStageCountdown = 0;
 			bossRushActive = false;
 			bossRushSpawnCountdown = 180;
 			bossSpawnCountdown = 0;
@@ -817,7 +823,13 @@ namespace CalamityMod
 			int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
 			if (FinalIndex != -1)
 			{
-				tasks.Insert(FinalIndex + 1, new PassLegacy("HellCrag", delegate (GenerationProgress progress)
+				tasks.Insert(FinalIndex + 1, new PassLegacy("SunkenSea", delegate (GenerationProgress progress)
+				{
+					progress.Message = "Making the world more wet";
+					SunkenSea.Place(new Point(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom));
+				}));
+
+				tasks.Insert(FinalIndex + 2, new PassLegacy("HellCrag", delegate (GenerationProgress progress)
 				{
 					progress.Message = "Brimstone Crag, Abyss, and Structures";
 					int x = Main.maxTilesX;
@@ -1283,11 +1295,6 @@ namespace CalamityMod
 					#endregion
 
 				}));
-				tasks.Insert(FinalIndex + 2, new PassLegacy("SunkenSea", delegate (GenerationProgress progress)
-				{
-					progress.Message = "Making the world more wet";
-					SunkenSea.Place(new Point(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom));
-				}));
 			}
 			
 			tasks.Add(new PassLegacy("Planetoid Test", Planetoids));
@@ -1625,10 +1632,10 @@ namespace CalamityMod
 			{
 				float num6 = (float)Main.maxTilesX * 0.08f;
 				int xLimit = Main.maxTilesX / 2;
-				int num7 = (abyssSide ? Main.rand.Next(150, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 150));
+				int num7 = (abyssSide ? Main.rand.Next(250, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 250));
 				while ((float)num7 > (float)Main.spawnTileX - num6 && (float)num7 < (float)Main.spawnTileX + num6)
 				{
-					num7 = (abyssSide ? Main.rand.Next(150, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 150));
+					num7 = (abyssSide ? Main.rand.Next(250, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 250));
 				}
 				//world surface = 920 large 740 medium 560 small
 				int k = (int)(Main.worldSurface * 0.6); //Large = 522, Medium = 444, Small = 336
@@ -4655,6 +4662,7 @@ namespace CalamityMod
 									NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronPrime);
 									break;
 								case 5:
+									ChangeTime(true);
 									NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))),
 										(int)(Main.player[closestPlayer].position.Y - 400f),
 										NPCID.Golem, 0, 0f, 0f, 0f, 0f, 255);
@@ -4682,6 +4690,7 @@ namespace CalamityMod
 									NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
 									break;
 								case 11:
+									ChangeTime(true);
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Bumblefuck"));
 									break;
 								case 12:
@@ -4695,6 +4704,7 @@ namespace CalamityMod
 									NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronHead);
 									break;
 								case 15:
+									ChangeTime(true);
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("StormWeaverHead"));
 									break;
 								case 16:
@@ -4757,6 +4767,7 @@ namespace CalamityMod
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("AstrumDeusHeadSpectral"));
 									break;
 								case 30:
+									ChangeTime(true);
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Polterghast"));
 									break;
 								case 31:
@@ -4767,6 +4778,7 @@ namespace CalamityMod
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Calamitas"));
 									break;
 								case 33:
+									ChangeTime(true);
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Siren"));
 									break;
 								case 34:
@@ -4782,6 +4794,7 @@ namespace CalamityMod
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("SupremeCalamitas"));
 									break;
 								case 37:
+									ChangeTime(true);
 									NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("Yharon"));
 									break;
 								case 38:
@@ -5219,100 +5232,6 @@ namespace CalamityMod
 						Sandstorm.Happening = false;
 						Sandstorm.TimeLeft = 0;
 					}
-				}
-			}
-			if (CalamityGlobalNPC.holyBoss >= 0 && !Main.npc[CalamityGlobalNPC.holyBoss].active)
-			{
-				CalamityGlobalNPC.holyBoss = -1;
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.Providence);
-					netMessage.Write(CalamityGlobalNPC.holyBoss);
-					netMessage.Send();
-				}
-			}
-			if (CalamityGlobalNPC.doughnutBoss >= 0 && !Main.npc[CalamityGlobalNPC.doughnutBoss].active)
-			{
-				CalamityGlobalNPC.doughnutBoss = -1;
-			}
-			if (CalamityGlobalNPC.voidBoss >= 0 && !Main.npc[CalamityGlobalNPC.voidBoss].active)
-			{
-				CalamityGlobalNPC.voidBoss = -1;
-			}
-			if (CalamityGlobalNPC.energyFlame >= 0 && !Main.npc[CalamityGlobalNPC.energyFlame].active)
-			{
-				CalamityGlobalNPC.energyFlame = -1;
-			}
-			if (CalamityGlobalNPC.hiveMind >= 0 && !Main.npc[CalamityGlobalNPC.hiveMind].active)
-			{
-				CalamityGlobalNPC.hiveMind = -1;
-			}
-			if (CalamityGlobalNPC.hiveMind2 >= 0 && !Main.npc[CalamityGlobalNPC.hiveMind2].active)
-			{
-				CalamityGlobalNPC.hiveMind2 = -1;
-			}
-			if (CalamityGlobalNPC.scavenger >= 0 && !Main.npc[CalamityGlobalNPC.scavenger].active)
-			{
-				CalamityGlobalNPC.scavenger = -1;
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.Ravager);
-					netMessage.Write(CalamityGlobalNPC.scavenger);
-					netMessage.Send();
-				}
-			}
-			if (CalamityGlobalNPC.DoGHead >= 0 && !Main.npc[CalamityGlobalNPC.DoGHead].active)
-			{
-				CalamityGlobalNPC.DoGHead = -1;
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.DoG);
-					netMessage.Write(CalamityGlobalNPC.DoGHead);
-					netMessage.Send();
-				}
-			}
-			if (CalamityGlobalNPC.SCal >= 0 && !Main.npc[CalamityGlobalNPC.SCal].active)
-			{
-				CalamityGlobalNPC.SCal = -1;
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.SupremeCal);
-					netMessage.Write(CalamityGlobalNPC.SCal);
-					netMessage.Send();
-				}
-			}
-			if (CalamityGlobalNPC.ghostBoss >= 0 && !Main.npc[CalamityGlobalNPC.ghostBoss].active)
-			{
-				CalamityGlobalNPC.ghostBoss = -1;
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.Polterghast);
-					netMessage.Write(CalamityGlobalNPC.ghostBoss);
-					netMessage.Send();
-				}
-			}
-			if (CalamityGlobalNPC.laserEye >= 0 && !Main.npc[CalamityGlobalNPC.laserEye].active)
-			{
-				CalamityGlobalNPC.laserEye = -1;
-			}
-			if (CalamityGlobalNPC.fireEye >= 0 && !Main.npc[CalamityGlobalNPC.fireEye].active)
-			{
-				CalamityGlobalNPC.fireEye = -1;
-			}
-			if (CalamityGlobalNPC.lordeBoss >= 0 && !Main.npc[CalamityGlobalNPC.lordeBoss].active)
-			{
-				CalamityGlobalNPC.lordeBoss = -1;
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.LORDE);
-					netMessage.Write(CalamityGlobalNPC.lordeBoss);
-					netMessage.Send();
 				}
 			}
 			if (Main.netMode != 1)

@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.width = 28;
             projectile.height = 28;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 3;
             projectile.timeLeft = 180;
 			projectile.tileCollide = false;
 			projectile.alpha = 255;

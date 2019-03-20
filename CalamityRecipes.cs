@@ -228,8 +228,15 @@ namespace CalamityMod
 		{
 			// Guide Voodoo Doll
 			ModRecipe r = GetNewRecipe();
-			r.AddIngredient(ItemID.Leather, 5);
-			r.AddIngredient(null, "BloodOrb", 10);
+			r.AddIngredient(ItemID.Leather, 2);
+			r.AddIngredient(null, "FetidEssence", 2);
+			r.AddTile(TileID.Hellforge);
+			r.SetResult(ItemID.GuideVoodooDoll);
+			r.AddRecipe();
+
+			r = GetNewRecipe();
+			r.AddIngredient(ItemID.Leather, 2);
+			r.AddIngredient(null, "BloodlettingEssence", 2);
 			r.AddTile(TileID.Hellforge);
 			r.SetResult(ItemID.GuideVoodooDoll);
 			r.AddRecipe();
@@ -717,7 +724,8 @@ namespace CalamityMod
 				CalamityMod.Instance.ItemType("AureateWings"),
 				CalamityMod.Instance.ItemType("DiscordianWings"),
 				CalamityMod.Instance.ItemType("TarragonWings"),
-				CalamityMod.Instance.ItemType("XerocWings")
+				CalamityMod.Instance.ItemType("XerocWings"),
+				CalamityMod.Instance.ItemType("HadarianWings")
 			});
 			RecipeGroup.RegisterGroup("WingsGroup", group);
 		}

@@ -32,12 +32,12 @@ namespace CalamityMod.Projectiles.Boss
         
         public override void AI()
         {
-        	if (!NPC.AnyNPCs(mod.NPCType("Yharon")))
-        	{
-                projectile.active = false;
-                projectile.netUpdate = true;
-                return;
-            }
+			if (!CalamityPlayer.areThereAnyDamnBosses)
+			{
+				projectile.active = false;
+				projectile.netUpdate = true;
+				return;
+			}
             int num613 = 35;
 			int num614 = 35;
 			float num615 = 3.5f;

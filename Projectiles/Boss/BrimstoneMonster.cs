@@ -33,12 +33,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-        	if (NPC.CountNPCS(mod.NPCType("SupremeCalamitas")) < 1)
+			if (!CalamityPlayer.areThereAnyDamnBosses)
 			{
 				projectile.active = false;
+				projectile.netUpdate = true;
 				return;
 			}
-            int choice = (int)projectile.ai[1];
+			int choice = (int)projectile.ai[1];
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] += 1f;

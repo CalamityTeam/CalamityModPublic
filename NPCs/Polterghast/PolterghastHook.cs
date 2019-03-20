@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Polterghast
             bool revenge = CalamityWorld.revenge;
             bool speedBoost1 = false;
             bool despawnBoost = false;
-            if (CalamityGlobalNPC.ghostBoss <= 0)
+            if (!Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Polterghast
 		
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (CalamityGlobalNPC.ghostBoss >= 0 && !phase2) 
+			if (Main.npc[CalamityGlobalNPC.ghostBoss].active && !phase2) 
 			{
 				Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
 				float bossCenterX = Main.npc[CalamityGlobalNPC.ghostBoss].Center.X - center.X;

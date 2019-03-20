@@ -16,7 +16,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("The Corruption");
 			Tooltip.SetDefault("Ah, the rotten and forever-deteriorating landscape of infected life, brought upon by a deadly microbe long ago.\n" +
-                "It is rumored that this microbe was created by a race predating the Terrarians.");
+				"It is rumored that the microbe was created through experimentation by a long-dead race, predating the Terrarians.");
 		}
 		
 		public override void SetDefaults()

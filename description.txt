@@ -5,6 +5,6 @@ It currently contains:
 4 new modes for extra challenge
 3 new biomes
 275+ new enemy NPCs
-1400+ new items
+1530+ new items
 Cross-content support for GRealm
 PLEASE BE ADVISED: Download the Calamity Mod Music mod if you want Calamity Mod music to be in your game!

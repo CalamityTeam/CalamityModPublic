@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		{
 			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("GiantClam")))
             {
-				return SpawnCondition.CaveJellyfish.Chance * 0.06f;
+				return SpawnCondition.CaveJellyfish.Chance * 0.12f;
 			}
 			return 0f;
 		}
@@ -372,7 +372,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MolluskHusk"), Main.rand.Next(6, 12));
 
-				int itemChoice = Main.rand.Next(3);
+				int itemChoice = Main.rand.Next(4);
 				switch (itemChoice)
 				{
 					case 0:

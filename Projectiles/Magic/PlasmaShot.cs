@@ -23,19 +23,22 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.alpha = 255;
             projectile.timeLeft = 600;
-            projectile.light = 0.25f;
+			projectile.extraUpdates = 10;
         }
 
         public override void AI()
         {
-			for (int num121 = 0; num121 < 5; num121++)
+			projectile.ai[0] += 1f;
+			if (projectile.ai[0] > 6f)
 			{
-				Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f)];
-				dust.velocity = Vector2.Zero;
-				dust.position -= projectile.velocity / 5f * (float)num121;
-				dust.noGravity = true;
-				dust.scale = 0.8f;
-				dust.noLight = true;
+				for (int num121 = 0; num121 < 10; num121++)
+				{
+					Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f)];
+					dust.velocity = Vector2.Zero;
+					dust.position -= projectile.velocity / 5f * (float)num121;
+					dust.noGravity = true;
+					dust.noLight = true;
+				}
 			}
         }
 

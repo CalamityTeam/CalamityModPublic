@@ -33,12 +33,17 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
 	        item.autoReuse = true;
-	        item.shootSpeed = 20f;
+	        item.shootSpeed = 12f;
 	        item.shoot = mod.ProjectileType("PlasmaShot");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-	    
-	    public override bool AltFunctionUse(Player player)
+
+		public override Vector2? HoldoutOffset()
+		{
+			return new Vector2(-10, 0);
+		}
+
+		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
@@ -67,13 +72,12 @@ namespace CalamityMod.Items.Weapons
 	    	if (player.altFunctionUse == 2)
 	    	{
 	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaShot"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
 	    	}
 	    	else
 	    	{
 	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaBolt"), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
 	    	}
+			return false;
 		}
 	
 	    public override void AddRecipes()

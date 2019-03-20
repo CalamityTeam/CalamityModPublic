@@ -552,29 +552,5 @@ namespace CalamityMod.Tiles
 		{
 			return !CalamityWorld.bossRushActive;
 		}
-
-		public override void RandomUpdate(int i, int j, int type)
-		{
-			if (Main.netMode != 1)
-			{
-				if (type == (ushort)mod.TileType("ArenaTile"))
-				{
-					if (!NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
-					{
-						for (int k = 0; k < Main.maxTilesX; k++)
-						{
-							for (int l = 0; l < Main.maxTilesY; l++)
-							{
-								if (Main.tile[k, l].type == (ushort)mod.TileType("ArenaTile"))
-								{
-									Main.tile[k, l].active(false);
-									WorldGen.SquareTileFrame(k, l);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 }

@@ -38,8 +38,6 @@ namespace CalamityMod.Items.ProfanedGuardian
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("ProfanedGuardianBoss"));
-			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("ProfanedGuardianBoss2"));
-			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("ProfanedGuardianBoss3"));
 			Main.PlaySound(SoundID.Roar, player.position, 0);
 			return true;
 		}

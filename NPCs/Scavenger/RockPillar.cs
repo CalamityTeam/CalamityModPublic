@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Scavenger
 
         public override void AI()
         {
-            if (NPC.CountNPCS(mod.NPCType("ScavengerBody")) < 1)
+            if (!Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.dontTakeDamage = false;
                 npc.life = 0;

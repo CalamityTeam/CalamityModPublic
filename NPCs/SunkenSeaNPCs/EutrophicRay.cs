@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override void SetDefaults()
 		{
-			npc.damage = 40;
+			npc.damage = 20;
 			npc.width = 116;
 			npc.height = 36;
 			npc.defense = Main.hardMode ? 15 : 5;
@@ -50,10 +50,10 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			if (npc.justHit && !hasBeenHit)
 			{
 				hasBeenHit = true;
-				npc.damage = Main.expertMode ? 80 : 40;
+				npc.damage = Main.expertMode ? 40 : 20;
 				if (Main.hardMode)
 				{
-					npc.damage = Main.expertMode ? 200 : 100;
+					npc.damage = Main.expertMode ? 100 : 50;
 				}
 				npc.noTileCollide = true;
 				npc.noGravity = true;

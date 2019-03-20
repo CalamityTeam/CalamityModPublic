@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea && spawnInfo.water && !spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).clamity)
+			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea && spawnInfo.water)
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
 			}

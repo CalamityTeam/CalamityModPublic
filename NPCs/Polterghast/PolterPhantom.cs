@@ -66,8 +66,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 npc.alpha = 50;
             }
-            CalamityGlobalNPC.ghostBoss2 = npc.whoAmI;
-            if (CalamityGlobalNPC.ghostBoss <= 0)
+            if (!Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;

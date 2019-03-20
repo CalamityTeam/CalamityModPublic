@@ -30,9 +30,9 @@ namespace CalamityMod.Items
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Ectoplasm);
             recipe.AddIngredient(ItemID.HallowedBar);
-            recipe.AddIngredient(null, "MeldBlob", 5);
+            recipe.AddIngredient(null, "MeldBlob", 6);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 5);
+            recipe.SetResult(this, 3);
             recipe.AddRecipe();
         }
     }

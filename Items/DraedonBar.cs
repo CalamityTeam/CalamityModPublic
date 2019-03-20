@@ -28,10 +28,9 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "PerennialOre", 15);
-            recipe.AddIngredient(null, "EssenceofCinder");
+            recipe.AddIngredient(null, "PerennialOre", 5);
             recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this, 5);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

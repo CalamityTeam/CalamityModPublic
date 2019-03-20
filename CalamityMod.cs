@@ -124,6 +124,8 @@ namespace CalamityMod
 
 			BossHealthBarManager.Load(this);
 
+			Config.Load();
+
 			SetupLists();
 
 			CalamityLocalization.AddLocalizations();
@@ -240,18 +242,22 @@ namespace CalamityMod
 			AstralArcanumUI.Unload();
 			base.Unload();
 
-			Instance = null;
-
 			if (!Main.dedServ)
 			{
-				Main.music[MusicID.Hell] = Main.soundBank.GetCue("Music_" + MusicID.Hell); //remove in 1.4.1
-
 				Main.heartTexture = heartOriginal2;
 				Main.heart2Texture = heartOriginal;
 				Main.rainTexture = rainOriginal;
 				Main.manaTexture = manaOriginal;
 				Main.flyingCarpetTexture = carpetOriginal;
 			}
+
+			heartOriginal2 = null;
+			heartOriginal = null;
+			rainOriginal = null;
+			manaOriginal = null;
+			carpetOriginal = null;
+
+			Instance = null;
 		}
 		#endregion
 
@@ -306,7 +312,7 @@ namespace CalamityMod
 					ProjectileID.Phantasm,
 					ProjectileID.VortexBeater,
 					ProjectileID.DD2PhoenixBow,
-					479, // ichor darts
+					ProjectileID.IchorDart,
 					calamity.ProjectileType("Phangasm"),
 					calamity.ProjectileType("Contagion"),
 					calamity.ProjectileType("DaemonsFlame"),
@@ -1292,7 +1298,7 @@ namespace CalamityMod
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
-			if (CalamityWorld.revenge)
+			if (CalamityWorld.revenge && Config.AdrenalineAndRage)
 			{
 				UIHandler.ModifyInterfaceLayers(mod, layers);
 			}
@@ -1809,26 +1815,6 @@ namespace CalamityMod
 				case CalamityModMessageType.StressSync:
 					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleStress(reader);
 					break;
-				case CalamityModMessageType.Ravager:
-					int ravagerAlive = reader.ReadInt32();
-					CalamityGlobalNPC.scavenger = ravagerAlive;
-					break;
-				case CalamityModMessageType.DoG:
-					int DoGAlive = reader.ReadInt32();
-					CalamityGlobalNPC.DoGHead = DoGAlive;
-					break;
-				case CalamityModMessageType.Polterghast:
-					int polterAlive = reader.ReadInt32();
-					CalamityGlobalNPC.ghostBoss = polterAlive;
-					break;
-				case CalamityModMessageType.LORDE:
-					int lordeAlive = reader.ReadInt32();
-					CalamityGlobalNPC.lordeBoss = lordeAlive;
-					break;
-				case CalamityModMessageType.Providence:
-					int provAlive = reader.ReadInt32();
-					CalamityGlobalNPC.holyBoss = provAlive;
-					break;
 				case CalamityModMessageType.BossRushStage:
 					int stage = reader.ReadInt32();
 					CalamityWorld.bossRushStage = stage;
@@ -1838,10 +1824,6 @@ namespace CalamityMod
 					break;
 				case CalamityModMessageType.TeleportPlayer:
 					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleTeleport(reader.ReadInt32(), true, whoAmI);
-					break;
-				case CalamityModMessageType.SupremeCal:
-					int SCalAlive = reader.ReadInt32();
-					CalamityGlobalNPC.SCal = SCalAlive;
 					break;
 				case CalamityModMessageType.DoGCountdownSync:
 					int countdown = reader.ReadInt32();
@@ -1884,15 +1866,9 @@ namespace CalamityMod
 		ExactSummonLevelSync,
 		ExactRogueLevelSync,
 		StressSync,
-		Ravager,
-		DoG,
-		Polterghast,
-		LORDE,
-		Providence,
 		AdrenalineSync,
 		TeleportPlayer,
 		BossRushStage,
-		SupremeCal,
 		DoGCountdownSync,
 		BossSpawnCountdownSync,
 		BossTypeSync

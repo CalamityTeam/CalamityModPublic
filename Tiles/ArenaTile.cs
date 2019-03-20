@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
 
@@ -27,7 +28,22 @@ namespace CalamityMod.Tiles
 			return false;
 		}
 
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+		public override void NearbyEffects(int i, int j, bool closer)
+		{
+			if (closer)
+			{
+				if (!NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
+				{
+					WorldGen.KillTile(i, j, false, false, false);
+					if (!Main.tile[i, j].active() && Main.netMode != 0)
+					{
+						NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+					}
+				}
+			}
+		}
+
+		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = (float)Main.DiscoR / 255f;
             g = 0f;

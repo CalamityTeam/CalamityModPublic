@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void AI()
 		{
-			if (CalamityGlobalNPC.energyFlame < 0) 
+			if (!Main.npc[CalamityGlobalNPC.energyFlame].active) 
 			{
 				npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
 				npc.netUpdate = true;

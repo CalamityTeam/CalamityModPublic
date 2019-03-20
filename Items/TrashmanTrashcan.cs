@@ -22,7 +22,7 @@ namespace CalamityMod.Items
 			item.noMelee = true;
 			item.width = 30;
             item.height = 30;
-            item.value = Item.sellPrice(1, 0, 0, 0);
+            item.value = Item.sellPrice(0, 1, 0, 0);
             item.shoot = mod.ProjectileType("DannyDevito");
             item.buffType = mod.BuffType("DannyDevito");
 			item.rare = 5;

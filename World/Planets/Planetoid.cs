@@ -25,9 +25,9 @@ namespace CalamityMod.World.Planets
             _area = new Rectangle(origin.X - myRadius, origin.Y - myRadius, diameter, diameter);
 
 			Mod varia = ModLoader.GetMod("Varia");
-			for (int i = _area.Left; i < _area.Width; i++)
+			for (int i = _area.Left; i < _area.Right; i++)
 			{
-				for (int j = _area.Top; j < _area.Height; j++)
+				for (int j = _area.Top; j < _area.Bottom; j++)
 				{
 					if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
 					{

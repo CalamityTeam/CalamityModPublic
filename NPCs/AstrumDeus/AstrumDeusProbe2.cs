@@ -11,12 +11,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 	{
 		public int timer = 0;
 		public bool start = true;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astrum Deus Probe");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.noTileCollide = true;
 			npc.chaseable = false;
 			npc.dontTakeDamage = true;
-			npc.damage = 30;
+			npc.damage = 0;
 			npc.defense = 0;
 			npc.lifeMax = 100;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -62,14 +62,15 @@ namespace CalamityMod.NPCs.AstrumDeus
 				int num8 = expertMode ? 35 : 45;
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 2f, direction.Y * 2f, mod.ProjectileType("DeusMine"), num8, 0f, Main.myPlayer, 0f, 0f);
 			}
-			if (NPC.CountNPCS(mod.NPCType("AstrumDeusHead")) < 1)
+			bool anySmallDeusHeads = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
+			if (!NPC.AnyNPCs(mod.NPCType("AstrumDeusHeadSpectral")) && !anySmallDeusHeads)
 			{
 				npc.active = false;
-                npc.netUpdate = true;
-                return false;
+				npc.netUpdate = true;
+				return false;
 			}
 			Player player = Main.player[npc.target];
-			int npcType = mod.NPCType("AstrumDeusHead");
+			int npcType = (anySmallDeusHeads ? mod.NPCType("AstrumDeusHead") : mod.NPCType("AstrumDeusHeadSpectral"));
 			NPC parent = Main.npc[NPC.FindFirstNPC(npcType)];
 			double deg = (double)npc.ai[1];
 			double rad = deg * (Math.PI / 180);
@@ -79,7 +80,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.ai[1] += 2f;
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -110,16 +111,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
-		}
-		
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.7f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

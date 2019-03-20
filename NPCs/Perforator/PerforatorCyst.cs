@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				return 0f;
 			}
-			return SpawnCondition.Crimson.Chance * (Main.hardMode ? 0.05f : 0.2f);
+			return SpawnCondition.Crimson.Chance * (Main.hardMode ? 0.05f : 0.5f);
 		}
 		
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

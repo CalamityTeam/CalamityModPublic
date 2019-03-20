@@ -1,26 +1,29 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-    public class SmoothBrimstoneSlagWall : ModWall
-    {
-        public override void SetDefaults()
+	public class SmoothBrimstoneSlagWall : ModWall
+	{
+		public override void SetDefaults()
+		{
+			Main.wallHouse[Type] = true;
+			dustType = mod.DustType("Sparkle");
+			drop = mod.ItemType("SmoothBrimstoneSlagWall");
+			AddMapEntry(new Color(30, 18, 36));
+        }
+
+        public override bool CreateDust(int i, int j, ref int type)
         {
-            Main.wallHouse[Type] = true;
-            drop = mod.ItemType("SmoothBrimstoneSlagWall");
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Smooth Brimstone Slag Wall");
-            AddMapEntry(new Color(20, 20, 20), name);
-            dustType = 53;
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-        {
-            num = fail ? 1 : 3;
-        }
-    }
+		{
+			num = fail ? 1 : 3;
+		}
+	}
 }

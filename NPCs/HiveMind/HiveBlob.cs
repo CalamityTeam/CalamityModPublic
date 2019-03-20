@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			bool expertMode = Main.expertMode;
 			bool revenge = CalamityWorld.revenge;
-			if (CalamityGlobalNPC.hiveMind < 0)
+			if (!Main.npc[CalamityGlobalNPC.hiveMind].active)
 			{
 				npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
 				npc.netUpdate = true;
@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.HiveMind
 				}
 			}
 			npc.TargetClosest(true);
-			float num751 = 0.02f;
+			float num751 = 0.01f;
 			float num752 = 400f;
 			if ((double)Main.npc[CalamityGlobalNPC.hiveMind].life < (double)Main.npc[CalamityGlobalNPC.hiveMind].lifeMax * 0.5)
 			{
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				float num753 = 1f - (float)npc.life / (float)npc.lifeMax;
 				num752 += num753 * 100f;
-				num751 += 0.03f;
+				num751 += 0.02f;
 			}
 			if (revenge)
 			{
@@ -138,24 +138,28 @@ namespace CalamityMod.NPCs.HiveMind
 					npc.velocity.Y = npc.velocity.Y * 0.9f;
 				}
 			}
-			if (npc.velocity.X > 8f)
+			if (npc.velocity.X > 4f)
 			{
-				npc.velocity.X = 8f;
+				npc.velocity.X = 4f;
 			}
-			if (npc.velocity.X < -8f)
+			if (npc.velocity.X < -4f)
 			{
-				npc.velocity.X = -8f;
+				npc.velocity.X = -4f;
 			}
-			if (npc.velocity.Y > 8f)
+			if (npc.velocity.Y > 4f)
 			{
-				npc.velocity.Y = 8f;
+				npc.velocity.Y = 4f;
 			}
-			if (npc.velocity.Y < -8f)
+			if (npc.velocity.Y < -4f)
 			{
-				npc.velocity.Y = -8f;
+				npc.velocity.Y = -4f;
 			}
 			if (Main.netMode != 1)
 			{
+				if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+				{
+					npc.localAI[1] = 180f;
+				}
 				npc.localAI[1] += 1f;
 				if (npc.localAI[1] >= 600f)
 				{
@@ -163,10 +167,10 @@ namespace CalamityMod.NPCs.HiveMind
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 					{
-						float num941 = revenge ? 9f : 8f; //speed
+						float num941 = revenge ? 6f : 5f; //speed
 						if (CalamityWorld.death || CalamityWorld.bossRushActive)
 						{
-							num941 = 11f;
+							num941 = 7f;
 						}
 						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 						float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;

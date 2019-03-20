@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			#endregion
 			#region VariablesForChargingEtc
-			float xPos = (npc.direction == 1 ? 25f : -25f);
+			int xPos = (npc.direction == 1 ? 25 : -25);
 			int num1454 = 80;
 			int num1455 = 4;
 			float num1456 = 0.3f;
@@ -501,7 +501,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (num1467 != 0)
 				{
 					npc.direction = num1467;
-					npc.spriteDirection = npc.direction;
+					npc.spriteDirection = -npc.direction;
 				}
 				if (npc.ai[2] > 20f)
 				{
@@ -595,15 +595,14 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					if (npc.ai[2] == 0f && num1471 != npc.direction)
 					{
-						npc.rotation = 3.14159274f;
+						npc.rotation += 3.14159274f;
 					}
 					npc.direction = num1471;
-					if (num1471 != 0)
+					if (npc.spriteDirection != -npc.direction)
 					{
-						npc.direction = num1471;
-						npc.rotation = 0f;
-						npc.spriteDirection = -npc.direction;
+						npc.rotation += 3.14159274f;
 					}
+					npc.spriteDirection = -npc.direction;
 				}
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)aiChangeRate)
@@ -764,36 +763,22 @@ namespace CalamityMod.NPCs.Yharon
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 					if (Main.netMode != 1)
 					{
+						Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
 						{
-							Vector2 vector6 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-							NPC.NewNPC((int)vector6.X, (int)vector6.Y - 100, mod.NPCType("DetonatingFlare"), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, mod.NPCType("DetonatingFlare"), 0, 0f, 0f, 0f, 0f, 255);
 						}
 						int damage = expertMode ? 75 : 90; //700
-						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-						Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, 0f, 0f, mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, 0f, 0f, mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 				int num1476 = Math.Sign(player.Center.X - vectorCenter.X);
-				Vector2 dir2 = npc.position - Main.player[npc.target].position;
 				if (num1476 != 0)
 				{
 					npc.direction = num1476;
 					if (npc.spriteDirection != -npc.direction)
 					{
-						npc.rotation += 6.28318548f;
-						if (npc.rotation > 6.28318548f)
-						{
-							npc.rotation = 0f;
-							if (dir2.X < 0)
-							{
-								npc.direction = -1;
-							}
-							else
-							{
-								npc.direction = 1;
-							}
-						}
+						npc.rotation += 3.14159274f;
 					}
 					npc.spriteDirection = -npc.direction;
 				}
@@ -928,12 +913,11 @@ namespace CalamityMod.NPCs.Yharon
 						npc.rotation = 3.14159274f;
 					}
 					npc.direction = num1477;
-					if (num1477 != 0)
+					if (npc.spriteDirection != -npc.direction)
 					{
-						npc.direction = num1477;
-						npc.rotation = 0f;
-						npc.spriteDirection = -npc.direction;
+						npc.rotation += 3.14159274f;
 					}
+					npc.spriteDirection = -npc.direction;
 				}
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)aiChangeRate)
@@ -1088,13 +1072,12 @@ namespace CalamityMod.NPCs.Yharon
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 					if (Main.netMode != 1)
 					{
+						Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount)
 						{
-							Vector2 vector6 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-							NPC.NewNPC((int)vector6.X, (int)vector6.Y - 100, mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
 						}
-						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-						Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, (float)Main.rand.Next(-400, 401) * 0.13f, (float)Main.rand.Next(-30, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
+						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-400, 401) * 0.13f, (float)Main.rand.Next(-30, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
 					}
 				}
 				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default(Vector2));
@@ -1266,12 +1249,11 @@ namespace CalamityMod.NPCs.Yharon
 						npc.rotation = 3.14159274f;
 					}
 					npc.direction = num1477;
-					if (num1477 != 0)
+					if (npc.spriteDirection != -npc.direction)
 					{
-						npc.direction = num1477;
-						npc.rotation = 0f;
-						npc.spriteDirection = -npc.direction;
+						npc.rotation += 3.14159274f;
 					}
+					npc.spriteDirection = -npc.direction;
 				}
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)aiChangeRate)
@@ -1439,12 +1421,11 @@ namespace CalamityMod.NPCs.Yharon
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 					if (Main.netMode != 1)
 					{
+						Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount && NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
 						{
-							Vector2 vector6 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-							NPC.NewNPC((int)vector6.X, (int)vector6.Y - 100, (Main.rand.Next(2) == 0 ? mod.NPCType("DetonatingFlare") : mod.NPCType("DetonatingFlare2")), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, (Main.rand.Next(2) == 0 ? mod.NPCType("DetonatingFlare") : mod.NPCType("DetonatingFlare2")), 0, 0f, 0f, 0f, 0f, 255);
 						}
-						Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-401, 401) * 0.13f, (float)Main.rand.Next(-31, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
 						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-31, 31) * 0.13f, (float)Main.rand.Next(-151, 151) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
 					}
@@ -1664,12 +1645,11 @@ namespace CalamityMod.NPCs.Yharon
 						npc.rotation = 3.14159274f;
 					}
 					npc.direction = num32;
-					if (num32 != 0)
+					if (npc.spriteDirection != -npc.direction)
 					{
-						npc.direction = num32;
-						npc.rotation = 0f;
-						npc.spriteDirection = -npc.direction;
+						npc.rotation += 3.14159274f;
 					}
+					npc.spriteDirection = -npc.direction;
 				}
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)aiChangeRate)
@@ -1804,7 +1784,19 @@ namespace CalamityMod.NPCs.Yharon
 					Vector2 center = player.Center + new Vector2(-npc.ai[1], teleportLocation); //teleport distance
 					vectorCenter = (npc.Center = center);
 					int num36 = Math.Sign(player.Center.X - vectorCenter.X);
-					npc.rotation -= num1463 * (float)npc.direction;
+					if (num36 != 0)
+					{
+						if (npc.ai[2] == 0f && num36 != npc.direction)
+						{
+							npc.rotation += 3.14159274f;
+						}
+						npc.direction = num36;
+						if (npc.spriteDirection != -npc.direction)
+						{
+							npc.rotation += 3.14159274f;
+						}
+						npc.spriteDirection = -npc.direction;
+					}
 				}
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num1460)
@@ -1974,7 +1966,7 @@ namespace CalamityMod.NPCs.Yharon
 			float num9 = 600f;
 			float num10 = 12f;
 			float num11 = 40f;
-			float num12 = (CalamityWorld.death && !CalamityWorld.bossRushActive) ? 40f : 80f;
+			float num12 = (CalamityWorld.death && !CalamityWorld.bossRushActive) ? 60f : 80f;
 			float num13 = num11 + num12;
 			float num14 = 1500f;
 			float num15 = 60f;
@@ -2394,7 +2386,7 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				if (npc.ai[1] >= num24)
 				{
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("BigFlare2"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 					Boom(600, num4);
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
@@ -2616,7 +2608,7 @@ namespace CalamityMod.NPCs.Yharon
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = mod.ItemType("SupremeHealingPotion");
+			potionType = mod.ItemType("OmegaHealingPotion");
 		}
 		#endregion
 

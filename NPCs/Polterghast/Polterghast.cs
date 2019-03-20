@@ -177,7 +177,10 @@ namespace CalamityMod.NPCs.Polterghast
 					if (npc.localAI[2] >= 600f)
 					{
 						npc.localAI[2] = 0f;
-						NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterPhantom"), 0, 0f, 0f, 0f, 0f, 255);
+						if (Main.netMode != 1)
+						{
+							NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterPhantom"), 0, 0f, 0f, 0f, 0f, 255);
+						}
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
 						for (int num621 = 0; num621 < 10; num621++)
 						{

@@ -19,70 +19,54 @@ namespace CalamityMod.Projectiles.SunkenSea
         {
             projectile.width = 28;
             projectile.height = 28;
-            projectile.scale = 0.01f;
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.timeLeft = 360;
             projectile.penetrate = 1;
         }
 
-        public override void AI()
-        {
-            if (projectile.localAI[1] < 1f)
-            {
-                projectile.localAI[1] += 0.01f;
-                projectile.scale += 0.01f;
-                projectile.width = (int)(28f * projectile.scale);
-                projectile.height = (int)(28f * projectile.scale);
-            }
-            else
-            {
-                projectile.width = 28;
-                projectile.height = 28;
-            }
-            if (projectile.localAI[0] > 2f)
-            {
-                projectile.alpha -= 5;
-                if (projectile.alpha < 100)
-                {
-                    projectile.alpha = 100;
-                }
-            }
-            else
-            {
-                projectile.localAI[0] += 1f;
-            }
-            if (projectile.ai[1] > 30f)
-            {
-                if (projectile.velocity.Y > -1.5f)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-                }
-            }
-            else
-            {
-                projectile.ai[1] += 1f;
-            }
-            if (projectile.wet)
-            {
-                if (projectile.velocity.Y > 0f)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y * 0.98f;
-                }
-                if (projectile.velocity.Y > -1f)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y - 0.2f;
-                }
-            }
-			if (projectile.localAI[1] >= 1f)
+		public override void AI()
+		{
+			if (projectile.localAI[0] > 2f)
 			{
-				int closestPlayer = (int)Player.FindClosest(projectile.Center, 1, 1);
-				Vector2 distance = Main.player[closestPlayer].Center - projectile.Center;
-				if (projectile.Distance(Main.player[closestPlayer].Center) < 14f)
+				projectile.alpha -= 5;
+				if (projectile.alpha < 100)
 				{
-					Main.player[closestPlayer].AddBuff(BuffID.Gills, 90);
-					projectile.Kill();
+					projectile.alpha = 100;
 				}
+			}
+			else
+			{
+				projectile.localAI[0] += 1f;
+			}
+			if (projectile.ai[1] > 30f)
+			{
+				if (projectile.velocity.Y > -1.5f)
+				{
+					projectile.velocity.Y = projectile.velocity.Y - 0.05f;
+				}
+			}
+			else
+			{
+				projectile.ai[1] += 1f;
+			}
+			if (projectile.wet)
+			{
+				if (projectile.velocity.Y > 0f)
+				{
+					projectile.velocity.Y = projectile.velocity.Y * 0.98f;
+				}
+				if (projectile.velocity.Y > -1f)
+				{
+					projectile.velocity.Y = projectile.velocity.Y - 0.2f;
+				}
+			}
+			int closestPlayer = (int)Player.FindClosest(projectile.Center, 1, 1);
+			Vector2 distance = Main.player[closestPlayer].Center - projectile.Center;
+			if (projectile.Distance(Main.player[closestPlayer].Center) < 14f)
+			{
+				Main.player[closestPlayer].AddBuff(BuffID.Gills, 90);
+				projectile.Kill();
 			}
 		}
 

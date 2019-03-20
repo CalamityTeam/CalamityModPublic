@@ -12,59 +12,59 @@ namespace CalamityMod.NPCs.AbyssNPCs
 {
 	public class LuminousCorvina : ModNPC
 	{
-        public bool hasBeenHit = false;
+		public bool hasBeenHit = false;
 		public int screamTimer = 0;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Luminous Corvina");
-            Main.npcFrameCount[npc.type] = 8;
-        }
-		
+			Main.npcFrameCount[npc.type] = 8;
+		}
+
 		public override void SetDefaults()
 		{
-            npc.noGravity = true;
-            npc.damage = 10;
+			npc.noGravity = true;
+			npc.damage = 10;
 			npc.width = 74;
 			npc.height = 56;
 			npc.defense = 20;
 			npc.lifeMax = 800;
-            npc.aiStyle = -1;
+			npc.aiStyle = -1;
 			aiType = -1;
-            npc.buffImmune[mod.BuffType("CrushDepth")] = true;
-            npc.value = Item.buyPrice(0, 0, 15, 0);
+			npc.buffImmune[mod.BuffType("CrushDepth")] = true;
+			npc.value = Item.buyPrice(0, 0, 15, 0);
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-            npc.knockBackResist = 0.85f;
+			npc.knockBackResist = 0.85f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("LuminousCorvinaBanner");
 		}
 
-        public override void AI()
-        {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-            npc.noGravity = true;
-            if (npc.direction == 0)
-            {
-                npc.TargetClosest(true);
-            }
-            if (npc.justHit)
-            {
-                hasBeenHit = true;
-            }
-            npc.chaseable = hasBeenHit;
-            if (npc.wet)
-            {
-                bool flag14 = hasBeenHit;
-                npc.TargetClosest(false);
-                if ((Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, 
-					Main.player[npc.target].width, Main.player[npc.target].height) && ((npc.Center.X - 15f < Main.player[npc.target].Center.X && 
-					npc.direction == 1) || (npc.Center.X + 15f > Main.player[npc.target].Center.X && npc.direction == -1))) || 
-					(Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, 
+		public override void AI()
+		{
+			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+			npc.noGravity = true;
+			if (npc.direction == 0)
+			{
+				npc.TargetClosest(true);
+			}
+			if (npc.justHit)
+			{
+				hasBeenHit = true;
+			}
+			npc.chaseable = hasBeenHit;
+			if (npc.wet)
+			{
+				bool flag14 = hasBeenHit;
+				npc.TargetClosest(false);
+				if ((Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position,
+					Main.player[npc.target].width, Main.player[npc.target].height) && ((npc.Center.X - 15f < Main.player[npc.target].Center.X &&
+					npc.direction == 1) || (npc.Center.X + 15f > Main.player[npc.target].Center.X && npc.direction == -1))) ||
+					(Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position,
 					Main.player[npc.target].width, Main.player[npc.target].height) && flag14))
-                {
-                    ++screamTimer;
-					
+				{
+					++screamTimer;
+
 					if (screamTimer >= 300)
 					{
 						if (screamTimer == 300)
@@ -84,130 +84,130 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						}
 						return;
 					}
-                }
-                if ((!Main.player[npc.target].wet || Main.player[npc.target].dead) && flag14)
-                {
-                    flag14 = false;
-                }
+				}
+				if ((!Main.player[npc.target].wet || Main.player[npc.target].dead) && flag14)
+				{
+					flag14 = false;
+				}
 				if (npc.collideX)
 				{
-                    npc.velocity.X = npc.velocity.X * -1f;
-                    npc.direction *= -1;
-                    npc.netUpdate = true;
-                }
-                if (npc.collideY)
-                {
-                    npc.netUpdate = true;
-                    if (npc.velocity.Y > 0f)
-                    {
-                        npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
-                        npc.directionY = -1;
-                        npc.ai[0] = -1f;
-                    }
-                    else if (npc.velocity.Y < 0f)
-                    {
-                        npc.velocity.Y = Math.Abs(npc.velocity.Y);
-                        npc.directionY = 1;
-                        npc.ai[0] = 1f;
-                    }
-                }
+					npc.velocity.X = npc.velocity.X * -1f;
+					npc.direction *= -1;
+					npc.netUpdate = true;
+				}
+				if (npc.collideY)
+				{
+					npc.netUpdate = true;
+					if (npc.velocity.Y > 0f)
+					{
+						npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
+						npc.directionY = -1;
+						npc.ai[0] = -1f;
+					}
+					else if (npc.velocity.Y < 0f)
+					{
+						npc.velocity.Y = Math.Abs(npc.velocity.Y);
+						npc.directionY = 1;
+						npc.ai[0] = 1f;
+					}
+				}
 				npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
-                if (npc.velocity.X < -0.2f || npc.velocity.X > 0.2f)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.95f;
-                }
-                if (npc.ai[0] == -1f)
-                {
-                    npc.velocity.Y = npc.velocity.Y - 0.01f;
-                    if ((double)npc.velocity.Y < -0.3)
-                    {
-                        npc.ai[0] = 1f;
-                    }
-                }
-                else
-                {
-                    npc.velocity.Y = npc.velocity.Y + 0.01f;
-                    if ((double)npc.velocity.Y > 0.3)
-                    {
-                        npc.ai[0] = -1f;
-                    }
-                }
-                int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
-                {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
-                if (Main.tile[num258, num259 - 1].liquid > 128)
-                {
-                    if (Main.tile[num258, num259 + 1].active())
-                    {
-                        npc.ai[0] = -1f;
-                    }
-                    else if (Main.tile[num258, num259 + 2].active())
-                    {
-                        npc.ai[0] = -1f;
-                    }
-                }
-                if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
-                {
-                    npc.velocity.Y = npc.velocity.Y * 0.95f;
-                }
-            }
-            else
-            {
-                if (npc.velocity.Y == 0f)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.94f;
-                    if ((double)npc.velocity.X > -0.2 && (double)npc.velocity.X < 0.2)
-                    {
-                        npc.velocity.X = 0f;
-                    }
-                }
-                npc.velocity.Y = npc.velocity.Y + 0.3f;
-                if (npc.velocity.Y > 10f)
-                {
-                    npc.velocity.Y = 10f;
-                }
-                npc.ai[0] = 1f;
-            }
-            npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-            if ((double)npc.rotation < -0.2)
-            {
-                npc.rotation = -0.2f;
-            }
-            if ((double)npc.rotation > 0.2)
-            {
-                npc.rotation = 0.2f;
-                return;
-            }
-        }
+				if (npc.velocity.X < -0.2f || npc.velocity.X > 0.2f)
+				{
+					npc.velocity.X = npc.velocity.X * 0.95f;
+				}
+				if (npc.ai[0] == -1f)
+				{
+					npc.velocity.Y = npc.velocity.Y - 0.01f;
+					if ((double)npc.velocity.Y < -0.3)
+					{
+						npc.ai[0] = 1f;
+					}
+				}
+				else
+				{
+					npc.velocity.Y = npc.velocity.Y + 0.01f;
+					if ((double)npc.velocity.Y > 0.3)
+					{
+						npc.ai[0] = -1f;
+					}
+				}
+				int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+				int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+				if (Main.tile[num258, num259 - 1] == null)
+				{
+					Main.tile[num258, num259 - 1] = new Tile();
+				}
+				if (Main.tile[num258, num259 + 1] == null)
+				{
+					Main.tile[num258, num259 + 1] = new Tile();
+				}
+				if (Main.tile[num258, num259 + 2] == null)
+				{
+					Main.tile[num258, num259 + 2] = new Tile();
+				}
+				if (Main.tile[num258, num259 - 1].liquid > 128)
+				{
+					if (Main.tile[num258, num259 + 1].active())
+					{
+						npc.ai[0] = -1f;
+					}
+					else if (Main.tile[num258, num259 + 2].active())
+					{
+						npc.ai[0] = -1f;
+					}
+				}
+				if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
+				{
+					npc.velocity.Y = npc.velocity.Y * 0.95f;
+				}
+			}
+			else
+			{
+				if (npc.velocity.Y == 0f)
+				{
+					npc.velocity.X = npc.velocity.X * 0.94f;
+					if ((double)npc.velocity.X > -0.2 && (double)npc.velocity.X < 0.2)
+					{
+						npc.velocity.X = 0f;
+					}
+				}
+				npc.velocity.Y = npc.velocity.Y + 0.3f;
+				if (npc.velocity.Y > 10f)
+				{
+					npc.velocity.Y = 10f;
+				}
+				npc.ai[0] = 1f;
+			}
+			npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
+			if ((double)npc.rotation < -0.2)
+			{
+				npc.rotation = -0.2f;
+			}
+			if ((double)npc.rotation > 0.2)
+			{
+				npc.rotation = 0.2f;
+				return;
+			}
+		}
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            if (projectile.minion)
-            {
-                return hasBeenHit;
-            }
-            return null;
-        }
+		public override bool? CanBeHitByProjectile(Projectile projectile)
+		{
+			if (projectile.minion)
+			{
+				return hasBeenHit;
+			}
+			return null;
+		}
 
-        public override void FindFrame(int frameHeight)
-        {
-            if (!npc.wet)
-            {
-                npc.frameCounter = 0.0;
-                return;
-            }
-            npc.frameCounter += 1.0;
+		public override void FindFrame(int frameHeight)
+		{
+			if (!npc.wet)
+			{
+				npc.frameCounter = 0.0;
+				return;
+			}
+			npc.frameCounter += 1.0;
 			if (npc.frameCounter > 6.0)
 			{
 				npc.frameCounter = 0.0;
@@ -231,65 +231,65 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					npc.frame.Y = frameHeight * 6;
 				}
 			}
-			
-        }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-            Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/LuminousCorvinaGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/LuminousCorvinaGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-            vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/LuminousCorvinaGlow"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
-        }
+		}
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(mod.BuffType("CrushDepth"), 180, true);
-        }
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+			{
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			}
+			Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector = center - Main.screenPosition;
+			vector -= new Vector2((float)mod.GetTexture("NPCs/AbyssNPCs/LuminousCorvinaGlow").Width, (float)(mod.GetTexture("NPCs/AbyssNPCs/LuminousCorvinaGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+			vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
+			Microsoft.Xna.Framework.Color color = new Microsoft.Xna.Framework.Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.LightBlue);
+			Main.spriteBatch.Draw(mod.GetTexture("NPCs/AbyssNPCs/LuminousCorvinaGlow"), vector,
+				new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
+		}
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer2 && spawnInfo.water)
-            {
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(mod.BuffType("CrushDepth"), 180, true);
+		}
+
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer2 && spawnInfo.water)
+			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}
-            return 0f;
-        }
+			return 0f;
+		}
 
-        public override void NPCLoot()
-        {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(8, 16));
-            if (Main.rand.Next(1000) == 0 && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
-            }
-            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
-            {
-                if (Main.rand.Next(2) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
-                }
-                if (Main.rand.Next(2) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(1, 3));
-                }
-                if (Main.expertMode && Main.rand.Next(2) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"));
-                }
-            }
-        }
+		public override void NPCLoot()
+		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(8, 16));
+			if (Main.rand.Next(1000000) == 0 && CalamityWorld.revenge)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
+			}
+			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+			{
+				if (Main.rand.Next(2) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
+				}
+				if (Main.rand.Next(2) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(1, 3));
+				}
+				if (Main.expertMode && Main.rand.Next(2) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"));
+				}
+			}
+		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
 			{

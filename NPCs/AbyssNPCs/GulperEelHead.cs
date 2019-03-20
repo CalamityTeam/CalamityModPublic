@@ -423,7 +423,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.Next(1000) == 0 && CalamityWorld.revenge)
+            if (Main.rand.Next(1000000) == 0 && CalamityWorld.revenge)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
             }

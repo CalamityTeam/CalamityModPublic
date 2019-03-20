@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || !NPC.downedMoonlord || NPC.AnyNPCs(mod.NPCType("ProfanedEnergyBody")))
+			if (spawnInfo.playerSafe || !NPC.downedMoonlord || NPC.AnyNPCs(npc.type))
 			{
 				return 0f;
 			}
@@ -83,7 +83,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void NPCLoot()
 		{
-            CalamityGlobalNPC.energyFlame = -1;
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UnholyEssence"), Main.rand.Next(2, 5));
 		}
 	}

@@ -189,13 +189,16 @@ namespace CalamityMod.Projectiles.SunkenSea
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.rarity != 2 && !target.boss)
+			if (!target.boss)
 			{
-				target.AddBuff(mod.BuffType("SilvaStun"), 60);
-			}
-			else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
-			{
-				target.AddBuff(mod.BuffType("SilvaStun"), 30);
+				if (target.rarity != 2)
+				{
+					target.AddBuff(mod.BuffType("SilvaStun"), 60);
+				}
+				else if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
+				{
+					target.AddBuff(mod.BuffType("SilvaStun"), 30);
+				}
 			}
 			projectile.ai[0] = 1f;
 			projectile.netUpdate = true;

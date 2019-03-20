@@ -16,7 +16,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Ravager");
 			Tooltip.SetDefault("One of many flesh golems crafted through forbidden necromancy to counter my unstoppable forces.\n" +
-                "Its creators were slaughtered by it moments after its conception.  It's for the best that is has been destroyed.");
+                "Its creators were slaughtered by it moments after its conception. It's for the best that is has been destroyed.");
 		}
 		
 		public override void SetDefaults()

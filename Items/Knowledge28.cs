@@ -15,7 +15,7 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Leviathan and Siren");
-			Tooltip.SetDefault("An odd pair of creatures.  One seeking companionship and the other seeking sustenance.\n" +
+			Tooltip.SetDefault("An odd pair of creatures; one seeking companionship and the other seeking sustenance.\n" +
                 "Perhaps two genetic misfits outcast from their homes that found comfort in assisting one another.");
 		}
 		

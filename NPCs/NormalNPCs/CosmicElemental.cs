@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.HitSound = SoundID.NPCHit7;
 			npc.DeathSound = SoundID.NPCDeath6;
 			banner = npc.type;
-			bannerItem = mod.ItemType("CnidrionBanner");
+			bannerItem = mod.ItemType("CosmicElementalBanner");
 		}
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

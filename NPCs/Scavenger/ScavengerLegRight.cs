@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			Vector2 center = npc.Center;
-            if (NPC.CountNPCS(mod.NPCType("ScavengerBody")) < 1)
+            if (!Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;

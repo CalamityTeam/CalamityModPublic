@@ -15,7 +15,8 @@ namespace CalamityMod.Items.SunkenSea
         {
             DisplayName.SetDefault("Giant Pearl");
             Tooltip.SetDefault("You have a light aura around you\n" +
-                "Enemies within the aura are slowed down");
+                "Enemies within the aura are slowed down\n" +
+				"Does not work on bosses");
         }
 
         public override void SetDefaults()

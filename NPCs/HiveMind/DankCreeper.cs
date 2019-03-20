@@ -80,7 +80,6 @@ namespace CalamityMod.NPCs.HiveMind
 				npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
 				npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
 			}
-			return;
 		}
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)

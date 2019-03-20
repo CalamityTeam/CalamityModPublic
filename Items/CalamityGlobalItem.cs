@@ -38,6 +38,8 @@ namespace CalamityMod.Items
 
 		public bool rogue = false;
 
+		public int timesUsed = 0;
+
 		public int postMoonLordRarity = 0;
 
 		#region SetDefaults
@@ -108,6 +110,125 @@ namespace CalamityMod.Items
 		}
 		#endregion
 
+		#region Shoot
+		public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if (rogue)
+			{
+				speedX *= CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity;
+				speedY *= CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity;
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).eArtifact && item.ranged && !rogue)
+			{
+				speedX *= 1.25f;
+				speedY *= 1.25f;
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).bloodflareMage) //0 - 99
+			{
+				if (item.magic && Main.rand.Next(0, 100) >= 95)
+				{
+					if (player.whoAmI == Main.myPlayer)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GhostlyBolt"), (int)((double)damage * (player.GetModPlayer<CalamityPlayer>(mod).auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).bloodflareRanged) //0 - 99
+			{
+				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 98)
+				{
+					if (player.whoAmI == Main.myPlayer)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BloodBomb"), (int)((double)damage * (player.GetModPlayer<CalamityPlayer>(mod).auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).tarraMage)
+			{
+				if (player.GetModPlayer<CalamityPlayer>(mod).tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
+				{
+					player.GetModPlayer<CalamityPlayer>(mod).tarraCrits = 0;
+					int num106 = 9 + Main.rand.Next(3);
+					for (int num107 = 0; num107 < num106; num107++)
+					{
+						float num110 = 0.025f * (float)num107;
+						float hardar = speedX + (float)Main.rand.Next(-25, 26) * num110;
+						float hordor = speedY + (float)Main.rand.Next(-25, 26) * num110;
+						float num84 = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+						num84 = item.shootSpeed / num84;
+						hardar *= num84;
+						hordor *= num84;
+						Projectile.NewProjectile(position.X, position.Y, hardar, hordor, 206, (int)((double)damage * 0.2), knockBack, player.whoAmI, 0.0f, 0.0f);
+					}
+				}
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).ataxiaBolt)
+			{
+				if (item.ranged && !rogue && Main.rand.Next(2) == 0)
+				{
+					if (player.whoAmI == Main.myPlayer)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("ChaosFlare"), (int)((double)damage * 0.25), 2f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).godSlayerRanged) //0 - 99
+			{
+				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 95)
+				{
+					if (player.whoAmI == Main.myPlayer)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("GodSlayerShrapnelRound"), (int)((double)damage * (player.GetModPlayer<CalamityPlayer>(mod).auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).ataxiaVolley)
+			{
+				if (rogue && Main.rand.Next(10) == 0)
+				{
+					if (player.whoAmI == Main.myPlayer)
+					{
+						Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+						float spread = 45f * 0.0174f;
+						double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
+						double deltaAngle = spread / 8f;
+						double offsetAngle;
+						int i;
+						for (i = 0; i < 4; i++)
+						{
+							Vector2 vector2 = new Vector2(player.Center.X, player.Center.Y);
+							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+							Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("ChaosFlare2"), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
+							Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("ChaosFlare2"), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
+						}
+					}
+				}
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).reaverDoubleTap) //0 - 99
+			{
+				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 90)
+				{
+					if (player.whoAmI == Main.myPlayer)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("MiniRocket"), (int)((double)damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).victideSet)
+			{
+				if ((item.ranged || item.melee || item.magic ||
+					rogue || item.summon) && item.rare < 8 && Main.rand.Next(10) == 0)
+				{
+					if (player.whoAmI == Main.myPlayer)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("Seashell"), damage * 2, 1f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
+			return true;
+		}
+		#endregion
+
 		#region SavingAndLoading
 		public override bool NeedsSaving(Item item)
 		{
@@ -122,6 +243,9 @@ namespace CalamityMod.Items
 					"rogue", rogue
 				},
 				{
+					"timesUsed", timesUsed
+				},
+				{
 					"rarity", postMoonLordRarity
 				}
 			};
@@ -130,6 +254,7 @@ namespace CalamityMod.Items
 		public override void Load(Item item, TagCompound tag)
 		{
 			rogue = tag.GetBool("rogue");
+			timesUsed = tag.GetInt("timesUsed");
 			postMoonLordRarity = tag.GetInt("rarity");
 		}
 
@@ -137,6 +262,7 @@ namespace CalamityMod.Items
 		{
 			int loadVersion = reader.ReadInt32();
 			postMoonLordRarity = reader.ReadInt32();
+			timesUsed = reader.ReadInt32();
 
 			if (loadVersion == 0)
 			{
@@ -156,6 +282,7 @@ namespace CalamityMod.Items
 
 			writer.Write(flags);
 			writer.Write(postMoonLordRarity);
+			writer.Write(timesUsed);
 		}
 
 		public override void NetReceive(Item item, BinaryReader reader)
@@ -164,6 +291,7 @@ namespace CalamityMod.Items
 			rogue = flags[0];
 
 			postMoonLordRarity = reader.ReadInt32();
+			timesUsed = reader.ReadInt32();
 		}
 		#endregion
 
@@ -1323,51 +1451,66 @@ namespace CalamityMod.Items
 						}
 						break;
 					case ItemID.DestroyerBossBag:
-						if (Main.rand.Next(100) == 0)
-							player.QuickSpawnItem(mod.ItemType("SHPC"));
-						else if (defiled)
+						if (revenge)
 						{
-							if (Main.rand.Next(20) == 0)
+							if (Main.rand.Next(100) == 0)
 								player.QuickSpawnItem(mod.ItemType("SHPC"));
+							else if (defiled)
+							{
+								if (Main.rand.Next(20) == 0)
+									player.QuickSpawnItem(mod.ItemType("SHPC"));
+							}
 						}
 						break;
 					case ItemID.PlanteraBossBag:
 						player.QuickSpawnItem(mod.ItemType("LivingShard"), Main.rand.Next(8, 12));
 						if (Main.rand.Next(5) == 0)
 							player.QuickSpawnItem(ItemID.JungleKey);
-						if (Main.rand.Next(100) == 0)
-							player.QuickSpawnItem(mod.ItemType("BlossomFlux"));
-						else if (defiled)
+						if (revenge)
 						{
-							if (Main.rand.Next(20) == 0)
+							if (Main.rand.Next(100) == 0)
 								player.QuickSpawnItem(mod.ItemType("BlossomFlux"));
+							else if (defiled)
+							{
+								if (Main.rand.Next(20) == 0)
+									player.QuickSpawnItem(mod.ItemType("BlossomFlux"));
+							}
 						}
 						break;
 					case ItemID.GolemBossBag:
-						if (Main.rand.Next(100) == 0)
-							player.QuickSpawnItem(mod.ItemType("AegisBlade"));
-						else if (defiled)
+						if (revenge)
 						{
-							if (Main.rand.Next(20) == 0)
+							if (Main.rand.Next(100) == 0)
 								player.QuickSpawnItem(mod.ItemType("AegisBlade"));
+							else if (defiled)
+							{
+								if (Main.rand.Next(20) == 0)
+									player.QuickSpawnItem(mod.ItemType("AegisBlade"));
+							}
 						}
 						break;
 					case ItemID.FishronBossBag:
-						if (Main.rand.Next(100) == 0)
-							player.QuickSpawnItem(mod.ItemType("BrinyBaron"));
-						else if (defiled)
+						if (revenge)
 						{
-							if (Main.rand.Next(20) == 0)
+							if (Main.rand.Next(100) == 0)
 								player.QuickSpawnItem(mod.ItemType("BrinyBaron"));
+							else if (defiled)
+							{
+								if (Main.rand.Next(20) == 0)
+									player.QuickSpawnItem(mod.ItemType("BrinyBaron"));
+							}
 						}
 						break;
 					case ItemID.BossBagBetsy:
-						if (Main.rand.Next(100) == 0)
-							player.QuickSpawnItem(mod.ItemType("Vesuvius"));
-						else if (defiled)
+						if (revenge)
 						{
-							if (Main.rand.Next(20) == 0)
+							if (Main.rand.Next(100) == 0)
 								player.QuickSpawnItem(mod.ItemType("Vesuvius"));
+							else if (defiled)
+							{
+								if (Main.rand.Next(20) == 0)
+									player.QuickSpawnItem(mod.ItemType("Vesuvius"));
+							}
 						}
 						break;
 					case ItemID.CultistBossBag:

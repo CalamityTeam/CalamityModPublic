@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
@@ -9,28 +8,28 @@ namespace CalamityMod.Tiles
 	{
 		public override void SetDefaults()
 		{
-            Main.tileLighted[Type] = true;
-            Main.tileSolid[Type] = true;
-			Main.tileBlendAll[this.Type] = true;
+			Main.tileSolid[Type] = true;
+			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			dustType = mod.DustType("MSparkle");
-			drop = mod.ItemType("CryonicBrick");
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cryonic Brick");
-            AddMapEntry(new Color(0, 0, 150), name);
 			soundType = 21;
+			minPick = 100;
+			drop = mod.ItemType("CryonicBrick");
+			AddMapEntry(new Color(99, 131, 199));
+			animationFrameHeight = 270;
 		}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
+		public override bool CreateDust(int i, int j, ref int type)
 		{
-			num = fail ? 1 : 3;
+			Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 176, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+			return false;
 		}
 
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = 0.02f;
-            g = 0.02f;
-            b = 0.06f;
-        }
-    }
+		public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+		{
+			int xPos = i % 2;
+			int yPos = j % 4;
+			frameXOffset = xPos * 288;
+			frameYOffset = yPos * animationFrameHeight;
+		}
+	}
 }

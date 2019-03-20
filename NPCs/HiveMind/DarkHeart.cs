@@ -114,7 +114,6 @@ namespace CalamityMod.NPCs.HiveMind
 						num184 = 14;
 					}
 					Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, mod.ProjectileType("ShaderainHostile"), num184, 0f, Main.myPlayer, 0f, 0f);
-					return;
 				}
 			}
 		}

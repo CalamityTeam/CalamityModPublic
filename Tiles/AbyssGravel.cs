@@ -28,17 +28,5 @@ namespace CalamityMod.Tiles
         {
             num = fail ? 1 : 3;
         }
-
-        public override void NearbyEffects(int i, int j, bool closer)
-        {
-            if (!closer && j < Main.maxTilesY - 205)
-            {
-                if (Main.tile[i, j].liquid <= 0)
-                {
-                    Main.tile[i, j].liquid = 255;
-                    Main.tile[i, j].lava(false);
-                }
-            }
-        }
     }
 }

@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
-            if (!NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")))
+            if (!Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
                 for (int num569 = 0; num569 < 200; num569++)
                 {

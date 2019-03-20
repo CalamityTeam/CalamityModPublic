@@ -115,8 +115,6 @@ namespace CalamityMod.NPCs
 
 		public static int ghostBoss = -1;
 
-		public static int ghostBoss2 = -1;
-
 		public static int laserEye = -1;
 
 		public static int fireEye = -1;
@@ -1225,7 +1223,7 @@ namespace CalamityMod.NPCs
 						case NPCID.MothronEgg:
 							protection = 0.5f; break;
 						case NPCID.DungeonGuardian:
-							protection = 0.9999f; break;
+							protection = 0.999999f; break;
 					}
 				}
 			}
@@ -1272,7 +1270,7 @@ namespace CalamityMod.NPCs
 			if (CalamityMod.eclipseBuffList.Contains(npc.type) && CalamityWorld.buffedEclipse)
 			{
 				npc.lifeMax = (int)((double)npc.lifeMax * 32.5);
-				npc.damage = (int)((double)npc.damage * 3.0);
+				npc.damage = (int)((double)npc.damage * 3.5);
 				npc.life = npc.lifeMax;
 				npc.defDamage = npc.damage;
 			}
@@ -1455,7 +1453,7 @@ namespace CalamityMod.NPCs
 				}
 				if (newDamage >= 1.0)
 				{
-					newDamage = (double)(1f - protection) * newDamage; //DR calc 195 * 0.4 = 78 damage  0.6 DR
+					newDamage = (double)(1f - protection) * newDamage; //DR calc 195 * 0.4 = 78 damage 0.6 DR
 					if (newDamage < 1.0)
 					{
 						newDamage = 1.0;
@@ -1464,9 +1462,12 @@ namespace CalamityMod.NPCs
 				damage = newDamage;
 				protection = defProtection;
 			}
-			if (yellowCandle)
+			if (protection < 0.99f)
 			{
-				damage += yellowCandleDamageBoost;
+				if (yellowCandle)
+				{
+					damage += yellowCandleDamageBoost;
+				}
 			}
 			return true; //vanilla defense calc 78 - (180 / 2 = 90) = 0, boosted to 1 by calc
 		}
@@ -1544,6 +1545,14 @@ namespace CalamityMod.NPCs
 				if (npc.buffImmune[mod.BuffType("Enraged")])
 				{
 					npc.buffImmune[mod.BuffType("Enraged")] = false;
+				}
+				if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+				{
+					if (newAI[3] == 0f)
+					{
+						newAI[3] = 1f;
+						newAI[1] = 300f;
+					}
 				}
 				if (newAI[1] < 480f)
 				{
@@ -5855,14 +5864,6 @@ namespace CalamityMod.NPCs
 		#region AI
 		public override void AI(NPC npc)
 		{
-			if (SCal > -1)
-			{
-				if (!npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && npc.type != mod.NPCType("SupremeCalamitas"))
-				{
-					npc.active = false;
-					npc.netUpdate = true;
-				}
-			}
 			if (!CalamityWorld.spawnedHardBoss)
 			{
 				if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer || npc.type == NPCID.SkeletronPrime ||
@@ -6612,9 +6613,9 @@ namespace CalamityMod.NPCs
 				{
 					laserEye = npc.whoAmI;
 					bool spazAlive = false;
-					if (NPC.CountNPCS(NPCID.Spazmatism) > 0)
+					if (fireEye != -1)
 					{
-						spazAlive = true;
+						spazAlive = Main.npc[fireEye].active;
 					}
 					if (npc.ai[0] == 0f)
 					{
@@ -6694,9 +6695,9 @@ namespace CalamityMod.NPCs
 				{
 					fireEye = npc.whoAmI;
 					bool retAlive = false;
-					if (NPC.CountNPCS(NPCID.Retinazer) > 0)
+					if (laserEye != -1)
 					{
-						retAlive = true;
+						retAlive = Main.npc[laserEye].active;
 					}
 					if (npc.ai[0] == 0f)
 					{
@@ -7031,7 +7032,7 @@ namespace CalamityMod.NPCs
 						}
 					}
 				}
-				else if (npc.type == NPCID.SkeletronHead)
+				else if (npc.type == NPCID.SkeletronHead || npc.type == NPCID.DungeonGuardian)
 				{
 					if (npc.ai[1] == 1f)
 					{
@@ -7126,6 +7127,46 @@ namespace CalamityMod.NPCs
 						num175 = num176 / num175;
 						npc.velocity.X = num173 * num175;
 						npc.velocity.Y = num174 * num175;
+					}
+					else if (npc.ai[1] == 2f)
+					{
+						Vector2 vector21 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+						float num177 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector21.X;
+						float num178 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector21.Y;
+						float num179 = (float)Math.Sqrt((double)(num177 * num177 + num178 * num178));
+						num179 = 12f / num179;
+						npc.velocity.X = num177 * num179;
+						npc.velocity.Y = num178 * num179;
+						if (Main.netMode != 1)
+						{
+							npc.localAI[1] += 1f;
+							if (npc.localAI[1] >= 60f)
+							{
+								npc.localAI[1] = 0f;
+								Vector2 vector16 = npc.Center;
+								if (Collision.CanHit(vector16, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+								{
+									float num159 = 5f;
+									float num160 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector16.X + (float)Main.rand.Next(-20, 21);
+									float num161 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector16.Y + (float)Main.rand.Next(-20, 21);
+									float num162 = (float)Math.Sqrt((double)(num160 * num160 + num161 * num161));
+									num162 = num159 / num162;
+									num160 *= num162;
+									num161 *= num162;
+									Vector2 value = new Vector2(num160 * 1f + (float)Main.rand.Next(-50, 51) * 0.01f, num161 * 1f + (float)Main.rand.Next(-50, 51) * 0.01f);
+									value.Normalize();
+									value *= num159;
+									value += npc.velocity;
+									num160 = value.X;
+									num161 = value.Y;
+									int num163 = 2500;
+									int num164 = 270;
+									vector16 += value * 5f;
+									int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, num164, num163, 0f, Main.myPlayer, -1f, 0f);
+									Main.projectile[num165].timeLeft = 300;
+								}
+							}
+						}
 					}
 				}
 				#endregion
@@ -7345,8 +7386,8 @@ namespace CalamityMod.NPCs
 		{
 			if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
 			{
-				npc.velocity.X *= 0.75f;
-				npc.velocity.Y *= 0.75f;
+				npc.velocity.X *= 0.95f;
+				npc.velocity.Y *= 0.95f;
 			}
 			if (silvaStun && !CalamityWorld.bossRushActive)
 			{
@@ -10542,9 +10583,7 @@ namespace CalamityMod.NPCs
 					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 				}
 				string key2 = "Mods.CalamityMod.UglyBossText";
-				Color messageColor2 = Color.Crimson;
-				string key3 = "Mods.CalamityMod.UglyBossText2";
-				Color messageColor3 = Color.Cyan;
+				Color messageColor2 = Color.Aquamarine;
 				if (!hardMode)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
@@ -10554,12 +10593,10 @@ namespace CalamityMod.NPCs
 					if (Main.netMode == 0)
 					{
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
-						Main.NewText(Language.GetTextValue(key3), messageColor3);
 					}
 					else if (Main.netMode == 2)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
 					}
 				}
 			}
@@ -11517,7 +11554,7 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)((double)spawnRate * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 1.75 : 75));
 				maxSpawns = (int)((float)maxSpawns * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 0.625f : 0.005f));
 			}
-			else if (CalamityPlayer.areThereAnyDamnBosses || player.GetModPlayer<CalamityPlayer>(mod).zen)
+			else if (CalamityPlayer.areThereAnyDamnBosses || player.GetModPlayer<CalamityPlayer>(mod).zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f))
 			{
 				spawnRate = (int)((double)spawnRate * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 1.5 : 50));
 				maxSpawns = (int)((float)maxSpawns * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 0.75f : 0.01f));
@@ -12005,19 +12042,19 @@ namespace CalamityMod.NPCs
 				if (Main.hardMode)
 				{
 					shop.item[nextSlot].SetDefaults(mod.ItemType("MagnumRounds"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(6, 0, 0, 0);
+					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(12, 50, 0, 0);
 					nextSlot++;
 				}
 				if (NPC.downedPlantBoss)
 				{
 					shop.item[nextSlot].SetDefaults(mod.ItemType("GrenadeRounds"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(9, 0, 0, 0);
+					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
 					nextSlot++;
 				}
 				if (NPC.downedMoonlord)
 				{
 					shop.item[nextSlot].SetDefaults(mod.ItemType("ExplosiveShells"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(13, 50, 0, 0);
+					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(50, 0, 0, 0);
 					nextSlot++;
 				}
 			}
@@ -12314,7 +12351,7 @@ namespace CalamityMod.NPCs
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			for (int i = 0; i < 200; i++)
 			{
-				if (Main.npc[i].active && (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == mod.NPCType("SlimeGodRun") ||
+				if (Main.npc[i].active && (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == mod.NPCType("SlimeGodRun") ||
 					Main.npc[i].type == mod.NPCType("SlimeGodRunSplit") || Main.npc[i].type == mod.NPCType("SlimeGod") || Main.npc[i].type == mod.NPCType("SlimeGodSplit")))
 				{
 					return true;

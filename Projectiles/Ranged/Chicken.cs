@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
+			projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
             projectile.ranged = true;

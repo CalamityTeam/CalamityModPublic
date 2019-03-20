@@ -16,7 +16,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Skeletron Prime");
 			Tooltip.SetDefault("What a silly and pointless contraption for something created with the essence of pure terror.\n" +
-                "Draedon obviously took several liberties with his design of this thing...I am not impressed.  Better off destroyed.");
+                "Draedon obviously took several liberties with his design of this thing...I am not impressed. Better off destroyed.");
 		}
 		
 		public override void SetDefaults()

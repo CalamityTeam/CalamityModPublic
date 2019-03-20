@@ -48,8 +48,8 @@ namespace CalamityMod.Items.Armor
                 "Reduces all damage taken by 5%, this is calculated separately from damage reduction\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
-                "If you are reduced to 0 HP you will not die from any further damage for 10 seconds\n" +
-                "If you get reduced to 0 HP again while this effect is active you will lose 100 max life\n" +
+                "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
+                "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
                 "This effect only triggers once per life\n" +
                 "Your max life will return to normal if you die\n" +
                 "Rogue weapons have a faster throwing rate while you are above 50% life\n" +
@@ -71,7 +71,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(null, "DarksunFragment", 5);
             recipe.AddIngredient(null, "EffulgentFeather", 5);
             recipe.AddIngredient(null, "CosmiliteBar", 5);
-            recipe.AddIngredient(null, "NightmareFuel", 14);
+			recipe.AddIngredient(null, "Tenebris", 6);
+			recipe.AddIngredient(null, "NightmareFuel", 14);
             recipe.AddIngredient(null, "EndothermicEnergy", 14);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);

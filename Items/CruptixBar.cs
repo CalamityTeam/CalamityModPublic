@@ -28,10 +28,9 @@ namespace CalamityMod.Items
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "ChaoticOre", 12);
-            recipe.AddIngredient(null, "CoreofChaos");
+            recipe.AddIngredient(null, "ChaoticOre", 5);
             recipe.AddTile(TileID.AdamantiteForge);
-            recipe.SetResult(this, 4);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

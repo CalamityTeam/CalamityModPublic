@@ -15,8 +15,8 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Plaguebringer Goliath");
-			Tooltip.SetDefault("A beautiful amalgam of steel, flesh, and infection.  Capable of destroying an entire civilization in just one onslaught.\n" +
-                "Its plague nuke barrage can leave an entire area uninhabitable for months...at least concerning certain species.");
+			Tooltip.SetDefault("A horrific amalgam of steel, flesh, and infection; capable of destroying an entire civilization in just one onslaught.\n" +
+				"Its plague nuke barrage can leave an entire area uninhabitable for months. A shame that it came to this but the plague must be containted.");
 		}
 		
 		public override void SetDefaults()

@@ -26,8 +26,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
         private int flameTimer = 900;
         private int laserShoot = 0;
         private float phaseSwitch = 0f;
-        private float[] shotSpacing = new float[4] { 1000f, 1000f, 1000f, 1000f };
-        private const float spacingVar = 100;
+        private float[] shotSpacing = new float[4] { 1050f, 1050f, 1050f, 1050f };
+        private const float spacingVar = 105;
         private const int totalShots = 20;
         private int idleCounter = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 540 : 360;
         private double damageTaken = 0.0;
@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.lifeMax = CalamityWorld.death ? 5000000 : 4600000;
 			}
-			npc.takenDamageMultiplier = CalamityWorld.bossRushActive ? 1.5f : 1.25f;
+			npc.takenDamageMultiplier = 1.25f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
             animationType = 10; //new
@@ -379,7 +379,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                         {
                             Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + this.shotSpacing[0], -speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + this.shotSpacing[0], speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            this.shotSpacing[0] -= spacingVar; //100
+                            this.shotSpacing[0] -= spacingVar; //105
                         }
                         if (extraLasers == 1 && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
                         {
@@ -387,29 +387,29 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                             {
                                 Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + this.shotSpacing[3], -speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + this.shotSpacing[3], speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                this.shotSpacing[3] -= (Main.rand.Next(2) == 0 ? 170f : 190f); //100
+                                this.shotSpacing[3] -= (Main.rand.Next(2) == 0 ? 180f : 200f);
                             }
-                            this.shotSpacing[3] = 1000f;
+                            this.shotSpacing[3] = 1050f;
                         }
-                        this.shotSpacing[0] = 1000f;
+                        this.shotSpacing[0] = 1050f;
                     }
                     if (laserShoot % (CalamityWorld.bossRushActive ? 300 : (CalamityWorld.death ? 360 : 450)) == 0) //480 960 1440 1920 2400
                     {
                         for (int x = 0; x < totalShots; x++)
                         {
                             Projectile.NewProjectile(Main.player[npc.target].position.X + this.shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            this.shotSpacing[1] -= spacingVar; //100
+                            this.shotSpacing[1] -= spacingVar; //105
                         }
-                        this.shotSpacing[1] = 1000f;
+                        this.shotSpacing[1] = 1050f;
                     }
                     if (laserShoot % (CalamityWorld.bossRushActive ? 420 : (CalamityWorld.death ? 480 : 600)) == 0) //600 1200 1800 2400
                     {
                         for (int x = 0; x < totalShots; x++)
                         {
                             Projectile.NewProjectile(Main.player[npc.target].position.X + this.shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                            this.shotSpacing[2] -= spacingVar; //100
+                            this.shotSpacing[2] -= spacingVar; //105
                         }
-                        this.shotSpacing[2] = 1000f;
+                        this.shotSpacing[2] = 1050f;
                     }
                 }
             }

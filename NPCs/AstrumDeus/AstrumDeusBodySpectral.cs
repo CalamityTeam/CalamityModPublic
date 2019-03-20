@@ -105,11 +105,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 			if (Main.netMode != 1)
 			{
 				int shootTime = 4;
-				if ((double)npc.life <= (double)npc.lifeMax * 0.65)
+				if ((double)npc.life <= (double)npc.lifeMax * 0.65 || Main.player[npc.target].gravDir == -1f)
 				{
 					shootTime += CalamityWorld.death ? 4 : 2;
                 }
-				if ((double)npc.life <= (double)npc.lifeMax * 0.3 || CalamityWorld.bossRushActive)
+				if ((double)npc.life <= (double)npc.lifeMax * 0.3 || CalamityWorld.bossRushActive || Main.player[npc.target].gravDir == -1f)
 				{
 					shootTime += CalamityWorld.death ? 6 : 2;
 				}
@@ -125,6 +125,10 @@ namespace CalamityMod.NPCs.AstrumDeus
                         {
                             num941 = 16f;
                         }
+						if (Main.player[npc.target].gravDir == -1f)
+						{
+							num941 *= 2f;
+						}
 						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 						float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
 						float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);

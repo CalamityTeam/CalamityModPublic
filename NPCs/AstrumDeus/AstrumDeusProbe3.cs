@@ -16,22 +16,22 @@ namespace CalamityMod.NPCs.AstrumDeus
 		{
 			DisplayName.SetDefault("Astrum Deus Probe");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.npcSlots = 2f;
-			npc.damage = 30;
+			npc.damage = 0;
 			npc.width = 30; //324
 			npc.height = 30; //216
 			npc.defense = 30;
-			npc.lifeMax = 600;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 120000;
-            }
-            npc.knockBackResist = 0.95f;
+			npc.lifeMax = 900;
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = 120000;
+			}
+			npc.knockBackResist = 0.95f;
 			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.buffImmune[24] = true;
 		}
-		
+
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
@@ -50,11 +50,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 			}
 			float num = revenge ? 6f : 5f;
 			float num2 = revenge ? 0.07f : 0.065f;
-            if (CalamityWorld.death)
-            {
-                num = 8f;
-                num2 = 0.08f;
-            }
+			if (CalamityWorld.death)
+			{
+				num = 8f;
+				num2 = 0.08f;
+			}
 			Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 			float num4 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
 			float num5 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -206,7 +206,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.netUpdate = true;
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -273,12 +273,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 90, true);

@@ -10,19 +10,19 @@ namespace CalamityMod.Items.AstrumDeus
 		{
 			DisplayName.SetDefault("Starcore");
 			Tooltip.SetDefault("May the stars guide your way\n" +
-                "Summons Astrum Deus");
+                "Summons Astrum Deus\n" +
+				"Not consumable");
 		}
 		
 		public override void SetDefaults()
 		{
 			item.width = 28;
 			item.height = 18;
-			item.maxStack = 20;
 			item.rare = 7;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;
-			item.consumable = true;
+			item.consumable = false;
 		}
 		
 		public override bool CanUseItem(Player player)

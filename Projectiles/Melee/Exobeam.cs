@@ -147,22 +147,6 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(BuffID.Frostburn, 100);
 			target.AddBuff(BuffID.OnFire, 100);
 			target.AddBuff(BuffID.Ichor, 100);
-			if (target.type == NPCID.TargetDummy)
-			{
-				return;
-			}
-			float num = (float)damage * 0.01f;
-			if ((int)num == 0)
-			{
-				return;
-			}
-			if (Main.player[Main.myPlayer].lifeSteal <= 0f)
-			{
-				return;
-			}
-			Main.player[Main.myPlayer].lifeSteal -= num;
-			int num2 = projectile.owner;
-			Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("Exoheal"), 0, 0f, projectile.owner, (float)num2, num);
         }
         
         public override Color? GetAlpha(Color lightColor)

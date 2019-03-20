@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Providence
 			}
 			if (CalamityWorld.bossRushActive)
 			{
-				npc.lifeMax = CalamityWorld.death ? 12000000 : 10000000;
+				npc.lifeMax = CalamityWorld.death ? 15000000 : 12500000;
 			}
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.Providence
 			{
 				canAttack = attackMore;
 			}
-			npc.chaseable = canAttack && npc.ai[0] != 2f && npc.ai[0] != 5f;
+			npc.chaseable = canAttack && npc.ai[0] != 2f && npc.ai[0] != 5f && npc.ai[0] != 7f;
 			if (npc.ai[0] != 2f && npc.ai[0] != 5f)
 			{
 				bool firingLaser = npc.ai[0] == 7f;

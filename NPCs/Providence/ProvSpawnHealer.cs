@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Providence
 			Vector2 vectorCenter = npc.Center;
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(false);
-            if (NPC.CountNPCS(mod.NPCType("Providence")) < 1)
+            if (!Main.npc[CalamityGlobalNPC.holyBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -108,19 +108,19 @@ namespace CalamityMod.NPCs.Providence
 				float num784 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector96.X;
 				float num785 = Main.npc[CalamityGlobalNPC.holyBoss].Center.Y - vector96.Y;
 				float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-				if (num786 > 120f) 
+				if (num786 > 360f) 
 				{
-					num786 = 24f / num786; //8f
+					num786 = 8f / num786; //8f
 					num784 *= num786;
 					num785 *= num786;
 					npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
 					npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
 					return;
 				}
-				if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 24f) //8f
+				if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 8f) //8f
 				{
-					npc.velocity.Y = npc.velocity.Y * 1.15f; //1.05f
-					npc.velocity.X = npc.velocity.X * 1.15f; //1.05f
+					npc.velocity.Y = npc.velocity.Y * 1.05f; //1.05f
+					npc.velocity.X = npc.velocity.X * 1.05f; //1.05f
 				}
 				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(2000) == 0) || Main.rand.Next(1000) == 0)) 
 				{
@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.Providence
 					Vector2 value4 = player.Center - npc.Center;
 					value4.Normalize();
 					value4 *= 9f; //9f
-					npc.velocity = (npc.velocity * 99f + value4) / 98f; //100
+					npc.velocity = (npc.velocity * 99f + value4) / 99f; //100
 				}
 				Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num787 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector97.X;

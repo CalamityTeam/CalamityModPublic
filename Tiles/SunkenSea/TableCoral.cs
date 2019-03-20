@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.SunkenSea
         {
             Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-            Main.tileBlockLight[Type] = true;
 			Main.tileSolidTop[Type] = true;
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.None, 0, 0);

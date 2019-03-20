@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Polterghast
 				npc.ai[1] = npc.ai[0];
 				start = false;
 			}
-            if (NPC.CountNPCS(mod.NPCType("Polterghast")) < 1)
+            if (!Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
