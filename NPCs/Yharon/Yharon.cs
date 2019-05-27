@@ -2789,7 +2789,14 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			if (npc.localAI[2] == 1f)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BossRush"));
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BossRush"));				
+				if (Main.rand.Next(40) == 0)
+				{
+					if (Main.expertMode)
+						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("VoidVortex"), 1, true);
+					else
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VoidVortex"));
+				}
 			}
 			if (Main.rand.Next(10) == 0 && npc.localAI[2] == 1f)
 			{
@@ -2814,13 +2821,6 @@ namespace CalamityMod.NPCs.Yharon
 			{
 				if (npc.localAI[2] == 1f)
 				{
-					if (Main.rand.Next(40) == 0)
-					{
-						if (Main.expertMode)
-							npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("VoidVortex"), 1, true);
-						else
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VoidVortex"));
-					}
 					if (Main.rand.Next(10) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ForgottenDragonEgg"));
