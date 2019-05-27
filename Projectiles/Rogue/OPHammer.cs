@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Rogue
     	
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 38;
+            projectile.width = 62;
+            projectile.height = 62;
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -115,8 +115,9 @@ namespace CalamityMod.Projectiles.Rogue
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
         	if (projectile.owner == Main.myPlayer)
         	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	}
+        		int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+			}
         }
     }
 }

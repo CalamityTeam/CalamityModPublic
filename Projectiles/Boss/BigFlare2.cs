@@ -106,7 +106,6 @@ namespace CalamityMod.Projectiles.Boss
         
         public override void Kill(int timeLeft)
         {
-        	bool revenge = CalamityWorld.revenge;
         	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
 			int num226 = 36;
 			for (int num227 = 0; num227 < num226; num227++)
@@ -150,7 +149,7 @@ namespace CalamityMod.Projectiles.Boss
 						break;
 					}
 				}
-				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado2"), 0, 4f, Main.myPlayer, 16f, 20f + (revenge ? 2f : 0f));
+				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado2"), 0, 4f, Main.myPlayer, 16f, 30f);
 				Main.projectile[num236].netUpdate = true;
 			}
         }

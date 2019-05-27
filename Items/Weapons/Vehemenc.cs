@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
             DisplayName.SetDefault("Vehemence");
             Tooltip.SetDefault("Casts an intense energy blast\n" +
                                "Does far more damage the more HP an enemy has left\n" +
-                               "Max damage is capped at 500,000\n" +
+                               "Max damage is capped at 1,000,000\n" +
                                "If an enemy has full HP it will inflict several long-lasting debuffs\n" +
                                "Revengeance drop");
             Item.staff[item.type] = true;

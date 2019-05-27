@@ -17,8 +17,9 @@ namespace CalamityMod.Tiles
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
+			Main.tileValue[Type] = 750;
 
-            ModTranslation name = CreateMapEntryName();
+			ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cinderplate");
             AddMapEntry(new Color(97, 22, 57), name);
 

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.SupremeCalamitas
 		
 		public override bool CanUseItem(Player player)
 		{
-			return !NPC.AnyNPCs(mod.NPCType("SupremeCalamitas"));
+			return !NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")) && CalamityWorld.downedBossAny;
 		}
 		
 		public override bool UseItem(Player player)

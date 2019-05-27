@@ -27,6 +27,7 @@ namespace CalamityMod.Items
 			item.useStyle = 4;
 			item.UseSound = SoundID.Item29;
 			item.consumable = true;
+			item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
 		

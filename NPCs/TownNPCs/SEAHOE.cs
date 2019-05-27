@@ -10,8 +10,6 @@ namespace CalamityMod.NPCs.TownNPCs
 	[AutoloadHead]
 	public class SEAHOE : ModNPC
 	{
-		public bool tips = false;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sea King");
@@ -33,17 +31,17 @@ namespace CalamityMod.NPCs.TownNPCs
 			npc.height = 58;
 			npc.aiStyle = 7;
 			npc.damage = 10;
-			npc.defense = 15;
-			npc.lifeMax = 250;
+			npc.defense = 25;
+			npc.lifeMax = 7500;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0.5f;
+			npc.knockBackResist = 0.65f;
 			animationType = NPCID.Guide;
 		}
 
 		public override bool CanTownNPCSpawn(int numTownNPCs, int money)
 		{
-			return CalamityWorld.downedCLAM;
+			return CalamityWorld.downedCLAM && CalamityWorld.downedDesertScourge;
 		}
 
 		public override string TownNPCName()
@@ -94,6 +92,10 @@ namespace CalamityMod.NPCs.TownNPCs
 				dialogue.Add("Meet me at " + Main.npc[lilBitch].GivenName + "'s house at night. We're going to throw him to the Trashers.");
 				dialogue.Add("Not sure how " + Main.npc[lilBitch].GivenName + " has not been roasted and digested by now, hanging around the sulphuric seas for so long. Peharps it got to his head.");
 			}
+
+			int cirrus = NPC.FindFirstNPC(mod.NPCType("FAP"));
+			if (cirrus != -1)
+				dialogue.Add("Rumor has it " + Main.npc[cirrus].GivenName + " drinks to forget her troubled past.");
 
 			if (Main.bloodMoon)
 			{
@@ -229,12 +231,10 @@ namespace CalamityMod.NPCs.TownNPCs
 			if (firstButton)
 			{
 				shop = true;
-				tips = false;
 			}
 			else
 			{
 				shop = false;
-				tips = true;
 				Main.npcChatText = Lore();
 				Player player = Main.player[Main.myPlayer];
 				player.AddBuff(mod.BuffType("AmidiasBlessing"), 36000);

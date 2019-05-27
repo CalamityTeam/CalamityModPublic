@@ -23,5 +23,10 @@ namespace CalamityMod.Buffs
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).bBlood = true;
 		}
+
+		public override void Update(NPC npc, ref int buffIndex)
+		{
+			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).bBlood = true;
+		}
 	}
 }

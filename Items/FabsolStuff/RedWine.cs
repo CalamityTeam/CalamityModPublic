@@ -13,7 +13,6 @@ namespace CalamityMod.Items.FabsolStuff
 			DisplayName.SetDefault("Red Wine");
 			Tooltip.SetDefault(@"Reduces life regen by 1
 Too dry for my taste
-15 second duration
 Restores 200 life");
 		}
 

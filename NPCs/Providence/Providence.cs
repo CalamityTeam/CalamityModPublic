@@ -44,6 +44,8 @@ namespace CalamityMod.NPCs.Providence
 			{
 				npc.lifeMax = CalamityWorld.death ? 15000000 : 12500000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
@@ -52,17 +54,17 @@ namespace CalamityMod.NPCs.Providence
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
@@ -109,12 +111,24 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode == 2)
 					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 			}
+			int guardianAmt = NPC.CountNPCS(mod.NPCType("ProvSpawnOffense")) + NPC.CountNPCS(mod.NPCType("ProvSpawnDefense")) + NPC.CountNPCS(mod.NPCType("ProvSpawnHealer"));
 			if (NPC.CountNPCS(mod.NPCType("ProvSpawnHealer")) > 0)
 			{
 				float heal = revenge ? 90f : 120f;
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
 					heal = 30f;
+				}
+				switch (guardianAmt)
+				{
+					case 1:
+						heal *= 2f;
+						break;
+					case 2:
+						break;
+					case 3:
+						heal *= 0.5f;
+						break;
 				}
 				healTimer++;
 				if (healTimer >= heal)
@@ -192,9 +206,7 @@ namespace CalamityMod.NPCs.Providence
 					}
 				}
 			}
-			if (NPC.CountNPCS(mod.NPCType("ProvSpawnOffense")) > 0 ||
-				NPC.CountNPCS(mod.NPCType("ProvSpawnDefense")) > 0 ||
-				NPC.CountNPCS(mod.NPCType("ProvSpawnHealer")) > 0)
+			if (guardianAmt > 0)
 			{
 				canAttack = attackMore;
 			}
@@ -289,7 +301,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						num856 = expertMode ? 23 : 24;
 					}
-					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					{
 						num856 = expertMode ? 21 : 22;
 					}
@@ -314,7 +326,7 @@ namespace CalamityMod.NPCs.Providence
 						{
 							num860 = expertMode ? 11.5f : 10f;
 						}
-						if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num860 = expertMode ? 12.75f : 11f;
 						}
@@ -547,7 +559,7 @@ namespace CalamityMod.NPCs.Providence
 					{
 						num864 = expertMode ? 64 : 70;
 					}
-					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					{
 						num864 = expertMode ? 56 : 64;
 					}
@@ -591,7 +603,7 @@ namespace CalamityMod.NPCs.Providence
 				npc.velocity *= 0.95f;
 				if (Main.netMode != 1)
 				{
-					npc.ai[2] += (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 2f : 1f);
+					npc.ai[2] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
 					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 					{
 						npc.ai[2] += 1f;
@@ -917,6 +929,10 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.rand.Next(7) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ProvidenceMask"));
+				}
+				if (Main.rand.Next(40) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SamuraiBadge"));
 				}
 				if (Main.rand.Next(4) == 0)
 				{

@@ -48,6 +48,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			{
 				npc.lifeMax = CalamityWorld.death ? 4000000 : 3700000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
@@ -58,19 +60,19 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[BuffID.Daybreak] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("HolyLight")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;
@@ -240,7 +242,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						{
 							num1044 += 2f; //2 not a prob
 						}
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num1044 += 2f;
 						}
@@ -279,7 +281,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						num1048 += 2f; //2 not a prob
 						num1049 += 0.1f; //0.1 not a prob
 					}
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					{
 						num1048 += 2f;
 						num1049 += 0.1f;
@@ -336,7 +338,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					}
 					npc.spriteDirection = npc.direction;
 					int num1050 = 600; //600 not a prob
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					{
 						num1050 = 250;
 					}
@@ -697,7 +699,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				npc.ai[1] += 1f;
 				bool flag104 = false;
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					if (npc.ai[1] % 10f == 9f)
 					{
@@ -728,7 +730,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					if (Main.netMode != 1)
 					{
 						float projectileSpeed = revenge ? 6.5f : 6f;
-						if (jungleEnrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (jungleEnrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							projectileSpeed += 10f;
 						}

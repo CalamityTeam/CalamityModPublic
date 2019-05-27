@@ -26,6 +26,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.height = 100; //216
 			npc.defense = 40;
 			npc.lifeMax = 6000;
+			if (CalamityWorld.downedProvidence)
+			{
+				npc.damage = 190;
+				npc.defense = 60;
+				npc.lifeMax = 30000;
+			}
 			npc.knockBackResist = 0.05f;
 			npc.value = Item.buyPrice(0, 1, 50, 0);
 			npc.HitSound = SoundID.NPCHit23;
@@ -433,6 +439,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"), Main.rand.Next(2, 4));
+			if (Main.rand.Next(100) == 0 && CalamityWorld.downedProvidence)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Thunderstorm"));
+			}
 			if (Main.expertMode)
 			{
 				if (Main.rand.Next(3) == 0)

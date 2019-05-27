@@ -123,23 +123,26 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.ai[0] == 0f)
             {
-                NPC ownerMinionAttackTargetNPC2 = projectile.OwnerMinionAttackTargetNPC;
-                if (ownerMinionAttackTargetNPC2 != null && ownerMinionAttackTargetNPC2.CanBeChasedBy(projectile, false))
-                {
-                    float num539 = ownerMinionAttackTargetNPC2.position.X + (float)(ownerMinionAttackTargetNPC2.width / 2);
-                    float num540 = ownerMinionAttackTargetNPC2.position.Y + (float)(ownerMinionAttackTargetNPC2.height / 2);
-                    float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
-                    if (num541 < num537)
-                    {
-                        num537 = num541;
-                        num535 = num539;
-                        num536 = num540;
-                        flag19 = true;
-                    }
-                }
-                if (!flag19)
-                {
-                    for (int num542 = 0; num542 < 200; num542 = num3 + 1)
+				if (player.HasMinionAttackTargetNPC)
+				{
+					NPC npc = Main.npc[player.MinionAttackTargetNPC];
+					if (npc.CanBeChasedBy(projectile, false))
+					{
+						float num539 = npc.position.X + (float)(npc.width / 2);
+						float num540 = npc.position.Y + (float)(npc.height / 2);
+						float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
+						if (num541 < num537 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						{
+							num537 = num541;
+							num535 = num539;
+							num536 = num540;
+							flag19 = true;
+						}
+					}
+				}
+				else
+				{
+					for (int num542 = 0; num542 < 200; num542 = num3 + 1)
                     {
                         if (Main.npc[num542].CanBeChasedBy(projectile, false))
                         {

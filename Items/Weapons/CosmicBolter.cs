@@ -6,9 +6,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
-//using TerrariaOverhaul;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class CosmicBolter : ModItem
 	{
@@ -17,35 +16,30 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Cosmic Bolter");
 		}
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 60;
-	        item.ranged = true;
-	        item.width = 40;
-	        item.height = 76;
-	        item.useTime = 19;
-	        item.useAnimation = 19;
-	        item.useStyle = 5;
-	        item.noMelee = true;
-	        item.knockBack = 2.75f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
-	        item.UseSound = SoundID.Item75;
-	        item.autoReuse = true;
-	        item.shoot = mod.ProjectileType("LunarBolt2");
-	        item.shootSpeed = 10f;
-	        item.useAmmo = 40;
-	    }
-
-        /*public void OverhaulInit()
-        {
-            this.SetTag("bow");
-        }*/
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void SetDefaults()
 		{
-	    	Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-	    	float num117 = 0.314159274f;
+			item.damage = 70;
+			item.ranged = true;
+			item.width = 40;
+			item.height = 76;
+			item.useTime = 19;
+			item.useAnimation = 19;
+			item.useStyle = 5;
+			item.noMelee = true;
+			item.knockBack = 2.75f;
+			item.value = Item.buyPrice(0, 80, 0, 0);
+			item.rare = 8;
+			item.UseSound = SoundID.Item75;
+			item.autoReuse = true;
+			item.shoot = mod.ProjectileType("LunarBolt2");
+			item.shootSpeed = 10f;
+			item.useAmmo = 40;
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+			float num117 = 0.314159274f;
 			int num118 = 2;
 			Vector2 vector7 = new Vector2(speedX, speedY);
 			vector7.Normalize();
@@ -64,17 +58,17 @@ namespace CalamityMod.Items.Weapons
 			}
 			return false;
 		}
-	
-	    public override void AddRecipes()
-	    {
-	        ModRecipe recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(null, "LunarianBow");
-	        recipe.AddIngredient(null, "LivingShard", 5);
-	        recipe.AddIngredient(ItemID.HallowedBar, 5);
-	        recipe.AddIngredient(ItemID.SoulofSight, 5);
-	        recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	    }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "LunarianBow");
+			recipe.AddIngredient(null, "LivingShard", 5);
+			recipe.AddIngredient(ItemID.HallowedBar, 5);
+			recipe.AddIngredient(ItemID.SoulofSight, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

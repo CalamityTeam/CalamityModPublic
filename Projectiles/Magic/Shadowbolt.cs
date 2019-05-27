@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
         
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	projectile.damage = (int)((double)projectile.damage * 1.25f);
+        	projectile.damage = (int)((double)projectile.damage * 1.25);
         	projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				return;
 			}
-        	projectile.damage = (int)((double)projectile.damage * 1.1f);
+        	projectile.damage = (int)((double)projectile.damage * 1.1);
         }
 
         public override void AI()

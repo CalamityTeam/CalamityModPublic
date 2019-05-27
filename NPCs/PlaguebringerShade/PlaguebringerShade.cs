@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			DisplayName.SetDefault("Plaguebringer");
 			Main.npcFrameCount[npc.type] = 12;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 80; //150
@@ -29,32 +29,32 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			npc.height = 66; //216
 			npc.defense = 30;
 			npc.lifeMax = CalamityWorld.death ? 4000 : 3000; //250000
-            npc.value = Item.buyPrice(0, 1, 50, 0);
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = 200000;
-            }
-            npc.knockBackResist = 0f;
+			npc.value = Item.buyPrice(0, 1, 50, 0);
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = 200000;
+			}
+			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			aiType = -1; //new
 			animationType = NPCID.QueenBee;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
-                npc.buffImmune[k] = true;
-                npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-                npc.buffImmune[BuffID.Daybreak] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("HolyLight")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
-                npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-                npc.buffImmune[mod.BuffType("SilvaStun")] = false;
-            }
+				npc.buffImmune[k] = true;
+			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;
@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			banner = npc.type;
 			bannerItem = mod.ItemType("PlaguebringerBanner");
 		}
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.05f, 0.15f, 0.025f);
@@ -364,14 +364,14 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						{
 							num1061 = mod.NPCType("PlagueBeeG");
 						}
-                        if (NPC.CountNPCS(mod.NPCType("PlagueBeeG")) < 3)
-                        {
-                            int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
-                            Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.005f;
-                            Main.npc[num1062].localAI[0] = 60f;
-                            Main.npc[num1062].netUpdate = true;
-                        }
+						if (NPC.CountNPCS(mod.NPCType("PlagueBeeG")) < 3)
+						{
+							int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, num1061, 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.005f;
+							Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.005f;
+							Main.npc[num1062].localAI[0] = 60f;
+							Main.npc[num1062].netUpdate = true;
+						}
 					}
 				}
 				if (num1060 > 400f || !Collision.CanHit(new Vector2(vector119.X, vector119.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -472,10 +472,10 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 							num1074 = 25;
 							num1075 = mod.ProjectileType("HiveBombGoliath");
 						}
-                        if (CalamityWorld.death)
-                        {
-                            num1074 += 20;
-                        }
+						if (CalamityWorld.death)
+						{
+							num1074 += 20;
+						}
 						int num1076 = Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[num1076].timeLeft = 300;
 					}
@@ -570,16 +570,16 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			}
 		}
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss)
-            {
-                return 0f;
-            }
-            return SpawnCondition.HardmodeJungle.Chance * 0.02f;
-        }
+		public override float SpawnChance(NPCSpawnInfo spawnInfo)
+		{
+			if (spawnInfo.playerSafe || !NPC.downedGolemBoss)
+			{
+				return 0f;
+			}
+			return SpawnCondition.HardmodeJungle.Chance * 0.02f;
+		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
 			{
@@ -587,12 +587,12 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			}
 			if (npc.life <= 0)
 			{
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg5"), 1f);
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg2"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg3"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg4"), 1f);
+				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg5"), 1f);
+				npc.position.X = npc.position.X + (float)(npc.width / 2);
 				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
 				npc.width = 100;
 				npc.height = 100;
@@ -619,11 +619,11 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			}
 		}
 
-        public override void NPCLoot()
-        {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(8, 13));
-        }
-		
+		public override void NPCLoot()
+		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(8, 13));
+		}
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("Plague"), 120, true);

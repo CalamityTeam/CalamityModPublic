@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -76,15 +77,22 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					{
 						if (projectile.owner == Main.myPlayer)
 						{
-							Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 92, projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
-                        }
+							int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 92, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+							Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+						}
 					}
-					return;
 				}
 			}
         }
-        
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(BuffID.Frostburn, 100);
         }

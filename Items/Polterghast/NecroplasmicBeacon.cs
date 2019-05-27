@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Polterghast
 		
 		public override bool CanUseItem(Player player)
 		{
-			return player.ZoneDungeon && !NPC.AnyNPCs(mod.NPCType("Polterghast"));
+			return player.ZoneDungeon && !NPC.AnyNPCs(mod.NPCType("Polterghast")) && CalamityWorld.downedBossAny;
 		}
 		
 		public override bool UseItem(Player player)

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.timeLeft = 1200;
+            projectile.timeLeft = 3600;
 			cooldownSlot = 1;
 		}
 
@@ -92,7 +92,16 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		public override bool CanDamage()
+		{
+			if (projectile.velocity.Y < -16f)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255, Main.DiscoG, 53, projectile.alpha);
         }

@@ -36,7 +36,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 4;
             item.shoot = mod.ProjectileType("TitaniumShurikenProjectile");
             item.shootSpeed = 16f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+		}
 
         public override void AddRecipes()
         {

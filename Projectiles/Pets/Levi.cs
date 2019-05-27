@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Pets
                     projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
                 }
             }
-            if ((double)projectile.velocity.X > 0.25)
+            if ((double)projectile.velocity.X >= 0.25)
             {
                 projectile.direction = -1;
             }
@@ -144,7 +144,6 @@ namespace CalamityMod.Projectiles.Pets
             if (projectile.frame > 4)
             {
                 projectile.frame = 0;
-                return;
             }
         }
     }

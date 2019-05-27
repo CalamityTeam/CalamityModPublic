@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Patreon
 			item.damage = 3000;
 			item.crit += 10;
 			item.ranged = true;
-			item.width = 142;
-			item.height = 62;
+			item.width = 96;
+			item.height = 40;
 			item.useTime = 50;
 			item.useAnimation = 50;
 			item.useStyle = 5;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Patreon
 
 		public override Vector2? HoldoutOffset()
 		{
-			return new Vector2(-70, 0);
+			return new Vector2(-40, 0);
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

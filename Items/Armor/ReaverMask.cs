@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Reaver Mask");
             Tooltip.SetDefault("10% increased magic damage, 5% reduced mana cost, and 5% increased magic critical strike chance\n" +
-                "10% increased movement speed and can move freely through liquids");
+                "10% increased movement speed, can move freely through liquids, and +75 max mana");
         }
 
         public override void SetDefaults()
@@ -56,7 +56,8 @@ namespace CalamityMod.Items.Armor
             player.magicCrit += 5;
             player.manaCost *= 0.95f;
             player.moveSpeed += 0.1f;
-        }
+			player.statManaMax2 += 75;
+		}
 
         public override void AddRecipes()
         {

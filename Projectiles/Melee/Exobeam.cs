@@ -130,7 +130,6 @@ namespace CalamityMod.Projectiles.Melee
 				}
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-			return;
         }
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

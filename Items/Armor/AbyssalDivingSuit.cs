@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
                 "The plates will only take damage if the damage taken is over 50\n" +
                 "After the suit has taken too much damage its armored plates will take 3 minutes to regenerate\n" +
                 "Reduces the damage caused by the pressure of the abyss while out of breath\n" +
-                "Removes the bleed effect caused by the abyss\n" +
+                "Removes the bleed effect caused by the abyss in all layers except the deepest one\n" +
                 "Grants the ability to swim and greatly extends underwater breathing\n" +
                 "Provides light underwater and extra mobility on ice\n" +
                 "Provides a moderate amount of light in the abyss\n" +

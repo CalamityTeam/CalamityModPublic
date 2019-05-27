@@ -32,7 +32,6 @@ namespace CalamityMod.Items.DesertScourge
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.QuickSpawnItem(mod.ItemType("ScourgeoftheDesert"));
 				if (Main.rand.Next(20) == 0)
 				{
 					switch (Main.rand.Next(3))
@@ -124,6 +123,21 @@ namespace CalamityMod.Items.DesertScourge
 			if (Main.rand.Next(10) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("AeroStone"));
+			}
+			if (Main.rand.Next(3) == 0)
+			{
+				if (Main.rand.Next(12) == 0)
+				{
+					player.QuickSpawnItem(mod.ItemType("DuneHopper"));
+				}
+				else
+				{
+					player.QuickSpawnItem(mod.ItemType("ScourgeoftheDesert"));
+				}
+			}
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("DeepDiver"));
 			}
 			if (NPC.downedBoss3)
 			{

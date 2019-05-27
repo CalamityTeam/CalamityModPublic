@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.DesertScourge
 			{
 				npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
@@ -88,7 +90,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.netMode != 1 && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+                if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.localAI[0] += 4f;
                 }

@@ -36,21 +36,23 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 npc.lifeMax = CalamityWorld.death ? 1100000 : 900000;
             }
-            npc.knockBackResist = 0f;
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.alpha = 255;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
             }
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
@@ -75,10 +77,16 @@ namespace CalamityMod.NPCs.Polterghast
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.5f, 0.25f, 0.75f);
             npc.TargetClosest(true);
             Vector2 vector = npc.Center;
-            if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f) { npc.active = false; }
+            if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f)
+			{
+				npc.active = false;
+			}
             bool speedBoost1 = false;
             bool despawnBoost = false;
-            if (npc.timeLeft < 1500) { npc.timeLeft = 1500; }
+            if (npc.timeLeft < 1500)
+			{
+				npc.timeLeft = 1500;
+			}
             bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
             bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
             int[] array2 = new int[4];
@@ -94,7 +102,8 @@ namespace CalamityMod.NPCs.Polterghast
                     num731 += Main.npc[num733].Center.Y;
                     array2[num732] = num733;
                     num732++;
-                    if (num732 > 3) { break; }
+                    if (num732 > 3)
+						break;
                 }
                 num = num733;
             }
@@ -105,12 +114,16 @@ namespace CalamityMod.NPCs.Polterghast
             if (!Main.player[npc.target].ZoneDungeon)
             {
                 despawnTimer--;
-                if (despawnTimer <= 0) { despawnBoost = true; }
+                if (despawnTimer <= 0)
+					despawnBoost = true;
                 speedBoost1 = true;
                 num734 += 8f;
                 num735 = 0.15f;
             }
-            else { despawnTimer = 600; }
+            else
+			{
+				despawnTimer = 600;
+			}
             if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
                 num734 = 18f;
@@ -134,8 +147,14 @@ namespace CalamityMod.NPCs.Polterghast
             }
             float num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
             int num739 = 500;
-            if (speedBoost1) { num739 += 500; }
-            if (expertMode) { num739 += 150; }
+            if (speedBoost1)
+			{
+				num739 += 500;
+			}
+            if (expertMode)
+			{
+				num739 += 150;
+			}
             if (num738 >= (float)num739)
             {
                 num738 = (float)num739 / num738;
@@ -198,13 +217,13 @@ namespace CalamityMod.NPCs.Polterghast
             if (speedBoost1)
             {
                 npc.defense = 400;
-                npc.damage = 1200;
+				npc.damage = 1200;
             }
             else
             {
                 npc.damage = expertMode ? 336 : 210;
                 npc.defense = 0;
-            }
+			}
         }
 
         public override Color? GetAlpha(Color drawColor)

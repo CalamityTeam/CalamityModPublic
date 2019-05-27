@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.TownNPCs
             npc.aiStyle = 7;
             npc.damage = 10;
             npc.defense = 15;
-            npc.lifeMax = 250;
+            npc.lifeMax = 20000;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath6;
             npc.knockBackResist = 0.5f;
@@ -194,21 +194,46 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("If I was a magical horse in this reality I'd be out in space swirling cocktails as I watch space worms battle for my enjoyment.");
             }
 
-            dialogue.Add("Hey " + CalamityMod.donatorList[Main.rand.Next(CalamityMod.donatorList.Count)] + "! You're pretty good! ...wait, what's your name again?");
+			int donorAmt = CalamityMod.donatorList.Count;
+			string firstDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+
+			string secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+			while (secondDonor == firstDonor)
+				secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+
+			string thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+			while (thirdDonor == firstDonor || thirdDonor == secondDonor)
+				thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+
+			dialogue.Add("Hey " + firstDonor + ", " + secondDonor + ", and " + thirdDonor + "! You're all pretty good! ...wait, who are you?");
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
 
-        public override void SetChatButtons(ref string button, ref string button2)
+		public string Death()
+		{
+			return "You have failed " + Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().deathCount +
+				(Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().deathCount == 1 ? " time." : " times.");
+		}
+
+		public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
-        }
+			button2 = "Death Count";
+		}
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
-            if (firstButton)
-                shop = true;
-        }
+			if (firstButton)
+			{
+				shop = true;
+			}
+			else
+			{
+				shop = false;
+				Main.npcChatText = Death();
+			}
+		}
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
         {

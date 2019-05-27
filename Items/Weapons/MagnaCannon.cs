@@ -35,8 +35,13 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 12f;
 	        item.shoot = mod.ProjectileType("MagnaBlast");
 	    }
-	    
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+		public override Vector2? HoldoutOffset()
+		{
+			return new Vector2(-10, 0);
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	        int num6 = 3;
 	        for (int index = 0; index < num6; ++index)

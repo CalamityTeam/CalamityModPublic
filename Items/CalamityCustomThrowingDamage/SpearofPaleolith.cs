@@ -34,7 +34,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 5;
             item.shoot = mod.ProjectileType("SpearofPaleolith");
             item.shootSpeed = 35f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+		}
 
         public override void AddRecipes()
         {

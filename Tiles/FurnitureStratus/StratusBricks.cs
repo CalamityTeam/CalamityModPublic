@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
+			Main.tileMergeDirt[Type] = false;
 			Main.tileBlockLight[Type] = true;
 			Main.tileBrick[Type] = true;
 			TileID.Sets.NeedsGrassFraming[Type] = true;
@@ -32,6 +32,10 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
+			if (!Lighting.NotRetro)
+			{
+				return;
+			}
 			int xPos = Main.tile[i, j].frameX;
 			int yPos = Main.tile[i, j].frameY;
 			Texture2D glowmask = mod.GetTexture("Tiles/FurnitureStratus/StratusBricks_Glowmask");

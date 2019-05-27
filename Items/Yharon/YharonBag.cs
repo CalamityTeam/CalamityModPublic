@@ -51,6 +51,10 @@ namespace CalamityMod.Items.Yharon
 				}
 			}
 			player.TryGettingDevArmor();
+			if (Main.rand.Next(10) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("ForgottenDragonEgg"));
+			}
 			if (Main.rand.Next(3) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("AngryChickenStaff"));

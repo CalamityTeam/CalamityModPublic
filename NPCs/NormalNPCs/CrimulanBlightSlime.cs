@@ -74,6 +74,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EbonianGel"), Main.rand.Next(15, 17));
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(10, 15));
+			if (Main.rand.Next(100) == 0 && NPC.downedBoss3)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carnage"));
+			}
 		}
 	}
 }

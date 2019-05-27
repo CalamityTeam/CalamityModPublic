@@ -47,6 +47,8 @@ namespace CalamityMod.NPCs.Leviathan
 			{
 				npc.lifeMax = CalamityWorld.death ? 2800000 : 2600000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
@@ -55,21 +57,21 @@ namespace CalamityMod.NPCs.Leviathan
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[BuffID.Daybreak] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("HolyLight")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Plague")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Plague")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit1;
@@ -93,21 +95,22 @@ namespace CalamityMod.NPCs.Leviathan
 			float scaleFactor3 = 300f;
 			float num999 = 800f;
 			float num1001 = 5f;
-			float scaleFactor4 = 0.75f;
+			float scaleFactor4 = 0.8f;
 			int num1002 = 0;
 			float scaleFactor5 = 10f;
 			float num1003 = 30f;
 			float num1004 = 150f;
 			float num1006 = 0.333333343f;
-			float num1007 = 10f;
+			float num1007 = 8f;
 			Vector2 vector = npc.Center;
 			Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
 			bool isNotOcean = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
 			int npcType = mod.NPCType("Leviathan");
 			bool halfLife = (double)npc.life <= (double)npc.lifeMax * 0.5;
 			bool leviAlive = NPC.AnyNPCs(npcType);
-			float num1000 = leviAlive ? 14f : 18f;
-			float num1005 = leviAlive ? 14f : 18f;
+			float num1000 = leviAlive ? 14f : 16f;
+			float num1005 = leviAlive ? 14f : 16f;
+			float chargeSpeedDivisor = leviAlive ? 13.85f : 15.85f;
 			num1006 *= num1005;
 			if ((halfLife || CalamityWorld.death || CalamityWorld.bossRushActive) && Main.netMode != 1)
 			{
@@ -130,7 +133,7 @@ namespace CalamityMod.NPCs.Leviathan
 			int defenseMult = phase2 ? 2 : 3;
 			if ((!leviAlive && halfLife) || CalamityWorld.death)
 			{
-				npc.defense = npc.defDefense * defenseMult;
+				npc.defense = 25 * defenseMult;
 			}
 			else
 			{
@@ -391,7 +394,7 @@ namespace CalamityMod.NPCs.Leviathan
 				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.4f);
 				npc.ai[1] += 1f;
 				bool flag104 = false;
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					if (npc.ai[1] % 10f == 9f)
 					{
@@ -431,7 +434,7 @@ namespace CalamityMod.NPCs.Leviathan
 					if (Main.netMode != 1)
 					{
 						float num1070 = revenge ? 13f : 11f;
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num1070 = 24f;
 						}
@@ -555,7 +558,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					phaseSwitch += 1f;
 				}
-				if (chargeSwitch == 0f)
+				if (chargeSwitch == 0f) //line up the charge
 				{
 					float scaleFactor6 = num998;
 					Vector2 center4 = npc.Center;
@@ -574,8 +577,8 @@ namespace CalamityMod.NPCs.Leviathan
 					flag64 = (flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014);
 					if (num1013 > num999 || !flag64)
 					{
-						npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / (leviAlive ? 13.9f : 17.8f); //14f 18f
-						npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / (leviAlive ? 13.9f : 17.8f); //14f 18f
+						npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / chargeSpeedDivisor;
+						npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / chargeSpeedDivisor;
 						if (!flag64)
 						{
 							anotherFloat += 1f;
@@ -597,7 +600,7 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.netUpdate = true;
 					}
 				}
-				else if (chargeSwitch == 1f)
+				else if (chargeSwitch == 1f) //pause before charging
 				{
 					npc.velocity *= scaleFactor4;
 					npc.ai[1] += 1f;
@@ -612,7 +615,7 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.velocity = velocity;
 					}
 				}
-				else if (chargeSwitch == 2f)
+				else if (chargeSwitch == 2f) //charging
 				{
 					float num1016 = num1003;
 					npc.ai[1] += 1f;
@@ -626,7 +629,7 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.velocity /= 2f;
 						npc.netUpdate = true;
 						npc.ai[1] = 45f;
-						chargeSwitch = 4f;
+						chargeSwitch = 3f;
 					}
 					else
 					{
@@ -641,16 +644,16 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.velocity = (npc.velocity * (num1005 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1005;
 					}
 				}
-				else if (chargeSwitch == 4f)
+				else if (chargeSwitch == 3f) //slow down after charging and reset
 				{
-					npc.ai[1] -= 3f;
+					npc.ai[1] -= 1f;
 					if (npc.ai[1] <= 0f)
 					{
 						chargeSwitch = 0f;
 						npc.ai[1] = 0f;
 						npc.netUpdate = true;
 					}
-					npc.velocity *= 0.95f;
+					npc.velocity *= 0.98f;
 				}
 				if (phaseSwitch > 300f)
 				{

@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class AetherBeam : ModProjectile
     {
+		private bool split = true;
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beam");
@@ -31,10 +33,15 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.ai[0] == 1f)
             {
-                projectile.ai[0] = 0f;
-                projectile.timeLeft /= 2;
-                projectile.tileCollide = false;
-            }
+				projectile.magic = false;
+				projectile.ranged = true;
+			}
+			if (projectile.ai[1] == 1f)
+			{
+				split = false;
+				projectile.tileCollide = false;
+				projectile.ai[1] = 0f;
+			}
             projectile.damage += 5;
             if (projectile.alpha > 0)
             {
@@ -61,7 +68,6 @@ namespace CalamityMod.Projectiles.Magic
                 if (projectile.localAI[0] <= 0f)
                 {
                     projectile.Kill();
-                    return;
                 }
             }
         }
@@ -106,20 +112,23 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	float random = Main.rand.Next(30, 90);
-        	float spread = random * 0.0174f;
-			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-			double deltaAngle = spread / 8f;
-			double offsetAngle;
-			int i;
-			if (projectile.owner == Main.myPlayer)
+			if (split)
 			{
-				for (i = 0; i < 4; i++)
+				float random = Main.rand.Next(30, 90);
+				float spread = random * 0.0174f;
+				double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+				double deltaAngle = spread / 8f;
+				double offsetAngle;
+				int i;
+				if (projectile.owner == Main.myPlayer)
 				{
-					offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-					int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
-					int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, 1f, 0f);
-                }
+					for (i = 0; i < 4; i++)
+					{
+						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+						int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+					}
+				}
 			}
             return true;
         }

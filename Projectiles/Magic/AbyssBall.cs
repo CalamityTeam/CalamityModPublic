@@ -60,7 +60,8 @@ namespace CalamityMod.Projectiles.Magic
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
+			projectile.Damage();
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

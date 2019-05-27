@@ -37,7 +37,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.lifeMax = 44000;
             }
-            npc.knockBackResist = 0.1f;
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.knockBackResist = 0.1f;
             npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.canGhostHeal = false;

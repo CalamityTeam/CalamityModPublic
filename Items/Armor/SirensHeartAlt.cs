@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
                 "Going underwater gives you a buff\n" +
                 "Greatly reduces breath loss in the abyss\n" +
                 "Enemies become frozen when they touch you\n" +
-                "You have a layer of ice around you that absorbs 20% damage but breaks after one hit\n" +
+                "You have a layer of ice around you that absorbs 15% damage but breaks after one hit\n" +
                 "After 30 seconds the ice shield will regenerate\n" +
                 "Your alluring figure allows you to buy items at a reduced price from town npcs (only works in hardmode)\n" +
                 "Wow, you can swim now!\n" +

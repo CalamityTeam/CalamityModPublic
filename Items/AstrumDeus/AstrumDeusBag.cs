@@ -49,6 +49,14 @@ namespace CalamityMod.Items.AstrumDeus
 					}
 				}
 			}
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("Quasar"));
+			}
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("HideofAstrumDeus"));
+			}
 			player.TryGettingDevArmor();
 			player.QuickSpawnItem(mod.ItemType("Stardust"), Main.rand.Next(60, 91));
 			if (Main.rand.Next(4) == 0)

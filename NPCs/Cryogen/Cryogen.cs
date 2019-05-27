@@ -40,6 +40,8 @@ namespace CalamityMod.NPCs.Cryogen
 			{
 				npc.lifeMax = CalamityWorld.death ? 3000000 : 2700000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
 			animationType = 10; //new
@@ -48,23 +50,23 @@ namespace CalamityMod.NPCs.Cryogen
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-				npc.buffImmune[BuffID.OnFire] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[BuffID.Daybreak] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("BrimstoneFlames")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("HolyLight")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Plague")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+			npc.buffImmune[BuffID.OnFire] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("BrimstoneFlames")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Plague")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -112,6 +114,14 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					npc.localAI[1] -= 1f;
 				}
+			}
+			if (npc.ai[0] == 0f || npc.ai[0] == 2f || npc.ai[0] == 4f)
+			{
+				npc.rotation = npc.velocity.X * 0.1f;
+			}
+			else if (npc.ai[0] == 1f || npc.ai[0] == 3f)
+			{
+				npc.rotation = 0f;
 			}
 			if (oneTime)
 			{
@@ -202,17 +212,11 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					num1246 = 10f;
 				}
-				if (num1245 < num1246)
-				{
-					npc.velocity.X = num1243;
-					npc.velocity.Y = num1244;
-				}
-				else
-				{
-					num1245 = num1246 / num1245;
-					npc.velocity.X = num1243 * num1245;
-					npc.velocity.Y = num1244 * num1245;
-				}
+				num1245 = num1246 / num1245;
+				num1243 *= num1245;
+				num1244 *= num1245;
+				npc.velocity.X = (npc.velocity.X * 50f + num1243) / 51f;
+				npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 				if ((double)npc.life < (double)npc.lifeMax * 0.83)
 				{
 					npc.ai[0] = 1f;
@@ -404,17 +408,11 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					num1246 = 14f;
 				}
-				if (num1245 < num1246)
-				{
-					npc.velocity.X = num1243;
-					npc.velocity.Y = num1244;
-				}
-				else
-				{
-					num1245 = num1246 / num1245;
-					npc.velocity.X = num1243 * num1245;
-					npc.velocity.Y = num1244 * num1245;
-				}
+				num1245 = num1246 / num1245;
+				num1243 *= num1245;
+				num1244 *= num1245;
+				npc.velocity.X = (npc.velocity.X * 50f + num1243) / 51f;
+				npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 				if ((double)npc.life < (double)npc.lifeMax * 0.49)
 				{
 					npc.ai[0] = 3f;
@@ -543,7 +541,7 @@ namespace CalamityMod.NPCs.Cryogen
 				if (Main.netMode != 1)
 				{
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] >= 60f && npc.alpha <= 0)
+					if (npc.localAI[0] >= 60f && npc.alpha == 0)
 					{
 						npc.localAI[0] = 0f;
 						npc.TargetClosest(true);
@@ -577,17 +575,11 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					speed = 9f;
 				}
-				if (num1245 < speed)
-				{
-					npc.velocity.X = num1243;
-					npc.velocity.Y = num1244;
-				}
-				else
-				{
-					num1245 = speed / num1245;
-					npc.velocity.X = num1243 * num1245;
-					npc.velocity.Y = num1244 * num1245;
-				}
+				num1245 = speed / num1245;
+				num1243 *= num1245;
+				num1244 *= num1245;
+				npc.velocity.X = (npc.velocity.X * 50f + num1243) / 51f;
+				npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 				if (npc.ai[1] == 0f)
 				{
 					npc.chaseable = true;
@@ -628,7 +620,6 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else if (npc.ai[1] == 1f)
 				{
-					npc.damage = 0;
 					npc.dontTakeDamage = true;
 					npc.chaseable = false;
 					npc.alpha += 4;
@@ -646,7 +637,6 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.alpha -= 4;
 					if (npc.alpha <= 0)
 					{
-						npc.damage = expertMode ? 96 : 60;
 						npc.dontTakeDamage = false;
 						npc.chaseable = true;
 						npc.alpha = 0;
@@ -851,6 +841,11 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
 
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			return npc.alpha == 0;
+		}
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -981,6 +976,10 @@ namespace CalamityMod.NPCs.Cryogen
 				if (Main.rand.Next(7) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryogenMask"));
+				}
+				if (Main.rand.Next(40) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Regenator"));
 				}
 				if (Main.rand.Next(4) == 0)
 				{

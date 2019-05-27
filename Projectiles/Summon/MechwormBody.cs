@@ -10,7 +10,10 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MechwormBody : ModProjectile
     {
-    	public override void SetStaticDefaults()
+		private int playerMinionSlots = 0;
+		private bool runCheck = true;
+
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mechworm");
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
@@ -37,12 +40,21 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.15f, 0.01f, 0.15f);
 			Player player9 = Main.player[projectile.owner];
+			if (player9.maxMinions > playerMinionSlots)
+			{
+				playerMinionSlots = player9.maxMinions;
+			}
+			if (runCheck)
+			{
+				runCheck = false;
+				playerMinionSlots = player9.maxMinions;
+			}
 			CalamityPlayer modPlayer = player9.GetModPlayer<CalamityPlayer>(mod);
 			if ((int)Main.time % 120 == 0)
 			{
 				projectile.netUpdate = true;
 			}
-			if (!player9.active)
+			if (!player9.active || player9.maxMinions < playerMinionSlots)
 			{
 				projectile.active = false;
 				return;

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ambrosial Ampoule");
-            Tooltip.SetDefault("50% increased mining speed\n" +
+            Tooltip.SetDefault("25% increased mining speed\n" +
                 "You emit light\n" +
                 "5% increased damage reduction and increased life regen\n" +
                 "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +

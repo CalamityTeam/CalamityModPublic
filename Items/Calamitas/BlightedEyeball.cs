@@ -10,19 +10,19 @@ namespace CalamityMod.Items.Calamitas
 		{
 			DisplayName.SetDefault("Eye of Desolation");
 			Tooltip.SetDefault("Tonight is going to be a horrific night...\n" +
-                "Summons Calamitas");
+                "Summons Calamitas\n" +
+				"Not consumable");
 		}
 		
 		public override void SetDefaults()
 		{
 			item.width = 28;
 			item.height = 18;
-			item.maxStack = 20;
 			item.rare = 6;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;
-			item.consumable = true;
+			item.consumable = false;
 		}
 		
 		public override bool CanUseItem(Player player)

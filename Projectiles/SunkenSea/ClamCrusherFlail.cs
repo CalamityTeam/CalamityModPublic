@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			projectile.melee = true;
 			projectile.alpha = 255;
 			projectile.tileCollide = false;
+			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
 		}
 
 		public override void AI()

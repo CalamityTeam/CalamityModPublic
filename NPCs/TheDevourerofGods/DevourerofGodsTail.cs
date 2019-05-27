@@ -14,11 +14,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 	[AutoloadBossHead]
 	public class DevourerofGodsTail : ModNPC
 	{
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Devourer of Gods");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 150;
@@ -26,14 +26,16 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 32; //42
 			npc.height = 50; //42
 			npc.defense = 0;
-            npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000; //1000000 960000
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 850000;
-            }
-            npc.aiStyle = 6; //new
-            aiType = -1; //new
-            animationType = 10; //new
+			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000; //1000000 960000
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 850000;
+			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = 6; //new
+			aiType = -1; //new
+			animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.scale = 1.4f;
 			npc.alpha = 255;
@@ -42,40 +44,40 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.noTileCollide = true;
 			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.netAlways = true;
+			npc.DeathSound = SoundID.NPCDeath14;
+			npc.netAlways = true;
 			npc.boss = true;
 			npc.takenDamageMultiplier = 1.25f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
 			}
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
-            npc.dontCountMe = true;
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			if (calamityModMusic != null)
+				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+			else
+				music = MusicID.Boss3;
+			npc.dontCountMe = true;
 			if (Main.expertMode)
 			{
 				npc.scale = 1.5f;
 			}
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 			if (!Main.npc[(int)npc.ai[1]].active)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.active = false;
+			}
 			if (Main.npc[(int)npc.ai[1]].alpha < 128)
 			{
 				if (npc.alpha != 0)
@@ -95,21 +97,21 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 		}
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
-			cooldownSlot = 1;
+			cooldownSlot = 0;
 			return true;
 		}
-		
+
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if (projectile.type == mod.ProjectileType("SulphuricAcidMist2"))
-            {
-                damage /= 8;
-            }
-        }
+			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
+			{
+				damage /= 4;
+			}
+		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
 			{
@@ -140,7 +142,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 			}
 		}
-		
+
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
 			if (damage > npc.lifeMax / 2)
@@ -148,25 +150,25 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				damage = 0;
 				return false;
 			}
-            return true;
+			return true;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
@@ -192,5 +194,5 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			player.AddBuff(BuffID.Frostburn, 180, true);
 			player.AddBuff(BuffID.Darkness, 180, true);
 		}
-    }
+	}
 }

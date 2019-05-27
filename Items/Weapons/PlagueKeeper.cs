@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -56,7 +57,8 @@ namespace CalamityMod.Items.Weapons
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(), 
                     player.beeDamage(item.damage / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bee].penetrate = 1;
-            }
+				Main.projectile[bee].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+			}
         }
     }
 }

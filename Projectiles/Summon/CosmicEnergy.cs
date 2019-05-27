@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
 			DisplayName.SetDefault("Cosmic Energy");
 			Main.projPet[projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
     	
         public override void SetDefaults()
@@ -96,20 +97,40 @@ namespace CalamityMod.Projectiles.Summon
             projectile.rotation += projectile.velocity.X * 0.1f;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
-            for (int num645 = 0; num645 < 200; num645++)
-            {
-                NPC nPC2 = Main.npc[num645];
-                if (nPC2.CanBeChasedBy(projectile, false))
-                {
-                    float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                    if (((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25))
-                    {
-                        num633 = num646;
-                        vector46 = nPC2.Center;
-                        flag25 = true;
-                    }
-                }
-            }
+			int target = 0;
+			if (player.HasMinionAttackTargetNPC)
+			{
+				NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				if (npc.CanBeChasedBy(projectile, false))
+				{
+					float num646 = Vector2.Distance(npc.Center, projectile.Center);
+					if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+					{
+						num633 = num646;
+						vector46 = npc.Center;
+						flag25 = true;
+						target = npc.whoAmI;
+					}
+				}
+			}
+			else
+			{
+				for (int num645 = 0; num645 < 200; num645++)
+				{
+					NPC nPC2 = Main.npc[num645];
+					if (nPC2.CanBeChasedBy(projectile, false))
+					{
+						float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
+						if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+						{
+							num633 = num646;
+							vector46 = nPC2.Center;
+							flag25 = true;
+							target = num645;
+						}
+					}
+				}
+			}
             float num647 = num634;
             if (flag25)
             {
@@ -228,7 +249,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("CosmicBlast"), (int)((double)projectile.damage * 0.5), 2f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("CosmicBlast"), (int)((double)projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
                     }
                     float num403 = 15f;
 					Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
@@ -238,7 +259,7 @@ namespace CalamityMod.Projectiles.Summon
 					num406 = num403 / num406;
 					num404 *= num406;
 					num405 *= num406;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, mod.ProjectileType("CosmicBlastBig"), projectile.damage, 3f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, mod.ProjectileType("CosmicBlastBig"), projectile.damage, 3f, projectile.owner, (float)target, 0f);
 					projectile.ai[0] = 100f;
 				}
 			}

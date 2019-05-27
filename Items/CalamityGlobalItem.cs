@@ -118,6 +118,32 @@ namespace CalamityMod.Items
 				speedX *= CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity;
 				speedY *= CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity;
 			}
+			if (player.GetModPlayer<CalamityPlayer>(mod).luxorsGift)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (item.melee)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, mod.ProjectileType("LuxorsGiftMelee"), (int)((double)damage * 0.6), 0f, player.whoAmI, 0f, 0f);
+					}
+					else if (rogue)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftRogue"), (int)((double)damage * 0.8), 0f, player.whoAmI, 0f, 0f);
+					}
+					else if (item.ranged)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, mod.ProjectileType("LuxorsGiftRanged"), (int)((double)damage * 0.5), 0f, player.whoAmI, 0f, 0f);
+					}
+					else if (item.magic)
+					{
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftMagic"), (int)((double)damage * 0.8), 0f, player.whoAmI, 0f, 0f);
+					}
+					else if (item.summon && player.ownedProjectileCounts[mod.ProjectileType("LuxorsGiftSummon")] < 1)
+					{
+						Projectile.NewProjectile(position.X, position.Y, 0f, 0f, mod.ProjectileType("LuxorsGiftSummon"), damage, 0f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
 			if (player.GetModPlayer<CalamityPlayer>(mod).eArtifact && item.ranged && !rogue)
 			{
 				speedX *= 1.25f;
@@ -300,12 +326,21 @@ namespace CalamityMod.Items
 		{
 			if (item.type == ItemID.Heart || item.type == ItemID.CandyApple || item.type == ItemID.CandyCane)
 			{
+				bool boostedHeart = player.GetModPlayer<CalamityPlayer>(mod).photosynthesis;
 				if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
 				{
-					player.statLife -= 10;
+					player.statLife -= (boostedHeart ? 5 : 10);
 					if (Main.myPlayer == player.whoAmI)
 					{
-						player.HealEffect(-10, true);
+						player.HealEffect((boostedHeart ? -5 : -10), true);
+					}
+				}
+				if (boostedHeart)
+				{
+					player.statLife += 5;
+					if (Main.myPlayer == player.whoAmI)
+					{
+						player.HealEffect(5, true);
 					}
 				}
 			}
@@ -362,9 +397,12 @@ namespace CalamityMod.Items
 			{
 				return !NPC.AnyNPCs(mod.NPCType("SupremeCalamitas"));
 			}
-			if (item.type == ItemID.RodofDiscord && modPlayer.scarfCooldown)
+			if (item.type == ItemID.RodofDiscord)
 			{
-				player.AddBuff(BuffID.ChaosState, 720);
+				if (modPlayer.scarfCooldown)
+				{
+					player.AddBuff(BuffID.ChaosState, 720);
+				}
 			}
 			return true;
 		}
@@ -420,6 +458,9 @@ namespace CalamityMod.Items
 						break;
 					case 21: //Patreon
 						tt2.overrideColor = new Color(139, 0, 0);
+						break;
+					case 22: //Rare Variants
+						tt2.overrideColor = new Color(255, 140, 0);
 						break;
 					default:
 						break;
@@ -1431,6 +1472,10 @@ namespace CalamityMod.Items
 						if (revenge)
 							player.QuickSpawnItem(mod.ItemType("CounterScarf"));
 						break;
+					case ItemID.SkeletronBossBag:
+						if (Main.rand.Next(40) == 0)
+							player.QuickSpawnItem(mod.ItemType("ClothiersWrath"));
+						break;
 					case ItemID.WallOfFleshBossBag:
 						player.QuickSpawnItem(mod.ItemType("MLGRune"));
 						if (Main.rand.Next(3) == 0)
@@ -1513,13 +1558,12 @@ namespace CalamityMod.Items
 							}
 						}
 						break;
-					case ItemID.CultistBossBag:
-						player.QuickSpawnItem(mod.ItemType("MeldBlob"), Main.rand.Next(25, 31));
-						if (Main.rand.Next(3) == 0)
-							player.QuickSpawnItem(mod.ItemType("StardustStaff"));
-						break;
 					case ItemID.MoonLordBossBag:
 						player.QuickSpawnItem(mod.ItemType("MLGRune2"));
+						if (Main.rand.Next(40) == 0)
+							player.QuickSpawnItem(mod.ItemType("Infinity"));
+						if (Main.rand.Next(40) == 0)
+							player.QuickSpawnItem(mod.ItemType("GrandDad"));
 						break;
 				}
 				if (revenge)
@@ -1854,6 +1898,38 @@ namespace CalamityMod.Items
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
 			if (item.prefix == 72)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.04f;
+		}
+		#endregion
+
+		#region WingChanges
+		public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
+		{
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			float flightSpeedMult = 1f +
+				(modPlayer.soaring ? 0.1f : 0f) +
+				(modPlayer.holyWrath ? 0.05f : 0f) +
+				(modPlayer.profanedRage ? 0.05f : 0f) +
+				(modPlayer.draconicSurge ? 0.15f : 0f);
+
+			speed *= flightSpeedMult;
+
+			float flightAccMult = 1f +
+				(modPlayer.draconicSurge ? 0.15f : 0f);
+
+			acceleration *= flightAccMult;
+		}
+		#endregion
+
+		#region GrabChanges
+		public override void GrabRange(Item item, Player player, ref int grabRange)
+		{
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			int itemGrabRangeBoost = 0 +
+				(modPlayer.wallOfFleshLore ? 19 : 0) +
+				(modPlayer.planteraLore ? 38 : 0) +
+				(modPlayer.polterghastLore ? 57 : 0);
+
+			grabRange += itemGrabRangeBoost;
 		}
 		#endregion
 

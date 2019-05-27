@@ -83,9 +83,23 @@ namespace CalamityMod.Items.Scavenger
 			{
 				player.QuickSpawnItem(mod.ItemType("FleshTotem"));
 			}
-			if (Main.rand.Next(2) == 0)
+			switch (Main.rand.Next(5))
 			{
-				player.QuickSpawnItem(mod.ItemType("Hematemesis"));
+				case 0:
+					player.QuickSpawnItem(mod.ItemType("Hematemesis"));
+					break;
+				case 1:
+					player.QuickSpawnItem(mod.ItemType("RealmRavager"));
+					break;
+				case 2:
+					player.QuickSpawnItem(mod.ItemType("SpikecragStaff"));
+					break;
+				case 3:
+					player.QuickSpawnItem(mod.ItemType("UltimusCleaver"));
+					break;
+				case 4:
+					player.QuickSpawnItem(mod.ItemType("CraniumSmasher"));
+					break;
 			}
 		}
 	}

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Statigel Cap");
             Tooltip.SetDefault("10% increased magic damage and 10% decreased mana cost\n" +
-                "7% increased magic critical strike chance");
+                "7% increased magic critical strike chance and +30 max mana");
         }
 
         public override void SetDefaults()
@@ -48,7 +48,8 @@ namespace CalamityMod.Items.Armor
             player.magicDamage += 0.1f;
             player.magicCrit += 7;
             player.manaCost *= 0.9f;
-        }
+			player.statManaMax2 += 30;
+		}
 
         public override void AddRecipes()
         {

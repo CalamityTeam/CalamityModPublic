@@ -126,6 +126,7 @@ namespace CalamityMod.Projectiles.Ranged
 						num519 += projectile.oldVelocity.Y / 6f;
 						int num520 = Projectile.NewProjectile(value20.X, value20.Y, num518, num519, Main.player[projectile.owner].beeType(), Main.player[projectile.owner].beeDamage(projectile.damage / 3), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
 						Main.projectile[num520].penetrate = 2;
+						Main.projectile[num520].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
 					}
 				}
 			}

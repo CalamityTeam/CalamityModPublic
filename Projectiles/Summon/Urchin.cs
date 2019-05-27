@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Summon
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Urchin");
-			Main.projPet[projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 		}
     	
@@ -98,39 +97,18 @@ namespace CalamityMod.Projectiles.Summon
 					return;
 				}
 				bool flag18 = false;
-				float num506 = projectile.Center.X;
-				float num507 = projectile.Center.Y;
 				float num508 = 300f;
-				NPC ownerMinionAttackTargetNPC = projectile.OwnerMinionAttackTargetNPC;
-				if (ownerMinionAttackTargetNPC != null && ownerMinionAttackTargetNPC.CanBeChasedBy(projectile, false)) 
+				for (int num512 = 0; num512 < 200; num512++)
 				{
-					float num509 = ownerMinionAttackTargetNPC.position.X + (float)(ownerMinionAttackTargetNPC.width / 2);
-					float num510 = ownerMinionAttackTargetNPC.position.Y + (float)(ownerMinionAttackTargetNPC.height / 2);
-					float num511 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num509) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num510);
-					if (num511 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, ownerMinionAttackTargetNPC.position, ownerMinionAttackTargetNPC.width, ownerMinionAttackTargetNPC.height)) 
+					if (Main.npc[num512].CanBeChasedBy(projectile, false))
 					{
-						num508 = num511;
-						num506 = num509;
-						num507 = num510;
-						flag18 = true;
-					}
-				}
-				if (!flag18) 
-				{
-					for (int num512 = 0; num512 < 200; num512++) 
-					{
-						if (Main.npc[num512].CanBeChasedBy(projectile, false)) 
+						float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
+						float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
+						float num515 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num513) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num514);
+						if (num515 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
 						{
-							float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
-							float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
-							float num515 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num513) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num514);
-							if (num515 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height)) 
-							{
-								num508 = num515;
-								num506 = num513;
-								num507 = num514;
-								flag18 = true;
-							}
+							num508 = num515;
+							flag18 = true;
 						}
 					}
 				}

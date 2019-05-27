@@ -35,6 +35,8 @@ namespace CalamityMod.NPCs.Leviathan
 			{
 				npc.lifeMax = CalamityWorld.death ? 8000000 : 7000000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -42,20 +44,20 @@ namespace CalamityMod.NPCs.Leviathan
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[BuffID.Daybreak] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("HolyLight")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Plague")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Plague")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.HitSound = SoundID.NPCHit56;
 			npc.DeathSound = SoundID.NPCDeath60;
 			npc.noTileCollide = true;
@@ -105,7 +107,7 @@ namespace CalamityMod.NPCs.Leviathan
 			bool flag6 = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
 			if (flag6 || !sirenAlive || CalamityWorld.death)
 			{
-				npc.defense = npc.defDefense * 2;
+				npc.defense = 80;
 			}
 			else
 			{
@@ -256,7 +258,7 @@ namespace CalamityMod.NPCs.Leviathan
 									num418 = sirenAlive ? 14f : 17f;
 									num419 = 33;
 								}
-								if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+								if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 								{
 									num418 = 22f;
 								}
@@ -434,7 +436,7 @@ namespace CalamityMod.NPCs.Leviathan
 							{
 								num1044 += 2f; //2 not a prob
 							}
-							if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+							if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							{
 								num1044 += 4f;
 							}
@@ -462,7 +464,7 @@ namespace CalamityMod.NPCs.Leviathan
 							num1048 += 2f; //2 not a prob
 							num1049 += 0.1f; //0.1 not a prob
 						}
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num1048 += 3f;
 							num1049 += 0.2f;

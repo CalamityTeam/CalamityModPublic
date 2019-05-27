@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Armor");
-            Tooltip.SetDefault("+80 max life and mana\n" +
+            Tooltip.SetDefault("+80 max life\n" +
                        "20% increased movement speed\n" +
                        "12% increased damage and 8% increased critical strike chance");
         }
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 80;
-            player.statManaMax2 += 80;
             player.moveSpeed += 0.2f;
             player.meleeDamage += 0.12f;
             player.meleeCrit += 8;

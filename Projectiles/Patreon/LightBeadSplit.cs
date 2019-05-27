@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Patreon
         
         public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 5; k++)
+            for (int k = 0; k < 3; k++)
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 212, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }

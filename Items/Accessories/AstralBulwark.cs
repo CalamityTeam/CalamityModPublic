@@ -32,6 +32,6 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.aBulwark = true;
             player.buffImmune[mod.BuffType("GodSlayerInferno")] = true;
-        }
-    }
+		}
+	}
 }

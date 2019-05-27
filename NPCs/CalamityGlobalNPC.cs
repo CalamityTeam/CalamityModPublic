@@ -17,6 +17,8 @@ using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
 using CalamityMod.Projectiles;
 using CalamityMod;
+using CalamityMod.Items;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs
 {
@@ -48,6 +50,10 @@ namespace CalamityMod.NPCs
 		private const float CultAngleSpread = 170;
 
 		private int CultCountdown = 0;
+
+		public bool wCleave = false;
+
+		public bool bBlood = false;
 
 		public bool dFlames = false;
 
@@ -129,6 +135,8 @@ namespace CalamityMod.NPCs
 		#region ResetEffects
 		public override void ResetEffects(NPC npc)
 		{
+			wCleave = false;
+			bBlood = false;
 			dFlames = false;
 			marked = false;
 			irradiated = false;
@@ -251,10 +259,10 @@ namespace CalamityMod.NPCs
 						amount++;
 					}
 				}
-				npc.lifeRegen -= amount * 500;
-				if (damage < amount * 50)
+				npc.lifeRegen -= amount * 350;
+				if (damage < amount * 35)
 				{
-					damage = amount * 50;
+					damage = amount * 35;
 				}
 			}
 			if (clamDebuff)
@@ -438,6 +446,18 @@ namespace CalamityMod.NPCs
 					damage = 500;
 				}
 			}
+			if (bBlood)
+			{
+				if (npc.lifeRegen > 0)
+				{
+					npc.lifeRegen = 0;
+				}
+				npc.lifeRegen -= 50;
+				if (damage < 10)
+				{
+					damage = 10;
+				}
+			}
 		}
 		#endregion
 
@@ -448,6 +468,7 @@ namespace CalamityMod.NPCs
 			{
 				newAI[m] = 0f;
 			}
+
 			if (npc.boss && CalamityWorld.revenge)
 			{
 				if (npc.type != mod.NPCType("HiveMindP2") && npc.type != mod.NPCType("Leviathan") && npc.type != mod.NPCType("StormWeaverHeadNaked") &&
@@ -464,6 +485,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 			}
+
 			if (CalamityWorld.bossRushActive)
 			{
 				if (!npc.friendly)
@@ -471,10 +493,13 @@ namespace CalamityMod.NPCs
 					for (int k = 0; k < npc.buffImmune.Length; k++)
 					{
 						npc.buffImmune[k] = true;
+					}
+					if (npc.type != mod.NPCType("DevourerofGodsHeadS") && npc.type != mod.NPCType("DevourerofGodsBodyS") && npc.type != mod.NPCType("DevourerofGodsTailS"))
+					{
 						npc.buffImmune[BuffID.Ichor] = false;
 						npc.buffImmune[BuffID.CursedInferno] = false;
-						npc.buffImmune[mod.BuffType("Enraged")] = false;
 					}
+					npc.buffImmune[mod.BuffType("Enraged")] = false;
 				}
 			}
 			else
@@ -498,6 +523,8 @@ namespace CalamityMod.NPCs
 					{
 						npc.buffImmune[BuffID.Wet] = false;
 						npc.buffImmune[BuffID.Slimed] = false;
+						npc.buffImmune[BuffID.Lovestruck] = false;
+						npc.buffImmune[BuffID.Stinky] = false;
 					}
 				}
 				if (npc.buffImmune[mod.BuffType("Enraged")])
@@ -505,6 +532,7 @@ namespace CalamityMod.NPCs
 					npc.buffImmune[mod.BuffType("Enraged")] = false;
 				}
 			}
+
 			if (npc.type == NPCID.QueenBee)
 			{
 				npc.value = Item.buyPrice(0, 5, 0, 0);
@@ -529,6 +557,7 @@ namespace CalamityMod.NPCs
 			{
 				npc.value = (float)((int)((double)npc.value * 1.5));
 			}
+
 			if (CalamityWorld.bossRushActive)
 			{
 				switch (npc.type)
@@ -670,6 +699,7 @@ namespace CalamityMod.NPCs
 						break;
 				}
 			}
+
 			if (npc.type == NPCID.CultistBoss)
 			{
 				if (CalamityWorld.death)
@@ -682,6 +712,12 @@ namespace CalamityMod.NPCs
 				}
 				npc.npcSlots = 20f;
 			}
+
+			if (npc.type >= NPCID.TombCrawlerHead && npc.type <= NPCID.TombCrawlerTail && !Main.hardMode)
+			{
+				npc.lifeMax = (int)((double)npc.lifeMax * 0.6);
+			}
+
 			if (DraedonMayhem)
 			{
 				if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
@@ -702,12 +738,12 @@ namespace CalamityMod.NPCs
 				{
 					if (CalamityWorld.death)
 					{
-						npc.lifeMax = (int)((double)npc.lifeMax * 2.7);
+						npc.lifeMax = (int)((double)npc.lifeMax * 1.9);
 						npc.scale *= 1.25f;
 					}
 					else
 					{
-						npc.lifeMax = (int)((double)npc.lifeMax * 1.8);
+						npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
 						npc.scale *= 1.2f;
 					}
 				}
@@ -758,6 +794,7 @@ namespace CalamityMod.NPCs
 					npc.npcSlots = 10f;
 				}
 			}
+
 			if (CalamityWorld.revenge)
 			{
 				npc.value = (float)((int)((double)npc.value * 1.5));
@@ -971,6 +1008,11 @@ namespace CalamityMod.NPCs
 						npc.lifeMax = (int)((double)npc.lifeMax * 1.85); //85% boost
 					}
 				}
+				else if (npc.type == NPCID.Wraith || npc.type == NPCID.Mimic || npc.type == NPCID.Reaper || npc.type == NPCID.PresentMimic || npc.type == NPCID.SandElemental)
+				{
+					npc.knockBackResist = 0f;
+				}
+
 				if (!DraedonMayhem)
 				{
 					if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
@@ -1041,6 +1083,7 @@ namespace CalamityMod.NPCs
 						npc.npcSlots = 10f;
 					}
 				}
+
 				if (npc.type == NPCID.Probe || npc.type == NPCID.MoonLordFreeEye || (npc.type >= 454 && npc.type <= 459) ||
 					npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2 || npc.type == NPCID.PlanterasTentacle ||
 					npc.type == NPCID.Spore || npc.type == NPCID.TheHungryII || npc.type == NPCID.LeechHead ||
@@ -1051,18 +1094,19 @@ namespace CalamityMod.NPCs
 				{
 					npc.canGhostHeal = false;
 				}
+
 				if (npc.type == mod.NPCType("Cnidrion") || npc.type == mod.NPCType("DesertScourgeBody") || npc.type == mod.NPCType("ColossalSquid") ||
 					npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu") || npc.type == mod.NPCType("ProfanedGuardianBoss3") ||
 					npc.type == mod.NPCType("ScornEater") || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") ||
-					npc.type == mod.NPCType("Mauler"))
+					npc.type == mod.NPCType("Mauler") || npc.type == mod.NPCType("EutrophicRay"))
 				{
 					protection = 0.05f;
 				}
 				else if (npc.type == mod.NPCType("AstrumDeusBody") || npc.type == mod.NPCType("SoulSeeker") || npc.type == mod.NPCType("DesertScourgeTail") ||
 					npc.type == mod.NPCType("Horse") || npc.type == mod.NPCType("ProfanedEnergyBody") || npc.type == mod.NPCType("ScavengerClawLeft") ||
 					npc.type == mod.NPCType("ScavengerClawRight") || npc.type == mod.NPCType("ScavengerHead") || npc.type == mod.NPCType("MantisShrimp") ||
-					npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("AstrumDeusHead") ||
-					npc.type == mod.NPCType("AquaticScourgeHead") || npc.type == mod.NPCType("Cryon") || npc.type == mod.NPCType("Cryogen"))
+					npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("AstrumDeusHead") || npc.type == mod.NPCType("AquaticScourgeHead") ||
+					npc.type == mod.NPCType("Cryon") || npc.type == mod.NPCType("Cryogen"))
 				{
 					protection = 0.1f;
 				}
@@ -1071,21 +1115,25 @@ namespace CalamityMod.NPCs
 					npc.type == mod.NPCType("SoulSlurper") || npc.type == mod.NPCType("ProvSpawnHealer") || npc.type == mod.NPCType("Gnasher") ||
 					npc.type == mod.NPCType("ScavengerLegLeft") || npc.type == mod.NPCType("ScavengerLegRight") || npc.type == mod.NPCType("ShockstormShuttle") ||
 					npc.type == mod.NPCType("Reaper") || npc.type == mod.NPCType("OverloadedSoldier") || npc.type == mod.NPCType("AquaticScourgeTail") ||
-					npc.type == mod.NPCType("EidolonWyrmHead"))
+					npc.type == mod.NPCType("EidolonWyrmHead") || npc.type == mod.NPCType("Aries") || npc.type == mod.NPCType("AstralachneaGround") ||
+					npc.type == mod.NPCType("AstralachneaWall") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("Atlas") ||
+					npc.type == mod.NPCType("BigSightseer") || npc.type == mod.NPCType("FusionFeeder") || npc.type == mod.NPCType("Hadarian") ||
+					npc.type == mod.NPCType("Hive") || npc.type == mod.NPCType("Mantis") || npc.type == mod.NPCType("Nova") || npc.type == mod.NPCType("SmallSightseer") ||
+					npc.type == mod.NPCType("StellarCulex"))
 				{
 					protection = 0.15f;
 				}
-				else if (npc.type == mod.NPCType("AstrumDeusProbe3") || npc.type == mod.NPCType("PlaguebringerShade"))
+				else if (npc.type == mod.NPCType("AstrumDeusProbe3") || npc.type == mod.NPCType("PlaguebringerShade") || npc.type == mod.NPCType("BlindedAngler"))
 				{
 					protection = 0.2f;
 				}
-				else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("ProfanedGuardianBoss2") ||
-					npc.type == mod.NPCType("SandTortoise") || npc.type == mod.NPCType("StasisProbe") ||
-					npc.type == mod.NPCType("BobbitWormHead") || npc.type == mod.NPCType("GreatSandShark"))
+				else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("ProfanedGuardianBoss2") || npc.type == mod.NPCType("SandTortoise") ||
+					npc.type == mod.NPCType("StasisProbe") || npc.type == mod.NPCType("BobbitWormHead") || npc.type == mod.NPCType("GreatSandShark") ||
+					npc.type == mod.NPCType("Clam") || npc.type == mod.NPCType("PrismTurtle"))
 				{
 					protection = 0.25f;
 				}
-				else if (npc.type == mod.NPCType("ProvSpawnOffense"))
+				else if (npc.type == mod.NPCType("ProvSpawnOffense") || npc.type == mod.NPCType("GiantClam"))
 				{
 					protection = 0.3f;
 				}
@@ -1125,7 +1173,8 @@ namespace CalamityMod.NPCs
 						case NPCID.Mothron:
 						case NPCID.Crab:
 						case NPCID.SeaSnail:
-							protection = 0.05f; break;
+							protection = 0.05f;
+							break;
 						case NPCID.Antlion:
 						case NPCID.TheHungry:
 						case NPCID.TheDestroyer:
@@ -1145,14 +1194,16 @@ namespace CalamityMod.NPCs
 						case NPCID.ArmoredViking:
 						case NPCID.DD2Betsy:
 						case NPCID.DD2OgreT2:
-							protection = 0.1f; break;
+							protection = 0.1f;
+							break;
 						case NPCID.ElfCopter:
 						case NPCID.GraniteGolem:
 						case NPCID.ArmoredSkeleton:
 						case NPCID.PirateShipCannon:
 						case NPCID.DD2OgreT3:
 						case NPCID.Golem:
-							protection = 0.15f; break;
+							protection = 0.15f;
+							break;
 						case NPCID.Retinazer:
 						case NPCID.Spazmatism:
 						case NPCID.PrimeCannon:
@@ -1195,35 +1246,43 @@ namespace CalamityMod.NPCs
 						case 495:
 						case 496:
 						case 497:
-							protection = 0.2f; break;
+							protection = 0.2f;
+							break;
 						case NPCID.PrimeSaw:
 						case NPCID.PrimeVice:
 						case NPCID.SkeletronPrime:
 						case NPCID.Probe:
 						case NPCID.PossessedArmor:
-							protection = 0.25f; break;
+							protection = 0.25f;
+							break;
 						case NPCID.Mimic:
 						case NPCID.PresentMimic:
 						case 473:
 						case 474:
 						case 475:
 						case 476:
-							protection = 0.3f; break;
+							protection = 0.3f;
+							break;
 						case NPCID.GiantTortoise:
 						case NPCID.IceTortoise:
 						case NPCID.SantaNK1:
 						case NPCID.MartianWalker:
 						case NPCID.TheDestroyerTail:
-							protection = 0.35f; break;
+							protection = 0.35f;
+							break;
 						case NPCID.DeadlySphere:
-							protection = 0.4f; break;
+							protection = 0.4f;
+							break;
 						case NPCID.Paladin:
-							protection = 0.45f; break;
+							protection = 0.45f;
+							break;
 						case NPCID.WallofFlesh:
 						case NPCID.MothronEgg:
-							protection = 0.5f; break;
+							protection = 0.5f;
+							break;
 						case NPCID.DungeonGuardian:
-							protection = 0.999999f; break;
+							protection = 0.999999f;
+							break;
 					}
 				}
 			}
@@ -1236,17 +1295,11 @@ namespace CalamityMod.NPCs
 			{
 				defProtection = protection;
 			}
-			if (Main.raining && CalamityWorld.sulphurTiles > 30 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && npc.lifeMax <= 2000)
-			{
-				npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
-				npc.damage = (int)((double)npc.damage * 1.25);
-				npc.life = npc.lifeMax;
-				npc.defDamage = npc.damage;
-			}
+
 			if (Main.bloodMoon && NPC.downedMoonlord && !npc.boss && !npc.friendly && !npc.dontTakeDamage && npc.lifeMax <= 2000)
 			{
 				npc.lifeMax = (int)((double)npc.lifeMax * 3.5);
-				npc.damage = (int)((double)npc.damage * 2.0);
+				npc.damage += 100;
 				npc.life = npc.lifeMax;
 				npc.defDamage = npc.damage;
 			}
@@ -1255,14 +1308,14 @@ namespace CalamityMod.NPCs
 				if (CalamityMod.pumpkinMoonBuffList.Contains(npc.type))
 				{
 					npc.lifeMax = (int)((double)npc.lifeMax * 7.5);
-					npc.damage = (int)((double)npc.damage * 2.5);
+					npc.damage += 200;
 					npc.life = npc.lifeMax;
 					npc.defDamage = npc.damage;
 				}
 				else if (CalamityMod.frostMoonBuffList.Contains(npc.type))
 				{
 					npc.lifeMax = (int)((double)npc.lifeMax * 6.0);
-					npc.damage = (int)((double)npc.damage * 2.5);
+					npc.damage += 200;
 					npc.life = npc.lifeMax;
 					npc.defDamage = npc.damage;
 				}
@@ -1270,7 +1323,7 @@ namespace CalamityMod.NPCs
 			if (CalamityMod.eclipseBuffList.Contains(npc.type) && CalamityWorld.buffedEclipse)
 			{
 				npc.lifeMax = (int)((double)npc.lifeMax * 32.5);
-				npc.damage = (int)((double)npc.damage * 3.5);
+				npc.damage += 250;
 				npc.life = npc.lifeMax;
 				npc.defDamage = npc.damage;
 			}
@@ -1279,10 +1332,28 @@ namespace CalamityMod.NPCs
 				if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
 				{
 					npc.lifeMax = (int)((double)npc.lifeMax * 2.5);
-					npc.damage = (int)((double)npc.damage * 2.5);
+					npc.damage += 150;
 					npc.life = npc.lifeMax;
 					npc.defDamage = npc.damage;
 				}
+			}
+			if (CalamityWorld.revenge)
+			{
+				if (CalamityMod.revengeanceEnemyBuffList.Contains(npc.type))
+				{
+					npc.damage = (int)((double)npc.damage * 1.25);
+					npc.defDamage = npc.damage;
+				}
+			}
+			if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) ||
+				npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail ||
+				npc.type == NPCID.SkeletronHand || npc.type == NPCID.WallofFleshEye || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail ||
+				npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeLaser || npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeSaw ||
+				npc.type == NPCID.GolemHead || npc.type == NPCID.GolemFistRight || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.MoonLordHead ||
+				npc.type == NPCID.MoonLordHand)
+			{
+				double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+				npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			}
 		}
 		#endregion
@@ -1294,13 +1365,6 @@ namespace CalamityMod.NPCs
 			{
 				if (numPlayers > 1)
 				{
-					/*About 1.35 multiplier for 2 players, 1.92 for 3 players, 2.63 for 4 players, 3.44 for 5 players, 4.31 for 6 players
-					Destroyer has 120K HP
-					2 players = 146K HP
-					3 players = 173K HP
-					4 players = 197K HP
-					5 players = 223K HP
-					6 players = 248K HP*/
 					if (((npc.boss || CalamityMod.bossScaleList.Contains(npc.type)) && npc.type < NPCID.Count) ||
 						(npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
 					{
@@ -1308,22 +1372,22 @@ namespace CalamityMod.NPCs
 						switch (numPlayers) //Decrease HP in multiplayer before vanilla scaling
 						{
 							case 2:
-								scalar = 0.9;
+								scalar = 0.76;
 								break;
 							case 3:
-								scalar = 0.75;
+								scalar = 0.63;
 								break;
 							case 4:
-								scalar = 0.625;
+								scalar = 0.525;
 								break;
 							case 5:
-								scalar = 0.54;
+								scalar = 0.43;
 								break;
 							case 6:
-								scalar = 0.48;
+								scalar = 0.36;
 								break;
 							default:
-								scalar = 0.45;
+								scalar = 0.295;
 								break;
 						}
 						npc.lifeMax = (int)((double)npc.lifeMax * scalar);
@@ -1394,81 +1458,59 @@ namespace CalamityMod.NPCs
 				if (newAI[1] < 480f || newAI[2] > 0f)
 					damage *= 0.01;
 			}
-			if (enraged)
-			{
-				damage *= 2.25;
-			}
+
 			double yellowCandleDamageBoost = damage * 0.05; //get value before DR
+
+			int newDefense = npc.defense -
+					(pFlames ? 4 : 0) -
+					(wDeath ? 50 : 0) -
+					(gsInferno ? 20 : 0) -
+					(aFlames ? 10 : 0) -
+					(wCleave ? 15 : 0);
+
+			if (gState)
+				newDefense /= 2;
+			if (aCrunch)
+				newDefense /= 3;
+			if (newDefense < 0)
+				newDefense = 0;
+
+			defense = newDefense;
+
 			if (protection > 0f)
 			{
-				int trueDefense = defense;
-				if (pFlames)
-				{
-					trueDefense -= 4;
-				}
-				if (wDeath)
-				{
-					trueDefense -= 50;
-				}
-				if (gsInferno)
-				{
-					trueDefense -= 20;
-				}
-				if (aFlames)
-				{
-					trueDefense -= 10;
-				}
-				if (gState)
-				{
-					trueDefense /= 2;
-				}
-				if (aCrunch)
-				{
-					trueDefense /= 3;
-				}
-				if (trueDefense < 0)
-				{
-					trueDefense = 0;
-				}
-				double newDamage = damage + ((double)trueDefense * 0.25); //defense damage boost 150 * .25 = 45 + 150 = 195 damage  180 defense
+				double newDamage = damage + ((double)defense * 0.25); //defense damage boost 150 * .25 = 45 + 150 = 195 damage  180 defense
+
 				if (marked)
-				{
 					protection *= 0.5f;
-				}
-				if (npc.ichor)
-				{
-					protection *= 0.75f;
-				}
-				else if (npc.onFire2)
-				{
-					protection *= 0.8f;
-				}
 				if (npc.betsysCurse)
-				{
 					protection *= 0.66f;
-				}
+				if (wCleave)
+					protection *= 0.75f;
+				if (npc.ichor)
+					protection *= 0.75f;
+				else if (npc.onFire2)
+					protection *= 0.8f;
 				if (protection < 0f)
-				{
 					protection = 0f;
-				}
+
 				if (newDamage >= 1.0)
 				{
 					newDamage = (double)(1f - protection) * newDamage; //DR calc 195 * 0.4 = 78 damage 0.6 DR
 					if (newDamage < 1.0)
-					{
 						newDamage = 1.0;
-					}
 				}
+
 				damage = newDamage;
 				protection = defProtection;
 			}
+
 			if (protection < 0.99f)
 			{
 				if (yellowCandle)
-				{
 					damage += yellowCandleDamageBoost;
-				}
 			}
+
 			return true; //vanilla defense calc 78 - (180 / 2 = 90) = 0, boosted to 1 by calc
 		}
 		#endregion
@@ -1482,10 +1524,13 @@ namespace CalamityMod.NPCs
 				switch (npc.type)
 				{
 					case NPCID.Guide:
-						switch (Main.rand.Next(35)) //34 guide names
+						switch (Main.rand.Next(36)) //34 guide names
 						{
 							case 0:
 								npc.GivenName = "Lapp";
+								break;
+							case 1:
+								npc.GivenName = "Ben Shapiro";
 								break;
 							default:
 								break;
@@ -1557,6 +1602,131 @@ namespace CalamityMod.NPCs
 				if (newAI[1] < 480f)
 				{
 					newAI[1] += 1f;
+				}
+			}
+			if (npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.Hornet || npc.type == NPCID.HornetFatty || npc.type == NPCID.HornetHoney ||
+				npc.type == NPCID.HornetLeafy || npc.type == NPCID.HornetSpikey || npc.type == NPCID.HornetStingy || npc.type == NPCID.BigHornetStingy || npc.type == NPCID.LittleHornetStingy ||
+				npc.type == NPCID.BigHornetSpikey || npc.type == NPCID.LittleHornetSpikey || npc.type == NPCID.BigHornetLeafy || npc.type == NPCID.LittleHornetLeafy ||
+				npc.type == NPCID.BigHornetHoney || npc.type == NPCID.LittleHornetHoney || npc.type == NPCID.BigHornetFatty || npc.type == NPCID.LittleHornetFatty)
+			{
+				if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).queenBeeLore)
+				{
+					npc.damage = 0;
+					if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+					{
+						npc.TargetClosest(true);
+					}
+					float num = 5f;
+					float num2 = 0.1f;
+					npc.localAI[0] += 1f;
+					float num3 = (npc.localAI[0] - 60f) / 60f;
+					if (num3 > 1f)
+					{
+						num3 = 1f;
+					}
+					else
+					{
+						if (npc.velocity.X > 6f)
+						{
+							npc.velocity.X = 6f;
+						}
+						if (npc.velocity.X < -6f)
+						{
+							npc.velocity.X = -6f;
+						}
+						if (npc.velocity.Y > 6f)
+						{
+							npc.velocity.Y = 6f;
+						}
+						if (npc.velocity.Y < -6f)
+						{
+							npc.velocity.Y = -6f;
+						}
+					}
+					num2 *= num3;
+					Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+					float num4 = (float)npc.direction * num / 2f;
+					float num5 = -num / 2f;
+					if (npc.velocity.X < num4)
+					{
+						npc.velocity.X = npc.velocity.X + num2;
+						if (npc.velocity.X < 0f && num4 > 0f)
+						{
+							npc.velocity.X = npc.velocity.X + num2;
+						}
+					}
+					else if (npc.velocity.X > num4)
+					{
+						npc.velocity.X = npc.velocity.X - num2;
+						if (npc.velocity.X > 0f && num4 < 0f)
+						{
+							npc.velocity.X = npc.velocity.X - num2;
+						}
+					}
+					if (npc.velocity.Y < num5)
+					{
+						npc.velocity.Y = npc.velocity.Y + num2;
+						if (npc.velocity.Y < 0f && num5 > 0f)
+						{
+							npc.velocity.Y = npc.velocity.Y + num2;
+						}
+					}
+					else if (npc.velocity.Y > num5)
+					{
+						npc.velocity.Y = npc.velocity.Y - num2;
+						if (npc.velocity.Y > 0f && num5 < 0f)
+						{
+							npc.velocity.Y = npc.velocity.Y - num2;
+						}
+					}
+					if (npc.type != NPCID.Bee && npc.type != NPCID.BeeSmall)
+					{
+						if (npc.velocity.X > 0f)
+						{
+							npc.spriteDirection = 1;
+						}
+						if (npc.velocity.X < 0f)
+						{
+							npc.spriteDirection = -1;
+						}
+						npc.rotation = npc.velocity.X * 0.1f;
+					}
+					else
+					{
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
+					}
+					float num11 = 0.7f;
+					if (npc.collideX)
+					{
+						npc.netUpdate = true;
+						npc.velocity.X = npc.oldVelocity.X * -num11;
+						if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
+						{
+							npc.velocity.X = 2f;
+						}
+						if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
+						{
+							npc.velocity.X = -2f;
+						}
+					}
+					if (npc.collideY)
+					{
+						npc.netUpdate = true;
+						npc.velocity.Y = npc.oldVelocity.Y * -num11;
+						if (npc.velocity.Y > 0f && (double)npc.velocity.Y < 1.5)
+						{
+							npc.velocity.Y = 2f;
+						}
+						if (npc.velocity.Y < 0f && (double)npc.velocity.Y > -1.5)
+						{
+							npc.velocity.Y = -2f;
+						}
+					}
+					if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+					{
+						npc.netUpdate = true;
+					}
+					return false;
 				}
 			}
 			#region BossRush
@@ -1950,7 +2120,7 @@ namespace CalamityMod.NPCs
 							int num237 = 7;
 							int num238 = 0;
 							bool flag10 = false;
-							if (vector30.Length() > (enraged ? 1000f : 2000f))
+							if (vector30.Length() > ((enraged || Config.BossRushXerocCurse) ? 1000f : 2000f))
 							{
 								flag10 = true;
 								num238 = 100;
@@ -2032,7 +2202,7 @@ namespace CalamityMod.NPCs
 						float[] var_9_AF25_cp_0 = npc.ai;
 						int var_9_AF25_cp_1 = 0;
 						float num244 = var_9_AF25_cp_0[var_9_AF25_cp_1];
-						var_9_AF25_cp_0[var_9_AF25_cp_1] = num244 + (enraged ? 2f : 1f);
+						var_9_AF25_cp_0[var_9_AF25_cp_1] = num244 + ((enraged || Config.BossRushXerocCurse) ? 2f : 1f);
 						num234 = MathHelper.Clamp((60f - npc.ai[0]) / 60f, 0f, 1f);
 						num234 = 0.5f + num234 * 0.5f;
 						if (npc.ai[0] >= 60f)
@@ -2075,7 +2245,7 @@ namespace CalamityMod.NPCs
 						float[] var_9_B163_cp_0 = npc.ai;
 						int var_9_B163_cp_1 = 0;
 						float num244 = var_9_B163_cp_0[var_9_B163_cp_1];
-						var_9_B163_cp_0[var_9_B163_cp_1] = num244 + (enraged ? 2f : 1f);
+						var_9_B163_cp_0[var_9_B163_cp_1] = num244 + ((enraged || Config.BossRushXerocCurse) ? 2f : 1f);
 						num234 = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
 						num234 = 0.5f + num234 * 0.5f;
 						if (npc.ai[0] >= 30f && Main.netMode != 1)
@@ -2111,7 +2281,7 @@ namespace CalamityMod.NPCs
 						}
 						if (!flag8)
 						{
-							npc.ai[0] += enraged ? 4f : 2f;
+							npc.ai[0] += (enraged || Config.BossRushXerocCurse) ? 4f : 2f;
 							if ((double)npc.life < (double)npc.lifeMax * 0.8)
 							{
 								npc.ai[0] += 1f;
@@ -2286,7 +2456,7 @@ namespace CalamityMod.NPCs
 						float num795 = Main.player[npc.target].Center.X - vector98.X;
 						float num796 = Main.player[npc.target].Center.Y - vector98.Y;
 						float num797 = (float)Math.Sqrt((double)(num795 * num795 + num796 * num796));
-						float num798 = (enraged ? 21f : 14f);
+						float num798 = ((enraged || Config.BossRushXerocCurse) ? 21f : 14f);
 						num797 = num798 / num797;
 						num795 *= num797;
 						num796 *= num797;
@@ -2403,7 +2573,7 @@ namespace CalamityMod.NPCs
 						float num803 = Main.player[npc.target].Center.X - vector99.X;
 						float num804 = Main.player[npc.target].Center.Y - vector99.Y;
 						float num805 = (float)Math.Sqrt((double)(num803 * num803 + num804 * num804));
-						float num806 = (enraged ? 3f : 2f);
+						float num806 = ((enraged || Config.BossRushXerocCurse) ? 3f : 2f);
 						if (num805 < num806)
 						{
 							npc.velocity.X = num803;
@@ -2525,7 +2695,7 @@ namespace CalamityMod.NPCs
 					npc.reflectingProjectiles = true;
 					if (!Main.player[npc.target].dead)
 					{
-						newAI[0] += (enraged ? 6f : 3f);
+						newAI[0] += ((enraged || Config.BossRushXerocCurse) ? 6f : 3f);
 					}
 					if (newAI[0] >= 180f)
 					{
@@ -2540,7 +2710,7 @@ namespace CalamityMod.NPCs
 							num350 *= num351;
 							if (Main.netMode != 1)
 							{
-								float num418 = (enraged ? 18f : 12f);
+								float num418 = ((enraged || Config.BossRushXerocCurse) ? 18f : 12f);
 								int num419 = 12;
 								int num420 = 96;
 								num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
@@ -2706,7 +2876,7 @@ namespace CalamityMod.NPCs
 								npc.direction = 1;
 							}
 							npc.spriteDirection = npc.direction;
-							int num604 = (enraged ? 150 : 250);
+							int num604 = ((enraged || Config.BossRushXerocCurse) ? 150 : 250);
 							int num605 = 1;
 							if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
 							{
@@ -2908,7 +3078,7 @@ namespace CalamityMod.NPCs
 							Main.PlaySound(SoundID.Item17, npc.position);
 							if (Main.netMode != 1)
 							{
-								float num624 = (enraged ? 24f : 16f);
+								float num624 = ((enraged || Config.BossRushXerocCurse) ? 24f : 16f);
 								float num625 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector78.X + (float)Main.rand.Next(-80, 81);
 								float num626 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector78.Y + (float)Main.rand.Next(-40, 41);
 								float num627 = (float)Math.Sqrt((double)(num625 * num625 + num626 * num626));
@@ -3060,15 +3230,15 @@ namespace CalamityMod.NPCs
 					float scaleFactor = 9.5f;
 					if (flag4)
 					{
-						num3 = (enraged ? 0.9f : 0.8f);
-						scaleFactor = (enraged ? 15f : 13f);
-						num2 = (enraged ? 22 : 25);
+						num3 = ((enraged || Config.BossRushXerocCurse) ? 0.9f : 0.8f);
+						scaleFactor = ((enraged || Config.BossRushXerocCurse) ? 15f : 13f);
+						num2 = ((enraged || Config.BossRushXerocCurse) ? 22 : 25);
 					}
 					else if (flag3 & flag5)
 					{
-						num3 = (enraged ? 0.8f : 0.7f);
-						scaleFactor = (enraged ? 13f : 11f);
-						num2 = (enraged ? 30 : 35);
+						num3 = ((enraged || Config.BossRushXerocCurse) ? 0.8f : 0.7f);
+						scaleFactor = ((enraged || Config.BossRushXerocCurse) ? 13f : 11f);
+						num2 = ((enraged || Config.BossRushXerocCurse) ? 30 : 35);
 					}
 					else if (flag5 && !flag3 && !flag4)
 					{
@@ -3078,13 +3248,13 @@ namespace CalamityMod.NPCs
 					float num5 = 18f;
 					if (flag4)
 					{
-						num4 = (enraged ? 18 : 20);
-						num5 = (enraged ? 30f : 28f);
+						num4 = ((enraged || Config.BossRushXerocCurse) ? 18 : 20);
+						num5 = ((enraged || Config.BossRushXerocCurse) ? 30f : 28f);
 					}
 					else if (flag5 & flag3)
 					{
-						num4 = (enraged ? 21 : 23);
-						num5 = (enraged ? 25f : 22f);
+						num4 = ((enraged || Config.BossRushXerocCurse) ? 21 : 23);
+						num5 = ((enraged || Config.BossRushXerocCurse) ? 25f : 22f);
 					}
 					int num6 = 80;
 					int num7 = 4;
@@ -4017,6 +4187,7 @@ namespace CalamityMod.NPCs
 			#endregion
 			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 			{
+				bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 				#region Mothron
 				if (npc.type == NPCID.Mothron && CalamityWorld.buffedEclipse)
 				{
@@ -5245,8 +5416,8 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.ai[1] == 0f)
 						{
-							float num11 = (enraged ? 10f : 7f);
-							float num12 = (enraged ? 0.2f : 0.15f);
+							float num11 = ((enraged || configBossRushBoost) ? 10f : 7f);
+							float num12 = ((enraged || configBossRushBoost) ? 0.2f : 0.15f);
 							Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float num13 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector.X;
 							float num14 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 200f - vector.Y;
@@ -5342,7 +5513,7 @@ namespace CalamityMod.NPCs
 						else if (npc.ai[1] == 1f)
 						{
 							npc.rotation = num8;
-							float num24 = (enraged ? 11f : 7.25f);
+							float num24 = ((enraged || configBossRushBoost) ? 11f : 7.25f);
 							Vector2 vector4 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float num25 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector4.X;
 							float num26 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector4.Y;
@@ -5516,8 +5687,8 @@ namespace CalamityMod.NPCs
 						}
 						if (npc.ai[1] == 0f)
 						{
-							float num37 = (enraged ? 8f : 5.5f);
-							float num38 = (enraged ? 0.09f : 0.06f);
+							float num37 = ((enraged || configBossRushBoost) ? 8f : 5.5f);
+							float num38 = ((enraged || configBossRushBoost) ? 0.09f : 0.06f);
 							Vector2 vector8 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float num39 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector8.X;
 							float num40 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 120f - vector8.Y;
@@ -5590,7 +5761,7 @@ namespace CalamityMod.NPCs
 						{
 							Main.PlaySound(36, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 							npc.rotation = num8;
-							float num42 = (enraged ? 9.5f : 6.2f);
+							float num42 = ((enraged || configBossRushBoost) ? 9.5f : 6.2f);
 							if (npc.ai[3] == 1f)
 							{
 								num42 *= 1.15f;
@@ -5678,7 +5849,7 @@ namespace CalamityMod.NPCs
 							else if (Main.netMode != 1)
 							{
 								npc.TargetClosest(true);
-								float num48 = (enraged ? 26f : 18f);
+								float num48 = ((enraged || configBossRushBoost) ? 26f : 18f);
 								Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 								float num49 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector10.X;
 								float num50 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector10.Y;
@@ -5801,8 +5972,8 @@ namespace CalamityMod.NPCs
 						else if (npc.ai[1] == 5f)
 						{
 							float num62 = 600f;
-							float num63 = (enraged ? 12f : 8f);
-							float num64 = (enraged ? 0.4f : 0.25f);
+							float num63 = ((enraged || configBossRushBoost) ? 12f : 8f);
+							float num64 = ((enraged || configBossRushBoost) ? 0.4f : 0.25f);
 							Vector2 vector11 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float num65 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector11.X;
 							float num66 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) + num62 - vector11.Y;
@@ -5882,6 +6053,7 @@ namespace CalamityMod.NPCs
 			#region RevengeanceAIChanges
 			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 			{
+				bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 				#region MoonLord
 				if (npc.type == NPCID.MoonLordFreeEye)
 				{
@@ -5896,6 +6068,43 @@ namespace CalamityMod.NPCs
 				}
 				if (npc.type == NPCID.MoonLordCore)
 				{
+					if (npc.ai[0] >= 0f && npc.ai[0] < 2f && Main.netMode != 1 && npc.Distance(Main.player[npc.target].Center) > 1800f) //2400
+					{
+						npc.ai[0] = -2f;
+						npc.netUpdate = true;
+						Vector2 value8 = Main.player[npc.target].Center - Vector2.UnitY * 150f - npc.Center;
+						npc.position += value8;
+						if (Main.npc[(int)npc.localAI[0]].active)
+						{
+							NPC nPC6 = Main.npc[(int)npc.localAI[0]];
+							nPC6.position += value8;
+							Main.npc[(int)npc.localAI[0]].netUpdate = true;
+						}
+						if (Main.npc[(int)npc.localAI[1]].active)
+						{
+							NPC nPC6 = Main.npc[(int)npc.localAI[1]];
+							nPC6.position += value8;
+							Main.npc[(int)npc.localAI[1]].netUpdate = true;
+						}
+						if (Main.npc[(int)npc.localAI[2]].active)
+						{
+							NPC nPC6 = Main.npc[(int)npc.localAI[2]];
+							nPC6.position += value8;
+							Main.npc[(int)npc.localAI[2]].netUpdate = true;
+						}
+						int num;
+						for (int num1176 = 0; num1176 < 200; num1176 = num + 1)
+						{
+							NPC nPC7 = Main.npc[num1176];
+							if (nPC7.active && nPC7.type == NPCID.MoonLordFreeEye)
+							{
+								NPC nPC6 = nPC7;
+								nPC6.position += value8;
+								nPC7.netUpdate = true;
+							}
+							num = num1176;
+						}
+					}
 					if (NPC.CountNPCS(NPCID.MoonLordFreeEye) > 3)
 					{
 						npc.dontTakeDamage = true;
@@ -5903,32 +6112,8 @@ namespace CalamityMod.NPCs
 				}
 				else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
 				{
-					bool flag90 = npc.ai[2] == 0f;
-					float num1133 = (float)(-(float)flag90.ToDirectionInt());
 					if (npc.ai[0] == -2f)
 					{
-						if (npc.type == NPCID.MoonLordHead)
-						{
-							if (NPC.CountNPCS(mod.NPCType("Eidolist")) < 1)
-							{
-								if (NPC.CountNPCS(NPCID.MoonLordFreeEye) <= 3 || enraged)
-								{
-									if (newAI[1] < 600f)
-									{
-										newAI[1] += 1f;
-									}
-									if (newAI[1] >= 600f)
-									{
-										newAI[1] = 0f;
-										npc.netUpdate = true;
-										if (Main.netMode != 1)
-										{
-											NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Eidolist"), 0, 0f, 0f, 0f, 0f, 255);
-										}
-									}
-								}
-							}
-						}
 						if ((double)Main.npc[(int)npc.ai[3]].life <= (double)Main.npc[(int)npc.ai[3]].lifeMax * 0.75)
 						{
 							if (newAI[2] < 90f)
@@ -5966,84 +6151,6 @@ namespace CalamityMod.NPCs
 								}
 							}
 						}
-						if (npc.type == NPCID.MoonLordHead)
-						{
-							if (Main.netMode != 1)
-							{
-								newAI[0] += 1f;
-								if (newAI[0] >= (enraged ? 300f : 480f))
-								{
-									newAI[0] = 0f;
-									npc.TargetClosest(true);
-									Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 103, 1f, 0f);
-									for (int num194 = 0; num194 < 40; num194++)
-									{
-										int num195 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 229, 0f, 0f, 0, default(Color), 2.5f);
-										Main.dust[num195].noGravity = true;
-										Main.dust[num195].velocity *= 3f;
-										num195 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 229, 0f, 0f, 100, default(Color), 1.5f);
-										Main.dust[num195].velocity *= 2f;
-										Main.dust[num195].noGravity = true;
-									}
-									if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-									{
-										Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-										float spread = 45f * 0.0174f;
-										double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-										double deltaAngle = spread / 8f;
-										double offsetAngle;
-										int i;
-										int laserDamage = 30;
-										for (i = 0; i < 4; i++)
-										{
-											offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-											float ai = (6.28318548f * (float)Main.rand.NextDouble() - 3.14159274f) / 30f + 0.0174532924f * num1133;
-											Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 9f), (float)(Math.Cos(offsetAngle) * 9f), 452, laserDamage, 0f, Main.myPlayer, 0f, ai);
-											Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 9f), (float)(-Math.Cos(offsetAngle) * 9f), 462, laserDamage, 0f, Main.myPlayer, 0f, 0f);
-										}
-									}
-								}
-							}
-						}
-						else
-						{
-							if (Main.netMode != 1)
-							{
-								newAI[0] += 1f;
-								if (newAI[0] >= (enraged ? 300f : 480f))
-								{
-									newAI[0] = 0f;
-									npc.TargetClosest(true);
-									Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 103, 1f, 0f);
-									for (int num194 = 0; num194 < 40; num194++)
-									{
-										int num195 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 229, 0f, 0f, 0, default(Color), 2.5f);
-										Main.dust[num195].noGravity = true;
-										Main.dust[num195].velocity *= 3f;
-										num195 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 229, 0f, 0f, 100, default(Color), 1.5f);
-										Main.dust[num195].velocity *= 2f;
-										Main.dust[num195].noGravity = true;
-									}
-									if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-									{
-										Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-										float spread = 45f * 0.0174f;
-										double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-										double deltaAngle = spread / 8f;
-										double offsetAngle;
-										int i;
-										int laserDamage = 30;
-										for (i = 0; i < 4; i++)
-										{
-											offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-											float ai = (6.28318548f * (float)Main.rand.NextDouble() - 3.14159274f) / 30f + 0.0174532924f * num1133;
-											Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 9f), (float)(Math.Cos(offsetAngle) * 9f), 452, laserDamage, 0f, Main.myPlayer, 0f, ai);
-											Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 9f), (float)(-Math.Cos(offsetAngle) * 9f), 462, laserDamage, 0f, Main.myPlayer, 0f, 0f);
-										}
-									}
-								}
-							}
-						}
 					}
 				}
 				#endregion
@@ -6054,10 +6161,9 @@ namespace CalamityMod.NPCs
 					{
 						npc.buffImmune[mod.BuffType("Enraged")] = false;
 					}
-					bool goNuts = (double)npc.life <= (double)npc.lifeMax * 0.5 || enraged;
-					if (goNuts)
+					if ((double)npc.life <= (double)npc.lifeMax * 0.5 || enraged || configBossRushBoost)
 					{
-						if (NPC.CountNPCS(mod.NPCType("Eidolist")) < 2)
+						if (!NPC.AnyNPCs(mod.NPCType("Eidolist")))
 						{
 							if (newAI[0] < 120f)
 							{
@@ -6071,14 +6177,11 @@ namespace CalamityMod.NPCs
 								{
 									NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Eidolist"), 0, 0f, 0f, 0f, 0f, 255);
 								}
-								if (NPC.CountNPCS(mod.NPCType("Eidolist")) > 1)
-								{
-									newAI[0] = -780f;
-								}
+								newAI[0] = -360f;
 							}
 						}
 					}
-					if (!goNuts)
+					else
 					{
 						if (CultCountdown == 0)
 						{
@@ -6349,7 +6452,7 @@ namespace CalamityMod.NPCs
 						}
 						if (Main.netMode != 1)
 						{
-							npc.localAI[1] += (enraged ? 3f : 1.5f);
+							npc.localAI[1] += ((enraged || configBossRushBoost) ? 3f : 1.5f);
 						}
 					}
 					else
@@ -6365,7 +6468,7 @@ namespace CalamityMod.NPCs
 						{
 							newAI[0] += 0.5f;
 						}
-						if (newAI[0] >= (enraged ? 150f : 270f))
+						if (newAI[0] >= ((enraged || configBossRushBoost) ? 150f : 270f))
 						{
 							newAI[0] = 0f;
 							if (Main.netMode != 1 && NPC.CountNPCS(NPCID.PlanterasTentacle) < 20)
@@ -6384,7 +6487,7 @@ namespace CalamityMod.NPCs
 							{
 								newAI[1] += 2f;
 							}
-							if (newAI[1] >= (enraged ? 180f : 240f))
+							if (newAI[1] >= ((enraged || configBossRushBoost) ? 180f : 240f))
 							{
 								newAI[1] = 0f;
 								if (Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -6437,9 +6540,10 @@ namespace CalamityMod.NPCs
 				#region SkeletronPrime
 				else if (npc.type == NPCID.SkeletronPrime)
 				{
+					bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 					if (Main.netMode != 1)
 					{
-						if (npc.ai[1] != 1f || (!CalamityWorld.death && (double)npc.life > (double)npc.lifeMax * 0.25) || CalamityWorld.bossRushActive)
+						if (npc.ai[1] != 1f || (!CalamityWorld.death && (double)npc.life > (double)npc.lifeMax * 0.25) || CalamityWorld.bossRushActive || targetFloatingUp)
 						{
 							npc.localAI[0] += 1f;
 							if ((double)npc.life <= (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
@@ -6450,7 +6554,7 @@ namespace CalamityMod.NPCs
 							{
 								npc.localAI[0] += 1f;
 							}
-							if (npc.localAI[0] >= (enraged ? 90f : 120f))
+							if (npc.localAI[0] >= ((enraged || configBossRushBoost) ? 90f : 120f))
 							{
 								npc.localAI[0] = 0f;
 								Vector2 vector16 = npc.Center;
@@ -6480,14 +6584,14 @@ namespace CalamityMod.NPCs
 								}
 							}
 						}
-						if (CalamityWorld.death || (double)npc.life <= (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive)
+						if (CalamityWorld.death || (double)npc.life <= (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive || targetFloatingUp)
 						{
 							newAI[0] += 1f;
 							if (npc.ai[1] == 1f || CalamityWorld.bossRushActive)
 							{
 								newAI[0] += 3f;
 							}
-							if (newAI[0] >= (enraged ? 180f : 240f)) //4 seconds or 1 second
+							if (newAI[0] >= ((enraged || configBossRushBoost) ? 180f : 240f)) //4 seconds or 1 second
 							{
 								newAI[0] = 0f;
 								Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -6512,7 +6616,7 @@ namespace CalamityMod.NPCs
 					}
 					if (npc.ai[1] == 1f)
 					{
-						int speed = CalamityWorld.bossRushActive ? 7 : 4;
+						int speed = CalamityWorld.bossRushActive ? 7 : 3;
 						if ((double)npc.life <= (double)npc.lifeMax * 0.7)
 						{
 							speed++;
@@ -6521,13 +6625,13 @@ namespace CalamityMod.NPCs
 						{
 							speed++;
 						}
-						if (enraged)
+						if (enraged || configBossRushBoost)
 						{
 							speed += 3;
 						}
 						float speed2 = (float)speed;
 						float speedBuff = 3f + (3f * (1f - (float)npc.life / (float)npc.lifeMax));
-						float speedBuff2 = 11f + (11f * (1f - (float)npc.life / (float)npc.lifeMax));
+						float speedBuff2 = 10f + (10f * (1f - (float)npc.life / (float)npc.lifeMax));
 						Vector2 vector45 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num444 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector45.X;
 						float num445 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector45.Y;
@@ -6540,6 +6644,10 @@ namespace CalamityMod.NPCs
 						if (speed2 > speedBuff2)
 						{
 							speed2 = speedBuff2;
+						}
+						if (targetFloatingUp)
+						{
+							speed2 += 5f;
 						}
 						num446 = speed2 / num446;
 						npc.velocity.X = num444 * num446;
@@ -6580,7 +6688,7 @@ namespace CalamityMod.NPCs
 								npc.localAI[1] += 2f;
 							}
 						}
-						if (npc.localAI[1] > (enraged ? 90f : 120f))
+						if (npc.localAI[1] > ((enraged || configBossRushBoost) ? 90f : 120f))
 						{
 							npc.localAI[1] = 0f;
 							npc.TargetClosest(true);
@@ -6611,6 +6719,7 @@ namespace CalamityMod.NPCs
 				#region TheTwins
 				else if (npc.type == NPCID.Retinazer)
 				{
+					bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 					laserEye = npc.whoAmI;
 					bool spazAlive = false;
 					if (fireEye != -1)
@@ -6620,7 +6729,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[0] == 0f)
 					{
 						double healthMult = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.8 : 0.6);
-						if ((double)npc.life < (double)npc.lifeMax * healthMult)
+						if ((double)npc.life < (double)npc.lifeMax * healthMult || targetFloatingUp)
 						{
 							npc.ai[0] = 1f;
 							npc.ai[1] = 0f;
@@ -6658,12 +6767,21 @@ namespace CalamityMod.NPCs
 							npc.ai[2] += (spazAlive ? 0.25f : 0.5f);
 							npc.localAI[1] += (spazAlive ? 0.5f : 1f);
 						}
+						if (targetFloatingUp)
+						{
+							npc.ai[2] += 1f;
+							npc.localAI[1] += 2f;
+						}
 						newAI[0] += (spazAlive ? 1f : 2f);
+						if (targetFloatingUp)
+						{
+							newAI[0] += 2f;
+						}
 						if (CalamityWorld.death || CalamityWorld.bossRushActive)
 						{
 							newAI[0] += 1f;
 						}
-						if (newAI[0] >= (enraged ? 180f : 240f))
+						if (newAI[0] >= ((enraged || configBossRushBoost) ? 180f : 240f))
 						{
 							newAI[0] = 0f;
 							Vector2 vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -6693,6 +6811,7 @@ namespace CalamityMod.NPCs
 				}
 				else if (npc.type == NPCID.Spazmatism)
 				{
+					bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 					fireEye = npc.whoAmI;
 					bool retAlive = false;
 					if (laserEye != -1)
@@ -6702,7 +6821,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[0] == 0f)
 					{
 						double healthMult = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.8 : 0.6);
-						if ((double)npc.life < (double)npc.lifeMax * healthMult)
+						if ((double)npc.life < (double)npc.lifeMax * healthMult || targetFloatingUp)
 						{
 							npc.ai[0] = 1f;
 							npc.ai[1] = 0f;
@@ -6736,7 +6855,7 @@ namespace CalamityMod.NPCs
 							{
 								newAI[0] += 1f;
 							}
-							if (newAI[0] >= (enraged ? 20f : 30f))
+							if (newAI[0] >= ((enraged || configBossRushBoost) ? 20f : 30f))
 							{
 								newAI[0] = 0f;
 								if (Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -6749,7 +6868,7 @@ namespace CalamityMod.NPCs
 									num350 *= num351;
 									if (Main.netMode != 1)
 									{
-										float num418 = (enraged ? 25f : 18f);
+										float num418 = ((enraged || configBossRushBoost) ? 25f : 18f);
 										int num419 = 30;
 										int num420 = 96;
 										num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
@@ -6765,9 +6884,15 @@ namespace CalamityMod.NPCs
 								}
 							}
 							npc.ai[2] += (retAlive ? 1.5f : 2f);
+							if (targetFloatingUp)
+							{
+								npc.ai[2] += 1f;
+								npc.velocity.X *= 1.005f;
+								npc.velocity.Y *= 1.005f;
+							}
 							npc.velocity.X *= 1.005f;
 							npc.velocity.Y *= 1.005f;
-							if (enraged)
+							if (enraged || configBossRushBoost)
 							{
 								npc.velocity.X *= 1.01f;
 								npc.velocity.Y *= 1.01f;
@@ -6775,15 +6900,21 @@ namespace CalamityMod.NPCs
 						}
 						else
 						{
-							npc.ai[2] += (retAlive ? 0.1f : 0.5f);
-							npc.velocity.X *= (retAlive ? 1.001f : 1.002f);
-							npc.velocity.Y *= (retAlive ? 1.001f : 1.002f);
+							npc.ai[2] += (retAlive ? 0f : 0.5f);
+							if (targetFloatingUp)
+							{
+								npc.ai[2] += 0.25f;
+								npc.velocity.X *= 1.001f;
+								npc.velocity.Y *= 1.001f;
+							}
+							npc.velocity.X *= (retAlive ? 1.001f : 1.0025f);
+							npc.velocity.Y *= (retAlive ? 1.001f : 1.0025f);
 							if (CalamityWorld.death || CalamityWorld.bossRushActive)
 							{
-								npc.velocity.X *= (retAlive ? 1.0005f : 1.001f);
-								npc.velocity.Y *= (retAlive ? 1.0005f : 1.001f);
+								npc.velocity.X *= (retAlive ? 1f : 1.001f);
+								npc.velocity.Y *= (retAlive ? 1f : 1.001f);
 							}
-							if (enraged)
+							if (enraged || configBossRushBoost)
 							{
 								npc.velocity.X *= 1.003f;
 								npc.velocity.Y *= 1.003f;
@@ -6809,7 +6940,7 @@ namespace CalamityMod.NPCs
 					}
 					npc.defense = npc.defDefense + defenseUp;
 					npc.localAI[0] = 0f;
-					int shootTime = (enraged ? 8 : 4);
+					int shootTime = ((enraged || configBossRushBoost) ? 8 : 4);
 					if (CalamityWorld.bossRushActive)
 					{
 						shootTime += 1;
@@ -6825,13 +6956,7 @@ namespace CalamityMod.NPCs
 						{
 							newAI[0] = 0f;
 							npc.TargetClosest(true);
-							bool shootNoTileCollideLaser = false;
-							if (Main.rand.Next(3) == 0 || CalamityWorld.bossRushActive || newAI[2] > 0f)
-							{
-								shootNoTileCollideLaser = true;
-							}
-							if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) ||
-								shootNoTileCollideLaser)
+							if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 							{
 								float laserSpeedBoost = System.Math.Abs(Main.player[npc.target].velocity.X);
 								if (System.Math.Abs(Main.player[npc.target].velocity.X) < System.Math.Abs(Main.player[npc.target].velocity.Y))
@@ -6862,7 +6987,7 @@ namespace CalamityMod.NPCs
 								int num9 = 28;
 								int num10 = 100;
 								int value = (CalamityWorld.bossRushActive ? 3 : 4);
-								if (Main.rand.Next(value) == 0 || enraged)
+								if (Main.rand.Next(value) == 0 || enraged || configBossRushBoost)
 								{
 									int secondValue = (newAI[2] > 0f ? 3 : 5);
 									num10 = (Main.rand.Next(secondValue) == 0 ? mod.ProjectileType("DestroyerHomingLaser") : 257);
@@ -6882,10 +7007,6 @@ namespace CalamityMod.NPCs
 								{
 									Main.projectile[num11].timeLeft = 300;
 								}
-								if (shootNoTileCollideLaser)
-								{
-									Main.projectile[num11].tileCollide = false;
-								}
 								npc.netUpdate = true;
 							}
 						}
@@ -6895,7 +7016,7 @@ namespace CalamityMod.NPCs
 				#region WallofFlesh
 				else if (npc.type == NPCID.WallofFlesh)
 				{
-					if (enraged)
+					if (enraged || configBossRushBoost)
 					{
 						npc.velocity.X *= 1.7f;
 					}
@@ -6936,9 +7057,9 @@ namespace CalamityMod.NPCs
 						}
 						if (Main.netMode != 1)
 						{
-							int num352 = (enraged ? 7 : 4);
+							int num352 = ((enraged || configBossRushBoost) ? 7 : 4);
 							npc.localAI[1] = 0f;
-							npc.localAI[3] += (enraged ? 4f : 2f);
+							npc.localAI[3] += ((enraged || configBossRushBoost) ? 4f : 2f);
 							if ((double)Main.npc[Main.wof].life < (double)Main.npc[Main.wof].lifeMax * 0.75)
 							{
 								npc.localAI[3] += 1f;
@@ -6978,7 +7099,7 @@ namespace CalamityMod.NPCs
 								}
 								if (flag30)
 								{
-									float num353 = (enraged ? 14f : 10f);
+									float num353 = ((enraged || configBossRushBoost) ? 14f : 10f);
 									int num354 = 18;
 									int num355 = 83;
 									if ((double)Main.npc[Main.wof].life < (double)Main.npc[Main.wof].lifeMax * 0.5)
@@ -7024,7 +7145,7 @@ namespace CalamityMod.NPCs
 					{
 						if (Main.npc[(int)npc.ai[1]].ai[1] == 0f)
 						{
-							npc.ai[3] += (enraged ? 1.5f : 0.5f);
+							npc.ai[3] += ((enraged || configBossRushBoost) ? 1.5f : 0.5f);
 							if (CalamityWorld.death || CalamityWorld.bossRushActive)
 							{
 								npc.ai[3] += 1f;
@@ -7038,7 +7159,7 @@ namespace CalamityMod.NPCs
 					{
 						if (Main.netMode != 1)
 						{
-							npc.localAI[1] += (enraged ? 6f : 3f);
+							npc.localAI[1] += ((enraged || configBossRushBoost) ? 6f : 3f);
 							if ((double)npc.life <= (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 							{
 								npc.localAI[1] += 3f;
@@ -7083,7 +7204,7 @@ namespace CalamityMod.NPCs
 						float num174 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector20.Y;
 						float num175 = (float)Math.Sqrt((double)(num173 * num173 + num174 * num174));
 						float num176 = CalamityWorld.bossRushActive ? 10f : 5f;
-						if (enraged) { num176 += 3f; }
+						if (enraged || configBossRushBoost) { num176 += 3f; }
 						if (num175 > 150f)
 						{
 							num176 *= 1.05f;
@@ -7372,6 +7493,42 @@ namespace CalamityMod.NPCs
 							{
 								npc.ai[0] += 4f;
 							}
+						}
+					}
+				}
+				#endregion
+				#region BasicEnemies
+				else if (npc.type == NPCID.Lihzahrd)
+				{
+					if (Main.netMode != 1 && (double)npc.life <= (double)npc.lifeMax * 0.9)
+					{
+						npc.Transform(NPCID.LihzahrdCrawler);
+					}
+				}
+				else if (npc.type == NPCID.IceGolem)
+				{
+					float num63 = 2f;
+					float num64 = 0.14f;
+					num63 += (1f - (float)npc.life / (float)npc.lifeMax) * 1.5f;
+					num64 += (1f - (float)npc.life / (float)npc.lifeMax) * 0.15f;
+					if (npc.velocity.X < -num63 || npc.velocity.X > num63)
+					{
+						return;
+					}
+					else if (npc.velocity.X < num63 && npc.direction == 1)
+					{
+						npc.velocity.X = npc.velocity.X + num64;
+						if (npc.velocity.X > num63)
+						{
+							npc.velocity.X = num63;
+						}
+					}
+					else if (npc.velocity.X > -num63 && npc.direction == -1)
+					{
+						npc.velocity.X = npc.velocity.X - num64;
+						if (npc.velocity.X < -num63)
+						{
+							npc.velocity.X = -num63;
 						}
 					}
 				}
@@ -7927,7 +8084,7 @@ namespace CalamityMod.NPCs
 					npc.type != mod.NPCType("EidolonWyrmHeadHuge") && npc.type != mod.NPCType("ColossalSquid") && npc.type != NPCID.DD2Betsy)
 				{
 					if (!CalamityPlayer.areThereAnyDamnBosses)
-						damage = npc.lifeMax * 5;
+						damage = npc.lifeMax * 3;
 				}
 			}
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eTalisman)
@@ -7938,7 +8095,7 @@ namespace CalamityMod.NPCs
 					npc.type != mod.NPCType("EidolonWyrmHeadHuge") && npc.type != mod.NPCType("ColossalSquid") && npc.type != NPCID.DD2Betsy)
 				{
 					if (!CalamityPlayer.areThereAnyDamnBosses)
-						damage = npc.lifeMax * 5;
+						damage = npc.lifeMax * 3;
 				}
 			}
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).nanotech)
@@ -7950,7 +8107,7 @@ namespace CalamityMod.NPCs
 					npc.type != mod.NPCType("EidolonWyrmHeadHuge") && npc.type != mod.NPCType("ColossalSquid") && npc.type != NPCID.DD2Betsy)
 				{
 					if (!CalamityPlayer.areThereAnyDamnBosses)
-						damage = npc.lifeMax * 5;
+						damage = npc.lifeMax * 3;
 				}
 			}
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eQuiver)
@@ -7961,7 +8118,7 @@ namespace CalamityMod.NPCs
 					npc.type != mod.NPCType("EidolonWyrmHeadHuge") && npc.type != mod.NPCType("ColossalSquid") && npc.type != NPCID.DD2Betsy)
 				{
 					if (!CalamityPlayer.areThereAnyDamnBosses)
-						damage = npc.lifeMax * 5;
+						damage = npc.lifeMax * 3;
 				}
 			}
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).statisBeltOfCurses)
@@ -7972,7 +8129,7 @@ namespace CalamityMod.NPCs
 					npc.type != mod.NPCType("EidolonWyrmHead") && npc.type != mod.NPCType("EidolonWyrmHeadHuge") && npc.type != mod.NPCType("ColossalSquid") && npc.type != NPCID.DD2Betsy)
 				{
 					if (!CalamityPlayer.areThereAnyDamnBosses)
-						damage = npc.lifeMax * 5;
+						damage = npc.lifeMax * 3;
 				}
 			}
 		}
@@ -8075,3412 +8232,62 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		#region PreNPCLoot
-		public override bool PreNPCLoot(NPC npc)
+		#region HitEffect
+		public override void HitEffect(NPC npc, int hitDirection, double damage)
 		{
-			#region BossRush
-			if (CalamityWorld.bossRushActive)
-			{
-				if (npc.type == mod.NPCType("ProfanedGuardianBoss"))
-				{
-					CalamityWorld.bossRushStage = 7;
-					DespawnProj();
-				}
-				else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
-				{
-					if (npc.boss)
-					{
-						CalamityWorld.bossRushStage = 8;
-						DespawnProj();
-					}
-				}
-				else if (npc.type == mod.NPCType("Astrageldon"))
-				{
-					CalamityWorld.bossRushStage = 9;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("Bumblefuck"))
-				{
-					CalamityWorld.bossRushStage = 12;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("HiveMindP2"))
-				{
-					CalamityWorld.bossRushStage = 14;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("StormWeaverHeadNaked"))
-				{
-					CalamityWorld.bossRushStage = 16;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("AquaticScourgeHead"))
-				{
-					CalamityWorld.bossRushStage = 17;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("DesertScourgeHead"))
-				{
-					CalamityWorld.bossRushStage = 18;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("CrabulonIdle"))
-				{
-					CalamityWorld.bossRushStage = 20;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("CeaselessVoid"))
-				{
-					CalamityWorld.bossRushStage = 22;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("PerforatorHive"))
-				{
-					CalamityWorld.bossRushStage = 23;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("Cryogen"))
-				{
-					CalamityWorld.bossRushStage = 24;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("BrimstoneElemental"))
-				{
-					CalamityWorld.bossRushStage = 25;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("CosmicWraith"))
-				{
-					CalamityWorld.bossRushStage = 26;
-					DespawnProj();
-					string key = "Mods.CalamityMod.BossRushTierThreeEndText";
-					Color messageColor = Color.LightCoral;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				else if (npc.type == mod.NPCType("ScavengerBody"))
-				{
-					CalamityWorld.bossRushStage = 27;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("AstrumDeusHeadSpectral"))
-				{
-					CalamityWorld.bossRushStage = 30;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("Polterghast"))
-				{
-					CalamityWorld.bossRushStage = 31;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("PlaguebringerGoliath"))
-				{
-					CalamityWorld.bossRushStage = 32;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("CalamitasRun3"))
-				{
-					CalamityWorld.bossRushStage = 33;
-					DespawnProj();
-					string key = "Mods.CalamityMod.BossRushTierFourEndText";
-					Color messageColor = Color.LightCoral;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				else if (npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("Leviathan"))
-				{
-					int bossType = (npc.type == mod.NPCType("Siren")) ? mod.NPCType("Leviathan") : mod.NPCType("Siren");
-					if (!NPC.AnyNPCs(bossType))
-					{
-						CalamityWorld.bossRushStage = 34;
-						DespawnProj();
-					}
-				}
-				else if (npc.type == mod.NPCType("SlimeGodCore") || npc.type == mod.NPCType("SlimeGodSplit") || npc.type == mod.NPCType("SlimeGodRunSplit"))
-				{
-					if (npc.type == mod.NPCType("SlimeGodCore") && !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"))
-						&& !NPC.AnyNPCs(mod.NPCType("SlimeGod")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")))
-					{
-						CalamityWorld.bossRushStage = 35;
-						DespawnProj();
-					}
-					else if (npc.type == mod.NPCType("SlimeGodSplit") && !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit")) &&
-						NPC.CountNPCS(mod.NPCType("SlimeGodSplit")) < 2 && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")))
-					{
-						CalamityWorld.bossRushStage = 35;
-						DespawnProj();
-					}
-					else if (npc.type == mod.NPCType("SlimeGodRunSplit") && !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) &&
-						NPC.CountNPCS(mod.NPCType("SlimeGodRunSplit")) < 2 && !NPC.AnyNPCs(mod.NPCType("SlimeGod")))
-					{
-						CalamityWorld.bossRushStage = 35;
-						DespawnProj();
-					}
-				}
-				else if (npc.type == mod.NPCType("Providence"))
-				{
-					CalamityWorld.bossRushStage = 36;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("SupremeCalamitas"))
-				{
-					CalamityWorld.bossRushStage = 37;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("Yharon"))
-				{
-					CalamityWorld.bossRushStage = 38;
-					DespawnProj();
-				}
-				else if (npc.type == mod.NPCType("DevourerofGodsHeadS"))
-				{
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Rock"), 1, true);
-					CalamityWorld.bossRushStage = 0;
-					DespawnProj();
-					CalamityWorld.bossRushActive = false;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-						var netMessage = mod.GetPacket();
-						netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-						netMessage.Write(CalamityWorld.bossRushStage);
-						netMessage.Send();
-					}
-					string key = "Mods.CalamityMod.BossRushTierFiveEndText";
-					Color messageColor = Color.LightCoral;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-					return false;
-				}
-				switch (npc.type)
-				{
-					case NPCID.QueenBee:
-						CalamityWorld.bossRushStage = 1;
-						DespawnProj();
-						break;
-					case NPCID.BrainofCthulhu:
-						CalamityWorld.bossRushStage = 2;
-						DespawnProj();
-						break;
-					case NPCID.KingSlime:
-						CalamityWorld.bossRushStage = 3;
-						DespawnProj();
-						break;
-					case NPCID.EyeofCthulhu:
-						CalamityWorld.bossRushStage = 4;
-						DespawnProj();
-						break;
-					case NPCID.SkeletronPrime:
-						CalamityWorld.bossRushStage = 5;
-						DespawnProj();
-						break;
-					case NPCID.Golem:
-						CalamityWorld.bossRushStage = 6;
-						DespawnProj();
-						break;
-					case NPCID.TheDestroyer:
-						CalamityWorld.bossRushStage = 10;
-						DespawnProj();
-						string key = "Mods.CalamityMod.BossRushTierOneEndText";
-						Color messageColor = Color.LightCoral;
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-						break;
-					case NPCID.Spazmatism:
-						CalamityWorld.bossRushStage = 11;
-						DespawnProj();
-						break;
-					case NPCID.Retinazer:
-						CalamityWorld.bossRushStage = 11;
-						DespawnProj();
-						break;
-					case NPCID.WallofFlesh:
-						CalamityWorld.bossRushStage = 13;
-						DespawnProj();
-						break;
-					case NPCID.SkeletronHead:
-						CalamityWorld.bossRushStage = 15;
-						DespawnProj();
-						break;
-					case NPCID.CultistBoss:
-						CalamityWorld.bossRushStage = 19;
-						DespawnProj();
-						string key2 = "Mods.CalamityMod.BossRushTierTwoEndText";
-						Color messageColor2 = Color.LightCoral;
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key2), messageColor2);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-						}
-						break;
-					case NPCID.Plantera:
-						CalamityWorld.bossRushStage = 21;
-						DespawnProj();
-						break;
-					case NPCID.DukeFishron:
-						CalamityWorld.bossRushStage = 28;
-						DespawnProj();
-						break;
-					case NPCID.MoonLordCore:
-						CalamityWorld.bossRushStage = 29;
-						DespawnProj();
-						break;
-					default:
-						break;
-				}
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-					netMessage.Write(CalamityWorld.bossRushStage);
-					netMessage.Send();
-				}
-				return false;
-			}
-			#endregion
-			#region AbyssDropCancel
-			int x = Main.maxTilesX;
-			int y = Main.maxTilesY;
-			int genLimit = x / 2;
-			int abyssChasmY = y - 250;
-			int abyssChasmX = (CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135));
-			bool abyssPosX = false;
-			bool abyssPosY = ((double)(npc.position.Y / 16f) <= abyssChasmY);
-			if (CalamityWorld.abyssSide)
-			{
-				if ((double)(npc.position.X / 16f) < abyssChasmX + 80)
-				{
-					abyssPosX = true;
-				}
-			}
-			else
-			{
-				if ((double)(npc.position.X / 16f) > abyssChasmX - 80)
-				{
-					abyssPosX = true;
-				}
-			}
-			bool hurtByAbyss = (npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage &&
-				((((double)(npc.position.Y / 16f) > (Main.rockLayer - (double)Main.maxTilesY * 0.05)) &&
-				abyssPosY && abyssPosX) || CalamityWorld.abyssTiles > 200) &&
-				!npc.buffImmune[mod.BuffType("CrushDepth")]);
-			if (hurtByAbyss)
-			{
-				return false;
-			}
-			#endregion
 			if (CalamityWorld.revenge)
 			{
-				if (npc.type == NPCID.Probe)
+				switch (npc.type)
 				{
-					return false;
-				}
-			}
-			if (!NPC.downedMechBossAny && (npc.type == NPCID.Spazmatism || npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge20"));
-			}
-			if (!NPC.downedSlimeKing && npc.type == NPCID.KingSlime)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-			}
-			else if (!NPC.downedBoss1 && npc.type == NPCID.EyeofCthulhu)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge3"));
-			}
-			else if (!NPC.downedQueenBee && npc.type == NPCID.QueenBee)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge16"));
-			}
-			else if (!NPC.downedMechBoss1 && npc.type == NPCID.TheDestroyer)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge21"));
-			}
-			else if (!NPC.downedMechBoss2 && npc.type == NPCID.Spazmatism)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge22"));
-			}
-			else if (!NPC.downedMechBoss3 && npc.type == NPCID.SkeletronPrime)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge23"));
-			}
-			else if (!NPC.downedPlantBoss && npc.type == NPCID.Plantera)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge25"));
-			}
-			else if (!NPC.downedFishron && npc.type == NPCID.DukeFishron)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge2"));
-			}
-			else if (npc.type == NPCID.CultistBoss)
-			{
-				if (!NPC.downedAncientCultist)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge4"));
-				}
-				if (Main.bloodMoon)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge34"));
-				}
-			}
-			return true;
-		}
-		#endregion
-
-		#region NPCLoot
-		public override void NPCLoot(NPC npc)
-		{
-			bool revenge = CalamityWorld.revenge;
-			if (DraedonMayhem)
-			{
-				if (!CalamityPlayer.areThereAnyDamnBosses)
-				{
-					DraedonMayhem = false;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-			}
-			#region DefiledLoot
-			if (CalamityWorld.defiled)
-			{
-				if (npc.type == NPCID.AnglerFish || npc.type == NPCID.Werewolf)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AdhesiveBandage);
-					}
-					if (npc.type == NPCID.Werewolf)
-					{
-						if (Main.rand.Next(20) == 0)
+					case NPCID.MotherSlime:
+						if (npc.life <= 0)
 						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MoonCharm);
-						}
-					}
-				}
-				else if (npc.type == NPCID.DesertBeast)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AncientHorn);
-					}
-				}
-				else if (npc.type == NPCID.ArmoredSkeleton)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BeamSword);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ArmorPolish);
-					}
-				}
-				else if (npc.type == NPCID.Clown)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bananarang);
-					}
-				}
-				else if (npc.type == NPCID.Hornet || npc.type == NPCID.MossHornet || npc.type == NPCID.ToxicSludge)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
-					}
-					if (npc.type == NPCID.MossHornet)
-					{
-						if (Main.rand.Next(20) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TatteredBeeWing);
-						}
-					}
-				}
-				else if (npc.type == NPCID.EyeofCthulhu)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Binoculars);
-					}
-				}
-				else if (npc.type == NPCID.DemonEye || npc.type == NPCID.WanderingEye)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlackLens);
-					}
-				}
-				else if (npc.type == NPCID.CorruptSlime || npc.type == NPCID.DarkMummy)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Blindfold);
-					}
-				}
-				else if (npc.type >= 269 && npc.type <= 280)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Keybrand);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneFeather);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagnetSphere);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WispinaBottle);
-					}
-				}
-				else if (npc.type == NPCID.UndeadMiner)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BonePickaxe);
-					}
-				}
-				else if (npc.type == NPCID.Skeleton)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneSword);
-					}
-				}
-				else if (npc.type == NPCID.ScutlixRider)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BrainScrambler);
-					}
-				}
-				else if (npc.type == NPCID.Vampire)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BrokenBatWing);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MoonStone);
-					}
-				}
-				else if (npc.type == NPCID.CaveBat)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ChainKnife);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
-					}
-				}
-				else if (npc.type == NPCID.DarkCaster || npc.type == NPCID.AngryBones)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ClothierVoodooDoll);
-					}
-				}
-				else if (npc.type == NPCID.PirateCaptain)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CoinGun);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DiscountCard);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Cutlass);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LuckyCoin);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PirateStaff);
-					}
-				}
-				else if (npc.type == NPCID.Reaper)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DeathSickle);
-					}
-				}
-				else if (npc.type == NPCID.Demon)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DemonScythe);
-					}
-				}
-				else if (npc.type == NPCID.DesertDjinn)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DjinnLamp);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DjinnsCurse);
-					}
-				}
-				else if (npc.type == NPCID.Shark)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DivingHelmet);
-					}
-				}
-				else if (npc.type == NPCID.Pixie || npc.type == NPCID.Wraith || npc.type == NPCID.Mummy)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FastClock);
-					}
-				}
-				else if (npc.type == NPCID.RedDevil)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FireFeather);
-					}
-				}
-				else if (npc.type == NPCID.IceElemental || npc.type == NPCID.IcyMerman || npc.type == NPCID.ArmoredViking || npc.type == NPCID.IceTortoise)
-				{
-					if (npc.type == NPCID.IceElemental || npc.type == NPCID.IcyMerman)
-					{
-						if (Main.rand.Next(20) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrostStaff);
-						}
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.IceSickle);
-					}
-					if (npc.type == NPCID.IceTortoise)
-					{
-						if (Main.rand.Next(20) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrozenTurtleShell);
-						}
-					}
-				}
-				else if (npc.type == NPCID.Harpy && Main.hardMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GiantHarpyFeather);
-					}
-				}
-				else if (npc.type == mod.NPCType("SunBat"))
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HelFire);
-					}
-				}
-				else if (npc.type == mod.NPCType("Cryon"))
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Amarok);
-					}
-				}
-				else if (npc.type == NPCID.QueenBee)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HoneyedGoggles);
-					}
-				}
-				else if (npc.type == NPCID.Piranha)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Hook);
-					}
-				}
-				else if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.InfernoFork);
-					}
-				}
-				else if (npc.type == NPCID.PinkJellyfish)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.JellyfishNecklace);
-					}
-				}
-				else if (npc.type == NPCID.Paladin)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Kraken);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PaladinsHammer);
-					}
-				}
-				else if (npc.type == NPCID.SkeletonArcher)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicQuiver);
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Marrow);
-					}
-				}
-				else if (npc.type == NPCID.Lavabat)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagmaStone);
-					}
-				}
-				else if (npc.type == NPCID.WalkingAntlion)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AntlionClaw);
-					}
-				}
-				else if (npc.type == NPCID.DarkMummy || npc.type == NPCID.GreenJellyfish)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Megaphone);
-					}
-				}
-				else if (npc.type == NPCID.CursedSkull)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
-					}
-				}
-				else if (npc.type == NPCID.FireImp)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ObsidianRose);
-					}
-				}
-				else if (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PoisonStaff);
-					}
-				}
-				else if (npc.type == NPCID.SkeletonSniper)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RifleScope);
-					}
-				}
-				else if (npc.type == NPCID.ChaosElemental)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RodofDiscord);
-					}
-				}
-				else if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ShadowbeamStaff);
-					}
-				}
-				else if (npc.type == NPCID.SnowFlinx)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SnowballLauncher);
-					}
-				}
-				else if (npc.type == NPCID.RaggedCaster)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SpectreStaff);
-					}
-				}
-				else if (npc.type == NPCID.Plantera)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TheAxe);
-					}
-				}
-				else if (npc.type == NPCID.GiantBat)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TrifoldMap);
-					}
-				}
-				else if (npc.type == NPCID.AngryTrapper)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Uzi);
-					}
-				}
-				else if (npc.type == NPCID.FloatyGross || npc.type == NPCID.Corruptor)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vitamins);
-					}
-				}
-				else if (NPC.downedMechBossAny && npc.type == NPCID.GiantTortoise)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Yelets);
-					}
-				}
-			}
-			#endregion
-			#region ArmageddonLoot
-			if (CalamityWorld.armageddon)
-			{
-				int dropAmt = 5;
-				if (npc.type == NPCID.Golem)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.DukeFishron)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.DD2Betsy)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.EyeofCthulhu)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.BrainofCthulhu)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
-				{
-					if (npc.boss)
-					{
-						for (int i = 0; i < dropAmt; i++)
-						{
-							npc.DropBossBags();
-						}
-					}
-				}
-				else if (npc.type == NPCID.QueenBee)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.SkeletronHead)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.WallofFlesh)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.MoonLordCore)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.KingSlime)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
-				{
-					int num64 = NPCID.Retinazer;
-					if (npc.type == NPCID.Retinazer)
-					{
-						num64 = NPCID.Spazmatism;
-					}
-					if (!NPC.AnyNPCs(num64))
-					{
-						for (int i = 0; i < dropAmt; i++)
-						{
-							npc.DropBossBags();
-						}
-					}
-				}
-				else if (npc.type == NPCID.SkeletronPrime)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.TheDestroyer)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				else if (npc.type == NPCID.Plantera)
-				{
-					for (int i = 0; i < dropAmt; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-			}
-			#endregion
-			#region AdrenalineReset
-			if (npc.boss && CalamityWorld.revenge)
-			{
-				if (npc.type != mod.NPCType("HiveMind") && npc.type != mod.NPCType("Leviathan") && npc.type != mod.NPCType("Siren") &&
-					npc.type != mod.NPCType("StormWeaverHead") && npc.type != mod.NPCType("StormWeaverBody") &&
-					npc.type != mod.NPCType("StormWeaverTail") && npc.type != mod.NPCType("DevourerofGodsHead") &&
-					npc.type != mod.NPCType("DevourerofGodsBody") && npc.type != mod.NPCType("DevourerofGodsTail"))
-				{
-					if (Main.netMode != 2)
-					{
-						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-						{
-							Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).adrenaline = 0;
-						}
-					}
-				}
-			}
-			#endregion
-			#region SpawnPolterghast
-			if ((npc.type == mod.NPCType("PhantomSpirit") || npc.type == mod.NPCType("PhantomSpiritS") || npc.type == mod.NPCType("PhantomSpiritM") ||
-				npc.type == mod.NPCType("PhantomSpiritL")) && !NPC.AnyNPCs(mod.NPCType("Polterghast")) && !CalamityWorld.downedPolterghast)
-			{
-				CalamityMod.ghostKillCount++;
-				if (CalamityMod.ghostKillCount >= 30 && Main.netMode != 1)
-				{
-					int lastPlayer = npc.lastInteraction;
-					if (!Main.player[lastPlayer].active || Main.player[lastPlayer].dead)
-					{
-						lastPlayer = npc.FindClosestPlayer();
-					}
-					if (lastPlayer >= 0)
-					{
-						NPC.SpawnOnPlayer(lastPlayer, mod.NPCType("Polterghast"));
-						CalamityMod.ghostKillCount = 0;
-					}
-				}
-			}
-			#endregion
-			#region SpawnGSS
-			if ((NPC.downedPlantBoss || CalamityWorld.downedCalamitas) && npc.type == NPCID.SandShark && !NPC.AnyNPCs(mod.NPCType("GreatSandShark")))
-			{
-				CalamityMod.sharkKillCount++;
-				if (CalamityMod.sharkKillCount >= 10 && Main.netMode != 1)
-				{
-					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-					{
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"),
-							(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
-					}
-					int lastPlayer = npc.lastInteraction;
-					if (!Main.player[lastPlayer].active || Main.player[lastPlayer].dead)
-					{
-						lastPlayer = npc.FindClosestPlayer();
-					}
-					if (lastPlayer >= 0)
-					{
-						NPC.SpawnOnPlayer(lastPlayer, mod.NPCType("GreatSandShark"));
-						CalamityMod.sharkKillCount = -10;
-					}
-				}
-			}
-			#endregion
-			#region WormLootFromNearestSegment
-			if (npc.type == mod.NPCType("DesertScourgeHead"))
-			{
-				Vector2 center = Main.player[npc.target].Center;
-				float num2 = 1E+08f;
-				Vector2 position2 = npc.position;
-				for (int k = 0; k < 200; k++)
-				{
-					if (Main.npc[k].active && (Main.npc[k].type == mod.NPCType("DesertScourgeHead") || Main.npc[k].type == mod.NPCType("DesertScourgeBody") || Main.npc[k].type == mod.NPCType("DesertScourgeTail")))
-					{
-						float num3 = Math.Abs(Main.npc[k].Center.X - center.X) + Math.Abs(Main.npc[k].Center.Y - center.Y);
-						if (num3 < num2)
-						{
-							num2 = num3;
-							position2 = Main.npc[k].position;
-						}
-					}
-				}
-				npc.position = position2;
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LesserHealingPotion, Main.rand.Next(8, 15));
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DesertScourgeTrophy"));
-				}
-				if (CalamityWorld.armageddon)
-				{
-					for (int i = 0; i < 5; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				if (Main.expertMode)
-				{
-					npc.DropBossBags();
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VictoryShard"), Main.rand.Next(7, 15));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(5, 10));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(5, 10));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(5, 10));
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaboundStaff"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Barinade"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormSpray"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AquaticDischarge"));
-					}
-					if (Main.rand.Next(7) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DesertScourgeMask"));
-					}
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HighTestFishingLine);
-					}
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerTackleBag);
-					}
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TackleBox);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerEarring);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishermansGuide);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WeatherRadio);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Sextant);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerHat);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerVest);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerPants);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CratePotion, Main.rand.Next(2, 4));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishingPotion, Main.rand.Next(2, 4));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SonarPotion, Main.rand.Next(2, 4));
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("AeroStone"), 1, true);
-					}
-					if (NPC.downedBoss3)
-					{
-						if (Main.rand.Next(20) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenBugNet);
-						}
-					}
-				}
-				if (!CalamityWorld.downedDesertScourge)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge"));
-				}
-				string key = "Mods.CalamityMod.OpenSunkenSea";
-				Color messageColor = Color.Aquamarine;
-				if (!CalamityWorld.downedDesertScourge)
-				{
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				CalamityWorld.downedDesertScourge = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("AquaticScourgeHead"))
-			{
-				Vector2 center = Main.player[npc.target].Center;
-				float num2 = 1E+08f;
-				Vector2 position2 = npc.position;
-				for (int k = 0; k < 200; k++)
-				{
-					if (Main.npc[k].active &&
-						(Main.npc[k].type == mod.NPCType("AquaticScourgeHead") ||
-						Main.npc[k].type == mod.NPCType("AquaticScourgeBody") ||
-						Main.npc[k].type == mod.NPCType("AquaticScourgeBodyAlt") ||
-						Main.npc[k].type == mod.NPCType("AquaticScourgeTail")))
-					{
-						float num3 = Math.Abs(Main.npc[k].Center.X - center.X) + Math.Abs(Main.npc[k].Center.Y - center.Y);
-						if (num3 < num2)
-						{
-							num2 = num3;
-							position2 = Main.npc[k].position;
-						}
-					}
-				}
-				npc.position = position2;
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GreaterHealingPotion, Main.rand.Next(8, 15));
-				if (Main.hardMode)
-				{
-					if (CalamityWorld.armageddon)
-					{
-						for (int i = 0; i < 5; i++)
-						{
-							npc.DropBossBags();
-						}
-					}
-					if (Main.expertMode)
-					{
-						npc.DropBossBags();
-					}
-					else
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VictoryShard"), Main.rand.Next(11, 21));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(5, 10));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(5, 10));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(5, 10));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SoulofSight, Main.rand.Next(20, 41));
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DeepseaStaff"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Barinautical"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Downpour"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SubmarineShocker"));
-						}
-						if (Main.rand.Next(8) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HighTestFishingLine);
-						}
-						if (Main.rand.Next(8) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerTackleBag);
-						}
-						if (Main.rand.Next(8) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TackleBox);
-						}
-						if (Main.rand.Next(5) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerEarring);
-						}
-						if (Main.rand.Next(5) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishermansGuide);
-						}
-						if (Main.rand.Next(5) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WeatherRadio);
-						}
-						if (Main.rand.Next(5) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Sextant);
-						}
-						if (Main.rand.Next(3) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerHat);
-						}
-						if (Main.rand.Next(3) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerVest);
-						}
-						if (Main.rand.Next(3) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerPants);
-						}
-						if (Main.rand.Next(3) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CratePotion, Main.rand.Next(2, 4));
-						}
-						if (Main.rand.Next(3) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishingPotion, Main.rand.Next(2, 4));
-						}
-						if (Main.rand.Next(3) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SonarPotion, Main.rand.Next(2, 4));
-						}
-						if (Main.rand.Next(5) == 0)
-						{
-							npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("AeroStone"), 1, true);
-						}
-						if (Main.rand.Next(10) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenBugNet);
-						}
-					}
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VictoryShard"), Main.rand.Next(11, 21));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(5, 10));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(5, 10));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(5, 10));
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HighTestFishingLine);
-					}
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerTackleBag);
-					}
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TackleBox);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerEarring);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishermansGuide);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WeatherRadio);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Sextant);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerHat);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerVest);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerPants);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CratePotion, Main.rand.Next(2, 4));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishingPotion, Main.rand.Next(2, 4));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SonarPotion, Main.rand.Next(2, 4));
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("AeroStone"), 1, true);
-					}
-					if (NPC.downedBoss3)
-					{
-						if (Main.rand.Next(20) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenBugNet);
-						}
-					}
-				}
-				if (!CalamityWorld.downedAquaticScourge)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge27"));
-				}
-				CalamityWorld.downedAquaticScourge = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("AstrumDeusHeadSpectral"))
-			{
-				Vector2 center = Main.player[npc.target].Center;
-				float num2 = 1E+08f;
-				Vector2 position2 = npc.position;
-				for (int k = 0; k < 200; k++)
-				{
-					if (Main.npc[k].active && (Main.npc[k].type == mod.NPCType("AstrumDeusHeadSpectral") || Main.npc[k].type == mod.NPCType("AstrumDeusBodySpectral") || Main.npc[k].type == mod.NPCType("AstrumDeusTailSpectral")))
-					{
-						float num3 = Math.Abs(Main.npc[k].Center.X - center.X) + Math.Abs(Main.npc[k].Center.Y - center.Y);
-						if (num3 < num2)
-						{
-							num2 = num3;
-							position2 = Main.npc[k].position;
-						}
-					}
-				}
-				npc.position = position2;
-				string key = "Mods.CalamityMod.AstralBossText";
-				Color messageColor = Color.Gold;
-				if (!CalamityWorld.downedStarGod)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge29"));
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				CalamityWorld.downedStarGod = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GreaterHealingPotion, Main.rand.Next(8, 15));
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstrumDeusTrophy"));
-				}
-				if (CalamityWorld.armageddon)
-				{
-					for (int i = 0; i < 5; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				if (Main.expertMode)
-				{
-					npc.DropBossBags();
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(50, 81));
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HallowedKey);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Starfall"));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Nebulash"));
-					}
-					if (Main.rand.Next(7) == 0)
-					{
-						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("AstrumDeusMask"), 1, true);
-					}
-				}
-			}
-			else if (npc.type == mod.NPCType("DevourerofGodsHead"))
-			{
-				CalamityWorld.DoGSecondStageCountdown = 21600; //6 minutes
-				if (Main.netMode == 2)
-				{
-					var netMessage = mod.GetPacket();
-					netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-					netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-					netMessage.Send();
-				}
-				for (int playerIndex = 0; playerIndex < 255; playerIndex++)
-				{
-					if (Main.player[playerIndex].active)
-					{
-						Player player = Main.player[playerIndex];
-						for (int l = 0; l < 22; l++)
-						{
-							int hasBuff = player.buffType[l];
-							if (hasBuff == mod.BuffType("AdrenalineMode"))
+							if (Main.netMode != 1)
 							{
-								player.DelBuff(l);
-								l = -1;
-							}
-							if (hasBuff == mod.BuffType("RageMode"))
-							{
-								player.DelBuff(l);
-								l = -1;
+								int num261 = Main.rand.Next(2) + 2;
+								int num;
+								for (int num262 = 0; num262 < num261; num262 = num + 1)
+								{
+									int num263 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), 1, 0, 0f, 0f, 0f, 0f, 255);
+									Main.npc[num263].SetDefaults(-5, -1f);
+									Main.npc[num263].velocity.X = npc.velocity.X * 2f;
+									Main.npc[num263].velocity.Y = npc.velocity.Y;
+									NPC var_324_BB1A_cp_0_cp_0 = Main.npc[num263];
+									var_324_BB1A_cp_0_cp_0.velocity.X = var_324_BB1A_cp_0_cp_0.velocity.X + ((float)Main.rand.Next(-20, 20) * 0.1f + (float)(num262 * npc.direction) * 0.3f);
+									NPC var_324_BB6F_cp_0_cp_0 = Main.npc[num263];
+									var_324_BB6F_cp_0_cp_0.velocity.Y = var_324_BB6F_cp_0_cp_0.velocity.Y - ((float)Main.rand.Next(0, 10) * 0.1f + (float)num262);
+									Main.npc[num263].ai[0] = (float)(-1000 * Main.rand.Next(3));
+									if (Main.netMode == 2 && num263 < 200)
+									{
+										NetMessage.SendData(23, -1, -1, null, num263, 0f, 0f, 0f, 0, 0, 0);
+									}
+									num = num262;
+								}
 							}
 						}
-					}
+						break;
+					case NPCID.Demon:
+					case NPCID.VoodooDemon:
+						npc.ai[0] += 1f;
+						break;
+					case NPCID.CursedHammer:
+					case NPCID.EnchantedSword:
+					case NPCID.Clinger:
+					case NPCID.Gastropod:
+					case NPCID.GiantTortoise:
+					case NPCID.IceTortoise:
+					case NPCID.BlackRecluse:
+					case NPCID.BlackRecluseWall:
+					case NPCID.CrimsonAxe:
+					case NPCID.Paladin:
+						npc.justHit = false;
+						break;
+					case NPCID.Clown:
+						if (Main.netMode != 1 && !Main.player[npc.target].dead)
+							npc.ai[2] += 29f;
+						break;
 				}
 			}
-			else if (npc.type == mod.NPCType("DevourerofGodsHeadS"))
-			{
-				Vector2 center = Main.player[npc.target].Center;
-				float num2 = 1E+08f;
-				Vector2 position2 = npc.position;
-				for (int k = 0; k < 200; k++)
-				{
-					if (Main.npc[k].active && (Main.npc[k].type == mod.NPCType("DevourerofGodsHeadS") || Main.npc[k].type == mod.NPCType("DevourerofGodsBodyS") || Main.npc[k].type == mod.NPCType("DevourerofGodsTailS")))
-					{
-						float num3 = Math.Abs(Main.npc[k].Center.X - center.X) + Math.Abs(Main.npc[k].Center.Y - center.Y);
-						if (num3 < num2)
-						{
-							num2 = num3;
-							position2 = Main.npc[k].position;
-						}
-					}
-				}
-				npc.position = position2;
-				string key = "Mods.CalamityMod.DoGBossText";
-				Color messageColor = Color.Cyan;
-				string key2 = "Mods.CalamityMod.DoGBossText2";
-				Color messageColor2 = Color.Orange;
-				if (!CalamityWorld.downedDoG)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"), 2);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-					}
-				}
-				CalamityWorld.downedDoG = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SupremeHealingPotion"), Main.rand.Next(8, 15));
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DevourerofGodsTrophy"));
-				}
-				if (CalamityWorld.armageddon)
-				{
-					for (int i = 0; i < 5; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				if (Main.expertMode)
-				{
-					npc.DropBossBags();
-				}
-				else
-				{
-					if (Main.rand.Next(7) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DevourerofGodsMask"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DeathhailStaff"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Excelsus"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheObliterator"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Eradicator"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EradicatorMelee"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Deathwind"));
-					}
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StaffoftheMechworm"));
-					}
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CosmiliteBar"), Main.rand.Next(25, 35));
-				}
-			}
-			#endregion
-			#region ArmorSetLoot
-			if (Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).tarraSet)
-			{
-				if (!npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && npc.lifeMax > 100 && Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58, 1, false, 0, false, false);
-				}
-			}
-			if (Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).bloodflareSet)
-			{
-				if (!npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && Main.rand.Next(2) == 0 && Main.bloodMoon && npc.HasPlayerTarget && (double)(npc.position.Y / 16f) < Main.worldSurface)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodOrb"));
-				}
-			}
-			if (!npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && Main.rand.Next(12) == 0 && Main.bloodMoon && npc.HasPlayerTarget && (double)(npc.position.Y / 16f) < Main.worldSurface)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodOrb"));
-			}
-			#endregion
-			#region Thingyouwillneverget
-			if (npc.type == mod.NPCType("Yharon") && Main.rand.Next(100) == 0 && npc.localAI[2] == 1f)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharimsCrystal"));
-			}
-			#endregion
-			#region Rares
-			if (npc.type == NPCID.PossessedArmor)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(150) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PsychoticAmulet"));
-					}
-				}
-				else if (Main.rand.Next(200) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PsychoticAmulet"));
-				}
-				if (CalamityWorld.defiled)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PsychoticAmulet"));
-					}
-				}
-			}
-			else if (npc.type == NPCID.SeaSnail)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaShell"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaShell"));
-				}
-			}
-			else if (npc.type == NPCID.GiantTortoise)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GiantTortoiseShell"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GiantTortoiseShell"));
-				}
-			}
-			else if (npc.type == NPCID.GiantShelly || npc.type == NPCID.GiantShelly2)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GiantShell"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GiantShell"));
-				}
-			}
-			else if (npc.type == NPCID.AnomuraFungus)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FungalCarapace"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FungalCarapace"));
-				}
-			}
-			else if (npc.type == NPCID.Crawdad || npc.type == NPCID.Crawdad2)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrawCarapace"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrawCarapace"));
-				}
-			}
-			else if (npc.type == NPCID.GreenJellyfish)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VitalJelly"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VitalJelly"));
-				}
-			}
-			else if (npc.type == NPCID.PinkJellyfish)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LifeJelly"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LifeJelly"));
-				}
-			}
-			else if (npc.type == NPCID.BlueJellyfish)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ManaJelly"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ManaJelly"));
-				}
-			}
-			else if (npc.type == NPCID.MossHornet)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Needler"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Needler"));
-				}
-			}
-			else if (npc.type == NPCID.DarkCaster)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientShiv"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientShiv"));
-				}
-			}
-			else if (npc.type == NPCID.BigMimicCorruption || npc.type == NPCID.BigMimicCrimson || npc.type == NPCID.BigMimicHallow || npc.type == NPCID.BigMimicJungle)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CelestialClaymore"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CelestialClaymore"));
-				}
-			}
-			else if (npc.type == NPCID.Clinger)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CursedDagger"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CursedDagger"));
-				}
-			}
-			else if (npc.type == NPCID.Shark)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthBlade"));
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkToothNecklace);
-					}
-				}
-				else
-				{
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthBlade"));
-					}
-					if (Main.rand.Next(30) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkToothNecklace);
-					}
-					if (CalamityWorld.defiled)
-					{
-						if (Main.rand.Next(20) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkToothNecklace);
-						}
-					}
-				}
-			}
-			else if (npc.type == NPCID.PresentMimic)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HolidayHalberd"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HolidayHalberd"));
-				}
-			}
-			else if (npc.type == NPCID.IchorSticker)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IchorSpear"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IchorSpear"));
-				}
-			}
-			else if (npc.type == NPCID.Harpy && NPC.downedBoss1)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(30) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SkyGlaze"));
-					}
-				}
-				else if (Main.rand.Next(40) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SkyGlaze"));
-				}
-				if (CalamityWorld.defiled)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SkyGlaze"));
-					}
-				}
-			}
-			else if (npc.type == NPCID.Antlion || npc.type == NPCID.WalkingAntlion || npc.type == NPCID.FlyingAntlion)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(30) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MandibleBow"));
-					}
-					if (Main.rand.Next(30) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MandibleClaws"));
-					}
-				}
-				else
-				{
-					if (Main.rand.Next(40) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MandibleBow"));
-					}
-					if (Main.rand.Next(40) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MandibleClaws"));
-					}
-				}
-			}
-			else if (npc.type == NPCID.MartianSaucerCore)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NullificationRifle"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NullificationRifle"));
-				}
-			}
-			else if (npc.type == NPCID.Demon)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BladecrestOathsword"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BladecrestOathsword"));
-				}
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DemonicBoneAsh"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DemonicBoneAsh"));
-				}
-			}
-			else if (npc.type == NPCID.BoneSerpentHead)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OldLordOathsword"));
-					}
-				}
-				else if (Main.rand.Next(15) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OldLordOathsword"));
-				}
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DemonicBoneAsh"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DemonicBoneAsh"));
-				}
-			}
-			else if (npc.type == NPCID.Tim)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlasmaRod"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlasmaRod"));
-				}
-			}
-			else if (npc.type == NPCID.GoblinSorcerer)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlasmaRod"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlasmaRod"));
-				}
-			}
-			else if (npc.type == NPCID.PirateDeadeye)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ProporsePistol"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ProporsePistol"));
-				}
-			}
-			else if (npc.type == NPCID.PirateCrossbower)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RaidersGlory"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RaidersGlory"));
-				}
-			}
-			else if (npc.type == NPCID.GoblinSummoner)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheFirstShadowflame"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheFirstShadowflame"));
-				}
-			}
-			else if (npc.type == NPCID.SandElemental)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WifeinaBottle"));
-					}
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WifeinaBottlewithBoobs"));
-					}
-				}
-				else
-				{
-					if (Main.rand.Next(7) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WifeinaBottle"));
-					}
-				}
-			}
-			else if (npc.type == NPCID.Skeleton || npc.type == NPCID.ArmoredSkeleton)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Waraxe"));
-					}
-				}
-				else if (Main.rand.Next(20) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Waraxe"));
-				}
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBoneDust"));
-					}
-				}
-				else if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBoneDust"));
-				}
-			}
-			else if (npc.type == NPCID.GoblinWarrior)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(15) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Warblade"));
-					}
-				}
-				else if (Main.rand.Next(20) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Warblade"));
-				}
-			}
-			else if (npc.type == NPCID.MartianWalker)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Wingman"));
-					}
-				}
-				else if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Wingman"));
-				}
-			}
-			else if (npc.type == NPCID.GiantCursedSkull || npc.type == NPCID.NecromancerArmored || npc.type == NPCID.Necromancer)
-			{
-				if (npc.type == NPCID.GiantCursedSkull)
-				{
-					if (CalamityWorld.downedLeviathan && Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Keelhaul"));
-					}
-				}
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WrathoftheAncients"));
-					}
-				}
-				else if (Main.rand.Next(25) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WrathoftheAncients"));
-				}
-			}
-			#endregion
-			#region Commons
-			if (npc.type == NPCID.Vulture)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DesertFeather"), Main.rand.Next(1, 3));
-					}
-				}
-				else if (Main.rand.Next(2) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DesertFeather"));
-				}
-			}
-			else if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Ectoblood"), Main.rand.Next(1, 3));
-					}
-				}
-				else if (Main.rand.Next(2) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Ectoblood"));
-				}
-			}
-			else if (npc.type == NPCID.RedDevil)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
-				}
-			}
-			else if (npc.type == NPCID.WyvernHead)
-			{
-				if (Main.expertMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"), Main.rand.Next(1, 3));
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
-				}
-			}
-			else if (npc.type == NPCID.AngryNimbus)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
-				}
-			}
-			else if (npc.type == NPCID.IceTortoise || npc.type == NPCID.IcyMerman)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
-				}
-			}
-			else if (npc.type == NPCID.Plantera)
-			{
-				if (!Main.expertMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LivingShard"), Main.rand.Next(6, 10));
-				}
-			}
-			else if (npc.type == NPCID.NebulaBrain || npc.type == NPCID.NebulaSoldier || npc.type == NPCID.NebulaHeadcrab || npc.type == NPCID.NebulaBeast)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeldBlob"), Main.rand.Next(2, 4));
-					}
-				}
-				else if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeldBlob"), (Main.rand.Next(1, 3)));
-				}
-			}
-			else if (npc.type == NPCID.CultistBoss)
-			{
-				if (!Main.expertMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MeldBlob"), Main.rand.Next(20, 26));
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StardustStaff"));
-					}
-				}
-			}
-			else if (npc.type == NPCID.EyeofCthulhu)
-			{
-				if (!Main.expertMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VictoryShard"), Main.rand.Next(2, 5));
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TeardropCleaver"));
-					}
-				}
-			}
-			else if (npc.type == NPCID.DevourerHead || npc.type == NPCID.SeekerHead)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FetidEssence"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FetidEssence"));
-				}
-			}
-			else if (npc.type == NPCID.FaceMonster || npc.type == NPCID.Herpling)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodlettingEssence"));
-					}
-				}
-				else if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodlettingEssence"));
-				}
-			}
-			else if (npc.type == NPCID.ManEater)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ManeaterBulb"));
-					}
-				}
-				else if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ManeaterBulb"));
-				}
-			}
-			else if (npc.type == NPCID.AngryTrapper)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrapperBulb"));
-					}
-				}
-				else if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrapperBulb"));
-				}
-			}
-			else if (npc.type == NPCID.MotherSlime || npc.type == NPCID.Crimslime || npc.type == NPCID.CorruptSlime)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(3) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MurkySludge"));
-					}
-				}
-				else if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MurkySludge"));
-				}
-			}
-			else if (npc.type == NPCID.Moth)
-			{
-				if (Main.expertMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GypsyPowder"));
-				}
-				else if (Main.rand.Next(2) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GypsyPowder"));
-				}
-			}
-			else if (npc.type == NPCID.Derpling)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BeetleJuice"));
-					}
-				}
-				else if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BeetleJuice"));
-				}
-			}
-			else if (npc.type == NPCID.SpikedJungleSlime || npc.type == NPCID.Arapaima)
-			{
-				if (Main.expertMode)
-				{
-					if (Main.rand.Next(4) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MurkyPaste"));
-					}
-				}
-				else if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MurkyPaste"));
-				}
-			}
-			#endregion
-			#region Boss Specials
-			if (npc.boss && !CalamityWorld.downedBossAny)
-			{
-				CalamityWorld.downedBossAny = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail || npc.type == NPCID.BrainofCthulhu)
-			{
-				if (npc.boss)
-				{
-					bool downedEvil = CalamityWorld.downedWhar;
-					CalamityWorld.downedWhar = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-					if (!downedEvil)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-						if (WorldGen.crimson)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge8"));
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge11"));
-						}
-						else
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge9"));
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge12"));
-						}
-					}
-				}
-			}
-			else if (npc.type == NPCID.SkeletronHead)
-			{
-				bool downedSkull = CalamityWorld.downedSkullHead;
-				CalamityWorld.downedSkullHead = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-				if (!downedSkull)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge17"));
-				}
-			}
-			else if (npc.type == NPCID.WallofFlesh)
-			{
-				if (CalamityWorld.checkAstralMeteor())
-				{
-					if (!CalamityWorld.spawnAstralMeteor)
-					{
-						string key = "Mods.CalamityMod.AstralText";
-						Color messageColor = Color.Gold;
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-						CalamityWorld.spawnAstralMeteor = true;
-						if (Main.netMode == 2)
-						{
-							NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-						}
-						CalamityWorld.dropAstralMeteor();
-					}
-					else if (Main.rand.Next(2) == 0 && !CalamityWorld.spawnAstralMeteor2)
-					{
-						string key = "Mods.CalamityMod.AstralText";
-						Color messageColor = Color.Gold;
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-						CalamityWorld.spawnAstralMeteor2 = true;
-						if (Main.netMode == 2)
-						{
-							NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-						}
-						CalamityWorld.dropAstralMeteor();
-					}
-					else if (Main.rand.Next(4) == 0 && !CalamityWorld.spawnAstralMeteor3)
-					{
-						string key = "Mods.CalamityMod.AstralText";
-						Color messageColor = Color.Gold;
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-						CalamityWorld.spawnAstralMeteor3 = true;
-						if (Main.netMode == 2)
-						{
-							NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-						}
-						CalamityWorld.dropAstralMeteor();
-					}
-				}
-				if (!Main.expertMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MLGRune"));
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Meowthrower"));
-					}
-					if (Main.rand.Next(8) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RogueEmblem"));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						switch (Main.rand.Next(2))
-						{
-							case 0:
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrimsonKey);
-								break;
-							case 1:
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CorruptionKey);
-								break;
-						}
-					}
-				}
-				bool hardMode = CalamityWorld.downedUgly;
-				CalamityWorld.downedUgly = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-				string key2 = "Mods.CalamityMod.UglyBossText";
-				Color messageColor2 = Color.Aquamarine;
-				if (!hardMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge7"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge18"));
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-					}
-				}
-			}
-			else if (npc.type == NPCID.SkeletronPrime || npc.type == mod.NPCType("BrimstoneElemental"))
-			{
-				bool downedPrime = CalamityWorld.downedSkeletor;
-				if (npc.type == NPCID.SkeletronPrime)
-				{
-					CalamityWorld.downedSkeletor = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				string key = "Mods.CalamityMod.SteelSkullBossText";
-				Color messageColor = Color.Crimson;
-				if (!downedPrime && !CalamityWorld.downedBrimstoneElemental)
-				{
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				if (npc.type == mod.NPCType("BrimstoneElemental"))
-				{
-					if (!CalamityWorld.downedBrimstoneElemental)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge6"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge26"));
-					}
-					CalamityWorld.downedBrimstoneElemental = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-			}
-			else if (npc.type == NPCID.Plantera || npc.type == mod.NPCType("CalamitasRun3"))
-			{
-				bool downedPlant = CalamityWorld.downedPlantThing;
-				if (npc.type == NPCID.Plantera)
-				{
-					if (!Main.expertMode)
-					{
-						if (Main.rand.Next(5) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.JungleKey);
-						}
-					}
-					CalamityWorld.downedPlantThing = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				string key = "Mods.CalamityMod.PlantBossText";
-				Color messageColor = Color.RoyalBlue;
-				string key2 = "Mods.CalamityMod.PlantOreText";
-				Color messageColor2 = Color.GreenYellow;
-				if (npc.type == mod.NPCType("CalamitasRun3"))
-				{
-					if (!CalamityWorld.downedCalamitas && !downedPlant)
-					{
-						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-						{
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"),
-								(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
-						}
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-					}
-					npc.DropItemInstanced(npc.position, npc.Size, ItemID.BrokenHeroSword, 1, true);
-					if (!CalamityWorld.downedCalamitas)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge24"));
-					}
-					CalamityWorld.downedCalamitas = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				if (npc.type == NPCID.Plantera)
-				{
-					if (!downedPlant)
-					{
-						CalamityWorld.spawnOre(mod.TileType("PerennialOre"), 12E-05, .5f, .7f);
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key2), messageColor2);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-						}
-					}
-					if (!downedPlant && !CalamityWorld.downedCalamitas)
-					{
-						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-						{
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"),
-								(int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
-						}
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-					}
-				}
-			}
-			else if (npc.type == NPCID.Golem)
-			{
-				bool downedIdiot = CalamityWorld.downedGolemBaby;
-				CalamityWorld.downedGolemBaby = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-				string key = "Mods.CalamityMod.BabyBossText";
-				Color messageColor = Color.Lime;
-				string key2 = "Mods.CalamityMod.BabyBossText2";
-				Color messageColor2 = Color.Yellow;
-				if (!downedIdiot)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge31"));
-					npc.DropItemInstanced(npc.position, npc.Size, ItemID.Picksaw, 1, true);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-					}
-				}
-			}
-			else if (npc.type == NPCID.MoonLordCore)
-			{
-				bool downedMoonDude = CalamityWorld.downedMoonDude;
-				CalamityWorld.downedMoonDude = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-				string key = "Mods.CalamityMod.MoonBossText";
-				Color messageColor = Color.Orange;
-				string key2 = "Mods.CalamityMod.MoonBossText2";
-				Color messageColor2 = Color.Violet;
-				string key3 = "Mods.CalamityMod.MoonBossText3";
-				Color messageColor3 = Color.Crimson;
-				string key4 = "Mods.CalamityMod.ProfanedBossText2";
-				Color messageColor4 = Color.Cyan;
-				string key5 = "Mods.CalamityMod.FutureOreText";
-				Color messageColor5 = Color.LightGray;
-				if (!downedMoonDude)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					CalamityWorld.spawnOre(mod.TileType("ExodiumOre"), 12E-05, .01f, .07f);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-						Main.NewText(Language.GetTextValue(key3), messageColor3);
-						Main.NewText(Language.GetTextValue(key4), messageColor4);
-						Main.NewText(Language.GetTextValue(key5), messageColor5);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key4), messageColor4);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key5), messageColor5);
-					}
-				}
-			}
-			else if (npc.type == NPCID.DD2Betsy)
-			{
-				if (!CalamityWorld.downedBetsy)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				}
-				CalamityWorld.downedBetsy = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == NPCID.Pumpking && CalamityWorld.downedDoG)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NightmareFuel"), Main.rand.Next(10, 21));
-			}
-			else if (npc.type == NPCID.IceQueen && CalamityWorld.downedDoG)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EndothermicEnergy"), Main.rand.Next(20, 41));
-			}
-			else if (npc.type == NPCID.Mothron && CalamityWorld.buffedEclipse)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DarksunFragment"), Main.rand.Next(10, 21));
-				CalamityWorld.downedBuffedMothron = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("Astrageldon"))
-			{
-				if (CalamityWorld.checkAstralMeteor())
-				{
-					string key = "Mods.CalamityMod.AstralText";
-					Color messageColor = Color.Gold;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-					CalamityWorld.dropAstralMeteor();
-				}
-				if (!CalamityWorld.downedAstrageldon)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge30"));
-				}
-				CalamityWorld.downedAstrageldon = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("HiveMindP2")) //boss 2
-			{
-				if (!CalamityWorld.downedHiveMind)
-				{
-					if (!CalamityWorld.downedPerforator)
-					{
-						string key = "Mods.CalamityMod.SkyOreText";
-						Color messageColor = Color.Cyan;
-						CalamityWorld.spawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-					}
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge14"));
-				}
-				CalamityWorld.downedHiveMind = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("PerforatorHive")) //boss 3
-			{
-				if (!CalamityWorld.downedPerforator)
-				{
-					if (!CalamityWorld.downedHiveMind)
-					{
-						string key = "Mods.CalamityMod.SkyOreText";
-						Color messageColor = Color.Cyan;
-						CalamityWorld.spawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
-						if (Main.netMode == 0)
-						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-						}
-					}
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge13"));
-				}
-				CalamityWorld.downedPerforator = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("SlimeGodCore") || npc.type == mod.NPCType("SlimeGodSplit") || npc.type == mod.NPCType("SlimeGodRunSplit")) //boss 4
-			{
-				if (npc.type == mod.NPCType("SlimeGodCore") && !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"))
-					&& !NPC.AnyNPCs(mod.NPCType("SlimeGod")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")))
-				{
-					if (!CalamityWorld.downedSlimeGod)
-					{
-						if (revenge && !Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop)
-						{
-							npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("PurifiedJam"), Main.rand.Next(6, 9), true);
-							Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop = true;
-						}
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge15"));
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodTrophy"));
-					}
-					if (CalamityWorld.armageddon)
-					{
-						for (int i = 0; i < 5; i++)
-						{
-							npc.DropBossBags();
-						}
-					}
-					if (Main.expertMode)
-					{
-						npc.DropBossBags();
-					}
-					else
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StaticRefiner"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PurifiedGel"), Main.rand.Next(25, 41));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(180, 251));
-						int maskChoice = Main.rand.Next(2);
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OverloadedBlaster"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GelDart"), Main.rand.Next(80, 101));
-						}
-						if (Main.rand.Next(7) == 0)
-						{
-							if (maskChoice == 0)
-							{
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodMask"));
-							}
-							else
-							{
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodMask2"));
-							}
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AbyssalTome"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EldritchTome"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrimslimeStaff"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CorroslimeStaff"));
-						}
-					}
-					CalamityWorld.downedSlimeGod = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				else if (npc.type == mod.NPCType("SlimeGodSplit") && !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit")) &&
-					NPC.CountNPCS(mod.NPCType("SlimeGodSplit")) < 2 && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")))
-				{
-					if (!CalamityWorld.downedSlimeGod)
-					{
-						if (revenge && !Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop)
-						{
-							npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("PurifiedJam"), Main.rand.Next(6, 9), true);
-							Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop = true;
-						}
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge15"));
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodTrophy"));
-					}
-					if (CalamityWorld.armageddon)
-					{
-						for (int i = 0; i < 5; i++)
-						{
-							npc.DropBossBags();
-						}
-					}
-					if (Main.expertMode)
-					{
-						npc.DropBossBags();
-					}
-					else
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StaticRefiner"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PurifiedGel"), Main.rand.Next(25, 41));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(180, 251));
-						int maskChoice = Main.rand.Next(2);
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OverloadedBlaster"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GelDart"), Main.rand.Next(80, 101));
-						}
-						if (Main.rand.Next(7) == 0)
-						{
-							if (maskChoice == 0)
-							{
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodMask"));
-							}
-							else
-							{
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodMask2"));
-							}
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AbyssalTome"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EldritchTome"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrimslimeStaff"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CorroslimeStaff"));
-						}
-					}
-					CalamityWorld.downedSlimeGod = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				else if (npc.type == mod.NPCType("SlimeGodRunSplit") && !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) &&
-					NPC.CountNPCS(mod.NPCType("SlimeGodRunSplit")) < 2 && !NPC.AnyNPCs(mod.NPCType("SlimeGod")))
-				{
-					if (!CalamityWorld.downedSlimeGod)
-					{
-						if (revenge && !Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop)
-						{
-							npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("PurifiedJam"), Main.rand.Next(6, 9), true);
-							Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).revJamDrop = true;
-						}
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 3);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge15"));
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodTrophy"));
-					}
-					if (CalamityWorld.armageddon)
-					{
-						for (int i = 0; i < 5; i++)
-						{
-							npc.DropBossBags();
-						}
-					}
-					if (Main.expertMode)
-					{
-						npc.DropBossBags();
-					}
-					else
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StaticRefiner"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PurifiedGel"), Main.rand.Next(25, 41));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gel, Main.rand.Next(180, 251));
-						int maskChoice = Main.rand.Next(2);
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("OverloadedBlaster"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GelDart"), Main.rand.Next(80, 101));
-						}
-						if (Main.rand.Next(7) == 0)
-						{
-							if (maskChoice == 0)
-							{
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodMask"));
-							}
-							else
-							{
-								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SlimeGodMask2"));
-							}
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AbyssalTome"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EldritchTome"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrimslimeStaff"));
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CorroslimeStaff"));
-						}
-					}
-					CalamityWorld.downedSlimeGod = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-			}
-			else if (npc.type == mod.NPCType("Cryogen")) //boss 5
-			{
-				if (!CalamityWorld.downedCryogen)
-				{
-					string key = "Mods.CalamityMod.IceOreText";
-					Color messageColor = Color.LightSkyBlue;
-					CalamityWorld.spawnOre(mod.TileType("CryonicOre"), 15E-05, .45f, .65f);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge19"));
-				}
-				CalamityWorld.downedCryogen = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("Leviathan")) //boss 8
-			{
-				int bossType = (npc.type == mod.NPCType("Siren")) ? mod.NPCType("Leviathan") : mod.NPCType("Siren");
-				if (!NPC.AnyNPCs(bossType))
-				{
-					if (!CalamityWorld.downedLeviathan)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge10"));
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge28"));
-					}
-					CalamityWorld.downedLeviathan = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-			}
-			else if (npc.type == mod.NPCType("PlaguebringerGoliath")) //boss 9
-			{
-				if (!CalamityWorld.downedPlaguebringer)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge32"));
-				}
-				CalamityWorld.downedPlaguebringer = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("ProfanedGuardianBoss")) //boss 10
-			{
-				if (!CalamityWorld.downedGuardians)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				}
-				CalamityWorld.downedGuardians = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("Providence")) //boss 11
-			{
-				string key2 = "Mods.CalamityMod.ProfanedBossText3";
-				Color messageColor2 = Color.Orange;
-				string key3 = "Mods.CalamityMod.TreeOreText";
-				Color messageColor3 = Color.LightGreen;
-				if (!CalamityWorld.downedProvidence)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					CalamityWorld.spawnOre(mod.TileType("UelibloomOre"), 15E-05, .4f, .8f);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-						Main.NewText(Language.GetTextValue(key3), messageColor3);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-					}
-				}
-				CalamityWorld.downedProvidence = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("CeaselessVoid")) //boss 12
-			{
-				if (!CalamityWorld.downedSentinel1)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				}
-				CalamityWorld.downedSentinel1 = true; //21600
-				if (CalamityWorld.DoGSecondStageCountdown > 14460)
-				{
-					CalamityWorld.DoGSecondStageCountdown = 14460;
-					if (Main.netMode == 2)
-					{
-						var netMessage = mod.GetPacket();
-						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-						netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-						netMessage.Send();
-					}
-				}
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("StormWeaverHeadNaked")) //boss 13
-			{
-				if (!CalamityWorld.downedSentinel2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				}
-				CalamityWorld.downedSentinel2 = true; //21600
-				if (CalamityWorld.DoGSecondStageCountdown > 7260)
-				{
-					CalamityWorld.DoGSecondStageCountdown = 7260;
-					if (Main.netMode == 2)
-					{
-						var netMessage = mod.GetPacket();
-						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-						netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-						netMessage.Send();
-					}
-				}
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("CosmicWraith")) //boss 14
-			{
-				if (!CalamityWorld.downedSentinel3)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				}
-				CalamityWorld.downedSentinel3 = true; //21600
-				if (CalamityWorld.DoGSecondStageCountdown > 600)
-				{
-					CalamityWorld.DoGSecondStageCountdown = 600;
-					if (Main.netMode == 2)
-					{
-						var netMessage = mod.GetPacket();
-						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-						netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-						netMessage.Send();
-					}
-				}
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("Bumblefuck")) //boss 16
-			{
-				if (!CalamityWorld.downedBumble)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 5);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				}
-				CalamityWorld.downedBumble = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("Yharon")) //boss 17
-			{
-				string key = "Mods.CalamityMod.DargonBossText";
-				Color messageColor = Color.Orange;
-				string key2 = "Mods.CalamityMod.AuricOreText";
-				Color messageColor2 = Color.Gold;
-				if (!CalamityWorld.downedYharon && npc.localAI[2] == 1f)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"), 2);
-					CalamityWorld.spawnOre(mod.TileType("AuricOre"), 2E-05, .6f, .8f);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-					}
-				}
-				if (npc.localAI[2] == 1f)
-				{
-					CalamityWorld.downedYharon = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				if (!CalamityWorld.buffedEclipse && npc.localAI[2] != 2f)
-				{
-					CalamityWorld.buffedEclipse = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-			}
-			else if (npc.type == mod.NPCType("SupremeCalamitas")) //boss 18
-			{
-				if (!CalamityWorld.downedSCal)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"), 2);
-				}
-				CalamityWorld.downedSCal = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("CrabulonIdle")) //boss 19
-			{
-				if (!CalamityWorld.downedCrabulon)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge5"));
-				}
-				CalamityWorld.downedCrabulon = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("ScavengerBody")) //boss 20
-			{
-				if (!CalamityWorld.downedScavenger)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Knowledge33"));
-				}
-				CalamityWorld.downedScavenger = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("Polterghast")) //boss 21
-			{
-				string key = "Mods.CalamityMod.GhostBossText";
-				Color messageColor = Color.RoyalBlue;
-				if (!CalamityWorld.downedPolterghast)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"), 2);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				CalamityWorld.downedPolterghast = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("THELORDE")) //boss 22
-			{
-				CalamityWorld.downedLORDE = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("GiantClam")) //boss 23
-			{
-				CalamityWorld.downedCLAM = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			/*else if (npc.type == mod.NPCType("OldDuke")) //boss 23
-            {
-                CalamityWorld.downedOldDuke = true;
-            }*/
-			if (CalamityWorld.death)
-			{
-				if (npc.type == mod.NPCType("SupremeCalamitas"))
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Levi"));
-				}
-			}
-			#endregion
 		}
 		#endregion
 
@@ -11554,7 +8361,7 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)((double)spawnRate * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 1.75 : 75));
 				maxSpawns = (int)((float)maxSpawns * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 0.625f : 0.005f));
 			}
-			else if (CalamityPlayer.areThereAnyDamnBosses || player.GetModPlayer<CalamityPlayer>(mod).zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f))
+			else if (CalamityPlayer.areThereAnyDamnBosses || player.GetModPlayer<CalamityPlayer>(mod).zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
 			{
 				spawnRate = (int)((double)spawnRate * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 1.5 : 50));
 				maxSpawns = (int)((float)maxSpawns * (player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ? 0.75f : 0.01f));
@@ -11595,6 +8402,22 @@ namespace CalamityMod.NPCs
 		#region Drawing
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
+			if (bBlood)
+			{
+				if (Main.rand.Next(5) < 4)
+				{
+					int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 5, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default(Color), 3f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].velocity *= 1.8f;
+					Main.dust[dust].velocity.Y -= 0.5f;
+					if (Main.rand.Next(4) == 0)
+					{
+						Main.dust[dust].noGravity = false;
+						Main.dust[dust].scale *= 0.5f;
+					}
+				}
+				Lighting.AddLight(npc.position, 0.08f, 0f, 0f);
+			}
 			if (bFlames || enraged)
 			{
 				if (Main.rand.Next(5) < 4)
@@ -11760,7 +8583,7 @@ namespace CalamityMod.NPCs
 		{
 			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).trippy)
 				return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
-			if (enraged)
+			if (enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				return new Color(200, 50, 50, npc.alpha);
 			return null;
 		}
@@ -11857,6 +8680,8 @@ namespace CalamityMod.NPCs
 					string worldEvil = WorldGen.crimson ? "Crimson" : "Corruption";
 					if (Main.rand.Next(15) == 0 && fapsol2 != -1)
 						chat = "Sometimes I catch " + Main.npc[fapsol2].GivenName + " sneaking up from behind me.";
+					if (Main.rand.Next(15) == 0 && fapsol2 != -1)
+						chat = Main.npc[fapsol2].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
 					if (Main.rand.Next(15) == 0 && CalamityWorld.spawnAstralMeteor)
 						chat = "Please don't catch space lice. Or " + worldEvil + " lice. Or just lice in general.";
 					break;
@@ -12039,24 +8864,6 @@ namespace CalamityMod.NPCs
 						nextSlot++;
 					}
 				}
-				if (Main.hardMode)
-				{
-					shop.item[nextSlot].SetDefaults(mod.ItemType("MagnumRounds"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(12, 50, 0, 0);
-					nextSlot++;
-				}
-				if (NPC.downedPlantBoss)
-				{
-					shop.item[nextSlot].SetDefaults(mod.ItemType("GrenadeRounds"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(25, 0, 0, 0);
-					nextSlot++;
-				}
-				if (NPC.downedMoonlord)
-				{
-					shop.item[nextSlot].SetDefaults(mod.ItemType("ExplosiveShells"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(50, 0, 0, 0);
-					nextSlot++;
-				}
 			}
 			if (type == NPCID.Dryad)
 			{
@@ -12168,6 +8975,8 @@ namespace CalamityMod.NPCs
 					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
 					nextSlot++;
 				}
+				shop.item[nextSlot].SetDefaults(mod.ItemType("RomajedaOrchid"));
+				nextSlot++;
 			}
 			if (type == NPCID.GoblinTinkerer)
 			{
@@ -12258,12 +9067,6 @@ namespace CalamityMod.NPCs
 					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
 					nextSlot++;
 				}
-				if (CalamityWorld.downedCalamitas)
-				{
-					shop.item[nextSlot].SetDefaults(mod.ItemType("BlightedEyeball"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
-					nextSlot++;
-				}
 				if (CalamityWorld.downedAstrageldon)
 				{
 					shop.item[nextSlot].SetDefaults(mod.ItemType("AstralChunk"));
@@ -12272,9 +9075,6 @@ namespace CalamityMod.NPCs
 				}
 				if (CalamityWorld.downedStarGod)
 				{
-					shop.item[nextSlot].SetDefaults(mod.ItemType("Starcore"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 30, 0, 0);
-					nextSlot++;
 					shop.item[nextSlot].SetDefaults(ItemID.SpectreStaff);
 					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
 					nextSlot++;
@@ -12333,7 +9133,7 @@ namespace CalamityMod.NPCs
 				if (CalamityWorld.downedBumble)
 				{
 					shop.item[nextSlot].SetDefaults(mod.ItemType("BirbPheromones"));
-					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(20, 0, 0, 0);
+					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 					nextSlot++;
 				}
 			}
@@ -12351,7 +9151,8 @@ namespace CalamityMod.NPCs
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			for (int i = 0; i < 200; i++)
 			{
-				if (Main.npc[i].active && (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == mod.NPCType("SlimeGodRun") ||
+				if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
+					(Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == mod.NPCType("SlimeGodRun") ||
 					Main.npc[i].type == mod.NPCType("SlimeGodRunSplit") || Main.npc[i].type == mod.NPCType("SlimeGod") || Main.npc[i].type == mod.NPCType("SlimeGodSplit")))
 				{
 					return true;
@@ -12411,22 +9212,6 @@ namespace CalamityMod.NPCs
 				{
 					m++;
 				}
-			}
-		}
-		#endregion
-
-		#region DespawnHostileProjectiles
-		public void DespawnProj()
-		{
-			int proj;
-			for (int x = 0; x < 1000; x = proj + 1)
-			{
-				Projectile projectile = Main.projectile[x];
-				if (projectile.active && projectile.hostile && !projectile.friendly && projectile.damage > 0)
-				{
-					projectile.Kill();
-				}
-				proj = x;
 			}
 		}
 		#endregion

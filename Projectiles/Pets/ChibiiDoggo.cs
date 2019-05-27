@@ -69,9 +69,6 @@ namespace CalamityMod.Projectiles.Pets
 				Microsoft.Xna.Framework.Color color26 = color25;
 				color26 = projectile.GetAlpha(color26);	
 				goto IL_6899;
-				Microsoft.Xna.Framework.Color ff3399 = new Microsoft.Xna.Framework.Color(255, 51, 153, 255);
-				color26 = Microsoft.Xna.Framework.Color.Lerp(color26, ff3399, 0.5f);
-				color26.A += (byte)(150);
 				IL_6881:
 				num161 += num158;
 				continue;

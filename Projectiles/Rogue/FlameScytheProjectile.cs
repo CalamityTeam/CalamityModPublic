@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
     	
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 50;
+            projectile.width = 34;
+            projectile.height = 34;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
@@ -66,8 +66,9 @@ namespace CalamityMod.Projectiles.Rogue
 			target.AddBuff(BuffID.Bleeding, 600);
 			if (projectile.owner == Main.myPlayer)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-            }
+				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+			}
         }
     }
 }

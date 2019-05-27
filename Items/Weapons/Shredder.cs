@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons
 		{
 			return true;
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int bulletAmt = 4;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons
 			        float num8 = speedY;
 			        float SpeedX = speedX + (float) Main.rand.Next(-30, 31) * 0.05f;
 			        float SpeedY = speedY + (float) Main.rand.Next(-30, 31) * 0.05f;
-			        int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+			        int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[shot].timeLeft = 180;
                 }
 			    return false;
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons
 			        float num8 = speedY;
 			        float SpeedX = speedX + (float) Main.rand.Next(-30, 31) * 0.05f;
 			        float SpeedY = speedY + (float) Main.rand.Next(-30, 31) * 0.05f;
-			        int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+			        int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[shot].timeLeft = 180;
                 }
 			    return false;

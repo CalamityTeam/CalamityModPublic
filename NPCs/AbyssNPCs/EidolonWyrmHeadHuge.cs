@@ -477,6 +477,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
 		}
 
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+			return true;
+		}
+
 		public override bool? CanBeHitByProjectile(Projectile projectile)
 		{
 			if (projectile.minion)

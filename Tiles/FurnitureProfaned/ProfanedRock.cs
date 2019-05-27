@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			soundType = 21;
-			mineResist = 15f;
+			mineResist = 10f;
 			minPick = 225;
 			drop = mod.ItemType("ProfanedRock");
 			AddMapEntry(new Color(84, 38, 33));
@@ -122,6 +122,10 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
+			if (!Lighting.NotRetro)
+			{
+				return;
+			}
 			int xPos = Main.tile[i, j].frameX;
 			int yPos = Main.tile[i, j].frameY;
 			int xOffset = 0;

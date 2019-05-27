@@ -48,7 +48,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-                npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
             }
             npc.behindTiles = true;
 			npc.noGravity = true;

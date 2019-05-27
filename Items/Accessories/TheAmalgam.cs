@@ -97,8 +97,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("PoisonousSeawater"), 500, 5f, player.whoAmI, 0f, 0f);
-                    Main.projectile[projectile1].timeLeft = 10;
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("PoisonousSeawater"), 500, 5f, player.whoAmI, 0f, 0f);
                 }
             }
             if (player.immune)

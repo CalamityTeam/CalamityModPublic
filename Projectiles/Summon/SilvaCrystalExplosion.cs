@@ -218,7 +218,9 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Center = projectile.position;
                 projectile.penetrate = -1;
                 projectile.maxPenetrate = -1;
-                projectile.Damage();
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
+				projectile.Damage();
                 projectile.penetrate = num75;
                 projectile.position = projectile.Center;
                 projectile.width = width;

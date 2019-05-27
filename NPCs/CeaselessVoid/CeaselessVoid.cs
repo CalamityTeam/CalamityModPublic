@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items;
 using CalamityMod.Projectiles;
 
 namespace CalamityMod.NPCs.CeaselessVoid
@@ -16,7 +17,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		private float bossLife;
 		private float beamPortal = 0f;
 		private float shootBoost = 0;
-		private float passedVar = 1f;
 
 		public override void SetStaticDefaults()
 		{
@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				{
 					beamPortal += 4f;
 				}
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					beamPortal += 2f;
 				}
@@ -159,13 +159,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 						double offsetAngle;
 						int damage = expertMode ? 42 : 58;
 						int i;
+						float passedVar = 1f;
 						for (i = 0; i < 4; i++)
 						{
 							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), mod.ProjectileType("DarkEnergyBall"), damage, 0f, Main.myPlayer, passedVar, 0f);
 							passedVar += 1f;
 						}
-						passedVar = 1f;
 					}
 				}
 			}
@@ -259,7 +259,14 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				}
 				if (Main.rand.Next(5) == 0)
 				{
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("ArcanumoftheVoid"), 1, true);
+					if (Main.rand.Next(8) == 0)
+					{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheEvolution"));
+					}
+					else
+					{
+						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("ArcanumoftheVoid"), 1, true);
+					}
 				}
 			}
 		}

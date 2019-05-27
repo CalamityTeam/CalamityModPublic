@@ -13,14 +13,14 @@ namespace CalamityMod.NPCs.Calamitas
 	[AutoloadBossHead]
 	public class CalamitasRun2 : ModNPC
 	{
-        public bool canDespawn = false;
+		public bool canDespawn = false;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Catastrophe");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 65;
@@ -29,14 +29,14 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.height = 120; //216
 			npc.defense = 10;
 			npc.alpha = 25;
-            npc.value = 0f;
-            npc.lifeMax = CalamityWorld.revenge ? 3675 : 2500;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 4400;
-            }
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.value = 0f;
+			npc.lifeMax = CalamityWorld.revenge ? 3675 : 2500;
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 4400;
+			}
+			npc.aiStyle = -1; //new
+			aiType = -1; //new
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -44,50 +44,52 @@ namespace CalamityMod.NPCs.Calamitas
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
-                npc.buffImmune[k] = true;
-                npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[BuffID.Daybreak] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("HolyLight")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Plague")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
-                npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-                npc.buffImmune[mod.BuffType("SilvaStun")] = false;
-            }
+				npc.buffImmune[k] = true;
+			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Plague")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
-            else
-                music = MusicID.Boss2;
-            if (CalamityWorld.downedProvidence)
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			if (calamityModMusic != null)
+				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
+			else
+				music = MusicID.Boss2;
+			if (CalamityWorld.downedProvidence)
 			{
 				npc.damage = 200;
 				npc.defense = 95;
 				npc.lifeMax = 30000;
 			}
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 800000 : 700000;
-            }
-        }
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 800000 : 700000;
+			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
 
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
-        }
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter += 0.15f;
+			npc.frameCounter %= Main.npcFrameCount[npc.type];
+			int frame = (int)npc.frameCounter;
+			npc.frame.Y = frame * frameHeight;
+		}
 
-        public override void AI()
+		public override void AI()
 		{
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -155,8 +157,8 @@ namespace CalamityMod.NPCs.Calamitas
 				if (!player.active || player.dead || (dayTime && !Main.eclipse))
 				{
 					npc.velocity = new Vector2(0f, -10f);
-                    canDespawn = true;
-                    if (npc.timeLeft > 150)
+					canDespawn = true;
+					if (npc.timeLeft > 150)
 					{
 						npc.timeLeft = 150;
 					}
@@ -165,8 +167,8 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			else
 			{
-                canDespawn = false;
-            }
+				canDespawn = false;
+			}
 			if (npc.ai[1] == 0f)
 			{
 				float num861 = 4f;
@@ -242,7 +244,7 @@ namespace CalamityMod.NPCs.Calamitas
 						npc.velocity.Y = npc.velocity.Y - num862;
 					}
 				}
-				npc.ai[2] += (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 2f : 1f);
+				npc.ai[2] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
 				if (npc.ai[2] >= 200f)
 				{
 					npc.ai[1] = 1f;
@@ -251,8 +253,8 @@ namespace CalamityMod.NPCs.Calamitas
 					npc.target = 255;
 					npc.netUpdate = true;
 				}
-                bool fireDelay = npc.ai[2] > 120f || (double)npc.life < (double)npc.lifeMax * 0.9;
-                if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && fireDelay)
+				bool fireDelay = npc.ai[2] > 120f || (double)npc.life < (double)npc.lifeMax * 0.9;
+				if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && fireDelay)
 				{
 					npc.localAI[2] += 1f;
 					if (npc.localAI[2] > 22f)
@@ -315,10 +317,10 @@ namespace CalamityMod.NPCs.Calamitas
 					{
 						num870 += 1f;
 					}
-                    if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
-                    {
-                        num870 += 4f;
-                    }
+					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					{
+						num870 += 4f;
+					}
 					Vector2 vector87 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num871 = player.position.X + (float)(player.width / 2) - vector87.X;
 					float num872 = player.position.Y + (float)(player.height / 2) - vector87.Y;
@@ -397,10 +399,10 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					goto IL_6899;
 				}
-				IL_6881:
+			IL_6881:
 				num161 += num158;
 				continue;
-				IL_6899:
+			IL_6899:
 				float num164 = (float)(num157 - num161);
 				if (num158 < 0)
 				{
@@ -418,11 +420,11 @@ namespace CalamityMod.NPCs.Calamitas
 		}
 
 		public override bool CheckActive()
-        {
-            return canDespawn;
-        }
+		{
+			return canDespawn;
+		}
 
-        public override void NPCLoot()
+		public override void NPCLoot()
 		{
 			if (Main.rand.Next(10) == 0)
 			{
@@ -437,7 +439,7 @@ namespace CalamityMod.NPCs.Calamitas
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrushsawCrasher"));
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -477,7 +479,7 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)

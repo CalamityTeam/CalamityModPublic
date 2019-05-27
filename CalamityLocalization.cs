@@ -82,7 +82,6 @@ namespace CalamityMod
 				new [] { "BloodMoonText", "The Blood Moon is rising..." },
 				new [] { "DargonBossText", "The dark sun awaits." },
 				new [] { "DargonBossText2", "My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power." },
-				new [] { "DargonBossText3", "My dragon deems you an unworthy opponent. Snuff out the profaned flame and destroy the god devourer to witness his true power." },
 				new [] { "RevengeText", "Revengeance is active." },
 				new [] { "RevengeText2", "Revengeance is not active." },
 				new [] { "DeathText", "Death is active, enjoy the fun." },
@@ -113,7 +112,8 @@ namespace CalamityMod
 				new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
 				new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
 				new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
-				new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." }
+				new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
+				new [] { "AprilFools", "The LORDE is approaching..." }
 			};
 		}
 

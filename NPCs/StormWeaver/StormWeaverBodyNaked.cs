@@ -45,7 +45,9 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.lifeMax = 2300000;
             }
-            npc.aiStyle = 6; //new
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -63,7 +65,6 @@ namespace CalamityMod.NPCs.StormWeaver
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
 			}
             npc.dontCountMe = true;
 		}

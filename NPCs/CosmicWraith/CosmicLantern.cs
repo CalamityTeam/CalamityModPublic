@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		{
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.damage = 100;
+			npc.damage = 110;
 			npc.width = 25; //324
 			npc.height = 25; //216
 			npc.defense = 85;
@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		public override void AI()
 		{
             npc.alpha -= 3;
-            if (npc.alpha <= 0)
+            if (npc.alpha < 0)
             {
                 npc.alpha = 0;
                 int num1262 = Dust.NewDust(npc.position, npc.width, npc.height, 204, 0f, 0f, 0, default(Color), 0.25f);
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 			npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 0;
-			return true;
+			return npc.alpha == 0;
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Horned Mask");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased magic damage and critical strike chance");
+                "10% increased magic damage and critical strike chance and +100 max mana");
         }
 
         public override void SetDefaults()
@@ -58,7 +58,8 @@ namespace CalamityMod.Items.Armor
 			player.ignoreWater = true;
             player.magicDamage += 0.1f;
             player.magicCrit += 10;
-        }
+			player.statManaMax2 += 100;
+		}
 
         public override void AddRecipes()
         {

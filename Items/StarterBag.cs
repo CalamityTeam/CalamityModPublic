@@ -32,8 +32,7 @@ namespace CalamityMod.Items
             player.QuickSpawnItem(ItemID.WoodenArrow, 100);
             player.QuickSpawnItem(ItemID.AmethystStaff); //mage needs
 			player.QuickSpawnItem(ItemID.ManaCrystal);
-			player.QuickSpawnItem(ItemID.Shuriken, 75); //throwing needs
-            player.QuickSpawnItem(ItemID.ThrowingKnife, 75);
+            player.QuickSpawnItem(mod.ItemType("WulfrumKnife"), 150);
             player.QuickSpawnItem(ItemID.SlimeStaff); //summoner needs
             player.QuickSpawnItem(ItemID.CopperHammer); //tool needs
             player.QuickSpawnItem(ItemID.MiningPotion); //mining needs

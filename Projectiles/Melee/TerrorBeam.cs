@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TerrorBeam : ModProjectile
     {
+		private bool hasHitEnemy = false;
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beam");
@@ -56,8 +58,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer)
+            if (projectile.owner == Main.myPlayer && !hasHitEnemy)
             {
+				hasHitEnemy = true;
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("TerrorBoom"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
@@ -75,7 +78,6 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.alpha = 0;
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-			return;
         }
         
         public override Color? GetAlpha(Color lightColor)

@@ -32,10 +32,10 @@ namespace CalamityMod.NPCs.TownNPCs
 			npc.aiStyle = 7;
 			npc.damage = 10;
 			npc.defense = 15;
-			npc.lifeMax = 250;
+			npc.lifeMax = 20000;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
-			npc.knockBackResist = 0.5f;
+			npc.knockBackResist = 0.8f;
 			animationType = NPCID.Guide;
 		}
 

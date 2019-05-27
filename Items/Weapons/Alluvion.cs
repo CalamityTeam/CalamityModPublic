@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 45;
+	        item.damage = 90;
 	        item.ranged = true;
 	        item.width = 44;
 	        item.height = 58;
@@ -72,12 +73,13 @@ namespace CalamityMod.Items.Weapons
                     {
                         type = mod.ProjectileType("TyphoonArrow");
                     }
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
-                    Main.projectile[num121].noDropItem = true;
+                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+					Main.projectile[num121].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+					Main.projectile[num121].noDropItem = true;
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[num121].noDropItem = true;
                 }
 			}

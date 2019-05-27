@@ -19,7 +19,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 48;
-            item.damage = 180;
+            item.damage = 360;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -35,7 +35,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 9;
             item.shoot = mod.ProjectileType("XerocPitchforkProjectile");
             item.shootSpeed = 16f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+		}
 
         public override void AddRecipes()
         {

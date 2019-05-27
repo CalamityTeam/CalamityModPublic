@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor
             DisplayName.SetDefault("Bloodflare Body Armor");
             Tooltip.SetDefault("12% increased damage and 8% increased critical strike chance\n" +
                        "You regenerate life quickly and gain +30 defense while in lava\n" +
-                       "+40 max life and mana");
+                       "+40 max life");
         }
 
         public override void SetDefaults()
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 40;
-            player.statManaMax2 += 40;
             player.meleeDamage += 0.12f;
             player.meleeCrit += 8;
             player.magicDamage += 0.12f;

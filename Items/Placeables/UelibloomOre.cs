@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Placeables
             item.width = 10;
             item.height = 10;
             item.maxStack = 999;
+			item.rare = 10;
 			item.value = Item.buyPrice(0, 0, 10, 0);
 		}
 

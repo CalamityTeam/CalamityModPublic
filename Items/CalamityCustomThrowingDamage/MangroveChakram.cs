@@ -32,6 +32,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 7;
 			item.shoot = mod.ProjectileType("MangroveChakramProjectile");
 			item.shootSpeed = 15.5f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 		
 		public override void AddRecipes()

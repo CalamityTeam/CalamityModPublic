@@ -14,7 +14,6 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scourge of the Desert");
-            Tooltip.SetDefault("Revengeance drop");
         }
 
 		public override void SafeSetDefaults()
@@ -34,6 +33,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 2;
 			item.shoot = mod.ProjectileType("ScourgeoftheDesert");
 			item.shootSpeed = 12f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 	}
 }

@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Cryogen
 		public override void AI()
 		{
 			npc.alpha -= 3;
-			if (npc.alpha <= 0)
+			if (npc.alpha < 0)
 			{
 				npc.alpha = 0;
 			}
@@ -63,7 +63,12 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 		}
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			return npc.alpha == 0;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Frostburn, 90, true);
             player.AddBuff(BuffID.Chilled, 60, true);

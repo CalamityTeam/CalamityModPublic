@@ -7,33 +7,33 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class IceStarProjectile : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class IceStarProjectile : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.aiStyle = 2;
-            projectile.timeLeft = 280;
-            aiType = 48;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 32;
+			projectile.height = 32;
+			projectile.friendly = true;
+			projectile.penetrate = -1;
+			projectile.aiStyle = 2;
+			projectile.timeLeft = 280;
+			aiType = 48;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
-        public override void AI()
-        {
-        	projectile.rotation += 0.5f;
-            if (Main.rand.Next(3) == 0)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-            float num472 = projectile.Center.X;
+
+		public override void AI()
+		{
+			projectile.rotation += 0.5f;
+			if (Main.rand.Next(3) == 0)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			}
+			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 400f;
 			bool flag17 = false;
@@ -65,24 +65,23 @@ namespace CalamityMod.Projectiles.Rogue
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
-        	for (int k = 0; k < 5; k++)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
-        }
-    }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			for (int k = 0; k < 5; k++)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+			}
+		}
+	}
 }

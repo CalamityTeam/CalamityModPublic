@@ -54,7 +54,9 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.lifeMax = 170000;
             }
-            npc.aiStyle = 6; //new
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -266,6 +268,11 @@ namespace CalamityMod.NPCs.StormWeaver
 			{
 				num188 = revenge ? 14f : 13f;
 				num189 = revenge ? 0.44f : 0.4f;
+				if (!Main.player[npc.target].ZoneSkyHeight)
+				{
+					num188 = 20f;
+					num189 = 0.5f;
+				}
 			}
 			float num48 = num188 * 1.3f;
 			float num49 = num188 * 0.7f;

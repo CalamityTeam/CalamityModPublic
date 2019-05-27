@@ -46,7 +46,9 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
             }
-            npc.aiStyle = 6; //new
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -56,7 +58,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-                npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
             }
 			npc.behindTiles = true;
 			npc.noGravity = true;
@@ -86,7 +87,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 speedMult = 1.6f;
             }
-            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 speedMult = 2f;
             }
@@ -179,7 +180,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			{
 				npc.localAI[1] = 1f;
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-				int num954 = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 500 : 1000);
+				int num954 = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000);
 				bool flag95 = true;
 				if (npc.position.Y > player.position.Y)
 				{

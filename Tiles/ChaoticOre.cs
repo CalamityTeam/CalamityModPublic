@@ -13,6 +13,7 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
+			Main.tileValue[Type] = 750;
 			dustType = 105;
 			drop = mod.ItemType("ChaoticOre");
 			ModTranslation name = CreateMapEntryName();
@@ -22,11 +23,6 @@ namespace CalamityMod.Tiles
 			minPick = 209;
 			soundType = 21;
 		}
-
-        public override void RandomUpdate(int i, int j)
-        {
-            Main.tileValue[Type] = (short)(Main.hardMode ? 750 : 0);
-        }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {

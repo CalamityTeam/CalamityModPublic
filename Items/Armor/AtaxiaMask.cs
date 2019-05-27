@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Ataxia Mask");
             Tooltip.SetDefault("12% increased magic damage, reduces mana usage by 10%, and 10% increased magic critical strike chance\n" +
-                "+100 Max Mana\n" +
+                "+100 max mana\n" +
                 "Temporary immunity to lava and immunity to fire damage");
         }
 

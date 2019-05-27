@@ -49,6 +49,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.lifeMax = CalamityWorld.death ? 420000 : 360000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
@@ -157,10 +159,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.TargetClosest(true);
 			}
 			npc.velocity.Length();
-			float speedMult = expertMode ? 2f : 1.8f;
+			float speedMult = expertMode ? 1.8f : 1.6f;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
             {
-                speedMult = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 2.8f : 2.5f);
+                speedMult = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2.8f : 2.5f);
             }
 			float life = (float)npc.life;
 			float totalLife = (float)npc.lifeMax;
@@ -260,7 +262,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.localAI[1] = 1f;
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int rectX = 300;
-                int rectY = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 100 : 200);
+                int rectY = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 100 : 200);
                 bool flag95 = true;
 				if (npc.position.Y > Main.player[npc.target].position.Y)
 				{

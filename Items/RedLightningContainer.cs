@@ -29,7 +29,8 @@ namespace CalamityMod.Items
 			item.useStyle = 4;
 			item.UseSound = SoundID.Item122;
 			item.consumable = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.rare = 10;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
 
         public override bool CanUseItem(Player player)

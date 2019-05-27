@@ -66,6 +66,7 @@ namespace CalamityMod
 		public static List<int> projectileMinionList;
 		public static List<int> enemyImmunityList;
 		public static List<int> dungeonEnemyBuffList;
+		public static List<int> dungeonProjectileBuffList;
 		public static List<int> bossScaleList;
 		public static List<int> beeEnemyList;
 		public static List<int> beeProjectileList;
@@ -90,6 +91,8 @@ namespace CalamityMod
 		public static List<int> revengeanceProjectileBuffList;
 		public static List<int> trapProjectileList;
 		public static List<int> scopedWeaponList;
+		public static List<int> trueMeleeBoostExceptionList;
+		public static List<int> skeletonList;
 
 		public static CalamityMod Instance;
 
@@ -212,6 +215,7 @@ namespace CalamityMod
 			projectileMinionList = null;
 			enemyImmunityList = null;
 			dungeonEnemyBuffList = null;
+			dungeonProjectileBuffList = null;
 			bossScaleList = null;
 			beeEnemyList = null;
 			beeProjectileList = null;
@@ -235,6 +239,8 @@ namespace CalamityMod
 			revengeanceProjectileBuffList = null;
 			trapProjectileList = null;
 			scopedWeaponList = null;
+			trueMeleeBoostExceptionList = null;
+			skeletonList = null;
 
 			BossHealthBarManager.Unload();
 			base.Unload();
@@ -304,7 +310,35 @@ namespace CalamityMod
 					"Jenonen",
 					"Dodu",
 					"Arti",
-					"Tervastator"
+					"Tervastator",
+					"Luis Arguello",
+					"Alexander Davis",
+					"BakaQing",
+					"Laura Coonrod",
+					"Xaphlactus",
+					"MajinBagel",
+					"Bendy",
+					"Rando Calrissian",
+					"Tails the Fox 92",
+					"Bread",
+					"Minty Candy",
+					"Preston Card",
+					"MovingTarget_086",
+					"Shiro",
+					"Chip",
+					"Taylor Riverpaw",
+					"ShotgunAngel",
+					"Sandblast",
+					"ThomasThePencil",
+					"Aero (Aero#4599)",
+					"GlitchOut",
+					"Daawnz",
+					"CrabBar",
+					"Yatagarasu",
+					"Jarod Isaac Gordon",
+					"Zombieh",
+					"MingWhy",
+					"Random Weeb"
 				};
 
 				rangedProjectileExceptionList = new List<int>()
@@ -313,6 +347,7 @@ namespace CalamityMod
 					ProjectileID.VortexBeater,
 					ProjectileID.DD2PhoenixBow,
 					ProjectileID.IchorDart,
+					ProjectileID.PhantasmArrow,
 					calamity.ProjectileType("Phangasm"),
 					calamity.ProjectileType("Contagion"),
 					calamity.ProjectileType("DaemonsFlame"),
@@ -323,7 +358,10 @@ namespace CalamityMod
 					calamity.ProjectileType("StarfleetMK2"),
 					calamity.ProjectileType("TerraBulletSplit"),
 					calamity.ProjectileType("TerraArrow2"),
-					calamity.ProjectileType("OMGWTH")
+					calamity.ProjectileType("OMGWTH"),
+					calamity.ProjectileType("Norfleet"),
+					calamity.ProjectileType("NorfleetComet"),
+					calamity.ProjectileType("NorfleetExplosion")
 				};
 
 				projectileMinionList = new List<int>()
@@ -352,7 +390,16 @@ namespace CalamityMod
 
 				enemyImmunityList = new List<int>()
 				{
+					NPCID.KingSlime,
+					NPCID.EaterofWorldsHead,
+					NPCID.EaterofWorldsBody,
+					NPCID.EaterofWorldsTail,
+					NPCID.BrainofCthulhu,
+					NPCID.Creeper,
+					NPCID.EyeofCthulhu,
 					NPCID.QueenBee,
+					NPCID.SkeletronHead,
+					NPCID.SkeletronHand,
 					NPCID.WallofFlesh,
 					NPCID.WallofFleshEye,
 					NPCID.Retinazer,
@@ -405,6 +452,19 @@ namespace CalamityMod
 					NPCID.RustyArmoredBonesSword,
 					NPCID.RustyArmoredBonesFlail,
 					NPCID.RustyArmoredBonesAxe
+				};
+
+				dungeonProjectileBuffList = new List<int>()
+				{
+					ProjectileID.PaladinsHammerHostile,
+					ProjectileID.ShadowBeamHostile,
+					ProjectileID.InfernoHostileBolt,
+					ProjectileID.InfernoHostileBlast,
+					ProjectileID.LostSoulHostile,
+					ProjectileID.SniperBullet,
+					ProjectileID.RocketSkeleton,
+					ProjectileID.BulletDeadeye,
+					ProjectileID.Shadowflames
 				};
 
 				bossScaleList = new List<int>()
@@ -744,7 +804,6 @@ namespace CalamityMod
 
 				sixtySixDamageBuffList = new List<int>()
 				{
-					ItemID.TerraBlade,
 					ItemID.TrueNightsEdge,
 					ItemID.WandofSparking,
 					ItemID.MedusaHead,
@@ -769,6 +828,7 @@ namespace CalamityMod
 
 				thirtyThreeDamageBuffList = new List<int>()
 				{
+					ItemID.TerraBlade,
 					ItemID.CrystalVileShard,
 					ItemID.SoulDrain,
 					ItemID.ClingerStaff,
@@ -783,7 +843,8 @@ namespace CalamityMod
 					ItemID.YellowPhasesaber,
 					ItemID.PurplePhasesaber,
 					ItemID.TheRottedFork,
-					ItemID.VampireKnives
+					ItemID.VampireKnives,
+					ItemID.Cascade
 				};
 
 				twentyFiveDamageBuffList = new List<int>()
@@ -838,6 +899,7 @@ namespace CalamityMod
 					NPCID.MourningWood,
 					NPCID.Splinterling,
 					NPCID.Pumpking,
+					NPCID.PumpkingBlade,
 					NPCID.Hellhound,
 					NPCID.Poltergeist
 				};
@@ -1146,7 +1208,6 @@ namespace CalamityMod
 					calamity.ProjectileType("SirenSong"),
 					calamity.ProjectileType("YharonFireball"),
 					calamity.ProjectileType("YharonFireball2"),
-					calamity.ProjectileType("YharonFireballHoming"),
 					calamity.ProjectileType("PearlBurst"),
 					calamity.ProjectileType("PearlRain")
 				};
@@ -1167,7 +1228,87 @@ namespace CalamityMod
 					calamity.ItemType("AMR"),
 					calamity.ItemType("Shroomer"),
 					calamity.ItemType("SpectreRifle"),
-					calamity.ItemType("Svantechnical")
+					calamity.ItemType("Svantechnical"),
+					calamity.ItemType("Skullmasher")
+				};
+
+				trueMeleeBoostExceptionList = new List<int>()
+				{
+					ItemID.FlowerPow,
+					ItemID.Flairon,
+					ItemID.ChlorophytePartisan,
+					ItemID.MushroomSpear,
+					ItemID.NorthPole,
+					ItemID.WoodYoyo,
+					ItemID.CorruptYoyo,
+					ItemID.CrimsonYoyo,
+					ItemID.JungleYoyo,
+					ItemID.Cascade,
+					ItemID.Chik,
+					ItemID.Code2,
+					ItemID.Rally,
+					ItemID.Yelets,
+					ItemID.RedsYoyo,
+					ItemID.ValkyrieYoyo,
+					ItemID.Amarok,
+					ItemID.HelFire,
+					ItemID.Kraken,
+					ItemID.TheEyeOfCthulhu,
+					ItemID.FormatC,
+					ItemID.Gradient,
+					ItemID.Valor,
+					ItemID.Terrarian,
+					calamity.ItemType("BallOFugu"),
+					calamity.ItemType("TyphonsGreed"),
+					calamity.ItemType("AmidiasTrident"),
+					calamity.ItemType("HellionFlowerSpear"),
+					calamity.ItemType("StarnightLance"),
+					calamity.ItemType("TerraLance"),
+					calamity.ItemType("BansheeHook"),
+					calamity.ItemType("SpatialLance"),
+					calamity.ItemType("StreamGouge"),
+					calamity.ItemType("AirSpinner"),
+					calamity.ItemType("Aorta"),
+					calamity.ItemType("Azathoth"),
+					calamity.ItemType("Chaotrix"),
+					calamity.ItemType("Cnidarian"),
+					calamity.ItemType("Lacerator"),
+					calamity.ItemType("Quagmire"),
+					calamity.ItemType("Shimmerspark"),
+					calamity.ItemType("SolarFlare"),
+					calamity.ItemType("TheEyeofCalamitas"),
+					calamity.ItemType("TheGodsGambit"),
+					calamity.ItemType("TheObliterator"),
+					calamity.ItemType("ThePlaguebringer"),
+					calamity.ItemType("Verdant"),
+					calamity.ItemType("YinYo")
+				};
+
+				skeletonList = new List<int>()
+				{
+					NPCID.BigPantlessSkeleton,
+					NPCID.SmallPantlessSkeleton,
+					NPCID.BigMisassembledSkeleton,
+					NPCID.SmallMisassembledSkeleton,
+					NPCID.BigHeadacheSkeleton,
+					NPCID.SmallHeadacheSkeleton,
+					NPCID.BigSkeleton,
+					NPCID.SmallSkeleton,
+					NPCID.HeavySkeleton,
+					NPCID.Skeleton,
+					NPCID.ArmoredSkeleton,
+					NPCID.SkeletonArcher,
+					NPCID.HeadacheSkeleton,
+					NPCID.MisassembledSkeleton,
+					NPCID.PantlessSkeleton,
+					NPCID.SkeletonTopHat,
+					NPCID.SkeletonAstonaut,
+					NPCID.SkeletonAlien,
+					NPCID.BoneThrowingSkeleton,
+					NPCID.BoneThrowingSkeleton2,
+					NPCID.BoneThrowingSkeleton3,
+					NPCID.BoneThrowingSkeleton4,
+					NPCID.GreekSkeleton
 				};
 			}
 		}
@@ -1181,14 +1322,6 @@ namespace CalamityMod
 			{
 				if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
 				{
-					if (NPC.AnyNPCs(NPCID.CultistBoss))
-					{
-						if (calamityModMusic != null)
-							music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Doomsayer");
-						else
-							music = MusicID.Boss4;
-						priority = MusicPriority.BossMedium;
-					}
 					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneCalamity)
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
@@ -1837,6 +1970,9 @@ namespace CalamityMod
 					int type = reader.ReadInt32();
 					CalamityWorld.bossType = type;
 					break;
+				case CalamityModMessageType.DeathCountSync:
+					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleDeathCount(reader);
+					break;
 				default:
 					ErrorLogger.Log("CalamityMod: Unknown Message type: " + msgType);
 					break;
@@ -1871,6 +2007,7 @@ namespace CalamityMod
 		BossRushStage,
 		DoGCountdownSync,
 		BossSpawnCountdownSync,
-		BossTypeSync
+		BossTypeSync,
+		DeathCountSync
 	}
 }

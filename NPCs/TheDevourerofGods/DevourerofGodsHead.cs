@@ -19,19 +19,19 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 	[AutoloadBossHead]
 	public class DevourerofGodsHead : ModNPC
 	{
-        private bool tail = false;
-        private const int minLength = 100;
-        private const int maxLength = 101;
-        private bool halfLife = false;
-        private bool halfLife2 = false;
-        private int spawnDoGCountdown = 0;
-        private float phaseSwitch = 0f;
-		
+		private bool tail = false;
+		private const int minLength = 100;
+		private const int maxLength = 101;
+		private bool halfLife = false;
+		private bool halfLife2 = false;
+		private int spawnDoGCountdown = 0;
+		private float phaseSwitch = 0f;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Devourer of Gods");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 250; //150
@@ -39,15 +39,17 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 64; //324
 			npc.height = 76; //216
 			npc.defense = 0;
-            npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000; //1000000 960000
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 850000;
-            }
-            npc.takenDamageMultiplier = 1.25f;
+			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000; //1000000 960000
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 850000;
+			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.takenDamageMultiplier = 1.25f;
 			npc.aiStyle = 6; //new
-            aiType = -1; //new
-            animationType = 10; //new
+			aiType = -1; //new
+			animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.scale = 1.4f;
 			npc.boss = true;
@@ -56,41 +58,41 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-            npc.netAlways = true;
+			npc.HitSound = SoundID.NPCHit4;
+			npc.DeathSound = SoundID.NPCDeath14;
+			npc.netAlways = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
 			}
-            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-            if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
-            else
-                music = MusicID.Boss3;
-            if (Main.expertMode)
+			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+			if (calamityModMusic != null)
+				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
+			else
+				music = MusicID.Boss3;
+			if (Main.expertMode)
 			{
 				npc.scale = 1.5f;
 			}
 		}
-		
+
 		public override void AI()
 		{
-            CalamityGlobalNPC.DoGHead = npc.whoAmI;
-            float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
+			CalamityGlobalNPC.DoGHead = npc.whoAmI;
+			float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
 			if (playerRunAcceleration <= 1f)
 			{
 				playerRunAcceleration = 1f;
 			}
-            if (Main.raining)
-            {
-                Main.raining = false;
-                if (Main.netMode == 2)
-                {
-                    NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                }
-            }
-            Vector2 vector = npc.Center;
+			if (Main.raining)
+			{
+				Main.raining = false;
+				if (Main.netMode == 2)
+				{
+					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+				}
+			}
+			Vector2 vector = npc.Center;
 			bool flies = npc.ai[2] == 0f;
 			bool expertMode = Main.expertMode;
 			bool speedBoost1 = (double)npc.life <= (double)npc.lifeMax * 0.8; //speed increase
@@ -123,32 +125,32 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					spawnDoGCountdown--;
 					if (spawnDoGCountdown == 0 && Main.netMode != 1)
 					{
-                        for (int i = 0; i < 2; i++)
-                        {
-                            NPC.SpawnOnPlayer(npc.FindClosestPlayer(), mod.NPCType("DevourerofGodsHead2"));
-                        }
+						for (int i = 0; i < 2; i++)
+						{
+							NPC.SpawnOnPlayer(npc.FindClosestPlayer(), mod.NPCType("DevourerofGodsHead2"));
+						}
 					}
 				}
 			}
-            else if (speedBoost2)
-            {
-                if (!halfLife2)
-                {
-                    if (CalamityWorld.revenge)
-                    {
-                        spawnDoGCountdown = 10;
-                    }
-                    halfLife2 = true;
-                }
-                if (spawnDoGCountdown > 0)
-                {
-                    spawnDoGCountdown--;
-                    if (spawnDoGCountdown == 0 && Main.netMode != 1)
-                    {
-                        NPC.SpawnOnPlayer(npc.FindClosestPlayer(), mod.NPCType("DevourerofGodsHead2"));
-                    }
-                }
-            }
+			else if (speedBoost2)
+			{
+				if (!halfLife2)
+				{
+					if (CalamityWorld.revenge)
+					{
+						spawnDoGCountdown = 10;
+					}
+					halfLife2 = true;
+				}
+				if (spawnDoGCountdown > 0)
+				{
+					spawnDoGCountdown--;
+					if (spawnDoGCountdown == 0 && Main.netMode != 1)
+					{
+						NPC.SpawnOnPlayer(npc.FindClosestPlayer(), mod.NPCType("DevourerofGodsHead2"));
+					}
+				}
+			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 			if (npc.ai[3] > 0f)
 			{
@@ -174,35 +176,35 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				npc.alpha = 0;
 			}
 			if (Main.netMode != 1)
-            {
-	            if (!tail && npc.ai[0] == 0f)
+			{
+				if (!tail && npc.ai[0] == 0f)
 				{
-                    int Previous = npc.whoAmI;
+					int Previous = npc.whoAmI;
 					for (int segmentSpawn = 0; segmentSpawn < maxLength; segmentSpawn++)
-	                {
-	                    int segment = 0;
-	                    if (segmentSpawn >= 0 && segmentSpawn < minLength)
-	                    {
-	                        segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsBody"), npc.whoAmI);
-	                    }
-	                    else
-	                    {
-	                        segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsTail"), npc.whoAmI);
-	                    }
-	                    Main.npc[segment].realLife = npc.whoAmI;
-	                    Main.npc[segment].ai[2] = (float)npc.whoAmI;
-	                    Main.npc[segment].ai[1] = (float)Previous;
-	                    Main.npc[Previous].ai[0] = (float)segment;
+					{
+						int segment = 0;
+						if (segmentSpawn >= 0 && segmentSpawn < minLength)
+						{
+							segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsBody"), npc.whoAmI);
+						}
+						else
+						{
+							segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsTail"), npc.whoAmI);
+						}
+						Main.npc[segment].realLife = npc.whoAmI;
+						Main.npc[segment].ai[2] = (float)npc.whoAmI;
+						Main.npc[segment].ai[1] = (float)Previous;
+						Main.npc[Previous].ai[0] = (float)segment;
 						npc.netUpdate = true;
 						Previous = segment;
 					}
 					tail = true;
-	            }
-                if (!npc.active && Main.netMode == 2)
+				}
+				if (!npc.active && Main.netMode == 2)
 				{
 					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 				}
-            }
+			}
 			if (Main.player[npc.target].dead)
 			{
 				flies = false;
@@ -213,12 +215,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 				if ((double)npc.position.Y > Main.rockLayer * 16.0)
 				{
-                    for (int a = 0; a < 200; a++)
+					for (int a = 0; a < 200; a++)
 					{
 						if (Main.npc[a].aiStyle == npc.aiStyle)
 						{
 							Main.npc[a].active = false;
-                        }
+						}
 					}
 				}
 			}
@@ -242,51 +244,51 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				num183 = Main.maxTilesY;
 			}
-            if (npc.ai[2] == 0f)
+			if (npc.ai[2] == 0f)
 			{
 				if (Main.netMode != 2)
 				{
 					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
 					{
-                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("Warped"), 2);
+						Main.player[Main.myPlayer].AddBuff(mod.BuffType("Warped"), 2);
 					}
 				}
 				phaseSwitch += 1f;
 				npc.localAI[1] = 0f;
-                float speed = playerRunAcceleration * 15f;
-                float turnSpeed = playerRunAcceleration * 0.3f;
-                float homingSpeed = playerRunAcceleration * 18f;
-                float homingTurnSpeed = playerRunAcceleration * 0.33f;
-                if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f) //RAGE
-                {
-                    phaseSwitch += 9f;
-                }
-                else if ((expertMode && speedBoost5) || CalamityWorld.death)
-                {
-                    homingSpeed = playerRunAcceleration * 25f;
-                    homingTurnSpeed = playerRunAcceleration * 0.52f;
-                }
-                else if (speedBoost4)
-                {
-                    homingSpeed = playerRunAcceleration * 23f;
-                    homingTurnSpeed = playerRunAcceleration * 0.47f;
-                }
-                else if (speedBoost3)
-                {
-                    homingSpeed = playerRunAcceleration * 21.5f;
-                    homingTurnSpeed = playerRunAcceleration * 0.43f;
-                }
-                else if (speedBoost2)
-                {
-                    homingSpeed = playerRunAcceleration * 20.5f;
-                    homingTurnSpeed = playerRunAcceleration * 0.39f;
-                }
-                else if (speedBoost1)
-                {
-                    homingSpeed = playerRunAcceleration * 19f;
-                    homingTurnSpeed = playerRunAcceleration * 0.36f;
-                }
-                float num188 = speed;
+				float speed = playerRunAcceleration * 15f;
+				float turnSpeed = playerRunAcceleration * 0.3f;
+				float homingSpeed = playerRunAcceleration * 18f;
+				float homingTurnSpeed = playerRunAcceleration * 0.33f;
+				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f) //RAGE
+				{
+					phaseSwitch += 9f;
+				}
+				else if ((expertMode && speedBoost5) || CalamityWorld.death)
+				{
+					homingSpeed = playerRunAcceleration * 25f;
+					homingTurnSpeed = playerRunAcceleration * 0.52f;
+				}
+				else if (speedBoost4)
+				{
+					homingSpeed = playerRunAcceleration * 23f;
+					homingTurnSpeed = playerRunAcceleration * 0.47f;
+				}
+				else if (speedBoost3)
+				{
+					homingSpeed = playerRunAcceleration * 21.5f;
+					homingTurnSpeed = playerRunAcceleration * 0.43f;
+				}
+				else if (speedBoost2)
+				{
+					homingSpeed = playerRunAcceleration * 20.5f;
+					homingTurnSpeed = playerRunAcceleration * 0.39f;
+				}
+				else if (speedBoost1)
+				{
+					homingSpeed = playerRunAcceleration * 19f;
+					homingTurnSpeed = playerRunAcceleration * 0.36f;
+				}
+				float num188 = speed;
 				float num189 = turnSpeed;
 				Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
@@ -528,45 +530,45 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				if (Main.netMode != 2)
 				{
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
-                    {
-                        Main.player[Main.myPlayer].AddBuff(mod.BuffType("ExtremeGrav"), 2);
-                    }
-                }
+					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
+					{
+						Main.player[Main.myPlayer].AddBuff(mod.BuffType("ExtremeGrav"), 2);
+					}
+				}
 				phaseSwitch += 1f;
-                float speed = playerRunAcceleration * 19f;
-                float turnSpeed = playerRunAcceleration * 0.28f;
-                if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f) //RAGE
-                {
-                    speed = playerRunAcceleration * 80f;
-                    turnSpeed = playerRunAcceleration * 1f;
-                }
-                else if ((expertMode && speedBoost5) || CalamityWorld.death)
-                {
-                    speed = playerRunAcceleration * 26f;
-                    turnSpeed = playerRunAcceleration * 0.45f;
-                }
-                else if (speedBoost4)
-                {
-                    speed = playerRunAcceleration * 24.5f;
-                    turnSpeed = playerRunAcceleration * 0.4f;
-                }
-                else if (speedBoost3)
-                {
-                    speed = playerRunAcceleration * 23f;
-                    turnSpeed = playerRunAcceleration * 0.36f;
-                }
-                else if (speedBoost2)
-                {
-                    speed = playerRunAcceleration * 21.5f;
-                    turnSpeed = playerRunAcceleration * 0.33f;
-                }
-                else if (speedBoost1)
-                {
-                    speed = playerRunAcceleration * 20f;
-                    turnSpeed = playerRunAcceleration * 0.3f;
-                }
-                if (!flies)
+				float speed = playerRunAcceleration * 19f;
+				float turnSpeed = playerRunAcceleration * 0.28f;
+				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f) //RAGE
+				{
+					speed = playerRunAcceleration * 80f;
+					turnSpeed = playerRunAcceleration * 1f;
+				}
+				else if ((expertMode && speedBoost5) || CalamityWorld.death)
+				{
+					speed = playerRunAcceleration * 26f;
+					turnSpeed = playerRunAcceleration * 0.45f;
+				}
+				else if (speedBoost4)
+				{
+					speed = playerRunAcceleration * 24.5f;
+					turnSpeed = playerRunAcceleration * 0.4f;
+				}
+				else if (speedBoost3)
+				{
+					speed = playerRunAcceleration * 23f;
+					turnSpeed = playerRunAcceleration * 0.36f;
+				}
+				else if (speedBoost2)
+				{
+					speed = playerRunAcceleration * 21.5f;
+					turnSpeed = playerRunAcceleration * 0.33f;
+				}
+				else if (speedBoost1)
+				{
+					speed = playerRunAcceleration * 20f;
+					turnSpeed = playerRunAcceleration * 0.3f;
+				}
+				if (!flies)
 				{
 					for (int num952 = num180; num952 < num181; num952++)
 					{
@@ -612,11 +614,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						}
 					}
 				}
-                else
-                {
-                    npc.localAI[1] = 0f;
-                }
-                float num188 = speed;
+				else
+				{
+					npc.localAI[1] = 0f;
+				}
+				float num188 = speed;
 				float num189 = turnSpeed;
 				Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
@@ -654,7 +656,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					if (!flies)
 					{
 						npc.TargetClosest(true);
-                        npc.velocity.Y = npc.velocity.Y + turnSpeed; //turnspeed * 0.5f
+						npc.velocity.Y = npc.velocity.Y + turnSpeed; //turnspeed * 0.5f
 						if (npc.velocity.Y > num188) //speed
 						{
 							npc.velocity.Y = num188;
@@ -842,20 +844,26 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 			}
 		}
-		
+
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.None;
 		}
-		
+
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if (projectile.type == mod.ProjectileType("SulphuricAcidMist2"))
-            {
-                damage /= 8;
-            }
-        }
-		
+			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
+			{
+				damage /= 4;
+			}
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+			return true;
+		}
+
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
 			if (damage > npc.lifeMax / 2)
@@ -873,21 +881,21 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				damage = 0;
 				return false;
 			}
-            return true;
+			return true;
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			scale = 1.5f;
 			return null;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
 			{
@@ -918,20 +926,20 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
-        }
-		
+			npc.damage = (int)(npc.damage * 0.8f);
+		}
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 300, true);
 			if (CalamityWorld.death)
 			{
-                player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
-            }
+				player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);
+			}
 			int num = Main.rand.Next(5);
 			string key = "Mods.CalamityMod.EdgyBossText3";
 			if (num == 0)

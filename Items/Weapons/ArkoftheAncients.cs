@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -88,8 +89,9 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float speedX4 = num78 + (float)Main.rand.Next(-120, 121) * 0.02f;
 				float speedY5 = num79 + (float)Main.rand.Next(-120, 121) * 0.02f;
-				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, knockBack, player.whoAmI, 1f, (float)Main.rand.Next(5));
-            }
+				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+			}
 	    	return false;
 		}
 		

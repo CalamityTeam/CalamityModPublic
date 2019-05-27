@@ -31,7 +31,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 7;
             item.shoot = mod.ProjectileType("Crushax");
             item.shootSpeed = 11f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

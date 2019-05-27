@@ -56,7 +56,9 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.lifeMax = 2300000;
             }
-            npc.aiStyle = 6; //new
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -73,7 +75,6 @@ namespace CalamityMod.NPCs.StormWeaver
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
 			}
         }
 		
@@ -272,6 +273,11 @@ namespace CalamityMod.NPCs.StormWeaver
 			{
 				num188 = revenge ? 17f : 16f;
 				num189 = revenge ? 0.5f : 0.45f;
+				if (!Main.player[npc.target].ZoneSkyHeight)
+				{
+					num188 = 24f;
+					num189 = 0.6f;
+				}
 			}
 			float num48 = num188 * 1.3f;
 			float num49 = num188 * 0.7f;

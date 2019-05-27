@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 85;
+            item.damage = 60;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Weapons
             }
             num78 *= num80;
             num79 *= num80;
-            int num107 = 3;
+            int num107 = 2;
             for (int num108 = 0; num108 < num107; num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
@@ -93,8 +94,9 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-160, 161) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, num74, i, 1f, (float)Main.rand.Next(10));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), damage, num74, i, 0f, (float)Main.rand.Next(5));
+                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, num74, i, 0f, (float)Main.rand.Next(10));
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), damage, num74, i, 0f, (float)Main.rand.Next(5));
             }
             return false;
         }

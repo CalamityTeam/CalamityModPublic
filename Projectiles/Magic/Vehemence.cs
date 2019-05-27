@@ -56,9 +56,9 @@ namespace CalamityMod.Projectiles.Magic
         	double lifeMax = (double)target.lifeMax;
         	double damageMult = (lifeAmount / lifeMax) * 7;
         	damage = (int)Math.Pow(damage, damageMult);
-        	if (damage > 500000)
+        	if (damage > 1000000)
         	{
-        		damage = 500000;
+        		damage = 1000000;
         	}
         }
         

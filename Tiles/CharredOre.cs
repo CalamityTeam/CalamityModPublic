@@ -12,7 +12,8 @@ namespace CalamityMod.Tiles
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
-            drop = mod.ItemType("CharredOre");
+			Main.tileValue[Type] = 710;
+			drop = mod.ItemType("CharredOre");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Charred Ore");
  			AddMapEntry(new Color(128, 0, 0), name);
@@ -21,11 +22,6 @@ namespace CalamityMod.Tiles
             soundType = 21;
             dustType = 235;
             Main.tileSpelunker[Type] = true;
-		}
-		
-		public override void RandomUpdate(int i, int j)
-		{
-			Main.tileValue[Type] = (short)(Main.hardMode ? 710 : 0);
 		}
 		
 		public override bool CanExplode(int i, int j)

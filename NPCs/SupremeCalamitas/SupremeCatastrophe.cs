@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 	[AutoloadBossHead]
 	public class SupremeCatastrophe : ModNPC
 	{
-		public float distanceX = 250f;
+		private float distanceY = 375f;
 		
 		public override void SetStaticDefaults()
 		{
@@ -28,12 +28,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 120; //324
 			npc.height = 120; //216
 			npc.defense = 150;
-            npc.lifeMax = CalamityWorld.revenge ? 700000 : 600000;
+            npc.lifeMax = CalamityWorld.revenge ? 1400000 : 1200000;
             if (CalamityWorld.death)
             {
-                npc.lifeMax = 500000;
+                npc.lifeMax = 1000000;
             }
-            npc.aiStyle = -1; //new
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
@@ -56,96 +58,172 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.frame.Y = frame * frameHeight;
         }
 
-        public override void AI()
+		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
-            if (!Main.npc[CalamityGlobalNPC.SCal].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
-            npc.TargetClosest(true);
+			if (!Main.npc[CalamityGlobalNPC.SCal].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+			npc.TargetClosest(true);
 			float num676 = 60f;
 			float num677 = 1.5f;
-			float distanceY = 450f;
-			if (npc.localAI[1] <= 1000f)
+			float distanceX = 750f;
+			if (npc.localAI[1] < 750f)
 			{
 				npc.localAI[1] += 1f;
-				distanceX += 0.5f;
+				distanceY -= 1f;
 			}
-			else if (npc.localAI[1] <= 2000f)
+			else if (npc.localAI[1] < 1500f)
 			{
 				npc.localAI[1] += 1f;
-				distanceX -= 0.5f;
+				distanceY += 1f;
 			}
-			if (npc.localAI[1] >= 2000f)
+			if (npc.localAI[1] >= 1500f)
 			{
 				npc.localAI[1] = 0f;
 			}
 			Vector2 vector83 = new Vector2(npc.Center.X, npc.Center.Y);
 			float num678 = Main.player[npc.target].Center.X - vector83.X - distanceX;
-			float num679 = Main.player[npc.target].Center.Y - vector83.Y - distanceY;
-            float num740 = Main.player[npc.target].Center.X - vector83.X;
-            float num741 = Main.player[npc.target].Center.Y - vector83.Y;
-            npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
-            float num680 = (float)Math.Sqrt((double)(num678 * num678 + num679 * num679));
+			float num679 = Main.player[npc.target].Center.Y - vector83.Y + distanceY;
+			npc.rotation = 4.71f;
+			float num680 = (float)Math.Sqrt((double)(num678 * num678 + num679 * num679));
 			num680 = num676 / num680;
 			num678 *= num680;
 			num679 *= num680;
-			if (npc.velocity.X < num678) 
+			if (npc.velocity.X < num678)
 			{
 				npc.velocity.X = npc.velocity.X + num677;
-				if (npc.velocity.X < 0f && num678 > 0f) 
+				if (npc.velocity.X < 0f && num678 > 0f)
 				{
 					npc.velocity.X = npc.velocity.X + num677;
 				}
-			} 
-			else if (npc.velocity.X > num678) 
+			}
+			else if (npc.velocity.X > num678)
 			{
 				npc.velocity.X = npc.velocity.X - num677;
-				if (npc.velocity.X > 0f && num678 < 0f) 
+				if (npc.velocity.X > 0f && num678 < 0f)
 				{
 					npc.velocity.X = npc.velocity.X - num677;
 				}
 			}
-			if (npc.velocity.Y < num679) 
+			if (npc.velocity.Y < num679)
 			{
 				npc.velocity.Y = npc.velocity.Y + num677;
-				if (npc.velocity.Y < 0f && num679 > 0f) 
+				if (npc.velocity.Y < 0f && num679 > 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y + num677;
 				}
-			} 
+			}
 			else if (npc.velocity.Y > num679)
 			{
 				npc.velocity.Y = npc.velocity.Y - num677;
-				if (npc.velocity.Y > 0f && num679 < 0f) 
+				if (npc.velocity.Y > 0f && num679 < 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y - num677;
 				}
 			}
-			npc.ai[1] += 1f;
-            if (npc.ai[1] >= 150f)
-            {
-                npc.ai[1] = 0f;
-                Vector2 vector85 = new Vector2(npc.Center.X, npc.Center.Y);
-                float num689 = 2f;
-                int num690 = expertMode ? 150 : 200; //600 500
-                int num691 = mod.ProjectileType("BrimstoneHellblast");
-                float num692 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector85.X;
-                float num693 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector85.Y;
-                float num694 = (float)Math.Sqrt((double)(num692 * num692 + num693 * num693));
-                num694 = num689 / num694;
-                num692 *= num694;
-                num693 *= num694;
-                vector85.X += num692 * 3f;
-                vector85.Y += num693 * 3f;
-                if (Main.netMode != 1)
-                {
-                    int num695 = Projectile.NewProjectile(vector85.X, vector85.Y, num692, num693, num691, num690, 0f, Main.myPlayer, 0f, 0f);
-                }
-            }
+			if (npc.localAI[0] < 120f)
+			{
+				npc.localAI[0] += 1f;
+			}
+			if (npc.localAI[0] >= 120f)
+			{
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 30f)
+				{
+					npc.ai[1] = 0f;
+					Vector2 vector85 = new Vector2(npc.Center.X, npc.Center.Y);
+					float num689 = 4f;
+					int num690 = expertMode ? 150 : 200; //600 500
+					int num691 = mod.ProjectileType("BrimstoneHellblast2");
+					if (Main.netMode != 1)
+					{
+						int num695 = Projectile.NewProjectile(vector85.X, vector85.Y, num689, 0f, num691, num690, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+				npc.ai[2] += 1f;
+				if (!NPC.AnyNPCs(mod.NPCType("SupremeCataclysm")))
+				{
+					npc.ai[2] += 2f;
+				}
+				if (npc.ai[2] >= 300f)
+				{
+					npc.ai[2] = 0f;
+					float num689 = 7f;
+					int num690 = expertMode ? 150 : 200; //600 500
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+					float spread = 45f * 0.0174f;
+					double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
+					double deltaAngle = spread / 8f;
+					double offsetAngle;
+					int i;
+					if (Main.netMode != 1)
+					{
+						for (i = 0; i < 8; i++)
+						{
+							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * num689), (float)(Math.Cos(offsetAngle) * num689), mod.ProjectileType("BrimstoneBarrage"), num690, 0f, Main.myPlayer, 0f, 1f);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(-Math.Sin(offsetAngle) * num689), (float)(-Math.Cos(offsetAngle) * num689), mod.ProjectileType("BrimstoneBarrage"), num690, 0f, Main.myPlayer, 0f, 1f);
+						}
+					}
+					for (int dust = 0; dust <= 5; dust++)
+					{
+						Dust.NewDust(npc.position + npc.velocity, npc.width, npc.height, 235, 0f, 0f);
+					}
+				}
+			}
+		}
+
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (projectile.type == mod.ProjectileType("AngryChicken"))
+			{
+				damage /= 2;
+			}
+			if (projectile.type == mod.ProjectileType("ApothMark") || projectile.type == mod.ProjectileType("ApothJaws"))
+			{
+				damage /= 3;
+			}
+		}
+
+		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
+		{
+			if (damage > npc.lifeMax / 2)
+			{
+				damage = 0;
+				return false;
+			}
+			double newDamage = (damage + (int)((double)defense * 0.25));
+			float protection = (CalamityWorld.death ? 0.75f : 0.7f); //45%
+			if (CalamityWorld.bossRushActive)
+			{
+				protection = 0.6f;
+			}
+			if (newDamage < 1.0)
+			{
+				newDamage = 1.0;
+			}
+			if (npc.ichor)
+			{
+				protection *= 0.9f; //41%
+			}
+			else if (npc.onFire2)
+			{
+				protection *= 0.91f;
+			}
+			if (newDamage >= 1.0)
+			{
+				newDamage = (double)((int)((double)(1f - protection) * newDamage));
+				if (newDamage < 1.0)
+				{
+					newDamage = 1.0;
+				}
+			}
+			damage = newDamage;
+			return true;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

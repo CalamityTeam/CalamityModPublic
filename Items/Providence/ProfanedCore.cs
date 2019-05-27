@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Providence
 		
 		public override bool CanUseItem(Player player)
 		{
-			return !NPC.AnyNPCs(mod.NPCType("Providence")) && Main.dayTime && (player.ZoneHoly || player.ZoneUnderworldHeight);
+			return !NPC.AnyNPCs(mod.NPCType("Providence")) && Main.dayTime && (player.ZoneHoly || player.ZoneUnderworldHeight) && CalamityWorld.downedBossAny;
 		}
 		
 		public override bool UseItem(Player player)

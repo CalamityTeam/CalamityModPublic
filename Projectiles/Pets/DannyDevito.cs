@@ -34,6 +34,16 @@ namespace CalamityMod.Projectiles.Pets
 			projectile.tileCollide = true;
 		}
 
+		public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+		{
+			Player player = Main.player[projectile.owner];
+			Vector2 center2 = projectile.Center;
+			Vector2 vector48 = player.Center - center2;
+			float playerDistance = vector48.Length();
+			fallThrough = playerDistance > 200f;
+			return true;
+		}
+
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
@@ -54,6 +64,7 @@ namespace CalamityMod.Projectiles.Pets
 			Vector2 vector46 = projectile.position;
 			if (!fly)
 			{
+				projectile.rotation = 0;
 				Vector2 center2 = projectile.Center;
 				Vector2 vector48 = player.Center - center2;
 				float playerDistance = vector48.Length();
@@ -157,6 +168,23 @@ namespace CalamityMod.Projectiles.Pets
 					projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
 					projectile.netUpdate = true;
 				}
+				if (playerDistance < 100f)
+				{
+					num16 = 0.1f;
+					if (player.velocity.Y == 0f)
+					{
+						++playerStill;
+					}
+					else
+					{
+						playerStill = 0;
+					}
+					if (playerStill > 60 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+					{
+						fly = false;
+						projectile.tileCollide = true;
+					}
+				}
 				if (playerDistance < 50f)
 				{
 					if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
@@ -179,7 +207,7 @@ namespace CalamityMod.Projectiles.Pets
 					horiPos *= playerDistance;
 					vertiPos *= playerDistance;
 				}
-				if (projectile.velocity.X < horiPos)
+				if (projectile.velocity.X <= horiPos)
 				{
 					projectile.velocity.X = projectile.velocity.X + num16;
 					if (num16 > 0.05f && projectile.velocity.X < 0f)
@@ -195,7 +223,7 @@ namespace CalamityMod.Projectiles.Pets
 						projectile.velocity.X = projectile.velocity.X - num16;
 					}
 				}
-				if (projectile.velocity.Y < vertiPos)
+				if (projectile.velocity.Y <= vertiPos)
 				{
 					projectile.velocity.Y = projectile.velocity.Y + num16;
 					if (num16 > 0.05f && projectile.velocity.Y < 0f)
@@ -213,24 +241,6 @@ namespace CalamityMod.Projectiles.Pets
 				}
 				projectile.rotation = projectile.velocity.X * 0.03f;
 				projectile.frame = 7;
-				if (playerDistance < 100f)
-				{
-					num16 = 0.1f;
-					if (player.velocity.Y == 0f)
-					{
-						++playerStill;
-					}
-					else
-					{
-						playerStill = 0;
-					}
-					if (playerStill > 60 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-					{
-						fly = false;
-						projectile.tileCollide = true;
-						projectile.rotation = 0;
-					}
-				}
 			}
 			if (projectile.velocity.X > 0.25f)
 			{

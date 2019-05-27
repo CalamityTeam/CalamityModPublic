@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flame");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[projectile.type] = 8;
 		}
     	
         public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
 			    projectile.frame++;
 			    projectile.frameCounter = 0;
 			}
-			if (projectile.frame > 3)
+			if (projectile.frame > 7)
 			{
 			   projectile.frame = 0;
 			}
@@ -74,6 +74,7 @@ namespace CalamityMod.Projectiles.Magic
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
+			projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

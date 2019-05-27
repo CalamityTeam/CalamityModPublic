@@ -44,7 +44,7 @@ namespace CalamityMod.Buffs
                 {
                     player.AddBuff(mod.BuffType("SirenWaterSpeed"), 360);
                 }
-            }
+			}
             else
             {
                 player.DelBuff(buffIndex);

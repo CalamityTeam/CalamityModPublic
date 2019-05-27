@@ -59,11 +59,11 @@ namespace CalamityMod.Items.Weapons
 	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
 	    	if (Main.rand.Next(3) == 0)
 	    	{
-	    		item.damage = 360;
+	    		item.damage = 378;
 	    	}
 	    	else
 	    	{
-	    		item.damage = 120;
+	    		item.damage = 126;
 	    	}
 		}
 	}

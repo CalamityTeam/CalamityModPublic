@@ -76,6 +76,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				npc.lifeMax = CalamityWorld.death ? 2300000 : 2100000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
 			npc.knockBackResist = 0f;
@@ -84,9 +86,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.dontTakeDamage = false;
 			npc.chaseable = true;
 			npc.boss = true;
@@ -321,7 +323,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.netMode != 1)
 				{
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 4f : 6f))
+					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 4f : 6f))
 					{
 						npc.localAI[0] = 0f;
 						int damage = expertMode ? 200 : 250; //800 500
@@ -431,7 +433,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						}
 					}
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 6f : 9f))
+					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 6f : 9f))
 					{
 						npc.localAI[0] = 0f;
 						if (npc.localAI[2] < 1200f) //blasts from below
@@ -491,10 +493,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					if (npc.localAI[2] % 240 == 0) //fireblasts from above
 					{
-						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 1f, 0f);
 					}
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 9f : 11f))
+					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 9f : 11f))
 					{
 						npc.localAI[0] = 0f;
 						if (npc.localAI[2] < 2100f) //blasts from above
@@ -559,7 +561,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					if (npc.localAI[2] % 240 == 0) //fireblasts from above
 					{
-						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 1f, 0f);
 					}
 					if (npc.localAI[2] % 450 == 0) //giant homing fireballs
 					{
@@ -567,7 +569,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						passedVar += 1f;
 					}
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 12f : 15f))
+					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 12f : 15f))
 					{
 						npc.localAI[0] = 0f;
 						if (npc.localAI[2] < 3000f) //blasts from below
@@ -632,7 +634,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					if (npc.localAI[2] % 360 == 0) //fireblasts from above
 					{
-						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 1f, 0f);
 					}
 					if (npc.localAI[2] % 450 == 0) //giant homing fireballs
 					{
@@ -644,7 +646,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -10f * uDieLul, 0f, mod.ProjectileType("BrimstoneWave"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 15f : 18f))
+					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15f : 18f))
 					{
 						npc.localAI[0] = 0f;
 						if (npc.localAI[2] < 3900f) //blasts from above
@@ -1038,6 +1040,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						npc.dontTakeDamage = true;
 						npc.chaseable = false;
+						npc.damage = 0;
+						npc.TargetClosest(true);
+						npc.velocity *= 0.95f;
+						Vector2 vector92 = new Vector2(npc.Center.X, npc.Center.Y);
+						float num740 = player.Center.X - vector92.X;
+						float num741 = player.Center.Y - vector92.Y;
+						npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
+						return;
 					}
 					else
 					{

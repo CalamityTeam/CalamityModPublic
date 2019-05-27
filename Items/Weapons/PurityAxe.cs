@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Axe of Purity");
+			Tooltip.SetDefault("Cleanses the evil");
 		}
 
 	    public override void SetDefaults()
@@ -27,18 +28,21 @@ namespace CalamityMod.Items.Weapons
 	        item.useTurn = true;
 	        item.axe = 25;
 	        item.useStyle = 1;
-	        item.knockBack = 7.5f;
+	        item.knockBack = 5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
 	        item.UseSound = SoundID.Item1;
 	        item.autoReuse = true;
-	    }
+			item.shoot = ProjectileID.PurificationPowder;
+			item.shootSpeed = 12f;
+		}
 	
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(null, "FellerofEvergreens");
-	        recipe.AddIngredient(ItemID.PixieDust, 10);
+			recipe.AddIngredient(ItemID.PurificationPowder, 20);
+			recipe.AddIngredient(ItemID.PixieDust, 10);
 	        recipe.AddIngredient(ItemID.CrystalShard, 5);
 	        recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(this);

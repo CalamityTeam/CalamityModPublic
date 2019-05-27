@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -109,8 +110,8 @@ namespace CalamityMod.Projectiles.Melee
         {
         	return new Color(250, 250, 250, 50);
         }
-        
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	if (projectile.owner == Main.myPlayer)
         	{

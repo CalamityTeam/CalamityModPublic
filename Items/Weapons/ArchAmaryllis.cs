@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class ArchAmaryllis : ModItem
 	{
@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("BeamingBolt");
 	        item.shootSpeed = 20f;
 	    }
-	    
-	    public override void AddRecipes()
+
+		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(null, "GleamingMagnolia");

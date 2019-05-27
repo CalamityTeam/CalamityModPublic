@@ -7,33 +7,33 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class WaterSpout : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class WaterSpout : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spout");
 			Main.projFrames[projectile.type] = 6;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 150;
-            projectile.height = 42;
-            projectile.scale = 0.6f;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 60;
-            projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 5;
-        }
-        
-        public override void AI()
-        {
-        	int num613 = 10;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 150;
+			projectile.height = 42;
+			projectile.scale = 0.6f;
+			projectile.friendly = true;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.ranged = true;
+			projectile.penetrate = -1;
+			projectile.alpha = 255;
+			projectile.timeLeft = 60;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 30;
+		}
+
+		public override void AI()
+		{
+			int num613 = 10;
 			int num614 = 15;
 			float num615 = 1f;
 			int num616 = 150;
@@ -111,15 +111,15 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.position.X = projectile.position.X + num624 * (float)(-(float)projectile.direction);
 				return;
 			}
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
 			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 			int y6 = num214 * projectile.frame;
 			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
 			return false;
-        }
-    }
+		}
+	}
 }

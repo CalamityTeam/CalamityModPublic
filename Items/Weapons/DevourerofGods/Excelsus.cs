@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 						type = mod.ProjectileType("ExcelsusPink");
 						break;
 				}
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -73,6 +73,10 @@ namespace CalamityMod.Items.Providence
 			{
 				player.QuickSpawnItem(mod.ItemType("TelluricGlare"));
 			}
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("SamuraiBadge"));
+			}
 			if (Main.rand.Next(7) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("ProvidenceMask"));

@@ -33,7 +33,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 8;
             item.shoot = mod.ProjectileType("OPHammer");
             item.shootSpeed = 14f;
-        }
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+		}
 
         public override void AddRecipes()
         {

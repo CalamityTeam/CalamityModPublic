@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -59,14 +60,16 @@ namespace CalamityMod.Items.Weapons
                 float SpeedY = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
                 int wasps = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI, 0.0f, 0.0f);
                 Main.projectile[wasps].penetrate = 1;
-            }
+				Main.projectile[wasps].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
+			}
             for (int i = 0; i <= 3; i++)
             {
                 float SpeedX2 = speedX + (float)Main.rand.Next(-35, 36) * 0.05f;
                 float SpeedY2 = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
                 int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(item.damage), player.beeKB(0f), player.whoAmI, 0.0f, 0.0f);
                 Main.projectile[bees].penetrate = 1;
-            }
+				Main.projectile[bees].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
+			}
             return false;
         }
     }

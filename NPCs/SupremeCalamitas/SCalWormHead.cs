@@ -415,7 +415,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
         }
 
-        public override bool CheckActive()
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
+			{
+				projectile.penetrate = 1;
+			}
+		}
+
+		public override bool CheckActive()
 		{
 			return false;
 		}

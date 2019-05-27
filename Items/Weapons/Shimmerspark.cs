@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.Chik);
-            item.damage = 32;
+            item.damage = 36;
             item.useTime = 25;
             item.useAnimation = 25;
             item.useStyle = 5;

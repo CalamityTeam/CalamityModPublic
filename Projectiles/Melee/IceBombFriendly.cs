@@ -49,12 +49,10 @@ namespace CalamityMod.Projectiles.Melee
 		    	{
 		   			offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
 		        	int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), 349, 30, 2f, projectile.owner, 0f, 0f);
-		        	Main.projectile[projectile1].hostile = false;
-		        	Main.projectile[projectile1].friendly = true;
-		        	int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), 349, 30, 2f, projectile.owner, 0f, 0f);
-		        	Main.projectile[projectile2].hostile = false;
-		        	Main.projectile[projectile2].friendly = true;
-		    	}
+					Main.projectile[projectile1].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+					int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), 349, 30, 2f, projectile.owner, 0f, 0f);
+					Main.projectile[projectile2].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				}
 			}
         	for (int k = 0; k < 3; k++)
             {

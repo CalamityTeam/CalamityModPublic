@@ -33,6 +33,8 @@ namespace CalamityMod.NPCs.DesertScourge
 			{
 				npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new

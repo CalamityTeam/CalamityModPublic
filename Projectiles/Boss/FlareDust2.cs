@@ -41,10 +41,20 @@ namespace CalamityMod.Projectiles.Boss
 			{
 			   projectile.frame = 0;
 			}
-            if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 16f && projectile.timeLeft < 420)
-            {
-                projectile.velocity *= 1.05f;
-            }
+			if (projectile.ai[0] == 1f)
+			{
+				if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 8f && projectile.timeLeft < 630)
+				{
+					projectile.velocity *= 1.025f;
+				}
+			}
+			else
+			{
+				if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 16f && projectile.timeLeft < 420)
+				{
+					projectile.velocity *= 1.05f;
+				}
+			}
             Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
         }
         

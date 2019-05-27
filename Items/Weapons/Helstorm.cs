@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons
 	    {
 			item.damage = 21;
 			item.ranged = true;
-			item.width = 70;
-			item.height = 36;
+			item.width = 50;
+			item.height = 24;
 			item.useTime = 7;
 			item.useAnimation = 7;
 			item.useStyle = 5;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons
 		        float num8 = speedY;
 		        float SpeedX = speedX + (float) Main.rand.Next(-10, 11) * 0.05f;
 		        float SpeedY = speedY + (float) Main.rand.Next(-10, 11) * 0.05f;
-		        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+		        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 		    }
 		    return false;
 		}

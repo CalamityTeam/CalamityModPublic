@@ -14,7 +14,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The First Shadowflame");
-            Tooltip.SetDefault("One of the first magical artifacts, granted to a disheveled race of humans long ago by the Tyrant King Yharim\nLittle did the humans know of the horrid curse that lied within...\nGrants shadowflame powers to all minions");
+            Tooltip.SetDefault("It is said that in the past, Prometheus descended from the heavens to grant man fire.\n" +
+				"If that were true, then it is surely the demons of hell that would have risen from below to do the same.\n" +
+				"Minions inflict shadowflame on enemy hits.");
         }
 
         public override void SetDefaults()

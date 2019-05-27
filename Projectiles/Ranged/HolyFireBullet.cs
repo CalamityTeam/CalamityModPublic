@@ -62,8 +62,9 @@ namespace CalamityMod.Projectiles.Ranged
         {
         	if (projectile.owner == Main.myPlayer)
         	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, (int)((double)projectile.damage * 0.85), projectile.knockBack, projectile.owner, 0f, 0f);
-            }
+        		int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, (int)((double)projectile.damage * 0.85), projectile.knockBack, projectile.owner, 0f, 0f);
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+			}
             for (int k = 0; k < 10; k++)
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

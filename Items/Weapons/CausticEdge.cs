@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Caustic Edge");
-			Tooltip.SetDefault("Give Sick");
+			Tooltip.SetDefault("Inflicts poison and venom on enemy hits");
 		}
 
 		public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons
 			item.useAnimation = 27;
 			item.useStyle = 1;
 			item.useTime = 27;
-			item.knockBack = 5;
+			item.knockBack = 5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 48;
@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Weapons
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(BuffID.Poisoned, 480);
+			target.AddBuff(BuffID.Venom, 240);
 		}
 	}
 }

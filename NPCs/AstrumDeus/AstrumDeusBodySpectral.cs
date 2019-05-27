@@ -35,7 +35,9 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 npc.lifeMax = CalamityWorld.death ? 1500000 : 1300000;
             }
-            npc.aiStyle = 6; //new
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
 			npc.knockBackResist = 0f;
@@ -204,13 +206,13 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-            if ((double)npc.life <= (double)npc.lifeMax * 0.33)
+			if (projectile.type == mod.ProjectileType("TerraFireGreen") || projectile.type == mod.ProjectileType("AtlantisSpear") || projectile.type == mod.ProjectileType("AtlantisSpear2"))
+			{
+				damage = (int)((double)damage * 0.66);
+			}
+			if ((double)npc.life <= (double)npc.lifeMax * 0.33)
             {
-                damage = (int)((double)damage * 0.33f);
-                if (projectile.minion)
-                {
-                    return;
-                }
+                damage = (int)((double)damage * 0.33);
             }
             else
             {

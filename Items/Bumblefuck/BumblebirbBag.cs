@@ -50,6 +50,10 @@ namespace CalamityMod.Items.Bumblefuck
 				}
 			}
 			player.TryGettingDevArmor();
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("Swordsplosion"));
+			}
 			switch (Main.rand.Next(3))
 			{
 				case 0:

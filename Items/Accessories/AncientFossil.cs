@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ancient Fossil");
-            Tooltip.SetDefault("Increases pick speed by 35% while underground");
+            Tooltip.SetDefault("Increases pick speed by 15% while underground");
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             if (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight)
             {
-                player.pickSpeed -= 0.35f;
+                player.pickSpeed -= 0.15f;
             }
         }
 

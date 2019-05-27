@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -25,8 +26,8 @@ namespace CalamityMod.Items.Weapons
             item.useAnimation = 27;
             item.useTime = 27;
             item.reuseDelay = 0;
-            item.width = 98;
-            item.height = 32;
+            item.width = 122;
+            item.height = 50;
             item.UseSound = SoundID.Item92;
             item.shoot = mod.ProjectileType("StarfleetMK2");
             item.value = Item.buyPrice(1, 80, 0, 0);
@@ -48,10 +49,10 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("StarfleetMK2"), 0, 0f, player.whoAmI);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("StarfleetMK2"), 0, 0f, player.whoAmI);
             return false;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

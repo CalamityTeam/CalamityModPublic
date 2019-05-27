@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
 		        {
 		        	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 		          	Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("TinyFlare"), 
-		           	(int)((double)projectile.damage * 0.7f), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
+		           	(int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
 		        }
         	}
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);

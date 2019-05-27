@@ -29,30 +29,31 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-			if (Main.tile[i, j].type == mod.TileType("SmoothBrimstoneSlag"))
+			if (!Lighting.NotRetro)
 			{
-				int xPos = Main.tile[i, j].frameX;
-				int yPos = Main.tile[i, j].frameY;
-				Texture2D glowmask = mod.GetTexture("Tiles/FurnitureAshen/SmoothBrimstoneSlag_Glowmask");
-				//Initialize the default draw offset of the post drawn sections, then update it to not have the 4 tile offset if camera mode is enabled
-				Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X + GetDrawOffset(), j * 16 - Main.screenPosition.Y + GetDrawOffset());
-				if (CaptureManager.Instance.IsCapturing)
-				{
-					drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y);
-				}
-				spriteBatch.Draw
-								 (
-								 glowmask,
-								 drawOffset,
-								 new Rectangle(xPos, yPos, 18, 18),
-								 new Color(25, 25, 25, 25),
-								 0,
-								 new Vector2(0f, 0f),
-								 1,
-								 SpriteEffects.None,
-								 0f
-								 );
+				return;
 			}
+			int xPos = Main.tile[i, j].frameX;
+			int yPos = Main.tile[i, j].frameY;
+			Texture2D glowmask = mod.GetTexture("Tiles/FurnitureAshen/SmoothBrimstoneSlag_Glowmask");
+			//Initialize the default draw offset of the post drawn sections, then update it to not have the 4 tile offset if camera mode is enabled
+			Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X + GetDrawOffset(), j * 16 - Main.screenPosition.Y + GetDrawOffset());
+			if (CaptureManager.Instance.IsCapturing)
+			{
+				drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y);
+			}
+			spriteBatch.Draw
+							 (
+							 glowmask,
+							 drawOffset,
+							 new Rectangle(xPos, yPos, 18, 18),
+							 new Color(25, 25, 25, 25),
+							 0,
+							 new Vector2(0f, 0f),
+							 1,
+							 SpriteEffects.None,
+							 0f
+							 );
 		}
 
 		/// <summary>

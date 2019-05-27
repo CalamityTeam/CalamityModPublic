@@ -37,10 +37,10 @@ namespace CalamityMod.NPCs.Bumblefuck
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
             }
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
 			npc.lavaImmune = true;
 			npc.noGravity = true;
 			npc.canGhostHeal = false;

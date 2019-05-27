@@ -50,18 +50,12 @@ namespace CalamityMod.Projectiles.Pets
 			int num158 = 2;
 			int num159 = 1;
 			float num160 = 0f;
-			
 			int num161 = num159;
 			while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
 			{
 				Microsoft.Xna.Framework.Color color26 = color25;
 				color26 = projectile.GetAlpha(color26);		
-				{
-					goto IL_6899;
-				}
-				Microsoft.Xna.Framework.Color ff3399 = new Microsoft.Xna.Framework.Color(255, 51, 153, 255);
-				color26 = Microsoft.Xna.Framework.Color.Lerp(color26, ff3399, 0.5f);
-				color26.A += (byte)(150);
+				goto IL_6899;
 				IL_6881:
 				num161 += num158;
 				continue;
@@ -78,7 +72,6 @@ namespace CalamityMod.Projectiles.Pets
 				Main.spriteBatch.Draw(texture2D3, value4 + projectile.Size / 2f - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + projectile.rotation * num160 * (float)(num161 - 1) * projectile.spriteDirection, origin2, projectile.scale, effects, 0f);
 				goto IL_6881;
 			}
-
 			Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.position + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), lightColor, projectile.rotation, origin2, projectile.scale, spriteEffects, 0f);
 			return false;
 		}

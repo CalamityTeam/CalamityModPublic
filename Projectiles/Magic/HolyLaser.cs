@@ -56,8 +56,9 @@ namespace CalamityMod.Projectiles.Magic
 		{
         	if (projectile.owner == Main.myPlayer)
         	{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-            }
+				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
+			}
 		}
     }
 }

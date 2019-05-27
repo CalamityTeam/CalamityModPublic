@@ -36,6 +36,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.rare = 4;
 			item.shoot = mod.ProjectileType("CobaltKunaiProjectile");
 			item.shootSpeed = 12f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 		
 		public override void AddRecipes()

@@ -13,12 +13,12 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
 	public class GiantClam : ModNPC
 	{
-		public int hitAmount = 0;
-		public int attack = -1; //-1 doing nothing, 0 = shell hiding, 1 = telestomp, 2 = pearl burst, 3 = pearl rain
-		public bool attackAnim = false;
-		public bool hasBeenHit = false;
-		public bool statChange = false;
-		public bool hide = false;
+		private int hitAmount = 0;
+		private int attack = -1; //-1 doing nothing, 0 = shell hiding, 1 = telestomp, 2 = pearl burst, 3 = pearl rain
+		private bool attackAnim = false;
+		private bool hasBeenHit = false;
+		private bool statChange = false;
+		private bool hide = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -36,6 +36,12 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			//npc.defense = Main.hardMode ? 35 : 10;
 			npc.defense = 9999;
 			npc.lifeMax = Main.hardMode ? 7500 : 1250;
+			for (int k = 0; k < npc.buffImmune.Length; k++)
+			{
+				npc.buffImmune[k] = true;
+			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.value = Main.hardMode ? Item.buyPrice(0, 10, 0, 0) : Item.buyPrice(0, 1, 0, 0);
@@ -269,6 +275,11 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			}
 		}
 
+		public override bool CheckActive()
+		{
+			return Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 5600f;
+		}
+
 		public override bool? CanBeHitByProjectile(Projectile projectile)
 		{
 			if (projectile.minion)
@@ -360,6 +371,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			{
 				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SEAHOE"), 0, 0f, 0f, 0f, 0f, 255);
 			}
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Navystone"), Main.rand.Next(25, 36));
 			if (Main.rand.Next(3) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GiantPearl"));

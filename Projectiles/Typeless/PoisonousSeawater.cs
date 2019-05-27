@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
+			projectile.timeLeft = 6;
         }
 
         public override void AI()
@@ -44,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 randomDust = 89;
             }
-            for (int num468 = 0; num468 < 3; num468++)
+            for (int num468 = 0; num468 < 2; num468++)
             {
                 int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default(Color), 1f);
                 if (randomDust == 89)

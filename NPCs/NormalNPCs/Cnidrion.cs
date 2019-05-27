@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.Items;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -320,7 +321,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VictoryShard"), Main.rand.Next(1, 4));
 			if (Main.rand.Next(4) == 0)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AmidiasSpark"));
+				if (Main.rand.Next(25) == 0)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheTransformer"));
+				else
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AmidiasSpark"));
 			}
 		}
 	}

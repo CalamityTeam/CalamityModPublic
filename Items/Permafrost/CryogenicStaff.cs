@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Permafrost
 			Tooltip.SetDefault(@"Summons an animated ice construct to protect you
 Fire rate and range increase the longer it targets an enemy");
 		}
+
 		public override void SetDefaults()
 		{
 			item.damage = 56;
@@ -32,10 +33,12 @@ Fire rate and range increase the longer it targets an enemy");
 			item.UseSound = SoundID.Item78;
 			item.shoot = mod.ProjectileType("IceSentry");
 		}
+
         public override bool AltFunctionUse(Player player)
         {
             return true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse != 2)
@@ -48,6 +51,7 @@ Fire rate and range increase the longer it targets an enemy");
             }
             return false;
 		}
+
         public override bool UseItem(Player player)
         {
             if (player.altFunctionUse == 2)

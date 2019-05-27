@@ -22,7 +22,7 @@ namespace CalamityMod.Items
 		{
 			item.width = 28;
 			item.height = 28;
-			item.expert = true;
+			item.rare = 10;
 			item.maxStack = 99;
 			item.useAnimation = 30;
 			item.useTime = 30;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items
 		public override bool CanUseItem(Player player)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			if (!Main.expertMode || modPlayer.extraAccessoryML)
+			if (modPlayer.extraAccessoryML)
 			{
 				return false;
 			}

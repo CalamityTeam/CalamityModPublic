@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Raider's Talisman");
             Tooltip.SetDefault("Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
                 "This effect can stack up to 250 times\n" +
-                "Max rogue damage boost is 15%");
+                "Max rogue damage boost is 25%");
         }
 
         public override void SetDefaults()

@@ -89,7 +89,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
         }
 
-        public override bool CheckActive()
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
+			{
+				projectile.penetrate = 1;
+			}
+		}
+
+		public override bool CheckActive()
 		{
 			return false;
 		}

@@ -14,6 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fulguration Halberd");
+			Tooltip.SetDefault("Inflicts burning blood on enemy hits\n" +
+				"Right click to change modes");
 		}
 
 		public override void SetDefaults()
@@ -25,14 +27,54 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 1;
 			item.useTime = 22;
 			item.useTurn = true;
-			item.knockBack = 4.5f;
+			item.knockBack = 5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 62;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
+			item.shoot = mod.ProjectileType("NobodyKnows");
+			item.shootSpeed = 6f;
 		}
-		
+
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.noMelee = true;
+				item.noUseGraphic = true;
+				item.useStyle = 5;
+				item.autoReuse = false;
+			}
+			else
+			{
+				item.noMelee = false;
+				item.noUseGraphic = false;
+				item.useStyle = 1;
+				item.autoReuse = true;
+			}
+			return base.CanUseItem(player);
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FulgurationHalberd"), damage, knockBack, player.whoAmI, 0f, 0f);
+			}
+			return false;
+		}
+
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("BurningBlood"), 300);
+		}
+
 		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

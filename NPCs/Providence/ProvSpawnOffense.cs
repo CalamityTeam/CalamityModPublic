@@ -33,7 +33,9 @@ namespace CalamityMod.NPCs.Providence
             {
                 npc.lifeMax = CalamityWorld.death ? 500000 : 400000;
             }
-            npc.knockBackResist = 0f;
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			aiType = -1;
@@ -42,17 +44,17 @@ namespace CalamityMod.NPCs.Providence
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
-                npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-                npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             }
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}
@@ -230,7 +232,7 @@ namespace CalamityMod.NPCs.Providence
 					npc.velocity /= 2f;
 					npc.netUpdate = true;
 					npc.ai[1] = 45f;
-					npc.ai[0] = 4f;
+					npc.ai[0] = 3f;
 				} 
 				else 
 				{
@@ -245,16 +247,16 @@ namespace CalamityMod.NPCs.Providence
 					npc.velocity = (npc.velocity * (num1005 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1005;
 				}
 			} 
-			else if (npc.ai[0] == 4f) 
+			else if (npc.ai[0] == 3f) 
 			{
-				npc.ai[1] -= 3f;
+				npc.ai[1] -= 1f;
 				if (npc.ai[1] <= 0f) 
 				{
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.netUpdate = true;
 				}
-				npc.velocity *= 0.95f;
+				npc.velocity *= 0.98f;
 			}
 		}
 

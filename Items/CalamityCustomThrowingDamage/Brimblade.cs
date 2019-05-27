@@ -33,6 +33,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 6;
 			item.shoot = mod.ProjectileType("Brimblade");
 			item.shootSpeed = 12f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 		
 		public override void AddRecipes()

@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
 			Main.tileMergeDirt[Type] = false;
 			Main.tileBlockLight[Type] = true;
 			soundType = 21;
-			mineResist = 10f;
+			mineResist = 5f;
 			minPick = 200;
 			drop = mod.ItemType("OccultStone");
 			AddMapEntry(new Color(60, 42, 61));
@@ -202,6 +202,11 @@ namespace CalamityMod.Tiles.FurnitureOccult
 
 		public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
 		{
+			if (!Lighting.NotRetro)
+			{
+				return;
+			}
+
 			//Initialize the default draw offset of the post drawn sections, then update it to not have the 4 tile offset if camera mode is enabled
 			//Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X + (Main.screenWidth / 30), j * 16 - Main.screenPosition.Y + (Main.screenWidth / 30));
 			Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X + GetDrawOffset(), j * 16 - Main.screenPosition.Y + GetDrawOffset());

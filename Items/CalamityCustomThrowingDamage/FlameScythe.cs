@@ -33,6 +33,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 8;
 			item.shoot = mod.ProjectileType("FlameScytheProjectile");
 			item.shootSpeed = 16f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 		
 		public override void AddRecipes()

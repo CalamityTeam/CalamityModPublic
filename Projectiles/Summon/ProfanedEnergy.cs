@@ -15,6 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Profaned Energy");
             Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
     	
         public override void SetDefaults()
@@ -83,21 +84,26 @@ namespace CalamityMod.Projectiles.Summon
 				float num506 = projectile.Center.X;
 				float num507 = projectile.Center.Y;
 				float num508 = 1000f;
-				NPC ownerMinionAttackTargetNPC = projectile.OwnerMinionAttackTargetNPC;
-				if (ownerMinionAttackTargetNPC != null && ownerMinionAttackTargetNPC.CanBeChasedBy(projectile, false)) 
+				int target = 0;
+				if (Main.player[projectile.owner].HasMinionAttackTargetNPC)
 				{
-					float num509 = ownerMinionAttackTargetNPC.position.X + (float)(ownerMinionAttackTargetNPC.width / 2);
-					float num510 = ownerMinionAttackTargetNPC.position.Y + (float)(ownerMinionAttackTargetNPC.height / 2);
-					float num511 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num509) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num510);
-					if (num511 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, ownerMinionAttackTargetNPC.position, ownerMinionAttackTargetNPC.width, ownerMinionAttackTargetNPC.height)) 
+					NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
+					if (npc.CanBeChasedBy(projectile, false))
 					{
-						num508 = num511;
-						num506 = num509;
-						num507 = num510;
-						flag18 = true;
+						float num539 = npc.position.X + (float)(npc.width / 2);
+						float num540 = npc.position.Y + (float)(npc.height / 2);
+						float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
+						if (num541 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						{
+							num508 = num541;
+							num506 = num539;
+							num507 = num540;
+							flag18 = true;
+							target = npc.whoAmI;
+						}
 					}
 				}
-				if (!flag18) 
+				else
 				{
 					for (int num512 = 0; num512 < 200; num512++) 
 					{
@@ -112,6 +118,7 @@ namespace CalamityMod.Projectiles.Summon
 								num506 = num513;
 								num507 = num514;
 								flag18 = true;
+								target = num512;
 							}
 						}
 					}
@@ -147,7 +154,7 @@ namespace CalamityMod.Projectiles.Summon
 					num406 = num403 / num406;
 					num404 *= num406;
 					num405 *= num406;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, projectileType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num404, num405, projectileType, projectile.damage, projectile.knockBack, projectile.owner, (float)target, 0f);
 					projectile.ai[0] = 8f;
 				}
         	}

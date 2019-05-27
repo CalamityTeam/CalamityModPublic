@@ -46,20 +46,18 @@ namespace CalamityMod.Projectiles.Astral
 			float centerY = projectile.Center.Y;
 			float num474 = 1200f;
 			bool homeIn = false;
-			for (int i = 0; i < 200; i++)
+			int target = (int)projectile.ai[0];
+			if (Main.npc[target].CanBeChasedBy(projectile, false))
 			{
-				if (Main.npc[i].CanBeChasedBy(projectile, false))
+				float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
+				float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
+				float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+				if (num478 < num474)
 				{
-					float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-					float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-					if (num478 < num474)
-					{
-						num474 = num478;
-						centerX = num476;
-						centerY = num477;
-						homeIn = true;
-					}
+					num474 = num478;
+					centerX = num476;
+					centerY = num477;
+					homeIn = true;
 				}
 			}
 			if (homeIn)
@@ -74,7 +72,6 @@ namespace CalamityMod.Projectiles.Astral
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 30f + num484) / 31f;
 				projectile.velocity.Y = (projectile.velocity.Y * 30f + num485) / 31f;
-				return;
 			}
         }
         

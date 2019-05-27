@@ -29,7 +29,6 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
 		public override void GetWeaponDamage(Player player, ref int damage)
 		{
-			//damage = (int)((float)damage / (player.rangedDamage + 5E-06f)); //change base damage back to normal after all ranged boosts
 			damage = (int)((double)item.damage * (double)(CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage + 5E-06f)); //plus one otherwise weird shit happens
 		}
 

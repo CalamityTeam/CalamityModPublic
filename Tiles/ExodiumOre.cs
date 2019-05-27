@@ -17,15 +17,14 @@ namespace CalamityMod.Tiles
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exodium Ore");
             AddMapEntry(new Color(51, 48, 68), name);
-
-            minPick = 0;
-            Main.tileValue[Type] = 450;
+			mineResist = 5f;
+			minPick = 224;
+			soundType = 21;
+			Main.tileValue[Type] = 760;
             Main.tileSpelunker[Type] = true;
-
             drop = mod.ItemType("ExodiumClusterOre");
             base.SetDefaults();
         }

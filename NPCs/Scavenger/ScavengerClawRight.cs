@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			DisplayName.SetDefault("Ravager");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -29,20 +29,20 @@ namespace CalamityMod.NPCs.Scavenger
 			aiType = -1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
-                npc.buffImmune[k] = true;
-                npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[BuffID.Daybreak] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("HolyLight")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
-                npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-                npc.buffImmune[mod.BuffType("SilvaStun")] = false;
-            }
+				npc.buffImmune[k] = true;
+			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.noGravity = true;
 			npc.canGhostHeal = false;
 			npc.alpha = 255;
@@ -55,46 +55,48 @@ namespace CalamityMod.NPCs.Scavenger
 				npc.defense = 120;
 				npc.lifeMax = 100000;
 			}
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 300000 : 260000;
-            }
-        }
-		
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 300000 : 260000;
+			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
+
 		public override void AI()
 		{
-            if (!Main.npc[CalamityGlobalNPC.scavenger].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
-            if (npc.timeLeft < 3000)
+			if (!Main.npc[CalamityGlobalNPC.scavenger].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+			if (npc.timeLeft < 3000)
 			{
 				npc.timeLeft = 3000;
 			}
-			if (npc.alpha > 0) 
+			if (npc.alpha > 0)
 			{
 				npc.alpha -= 10;
-				if (npc.alpha < 0) 
+				if (npc.alpha < 0)
 				{
 					npc.alpha = 0;
 				}
 				npc.ai[1] = 0f;
 			}
-			if (npc.ai[0] == 0f) 
+			if (npc.ai[0] == 0f)
 			{
 				npc.noTileCollide = true;
 				float num659 = 14f;
-				if (npc.life < npc.lifeMax / 2) 
+				if (npc.life < npc.lifeMax / 2)
 				{
 					num659 += 1f;
 				}
-				if (npc.life < npc.lifeMax / 3) 
+				if (npc.life < npc.lifeMax / 3)
 				{
 					num659 += 1f;
 				}
-				if (npc.life < npc.lifeMax / 5) 
+				if (npc.life < npc.lifeMax / 5)
 				{
 					num659 += 1f;
 				}
@@ -104,28 +106,28 @@ namespace CalamityMod.NPCs.Scavenger
 				num661 += 50f;
 				num660 += 120f;
 				float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
-				if (num662 < 12f + num659) 
+				if (num662 < 12f + num659)
 				{
 					npc.rotation = 0f;
 					npc.velocity.X = num660;
 					npc.velocity.Y = num661;
 					npc.ai[1] += 1f;
-					if (npc.life < npc.lifeMax / 2) 
+					if (npc.life < npc.lifeMax / 2)
 					{
 						npc.ai[1] += 1f;
 					}
-					if (npc.life < npc.lifeMax / 3) 
+					if (npc.life < npc.lifeMax / 3)
 					{
 						npc.ai[1] += 1f;
 					}
-					if (npc.life < npc.lifeMax / 5) 
+					if (npc.life < npc.lifeMax / 5)
 					{
 						npc.ai[1] += 10f;
 					}
-					if (npc.ai[1] >= 60f) 
+					if (npc.ai[1] >= 60f)
 					{
 						npc.TargetClosest(true);
-						if ((npc.Center.X - 100f < Main.player[npc.target].Center.X)) 
+						if ((npc.Center.X - 100f < Main.player[npc.target].Center.X))
 						{
 							npc.ai[1] = 0f;
 							npc.ai[0] = 1f;
@@ -134,7 +136,7 @@ namespace CalamityMod.NPCs.Scavenger
 						npc.ai[1] = 0f;
 						return;
 					}
-				} 
+				}
 				else
 				{
 					num662 = num659 / num662;
@@ -142,22 +144,22 @@ namespace CalamityMod.NPCs.Scavenger
 					npc.velocity.Y = num661 * num662;
 					npc.rotation = (float)Math.Atan2((double)(-(double)npc.velocity.Y), (double)(-(double)npc.velocity.X));
 				}
-			} 
+			}
 			else if (npc.ai[0] == 1f)
 			{
 				npc.noTileCollide = true;
 				npc.collideX = false;
 				npc.collideY = false;
 				float num663 = 12f;
-				if (npc.life < npc.lifeMax / 2) 
+				if (npc.life < npc.lifeMax / 2)
 				{
 					num663 += 4f;
 				}
-				if (npc.life < npc.lifeMax / 3) 
+				if (npc.life < npc.lifeMax / 3)
 				{
 					num663 += 4f;
 				}
-				if (npc.life < npc.lifeMax / 5) 
+				if (npc.life < npc.lifeMax / 5)
 				{
 					num663 += 10f;
 				}
@@ -170,27 +172,27 @@ namespace CalamityMod.NPCs.Scavenger
 				npc.velocity.Y = num665 * num666;
 				npc.ai[0] = 2f;
 				npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
-			} 
+			}
 			else if (npc.ai[0] == 2f)
 			{
-				if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y)) 
+				if (Math.Abs(npc.velocity.X) > Math.Abs(npc.velocity.Y))
 				{
-					if (npc.velocity.X > 0f && npc.Center.X > Main.player[npc.target].Center.X) 
+					if (npc.velocity.X > 0f && npc.Center.X > Main.player[npc.target].Center.X)
 					{
 						npc.noTileCollide = false;
 					}
-					if (npc.velocity.X < 0f && npc.Center.X < Main.player[npc.target].Center.X) 
+					if (npc.velocity.X < 0f && npc.Center.X < Main.player[npc.target].Center.X)
 					{
 						npc.noTileCollide = false;
 					}
-				} 
+				}
 				else
 				{
-					if (npc.velocity.Y > 0f && npc.Center.Y > Main.player[npc.target].Center.Y) 
+					if (npc.velocity.Y > 0f && npc.Center.Y > Main.player[npc.target].Center.Y)
 					{
 						npc.noTileCollide = false;
 					}
-					if (npc.velocity.Y < 0f && npc.Center.Y < Main.player[npc.target].Center.Y) 
+					if (npc.velocity.Y < 0f && npc.Center.Y < Main.player[npc.target].Center.Y)
 					{
 						npc.noTileCollide = false;
 					}
@@ -203,13 +205,13 @@ namespace CalamityMod.NPCs.Scavenger
 				num668 += 40f;
 				num667 += 110f;
 				float num669 = (float)Math.Sqrt((double)(num667 * num667 + num668 * num668));
-				if ((num669 > 700f || npc.collideX || npc.collideY) | npc.justHit) 
+				if ((num669 > 700f || npc.collideX || npc.collideY) | npc.justHit)
 				{
 					npc.noTileCollide = true;
 					npc.ai[0] = 0f;
 					return;
 				}
-			} 
+			}
 			else if (npc.ai[0] == 3f)
 			{
 				npc.noTileCollide = true;
@@ -222,34 +224,34 @@ namespace CalamityMod.NPCs.Scavenger
 				num675 = num671 / num675;
 				num673 *= num675;
 				num674 *= num675;
-				if (npc.velocity.X < num673) 
+				if (npc.velocity.X < num673)
 				{
 					npc.velocity.X = npc.velocity.X + num672;
-					if (npc.velocity.X < 0f && num673 > 0f) 
+					if (npc.velocity.X < 0f && num673 > 0f)
 					{
 						npc.velocity.X = npc.velocity.X + num672 * 2f;
 					}
-				} 
+				}
 				else if (npc.velocity.X > num673)
 				{
 					npc.velocity.X = npc.velocity.X - num672;
-					if (npc.velocity.X > 0f && num673 < 0f) 
+					if (npc.velocity.X > 0f && num673 < 0f)
 					{
 						npc.velocity.X = npc.velocity.X - num672 * 2f;
 					}
 				}
-				if (npc.velocity.Y < num674) 
+				if (npc.velocity.Y < num674)
 				{
 					npc.velocity.Y = npc.velocity.Y + num672;
-					if (npc.velocity.Y < 0f && num674 > 0f) 
+					if (npc.velocity.Y < 0f && num674 > 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y + num672 * 2f;
 					}
-				} 
+				}
 				else if (npc.velocity.Y > num674)
 				{
 					npc.velocity.Y = npc.velocity.Y - num672;
-					if (npc.velocity.Y > 0f && num674 < 0f) 
+					if (npc.velocity.Y > 0f && num674 < 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y - num672 * 2f;
 					}
@@ -257,7 +259,7 @@ namespace CalamityMod.NPCs.Scavenger
 				npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
 			}
 		}
-		
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
@@ -286,19 +288,19 @@ namespace CalamityMod.NPCs.Scavenger
 					drawPositionY += 30f;
 					drawPositionX += 70f;
 					Microsoft.Xna.Framework.Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y), 
-						new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height)), color, rotation, 
+					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+						new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width, mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height)), color, rotation,
 						new Vector2((float)mod.GetTexture("NPCs/Scavenger/ScavengerChain").Width * 0.5f, (float)mod.GetTexture("NPCs/Scavenger/ScavengerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
 				}
 			}
 			return true;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -307,22 +309,22 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 		}
 
-        public override void HitEffect(int hitDirection, double damage)
-        {
-            if (npc.life > 0)
-            {
-                int num285 = 0;
-                while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)hitDirection, -1f, 0, default(Color), 1f);
-                    num285++;
-                }
-            }
+		public override void HitEffect(int hitDirection, double damage)
+		{
+			if (npc.life > 0)
+			{
+				int num285 = 0;
+				while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)hitDirection, -1f, 0, default(Color), 1f);
+					num285++;
+				}
+			}
 			else
 			{
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawRight"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerClawRight2"), 1f);
 			}
 		}
-    }
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -70,9 +71,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					num439 *= num440;
 					if (projectile.owner == Main.myPlayer)
 					{
-						Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("BrimstoneLaserFriendly"), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("BrimstoneLaserFriendly"), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
-					return;
 				}
 			}
         }
@@ -81,5 +81,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
         {
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+	}
 }

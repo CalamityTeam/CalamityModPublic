@@ -22,11 +22,11 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 5;
-            item.defense = 6;
+            item.defense = 8;
             item.accessory = true;
         }
 
-        public override void AddRecipes()
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "VerstaltiteBar", 5);
@@ -35,5 +35,5 @@ namespace CalamityMod.Items.Accessories
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-    }
+	}
 }

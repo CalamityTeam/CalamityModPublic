@@ -387,6 +387,10 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
+			if (!Lighting.NotRetro)
+			{
+				return;
+			}
 			int uniqueAnimationFrameX = Main.tileFrame[Type] + i;
 			int uniqueAnimationFrameY = Main.tileFrame[Type] + j;
 			int xOffset = 0; //Used to shift the pattern tiles patterns

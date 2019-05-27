@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Bumblefuck
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Birb Pheromones");
-			Tooltip.SetDefault("Attracts the bumbling birb\n" +
-                "Summons the Bumblebirb");
+			Tooltip.SetDefault("Attracts the bumbling birb");
 		}
 		
 		public override void SetDefaults()

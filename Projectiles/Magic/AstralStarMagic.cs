@@ -29,10 +29,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            if (projectile.ai[0] == 1f)
-            {
-                projectile.magic = true;
-            }
         	int randomToSubtract = Main.rand.Next(1, 3);
         	noTileHitCounter -= randomToSubtract;
         	if (noTileHitCounter == 0)
@@ -82,7 +78,6 @@ namespace CalamityMod.Projectiles.Magic
 				if (Main.rand.Next(20) == 0)
 				{
 					Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
-					return;
 				}
 			}
         }

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ataxia Armor");
-            Tooltip.SetDefault("+20 max mana and life\n" +
+            Tooltip.SetDefault("+20 max life\n" +
                 "8% increased damage and 4% increased critical strike chance");
         }
 
@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.statManaMax2 += 20;
             player.statLifeMax2 += 20;
             player.meleeCrit += 4;
             player.meleeDamage += 0.08f;

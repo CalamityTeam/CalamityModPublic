@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 			item.mana = 15;
 			item.width = 58;
 			item.height = 58;
-			item.useTime = 36;
-			item.useAnimation = 36;
+			item.useTime = 12;
+			item.useAnimation = 12;
 			item.useStyle = 1;
 			item.noMelee = true;
 			item.knockBack = 2f;

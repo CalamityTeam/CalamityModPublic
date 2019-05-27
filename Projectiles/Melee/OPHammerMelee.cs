@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Melee
     	
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 38;
+            projectile.width = 62;
+            projectile.height = 62;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = false;

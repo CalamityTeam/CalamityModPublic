@@ -82,6 +82,10 @@ namespace CalamityMod.Items.Cryogen
 			{
 				player.QuickSpawnItem(mod.ItemType("SnowstormStaff"));
 			}
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("Regenator"));
+			}
 			if (Main.rand.Next(5) == 0)
 			{
 				player.QuickSpawnItem(ItemID.FrozenKey);

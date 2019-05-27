@@ -37,7 +37,9 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 npc.lifeMax = CalamityWorld.death ? 400000 : 350000;
             }
-            npc.aiStyle = -1; //new
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
@@ -158,7 +160,7 @@ namespace CalamityMod.NPCs.HiveMind
 							int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
 							int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
 							int num663 = mod.NPCType("HiveBlob");
-							if (Main.rand.Next(3) == 0 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+							if (Main.rand.Next(3) == 0 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							{
 								num663 = mod.NPCType("DankCreeper");
 							}

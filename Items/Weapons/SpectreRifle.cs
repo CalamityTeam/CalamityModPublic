@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -44,8 +45,9 @@ namespace CalamityMod.Items.Weapons
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 1f, 0.0f);
-            return false;
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 0f, 0f);
+			Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+			return false;
         }
 
         public override void AddRecipes()

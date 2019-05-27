@@ -42,7 +42,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.Bomb, 25);
 	        recipe.AddIngredient(null, "SeaPrism", 10);
-	        recipe.AddTile(TileID.Anvils);
+			recipe.AddTile(TileID.Anvils);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}

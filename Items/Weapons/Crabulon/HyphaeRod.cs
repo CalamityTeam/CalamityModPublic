@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons.Crabulon
 {
@@ -87,7 +88,8 @@ namespace CalamityMod.Items.Weapons.Crabulon
 				num79 *= num80;
 				float speedX4 = num78 + (float)Main.rand.Next(-180, 181) * 0.02f;
 				float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, i, 0f, (float)Main.rand.Next(3));
+				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, i, 0f, (float)Main.rand.Next(3));
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
 			}
 	    	return false;
 		}

@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-            projectile.timeLeft = 420;
+            projectile.timeLeft = 840;
             cooldownSlot = 1;
         }
         
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
         {
         	int num613 = 30;
 			int num614 = 30;
-			float num615 = 3f; //2.5
+			float num615 = 2f; //2.5
 			int num616 = 320;
 			int num617 = 88;
 			if (projectile.velocity.X != 0f)

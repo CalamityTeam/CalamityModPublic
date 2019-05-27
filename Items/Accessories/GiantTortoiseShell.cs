@@ -30,6 +30,7 @@ namespace CalamityMod.Items.Accessories
 		
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			player.moveSpeed -= 0.1f;
 			player.thorns = 0.25f;
 		}

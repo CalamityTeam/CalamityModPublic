@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-            modPlayer.projRef = true;
+			modPlayer.projRef = true;
         }
-    }
+	}
 }

@@ -40,6 +40,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				npc.lifeMax = CalamityWorld.death ? 4300000 : 4000000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;

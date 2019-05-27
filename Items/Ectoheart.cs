@@ -17,7 +17,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Ectoheart");
 			Tooltip.SetDefault("Permanently makes Adrenaline Mode take 5 less seconds to charge\n" +
                 "Revengeance drop");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 5));
         }
 		
 		public override void SetDefaults()
@@ -29,6 +29,7 @@ namespace CalamityMod.Items
 			item.useStyle = 4;
 			item.UseSound = SoundID.Item122;
 			item.consumable = true;
+			item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
 

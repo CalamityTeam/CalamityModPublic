@@ -38,21 +38,21 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[BuffID.Daybreak] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("HolyLight")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Plague")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Plague")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -76,6 +76,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			{
 				npc.lifeMax = CalamityWorld.death ? 2300000 : 2000000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 		}
 
 		public override void AI()
@@ -122,7 +124,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			{
 				npc.timeLeft = 1800;
 			}
-			if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+			if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
 				speed = 11f;
 			}
@@ -138,21 +140,15 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			{
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-				if (totalDistance < speed)
-				{
-					npc.velocity.X = xDistance;
-					npc.velocity.Y = yDistance;
-				}
-				else
-				{
-					totalDistance = speed / totalDistance;
-					npc.velocity.X = xDistance * totalDistance;
-					npc.velocity.Y = yDistance * totalDistance;
-				}
+				totalDistance = speed / totalDistance;
+				xDistance *= totalDistance;
+				yDistance *= totalDistance;
+				npc.velocity.X = (npc.velocity.X * 50f + xDistance) / 51f;
+				npc.velocity.Y = (npc.velocity.Y * 50f + yDistance) / 51f;
 			}
 			if (npc.ai[0] == 0f)
 			{
-				npc.defense = 20;
+				npc.defense = provy ? 120 : 20;
 				npc.chaseable = true;
 				if (Main.netMode != 1)
 				{
@@ -194,9 +190,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.damage = 0;
 				npc.dontTakeDamage = true;
-				npc.defense = 20;
+				npc.defense = provy ? 120 : 20;
 				npc.chaseable = false;
 				npc.alpha += (brimTeleport ? 5 : 4);
 				if (npc.alpha >= 255)
@@ -218,9 +213,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.alpha -= (brimTeleport ? 5 : 4);
 				if (npc.alpha <= 0)
 				{
-					npc.damage = expertMode ? 96 : 60;
 					npc.dontTakeDamage = false;
-					npc.defense = 20;
+					npc.defense = provy ? 120 : 20;
 					npc.chaseable = true;
 					npc.ai[3] += 1f;
 					npc.alpha = 0;
@@ -241,7 +235,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 			else if (npc.ai[0] == 3f)
 			{
-				npc.defense = 20;
+				npc.defense = provy ? 120 : 20;
 				npc.dontTakeDamage = false;
 				npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
@@ -249,7 +243,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				Vector2 shootFromVectorX = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				npc.ai[1] += 1f;
 				bool shootProjectile = false;
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					if (npc.ai[1] % 10f == 9f)
 					{
@@ -286,7 +280,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					if (Main.netMode != 1)
 					{
 						float projectileSpeed = 6f; //changed from 10
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							projectileSpeed += 4f;
 						}
@@ -384,7 +378,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				if (Main.netMode != 1)
 				{
 					npc.localAI[0] += (float)Main.rand.Next(4);
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					{
 						npc.localAI[0] += 3f;
 					}
@@ -450,9 +444,13 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			return npc.alpha == 0;
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

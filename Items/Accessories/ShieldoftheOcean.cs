@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
         {
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.statDefense += 5;
+				player.statDefense += 5;
             }
         }
 
@@ -44,5 +44,5 @@ namespace CalamityMod.Items.Accessories
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-    }
+	}
 }

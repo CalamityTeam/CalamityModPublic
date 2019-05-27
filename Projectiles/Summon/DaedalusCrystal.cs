@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Summon
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Daedalus Crystal");
-			Main.projPet[projectile.type] = true;
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
     	
         public override void SetDefaults()
@@ -102,21 +102,24 @@ namespace CalamityMod.Projectiles.Summon
 				float num506 = projectile.Center.X;
 				float num507 = projectile.Center.Y;
 				float num508 = 1000f;
-				NPC ownerMinionAttackTargetNPC = projectile.OwnerMinionAttackTargetNPC;
-				if (ownerMinionAttackTargetNPC != null && ownerMinionAttackTargetNPC.CanBeChasedBy(projectile, false)) 
+				if (player.HasMinionAttackTargetNPC)
 				{
-					float num509 = ownerMinionAttackTargetNPC.position.X + (float)(ownerMinionAttackTargetNPC.width / 2);
-					float num510 = ownerMinionAttackTargetNPC.position.Y + (float)(ownerMinionAttackTargetNPC.height / 2);
-					float num511 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num509) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num510);
-					if (num511 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, ownerMinionAttackTargetNPC.position, ownerMinionAttackTargetNPC.width, ownerMinionAttackTargetNPC.height)) 
+					NPC npc = Main.npc[player.MinionAttackTargetNPC];
+					if (npc.CanBeChasedBy(projectile, false))
 					{
-						num508 = num511;
-						num506 = num509;
-						num507 = num510;
-						flag18 = true;
+						float num539 = npc.position.X + (float)(npc.width / 2);
+						float num540 = npc.position.Y + (float)(npc.height / 2);
+						float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
+						if (num541 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						{
+							num508 = num541;
+							num506 = num539;
+							num507 = num540;
+							flag18 = true;
+						}
 					}
 				}
-				if (!flag18) 
+				else
 				{
 					for (int num512 = 0; num512 < 200; num512++) 
 					{

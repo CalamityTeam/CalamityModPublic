@@ -42,7 +42,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Rogue Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
-                "Reduces all damage taken by 5%, this is calculated separately from damage reduction\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "Rogue weapon critical strikes will do 1.25 times damage while you are above 50% HP\n" +

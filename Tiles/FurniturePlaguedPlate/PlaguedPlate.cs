@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
+			Main.tileMergeDirt[Type] = false;
 			Main.tileBlockLight[Type] = true;
 			TileID.Sets.NeedsGrassFraming[Type] = true;
 			soundType = 21;
@@ -35,6 +35,10 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
+			if (!Lighting.NotRetro)
+			{
+				return;
+			}
 			int xPos = Main.tile[i, j].frameX;
 			int yPos = Main.tile[i, j].frameY;
 			Texture2D glowmask = mod.GetTexture("Tiles/FurniturePlaguedPlate/PlaguedPlate_Glowmask");

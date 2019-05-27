@@ -8,6 +8,8 @@ using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
 
+using CalamityMod.World;
+
 namespace CalamityMod.Projectiles.Typeless
 {
     public class AstralSpray : ModProjectile
@@ -36,7 +38,7 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 int x = (int)(projectile.Center.X / 16f);
                 int y = (int)(projectile.Center.Y / 16f);
-                CalamityWorld.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
+				WorldGenerationMethods.ConvertToAstral(x - 1, x + 1, y - 1, y + 1);
             }
             if (projectile.timeLeft > 133)
             {

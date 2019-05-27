@@ -60,8 +60,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			{
 				npc.TargetClosest(true);
 			}
-			float num = revenge ? 9f : 8f;
-			float num2 = revenge ? 0.25f : 0.2f;
+			float num = revenge ? 8f : 7f;
+			float num2 = revenge ? 0.2f : 0.15f;
 			npc.localAI[0] += 1f;
 			float num3 = (npc.localAI[0] - 60f) / 60f;
 			if (num3 > 1f)

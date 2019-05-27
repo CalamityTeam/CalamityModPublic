@@ -205,6 +205,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		}
 		public override void NPCLoot()
 		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Navystone"), Main.rand.Next(8, 13));
 			if (Main.rand.Next(2) == 0 && Main.hardMode)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MolluskHusk"));

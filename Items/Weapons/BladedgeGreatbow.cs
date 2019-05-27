@@ -6,7 +6,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
-//using TerrariaOverhaul;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -37,12 +36,12 @@ namespace CalamityMod.Items.Weapons
 	        item.useAmmo = 40;
 	    }
 
-        /*public void OverhaulInit()
-        {
-            this.SetTag("crossbow");
-        }*/
+		public override Vector2? HoldoutOffset()
+		{
+			return new Vector2(-10, 0);
+		}
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	for (int i = 0; i < 5; i++)
 	    	{

@@ -17,8 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Tarragon Breastplate");
             Tooltip.SetDefault("10% increased damage and 5% increased critical strike chance\n" +
-                       "+2 life regen\n" +
-                       "+40 max life and mana\n" +
+                       "+2 life regen and +40 max life\n" +
                        "Breastplate of the exiler");
         }
 
@@ -35,7 +34,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 40;
-            player.statManaMax2 += 40;
             player.meleeDamage += 0.1f;
             player.meleeCrit += 5;
             player.magicDamage += 0.1f;

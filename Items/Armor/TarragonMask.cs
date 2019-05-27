@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault("Temporary immunity to lava and immunity to cursed inferno, fire, cursed, and chilled debuffs\n" +
                 "Can move freely through liquids\n" +
                 "10% increased magic damage and critical strike chance\n" +
-                "5% increased damage reduction");
+                "5% increased damage reduction and +100 max mana");
         }
 
         public override void SetDefaults()
@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Armor
             player.magicCrit += 10;
             player.endurance += 0.05f;
 			player.lavaMax += 240;
+			player.statManaMax2 += 100;
 			player.ignoreWater = true;
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.OnFire] = true;

@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 30;
             projectile.penetrate = 1;
             projectile.melee = true;
         }
@@ -35,13 +35,16 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
-			return;
         }
         
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
-        	for (int dust = 0; dust <= 30; dust++)
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 60);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			for (int dust = 0; dust < 30; dust++)
         	{
         		float num463 = (float)Main.rand.Next(-10, 11);
 				float num464 = (float)Main.rand.Next(-10, 11);
@@ -61,6 +64,7 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num467].velocity.X = num463;
 				Main.dust[num467].velocity.Y = num464;
         	}
+			projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

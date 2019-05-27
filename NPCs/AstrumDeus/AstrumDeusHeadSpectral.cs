@@ -46,6 +46,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.lifeMax = CalamityWorld.death ? 1500000 : 1300000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = 6; //new
             aiType = -1; //new
             animationType = 10; //new
@@ -88,8 +90,8 @@ namespace CalamityMod.NPCs.AstrumDeus
             float turnSpeedLimit = CalamityWorld.revenge ? 0.14f : 0.12f;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
             {
-                speedLimit = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 15f : 12f);
-                turnSpeedLimit = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 0.2f : 0.16f);
+                speedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15f : 12f);
+                turnSpeedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 0.2f : 0.16f);
             }
             float speedBoost = speedLimit * (1f - (float)((double)npc.life / (double)npc.lifeMax));
             float turnSpeedBoost = turnSpeedLimit * (1f - (float)((double)npc.life / (double)npc.lifeMax));
@@ -181,10 +183,10 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 npc.TargetClosest(false);
                 canFly = false;
-                npc.velocity.Y = npc.velocity.Y + 2f;
+                npc.velocity.Y = npc.velocity.Y + 5f;
                 if ((double)npc.position.Y > Main.worldSurface * 16.0)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 2f;
+                    npc.velocity.Y = npc.velocity.Y + 5f;
                 }
                 if ((double)npc.position.Y > Main.rockLayer * 16.0)
                 {

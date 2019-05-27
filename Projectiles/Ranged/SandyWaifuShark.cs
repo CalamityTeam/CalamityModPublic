@@ -13,13 +13,13 @@ namespace CalamityMod.Projectiles.Ranged
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shark");
-			Main.projFrames[projectile.type] = 4;
+			Main.projFrames[projectile.type] = 8;
 		}
     	
         public override void SetDefaults()
         {
-            projectile.width = 120;
-            projectile.height = 40;
+            projectile.width = 60;
+            projectile.height = 60;
             projectile.scale = 0.7f;
             projectile.friendly = true;
             projectile.ranged = true;
@@ -54,12 +54,12 @@ namespace CalamityMod.Projectiles.Ranged
 			Main.dust[num192].velocity *= 0.2f;
 			Main.dust[num192].position = (Main.dust[num192].position + projectile.Center) / 2f;
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 8)
+			if (projectile.frameCounter > 6)
 			{
 			    projectile.frame++;
 			    projectile.frameCounter = 0;
 			}
-			if (projectile.frame > 3)
+			if (projectile.frame > 7)
 			{
 			   projectile.frame = 0;
 			}

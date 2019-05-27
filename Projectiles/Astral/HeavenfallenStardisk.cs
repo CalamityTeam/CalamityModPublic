@@ -10,17 +10,17 @@ namespace CalamityMod.Projectiles.Astral
 {
 	public class HeavenfallenStardisk : ModProjectile
 	{
-		
+
 		public bool explode = false;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavenfallen Stardisk");
 		}
-    	
+
 		public override void SetDefaults()
 		{
-			projectile.width = 38;
+			projectile.width = 34;
 			projectile.height = 34;
 			projectile.alpha = 255;
 			projectile.friendly = true;

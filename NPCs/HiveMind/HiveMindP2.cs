@@ -72,6 +72,8 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				npc.lifeMax = CalamityWorld.death ? 1600000 : 1400000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;

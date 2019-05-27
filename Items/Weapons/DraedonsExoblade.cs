@@ -126,7 +126,6 @@ namespace CalamityMod.Items.Weapons
             recipe.AddIngredient(null, "FlarefrostBlade");
             recipe.AddIngredient(null, "PhoenixBlade");
             recipe.AddIngredient(null, "StellarStriker");
-            recipe.AddIngredient(null, "Terracotta");
             recipe.AddIngredient(null, "NightmareFuel", 5);
             recipe.AddIngredient(null, "EndothermicEnergy", 5);
             recipe.AddIngredient(null, "CosmiliteBar", 5);

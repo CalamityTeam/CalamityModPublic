@@ -71,21 +71,6 @@ namespace CalamityMod.Buffs
 				tip = "15% increased damage";
 			if (type == BuffID.NebulaUpDmg3)
 				tip = "22.5% increased damage";
-			if (type == BuffID.ChaosState)
-			{
-				if (CalamityWorld.revenge)
-				{
-					int closestPlayer = (int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0);
-					if (!Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).normalityRelocator)
-						tip = "Using the Rod of Discord will take life and damage taken is increased by 50%";
-					else
-						tip = "Using the Rod of Discord or Normality Relocator will take life";
-				}
-				else
-				{
-					tip = "Using the Rod of Discord or Normality Relocator will take life";
-				}
-			}
 		}
 	}
 }

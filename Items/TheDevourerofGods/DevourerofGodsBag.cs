@@ -76,6 +76,14 @@ namespace CalamityMod.Items.TheDevourerofGods
 				}
 			}
 			player.TryGettingDevArmor();
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("Norfleet"));
+			}
+			if (Main.rand.Next(40) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("Skullmasher"));
+			}
 			if (Main.rand.Next(3) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("DeathhailStaff"));

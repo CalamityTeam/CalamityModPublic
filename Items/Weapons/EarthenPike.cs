@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
 			item.useAnimation = 25;
 			item.useStyle = 5;
 			item.useTime = 25;
-			item.knockBack = 7;
+			item.knockBack = 7f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
 			item.height = 60;

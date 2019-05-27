@@ -56,7 +56,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
         public override void AI()
         {
-            float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
+			bool expertMode = Main.expertMode;
+			float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
             if (playerRunAcceleration <= 1f)
             {
                 playerRunAcceleration = 1f;
@@ -69,11 +70,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             else
             {
-                npc.damage = 600;
+                npc.damage = expertMode ? 360 : 180;
                 npc.dontTakeDamage = false;
             }
             Vector2 vector = npc.Center;
-            bool expertMode = Main.expertMode;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (npc.ai[3] > 0f)
             {
@@ -443,7 +443,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
             {
                 npc.netUpdate = true;
-                return;
             }
         }
 		
@@ -452,15 +451,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			potionType = ItemID.None;
 		}
 
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            if (damage > npc.lifeMax / 2)
-            {
-                damage = 0;
-                return false;
-            }
-            return true;
-        }
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+			return true;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{

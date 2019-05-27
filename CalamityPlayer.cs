@@ -34,19 +34,31 @@ namespace CalamityMod
 		#region InstanceVars
 
 		#region NormalVars
-		public float rogueStealth = 0f;
+		public static bool areThereAnyDamnBosses = false;
 
-		public float rogueStealthMax = 0f;
+		private const int saveVersion = 0;
 
-		public bool playRogueStealthSound = false;
+		public const float defEndurance = 0.33f;
+
+		public int dashMod;
+
+		public int dashTimeMod;
+
+		public int projTypeJustHitBy;
+
+		public int gainRageCooldown = 60;
+
+		public int bossRushImmunityFrameCurseTimer = 0;
+
+		public int aBulwarkRareMeleeBoostTimer = 0;
+
+		public int ataraxiaDamageBoostCooldown = 0;
+
+		public int ataraxiaDamageBoostCancelTimer = 1200;
 
 		public int nebulaManaNerfCounter = 0;
 
 		public int alcoholPoisonLevel = 0;
-
-		public static bool areThereAnyDamnBosses = false;
-
-		private const int saveVersion = 0;
 
 		public int modStealthTimer;
 
@@ -60,9 +72,17 @@ namespace CalamityMod
 
 		public int sCalKillCount = 0;
 
+		public int deathCount = 0;
+
 		public int bloodflareHeartTimer = 180;
 
 		public int bloodflareManaTimer = 180;
+
+		public float ataraxiaDamageBoost = 0f;
+
+		public float rogueStealth = 0f;
+
+		public float rogueStealthMax = 0f;
 
 		public float modStealth = 1f;
 
@@ -70,11 +90,7 @@ namespace CalamityMod
 
 		public float shieldInvinc = 5f;
 
-		public int dashMod;
-
-		public int dashTimeMod;
-
-		public const float defEndurance = 0.33f;
+		public bool playRogueStealthSound = false;
 
 		public bool playFullRageSound = true;
 
@@ -84,17 +100,17 @@ namespace CalamityMod
 
 		public bool playFullAdrenalineBurnoutSound = true;
 
+		public bool onyxExcavator = false;
+
+		public bool angryDog = false;
+
 		public bool fab = false;
+
+		public bool crysthamyr = false;
 
 		public bool drawBossHPBar = true;
 
 		public bool shouldDrawSmallText = true;
-
-		public float ataraxiaDamageBoost = 0f;
-
-		public int ataraxiaDamageBoostCooldown = 0;
-
-		public int ataraxiaDamageBoostCancelTimer = 1200;
 		#endregion
 
 		#region ProficiencyStuff
@@ -120,6 +136,8 @@ namespace CalamityMod
 		#endregion
 
 		#region PetStuff
+		public bool akato = false;
+
 		public bool leviPet = false;
 
 		public bool sirenPet = false;
@@ -131,6 +149,8 @@ namespace CalamityMod
 		public bool brimling = false;
 
 		public bool bearPet = false;
+
+		public bool kendra = false;
 
 		public bool trashMan = false;
 
@@ -153,8 +173,6 @@ namespace CalamityMod
 		public bool afflicted = false;
 
 		public bool affliction = false;
-
-		public bool afflictedBuff = false;
 
 		public bool stressPills = false;
 
@@ -213,6 +231,62 @@ namespace CalamityMod
 		public bool adrenalineBoostThree = false;
 		#endregion
 
+		#region LoreStuff
+		public bool desertScourgeLore = false;
+
+		public bool eaterOfWorldsLore = false;
+
+		public bool hiveMindLore = false;
+
+		public bool perforatorLore = false;
+
+		public bool queenBeeLore = false;
+
+		public bool skeletronLore = false;
+
+		public bool wallOfFleshLore = false;
+
+		public bool destroyerLore = false;
+
+		public bool aquaticScourgeLore = false;
+
+		public bool skeletronPrimeLore = false;
+
+		public bool brimstoneElementalLore = false;
+
+		public bool calamitasLore = false;
+
+		public bool planteraLore = false;
+
+		public bool leviathanAndSirenLore = false;
+
+		public bool astrumAureusLore = false;
+
+		public bool astrumDeusLore = false;
+
+		public bool golemLore = false;
+
+		public bool plaguebringerGoliathLore = false;
+
+		public bool dukeFishronLore = false;
+
+		public bool ravagerLore = false;
+
+		public bool lunaticCultistLore = false;
+
+		public bool moonLordLore = false;
+
+		public bool providenceLore = false;
+
+		public bool polterghastLore = false;
+
+		public bool DoGLore = false;
+
+		public bool yharonLore = false;
+
+		public bool SCalLore = false;
+		#endregion
+
 		#region AccessoryStuff
 		public bool fasterMeleeLevel = false;
 
@@ -223,6 +297,22 @@ namespace CalamityMod
 		public bool fasterSummonLevel = false;
 
 		public bool fasterRogueLevel = false;
+
+		public bool luxorsGift = false;
+
+		public bool fungalSymbiote = false;
+
+		public bool trinketOfChi = false;
+
+		public bool gladiatorSword = false;
+
+		public bool unstablePrism = false;
+
+		public bool regenator = false;
+
+		public bool theBee = false;
+
+		public int theBeeDamage = 0;
 
 		public bool rBrain = false;
 
@@ -237,6 +327,8 @@ namespace CalamityMod
 		public bool dodgeScarf = false;
 
 		public bool badgeOfBravery = false;
+
+		public bool badgeOfBraveryRare = false;
 
 		public bool scarfCooldown = false;
 
@@ -256,6 +348,8 @@ namespace CalamityMod
 
 		public bool nCore = false;
 
+		public bool deepDiver = false;
+
 		public bool abyssalDivingSuitPlates = false;
 
 		public bool abyssalDivingSuitCooldown = false;
@@ -270,7 +364,11 @@ namespace CalamityMod
 
 		public bool aSpark = false;
 
+		public bool aSparkRare = false;
+
 		public bool aBulwark = false;
+
+		public bool aBulwarkRare = false;
 
 		public bool dAmulet = false;
 
@@ -319,6 +417,10 @@ namespace CalamityMod
 		public bool uberBees = false;
 
 		public bool projRef = false;
+
+		public bool projRefRare = false;
+
+		public int projRefRareLifeRegenCounter = 0;
 
 		public bool nanotech = false;
 
@@ -383,6 +485,8 @@ namespace CalamityMod
 		public bool giantPearl = false;
 
 		public bool normalityRelocator = false;
+
+		public bool fabledTortoise = false;
 		#endregion
 
 		#region ArmorSetStuff
@@ -590,6 +694,14 @@ namespace CalamityMod
 		#endregion
 
 		#region BuffStuff
+		public bool trinketOfChiBuff = false;
+
+		public int chiBuffTimer = 0;
+
+		public bool corrEffigy = false;
+
+		public bool crimEffigy = false;
+
 		public bool rRage = false;
 
 		public bool tRegen = false;
@@ -638,7 +750,37 @@ namespace CalamityMod
 
 		public int revivifyTimer = 0;
 
-		public bool permafrostsConcoction;
+		public bool permafrostsConcoction = false;
+
+		public bool armorCrumbling = false;
+
+		public bool armorShattering = false;
+
+		public bool ceaselessHunger = false;
+
+		public bool calcium = false;
+
+		public bool soaring = false;
+
+		public bool bounding = false;
+
+		public bool triumph = false;
+
+		public bool penumbra = false;
+
+		public bool photosynthesis = false;
+
+		public bool astralInjection = false;
+
+		public bool gravityNormalizer = false;
+
+		public bool holyWrath = false;
+
+		public bool profanedRage = false;
+
+		public bool draconicSurge = false;
+
+		public int draconicSurgeCooldown = 0;
 
 		public bool vodka = false;
 
@@ -698,6 +840,8 @@ namespace CalamityMod
 		#endregion
 
 		#region SummonStuff
+		public bool glSword = false;
+
 		public bool mWorm = false;
 
 		public bool iClasper = false;
@@ -961,6 +1105,9 @@ namespace CalamityMod
 				},
 				{
 					"exactRogueLevel", exactRogueLevel
+				},
+				{
+					"deathCount", deathCount
 				}
 			};
 		}
@@ -990,6 +1137,7 @@ namespace CalamityMod
 			adrenaline = tag.GetInt("adrenaline");
 			sCalDeathCount = tag.GetInt("sCalDeathCount");
 			sCalKillCount = tag.GetInt("sCalKillCount");
+			deathCount = tag.GetInt("deathCount");
 
 			meleeLevel = tag.GetInt("meleeLevel");
 			rangedLevel = tag.GetInt("rangedLevel");
@@ -1010,6 +1158,7 @@ namespace CalamityMod
 			adrenaline = reader.ReadInt32();
 			sCalDeathCount = reader.ReadInt32();
 			sCalKillCount = reader.ReadInt32();
+			deathCount = reader.ReadInt32();
 
 			meleeLevel = reader.ReadInt32();
 			rangedLevel = reader.ReadInt32();
@@ -1057,9 +1206,20 @@ namespace CalamityMod
 		#region ResetEffects
 		public override void ResetEffects()
 		{
+			if (extraAccessoryML)
+			{
+				player.extraAccessorySlots = 1;
+			}
 			if (extraAccessoryML && player.extraAccessory && (Main.expertMode || Main.gameMenu))
 			{
 				player.extraAccessorySlots = 2;
+			}
+			if (CalamityWorld.bossRushActive)
+			{
+				if (Config.BossRushAccessoryCurse)
+				{
+					player.extraAccessorySlots = 0;
+				}
 			}
 
 			rogueStealthMax = 0f;
@@ -1067,14 +1227,19 @@ namespace CalamityMod
 			dashMod = 0;
 			alcoholPoisonLevel = 0;
 
+			akato = false;
 			leviPet = false;
 			sirenPet = false;
 			fox = false;
 			chibii = false;
 			brimling = false;
 			bearPet = false;
+			kendra = false;
 			trashMan = false;
+			onyxExcavator = false;
+			angryDog = false;
 			fab = false;
+			crysthamyr = false;
 
 			abyssalDivingSuitPlates = false;
 			abyssalDivingSuitCooldown = false;
@@ -1088,7 +1253,6 @@ namespace CalamityMod
 
 			afflicted = false;
 			affliction = false;
-			afflictedBuff = false;
 
 			fasterMeleeLevel = false;
 			fasterRangedLevel = false;
@@ -1142,14 +1306,53 @@ namespace CalamityMod
 			shadowSpeed = false;
 			dsSetBonus = false;
 
+			desertScourgeLore = false;
+			eaterOfWorldsLore = false;
+			hiveMindLore = false;
+			perforatorLore = false;
+			queenBeeLore = false;
+			skeletronLore = false;
+			wallOfFleshLore = false;
+			destroyerLore = false;
+			aquaticScourgeLore = false;
+			skeletronPrimeLore = false;
+			brimstoneElementalLore = false;
+			calamitasLore = false;
+			planteraLore = false;
+			leviathanAndSirenLore = false;
+			astrumAureusLore = false;
+			astrumDeusLore = false;
+			golemLore = false;
+			plaguebringerGoliathLore = false;
+			dukeFishronLore = false;
+			ravagerLore = false;
+			lunaticCultistLore = false;
+			moonLordLore = false;
+			providenceLore = false;
+			polterghastLore = false;
+			DoGLore = false;
+			yharonLore = false;
+			SCalLore = false;
+
+			luxorsGift = false;
+			fungalSymbiote = false;
+			trinketOfChi = false;
+			gladiatorSword = false;
+			unstablePrism = false;
+			regenator = false;
+			deepDiver = false;
+			theBee = false;
 			rBrain = false;
 			bloodyWormTooth = false;
 			rampartOfDeities = false;
 			vexation = false;
 			fBulwark = false;
 			badgeOfBravery = false;
+			badgeOfBraveryRare = false;
 			aSpark = false;
+			aSparkRare = false;
 			aBulwark = false;
+			aBulwarkRare = false;
 			dAmulet = false;
 			fCarapace = false;
 			gShell = false;
@@ -1162,6 +1365,7 @@ namespace CalamityMod
 			beeResist = false;
 			uberBees = false;
 			projRef = false;
+			projRefRare = false;
 			nanotech = false;
 			eQuiver = false;
 			cryogenSoul = false;
@@ -1193,6 +1397,7 @@ namespace CalamityMod
 			pArtifact = false;
 			giantPearl = false;
 			normalityRelocator = false;
+			fabledTortoise = false;
 			lol = false;
 			raiderTalisman = false;
 			sGenerator = false;
@@ -1276,6 +1481,9 @@ namespace CalamityMod
 			enraged = false;
 			snowmanNoseless = false;
 
+			trinketOfChiBuff = false;
+			corrEffigy = false;
+			crimEffigy = false;
 			rRage = false;
 			xRage = false;
 			xWrath = false;
@@ -1287,6 +1495,35 @@ namespace CalamityMod
 			zerg = false;
 			zen = false;
 			permafrostsConcoction = false;
+			armorCrumbling = false;
+			armorShattering = false;
+			ceaselessHunger = false;
+			calcium = false;
+			soaring = false;
+			bounding = false;
+			triumph = false;
+			penumbra = false;
+			photosynthesis = false;
+			astralInjection = false;
+			gravityNormalizer = false;
+			holyWrath = false;
+			profanedRage = false;
+			draconicSurge = false;
+			trippy = false;
+			amidiasBlessing = false;
+			yPower = false;
+			aWeapon = false;
+			tScale = false;
+			fabsolVodka = false;
+			invincible = false;
+			shine = false;
+			anechoicCoating = false;
+			mushy = false;
+			molten = false;
+			shellBoost = false;
+			cFreeze = false;
+			tRegen = false;
+
 			vodka = false;
 			redWine = false;
 			grapeBeer = false;
@@ -1306,27 +1543,15 @@ namespace CalamityMod
 			moscowMule = false;
 			whiteWine = false;
 			evergreenGin = false;
+
 			tranquilityCandle = false;
 			chaosCandle = false;
 			purpleCandle = false;
 			blueCandle = false;
 			pinkCandle = false;
 			yellowCandle = false;
-			trippy = false;
-			amidiasBlessing = false;
-			yPower = false;
-			aWeapon = false;
-			tScale = false;
-			fabsolVodka = false;
-			invincible = false;
-			shine = false;
-			anechoicCoating = false;
-			mushy = false;
-			molten = false;
-			shellBoost = false;
-			cFreeze = false;
-			tRegen = false;
 
+			glSword = false;
 			mWorm = false;
 			iClasper = false;
 			herring = false;
@@ -1411,8 +1636,11 @@ namespace CalamityMod
 			bloodflareMageCooldown = 0;
 			tarraMageHealCooldown = 0;
 			ataraxiaDamageBoost = 0f;
+			bossRushImmunityFrameCurseTimer = 0;
+			aBulwarkRareMeleeBoostTimer = 0;
 			ataraxiaDamageBoostCooldown = 0;
 			ataraxiaDamageBoostCancelTimer = 1200;
+			theBeeDamage = 0;
 			lethalLavaBurn = false;
 			aCrunch = false;
 			hAttack = false;
@@ -1447,11 +1675,17 @@ namespace CalamityMod
 			sDefense = false;
 			sRegen = false;
 			sPower = false;
+			onyxExcavator = false;
+			angryDog = false;
 			fab = false;
+			crysthamyr = false;
 			abyssalDivingSuitPlates = false;
 			sirenWaterBuff = false;
 			sirenIce = false;
-			afflictedBuff = false;
+			trinketOfChiBuff = false;
+			chiBuffTimer = 0;
+			corrEffigy = false;
+			crimEffigy = false;
 			rRage = false;
 			xRage = false;
 			xWrath = false;
@@ -1462,6 +1696,22 @@ namespace CalamityMod
 			omniscience = false;
 			zerg = false;
 			zen = false;
+			permafrostsConcoction = false;
+			armorCrumbling = false;
+			armorShattering = false;
+			ceaselessHunger = false;
+			calcium = false;
+			soaring = false;
+			bounding = false;
+			triumph = false;
+			penumbra = false;
+			photosynthesis = false;
+			astralInjection = false;
+			gravityNormalizer = false;
+			holyWrath = false;
+			profanedRage = false;
+			draconicSurge = false;
+			draconicSurgeCooldown = 0;
 			yPower = false;
 			aWeapon = false;
 			tScale = false;
@@ -1821,7 +2071,7 @@ namespace CalamityMod
 				player.lifeRegenTime = 0;
 				player.lifeRegen -= 30;
 			}
-			if (ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+			if (ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && !aquaticScourgeLore)
 			{
 				player.AddBuff(BuffID.Poisoned, 2, true);
 				pissWaterBoost++;
@@ -1913,7 +2163,6 @@ namespace CalamityMod
 				player.blind = true;
 				player.statDefense -= 30;
 				player.moveSpeed -= 0.1f;
-				player.endurance -= 0.3f;
 				if (player.wingTimeMax <= 0)
 				{
 					player.wingTimeMax = 0;
@@ -2095,36 +2344,39 @@ namespace CalamityMod
 				if (player.lifeRegenCount > 0)
 					player.lifeRegenCount = 0;
 			}
-			if (Main.myPlayer == player.whoAmI && CalamityWorld.revenge)
+			if (Config.LethalLava)
 			{
-				if (Collision.LavaCollision(player.position, player.width, (player.waterWalk ? (player.height - 6) : player.height)))
+				if (Main.myPlayer == player.whoAmI)
 				{
-					if (player.lavaImmune && !player.immune)
+					if (Collision.LavaCollision(player.position, player.width, (player.waterWalk ? (player.height - 6) : player.height)))
 					{
-						if (player.lavaTime > 0)
+						if (player.lavaImmune && !player.immune)
 						{
-							player.lavaTime--;
+							if (player.lavaTime > 0)
+							{
+								player.lavaTime--;
+							}
+						}
+						if (player.lavaTime <= 0)
+						{
+							player.AddBuff(mod.BuffType("LethalLavaBurn"), 2, true);
 						}
 					}
-					if (player.lavaTime <= 0)
+				}
+				if (lethalLavaBurn)
+				{
+					if (player.lifeRegen > 0)
 					{
-						player.AddBuff(mod.BuffType("LethalLavaBurn"), 2, true);
+						player.lifeRegen = 0;
 					}
+					player.lifeRegenTime = 0;
+					int lifeRegenDown = (player.lavaImmune ? 9 : 18);
+					if (player.lavaRose)
+					{
+						lifeRegenDown = 3;
+					}
+					player.lifeRegen -= lifeRegenDown;
 				}
-			}
-			if (lethalLavaBurn)
-			{
-				if (player.lifeRegen > 0)
-				{
-					player.lifeRegen = 0;
-				}
-				player.lifeRegenTime = 0;
-				int lifeRegenDown = (player.lavaImmune ? 9 : 18);
-				if (player.lavaRose)
-				{
-					lifeRegenDown = 3;
-				}
-				player.lifeRegen -= lifeRegenDown;
 			}
 			if (hInferno)
 			{
@@ -2195,6 +2447,10 @@ namespace CalamityMod
 			{
 				player.velocity.X *= 0.99f;
 			}
+			if (molluskSet)
+			{
+				player.velocity.X *= 0.985f;
+			}
 			if ((warped || caribbeanRum) && !player.slowFall)
 			{
 				player.velocity.Y *= 1.01f;
@@ -2202,16 +2458,12 @@ namespace CalamityMod
 			if (weakPetrification || CalamityWorld.bossRushActive)
 			{
 				if (player.mount.Active)
-				{
 					player.mount.Dismount(player);
-				}
 			}
 			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
 			{
 				if (player.lifeRegen < 0)
-				{
 					player.lifeRegen = 0;
-				}
 			}
 			#endregion
 		}
@@ -2224,117 +2476,157 @@ namespace CalamityMod
 				int lifeRegenTimeMaxBoost = (areThereAnyDamnBosses ? 450 : 1800);
 				int lifeRegenMaxBoost = (areThereAnyDamnBosses ? 1 : 4);
 				float lifeRegenLifeRegenTimeMaxBoost = (areThereAnyDamnBosses ? 8f : 30f);
-				if (draedonsHeart && !shadeRegen && !cFreeze &&
-					(double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
 				{
-					if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
+					if (shadeRegen)
 					{
-						player.lifeRegenTime = lifeRegenTimeMaxBoost;
-					}
-					player.lifeRegenTime += lifeRegenMaxBoost;
-					player.lifeRegen += lifeRegenMaxBoost;
-					float num3 = (float)((double)player.lifeRegenTime * 2.5); //lifeRegenTime max is 3600
-					num3 /= 300f;
-					if (num3 > 0f)
-					{
-						if (num3 > lifeRegenLifeRegenTimeMaxBoost)
+						if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
 						{
-							num3 = lifeRegenLifeRegenTimeMaxBoost;
+							player.lifeRegenTime = lifeRegenTimeMaxBoost;
 						}
-						player.lifeRegen += (int)num3;
-					}
-					if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
-					{
-						player.lifeRegenCount++;
-						if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(2) == 0))
+						player.lifeRegenTime += lifeRegenMaxBoost;
+						player.lifeRegen += lifeRegenMaxBoost;
+						float num3 = (float)((double)player.lifeRegenTime * 2.5); //lifeRegenTime max is 3600
+						num3 /= 300f;
+						if (num3 > 0f)
 						{
-							int num5 = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default(Color), 1f);
-							Main.dust[num5].noGravity = true;
-							Main.dust[num5].velocity *= 0.75f;
-							Main.dust[num5].fadeIn = 1.3f;
-							Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-							vector.Normalize();
-							vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-							Main.dust[num5].velocity = vector;
-							vector.Normalize();
-							vector *= 34f;
-							Main.dust[num5].position = player.Center - vector;
+							if (num3 > lifeRegenLifeRegenTimeMaxBoost)
+							{
+								num3 = lifeRegenLifeRegenTimeMaxBoost;
+							}
+							player.lifeRegen += (int)num3;
 						}
-					}
-				}
-				if (shadeRegen && !draedonsHeart && !cFreeze &&
-					(double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
-				{
-					if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
-					{
-						player.lifeRegenTime = lifeRegenTimeMaxBoost;
-					}
-					player.lifeRegenTime += lifeRegenMaxBoost;
-					player.lifeRegen += lifeRegenMaxBoost;
-					float num3 = (float)((double)player.lifeRegenTime * 2.5); //lifeRegenTime max is 3600
-					num3 /= 300f;
-					if (num3 > 0f)
-					{
-						if (num3 > lifeRegenLifeRegenTimeMaxBoost)
+						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
 						{
-							num3 = lifeRegenLifeRegenTimeMaxBoost;
-						}
-						player.lifeRegen += (int)num3;
-					}
-					if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
-					{
-						player.lifeRegenCount++;
-						if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(30) == 0))
-						{
-							int num5 = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default(Color), 1f);
-							Main.dust[num5].noGravity = true;
-							Main.dust[num5].velocity *= 0.75f;
-							Main.dust[num5].fadeIn = 1.3f;
-							Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-							vector.Normalize();
-							vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-							Main.dust[num5].velocity = vector;
-							vector.Normalize();
-							vector *= 34f;
-							Main.dust[num5].position = player.Center - vector;
+							player.lifeRegenCount++;
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(30) == 0))
+							{
+								int num5 = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default(Color), 1f);
+								Main.dust[num5].noGravity = true;
+								Main.dust[num5].velocity *= 0.75f;
+								Main.dust[num5].fadeIn = 1.3f;
+								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+								vector.Normalize();
+								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
+								Main.dust[num5].velocity = vector;
+								vector.Normalize();
+								vector *= 34f;
+								Main.dust[num5].position = player.Center - vector;
+							}
 						}
 					}
-				}
-				if (cFreeze && !shadeRegen && !draedonsHeart &&
-					(double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
-				{
-					if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
+					else if (cFreeze)
 					{
-						player.lifeRegenTime = lifeRegenTimeMaxBoost;
-					}
-					player.lifeRegenTime += lifeRegenMaxBoost;
-					player.lifeRegen += lifeRegenMaxBoost;
-					float num3 = (float)((double)player.lifeRegenTime * 2.5); //lifeRegenTime max is 3600
-					num3 /= 300f;
-					if (num3 > 0f)
-					{
-						if (num3 > lifeRegenLifeRegenTimeMaxBoost)
+						if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
 						{
-							num3 = lifeRegenLifeRegenTimeMaxBoost;
+							player.lifeRegenTime = lifeRegenTimeMaxBoost;
 						}
-						player.lifeRegen += (int)num3;
-					}
-					if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
-					{
-						player.lifeRegenCount++;
-						if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(30) == 0))
+						player.lifeRegenTime += lifeRegenMaxBoost;
+						player.lifeRegen += lifeRegenMaxBoost;
+						float num3 = (float)((double)player.lifeRegenTime * 2.5); //lifeRegenTime max is 3600
+						num3 /= 300f;
+						if (num3 > 0f)
 						{
-							int num5 = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
-							Main.dust[num5].noGravity = true;
-							Main.dust[num5].velocity *= 0.75f;
-							Main.dust[num5].fadeIn = 1.3f;
-							Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-							vector.Normalize();
-							vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-							Main.dust[num5].velocity = vector;
-							vector.Normalize();
-							vector *= 34f;
-							Main.dust[num5].position = player.Center - vector;
+							if (num3 > lifeRegenLifeRegenTimeMaxBoost)
+							{
+								num3 = lifeRegenLifeRegenTimeMaxBoost;
+							}
+							player.lifeRegen += (int)num3;
+						}
+						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
+						{
+							player.lifeRegenCount++;
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(30) == 0))
+							{
+								int num5 = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
+								Main.dust[num5].noGravity = true;
+								Main.dust[num5].velocity *= 0.75f;
+								Main.dust[num5].fadeIn = 1.3f;
+								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+								vector.Normalize();
+								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
+								Main.dust[num5].velocity = vector;
+								vector.Normalize();
+								vector *= 34f;
+								Main.dust[num5].position = player.Center - vector;
+							}
+						}
+					}
+					else if (draedonsHeart)
+					{
+						if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost)
+						{
+							player.lifeRegenTime = lifeRegenTimeMaxBoost;
+						}
+						player.lifeRegenTime += lifeRegenMaxBoost;
+						player.lifeRegen += lifeRegenMaxBoost;
+						float num3 = (float)((double)player.lifeRegenTime * 2.5); //lifeRegenTime max is 3600
+						num3 /= 300f;
+						if (num3 > 0f)
+						{
+							if (num3 > lifeRegenLifeRegenTimeMaxBoost)
+							{
+								num3 = lifeRegenLifeRegenTimeMaxBoost;
+							}
+							player.lifeRegen += (int)num3;
+						}
+						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
+						{
+							player.lifeRegenCount++;
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(2) == 0))
+							{
+								int num5 = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default(Color), 1f);
+								Main.dust[num5].noGravity = true;
+								Main.dust[num5].velocity *= 0.75f;
+								Main.dust[num5].fadeIn = 1.3f;
+								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+								vector.Normalize();
+								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
+								Main.dust[num5].velocity = vector;
+								vector.Normalize();
+								vector *= 34f;
+								Main.dust[num5].position = player.Center - vector;
+							}
+						}
+					}
+					else if (photosynthesis)
+					{
+						int lifeRegenTimeMaxBoost2 = Main.dayTime ? lifeRegenTimeMaxBoost : (lifeRegenTimeMaxBoost / 5);
+						int lifeRegenMaxBoost2 = Main.dayTime ? lifeRegenMaxBoost : (lifeRegenMaxBoost / 5);
+						float lifeRegenLifeRegenTimeMaxBoost2 = Main.dayTime ? lifeRegenLifeRegenTimeMaxBoost : (lifeRegenLifeRegenTimeMaxBoost / 5);
+						if (player.lifeRegenTime > 90 && player.lifeRegenTime < lifeRegenTimeMaxBoost2)
+						{
+							player.lifeRegenTime = lifeRegenTimeMaxBoost2;
+						}
+						player.lifeRegenTime += lifeRegenMaxBoost2;
+						player.lifeRegen += lifeRegenMaxBoost2;
+						float num3 = (float)((double)player.lifeRegenTime * 2.5); //lifeRegenTime max is 3600
+						num3 /= 300f;
+						if (num3 > 0f)
+						{
+							if (num3 > lifeRegenLifeRegenTimeMaxBoost2)
+							{
+								num3 = lifeRegenLifeRegenTimeMaxBoost2;
+							}
+							player.lifeRegen += (int)num3;
+						}
+						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
+						{
+							player.lifeRegenCount++;
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(2) == 0))
+							{
+								int num5 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default(Color), 1f);
+								Main.dust[num5].noGravity = true;
+								Main.dust[num5].velocity *= 0.75f;
+								Main.dust[num5].fadeIn = 1.3f;
+								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+								vector.Normalize();
+								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
+								Main.dust[num5].velocity = vector;
+								vector.Normalize();
+								vector *= 34f;
+								Main.dust[num5].position = player.Center - vector;
+							}
 						}
 					}
 				}
@@ -2905,11 +3197,15 @@ namespace CalamityMod
 			}
 			if (darkSunRing)
 			{
-				meleeSpeedMult += 0.1f;
+				meleeSpeedMult += 0.12f;
 			}
 			if (badgeOfBravery)
 			{
 				meleeSpeedMult += 0.15f;
+			}
+			if (badgeOfBraveryRare)
+			{
+				meleeSpeedMult += 0.2f;
 			}
 			if (eGauntlet)
 			{
@@ -3017,7 +3313,9 @@ namespace CalamityMod
 		}
 		#endregion
 
-		#region PostUpdateEffects
+		#region PostUpdate
+
+		#region PostUpdateBuffs
 		public override void PostUpdateBuffs()
 		{
 			if (NOU)
@@ -3029,7 +3327,10 @@ namespace CalamityMod
 			if (weakPetrification)
 				WeakPetrification();
 
-			if (player.mount.Active || player.mount.Cart)
+			if (CalamityWorld.bossRushActive)
+				BossRushMovementChanges();
+
+			if (player.mount.Active || player.mount.Cart || (Config.BossRushDashCurse && CalamityWorld.bossRushActive))
 			{
 				player.dashDelay = 60;
 				dashMod = 0;
@@ -3041,7 +3342,9 @@ namespace CalamityMod
 					player.lifeRegen = 0;
 			}
 		}
+		#endregion
 
+		#region PostUpdateEquips
 		public override void PostUpdateEquips()
 		{
 			if (NOU)
@@ -3053,7 +3356,10 @@ namespace CalamityMod
 			if (weakPetrification)
 				WeakPetrification();
 
-			if (player.mount.Active || player.mount.Cart)
+			if (CalamityWorld.bossRushActive)
+				BossRushMovementChanges();
+
+			if (player.mount.Active || player.mount.Cart || (Config.BossRushDashCurse && CalamityWorld.bossRushActive))
 			{
 				player.dashDelay = 60;
 				dashMod = 0;
@@ -3065,13 +3371,13 @@ namespace CalamityMod
 					player.lifeRegen = 0;
 			}
 		}
+		#endregion
 
 		public override void PostUpdateMiscEffects()
 		{
 			if (Config.ExpertDebuffDurationReduction)
-			{
 				Main.expertDebuffTime = 1f;
-			}
+
 			areThereAnyDamnBosses = CalamityGlobalNPC.AnyBossNPCS();
 
 			#region RevengeanceEffects
@@ -3302,7 +3608,7 @@ namespace CalamityMod
 				}
 				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 5;
 			}
-			if (affliction)
+			if (affliction || afflicted)
 			{
 				player.lifeRegen += 1;
 				player.endurance += CalamityWorld.revenge ? 0.07f : 0.05f;
@@ -3311,16 +3617,6 @@ namespace CalamityMod
 				AllDamageBoost(damageBoost);
 				player.statLifeMax2 += CalamityWorld.revenge ? (player.statLifeMax / 5 / 20 * 10) : (player.statLifeMax / 5 / 20 * 5);
 			}
-			else if (afflicted)
-			{
-				player.lifeRegen += 1;
-				player.endurance += CalamityWorld.revenge ? 0.07f : 0.05f;
-				player.statDefense += CalamityWorld.revenge ? 20 : 15;
-				float damageBoost = CalamityWorld.revenge ? 0.12f : 0.1f;
-				AllDamageBoost(damageBoost);
-				player.statLifeMax2 += CalamityWorld.revenge ? (player.statLifeMax / 5 / 20 * 10) : (player.statLifeMax / 5 / 20 * 5);
-			}
-			if (afflictedBuff) { afflicted = true; }
 			#endregion
 
 			#region MaxLifeAndManaBoosts
@@ -3332,9 +3628,15 @@ namespace CalamityMod
 			if (silvaHitCounter > 0)
 			{
 				player.statLifeMax2 -= silvaHitCounter * 100;
-				if (player.statLifeMax2 < 200)
+				if (player.statLifeMax2 <= 400)
 				{
-					player.statLifeMax2 = 200;
+					player.statLifeMax2 = 400;
+					if (silvaCountdown > 0)
+					{
+						if (player.FindBuffIndex(mod.BuffType("SilvaRevival")) > -1) { player.ClearBuff(mod.BuffType("SilvaRevival")); }
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
+					}
+					silvaCountdown = 0;
 				}
 			}
 			player.statManaMax2 +=
@@ -3384,6 +3686,10 @@ namespace CalamityMod
 			{
 				GetExactLevelUp();
 			}
+
+			if (gainRageCooldown > 0)
+				gainRageCooldown--;
+
 			if (player.nebulaLevelMana > 0 && player.statMana < player.statManaMax2)
 			{
 				int num = 12;
@@ -3444,7 +3750,12 @@ namespace CalamityMod
 			}
 			if (silvaSet || invincible || margarita)
 			{
-				foreach (int debuff in CalamityMod.debuffList) { player.buffImmune[debuff] = true; }
+				foreach (int debuff in CalamityMod.debuffList)
+					player.buffImmune[debuff] = true;
+			}
+			if (aSparkRare)
+			{
+				player.buffImmune[BuffID.Electrified] = true;
 			}
 			if (Config.ExpertChilledWaterRemoval)
 			{
@@ -3463,10 +3774,14 @@ namespace CalamityMod
 			}
 			if (ZoneAbyss)
 			{
-				if (abyssalAmulet) { player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10); }
+				if (abyssalAmulet)
+				{
+					player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * (lumenousAmulet ? 25 : 10);
+				}
 				if (Main.myPlayer == player.whoAmI) //4200 total tiles small world
 				{
 					int breathLoss = 2;
+					int lifeLossAtZeroBreath = 3;
 					int lightStrength = 0 +
 						((player.lightOrb || player.crimsonHeart || player.magicLantern) ? 1 : 0) + //1
 						(aquaticEmblem ? 1 : 0) + //2
@@ -3482,29 +3797,40 @@ namespace CalamityMod
 					if (ZoneAbyssLayer4) //3200 and below
 					{
 						breathLoss = 54;
-						if (!lightLevelFour) { player.blind = true; }
-						if (!lightLevelThree) { player.headcovered = true; }
-						if (!depthCharm) { player.bleed = true; }
+						if (!lightLevelFour)
+							player.blind = true;
+						if (!lightLevelThree)
+							player.headcovered = true;
+						player.bleed = true;
+						lifeLossAtZeroBreath = 24;
 						player.statDefense -= (anechoicPlating ? 40 : 120);
 					}
 					else if (ZoneAbyssLayer3) //2700 to 3200
 					{
 						breathLoss = 18;
-						if (!lightLevelThree) { player.blind = true; }
-						if (!lightLevelTwo) { player.headcovered = true; }
-						if (!depthCharm) { player.bleed = true; }
+						if (!lightLevelThree)
+							player.blind = true;
+						if (!lightLevelTwo)
+							player.headcovered = true;
+						if (!abyssalDivingSuit)
+							player.bleed = true;
+						lifeLossAtZeroBreath = 12;
 						player.statDefense -= (anechoicPlating ? 20 : 60);
 					}
 					else if (ZoneAbyssLayer2) //2100 to 2700
 					{
 						breathLoss = 6;
-						if (!lightLevelTwo) { player.blind = true; }
-						if (!depthCharm) { player.bleed = true; }
+						if (!lightLevelTwo)
+							player.blind = true;
+						if (!depthCharm)
+							player.bleed = true;
+						lifeLossAtZeroBreath = 6;
 						player.statDefense -= (anechoicPlating ? 10 : 30);
 					}
 					else if (ZoneAbyssLayer1) //1500 to 2100
 					{
-						if (!lightLevelOne) { player.blind = true; }
+						if (!lightLevelOne)
+							player.blind = true;
 						player.statDefense -= (anechoicPlating ? 5 : 15);
 					}
 					double breathLossMult = 1.0 -
@@ -3516,7 +3842,10 @@ namespace CalamityMod
 						(victideSet ? 0.2 : 0.0) - //0.85
 						(((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0.0) - //0.7
 						(abyssalDivingSuit ? 0.3 : 0.0); //0.7
-					if (breathLossMult < 0.05) { breathLossMult = 0.05; }
+					if (breathLossMult < 0.05)
+					{
+						breathLossMult = 0.05;
+					}
 					breathLoss = (int)((double)breathLoss * breathLossMult);
 					int tick = 6;
 					double tickMult = 1.0 +
@@ -3529,7 +3858,10 @@ namespace CalamityMod
 						(victideSet ? 5.0 : 0.0) + //60
 						(((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3) ? 15.0 : 0.0) + //75
 						(abyssalDivingSuit ? 15.0 : 0.0); //90
-					if (tickMult > 50.0) { tickMult = 50.0; }
+					if (tickMult > 50.0)
+					{
+						tickMult = 50.0;
+					}
 					tick = (int)((double)tick * tickMult);
 					abyssBreathCD++;
 					if (player.gills || player.merman)
@@ -3561,10 +3893,17 @@ namespace CalamityMod
 						}
 						if (player.breath <= 0)
 						{
-							int lifeLoss = 6 +
-								(player.bleed ? 6 : 0) -
-								(depthCharm ? 3 : 0);
-							player.statLife -= lifeLoss;
+							if (depthCharm)
+							{
+								lifeLossAtZeroBreath -= 3;
+								if (abyssalDivingSuit)
+									lifeLossAtZeroBreath -= 6;
+							}
+							if (lifeLossAtZeroBreath < 0)
+							{
+								lifeLossAtZeroBreath = 0;
+							}
+							player.statLife -= lifeLossAtZeroBreath;
 							if (player.statLife <= 0)
 							{
 								KillPlayer();
@@ -3581,6 +3920,17 @@ namespace CalamityMod
 				(aeroSet && !Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)))
 			{
 				player.maxFallSpeed = 15f;
+			}
+			if (player.ZoneSkyHeight)
+			{
+				if (astrumDeusLore)
+				{
+					player.moveSpeed += 0.3f;
+				}
+				if (astrumAureusLore)
+				{
+					player.jumpSpeedBoost += 0.5f;
+				}
 			}
 			if (omegaBlueSet) //should apply after rev caps, actually those are gone so AAAAA
 			{
@@ -3623,7 +3973,10 @@ namespace CalamityMod
 			{
 				if (gHealer)
 				{
-					if (healCounter > 0) { healCounter--; }
+					if (healCounter > 0)
+					{
+						healCounter--;
+					}
 					if (healCounter <= 0)
 					{
 						healCounter = 300;
@@ -3651,14 +4004,34 @@ namespace CalamityMod
 					player.maxMinions++;
 				}
 			}
-			if (revivifyTimer > 0) { revivifyTimer--; }
-			if (fleshTotemCooldown > 0) { fleshTotemCooldown--; }
-			if (astralStarRainCooldown > 0) { astralStarRainCooldown--; }
-			if (bloodflareMageCooldown > 0) { bloodflareMageCooldown--; }
-			if (tarraMageHealCooldown > 0) { tarraMageHealCooldown--; }
-			if (ataxiaDmg > 0) { ataxiaDmg--; }
-			if (xerocDmg > 0) { xerocDmg--; }
-			if (godSlayerDmg > 0) { godSlayerDmg--; }
+			if (draconicSurgeCooldown > 0)
+				draconicSurgeCooldown--;
+			if (revivifyTimer > 0)
+				revivifyTimer--;
+			if (fleshTotemCooldown > 0)
+				fleshTotemCooldown--;
+			if (astralStarRainCooldown > 0)
+				astralStarRainCooldown--;
+			if (bloodflareMageCooldown > 0)
+				bloodflareMageCooldown--;
+			if (tarraMageHealCooldown > 0)
+				tarraMageHealCooldown--;
+			if (ataxiaDmg > 0f)
+				ataxiaDmg -= 1.5f;
+			if (ataxiaDmg < 0f)
+				ataxiaDmg = 0f;
+			if (xerocDmg > 0f)
+				xerocDmg -= 2f;
+			if (xerocDmg < 0f)
+				xerocDmg = 0f;
+			if (godSlayerDmg > 0f)
+				godSlayerDmg -= 2.5f;
+			if (godSlayerDmg < 0f)
+				godSlayerDmg = 0f;
+			if (aBulwarkRareMeleeBoostTimer > 0)
+				aBulwarkRareMeleeBoostTimer--;
+			if (bossRushImmunityFrameCurseTimer > 0)
+				bossRushImmunityFrameCurseTimer--;
 			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
 			{
 				player.buffImmune[mod.BuffType("VulnerabilityHex")] = true;
@@ -3712,11 +4085,15 @@ namespace CalamityMod
 						}
 					}
 				}
-				if (tarraCooldown > 0) { tarraCooldown--; }
+				if (tarraCooldown > 0)
+					tarraCooldown--;
 			}
 			if (tarraThrowing)
 			{
-				if (tarraThrowingCritTimer > 0) { tarraThrowingCritTimer--; }
+				if (tarraThrowingCritTimer > 0)
+				{
+					tarraThrowingCritTimer--;
+				}
 				if (tarraThrowingCrits >= 25)
 				{
 					tarraThrowingCrits = 0;
@@ -3736,8 +4113,10 @@ namespace CalamityMod
 			}
 			if (bloodflareSet)
 			{
-				if (bloodflareHeartTimer > 0) { bloodflareHeartTimer--; }
-				if (bloodflareManaTimer > 0) { bloodflareManaTimer--; }
+				if (bloodflareHeartTimer > 0)
+					bloodflareHeartTimer--;
+				if (bloodflareManaTimer > 0)
+					bloodflareManaTimer--;
 			}
 			if (bloodflareMelee)
 			{
@@ -3772,17 +4151,23 @@ namespace CalamityMod
 						}
 					}
 				}
-				if (bloodflareFrenzyCooldown > 0) { bloodflareFrenzyCooldown--; }
+				if (bloodflareFrenzyCooldown > 0)
+					bloodflareFrenzyCooldown--;
 			}
 			if (bloodflareRanged)
 			{
-				if (bloodflareRangedCooldown > 0) { bloodflareRangedCooldown--; }
+				if (bloodflareRangedCooldown > 0)
+					bloodflareRangedCooldown--;
 			}
 			if (Main.raining && ZoneSulphur)
 			{
-				if (player.ZoneOverworldHeight || player.ZoneSkyHeight) { player.AddBuff(mod.BuffType("Irradiated"), 2); }
+				if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
+					player.AddBuff(mod.BuffType("Irradiated"), 2);
 			}
-			if (raiderTalisman) { CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += ((float)raiderStack / 250f) * 0.15f; }
+			if (raiderTalisman)
+			{
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += ((float)raiderStack / 250f) * 0.25f;
+			}
 			if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon)
 			{
 				player.maxMinions += 2;
@@ -3811,13 +4196,19 @@ namespace CalamityMod
 					player.moveSpeed += 0.2f;
 				}
 			}
-			if (coreOfTheBloodGod) { player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10; }
-			if (bloodPact) { player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 100; }
+			if (coreOfTheBloodGod)
+			{
+				player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 10;
+			}
+			if (bloodPact)
+			{
+				player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 100;
+			}
 			if (aAmpoule)
 			{
 				Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 1f, 1f, 0.6f);
 				player.endurance += 0.05f;
-				player.pickSpeed -= 0.5f;
+				player.pickSpeed -= 0.25f;
 				player.buffImmune[70] = true;
 				player.buffImmune[47] = true;
 				player.buffImmune[46] = true;
@@ -3904,6 +4295,270 @@ namespace CalamityMod
 				if (ataraxiaDamageBoost > 0.3f)
 					ataraxiaDamageBoost = 0.3f;
 			}
+			if (projRefRareLifeRegenCounter > 0)
+			{
+				projRefRareLifeRegenCounter--;
+				player.lifeRegenTime += 2;
+				player.lifeRegen += 2;
+			}
+			if (desertScourgeLore)
+			{
+				player.statDefense += 10;
+			}
+			if (skeletronPrimeLore)
+			{
+				player.armorPenetration += 5;
+			}
+			if (destroyerLore)
+			{
+				player.pickSpeed -= 0.1f;
+			}
+			if (golemLore)
+			{
+				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+				{
+					player.statDefense += 10;
+				}
+			}
+			if (aquaticScourgeLore && player.wellFed)
+			{
+				player.statDefense += 1;
+				player.meleeCrit += 1;
+				player.meleeDamage += 0.025f;
+				player.meleeSpeed += 0.025f;
+				player.magicCrit += 1;
+				player.magicDamage += 0.025f;
+				player.rangedCrit += 1;
+				player.rangedDamage += 0.025f;
+				player.thrownCrit += 1;
+				player.thrownDamage += 0.025f;
+				player.minionDamage += 0.025f;
+				player.minionKB += 0.25f;
+				player.moveSpeed += 0.1f;
+			}
+			if (eaterOfWorldsLore)
+			{
+				int damage = 20;
+				float knockBack = 2f;
+				if (Main.rand.Next(15) == 0)
+				{
+					int num = 0;
+					for (int i = 0; i < 1000; i++)
+					{
+						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == mod.ProjectileType("TheDeadlyMicrobeProjectile"))
+						{
+							num++;
+						}
+					}
+					if (Main.rand.Next(15) >= num && num < 6)
+					{
+						int num2 = 50;
+						int num3 = 24;
+						int num4 = 90;
+						for (int j = 0; j < num2; j++)
+						{
+							int num5 = Main.rand.Next(200 - j * 2, 400 + j * 2);
+							Vector2 center = player.Center;
+							center.X += (float)Main.rand.Next(-num5, num5 + 1);
+							center.Y += (float)Main.rand.Next(-num5, num5 + 1);
+							if (!Collision.SolidCollision(center, num3, num3) && !Collision.WetCollision(center, num3, num3))
+							{
+								center.X += (float)(num3 / 2);
+								center.Y += (float)(num3 / 2);
+								if (Collision.CanHit(new Vector2(player.Center.X, player.position.Y), 1, 1, center, 1, 1) || Collision.CanHit(new Vector2(player.Center.X, player.position.Y - 50f), 1, 1, center, 1, 1))
+								{
+									int num6 = (int)center.X / 16;
+									int num7 = (int)center.Y / 16;
+									bool flag = false;
+									if (Main.rand.Next(3) == 0 && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
+									{
+										flag = true;
+									}
+									else
+									{
+										center.X -= (float)(num4 / 2);
+										center.Y -= (float)(num4 / 2);
+										if (Collision.SolidCollision(center, num4, num4))
+										{
+											center.X += (float)(num4 / 2);
+											center.Y += (float)(num4 / 2);
+											flag = true;
+										}
+									}
+									if (flag)
+									{
+										for (int k = 0; k < 1000; k++)
+										{
+											if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == mod.ProjectileType("TheDeadlyMicrobeProjectile") && (center - Main.projectile[k].Center).Length() < 48f)
+											{
+												flag = false;
+												break;
+											}
+										}
+										if (flag && Main.myPlayer == player.whoAmI)
+										{
+											Projectile.NewProjectile(center.X, center.Y, 0f, 0f, mod.ProjectileType("TheDeadlyMicrobeProjectile"), damage, knockBack, player.whoAmI, 0f, 0f);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			if (calcium)
+			{
+				player.noFallDmg = true;
+			}
+			if (skeletronLore)
+			{
+				AllDamageBoost(0.05f);
+				AllCritBoost(5);
+				player.statDefense += 10;
+			}
+			if (ceaselessHunger)
+			{
+				for (int j = 0; j < 400; j++)
+				{
+					if (Main.item[j].active && Main.item[j].noGrabDelay == 0 && Main.item[j].owner == player.whoAmI)
+					{
+						int num = Main.maxTilesX;
+						if (new Rectangle((int)player.position.X - num, (int)player.position.Y - num, player.width + num * 2, player.height + num * 2).Intersects(new Rectangle((int)Main.item[j].position.X, (int)Main.item[j].position.Y, Main.item[j].width, Main.item[j].height)))
+						{
+							Main.item[j].beingGrabbed = true;
+							if ((double)player.position.X + (double)player.width * 0.5 > (double)Main.item[j].position.X + (double)Main.item[j].width * 0.5)
+							{
+								if (Main.item[j].velocity.X < 40f + player.velocity.X)
+								{
+									Item item = Main.item[j];
+									item.velocity.X = item.velocity.X + 4.5f;
+								}
+								if (Main.item[j].velocity.X < 0f)
+								{
+									Item item = Main.item[j];
+									item.velocity.X = item.velocity.X + 4.5f * 0.75f;
+								}
+							}
+							else
+							{
+								if (Main.item[j].velocity.X > -40f + player.velocity.X)
+								{
+									Item item = Main.item[j];
+									item.velocity.X = item.velocity.X - 4.5f;
+								}
+								if (Main.item[j].velocity.X > 0f)
+								{
+									Item item = Main.item[j];
+									item.velocity.X = item.velocity.X - 4.5f * 0.75f;
+								}
+							}
+							if ((double)player.position.Y + (double)player.height * 0.5 > (double)Main.item[j].position.Y + (double)Main.item[j].height * 0.5)
+							{
+								if (Main.item[j].velocity.Y < 40f)
+								{
+									Item item = Main.item[j];
+									item.velocity.Y = item.velocity.Y + 4.5f;
+								}
+								if (Main.item[j].velocity.Y < 0f)
+								{
+									Item item = Main.item[j];
+									item.velocity.Y = item.velocity.Y + 4.5f * 0.75f;
+								}
+							}
+							else
+							{
+								if (Main.item[j].velocity.Y > -40f)
+								{
+									Item item = Main.item[j];
+									item.velocity.Y = item.velocity.Y - 4.5f;
+								}
+								if (Main.item[j].velocity.Y > 0f)
+								{
+									Item item = Main.item[j];
+									item.velocity.Y = item.velocity.Y - 4.5f * 0.75f;
+								}
+							}
+						}
+					}
+				}
+			}
+			if (dukeFishronLore)
+			{
+				AllDamageBoost(0.05f);
+				AllCritBoost(5);
+				player.moveSpeed += 0.15f;
+			}
+			if (lunaticCultistLore)
+			{
+				player.endurance += 0.04f;
+				player.statDefense += 4;
+				AllDamageBoost(0.04f);
+				AllCritBoost(4);
+				player.minionKB += 0.5f;
+				player.moveSpeed += 0.1f;
+			}
+			if (moonLordLore)
+			{
+				if (player.gravDir == -1f && player.gravControl2)
+				{
+					player.endurance += 0.05f;
+					player.statDefense += 10;
+					AllDamageBoost(0.1f);
+					AllCritBoost(10);
+					player.minionKB += 1.5f;
+					player.moveSpeed += 0.15f;
+				}
+			}
+			if (leviathanAndSirenLore)
+			{
+				if (sirenBoobsPrevious || sirenBoobsAltPrevious)
+				{
+					player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 5;
+				}
+				if (sirenPet)
+				{
+					player.spelunkerTimer += 1;
+					if (player.spelunkerTimer >= 10)
+					{
+						player.spelunkerTimer = 0;
+						int num65 = 30;
+						int num66 = (int)player.Center.X / 16;
+						int num67 = (int)player.Center.Y / 16;
+						for (int num68 = num66 - num65; num68 <= num66 + num65; num68++)
+						{
+							for (int num69 = num67 - num65; num69 <= num67 + num65; num69++)
+							{
+								if (Main.rand.Next(4) == 0)
+								{
+									Vector2 vector = new Vector2((float)(num66 - num68), (float)(num67 - num69));
+									if (vector.Length() < (float)num65 && num68 > 0 && num68 < Main.maxTilesX - 1 && num69 > 0 && num69 < Main.maxTilesY - 1 && Main.tile[num68, num69] != null && Main.tile[num68, num69].active())
+									{
+										bool flag7 = false;
+										if (Main.tile[num68, num69].type == 185 && Main.tile[num68, num69].frameY == 18)
+										{
+											if (Main.tile[num68, num69].frameX >= 576 && Main.tile[num68, num69].frameX <= 882)
+											{
+												flag7 = true;
+											}
+										}
+										else if (Main.tile[num68, num69].type == 186 && Main.tile[num68, num69].frameX >= 864 && Main.tile[num68, num69].frameX <= 1170)
+										{
+											flag7 = true;
+										}
+										if (flag7 || Main.tileSpelunker[(int)Main.tile[num68, num69].type] || (Main.tileAlch[(int)Main.tile[num68, num69].type] && Main.tile[num68, num69].type != 82))
+										{
+											int num70 = Dust.NewDust(new Vector2((float)(num68 * 16), (float)(num69 * 16)), 16, 16, 204, 0f, 0f, 150, default(Color), 0.3f);
+											Main.dust[num70].fadeIn = 0.75f;
+											Main.dust[num70].velocity *= 0.1f;
+											Main.dust[num70].noLight = true;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 			#endregion
 
 			#region StandingStillEffects
@@ -3936,27 +4591,43 @@ namespace CalamityMod
 					{
 						rogueStealth -= rogueStealthMax * 0.006f;
 						if (rogueStealth < 0f)
-						{
 							rogueStealth = 0f;
-						}
 					}
 				}
-				else if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+				else if ((((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1) || (penumbra && (!Main.dayTime || Main.eclipse))) && !player.mount.Active)
 				{
 					if (rogueStealth < rogueStealthMax)
 					{
-						rogueStealth += rogueStealthMax * 0.006f; //180 ticks, 3 seconds to reach full stealth
+						rogueStealth += rogueStealthMax * (Main.eclipse ? 0.012f : 0.006f); //180 ticks, 3 seconds to reach full stealth
 						if (rogueStealth > rogueStealthMax)
-						{
 							rogueStealth = rogueStealthMax;
-						}
 					}
 				}
 			}
 			else
-			{
 				rogueStealth = 0f;
+
+			if (trinketOfChi)
+			{
+				if (trinketOfChiBuff)
+				{
+					AllDamageBoost(0.5f);
+					if (player.itemAnimation > 0)
+						chiBuffTimer = 0;
+				}
+				if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+				{
+					if (chiBuffTimer < 120)
+						chiBuffTimer++;
+					else
+						player.AddBuff(mod.BuffType("ChiBuff"), 6);
+				}
+				else
+					chiBuffTimer--;
 			}
+			else
+				chiBuffTimer = 0;
+
 			if (aquaticEmblem)
 			{
 				if ((Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && player.wet && !player.lavaWet && !player.honeyWet) &&
@@ -3969,9 +4640,7 @@ namespace CalamityMod
 						{
 							aquaticBoost = 0f;
 							if (Main.netMode == 1)
-							{
 								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-							}
 						}
 					}
 				}
@@ -3979,17 +4648,16 @@ namespace CalamityMod
 				{
 					aquaticBoost += 0.0002f;
 					if (aquaticBoost > 1f)
-					{
 						aquaticBoost = 1f;
-					}
 					if (player.mount.Active)
-					{
 						aquaticBoost = 1f;
-					}
 				}
 				player.statDefense += (int)((1f - aquaticBoost) * 30f);
 				player.moveSpeed -= (1f - aquaticBoost) * 0.1f;
 			}
+			else
+				aquaticBoost = 1f;
+
 			if (auricBoost)
 			{
 				if (player.itemAnimation > 0)
@@ -4005,9 +4673,7 @@ namespace CalamityMod
 						{
 							modStealth = 0f;
 							if (Main.netMode == 1)
-							{
 								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-							}
 						}
 					}
 				}
@@ -4016,22 +4682,16 @@ namespace CalamityMod
 					float num27 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
 					modStealth += num27 * 0.0075f;
 					if (modStealth > 1f)
-					{
 						modStealth = 1f;
-					}
 					if (player.mount.Active)
-					{
 						modStealth = 1f;
-					}
 				}
 				float damageBoost = (1f - modStealth) * 0.2f;
 				AllDamageBoost(damageBoost);
 				int critBoost = (int)((1f - modStealth) * 10f);
 				AllCritBoost(critBoost);
 				if (modStealthTimer > 0)
-				{
 					modStealthTimer--;
-				}
 			}
 			else if (pAmulet)
 			{
@@ -4048,9 +4708,7 @@ namespace CalamityMod
 						{
 							modStealth = 0f;
 							if (Main.netMode == 1)
-							{
 								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-							}
 						}
 					}
 				}
@@ -4059,26 +4717,18 @@ namespace CalamityMod
 					float num27 = Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y);
 					modStealth += num27 * 0.0075f;
 					if (modStealth > 1f)
-					{
 						modStealth = 1f;
-					}
 					if (player.mount.Active)
-					{
 						modStealth = 1f;
-					}
 				}
-				player.meleeDamage += (1f - modStealth) * 0.2f;
-				player.meleeCrit += (int)((1f - modStealth) * 10f);
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += (1f - modStealth) * 0.2f;
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += (int)((1f - modStealth) * 10f);
 				player.aggro -= (int)((1f - modStealth) * 750f);
 				if (modStealthTimer > 0)
-				{
 					modStealthTimer--;
-				}
 			}
 			else
-			{
 				modStealth = 1f;
-			}
 			#endregion
 
 			#region ElysianAegis
@@ -4161,10 +4811,62 @@ namespace CalamityMod
 			#endregion
 
 			#region OtherBuffs
+			if (gravityNormalizer)
+			{
+				player.buffImmune[BuffID.VortexDebuff] = true;
+				float x = (float)(Main.maxTilesX / 4200);
+				x *= x;
+				float spaceGravityMult = (float)((double)(player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
+				if (spaceGravityMult < 1f)
+				{
+					player.gravity = Player.defaultGravity;
+					if (player.wet)
+					{
+						if (player.honeyWet)
+							player.gravity = 0.1f;
+						else if (player.merman)
+							player.gravity = 0.3f;
+						else
+							player.gravity = 0.2f;
+					}
+				}
+			}
+			if (astralInjection)
+			{
+				if (player.statMana < player.statManaMax2)
+				{
+					player.statMana += 3;
+				}
+				if (player.statMana > player.statManaMax2)
+				{
+					player.statMana = player.statManaMax2;
+				}
+			}
+			if (armorCrumbling)
+			{
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+				player.meleeCrit += 5;
+			}
+			if (armorShattering)
+			{
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.08f;
+				player.meleeDamage += 0.08f;
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
+				player.meleeCrit += 8;
+			}
+			if (holyWrath)
+			{
+				AllDamageBoost(0.12f);
+				player.moveSpeed += 0.05f;
+			}
+			if (profanedRage)
+			{
+				AllCritBoost(12);
+				player.moveSpeed += 0.05f;
+			}
 			if (irradiated)
 			{
 				player.statDefense -= 10;
-				player.endurance -= 0.1f;
 				AllDamageBoost(0.05f);
 				player.minionKB += 0.5f;
 				player.moveSpeed += 0.05f;
@@ -4220,16 +4922,16 @@ namespace CalamityMod
 			if (darkSunRing)
 			{
 				player.maxMinions += 2;
-				AllDamageBoost(0.1f);
-				player.minionKB += 1f;
-				player.pickSpeed -= 0.3f;
+				AllDamageBoost(0.12f);
+				player.minionKB += 1.2f;
+				player.pickSpeed -= 0.15f;
 				if (Main.dayTime)
 				{
-					player.lifeRegen += 2;
+					player.lifeRegen += 3;
 				}
 				else
 				{
-					player.statDefense += 20;
+					player.statDefense += 30;
 				}
 			}
 			if (eGauntlet)
@@ -4406,9 +5108,7 @@ namespace CalamityMod
 						{
 							float distance = (Main.npc[m].Center - player.Center).Length();
 							if (distance < 120f)
-							{
 								Main.npc[m].AddBuff(mod.BuffType("PearlAura"), 2, false);
-							}
 						}
 					}
 				}
@@ -4425,18 +5125,35 @@ namespace CalamityMod
 			if (harpyRing)
 			{
 				if (player.wingTimeMax > 0)
-				{
 					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.25);
-				}
 				player.moveSpeed += 0.2f;
 			}
 			if (blueCandle)
 			{
 				if (player.wingTimeMax > 0)
-				{
 					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
-				}
 				player.moveSpeed += 0.15f;
+			}
+			if (plaguebringerGoliathLore)
+			{
+				if (player.wingTimeMax > 0)
+					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.25);
+			}
+			if (soaring)
+			{
+				if (player.wingTimeMax > 0)
+					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
+			}
+			if (draconicSurge)
+			{
+				if (player.wingTimeMax > 0)
+					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.35);
+			}
+			if (bounding)
+			{
+				player.jumpSpeedBoost += 0.5f;
+				Player.jumpHeight += 10;
+				player.extraFall += 25;
 			}
 			if (community)
 			{
@@ -4473,18 +5190,45 @@ namespace CalamityMod
 					int hasBuff = player.buffType[l];
 					bool shouldAffect = CalamityMod.alcoholList.Contains(hasBuff);
 					if (shouldAffect)
-					{
 						lesserEffect = true;
-					}
 				}
 				if (player.lifeRegen < 0)
-				{
 					player.lifeRegen += lesserEffect ? 1 : regenBoost;
-				}
 				if (player.wingTimeMax > 0)
-				{
 					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.15);
-				}
+			}
+			if (ravagerLore)
+			{
+				if (player.wingTimeMax > 0)
+					player.wingTimeMax = (int)((double)player.wingTimeMax * 0.5);
+				AllDamageBoost(0.05f);
+			}
+			if (corrEffigy)
+			{
+				player.moveSpeed += 0.15f;
+				AllCritBoost(10);
+			}
+			if (crimEffigy)
+			{
+				AllDamageBoost(0.15f);
+				player.statDefense += 10;
+				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.8);
+			}
+			if (badgeOfBraveryRare)
+			{
+				player.meleeDamage += 0.2f;
+				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
+			}
+			if (regenator)
+			{
+				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.5);
+				player.lifeRegenTime += 8;
+				player.lifeRegen += 16;
+			}
+			if (calamitasLore)
+			{
+				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
+				player.maxMinions += 2;
 			}
 			if (pinkCandle)
 			{
@@ -4502,13 +5246,9 @@ namespace CalamityMod
 			if (rBrain)
 			{
 				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
-				{
 					AllDamageBoost(0.1f);
-				}
 				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
-				{
 					player.moveSpeed -= 0.05f;
-				}
 			}
 			if (bloodyWormTooth)
 			{
@@ -4671,6 +5411,12 @@ namespace CalamityMod
 				AllDamageBoost(0.25f);
 				player.statDefense /= 2;
 			}
+			if (deepDiver)
+			{
+				AllDamageBoost(0.15f);
+				player.statDefense += (int)((double)player.statDefense * 0.15);
+				player.moveSpeed += 0.15f;
+			}
 			if (coreOfTheBloodGod)
 			{
 				player.endurance += 0.05f;
@@ -4741,6 +5487,35 @@ namespace CalamityMod
 					player.maxMinions += 2;
 				}
 			}
+			if (brimstoneElementalLore && player.inferno)
+			{
+				int num = mod.BuffType("BrimstoneFlames");
+				float num2 = 300f;
+				bool flag = player.infernoCounter % 30 == 0;
+				int damage = 50;
+				if (player.whoAmI == Main.myPlayer)
+				{
+					for (int l = 0; l < 200; l++)
+					{
+						NPC nPC = Main.npc[l];
+						if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= num2)
+						{
+							if (nPC.FindBuffIndex(num) == -1 && !nPC.buffImmune[num])
+							{
+								nPC.AddBuff(num, 120, false);
+							}
+							if (flag)
+							{
+								player.ApplyDamageToNPC(nPC, damage, 0f, 0, false);
+							}
+						}
+					}
+				}
+			}
+			if (plaguebringerGoliathLore)
+			{
+				player.lifeRegen /= 2;
+			}
 			#endregion
 
 			#region LimitsAndOtherShit
@@ -4759,11 +5534,23 @@ namespace CalamityMod
 				player.statDefense += (int)((double)damageReductionAboveCap * 100.0);
 				player.endurance = defEndurance + (damageReductionAboveCap * 0.1f); //0.33 + (0.27 * 0.1) = 0.357
 			}
+			if (vHex)
+			{
+				player.endurance -= 0.3f;
+			}
+			if (irradiated)
+			{
+				player.endurance -= 0.1f;
+			}
+			if (corrEffigy)
+			{
+				player.endurance -= 0.2f;
+			}
 			if (CalamityWorld.revenge)
 			{
 				if (player.statLife < player.statLifeMax2)
 				{
-					bool noLifeRegenCap = ((player.shinyStone || draedonsHeart || cFreeze || shadeRegen) &&
+					bool noLifeRegenCap = ((player.shinyStone || draedonsHeart || cFreeze || shadeRegen || photosynthesis) &&
 						(double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0);
 					if (!noLifeRegenCap)
 					{
@@ -4771,7 +5558,7 @@ namespace CalamityMod
 						//350 HP = 1 - 0.875 * 10 = 1.25 = 1
 						//100 HP = 1 - 0.25 * 10 = 7.5 = 7
 						//200 HP = 1 - 0.5 * 10 = 5
-						int lifeRegenScale = (int)(1f - ((float)player.statLife / (float)player.statLifeMax2)) * 10; //9 to 0 (1% HP to 100%)
+						int lifeRegenScale = (int)((1f - ((float)player.statLife / (float)player.statLifeMax2)) * 10f); //9 to 0 (1% HP to 100%)
 						if (player.lifeRegen > lifeRegenScale)
 						{
 							double lifeRegenScalar = (double)(1f + ((float)player.statLife / (float)player.statLifeMax2)); //1 to 2 (1% HP to 100%)
@@ -4779,6 +5566,19 @@ namespace CalamityMod
 							player.lifeRegen = defLifeRegen;
 						}
 					}
+				}
+			}
+			if (CalamityWorld.bossRushActive)
+			{
+				if (Config.BossRushHealthCurse)
+				{
+					if (player.lifeRegen > 0)
+						player.lifeRegen = 0;
+
+					player.lifeRegenTime = 0;
+
+					if (player.lifeRegenCount > 0)
+						player.lifeRegenCount = 0;
 				}
 			}
 			if (Config.ProficiencyEnabled)
@@ -4872,7 +5672,15 @@ namespace CalamityMod
 			}
 			if (marked || reaperToothNecklace)
 			{
-				player.endurance *= 0.5f;
+				if (player.endurance > 0f)
+					player.endurance *= 0.5f;
+			}
+			if (yharonLore && !CalamityWorld.defiled)
+			{
+				if (player.wingTimeMax < 50000)
+				{
+					player.wingTimeMax = 50000;
+				}
 			}
 			#endregion
 		}
@@ -4880,90 +5688,62 @@ namespace CalamityMod
 		public override void PostUpdateRunSpeeds()
 		{
 			#region SpeedBoosts
-			if (hAttack)
+			float runAccMult = 1f +
+				((hAttack && !Main.dayTime) ? 0.05f : 0f) +
+				((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
+				((abyssalDivingSuit && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.05f : 0f) +
+				(sirenWaterBuff ? 0.15f : 0f) +
+				((frostFlare && player.statLife < (int)((double)player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
+				(shadowSpeed ? 0.5f : 0f) +
+				(auricSet ? 0.1f : 0f) +
+				(silvaSet ? 0.05f : 0f) +
+				(cTracers ? 0.1f : 0f) +
+				(eTracers ? 0.05f : 0f) +
+				(blueCandle ? 0.05f : 0f) +
+				((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
+				(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+
+			float runSpeedMult = 1f +
+				((hAttack && !Main.dayTime) ? 0.05f : 0f) +
+				((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
+				((abyssalDivingSuit && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.05f : 0f) +
+				(sirenWaterBuff ? 0.15f : 0f) +
+				((frostFlare && player.statLife < (int)((double)player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
+				(shadowSpeed ? 0.5f : 0f) +
+				(auricSet ? 0.1f : 0f) +
+				(silvaSet ? 0.05f : 0f) +
+				(cTracers ? 0.1f : 0f) +
+				(eTracers ? 0.05f : 0f) +
+				((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
+				(rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
+
+			if (abyssalDivingSuit && !Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 			{
-				if (!Main.dayTime)
-				{
-					player.runAcceleration *= 1.05f;
-					player.maxRunSpeed *= 1.05f;
-				}
-			}
-			if (stressPills || laudanum || draedonsHeart)
-			{
-				player.runAcceleration *= 1.05f;
-				player.maxRunSpeed *= 1.05f;
-			}
-			if (abyssalDivingSuit)
-			{
-				player.runAcceleration *= Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) ? 1.05f : 0.4f;
-				player.maxRunSpeed *= Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) ? 1.05f : 0.4f;
-			}
-			if (sirenWaterBuff)
-			{
-				player.runAcceleration *= 1.15f;
-				player.maxRunSpeed *= 1.15f;
-			}
-			if (frostFlare && player.statLife < (int)((double)player.statLifeMax2 * 0.25))
-			{
-				player.runAcceleration *= 1.15f;
-				player.maxRunSpeed *= 1.15f;
-			}
-			if (shadowSpeed)
-			{
-				player.runAcceleration *= 1.5f;
-				player.maxRunSpeed *= 1.5f;
-			}
-			else if (auricSet)
-			{
-				player.runAcceleration *= 1.1f;
-				player.maxRunSpeed *= 1.1f;
-			}
-			else if (silvaSet)
-			{
-				player.runAcceleration *= 1.05f;
-				player.maxRunSpeed *= 1.05f;
-			}
-			if (cTracers)
-			{
-				player.runAcceleration *= 1.1f;
-				player.maxRunSpeed *= 1.1f;
-			}
-			else if (eTracers)
-			{
-				player.runAcceleration *= 1.05f;
-				player.maxRunSpeed *= 1.05f;
-			}
-			if (blueCandle)
-			{
-				player.runAcceleration *= 1.05f;
+				runAccMult *= 0.4f;
+				runSpeedMult *= 0.4f;
 			}
 			if (horror)
 			{
-				player.runAcceleration *= 0.85f;
-				player.maxRunSpeed *= 0.85f;
+				runAccMult *= 0.85f;
+				runSpeedMult *= 0.85f;
+			}
+			if (fabledTortoise)
+			{
+				runAccMult *= 0.5f;
+				runSpeedMult *= 0.5f;
 			}
 			if (elysianGuard)
 			{
-				player.runAcceleration *= 0.5f;
-				player.maxRunSpeed *= 0.5f;
+				runAccMult *= 0.5f;
+				runSpeedMult *= 0.5f;
 			}
-			if (player.powerrun && CalamityWorld.revenge) //asphalt
+			if (player.powerrun && CalamityWorld.revenge)
 			{
-				player.maxRunSpeed *= 0.6666667f; //base is 3 * 3.5 = 10.5 * 0.6666667 = 7.0
+				runSpeedMult *= 0.6666667f;
 			}
-			if (rogueStealthMax > 0f)
-			{
-				if (rogueStealth >= rogueStealthMax) //full stealth, more speed
-				{
-					player.runAcceleration *= 1f + (rogueStealth * 0.05f);
-					player.maxRunSpeed *= 1f + (rogueStealth * 0.05f);
-				}
-				else
-				{
-					player.runAcceleration *= 1f + (rogueStealth * 0.025f);
-					player.maxRunSpeed *= 1f + (rogueStealth * 0.025f);
-				}
-			}
+
+			player.runAcceleration *= runAccMult;
+			player.maxRunSpeed *= runSpeedMult;
 			#endregion
 
 			#region DashEffects
@@ -4973,9 +5753,9 @@ namespace CalamityMod
 			}
 			else if (player.grappling[0] == -1 && !player.tongued)
 			{
+				ModHorizontalMovement();
 				if (dashMod > 0)
 				{
-					ModHorizontalMovement();
 					ModDashMovement();
 				}
 				if (pAmulet && modStealth < 1f)
@@ -5030,6 +5810,10 @@ namespace CalamityMod
 				}
 				player.statLife += 100;
 				player.HealEffect(100);
+				if (player.statLife > player.statLifeMax2)
+				{
+					player.statLife = player.statLifeMax2;
+				}
 				return false;
 			}
 			if (godSlayer && !godSlayerCooldown)
@@ -5050,8 +5834,18 @@ namespace CalamityMod
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					}
 				}
-				player.statLife += 150;
-				player.HealEffect(150);
+				int heal = draconicSurge ? player.statLifeMax2 : 150;
+				player.statLife += heal;
+				player.HealEffect(heal);
+				if (player.statLife > player.statLifeMax2)
+				{
+					player.statLife = player.statLifeMax2;
+				}
+				if (player.FindBuffIndex(mod.BuffType("DraconicSurgeBuff")) > -1)
+				{
+					player.ClearBuff(mod.BuffType("DraconicSurgeBuff"));
+					draconicSurgeCooldown = 1800;
+				}
 				player.AddBuff(mod.BuffType("GodSlayerCooldown"), 2700);
 				return false;
 			}
@@ -5065,6 +5859,20 @@ namespace CalamityMod
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
 					player.AddBuff(mod.BuffType("SilvaRevival"), 600);
+					if (draconicSurge)
+					{
+						player.statLife += player.statLifeMax2;
+						player.HealEffect(player.statLifeMax2);
+						if (player.statLife > player.statLifeMax2)
+						{
+							player.statLife = player.statLifeMax2;
+						}
+						if (player.FindBuffIndex(mod.BuffType("DraconicSurgeBuff")) > -1)
+						{
+							player.ClearBuff(mod.BuffType("DraconicSurgeBuff"));
+							draconicSurgeCooldown = 1800;
+						}
+					}
 				}
 				hasSilvaEffect = true;
 				if (player.statLife < 1)
@@ -5110,6 +5918,11 @@ namespace CalamityMod
 					sCalDeathCount++;
 				}
 			}
+			deathCount++;
+			if (player.whoAmI == Main.myPlayer && Main.netMode == 1)
+			{
+				DeathPacket(false);
+			}
 			if (CalamityWorld.ironHeart && areThereAnyDamnBosses)
 			{
 				KillPlayer();
@@ -5140,13 +5953,20 @@ namespace CalamityMod
 		#region GetWeaponDamageAndKB
 		public override void GetWeaponDamage(Item item, ref int damage)
 		{
+			bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
+			if (isTrueMelee)
+			{
+				double damageMult = 1.0 +
+					(dodgeScarf ? 0.2 : 0.0) +
+					((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2.0 : 0.0) +
+					(DoGLore ? 0.5 : 0.0) +
+					(fungalSymbiote ? 0.25 : 0.0);
+
+				damage = (int)((double)damage * damageMult);
+			}
 			if (flamethrowerBoost && item.ranged && item.useAmmo == 23)
 			{
 				damage = (int)((double)damage * 1.25);
-			}
-			if (dodgeScarf && item.melee && item.shoot == 0)
-			{
-				damage = (int)((double)damage * 1.2);
 			}
 			if ((cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type)) || (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type)))
 			{
@@ -5156,14 +5976,24 @@ namespace CalamityMod
 			{
 				damage = (int)((double)damage * 1.1);
 			}
+			if (theBee && player.statLife >= player.statLifeMax2)
+			{
+				if (item.melee || item.ranged || item.magic || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
+				{
+					double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600.0; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
+					if (useTimeBeeMultiplier > 1.5)
+						useTimeBeeMultiplier = 1.5;
+					theBeeDamage = (int)((double)item.damage * useTimeBeeMultiplier);
+				}
+			}
+			if (!theBee)
+			{
+				theBeeDamage = 0;
+			}
 		}
 
 		public override void GetWeaponKnockback(Item item, ref float knockback)
 		{
-			if (pAmulet && item.melee)
-			{
-				knockback *= 1f + (1f - modStealth) * 0.5f;
-			}
 			if (auricBoost)
 			{
 				knockback *= 1f + (1f - modStealth) * 0.5f;
@@ -5190,54 +6020,124 @@ namespace CalamityMod
 		#region MeleeEffects
 		public override void MeleeEffects(Item item, Rectangle hitbox)
 		{
-			if (aWeapon && item.melee && !item.noMelee && !item.noUseGraphic)
+			bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
+			if (isTrueMelee)
 			{
-				if (Main.rand.Next(3) == 0)
+				if (fungalSymbiote && player.whoAmI == Main.myPlayer)
 				{
-					int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("BrimstoneFlame"), player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					if ((player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1) ||
+						player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3) ||
+						player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5) ||
+						player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7) ||
+						player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9)))
+					{
+						float num339 = 0f;
+						float num340 = 0f;
+						float num341 = 0f;
+						float num342 = 0f;
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9))
+						{
+							num339 = -7f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
+						{
+							num339 = -6f;
+							num340 = 2f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5))
+						{
+							num339 = -4f;
+							num340 = 4f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3))
+						{
+							num339 = -2f;
+							num340 = 6f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1))
+						{
+							num340 = 7f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
+						{
+							num342 = 26f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3))
+						{
+							num342 -= 4f;
+							num341 -= 20f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1))
+						{
+							num341 += 6f;
+						}
+						if (player.direction == -1)
+						{
+							if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9))
+							{
+								num342 -= 8f;
+							}
+							if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
+							{
+								num342 -= 6f;
+							}
+						}
+						num339 *= 1.5f;
+						num340 *= 1.5f;
+						num342 *= (float)player.direction;
+						num341 *= player.gravDir;
+						Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Mushroom, (int)((float)item.damage * 0.25f * player.meleeDamage), 0f, player.whoAmI, 0f, 0f);
+					}
 				}
-			}
-			if (aChicken && item.melee && !item.noMelee && !item.noUseGraphic)
-			{
-				if (Main.rand.Next(3) == 0)
+				if (aWeapon)
 				{
-					int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 244, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					if (Main.rand.Next(3) == 0)
+					{
+						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("BrimstoneFlame"), player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					}
 				}
-			}
-			if (eGauntlet && item.melee && !item.noMelee && !item.noUseGraphic)
-			{
-				if (Main.rand.Next(3) == 0)
+				if (aChicken)
 				{
-					int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 66, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
-					Main.dust[num280].noGravity = true;
+					if (Main.rand.Next(3) == 0)
+					{
+						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 244, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					}
 				}
-			}
-			if (cryogenSoul && item.melee && !item.noMelee && !item.noUseGraphic)
-			{
-				if (Main.rand.Next(3) == 0)
+				if (eGauntlet)
 				{
-					int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 67, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					if (Main.rand.Next(3) == 0)
+					{
+						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 66, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
+						Main.dust[num280].noGravity = true;
+					}
 				}
-			}
-			if (xerocSet && item.melee && !item.noMelee && !item.noUseGraphic)
-			{
-				if (Main.rand.Next(3) == 0)
+				if (cryogenSoul)
 				{
-					int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 58, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 1.25f);
+					if (Main.rand.Next(3) == 0)
+					{
+						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 67, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					}
 				}
-			}
-			if (reaverBlast && item.melee && !item.noMelee && !item.noUseGraphic)
-			{
-				if (Main.rand.Next(3) == 0)
+				if (xerocSet)
 				{
-					int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 74, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					if (Main.rand.Next(3) == 0)
+					{
+						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 58, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 1.25f);
+					}
 				}
-			}
-			if (dsSetBonus && item.melee && !item.noMelee && !item.noUseGraphic)
-			{
-				if (Main.rand.Next(3) == 0)
+				if (reaverBlast)
 				{
-					int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 27, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 2.5f);
+					if (Main.rand.Next(3) == 0)
+					{
+						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 74, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 0.75f);
+					}
+				}
+				if (dsSetBonus)
+				{
+					if (Main.rand.Next(3) == 0)
+					{
+						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 27, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default(Color), 2.5f);
+					}
 				}
 			}
 		}
@@ -5372,6 +6272,28 @@ namespace CalamityMod
 					target.AddBuff(mod.BuffType("Plague"), 120, false);
 				}
 			}
+			if (armorCrumbling || armorShattering)
+			{
+				if (item.melee || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
+				{
+					if (Main.rand.Next(4) == 0)
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 360, false);
+					}
+					else if (Main.rand.Next(2) == 0)
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 240, false);
+					}
+					else
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 120, false);
+					}
+				}
+			}
+			if (holyWrath)
+			{
+				target.AddBuff(mod.BuffType("HolyLight"), 600, false);
+			}
 		}
 		#endregion
 
@@ -5414,7 +6336,11 @@ namespace CalamityMod
 					target.AddBuff(mod.BuffType("DemonFlames"), 120, false);
 				}
 			}
-			if (alchFlask)
+			if (uberBees && (proj.type == 566 || proj.type == 181 || proj.type == 189))
+			{
+				target.AddBuff(mod.BuffType("Plague"), 360);
+			}
+			else if (alchFlask)
 			{
 				if (Main.rand.Next(4) == 0)
 				{
@@ -5509,6 +6435,40 @@ namespace CalamityMod
 						target.AddBuff(BuffID.OnFire, 240, false);
 					}
 				}
+			}
+			if (armorCrumbling || armorShattering)
+			{
+				if (proj.melee || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+				{
+					if (Main.rand.Next(4) == 0)
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 360, false);
+					}
+					else if (Main.rand.Next(2) == 0)
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 240, false);
+					}
+					else
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 120, false);
+					}
+				}
+			}
+			if (perforatorLore)
+			{
+				target.AddBuff(BuffID.Ichor, 450);
+			}
+			if (hiveMindLore)
+			{
+				target.AddBuff(BuffID.CursedInferno, 450);
+			}
+			if (holyWrath)
+			{
+				target.AddBuff(mod.BuffType("HolyLight"), 600, false);
+			}
+			else if (providenceLore)
+			{
+				target.AddBuff(mod.BuffType("HolyLight"), 450, false);
 			}
 		}
 		#endregion
@@ -5627,6 +6587,10 @@ namespace CalamityMod
 					target.AddBuff(mod.BuffType("Plague"), 120, false);
 				}
 			}
+			if (holyWrath)
+			{
+				target.AddBuff(mod.BuffType("HolyLight"), 600, false);
+			}
 		}
 
 		public override void OnHitPvpWithProj(Projectile proj, Player target, int damage, bool crit)
@@ -5652,7 +6616,11 @@ namespace CalamityMod
 					target.AddBuff(mod.BuffType("CrushDepth"), 120, false);
 				}
 			}
-			if (alchFlask)
+			if (uberBees && (proj.type == 566 || proj.type == 181 || proj.type == 189))
+			{
+				target.AddBuff(mod.BuffType("Plague"), 360);
+			}
+			else if (alchFlask)
 			{
 				if (Main.rand.Next(4) == 0)
 				{
@@ -5748,22 +6716,55 @@ namespace CalamityMod
 					}
 				}
 			}
+			if (armorCrumbling || armorShattering)
+			{
+				if (proj.melee || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+				{
+					if (Main.rand.Next(4) == 0)
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 360, false);
+					}
+					else if (Main.rand.Next(2) == 0)
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 240, false);
+					}
+					else
+					{
+						target.AddBuff(mod.BuffType("ArmorCrunch"), 120, false);
+					}
+				}
+			}
+			if (perforatorLore)
+			{
+				target.AddBuff(BuffID.Ichor, 450);
+			}
+			if (hiveMindLore)
+			{
+				target.AddBuff(BuffID.CursedInferno, 450);
+			}
+			if (holyWrath)
+			{
+				target.AddBuff(mod.BuffType("HolyLight"), 600, false);
+			}
+			else if (providenceLore)
+			{
+				target.AddBuff(mod.BuffType("HolyLight"), 450, false);
+			}
 		}
 		#endregion
 
 		#region ModifyHitNPC
 		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			if (silvaMelee && Main.rand.Next(4) == 0)
+			#region MultiplierBoosts
+			double damageMult = 1.0;
+			if (silvaMelee && Main.rand.Next(4) == 0 && item.melee)
 			{
-				damage *= 5;
+				damageMult += 4.0;
 			}
-			if (ataxiaGeyser && item.melee && !item.noMelee && !item.noUseGraphic)
+			if (enraged && !Config.BossRushXerocCurse)
 			{
-				if (player.whoAmI == Main.myPlayer && player.ownedProjectileCounts[mod.ProjectileType("ChaosGeyser")] < 3)
-				{
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("ChaosGeyser"), (int)((double)item.damage * 0.15), 2f, player.whoAmI, 0f, 0f);
-				}
+				damageMult += 1.25;
 			}
 			if (CalamityWorld.revenge && Config.AdrenalineAndRage)
 			{
@@ -5772,7 +6773,7 @@ namespace CalamityMod
 				{
 					if (item.melee)
 					{
-						damage = (int)((double)damage * (CalamityWorld.death ? (DHorHoD ? 9.9 : 9.0) : (DHorHoD ? 3.3 : 3.0)));
+						damageMult += (CalamityWorld.death ? (DHorHoD ? 8.9 : 8.0) : (DHorHoD ? 2.3 : 2.0));
 					}
 				}
 				else if (rageMode)
@@ -5783,18 +6784,25 @@ namespace CalamityMod
 							(rageBoostOne ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //3.6 or 1.65
 							(rageBoostTwo ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //4.2 or 1.8
 							(rageBoostThree ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0); //4.8 or 1.95
-						double rageDamage = (CalamityWorld.death ? (DHorHoD ? 3.3 : 3.0) : (DHorHoD ? 1.65 : 1.5)) + rageDamageBoost;
-						damage = (int)((double)damage * rageDamage);
+						double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.3 : 2.0) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost;
+						damageMult += rageDamage;
 					}
 				}
 				else if (adrenalineMode)
 				{
 					if (item.melee)
 					{
-						damage = (int)((double)damage * ((CalamityWorld.death ? 7.0 : 2.5) * adrenalineDmgMult));
+						double damageMultAdr = (CalamityWorld.death ? 6.0 : 1.5) * (double)adrenalineDmgMult;
+						damageMult += damageMultAdr;
 					}
 				}
 			}
+			damage = (int)((double)damage * damageMult);
+			#endregion
+
+			if (yharonLore)
+				damage = (int)((double)damage * 0.75);
+
 			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
 			{
 				if (item.type == mod.ItemType("Ataraxia"))
@@ -5807,7 +6815,64 @@ namespace CalamityMod
 							ataraxiaDamageBoost += 0.01f;
 					}
 				}
-				if (bloodflareMelee)
+				if (item.melee && !item.noMelee && !item.noUseGraphic)
+				{
+					if (ataxiaGeyser)
+					{
+						if (player.ownedProjectileCounts[mod.ProjectileType("ChaosGeyser")] < 3)
+						{
+							Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("ChaosGeyser"), (int)((double)damage * 0.15), 2f, player.whoAmI, 0f, 0f);
+						}
+					}
+					if (unstablePrism && crit)
+					{
+						for (int num252 = 0; num252 < 3; num252++)
+						{
+							Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+							while (value15.X == 0f && value15.Y == 0f)
+							{
+								value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+							}
+							value15.Normalize();
+							value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+							Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, mod.ProjectileType("UnstableSpark"), (int)((double)damage * 0.15), 0f, player.whoAmI, 0f, 0f);
+						}
+					}
+				}
+				if (astralStarRain && crit && astralStarRainCooldown <= 0)
+				{
+					astralStarRainCooldown = 60;
+					for (int n = 0; n < 3; n++)
+					{
+						float x = target.position.X + (float)Main.rand.Next(-400, 400);
+						float y = target.position.Y - (float)Main.rand.Next(500, 800);
+						Vector2 vector = new Vector2(x, y);
+						float num13 = target.position.X + (float)(target.width / 2) - vector.X;
+						float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
+						num13 += (float)Main.rand.Next(-100, 101);
+						float num15 = 25f;
+						int projectileType = Main.rand.Next(3);
+						if (projectileType == 0)
+						{
+							projectileType = mod.ProjectileType("AstralStar");
+						}
+						else if (projectileType == 1)
+						{
+							projectileType = 92;
+						}
+						else
+						{
+							projectileType = 12;
+						}
+						float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
+						num16 = num15 / num16;
+						num13 *= num16;
+						num14 *= num16;
+						int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 75, 5f, player.whoAmI, 0f, 0f);
+						Main.projectile[num17].ranged = false;
+					}
+				}
+				if (bloodflareMelee && item.melee)
 				{
 					if (bloodflareMeleeHits < 15 && bloodflareFrenzyTimer <= 0 && bloodflareFrenzyCooldown <= 0)
 					{
@@ -5848,7 +6913,7 @@ namespace CalamityMod
 				}
 				if (CalamityWorld.revenge && Config.AdrenalineAndRage)
 				{
-					if (item.shoot == 0 || item.shoot == mod.ProjectileType("NobodyKnows"))
+					if (item.melee)
 					{
 						int stressGain = (int)((double)damage * 0.1);
 						int stressMaxGain = 10;
@@ -5868,9 +6933,226 @@ namespace CalamityMod
 					}
 				}
 			}
-			if (astralStarRain && crit && astralStarRainCooldown <= 0)
+		}
+
+		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			bool isTrueMelee = proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee;
+			bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
+			bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue;
+
+			if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
 			{
-				if (player.whoAmI == Main.myPlayer)
+				crit = (Main.rand.Next(1, 101) < CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit);
+			}
+
+			#region MultiplierBoosts
+			double damageMult = 1.0;
+			if (isSummon)
+			{
+				if ((player.inventory[player.selectedItem].summon &&
+					!player.inventory[player.selectedItem].melee &&
+					!player.inventory[player.selectedItem].ranged &&
+					!player.inventory[player.selectedItem].magic &&
+					!player.inventory[player.selectedItem].thrown) ||
+					player.inventory[player.selectedItem].hammer > 0 ||
+					player.inventory[player.selectedItem].pick > 0 ||
+					player.inventory[player.selectedItem].axe > 0)
+				{
+					damageMult += 0.1;
+				}
+			}
+			if (screwdriver)
+			{
+				if (proj.penetrate > 1 || proj.penetrate == -1)
+					damageMult += 0.1;
+			}
+			if (sPower)
+			{
+				if (isSummon)
+					damageMult += 0.1;
+			}
+			if (providenceLore && hasClassType)
+			{
+				damageMult += 0.05;
+			}
+			if (silvaMelee && Main.rand.Next(4) == 0 && isTrueMelee)
+			{
+				damageMult += 4.0;
+			}
+			if (enraged && !Config.BossRushXerocCurse)
+			{
+				damageMult += 1.25;
+			}
+			if (auricSet)
+			{
+				if (silvaThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue &&
+					crit && player.statLife > (int)((double)player.statLifeMax2 * 0.5))
+				{
+					damageMult += 0.25;
+				}
+				if (silvaMelee && proj.melee)
+				{
+					double multiplier = (double)player.statLife / (double)player.statLifeMax2;
+					damageMult += multiplier * 0.2;
+				}
+			}
+			if (godSlayerRanged && crit && proj.ranged)
+			{
+				int randomChance = 100 - player.rangedCrit; //100 min to 15 max with cap
+
+				if (randomChance < 15)
+					randomChance = 15;
+				if (Main.rand.Next(randomChance) == 0)
+					damageMult += 1.0;
+			}
+			if (silvaCountdown > 0 && hasSilvaEffect && silvaRanged && proj.ranged)
+			{
+				damageMult += 0.4;
+			}
+			if (silvaCountdown <= 0 && hasSilvaEffect && silvaThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			{
+				damageMult += 0.1;
+			}
+			if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
+			{
+				damageMult += 0.1;
+			}
+			if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && isSummon)
+			{
+				damageMult += 0.1;
+			}
+			if (proj.type == mod.ProjectileType("FrostsparkBullet"))
+			{
+				if (target.buffImmune[mod.BuffType("GlacialState")])
+					damageMult += 0.2;
+			}
+			if (CalamityWorld.revenge)
+			{
+				bool DHorHoD = (draedonsHeart || heartOfDarkness);
+				if (rageMode && adrenalineMode)
+				{
+					if (hasClassType)
+					{
+						damageMult += (CalamityWorld.death ? (DHorHoD ? 8.9 : 8.0) : (DHorHoD ? 2.3 : 2.0));
+					}
+				}
+				else if (rageMode)
+				{
+					if (hasClassType)
+					{
+						double rageDamageBoost = 0.0 +
+							(rageBoostOne ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //3.6 or 1.65
+							(rageBoostTwo ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //4.2 or 1.8
+							(rageBoostThree ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0); //4.8 or 1.95
+						double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.3 : 2.0) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost;
+						damageMult += rageDamage;
+					}
+				}
+				else if (adrenalineMode)
+				{
+					if (hasClassType)
+					{
+						double damageMultAdr = (CalamityWorld.death ? 6.0 : 1.5) * (double)adrenalineDmgMult;
+						damageMult += damageMultAdr;
+					}
+				}
+			}
+			damage = (int)((double)damage * damageMult);
+			#endregion
+
+			#region AdditiveBoosts
+			if (theBee && !isSummon)
+			{
+				damage += theBeeDamage;
+			}
+			if (proj.type == mod.ProjectileType("AcidBullet"))
+			{
+				int defenseAdd = (int)((double)target.defense * 0.1); //100 defense * 0.1 = 10
+				damage += defenseAdd;
+			}
+			if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == mod.ProjectileType("PlagueBee")))
+			{
+				if (player.inventory[player.selectedItem].type == mod.ItemType("TheSwarmer") || player.inventory[player.selectedItem].type == mod.ItemType("PlagueKeeper") ||
+					player.inventory[player.selectedItem].type == mod.ItemType("Plaguenade"))
+				{
+					damage += Main.rand.Next(10, 21);
+				}
+				else
+				{
+					damage += Main.rand.Next(70, 101);
+					proj.penetrate = 1;
+				}
+			}
+			#endregion
+
+			#region MultiplicativeReductions
+			if (isSummon)
+			{
+				if (!player.inventory[player.selectedItem].summon &&
+					(player.inventory[player.selectedItem].melee ||
+					player.inventory[player.selectedItem].ranged ||
+					player.inventory[player.selectedItem].magic ||
+					player.inventory[player.selectedItem].thrown) &&
+					player.inventory[player.selectedItem].hammer == 0 &&
+					player.inventory[player.selectedItem].pick == 0 &&
+					player.inventory[player.selectedItem].axe == 0)
+				{
+					damage = (int)((double)damage * 0.6);
+				}
+			}
+			if (proj.ranged)
+			{
+				switch (proj.type)
+				{
+					case ProjectileID.CrystalShard:
+						damage = (int)((double)damage * 0.6);
+						break;
+					case ProjectileID.ChlorophyteBullet:
+						damage = (int)((double)damage * 0.8);
+						break;
+					case ProjectileID.HallowStar:
+						damage = (int)((double)damage * 0.7);
+						break;
+				}
+				if (proj.type == mod.ProjectileType("VeriumBullet"))
+					damage = (int)((double)damage * 0.8);
+			}
+			if (yharonLore)
+				damage = (int)((double)damage * 0.75);
+			#endregion
+
+			if (tarraMage && crit && proj.magic)
+			{
+				tarraCrits++;
+			}
+			if (tarraThrowing && tarraThrowingCritTimer <= 0 && tarraThrowingCrits < 25 && crit &&
+				proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			{
+				tarraThrowingCrits++;
+			}
+
+			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
+			{
+				if (theBeeDamage > 0 && (proj.melee || proj.ranged || proj.magic || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue))
+				{
+					Main.PlaySound(2, (int)proj.position.X, (int)proj.position.Y, 110);
+				}
+				if (unstablePrism && crit)
+				{
+					for (int num252 = 0; num252 < 3; num252++)
+					{
+						Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+						while (value15.X == 0f && value15.Y == 0f)
+						{
+							value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+						}
+						value15.Normalize();
+						value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+						Projectile.NewProjectile(proj.oldPosition.X + (float)(proj.width / 2), proj.oldPosition.Y + (float)(proj.height / 2), value15.X, value15.Y, mod.ProjectileType("UnstableSpark"), (int)((double)damage * 0.15), 0f, player.whoAmI, 0f, 0f);
+					}
+				}
+				if (astralStarRain && crit && astralStarRainCooldown <= 0)
 				{
 					astralStarRainCooldown = 60;
 					for (int n = 0; n < 3; n++)
@@ -5881,7 +7163,7 @@ namespace CalamityMod
 						float num13 = target.position.X + (float)(target.width / 2) - vector.X;
 						float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
 						num13 += (float)Main.rand.Next(-100, 101);
-						int num15 = 25;
+						float num15 = 25f;
 						int projectileType = Main.rand.Next(3);
 						if (projectileType == 0)
 						{
@@ -5896,130 +7178,85 @@ namespace CalamityMod
 							projectileType = 12;
 						}
 						float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-						num16 = (float)num15 / num16;
+						num16 = num15 / num16;
 						num13 *= num16;
 						num14 *= num16;
 						int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 75, 5f, player.whoAmI, 0f, 0f);
 						Main.projectile[num17].ranged = false;
 					}
 				}
-			}
-		}
-
-		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (auricSet && silvaThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue &&
-				crit && player.statLife > (int)((double)player.statLifeMax2 * 0.5))
-			{
-				damage = (int)((double)damage * 1.25);
-			}
-			if (auricSet && silvaMelee && proj.melee)
-			{
-				double multiplier = (double)player.statLife / (double)player.statLifeMax2;
-				if (multiplier < 0.84)
+				if (tarraRanged && crit && proj.ranged)
 				{
-					multiplier = 0.84;
-				}
-				damage = (int)(((double)damage * multiplier) * 1.2); //ranges from 1.2 times to 1 times
-			}
-			if (godSlayerRanged && crit && proj.ranged)
-			{
-				int randomChance = 100 - player.rangedCrit; //100 min to 15 max with cap
-				if (randomChance < 15)
-				{
-					randomChance = 15;
-				}
-				if (Main.rand.Next(randomChance) == 0)
-				{
-					damage *= 2;
-				}
-			}
-			if (tarraMage && crit && proj.magic)
-			{
-				tarraCrits++;
-			}
-			if (tarraRanged && crit && proj.ranged && player.whoAmI == Main.myPlayer)
-			{
-				int num251 = Main.rand.Next(2, 4);
-				for (int num252 = 0; num252 < num251; num252++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
+					int num251 = Main.rand.Next(2, 4);
+					for (int num252 = 0; num252 < num251; num252++)
 					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int FUCKYOU = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
-						value15.X, value15.Y, 206, (int)((double)damage * (auricSet ? 0.4 : 0.25)), 0f, player.whoAmI, 0f, 0f);
-					Main.projectile[FUCKYOU].magic = false;
-					Main.projectile[FUCKYOU].netUpdate = true;
-				}
-			}
-			if (tarraThrowing && tarraThrowingCritTimer <= 0 && tarraThrowingCrits < 25 && crit &&
-				proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
-			{
-				tarraThrowingCrits++;
-			}
-			if (bloodflareThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && crit && Main.rand.Next(2) == 0)
-			{
-				if (player.whoAmI == Main.myPlayer && target.canGhostHeal)
-				{
-					float num11 = 0.03f;
-					num11 -= (float)proj.numHits * 0.015f;
-					if (num11 < 0f)
-					{
-						num11 = 0f;
-					}
-					float num12 = (float)proj.damage * num11;
-					if (num12 < 0f)
-					{
-						num12 = 0f;
-					}
-					if (player.lifeSteal > 0f)
-					{
-						player.statLife += 1;
-						player.HealEffect(1);
-						player.lifeSteal -= num12 * 2f;
+						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						while (value15.X == 0f && value15.Y == 0f)
+						{
+							value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						}
+						value15.Normalize();
+						value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+						int FUCKYOU = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
+							value15.X, value15.Y, 206, (int)((double)damage * 0.25), 0f, player.whoAmI, 0f, 0f);
+						Main.projectile[FUCKYOU].magic = false;
+						Main.projectile[FUCKYOU].netUpdate = true;
 					}
 				}
-			}
-			if (bloodflareMage && bloodflareMageCooldown <= 0 && crit && proj.magic && player.whoAmI == Main.myPlayer)
-			{
-				bloodflareMageCooldown = 120;
-				for (int i = 0; i < 3; i++)
+				if (bloodflareThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && crit && Main.rand.Next(2) == 0)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
+					if (target.canGhostHeal)
 					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						float num11 = 0.03f;
+						num11 -= (float)proj.numHits * 0.015f;
+						if (num11 < 0f)
+						{
+							num11 = 0f;
+						}
+						float num12 = (float)proj.damage * num11;
+						if (num12 < 0f)
+						{
+							num12 = 0f;
+						}
+						if (player.lifeSteal > 0f)
+						{
+							player.statLife += 1;
+							player.HealEffect(1);
+							player.lifeSteal -= num12 * 2f;
+						}
 					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int fire = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
-						value15.X, value15.Y, 15, (int)((double)damage * (auricSet ? 11.0 : 6.0)), 0f, player.whoAmI, 0f, 0f);
-					Main.projectile[fire].magic = false;
-					Main.projectile[fire].netUpdate = true;
 				}
-			}
-			if (silvaCountdown > 0 && hasSilvaEffect && silvaRanged && proj.ranged)
-			{
-				damage = (int)((double)damage * 1.4);
-			}
-			if (silvaCountdown <= 0 && hasSilvaEffect && silvaThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
-			{
-				damage = (int)((double)damage * 1.1);
-			}
-			if (silvaCountdown <= 0 && hasSilvaEffect && silvaMage && proj.magic)
-			{
-				damage = (int)((double)damage * 1.1);
-			}
-			if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon && proj.minion)
-			{
-				damage = (int)((double)damage * 1.1);
-			}
-			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
-			{
+				if (bloodflareMage && bloodflareMageCooldown <= 0 && crit && proj.magic)
+				{
+					bloodflareMageCooldown = 120;
+					for (int i = 0; i < 3; i++)
+					{
+						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						while (value15.X == 0f && value15.Y == 0f)
+						{
+							value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						}
+						value15.Normalize();
+						value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+						int fire = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
+							value15.X, value15.Y, 15, (int)((double)damage * 0.5), 0f, player.whoAmI, 0f, 0f);
+						Main.projectile[fire].magic = false;
+						Main.projectile[fire].netUpdate = true;
+					}
+				}
+				if (bloodflareMelee && isTrueMelee)
+				{
+					if (bloodflareMeleeHits < 15 && bloodflareFrenzyTimer <= 0 && bloodflareFrenzyCooldown <= 0)
+					{
+						bloodflareMeleeHits++;
+					}
+					if (player.whoAmI == Main.myPlayer)
+					{
+						int healAmount = (Main.rand.Next(3) + 1);
+						player.statLife += healAmount;
+						player.HealEffect(healAmount);
+					}
+				}
 				if (proj.type == mod.ProjectileType("AtaraxiaMain") || proj.type == mod.ProjectileType("AtaraxiaHoming") ||
 					proj.type == mod.ProjectileType("AtaraxiaSplit") || proj.type == mod.ProjectileType("AtaraxiaSide"))
 				{
@@ -6092,7 +7329,7 @@ namespace CalamityMod
 								LevelPacket(false, 2);
 							}
 						}
-						else if ((proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type)) && summonLevel <= 12500)
+						else if (isSummon && summonLevel <= 12500)
 						{
 							if (!Main.hardMode && summonLevel >= 1500)
 							{
@@ -6138,9 +7375,7 @@ namespace CalamityMod
 				}
 				if (CalamityWorld.revenge && Config.AdrenalineAndRage)
 				{
-					if ((proj.melee && proj.ownerHitCheck) || proj.aiStyle == 15 || (proj.aiStyle == 75 && proj.melee) ||
-						proj.type == mod.ProjectileType("Nebulash") || proj.type == mod.ProjectileType("CosmicDischarge") ||
-						proj.type == mod.ProjectileType("MourningStar"))
+					if (isTrueMelee)
 					{
 						int stressGain = (int)((double)damage * 0.1);
 						int stressMaxGain = 10;
@@ -6166,6 +7401,19 @@ namespace CalamityMod
 		#region ModifyHitByNPC
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
+			if (triumph)
+			{
+				double HPMultiplier = 0.25 * (1.0 - ((double)npc.life / (double)npc.lifeMax));
+				int damageReduction = (int)((double)damage * HPMultiplier);
+				damage -= damageReduction;
+			}
+			if (aSparkRare)
+			{
+				if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.GreenJellyfish ||
+					npc.type == NPCID.FungoFish || npc.type == NPCID.BloodJelly || npc.type == NPCID.AngryNimbus || npc.type == NPCID.GigaZapper ||
+					npc.type == NPCID.MartianTurret || npc.type == mod.NPCType("StormlionCharger"))
+					damage /= 2;
+			}
 			if (fleshTotem && fleshTotemCooldown <= 0)
 			{
 				fleshTotemCooldown = 1200; //20 seconds
@@ -6183,16 +7431,18 @@ namespace CalamityMod
 			{
 				damage = (int)((double)damage * 0.8);
 			}
-			if (CalamityWorld.revenge)
+			if (aBulwarkRare)
 			{
-				if (CalamityMod.revengeanceEnemyBuffList.Contains(npc.type))
-					damage = (int)((double)damage * 1.25);
+				aBulwarkRareMeleeBoostTimer += 3 * damage;
+				if (aBulwarkRareMeleeBoostTimer > 900)
+					aBulwarkRareMeleeBoostTimer = 900;
 			}
-			if (player.whoAmI == Main.myPlayer && !player.immune && !lol && !invincible && !hasSilvaEffect)
+			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
 			{
 				if (CalamityWorld.revenge && Config.AdrenalineAndRage && !npc.SpawnedFromStatue)
 				{
-					int stressGain = (int)((double)damage * 2.0);
+					gainRageCooldown = 60;
+					int stressGain = damage * (profanedRage ? 3 : 2);
 					int stressMaxGain = 2500;
 					if (stressGain < 1)
 					{
@@ -6215,6 +7465,17 @@ namespace CalamityMod
 		#region ModifyHitByProj
 		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
 		{
+			if (projRefRare)
+			{
+				if (proj.type == projTypeJustHitBy)
+					damage = (int)((double)damage * 0.85);
+			}
+			if (aSparkRare)
+			{
+				if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc ||
+					proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
+					damage /= 2;
+			}
 			if (proj.type == ProjectileID.Nail)
 			{
 				damage = (int)((double)damage * 0.75);
@@ -6229,21 +7490,17 @@ namespace CalamityMod
 				if (CalamityMod.hardModeNerfList.Contains(proj.type))
 					damage = (int)((double)damage * 0.75);
 			}
-			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon || Main.eclipse))
-			{
-				if (CalamityMod.eventProjectileBuffList.Contains(proj.type))
-					damage = (int)((double)damage * 1.5);
-			}
 			if (CalamityWorld.revenge)
 			{
 				if (CalamityMod.revengeanceProjectileBuffList.Contains(proj.type))
 					damage = (int)((double)damage * 1.25);
 			}
-			if (player.whoAmI == Main.myPlayer && !player.immune && !lol && !invincible && !hasSilvaEffect)
+			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
 			{
 				if (CalamityWorld.revenge && Config.AdrenalineAndRage && !CalamityMod.trapProjectileList.Contains(proj.type))
 				{
-					int stressGain = (int)((double)damage * 2.0);
+					gainRageCooldown = 60;
+					int stressGain = damage * (profanedRage ? 3 : 2);
 					int stressMaxGain = 2500;
 					if (stressGain < 1)
 					{
@@ -6333,6 +7590,27 @@ namespace CalamityMod
 				proj.friendly = true;
 				proj.velocity.X = -proj.velocity.X;
 				proj.velocity.Y = -proj.velocity.Y;
+			}
+			if (projRefRare && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.Next(2) == 0)
+			{
+				proj.hostile = false;
+				proj.friendly = true;
+				proj.velocity.X = -proj.velocity.X * 2f;
+				proj.velocity.Y = -proj.velocity.Y * 2f;
+				proj.damage *= 10;
+				projRefRareLifeRegenCounter = 120;
+				projTypeJustHitBy = proj.type;
+			}
+			if (aSparkRare && proj.active && !proj.friendly && proj.hostile && damage > 0)
+			{
+				if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
+				{
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity.X = -proj.velocity.X;
+					proj.velocity.Y = -proj.velocity.Y;
+					proj.damage *= 8;
+				}
 			}
 			if (daedalusReflect && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.Next(3) == 0)
 			{
@@ -6464,12 +7742,18 @@ namespace CalamityMod
 				player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
 				player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
 			}
+
 			if (NOU)
 				NOULOL();
+
 			if (CalamityWorld.defiled)
 				Defiled();
+
 			if (weakPetrification)
 				WeakPetrification();
+
+			if (CalamityWorld.bossRushActive)
+				BossRushMovementChanges();
 		}
 		#endregion
 
@@ -6513,18 +7797,53 @@ namespace CalamityMod
 		{
 			player.wingTimeMax = 0;
 		}
+
+		private void BossRushMovementChanges()
+		{
+			switch (CalamityWorld.bossRushStage)
+			{
+				case 0:
+				case 1:
+				case 2:
+				case 3:
+				case 7:
+				case 13:
+				case 14:
+				case 17:
+				case 19:
+				case 22:
+					player.wingTimeMax = 0;
+					break;
+				default:
+					break;
+			}
+		}
 		#endregion
 
 		#region HurtMethods
 		public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
-			if (CalamityWorld.armageddon)
+			if (CalamityWorld.armageddon || SCalLore || (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0))
 			{
-				if (areThereAnyDamnBosses)
+				if (areThereAnyDamnBosses || SCalLore || (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0))
 				{
+					if (SCalLore)
+					{
+						string key = "Mods.CalamityMod.SupremeBossText2";
+						Color messageColor = Color.Orange;
+						if (Main.netMode == 0)
+						{
+							Main.NewText(Language.GetTextValue(key), messageColor);
+						}
+						else if (Main.netMode == 2)
+						{
+							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+						}
+					}
 					KillPlayer();
 				}
 			}
+
 			if (lol || (invincible && player.inventory[player.selectedItem].type != mod.ItemType("ColdheartIcicle")))
 			{
 				return false;
@@ -6533,193 +7852,7 @@ namespace CalamityMod
 			{
 				return false;
 			}
-			if (player.beetleDefense && player.beetleOrbs > 0)
-			{
-				float newMult = 0.05f * (float)player.beetleOrbs; //.05 .1 .15
-				damage = (int)((double)(1f + newMult) * (double)damage); //damage added for one orb : 100 damage = 1.05 * 100 = 105
-			}
-			if (CalamityGlobalNPC.DraedonMayhem)
-			{
-				damage = (int)((double)damage * 1.2);
-			}
-			if (dArtifact)
-			{
-				damage = (int)((double)damage * 1.25);
-			}
-			if (CalamityWorld.bossRushActive)
-			{
-				switch (CalamityWorld.bossRushStage)
-				{
-					case 0:
-						damage = (int)((double)damage * 5.0); //Tier 1 Queen Bee values adjusted for a median of 250 damage
-						break;
-					case 1:
-						damage = (int)((double)damage * 4.0); //BoC
-						break;
-					case 2:
-						damage = (int)((double)damage * 4.0); //King Slime
-						break;
-					case 3:
-						damage = (int)((double)damage * 6.0); //EoC
-						break;
-					case 4:
-						damage = (int)((double)damage * 2.5); //Prime
-						break;
-					case 5:
-						damage = (int)((double)damage * 2.5); //Golem
-						break;
-					case 6:
-						damage = (int)((double)damage * 1.75); //Guardians
-						break;
-					case 7:
-						damage = (int)((double)damage * 5.0); //EoW
-						break;
-					case 8:
-						damage = (int)((double)damage * 2.0); //Tier 2 Astrageldon values adjusted for a median of 300 damage
-						break;
-					case 9:
-						damage = (int)((double)damage * 3.0); //Destroyer
-						break;
-					case 10:
-						damage = (int)((double)damage * 3.0); //Twins
-						break;
-					case 11:
-						damage = (int)((double)damage * 1.0); //Birb
-						break;
-					case 12:
-						damage = (int)((double)damage * 4.0); //WoF
-						break;
-					case 13:
-						damage = (int)((double)damage * 4.5); //Hive Mind
-						break;
-					case 14:
-						damage = (int)((double)damage * 4.0); //Skeletron
-						break;
-					case 15:
-						damage = (int)((double)damage * 1.25); //Storm Weaver
-						break;
-					case 16:
-						damage = (int)((double)damage * 3.0); //Tier 3 Aquatic Scourge values adjusted for a median of 350 damage
-						break;
-					case 17:
-						damage = (int)((double)damage * 6.0); //Desert Scourge
-						break;
-					case 18:
-						damage = (int)((double)damage * 3.5); //Cultist
-						break;
-					case 19:
-						damage = (int)((double)damage * 4.5); //Crabulon
-						break;
-					case 20:
-						damage = (int)((double)damage * 3.5); //Plantera
-						break;
-					case 21:
-						damage = (int)((double)damage * 2.0); //Void
-						break;
-					case 22:
-						damage = (int)((double)damage * 5.0); //Perfs
-						break;
-					case 23:
-						damage = (int)((double)damage * 4.0); //Cryogen
-						break;
-					case 24:
-						damage = (int)((double)damage * 4.0); //Tier 4 Brimstone Elemental values adjusted for a median of 400 damage
-						break;
-					case 25:
-						damage = (int)((double)damage * 2.0); //Signus
-						break;
-					case 26:
-						damage = (int)((double)damage * 2.5); //Ravager
-						break;
-					case 27:
-						damage = (int)((double)damage * 2.0); //Fishron
-						break;
-					case 28:
-						damage = (int)((double)damage * 2.5); //Moon Lord
-						break;
-					case 29:
-						damage = (int)((double)damage * 2.75); //Astrum Deus
-						break;
-					case 30:
-						damage = (int)((double)damage * 2.0); //Polter
-						break;
-					case 31:
-						damage = (int)((double)damage * 2.5); //Plaguebringer
-						break;
-					case 32:
-						damage = (int)((double)damage * 4.0); //Tier 5 Calamitas values adjusted for a median of 450 to 500 damage
-						break;
-					case 33:
-						damage = (int)((double)damage * 3.75); //Levi and Siren
-						break;
-					case 34:
-						damage = (int)((double)damage * 5.25); //Slime God
-						break;
-					case 35:
-						damage = (int)((double)damage * 2.5); //Providence
-						break;
-					case 36:
-						damage = (int)((double)damage * 1.0); //SCal
-						break;
-					case 37:
-						damage = (int)((double)damage * 1.1); //Yharon
-						break;
-					case 38:
-						damage = (int)((double)damage * 2.0); //DoG
-						break;
-				}
-			}
-			if (enraged)
-			{
-				damage = (int)((double)damage * 1.25);
-			}
-			if (CalamityWorld.revenge)
-			{
-				if (player.chaosState && !normalityRelocator)
-				{
-					damage = (int)((double)damage * 1.5); //ono
-				}
-				if (player.ichor)
-				{
-					damage = (int)((double)damage * 1.25);
-				}
-				else if (player.onFire2)
-				{
-					damage = (int)((double)damage * 1.2);
-				}
-				customDamage = true;
-				float damageMult = CalamityWorld.downedBossAny ? 1f : 0.8f;
-				if (CalamityWorld.death)
-				{
-					damageMult = 1.25f;
-				}
-				damage = (int)((double)damage * damageMult);
-				double newDamage = (double)damage - (double)player.statDefense * (Main.hardMode ? 0.75 : 0.5);
-				double newDamageLimit = 5.0 + (Main.hardMode ? 5.0 : 0.0) + (NPC.downedPlantBoss ? 5.0 : 0.0) + (NPC.downedMoonlord ? 5.0 : 0.0); //5, 10, 15, 20
-				if (newDamage < newDamageLimit)
-				{
-					newDamage = newDamageLimit;
-				}
-				damage = (int)newDamage;
-			}
-			if (CalamityWorld.defiled)
-			{
-				if (Main.rand.Next(4) == 0)
-				{
-					damage = (int)((double)damage * 3.0);
-				}
-			}
-			if (bloodPact)
-			{
-				if (Main.rand.Next(4) == 0)
-				{
-					damage = (int)((double)damage * 3.0);
-				}
-			}
-			if (godSlayerDamage && damage <= 80)
-			{
-				damage = 1;
-			}
+
 			if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
 			{
 				playSound = false;
@@ -6730,22 +7863,200 @@ namespace CalamityMod
 				playSound = false;
 				Main.PlaySound(20, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f); //female hit noise
 			}
+
+			#region MultiplierBoosts
+			double damageMult = 1.0 +
+				(dArtifact ? 0.25 : 0.0) +
+				((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * (double)player.beetleOrbs) : 0.0) +
+				(enraged ? 0.25 : 0.0) +
+				((CalamityWorld.defiled && Main.rand.Next(4) == 0) ? 0.5 : 0.0) +
+				((bloodPact && Main.rand.Next(4) == 0) ? 1.5 : 0.0);
+
+			if (CalamityWorld.revenge)
+			{
+				if (player.chaosState)
+					damageMult += 0.5;
+				if (CalamityWorld.death)
+					damageMult += 0.25;
+				if (player.ichor)
+					damageMult += 0.25;
+				else if (player.onFire2)
+					damageMult += 0.2;
+			}
+
+			if (CalamityWorld.bossRushActive)
+			{
+				switch (CalamityWorld.bossRushStage)
+				{
+					case 0:
+						damageMult += 4.0; //Tier 1 Queen Bee values adjusted for a median of 250 damage
+						break;
+					case 1:
+						damageMult += 3.0; //BoC
+						break;
+					case 2:
+						damageMult += 3.0; //King Slime
+						break;
+					case 3:
+						damageMult += 5.0; //EoC
+						break;
+					case 4:
+						damageMult += 1.5; //Prime
+						break;
+					case 5:
+						damageMult += 1.5; //Golem
+						break;
+					case 6:
+						damageMult += 0.75; //Guardians
+						break;
+					case 7:
+						damageMult += 4.0; //EoW
+						break;
+					case 8:
+						damageMult += 1.0; //Tier 2 Astrageldon values adjusted for a median of 300 damage
+						break;
+					case 9:
+						damageMult += 2.0; //Destroyer
+						break;
+					case 10:
+						damageMult += 2.0; //Twins
+						break;
+					case 11:
+						//Birb
+						break;
+					case 12:
+						damageMult += 3.0; //WoF
+						break;
+					case 13:
+						damageMult += 3.5; //Hive Mind
+						break;
+					case 14:
+						damageMult += 3.0; //Skeletron
+						break;
+					case 15:
+						damageMult += 0.25; //Storm Weaver
+						break;
+					case 16:
+						damageMult += 2.0; //Tier 3 Aquatic Scourge values adjusted for a median of 350 damage
+						break;
+					case 17:
+						damageMult += 5.0; //Desert Scourge
+						break;
+					case 18:
+						damageMult += 2.5; //Cultist
+						break;
+					case 19:
+						damageMult += 3.5; //Crabulon
+						break;
+					case 20:
+						damageMult += 2.5; //Plantera
+						break;
+					case 21:
+						damageMult += 1.0; //Void
+						break;
+					case 22:
+						damageMult += 4.0; //Perfs
+						break;
+					case 23:
+						damageMult += 3.0; //Cryogen
+						break;
+					case 24:
+						damageMult += 3.0; //Tier 4 Brimstone Elemental values adjusted for a median of 400 damage
+						break;
+					case 25:
+						damageMult += 1.0; //Signus
+						break;
+					case 26:
+						damageMult += 1.5; //Ravager
+						break;
+					case 27:
+						damageMult += 1.0; //Fishron
+						break;
+					case 28:
+						damageMult += 1.5; //Moon Lord
+						break;
+					case 29:
+						damageMult += 1.75; //Astrum Deus
+						break;
+					case 30:
+						damageMult += 1.0; //Polter
+						break;
+					case 31:
+						damageMult += 1.5; //Plaguebringer
+						break;
+					case 32:
+						damageMult += 3.0; //Tier 5 Calamitas values adjusted for a median of 450 to 500 damage
+						break;
+					case 33:
+						damageMult += 2.75; //Levi and Siren
+						break;
+					case 34:
+						damageMult += 4.25; //Slime God
+						break;
+					case 35:
+						damageMult += 1.5; //Providence
+						break;
+					case 36:
+						//SCal
+						break;
+					case 37:
+						damageMult += 0.1; //Yharon
+						break;
+					case 38:
+						damageMult += 1.0; //DoG
+						break;
+				}
+			}
+			damage = (int)((double)damage * damageMult);
+			#endregion
+
+			if (CalamityWorld.revenge)
+			{
+				customDamage = true;
+				double defenseMult = Main.hardMode ? 0.75 : 0.5;
+				double newDamage = (double)damage - ((double)player.statDefense * defenseMult);
+				double newDamageLimit = 5.0 + (Main.hardMode ? 5.0 : 0.0) + (NPC.downedPlantBoss ? 5.0 : 0.0) + (NPC.downedMoonlord ? 5.0 : 0.0); //5, 10, 15, 20
+				if (newDamage < newDamageLimit)
+				{
+					newDamage = newDamageLimit;
+				}
+				damage = (int)newDamage;
+			}
+
+			#region MultiplicativeReductions
+			if (trinketOfChiBuff)
+			{
+				damage = (int)((double)damage * 0.85);
+			}
+			if (purpleCandle)
+			{
+				damage = (int)((double)damage - ((double)player.statDefense * 0.05));
+			}
 			if (abyssalDivingSuitPlates)
 			{
 				damage = (int)((double)damage * 0.85);
 			}
 			if (sirenIce)
 			{
-				damage = (int)((double)damage * 0.8);
+				damage = (int)((double)damage * 0.85);
 			}
-			if (auricSet || silvaSet)
+			if (CalamityWorld.revenge)
 			{
-				damage = (int)((double)damage * 0.95);
+				if (!CalamityWorld.downedBossAny)
+					damage = (int)((double)damage * 0.8);
 			}
-			if (purpleCandle)
+			if (player.mount.Active && (player.mount.Type == mod.MountType("AngryDog") || player.mount.Type == mod.MountType("OnyxExcavator")) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
 			{
-				damage = (int)((double)damage - ((double)player.statDefense * 0.05));
+				damage = (int)((double)damage * 0.9);
 			}
+			#endregion
+
+			if ((godSlayerDamage && damage <= 80) || damage < 1)
+			{
+				damage = 1;
+			}
+
+			#region HealingEffects
 			if (revivifyTimer > 0)
 			{
 				int healAmt = damage / 20;
@@ -6764,14 +8075,8 @@ namespace CalamityMod
 				player.statLife += healAmt;
 				player.HealEffect(healAmt);
 			}
-			if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
-			{
-				int newDamageLimit = 300;
-				if (damage < newDamageLimit)
-				{
-					damage = newDamageLimit;
-				}
-			}
+			#endregion
+
 			return true;
 		}
 
@@ -6795,7 +8100,7 @@ namespace CalamityMod
 				{
 					adrenaline = 0;
 				}
-				if (gShell && !player.panic)
+				if ((gShell || fabledTortoise) && !player.panic)
 				{
 					player.AddBuff(mod.BuffType("ShellBoost"), 300);
 				}
@@ -7036,6 +8341,10 @@ namespace CalamityMod
 						player.immuneTime += 10;
 					}
 				}
+				if (CalamityWorld.bossRushActive && Config.BossRushImmunityFrameCurse)
+				{
+					bossRushImmunityFrameCurseTimer = 300 + player.immuneTime;
+				}
 				if (damage > 25)
 				{
 					if (aeroSet)
@@ -7059,7 +8368,13 @@ namespace CalamityMod
 				}
 				if (aBulwark)
 				{
-					for (int n = 0; n < 4; n++)
+					if (aBulwarkRare)
+					{
+						Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("GodSlayerBlaze"), 25, 5f, player.whoAmI, 0f, 0f);
+					}
+					int starAmt = aBulwarkRare ? 12 : 5;
+					for (int n = 0; n < starAmt; n++)
 					{
 						float x = player.position.X + (float)Main.rand.Next(-400, 400);
 						float y = player.position.Y - (float)Main.rand.Next(500, 800);
@@ -7134,6 +8449,8 @@ namespace CalamityMod
 					double offsetAngle;
 					int i;
 					int sDamage = hardMode ? 36 : 6;
+					if (aSparkRare)
+						sDamage += hardMode ? 12 : 2;
 					if (player.whoAmI == Main.myPlayer)
 					{
 						for (i = 0; i < 4; i++)
@@ -7285,6 +8602,11 @@ namespace CalamityMod
 		#region KillPlayer
 		public void KillPlayer()
 		{
+			deathCount++;
+			if (player.whoAmI == Main.myPlayer && Main.netMode == 1)
+			{
+				DeathPacket(false);
+			}
 			player.lastDeathPostion = player.Center;
 			player.lastDeathTime = DateTime.Now;
 			player.showLastDeath = true;
@@ -7412,6 +8734,54 @@ namespace CalamityMod
 		#region DashStuff
 		public void ModDashMovement()
 		{
+			if (dashMod == 6 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
+			{
+				Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+				for (int i = 0; i < 200; i++)
+				{
+					if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && Main.npc[i].immune[player.whoAmI] <= 0)
+					{
+						NPC nPC = Main.npc[i];
+						Rectangle rect = nPC.getRect();
+						if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+						{
+							float num = 50f * player.meleeDamage;
+							float num2 = 3f;
+							bool crit = false;
+							if (player.kbGlove)
+							{
+								num2 *= 2f;
+							}
+							if (player.kbBuff)
+							{
+								num2 *= 1.5f;
+							}
+							if (Main.rand.Next(100) < player.meleeCrit)
+							{
+								crit = true;
+							}
+							int direction = player.direction;
+							if (player.velocity.X < 0f)
+							{
+								direction = -1;
+							}
+							if (player.velocity.X > 0f)
+							{
+								direction = 1;
+							}
+							if (player.whoAmI == Main.myPlayer)
+							{
+								player.ApplyDamageToNPC(nPC, (int)num, num2, direction, crit);
+							}
+							nPC.immune[player.whoAmI] = 6;
+							nPC.AddBuff(mod.BuffType("GlacialState"), 300);
+							player.immune = true;
+							player.immuneNoBlink = true;
+							player.immuneTime = 4;
+						}
+					}
+				}
+			}
 			if (dashMod == 4 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
 			{
 				Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
@@ -7667,6 +9037,38 @@ namespace CalamityMod
 						}
 					}
 					num7 = 16f; //14
+				}
+				else if (dashMod == 5)
+				{
+					for (int m = 0; m < 24; m++)
+					{
+						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 33, 0f, 0f, 100, default(Color), 2.75f);
+						Main.dust[num14].velocity *= 0.1f;
+						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+						Main.dust[num14].noGravity = true;
+						if (Main.rand.Next(2) == 0)
+						{
+							Main.dust[num14].fadeIn = 0.5f;
+						}
+					}
+					num7 = 18f; //14
+				}
+				else if (dashMod == 6)
+				{
+					for (int m = 0; m < 24; m++)
+					{
+						int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 67, 0f, 0f, 100, default(Color), 1f);
+						Main.dust[num14].velocity *= 0.1f;
+						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+						Main.dust[num14].noGravity = true;
+						if (Main.rand.Next(2) == 0)
+						{
+							Main.dust[num14].fadeIn = 0.5f;
+						}
+					}
+					num7 = 12.5f; //14
 				}
 				if (dashMod > 0)
 				{
@@ -7947,6 +9349,132 @@ namespace CalamityMod
 						}
 					}
 				}
+				else if (dashMod == 5)
+				{
+					int num23 = 0;
+					bool flag3 = false;
+					if (dashTimeMod > 0)
+					{
+						dashTimeMod--;
+					}
+					if (dashTimeMod < 0)
+					{
+						dashTimeMod++;
+					}
+					if (player.controlRight && player.releaseRight)
+					{
+						if (dashTimeMod > 0)
+						{
+							num23 = 1;
+							flag3 = true;
+							dashTimeMod = 0;
+						}
+						else
+						{
+							dashTimeMod = 15;
+						}
+					}
+					else if (player.controlLeft && player.releaseLeft)
+					{
+						if (dashTimeMod < 0)
+						{
+							num23 = -1;
+							flag3 = true;
+							dashTimeMod = 0;
+						}
+						else
+						{
+							dashTimeMod = -15;
+						}
+					}
+					if (flag3)
+					{
+						player.velocity.X = 25.9f * (float)num23;
+						Point point5 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), player.gravDir * (float)(-(float)player.height) / 2f + player.gravDir * 2f)).ToTileCoordinates();
+						Point point6 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+						if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
+						{
+							player.velocity.X = player.velocity.X / 2f;
+						}
+						player.dashDelay = -1;
+						for (int num24 = 0; num24 < 60; num24++)
+						{
+							int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 33, 0f, 0f, 100, default(Color), 3f);
+							Dust expr_13AF_cp_0 = Main.dust[num25];
+							expr_13AF_cp_0.position.X = expr_13AF_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							Dust expr_13D6_cp_0 = Main.dust[num25];
+							expr_13D6_cp_0.position.Y = expr_13D6_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							Main.dust[num25].velocity *= 0.2f;
+							Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+							Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+							Main.dust[num25].noGravity = true;
+							Main.dust[num25].fadeIn = 0.5f;
+						}
+					}
+				}
+				else if (dashMod == 6)
+				{
+					int num23 = 0;
+					bool flag3 = false;
+					if (dashTimeMod > 0)
+					{
+						dashTimeMod--;
+					}
+					if (dashTimeMod < 0)
+					{
+						dashTimeMod++;
+					}
+					if (player.controlRight && player.releaseRight)
+					{
+						if (dashTimeMod > 0)
+						{
+							num23 = 1;
+							flag3 = true;
+							dashTimeMod = 0;
+						}
+						else
+						{
+							dashTimeMod = 15;
+						}
+					}
+					else if (player.controlLeft && player.releaseLeft)
+					{
+						if (dashTimeMod < 0)
+						{
+							num23 = -1;
+							flag3 = true;
+							dashTimeMod = 0;
+						}
+						else
+						{
+							dashTimeMod = -15;
+						}
+					}
+					if (flag3)
+					{
+						player.velocity.X = 15.7f * (float)num23;
+						Point point5 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), player.gravDir * (float)(-(float)player.height) / 2f + player.gravDir * 2f)).ToTileCoordinates();
+						Point point6 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+						if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
+						{
+							player.velocity.X = player.velocity.X / 2f;
+						}
+						player.dashDelay = -1;
+						for (int num24 = 0; num24 < 60; num24++)
+						{
+							int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 67, 0f, 0f, 100, default(Color), 1.25f);
+							Dust expr_13AF_cp_0 = Main.dust[num25];
+							expr_13AF_cp_0.position.X = expr_13AF_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							Dust expr_13D6_cp_0 = Main.dust[num25];
+							expr_13D6_cp_0.position.Y = expr_13D6_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							Main.dust[num25].velocity *= 0.2f;
+							Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+							Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+							Main.dust[num25].noGravity = true;
+							Main.dust[num25].fadeIn = 0.5f;
+						}
+					}
+				}
 			}
 		}
 
@@ -8029,6 +9557,20 @@ namespace CalamityMod
 						Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
 						Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
 					}
+					else if (dashMod == 5)
+					{
+						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 33, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default(Color), 3f);
+						Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
+						Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
+						Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+					}
+					else if (dashMod == 6)
+					{
+						int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 67, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default(Color), 1.25f);
+						Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
+						Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
+						Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+					}
 				}
 			}
 			else if (player.controlRight && player.velocity.X < player.accRunSpeed && player.dashDelay >= 0)
@@ -8068,8 +9610,103 @@ namespace CalamityMod
 						Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
 						Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
 					}
+					else if (dashMod == 5)
+					{
+						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 33, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default(Color), 3f);
+						Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
+						Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
+						Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+					}
+					else if (dashMod == 6)
+					{
+						int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 67, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default(Color), 1.25f);
+						Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
+						Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
+						Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+					}
 				}
 			}
+			if (player.mount.Active && player.mount.Type == mod.MountType("Fab") && Math.Abs(player.velocity.X) > player.mount.DashSpeed - player.mount.RunSpeed / 2f)
+			{
+				Rectangle rect = player.getRect();
+				if (player.direction == 1)
+				{
+					rect.Offset(player.width - 1, 0);
+				}
+				rect.Width = 2;
+				rect.Inflate(6, 12);
+				float damage = 800f * player.minionDamage;
+				float knockback = 10f;
+				int nPCImmuneTime = 30;
+				int playerImmuneTime = 6;
+				ModCollideWithNPCs(rect, damage, knockback, nPCImmuneTime, playerImmuneTime);
+			}
+			if (player.mount.Active && player.mount.Type == mod.MountType("AngryDog") && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
+			{
+				Rectangle rect2 = player.getRect();
+				if (player.direction == 1)
+				{
+					rect2.Offset(player.width - 1, 0);
+				}
+				rect2.Width = 2;
+				rect2.Inflate(6, 12);
+				float damage2 = 50f * player.minionDamage;
+				float knockback2 = 8f;
+				int nPCImmuneTime2 = 30;
+				int playerImmuneTime2 = 6;
+				ModCollideWithNPCs(rect2, damage2, knockback2, nPCImmuneTime2, playerImmuneTime2);
+			}
+			if (player.mount.Active && player.mount.Type == mod.MountType("OnyxExcavator") && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
+			{
+				Rectangle rect2 = player.getRect();
+				if (player.direction == 1)
+				{
+					rect2.Offset(player.width - 1, 0);
+				}
+				rect2.Width = 2;
+				rect2.Inflate(6, 12);
+				float damage2 = 25f * player.minionDamage;
+				float knockback2 = 5f;
+				int nPCImmuneTime2 = 30;
+				int playerImmuneTime2 = 6;
+				ModCollideWithNPCs(rect2, damage2, knockback2, nPCImmuneTime2, playerImmuneTime2);
+			}
+		}
+
+		private int ModCollideWithNPCs(Rectangle myRect, float Damage, float Knockback, int NPCImmuneTime, int PlayerImmuneTime)
+		{
+			int num = 0;
+			for (int i = 0; i < 200; i++)
+			{
+				NPC nPC = Main.npc[i];
+				if (nPC.active && !nPC.dontTakeDamage && !nPC.friendly && nPC.immune[player.whoAmI] == 0)
+				{
+					Rectangle rect = nPC.getRect();
+					if (myRect.Intersects(rect) && (nPC.noTileCollide || Collision.CanHit(player.position, player.width, player.height, nPC.position, nPC.width, nPC.height)))
+					{
+						int direction = player.direction;
+						if (player.velocity.X < 0f)
+						{
+							direction = -1;
+						}
+						if (player.velocity.X > 0f)
+						{
+							direction = 1;
+						}
+						if (player.whoAmI == Main.myPlayer)
+						{
+							player.ApplyDamageToNPC(nPC, (int)Damage, Knockback, direction, false);
+						}
+						nPC.immune[player.whoAmI] = NPCImmuneTime;
+						player.immune = true;
+						player.immuneNoBlink = true;
+						player.immuneTime = PlayerImmuneTime;
+						num++;
+						break;
+					}
+				}
+			}
+			return num;
 		}
 		#endregion
 
@@ -8241,14 +9878,18 @@ namespace CalamityMod
 			list.Insert(0, MiscEffectsBack);
 			MiscEffects.visible = true;
 			list.Add(MiscEffects);
-			if (fab) { AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); }
+			if (fab || crysthamyr || onyxExcavator) { AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); }
 		}
 
 		public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo edi)
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			Player drawPlayer = edi.drawPlayer;
-			if (drawPlayer.mount != null && drawPlayer.GetModPlayer<CalamityPlayer>(mod).fab) { drawPlayer.mount.Draw(Main.playerDrawData, 3, drawPlayer, edi.position, edi.mountColor, edi.spriteEffects, edi.shadow); }
+			if (drawPlayer.mount != null && (drawPlayer.GetModPlayer<CalamityPlayer>(mod).fab || drawPlayer.GetModPlayer<CalamityPlayer>(mod).crysthamyr ||
+				drawPlayer.GetModPlayer<CalamityPlayer>(mod).onyxExcavator))
+			{
+				drawPlayer.mount.Draw(Main.playerDrawData, 3, drawPlayer, edi.position, edi.mountColor, edi.spriteEffects, edi.shadow);
+			}
 		});
 
 		public static void AddPlayerLayer(List<PlayerLayer> list, PlayerLayer layer, PlayerLayer parent, bool first)
@@ -8736,6 +10377,22 @@ namespace CalamityMod
 			}
 		}
 
+		private void DeathPacket(bool server)
+		{
+			ModPacket packet = mod.GetPacket(256);
+			packet.Write((byte)CalamityModMessageType.DeathCountSync);
+			packet.Write(player.whoAmI);
+			packet.Write(deathCount);
+			if (!server)
+			{
+				packet.Send();
+			}
+			else
+			{
+				packet.Send(-1, player.whoAmI);
+			}
+		}
+
 		internal void HandleExactLevels(BinaryReader reader, int levelType)
 		{
 			switch (levelType)
@@ -8806,6 +10463,15 @@ namespace CalamityMod
 			}
 		}
 
+		internal void HandleDeathCount(BinaryReader reader)
+		{
+			deathCount = reader.ReadInt32();
+			if (Main.netMode == 2)
+			{
+				DeathPacket(true);
+			}
+		}
+
 		public override void OnEnterWorld(Player player)
 		{
 			if (Main.netMode == 1)
@@ -8822,6 +10488,7 @@ namespace CalamityMod
 				LevelPacket(false, 4);
 				StressPacket(false);
 				AdrenalinePacket(false);
+				DeathPacket(false);
 			}
 		}
 		#endregion

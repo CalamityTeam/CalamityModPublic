@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			}
 			if (projectile.ai[0] == 0f)
 			{
-				projectile.damage = 100;
+				projectile.damage = 70;
 				if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
 				{
 					int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
@@ -353,7 +353,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 				{
 					flag54 = true;
 				}
-				else if (Main.npc[num989].active && !Main.npc[num989].dontTakeDamage)
+				else if (Main.npc[num989].active && !Main.npc[num989].dontTakeDamage && Main.npc[num989].defense < 9999)
 				{
 					projectile.Center = Main.npc[num989].Center - projectile.velocity * 2f;
 					projectile.gfxOffY = Main.npc[num989].gfxOffY;
@@ -382,7 +382,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			{
 				for (int i = 0; i < 200; i++)
 				{
-					if (((Main.npc[i].active && !Main.npc[i].dontTakeDamage)) &&
+					if (((Main.npc[i].active && !Main.npc[i].dontTakeDamage && Main.npc[i].defense < 9999)) &&
 						((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
 						(projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
 					{

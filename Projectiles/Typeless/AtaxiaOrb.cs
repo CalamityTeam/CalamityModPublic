@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.height = 4;
             projectile.friendly = true;
             projectile.penetrate = 1;
+			projectile.extraUpdates = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 200;
         }

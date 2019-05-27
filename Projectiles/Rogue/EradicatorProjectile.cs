@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
     	
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 44;
+            projectile.width = 58;
+            projectile.height = 58;
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -78,8 +78,9 @@ namespace CalamityMod.Projectiles.Rogue
 					{
 						if (projectile.owner == Main.myPlayer)
 						{
-							Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NebulaShot"), projectile.damage, projectile.knockBack, projectile.owner, 2f, 0f);
-                        }
+							int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NebulaShot"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+							Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+						}
 					}
 				}
 			}

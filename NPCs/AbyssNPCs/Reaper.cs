@@ -36,9 +36,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.timeLeft = NPC.activeTime * 30;
 			npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.HitSound = SoundID.NPCHit56;
@@ -625,8 +625,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")) &&
-				!NPC.AnyNPCs(mod.NPCType("ColossalSquid")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")))
+			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
 			}
@@ -646,7 +645,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ReaperTooth"), Main.rand.Next(3, 5));
 				if (Main.rand.Next(3) == 0)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Valediction"));
+					if (Main.rand.Next(33) == 0)
+					{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheReaper"));
+					}
+					else
+					{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Valediction"));
+					}
 				}
 			}
 			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)

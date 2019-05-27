@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Yharon
 		
 		public override bool CanUseItem(Player player)
 		{
-			return player.ZoneJungle && !NPC.AnyNPCs(mod.NPCType("Yharon"));
+			return player.ZoneJungle && !NPC.AnyNPCs(mod.NPCType("Yharon")) && CalamityWorld.downedBossAny;
 		}
 		
 		public override bool UseItem(Player player)

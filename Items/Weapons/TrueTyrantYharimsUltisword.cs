@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.width = 86;
+            item.width = 102;
             item.damage = 185;
             item.melee = true;
             item.useAnimation = 18;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 7.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 86;
+            item.height = 102;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("BlazingPhantomBlade");

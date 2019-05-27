@@ -48,6 +48,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				npc.lifeMax = CalamityWorld.death ? 4300000 : 4000000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -129,7 +131,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				if (detectsPlayer)
 				{
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] >= (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 120f : 180f))
+					if (npc.localAI[0] >= ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
 					{
 						int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 						int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -157,7 +159,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						}
 					}
 					npc.localAI[1] += 1f;
-					if (npc.localAI[1] >= (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 300f : 450f))
+					if (Main.player[npc.target].gravDir == -1f)
+					{
+						npc.localAI[1] += 2f;
+					}
+					if (npc.localAI[1] >= ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 300f : 450f))
 					{
 						int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 						int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -286,17 +292,22 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			if (detectsPlayer)
 			{
-				num188 = 7f;
-				num189 = 0.11f;
+				num188 = 8f;
+				num189 = 0.12f;
 				if (!Main.player[npc.target].wet)
 				{
-					num188 = 11f;
-					num189 = 0.14f;
+					num188 = 13f;
+					num189 = 0.16f;
 				}
 				if (notOcean)
 				{
 					num188 = 15f;
-					num189 = 0.17f;
+					num189 = 0.18f;
+				}
+				if (Main.player[npc.target].gravDir == -1f)
+				{
+					num188 = 20f;
+					num189 = 0.2f;
 				}
 			}
 			float num48 = num188 * 1.3f;

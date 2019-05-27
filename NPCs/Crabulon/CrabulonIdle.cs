@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.width = 164; //324
 			npc.height = 154; //216
 			npc.defense = 8;
-			npc.lifeMax = CalamityWorld.revenge ? 2640 : 1800;
+			npc.lifeMax = CalamityWorld.revenge ? 4000 : 3000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 6930;
@@ -37,6 +37,8 @@ namespace CalamityMod.NPCs.Crabulon
 			{
 				npc.lifeMax = CalamityWorld.death ? 2300000 : 2000000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
@@ -177,7 +179,6 @@ namespace CalamityMod.NPCs.Crabulon
 				int sporeDust = Dust.NewDust(npc.position, npc.width, npc.height, 56, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
 				Main.dust[sporeDust].noGravity = true;
 				Main.dust[sporeDust].velocity *= 0.5f;
-				npc.damage = 0;
 				npc.ai[1] += 1f;
 				if (npc.justHit || npc.ai[1] >= 420f)
 				{
@@ -188,7 +189,6 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.damage = 0;
 				npc.velocity.X *= 0.98f;
 				npc.velocity.Y *= 0.98f;
 				npc.ai[1] += 1f;
@@ -203,7 +203,6 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			else if (npc.ai[0] == 2f)
 			{
-				npc.damage = expertMode ? 64 : 40;
 				float num823 = 1.25f;
 				bool flag51 = false;
 				if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
@@ -214,7 +213,7 @@ namespace CalamityMod.NPCs.Crabulon
 				{
 					num823 = 2f;
 				}
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					num823 = 8f;
 				}
@@ -300,12 +299,10 @@ namespace CalamityMod.NPCs.Crabulon
 				if (npc.velocity.Y > 10f)
 				{
 					npc.velocity.Y = 10f;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f)
 			{
-				npc.damage = expertMode ? 64 : 40;
 				npc.noTileCollide = false;
 				if (npc.velocity.Y == 0f)
 				{
@@ -398,7 +395,7 @@ namespace CalamityMod.NPCs.Crabulon
 						{
 							num626 += 1f;
 						}
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num626 += 3f;
 						}
@@ -452,10 +449,14 @@ namespace CalamityMod.NPCs.Crabulon
 								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 							}
 						}
-						return;
 					}
 				}
 			}
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			return npc.ai[0] > 1f;
 		}
 
 		public override void FindFrame(int frameHeight)

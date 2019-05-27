@@ -73,7 +73,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					num439 *= num440;
 					if (projectile.owner == Main.myPlayer)
 					{
-						Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NebulaShot"), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 1f, 0f);
+						int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NebulaShot"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 					}
 				}
 			}

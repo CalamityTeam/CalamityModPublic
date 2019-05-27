@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 50;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.alpha = 120;
             cooldownSlot = 1;
@@ -28,7 +29,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            projectile.frameCounter++;
+			if (projectile.ai[0] == 1f)
+			{
+				projectile.tileCollide = true;
+			}
+			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
                 projectile.frame++;

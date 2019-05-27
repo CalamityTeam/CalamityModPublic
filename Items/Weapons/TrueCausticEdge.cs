@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.width = 62;
+            item.width = 64;
             item.damage = 42;
             item.melee = true;
             item.useAnimation = 28;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 5.75f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 68;
+            item.height = 74;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = mod.ProjectileType("TrueCausticEdgeProjectile");
@@ -65,8 +65,9 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 300);
-            target.AddBuff(BuffID.Venom, 180);
+			target.AddBuff(BuffID.Poisoned, 600);
+			target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.Venom, 300);
         }
     }
 }

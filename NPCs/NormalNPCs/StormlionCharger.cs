@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				return 0f;
 			}
-			return SpawnCondition.DesertCave.Chance * 0.15f;
+			return SpawnCondition.DesertCave.Chance * 0.2f;
 		}
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)

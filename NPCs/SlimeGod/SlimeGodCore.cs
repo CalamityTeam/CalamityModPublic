@@ -34,6 +34,8 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 npc.lifeMax = CalamityWorld.death ? 2700000 : 2500000;
             }
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 			npc.aiStyle = -1; //new
@@ -116,7 +118,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				npc.damage = 75;
 				if (Main.netMode != 1)
 				{
-                    npc.localAI[1] += (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 2f : 1f);
+                    npc.localAI[1] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
                     if (expertMode && Main.rand.Next(2) == 0)
                     {
                         if (npc.localAI[0] >= 75f)
@@ -217,7 +219,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num1372 += 8f;
             }

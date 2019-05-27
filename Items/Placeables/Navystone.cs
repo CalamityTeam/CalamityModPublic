@@ -37,6 +37,11 @@ namespace CalamityMod.Items.Placeables
 			recipe.AddTile(18);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(mod.ItemType("EutrophicPlatform"), 2);
+			recipe.SetResult(this);
+			recipe.AddTile(null, "EutrophicCrafting");
+			recipe.AddRecipe();
 		}
 	}
 }

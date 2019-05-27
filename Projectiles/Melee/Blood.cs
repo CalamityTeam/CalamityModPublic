@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 4;
             projectile.friendly = true;
 			projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 200;
+            projectile.penetrate = 2;
+            projectile.timeLeft = 180;
         }
 
         public override void AI()

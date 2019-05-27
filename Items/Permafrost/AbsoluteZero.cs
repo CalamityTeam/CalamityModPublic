@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Permafrost
 		}
 		public override void SetDefaults()
 		{
-			item.damage = 51;
+			item.damage = 42;
 			item.melee = true;
 			item.width = 58;
 			item.height = 58;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Permafrost
             target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(mod.BuffType("GlacialState"), 300);
 
-            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("DarkIceZero"), damage / 3, knockBack * 3, player.whoAmI);
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("DarkIceZero"), damage, knockBack * 3f, player.whoAmI);
             Main.projectile[p].Kill();
         }
     }

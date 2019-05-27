@@ -22,7 +22,8 @@ namespace CalamityMod.Items
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = mod.ProjectileType("Fox");
             item.buffType = mod.BuffType("Fox");
-            item.expert = true;
+			item.rare = 10;
+			item.expert = true;
         }
 
         public override void UseStyle(Player player)

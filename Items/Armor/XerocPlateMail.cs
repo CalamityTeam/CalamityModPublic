@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Xeroc Plate Mail");
-            Tooltip.SetDefault("+20 max life and mana\n" +
+            Tooltip.SetDefault("+20 max life\n" +
                 "6% increased movement speed\n" +
                 "7% increased rogue damage and critical strike chance\n" +
                 "Armor of the cosmos");
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-            player.statManaMax2 += 20;
             player.moveSpeed += 0.06f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.07f;

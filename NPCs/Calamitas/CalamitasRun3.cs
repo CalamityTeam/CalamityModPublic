@@ -50,21 +50,21 @@ namespace CalamityMod.NPCs.Calamitas
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[BuffID.Daybreak] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("HolyLight")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Plague")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[mod.BuffType("MarkedforDeath")] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Plague")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.boss = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -87,6 +87,8 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				npc.lifeMax = CalamityWorld.death ? 3300000 : 3000000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -142,53 +144,22 @@ namespace CalamityMod.NPCs.Calamitas
 					if ((float)(npc.life + num660) < bossLife)
 					{
 						bossLife = (float)npc.life;
-						if (!expertMode)
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("RedSpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("GraySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
+						if (CalamityWorld.death)
 						{
-							int num661 = Main.rand.Next(8, 13);
-							for (int num662 = 0; num662 < num661; num662++)
-							{
-								int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-								int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-								int num663 = mod.NPCType("LifeSeeker");
-								int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-								Main.npc[num664].SetDefaults(num663, -1f);
-								Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
-								Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
-							}
-						}
-						else
-						{
-							if (revenge)
-							{
-								int num661 = Main.rand.Next(5, 9);
-								for (int num662 = 0; num662 < num661; num662++)
-								{
-									int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-									int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-									int num663 = mod.NPCType("LifeSeeker");
-									int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-									Main.npc[num664].SetDefaults(num663, -1f);
-									Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
-									Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
-								}
-							}
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("RedSpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("GraySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
-							if (CalamityWorld.death)
-							{
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("RedSpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("GraySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
-							}
-							string key = "Mods.CalamityMod.CalamitasBossText4";
-							Color messageColor = Color.Orange;
-							if (Main.netMode == 0)
-							{
-								Main.NewText(Language.GetTextValue(key), messageColor);
-							}
-							else if (Main.netMode == 2)
-							{
-								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-							}
+						}
+						string key = "Mods.CalamityMod.CalamitasBossText4";
+						Color messageColor = Color.Orange;
+						if (Main.netMode == 0)
+						{
+							Main.NewText(Language.GetTextValue(key), messageColor);
+						}
+						else if (Main.netMode == 2)
+						{
+							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 						return;
 					}
@@ -206,7 +177,7 @@ namespace CalamityMod.NPCs.Calamitas
 				npc.defense += num568 * 50;
 				if (!flag100)
 				{
-					npc.defense = 30;
+					npc.defense = provy ? 150 : 25;
 				}
 			}
 			npc.chaseable = !flag100;
@@ -361,7 +332,7 @@ namespace CalamityMod.NPCs.Calamitas
 					{
 						npc.localAI[1] = 0f;
 						float num828 = expertMode ? 14f : 12.5f;
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num828 += 5f;
 						}
@@ -441,7 +412,7 @@ namespace CalamityMod.NPCs.Calamitas
 					{
 						npc.localAI[1] += 0.5f;
 					}
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					{
 						npc.localAI[1] += 1f;
 					}

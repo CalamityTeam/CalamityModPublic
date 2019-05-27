@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 30;
             projectile.friendly = true;
             projectile.aiStyle = 14;
-            projectile.penetrate = -1;
+            projectile.penetrate = 4;
             projectile.timeLeft = 360;
             projectile.magic = true;
         }

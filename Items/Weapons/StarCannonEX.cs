@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -56,12 +57,9 @@ namespace CalamityMod.Items.Weapons
                     case 1: type = 9; break;
                     case 2: type = mod.ProjectileType("AstralStar"); break;
                 }
-		        int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                Main.projectile[star].ranged = true;
-                Main.projectile[star].magic = false;
-                Main.projectile[star].melee = false;
-                Main.projectile[star].netUpdate = true;
-            }
+		        int star = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[star].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+			}
 		    return false;
 		}
 		

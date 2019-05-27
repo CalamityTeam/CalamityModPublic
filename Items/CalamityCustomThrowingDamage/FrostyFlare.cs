@@ -12,8 +12,10 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frosty Flare");
-            Tooltip.SetDefault("Sticks to enemies\nGenerates a localized hailstorm\n'Do not insert in flare gun'");
+            Tooltip.SetDefault("Sticks to enemies\n" +
+				"Generates a localized hailstorm\n'Do not insert in flare gun'");
         }
+
 		public override void SafeSetDefaults()
 		{
 			item.damage = 32;
@@ -34,6 +36,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.shootSpeed = 22f;
             item.maxStack = 999;
             item.consumable = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
     }
 }

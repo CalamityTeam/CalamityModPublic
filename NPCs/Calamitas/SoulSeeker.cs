@@ -36,8 +36,9 @@ namespace CalamityMod.NPCs.Calamitas
             for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
@@ -64,6 +65,13 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				if (Main.netMode != 1 && Main.rand.Next(10) == 0)
 				{
+					if (NPC.CountNPCS(mod.NPCType("LifeSeeker")) < 10)
+					{
+						int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 25));
+						int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 25));
+						int num663 = mod.NPCType("LifeSeeker");
+						int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+					}
 					for (int num621 = 0; num621 < 5; num621++)
 					{
 						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);

@@ -41,11 +41,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
+			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
 			{
 				return 0f;
 			}
-			return SpawnCondition.OverworldDaySlime.Chance * 0.33f;
+			return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.08f : 0.33f);
 		}
 		
 		public override void HitEffect(int hitDirection, double damage)

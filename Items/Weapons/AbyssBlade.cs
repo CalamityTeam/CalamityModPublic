@@ -13,13 +13,15 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Abyss Blade");
-			Tooltip.SetDefault("Hitting enemies will cause the crush depth debuff\nThe lower the enemies' defense the more damage they take from this debuff");
+			Tooltip.SetDefault("Hitting enemies will cause the crush depth debuff\n" +
+				"The lower the enemies' defense the more damage they take from this debuff\n" +
+				"Fires short-range water orbs");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 60;
-			item.damage = 100;
+			item.damage = 110;
 			item.melee = true;
 			item.useAnimation = 17;
 			item.useTime = 17;
@@ -32,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
 			item.shoot = mod.ProjectileType("DepthOrb");
-			item.shootSpeed = 19f;
+			item.shootSpeed = 9f;
 		}
 		
 		public override void AddRecipes()

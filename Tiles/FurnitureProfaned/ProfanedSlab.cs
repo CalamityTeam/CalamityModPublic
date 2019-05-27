@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
             soundType = 21;
-            mineResist = 10f;
+            mineResist = 5f;
             minPick = 225;
             drop = mod.ItemType("ProfanedSlab");
 			AddMapEntry(new Color(122, 66, 59));

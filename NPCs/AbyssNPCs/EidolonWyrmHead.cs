@@ -515,8 +515,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.3f;
 			}
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")) &&
-				!NPC.AnyNPCs(mod.NPCType("Reaper")) && !NPC.AnyNPCs(mod.NPCType("ColossalSquid")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")))
+			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}

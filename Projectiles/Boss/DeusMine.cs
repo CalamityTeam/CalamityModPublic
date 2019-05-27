@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 26;
             projectile.hostile = true;
             projectile.alpha = 255;
-            projectile.penetrate = 1;
+            projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = 1200;
         }
@@ -59,7 +59,16 @@ namespace CalamityMod.Projectiles.Boss
         	}
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		public override bool CanDamage()
+		{
+			if (projectile.timeLeft > 1100)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.timeLeft < 85)
             {

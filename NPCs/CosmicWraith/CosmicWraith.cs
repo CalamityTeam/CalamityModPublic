@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 32f;
-			npc.damage = 150;
+			npc.damage = 175;
 			npc.width = 130;
 			npc.height = 130;
 			npc.defense = 70;
@@ -59,6 +59,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 			{
 				npc.lifeMax = CalamityWorld.death ? 2400000 : 2200000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
@@ -66,18 +68,18 @@ namespace CalamityMod.NPCs.CosmicWraith
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
-				npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
-				npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-				npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-				npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-				npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-				npc.buffImmune[mod.BuffType("Nightwither")] = false;
-				npc.buffImmune[mod.BuffType("Shred")] = false;
-				npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-				npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
+			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
@@ -104,16 +106,17 @@ namespace CalamityMod.NPCs.CosmicWraith
 			float num998 = 8f;
 			float scaleFactor3 = 300f;
 			float num999 = 800f;
-			float num1000 = cosmicSpeed ? 12f : 15f; //should be lower
+			float num1000 = cosmicSpeed ? 12f : 15f;
 			float num1001 = 5f;
-			float scaleFactor4 = 0.75f; //should be 0.75
-			int num1002 = 0; //should be 0
+			float scaleFactor4 = 0.75f;
+			int num1002 = 0;
 			float scaleFactor5 = 10f;
 			float num1003 = 30f;
 			float num1004 = 150f;
-			float num1005 = cosmicSpeed ? 12f : 15f; //should be lower
+			float num1005 = cosmicSpeed ? 12f : 15f;
 			float num1006 = 0.333333343f;
-			float num1007 = 10f; //yes
+			float num1007 = 10f;
+			float chargeSpeedDivisor = cosmicSpeed ? 11.85f : 14.85f;
 			num1006 *= num1005;
 			for (int num1011 = 0; num1011 < 2; num1011++)
 			{
@@ -156,7 +159,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					if (Main.netMode != 1)
 					{
 						int speed2 = revenge ? 13 : 12;
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							speed2 += 3;
 						}
@@ -198,7 +201,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				{
 					speed = expertMode ? 16f : 14f;
 				}
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					speed += 3f;
 				}
@@ -255,7 +258,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.damage = 0;
 				npc.dontTakeDamage = true;
 				npc.chaseable = false;
 				npc.alpha += (cosmicTeleport ? 5 : 4);
@@ -266,7 +268,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 					npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
 					npc.ai[0] = 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 2f)
@@ -320,7 +321,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 							Main.dust[num625].velocity *= 2f;
 						}
 					}
-					npc.damage = expertMode ? 240 : 150;
 					npc.dontTakeDamage = false;
 					npc.chaseable = true;
 					npc.ai[3] += 1f;
@@ -337,7 +337,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 						npc.ai[0] = 0f;
 					}
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f)
@@ -372,7 +371,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					if (Main.netMode != 1)
 					{
 						float num1070 = 15f; //changed from 10
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged)
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num1070 += 3f;
 						}
@@ -459,12 +458,10 @@ namespace CalamityMod.NPCs.CosmicWraith
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 4f)
 			{
-				npc.damage = expertMode ? 240 : 150;
 				npc.dontTakeDamage = false;
 				npc.chaseable = true;
 				if (Main.netMode != 1)
@@ -505,7 +502,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				}
 				npc.spriteDirection = Math.Sign(npc.velocity.X);
 				phaseSwitch += 1f;
-				if (chargeSwitch == 0f)
+				if (chargeSwitch == 0f) //line up the charge
 				{
 					float scaleFactor6 = num998;
 					Vector2 center4 = npc.Center;
@@ -524,8 +521,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 					flag64 = (flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014);
 					if (num1013 > num999 || !flag64)
 					{
-						npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / (cosmicSpeed ? 11.75f : 14.8f); //num1000 12f 15f
-						npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / (cosmicSpeed ? 11.75f : 14.8f); //num1000 12f 15f
+						npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / chargeSpeedDivisor;
+						npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / chargeSpeedDivisor;
 						if (!flag64)
 						{
 							npc.ai[3] += 1f;
@@ -547,7 +544,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 						npc.netUpdate = true;
 					}
 				}
-				else if (chargeSwitch == 1f)
+				else if (chargeSwitch == 1f) //pause before charge
 				{
 					npc.velocity *= scaleFactor4;
 					npc.ai[1] += 1f;
@@ -562,7 +559,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 						npc.velocity = velocity;
 					}
 				}
-				else if (chargeSwitch == 2f)
+				else if (chargeSwitch == 2f) //charging
 				{
 					if (Main.netMode != 1)
 					{
@@ -572,14 +569,13 @@ namespace CalamityMod.NPCs.CosmicWraith
 							Main.PlaySound(SoundID.Item73, npc.position);
 							int damage = expertMode ? 49 : 62;
 							Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-							int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, mod.ProjectileType("EssenceDust"), damage, 0f, Main.myPlayer, 0f, 0f); //changed
+							int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, mod.ProjectileType("EssenceDust"), damage, 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[projectile].timeLeft = 60;
 							Main.projectile[projectile].velocity.X = 0f;
 							Main.projectile[projectile].velocity.Y = 0f;
 							dustTimer = 3;
 						}
 					}
-					npc.damage = expertMode ? 320 : 200;
 					float num1016 = num1003;
 					npc.ai[1] += 1f;
 					bool flag65 = Vector2.Distance(npc.Center, player.Center) > num1004 && npc.Center.Y > player.Center.Y;
@@ -591,7 +587,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 						npc.velocity /= 2f;
 						npc.netUpdate = true;
 						npc.ai[1] = 45f;
-						chargeSwitch = 4f;
+						chargeSwitch = 3f;
 					}
 					else
 					{
@@ -603,23 +599,22 @@ namespace CalamityMod.NPCs.CosmicWraith
 						{
 							vec2 = new Vector2((float)npc.direction, 0f);
 						}
-						npc.velocity = (npc.velocity * (num1005 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / (cosmicSpeed ? 11.65f : 14.75f); //num1005 12f 15f
+						npc.velocity = (npc.velocity * (num1005 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / chargeSpeedDivisor;
 					}
 				}
-				else if (chargeSwitch == 4f)
+				else if (chargeSwitch == 3f) //slow down after charging and reset
 				{
-					npc.ai[1] -= 3f;
+					npc.ai[1] -= 2f;
 					if (npc.ai[1] <= 0f)
 					{
 						chargeSwitch = 0f;
 						npc.ai[1] = 0f;
 						npc.netUpdate = true;
 					}
-					npc.velocity *= 0.95f;
+					npc.velocity *= 0.97f;
 				}
 				if (phaseSwitch > 300f)
 				{
-					npc.damage = expertMode ? 240 : 150;
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -627,7 +622,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 					chargeSwitch = 0f;
 					phaseSwitch = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 		}
@@ -635,7 +629,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
-			return true;
+			return npc.alpha == 0;
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -672,7 +666,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			{
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
-			Color lightColor = (drawColor != null ? (Color)drawColor : CalamityMod.GetNPCColor(((NPC)npc), npc.Center, false));
 			int frameCount = Main.npcFrameCount[npc.type];
 			float scale = npc.scale;
 			float rotation = npc.rotation;
@@ -693,7 +686,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)width * scale / 2f + vector.X * scale,
 					npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)height * scale / (float)frameCount + 4f + vector.Y * scale + 0f + offsetY),
 					new Microsoft.Xna.Framework.Rectangle?(frame),
-					npc.GetAlpha(lightColor),
+					npc.GetAlpha(drawColor),
 					rotation,
 					vector,
 					scale,
@@ -715,7 +708,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
 				npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)frameCount + 4f + vector11.Y * scale + 0f + offsetY),
 				new Microsoft.Xna.Framework.Rectangle?(frame2),
-				npc.GetAlpha(lightColor),
+				npc.GetAlpha(drawColor),
 				rotation,
 				vector11,
 				scale,

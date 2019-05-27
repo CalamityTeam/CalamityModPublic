@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			DisplayName.SetDefault("Ravager");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -29,19 +29,19 @@ namespace CalamityMod.NPCs.Scavenger
 			aiType = -1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
-                npc.buffImmune[k] = true;
-                npc.buffImmune[BuffID.Ichor] = false;
-                npc.buffImmune[BuffID.CursedInferno] = false;
-                npc.buffImmune[BuffID.Daybreak] = false;
-                npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
-                npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
-                npc.buffImmune[mod.BuffType("DemonFlames")] = false;
-                npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
-                npc.buffImmune[mod.BuffType("HolyLight")] = false;
-                npc.buffImmune[mod.BuffType("Nightwither")] = false;
-                npc.buffImmune[mod.BuffType("Shred")] = false;
-                npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
-            }
+				npc.buffImmune[k] = true;
+			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+			npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[mod.BuffType("AbyssalFlames")] = false;
+			npc.buffImmune[mod.BuffType("ArmorCrunch")] = false;
+			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
+			npc.buffImmune[mod.BuffType("GodSlayerInferno")] = false;
+			npc.buffImmune[mod.BuffType("HolyLight")] = false;
+			npc.buffImmune[mod.BuffType("Nightwither")] = false;
+			npc.buffImmune[mod.BuffType("Shred")] = false;
+			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
 			npc.noGravity = true;
 			npc.canGhostHeal = false;
 			npc.alpha = 255;
@@ -53,30 +53,32 @@ namespace CalamityMod.NPCs.Scavenger
 				npc.defense = 135;
 				npc.lifeMax = 200000;
 			}
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 450000 : 400000;
-            }
-        }
-		
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 450000 : 400000;
+			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
+
 		public override void AI()
 		{
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			Vector2 center = npc.Center;
-            if (!Main.npc[CalamityGlobalNPC.scavenger].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
-            if (npc.timeLeft < 3000)
+			if (!Main.npc[CalamityGlobalNPC.scavenger].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
+			if (npc.timeLeft < 3000)
 			{
 				npc.timeLeft = 3000;
 			}
-			if (npc.alpha > 0) 
+			if (npc.alpha > 0)
 			{
 				npc.alpha -= 10;
-				if (npc.alpha < 0) 
+				if (npc.alpha < 0)
 				{
 					npc.alpha = 0;
 				}
@@ -92,19 +94,19 @@ namespace CalamityMod.NPCs.Scavenger
 					Main.projectile[smash].friendly = false;
 				}
 			}
-			if (npc.ai[0] == 0f) 
+			if (npc.ai[0] == 0f)
 			{
 				npc.noTileCollide = true;
 				float num659 = 14f;
-				if (npc.life < npc.lifeMax / 2) 
+				if (npc.life < npc.lifeMax / 2)
 				{
 					num659 += 3f;
 				}
-				if (npc.life < npc.lifeMax / 3) 
+				if (npc.life < npc.lifeMax / 3)
 				{
 					num659 += 3f;
 				}
-				if (npc.life < npc.lifeMax / 5) 
+				if (npc.life < npc.lifeMax / 5)
 				{
 					num659 += 8f;
 				}
@@ -114,7 +116,7 @@ namespace CalamityMod.NPCs.Scavenger
 				num661 += 88f;
 				num660 += 70f;
 				float num662 = (float)Math.Sqrt((double)(num660 * num660 + num661 * num661));
-				if (num662 < 12f + num659) 
+				if (num662 < 12f + num659)
 				{
 					npc.rotation = 0f;
 					npc.velocity.X = num660;
@@ -128,12 +130,12 @@ namespace CalamityMod.NPCs.Scavenger
 				}
 			}
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)

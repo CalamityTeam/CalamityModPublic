@@ -8,6 +8,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod;
+using CalamityMod.NPCs;
+using CalamityMod.World;
 using CalamityMod.NPCs.TheDevourerofGods;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
@@ -28,21 +30,90 @@ namespace CalamityMod.Projectiles
 
 		public bool rogue = false;
 
-		public bool setDamageValues = true;
+		public bool trueMelee = false;
+
+		private bool setDamageValues = true;
+
+		public bool forceMelee = false;
+
+		public bool forceRanged = false;
+
+		public bool forceMagic = false;
+
+		public bool forceRogue = false;
 
 		public float spawnedPlayerMinionDamageValue = 1f;
 
 		public int spawnedPlayerMinionProjectileDamageValue = 0;
 
-		public int counter = 0;
+		private int counter = 0;
 
-		public int counter2 = 0;
+		private int counter2 = 0;
+
+		private int defDamage = 0;
+
+		#region SetDefaults
+		public override void SetDefaults(Projectile projectile)
+		{
+			switch (projectile.type)
+			{
+				case ProjectileID.Spear:
+				case ProjectileID.ChainKnife:
+				case ProjectileID.TheRottedFork:
+				case ProjectileID.BallOHurt:
+				case ProjectileID.TheMeatball:
+				case ProjectileID.Swordfish:
+				case ProjectileID.Arkhalis:
+				case ProjectileID.BlueMoon:
+				case ProjectileID.DarkLance:
+				case ProjectileID.Sunfury:
+				case ProjectileID.Anchor:
+				case ProjectileID.BoxingGlove:
+				case ProjectileID.CobaltNaginata:
+				case ProjectileID.PalladiumPike:
+				case ProjectileID.MythrilHalberd:
+				case ProjectileID.OrichalcumHalberd:
+				case ProjectileID.AdamantiteGlaive:
+				case ProjectileID.TitaniumTrident:
+				case ProjectileID.TheDaoofPow:
+				case ProjectileID.GolemFist:
+				case ProjectileID.Gungnir:
+				case ProjectileID.ObsidianSwordfish:
+				case ProjectileID.ChainGuillotine:
+				case ProjectileID.MonkStaffT3:
+				case ProjectileID.MonkStaffT1:
+				case ProjectileID.SolarWhipSword:
+					trueMelee = true;
+					break;
+			}
+		}
+		#endregion
 
 		#region AI
 		public override void AI(Projectile projectile)
 		{
+			if (defDamage == 0)
+				defDamage = projectile.damage;
+
+			if (NPC.downedMoonlord)
+			{
+				if (CalamityMod.dungeonProjectileBuffList.Contains(projectile.type))
+					projectile.damage = defDamage + 60;
+			}
+			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
+			{
+				if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
+					projectile.damage = defDamage + 90;
+			}
+			else if (CalamityWorld.buffedEclipse && Main.eclipse)
+			{
+				if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
+					projectile.damage = defDamage + 120;
+			}
+
 			if (projectile.modProjectile != null && projectile.modProjectile.mod.Name.Equals("CalamityMod"))
 				goto SKIP_CALAMITY;
+
 			if ((projectile.minion || projectile.sentry) && !ProjectileID.Sets.StardustDragon[projectile.type]) //For all other mods and vanilla, exclude dragon due to bugs
 			{
 				if (setDamageValues)
@@ -58,115 +129,61 @@ namespace CalamityMod.Projectiles
 				}
 			}
 			SKIP_CALAMITY:
-			if (projectile.type == ProjectileID.HallowStar)
+
+			if (forceMelee)
 			{
-				if (projectile.ai[0] == 1f)
-				{
-					projectile.ranged = false;
-					projectile.melee = true;
-				}
-				else if (projectile.ai[0] == 2f)
-				{
-					projectile.ranged = false;
-					rogue = true;
-				}
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = true;
+				projectile.ranged = false;
+				projectile.magic = false;
+				rogue = false;
 			}
-			else if (projectile.type == ProjectileID.FallingStar)
+			else if (forceRanged)
 			{
-				if (projectile.ai[0] == 2f)
-				{
-					rogue = true;
-				}
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = true;
+				projectile.magic = false;
+				rogue = false;
 			}
-			else if (projectile.type == ProjectileID.Meteor1 || projectile.type == ProjectileID.Meteor2 || projectile.type == ProjectileID.Meteor3)
+			else if (forceMagic)
 			{
-				if (projectile.ai[0] == 1f)
-				{
-					projectile.magic = false;
-					projectile.melee = true;
-					projectile.tileCollide = false;
-				}
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = true;
+				rogue = false;
 			}
-			else if (projectile.type == ProjectileID.GoldenShowerFriendly)
+			else if (forceRogue)
 			{
-				if (projectile.ai[0] == 1f)
-				{
-					projectile.magic = false;
-					projectile.melee = true;
-				}
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = false;
+				rogue = true;
 			}
-			else if (projectile.type == ProjectileID.MiniSharkron)
+
+			if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)
 			{
-				if (projectile.ai[0] == 1f)
-					projectile.melee = true;
-				else if (projectile.ai[0] == 2f)
-					projectile.ranged = true;
+				if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("ThornBlossom"))
+					projectile.penetrate = 1;
 			}
-			else if (projectile.type == ProjectileID.LostSoulFriendly)
-			{
-				if (projectile.ai[0] == 1f)
-				{
-					projectile.magic = false;
-					projectile.ranged = true;
-				}
-			}
-			else if (projectile.type == ProjectileID.LunarFlare)
-			{
-				if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("StellarStriker"))
-				{
-					projectile.magic = false;
-					projectile.melee = true;
-				}
-			}
-			else if (projectile.type == ProjectileID.RubyBolt || projectile.type == ProjectileID.SapphireBolt || projectile.type == ProjectileID.AmethystBolt)
-			{
-				if (projectile.ai[0] == 1f)
-				{
-					projectile.magic = false;
-					projectile.melee = true;
-				}
-			}
-			else if (projectile.type == ProjectileID.SolarWhipSwordExplosion)
-			{
-				if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("TruePaladinsHammer") ||
-					Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("FlameScythe"))
-				{
-					projectile.melee = false;
-				}
-				else if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].ranged)
-				{
-					projectile.melee = false;
-					projectile.ranged = true;
-				}
-				else if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("PurgeGuzzler") ||
-					Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("Lazhar"))
-				{
-					projectile.melee = false;
-					projectile.magic = true;
-				}
-			}
-			else if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee || projectile.type == ProjectileID.Wasp)
+			else if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
 			{
 				if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
 				{
-					if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("PlagueKeeper"))
-					{
-						projectile.magic = false;
-						projectile.melee = true;
-					}
-					else if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("TheSwarmer"))
-					{
-						projectile.magic = true;
-					}
-					else if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("TheHive") ||
-						Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("Malevolence") ||
-						Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ItemID.BeesKnees)
+					if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == ItemID.BeesKnees)
 					{
 						projectile.magic = false;
 						projectile.ranged = true;
 					}
 				}
 			}
+
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eQuiver && projectile.ranged &&
 				projectile.friendly && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
 			{
@@ -194,6 +211,21 @@ namespace CalamityMod.Projectiles
 					}
 				}
 			}
+
+			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).fungalSymbiote && trueMelee)
+			{
+				counter++;
+				if (counter >= 6)
+				{
+					counter = 0;
+					if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileID.Mushroom] < 30)
+					{
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.Mushroom,
+							(int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+					}
+				}
+			}
+
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).nanotech && rogue && projectile.friendly)
 			{
 				counter++;
@@ -207,6 +239,7 @@ namespace CalamityMod.Projectiles
 					}
 				}
 			}
+
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).daedalusSplit && rogue && projectile.friendly)
 			{
 				counter2++;
@@ -230,6 +263,19 @@ namespace CalamityMod.Projectiles
 					}
 				}
 			}
+
+			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).theBeeDamage > 0 && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
+				(projectile.melee || projectile.ranged || projectile.magic || rogue))
+			{
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default(Color), 0.5f);
+				Main.dust[dust].noGravity = true;
+			}
+			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).providenceLore && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
+				(projectile.melee || projectile.ranged || projectile.magic || rogue))
+			{
+				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default(Color), 0.5f);
+				Main.dust[dust].noGravity = true;
+			}
 		}
 		#endregion
 
@@ -244,213 +290,19 @@ namespace CalamityMod.Projectiles
 				{
 					if (projectile.type == ProjectileID.PureSpray)
 					{
-						CalamityWorld.ConvertFromAstral(i, j, ConvertType.Pure);
+						WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
 					}
 					if (projectile.type == ProjectileID.CorruptSpray)
 					{
-						CalamityWorld.ConvertFromAstral(i, j, ConvertType.Corrupt);
+						WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
 					}
 					if (projectile.type == ProjectileID.CrimsonSpray)
 					{
-						CalamityWorld.ConvertFromAstral(i, j, ConvertType.Crimson);
+						WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
 					}
 					if (projectile.type == ProjectileID.HallowSpray)
 					{
-						CalamityWorld.ConvertFromAstral(i, j, ConvertType.Hallow);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region ModifyHitNPC
-		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.ranged)
-			{
-				//BULLETS
-
-				//musket ball: base 100 + 7 = 107
-				//silver: base 100 + 9 = 109
-				//meteor shot: base 100 + 9 = 109 pierces once
-				//acceleration: base 100 + bullet damage 9 = 109 speeds up while travelling
-				//flash: base 100 + bullet damage 7 = 107 + (flash damage 107 * 0.25 = 26) = 133 AoE confusion
-				//superball: base 100 + bullet damage 6 = 106 bounces a fucking shitload of times and speeds up
-				//enhanced nano: base 100 + bullet damage 12 = 112 + (nanobot damage 112 * 0.3 = 33 * 2 nanobots = 66) = 178
-				//crystal: base 100 + bullet damage 9 = 109 + (crystal shard damage 109 * 0.6 = 65 * 0.6 = 39 * 3 total shards = 117) = 226
-				//frostspark: base 100 + bullet damage 11 = 111 + (explosion damage 111 * 0.5 = 55) = 166
-				//icy: base 100 + 10 bullet damage = 110 + (ice shard damage 110 * 0.5 = 55 * 0.6 = 33 * 2 total shards = 66) = 176
-				//verium: base 100 + bullet damage 8 = 108 * 0.8 = 86 homing
-				//chloro: base 100 + bullet damage 10 = 110 * 0.8 = 88 homing
-				//terra: base 100 + bullet damage 9 = 109 + (terra shard damage 109 * 0.5 = 54 * 2 total shards = 106) = 215
-				//acid: base 100 + bullet damage 36 = 136 does more based on enemy defense
-				//hyperius: base 100 + bullet damage 21 = 121 + (hyperius second bullet damage 121 * 0.8 = 96) = 217
-				//holy fire: base 100 + bullet damage 27 = 127 + (explosion damage 127 * 0.85 = 107) = 234
-
-				//ARROWS
-
-				//holy arrow: base 100 + arrow damage 13 = 113 + (star damage 113 * 0.5 = 56 * 0.7 = 39 * 2 total stars = 78) = 191
-				//terra arrow: base 100 + arrow damage 9 = 109 + (terra arrow split damage 109 * 0.5 = 54 * 2 total arrows = 106) = 215
-				//elysian arrow: base 100 + arrow damage 20 = 120 + meteor damage 120 = 240
-				//napalm arrow: base 100 + arrow damage 13 = 113 + (fire shard damage 113 * 0.3 = 33 * 3 total shards = 99) = 212
-				//icicle arrow: base 100 + arrow damage 14 = 114 + (ice shard damage 114 * 0.5 = 57 * 0.6 = 34 * 3 total shards = 102) = 216
-				//bloodfire arrow: base 100 + arrow damage 40 = 140 but it heals so it's alright
-				//arctic arrow: base 100 + arrow damage 16 = 116 but it freezes enemies so it's alright
-				//vanquisher arrow: base 100 + arrow damage 33 = 133 + split arrow damage 93 = 226 fine for endgame arrow
-				switch (projectile.type)
-				{
-					case ProjectileID.CrystalShard:
-						damage = (int)((double)damage * 0.6);
-						break;
-					case ProjectileID.ChlorophyteBullet:
-						damage = (int)((double)damage * 0.8);
-						break;
-					case ProjectileID.HallowStar:
-						damage = (int)((double)damage * 0.7);
-						break;
-				}
-				if (projectile.type == mod.ProjectileType("VeriumBullet"))
-				{
-					damage = (int)((double)damage * 0.8);
-				}
-				else if (projectile.type == mod.ProjectileType("FrostsparkBullet"))
-				{
-					if (target.buffImmune[mod.BuffType("GlacialState")])
-					{
-						damage = (int)((double)damage * 1.2);
-					}
-				}
-				else if (projectile.type == mod.ProjectileType("AcidBullet"))
-				{
-					int defenseAdd = (int)((double)target.defense * 0.1); //100 defense * 0.1 = 10
-					damage = damage + defenseAdd;
-				}
-			}
-			if (projectile.owner == Main.myPlayer)
-			{
-				if (rogue)
-				{
-					crit = (Main.rand.Next(1, 101) < CalamityCustomThrowingDamagePlayer.ModPlayer(Main.player[projectile.owner]).throwingCrit);
-				}
-				if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type))
-				{
-					Player player = Main.player[projectile.owner];
-					if (!player.inventory[player.selectedItem].summon &&
-						(player.inventory[player.selectedItem].melee ||
-						player.inventory[player.selectedItem].ranged ||
-						player.inventory[player.selectedItem].magic ||
-						player.inventory[player.selectedItem].thrown) &&
-						player.inventory[player.selectedItem].hammer == 0 &&
-						player.inventory[player.selectedItem].pick == 0 &&
-						player.inventory[player.selectedItem].axe == 0)
-					{
-						damage = (int)((double)damage * 0.6);
-					}
-					else
-					{
-						damage = (int)((double)damage * 1.1);
-					}
-				}
-				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).screwdriver)
-				{
-					if (projectile.penetrate > 1 || projectile.penetrate == -1)
-					{
-						damage = (int)((double)damage * 1.1);
-					}
-				}
-				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).sPower)
-				{
-					if (projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type))
-					{
-						damage = (int)((double)damage * 1.1);
-					}
-				}
-				if (CalamityWorld.revenge)
-				{
-					bool DHorHoD = (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).draedonsHeart ||
-						Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).heartOfDarkness);
-					if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode &&
-					Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineMode)
-					{
-						if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) ||
-							projectile.melee || projectile.ranged || projectile.magic || rogue)
-						{
-							damage = (int)((double)damage *
-								(CalamityWorld.death ? (DHorHoD ? 9.9 : 9.0) : (DHorHoD ? 3.3 : 3.0)));
-						}
-					}
-					else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageMode)
-					{
-						if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) ||
-							projectile.melee || projectile.ranged || projectile.magic || rogue)
-						{
-							double rageDamageBoost = 0.0 +
-								(Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostOne ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //3.6 or 1.65
-								(Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostTwo ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //4.2 or 1.8
-								(Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).rageBoostThree ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0); //4.8 or 1.95
-							double rageDamage =
-								(CalamityWorld.death ? (DHorHoD ? 3.3 : 3.0) : (DHorHoD ? 1.65 : 1.5)) + rageDamageBoost;
-							damage = (int)((double)damage * rageDamage);
-						}
-					}
-					else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineMode)
-					{
-						if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) ||
-							projectile.melee || projectile.ranged || projectile.magic || rogue)
-						{
-							damage = (int)((double)damage * ((CalamityWorld.death ? 7.0 : 2.5) * Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).adrenalineDmgMult));
-						}
-					}
-				}
-				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).uberBees &&
-					(projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee || projectile.type == ProjectileID.Wasp))
-				{
-					if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("TheSwarmer") ||
-						Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("PlagueKeeper"))
-					{
-						damage = damage + Main.rand.Next(10, 21);
-					}
-					else
-					{
-						damage = damage + Main.rand.Next(70, 101);
-						projectile.penetrate = 1;
-					}
-				}
-			}
-			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).astralStarRain && crit &&
-				Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).astralStarRainCooldown <= 0)
-			{
-				if (projectile.owner == Main.myPlayer)
-				{
-					Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).astralStarRainCooldown = 60;
-					for (int n = 0; n < 3; n++)
-					{
-						float x = target.position.X + (float)Main.rand.Next(-400, 400);
-						float y = target.position.Y - (float)Main.rand.Next(500, 800);
-						Vector2 vector = new Vector2(x, y);
-						float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-						float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-						num13 += (float)Main.rand.Next(-100, 101);
-						int num15 = 25;
-						int projectileType = Main.rand.Next(3);
-						if (projectileType == 0)
-						{
-							projectileType = mod.ProjectileType("AstralStar");
-						}
-						else if (projectileType == 1)
-						{
-							projectileType = 92;
-						}
-						else
-						{
-							projectileType = 12;
-						}
-						float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-						num16 = (float)num15 / num16;
-						num13 *= num16;
-						num14 *= num16;
-						int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 75, 5f, projectile.owner, 0f, 0f);
-						Main.projectile[num17].ranged = false;
+						WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
 					}
 				}
 			}
@@ -482,14 +334,9 @@ namespace CalamityMod.Projectiles
 					}
 					Main.player[Main.myPlayer].lifeSteal -= num;
 				}
-				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).uberBees &&
-					(projectile.type == 566 || projectile.type == 181 || projectile.type == 189))
-				{
-					target.AddBuff(mod.BuffType("Plague"), 360);
-				}
 				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).alchFlask &&
-					(projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged) &&
-						Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("PlagueSeeker")] < 6)
+					(projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type)) &&
+					Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("PlagueSeeker")] < 6)
 				{
 					int newDamage = (int)((double)projectile.damage * 0.25);
 					if (newDamage > 30)
@@ -645,10 +492,10 @@ namespace CalamityMod.Projectiles
 							}
 							value15.Normalize();
 							value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-							int newDamage = (int)((double)projectile.damage * 0.2);
-							if (newDamage > 30)
+							int newDamage = (int)((double)projectile.damage * 0.25);
+							if (newDamage > 40)
 							{
-								newDamage = 30;
+								newDamage = 40;
 							}
 							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), newDamage, 0f, projectile.owner, 0f, 0f);
 						}
@@ -701,7 +548,7 @@ namespace CalamityMod.Projectiles
 						num10 = num7 / num10;
 						num8 *= num10;
 						num9 *= num10;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("AtaxiaOrb"), (int)((double)num * 1.5), 0f, projectile.owner, (float)num6, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("AtaxiaOrb"), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
 						if (target.canGhostHeal)
 						{
 							float num11 = 0.1f; //0.2
@@ -785,7 +632,7 @@ namespace CalamityMod.Projectiles
 						num10 = num7 / num10;
 						num8 *= num10;
 						num9 *= num10;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("XerocOrb"), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("XerocOrb"), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
 						if (target.canGhostHeal)
 						{
 							float num11 = 0.1f;
@@ -1116,6 +963,24 @@ namespace CalamityMod.Projectiles
 		}
 		#endregion
 
+		#region CanDamage
+		public override bool CanDamage(Projectile projectile)
+		{
+			switch (projectile.type)
+			{
+				case ProjectileID.Sharknado:
+					if (projectile.timeLeft > 440)
+						return false;
+					break;
+				case ProjectileID.Cthulunado:
+					if (projectile.timeLeft > 740)
+						return false;
+					break;
+			}
+			return true;
+		}
+		#endregion
+
 		#region Drawing
 		public override Color? GetAlpha(Projectile projectile, Color lightColor)
 		{
@@ -1180,6 +1045,16 @@ namespace CalamityMod.Projectiles
 		#region Kill
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
+			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).providenceLore && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
+				(projectile.melee || projectile.ranged || projectile.magic || rogue))
+			{
+				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+				for (int i = 0; i < 3; i++)
+				{
+					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default(Color), 1f);
+					Main.dust[dust].noGravity = true;
+				}
+			}
 			if (projectile.ranged)
 			{
 				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).tarraRanged && Main.rand.Next(0, 100) >= 88)

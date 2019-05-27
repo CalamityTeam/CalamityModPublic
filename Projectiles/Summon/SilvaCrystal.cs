@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Silva Crystal");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
     	
         public override void SetDefaults()
@@ -118,16 +119,19 @@ namespace CalamityMod.Projectiles.Summon
             {
                 int num1074 = -1;
                 float num1075 = num1072;
-                NPC ownerMinionAttackTargetNPC6 = projectile.OwnerMinionAttackTargetNPC;
-                if (ownerMinionAttackTargetNPC6 != null && ownerMinionAttackTargetNPC6.CanBeChasedBy(projectile, false))
-                {
-                    float num1076 = projectile.Distance(ownerMinionAttackTargetNPC6.Center);
-                    if (num1076 < num1075 && Collision.CanHitLine(projectile.Center, 0, 0, ownerMinionAttackTargetNPC6.Center, 0, 0))
-                    {
-                        num1075 = num1076;
-                        num1074 = ownerMinionAttackTargetNPC6.whoAmI;
-                    }
-                }
+				if (player.HasMinionAttackTargetNPC)
+				{
+					NPC npc = Main.npc[player.MinionAttackTargetNPC];
+					if (npc.CanBeChasedBy(projectile, false))
+					{
+						float num1076 = projectile.Distance(npc.Center);
+						if (num1076 < num1075 && Collision.CanHitLine(projectile.Center, 0, 0, npc.Center, 0, 0))
+						{
+							num1075 = num1076;
+							num1074 = npc.whoAmI;
+						}
+					}
+				}
                 if (num1074 < 0)
                 {
                     int num30;

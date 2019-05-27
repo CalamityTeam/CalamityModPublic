@@ -77,7 +77,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
+			{
+				projectile.penetrate = 1;
+			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
             Texture2D texture = mod.GetTexture("NPCs/SupremeCalamitas/SCalWormBodyAlt");

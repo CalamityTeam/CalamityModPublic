@@ -10,8 +10,10 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class MechwormHead : ModProjectile
 	{
-		public int dust = 3;
-		
+		private int dust = 3;
+		private int playerMinionSlots = 0;
+		private bool runCheck = true;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mechworm");
@@ -38,26 +40,35 @@ namespace CalamityMod.Projectiles.Summon
 
 		public override void AI()
 		{
+			Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.15f, 0.01f, 0.15f);
+			Player player9 = Main.player[projectile.owner];
 			if (dust > 0)
-        	{
+			{
 				int num501 = 50;
-				for (int num502 = 0; num502 < num501; num502++) 
+				for (int num502 = 0; num502 < num501; num502++)
 				{
 					int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 234, 0f, 0f, 0, default(Color), 1f);
 					Main.dust[num503].velocity *= 2f;
 					Main.dust[num503].scale *= 1.15f;
 				}
-                dust--;
-            }
-			Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.15f, 0.01f, 0.15f);
-			Player player9 = Main.player[projectile.owner];
+				dust--;
+			}
+			if (player9.maxMinions > playerMinionSlots)
+			{
+				playerMinionSlots = player9.maxMinions;
+			}
+			if (runCheck)
+			{
+				runCheck = false;
+				playerMinionSlots = player9.maxMinions;
+			}
 			CalamityPlayer modPlayer = player9.GetModPlayer<CalamityPlayer>(mod);
 			player9.AddBuff(mod.BuffType("Mechworm"), 3600);
 			if ((int)Main.time % 120 == 0)
 			{
 				projectile.netUpdate = true;
 			}
-			if (!player9.active)
+			if (!player9.active || player9.maxMinions < playerMinionSlots)
 			{
 				projectile.active = false;
 				return;
@@ -80,18 +91,33 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.Center = center14;
 				projectile.netUpdate = true;
 			}
-            for (int num1056 = 0; num1056 < 200; num1056++)
-            {
-                NPC nPC13 = Main.npc[num1056];
-                if (nPC13.CanBeChasedBy(projectile, false) && player9.Distance(nPC13.Center) < num1054)
-                {
-                    float num1057 = projectile.Distance(nPC13.Center);
-                    if (num1057 < num1053)
-                    {
-                        num1055 = num1056;
-                    }
-                }
-            }
+			if (player9.HasMinionAttackTargetNPC)
+			{
+				NPC npc = Main.npc[player9.MinionAttackTargetNPC];
+				if (npc.CanBeChasedBy(projectile, false) && player9.Distance(npc.Center) < num1054)
+				{
+					float num1057 = projectile.Distance(npc.Center);
+					if (num1057 < num1053)
+					{
+						num1055 = npc.whoAmI;
+					}
+				}
+			}
+			else
+			{
+				for (int num1056 = 0; num1056 < 200; num1056++)
+				{
+					NPC nPC13 = Main.npc[num1056];
+					if (nPC13.CanBeChasedBy(projectile, false) && player9.Distance(nPC13.Center) < num1054)
+					{
+						float num1057 = projectile.Distance(nPC13.Center);
+						if (num1057 < num1053)
+						{
+							num1055 = num1056;
+						}
+					}
+				}
+			}
 			if (num1055 != -1)
 			{
 				NPC nPC14 = Main.npc[num1055];

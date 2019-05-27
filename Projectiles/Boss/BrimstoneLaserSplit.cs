@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.scale = 2f;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.alpha = 120;
@@ -28,6 +29,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+			if (projectile.timeLeft < 180)
+			{
+				projectile.tileCollide = true;
+			}
         	int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
 			projectile.ai[1] += 1f;
 			if (projectile.ai[1] < 210f && projectile.ai[1] > 90f)

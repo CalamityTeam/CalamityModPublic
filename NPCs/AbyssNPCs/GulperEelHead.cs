@@ -173,19 +173,19 @@ namespace CalamityMod.NPCs.AbyssNPCs
             if (num42 > 0)
             {
                 num42 *= 16;
-                float num47 = (float)(num42 - 200); //800
+                float num47 = (float)(num42 - 400); //800
                 if (!detectsPlayer)
                 {
                     num192 = num47;
-                    if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
+                    if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 300f)
                     {
                         if (npc.velocity.X > 0f)
                         {
-                            num191 = Main.player[npc.target].Center.X + 300f;
+                            num191 = Main.player[npc.target].Center.X + 400f;
                         }
                         else
                         {
-                            num191 = Main.player[npc.target].Center.X - 300f;
+                            num191 = Main.player[npc.target].Center.X - 400f;
                         }
                     }
                 }

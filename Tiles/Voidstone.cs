@@ -198,6 +198,10 @@ namespace CalamityMod.Tiles
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
+			if (!Lighting.NotRetro)
+			{
+				return;
+			}
 			int xPos = Main.tile[i, j].frameX;
 			int yPos = Main.tile[i, j].frameY;
 			int xOffset = 0;

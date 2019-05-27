@@ -385,7 +385,7 @@ namespace CalamityMod.World
 							new Actions.SetFrames(true)
 						}));
 					}
-					point = new Point(WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Left + 20, WorldGen.UndergroundDesertLocation.Right - 20),
+					point = new Point(WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Left + 30, WorldGen.UndergroundDesertLocation.Right - 30),
 						WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Bottom + 20, sunkenSeaBottom));
 					if (smallHoles < amt && WorldGen.genRand.Next(3) == 0 && !rectangle.Contains(point))
 					{
@@ -544,7 +544,7 @@ namespace CalamityMod.World
 						{
 							if (WorldGen.genRand.Next(5) == 0)
 							{
-								CalamityWorld.PlaceTit(num5, num6, (ushort)mod.TileType("SunkenSeaStalactite"));
+								WorldGenerationMethods.PlaceTit(num5, num6, (ushort)mod.TileType("SunkenSeaStalactite"));
 							}
 							if (WorldGen.genRand.Next(8) == 0)
 							{

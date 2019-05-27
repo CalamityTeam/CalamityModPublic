@@ -13,6 +13,7 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
+			Main.tileValue[Type] = 690;
 			dustType = mod.DustType("CESparkle");
 			drop = mod.ItemType("PerennialOre");
 			ModTranslation name = CreateMapEntryName();
@@ -22,11 +23,6 @@ namespace CalamityMod.Tiles
 			minPick = 199;
 			soundType = 21;
 			Main.tileSpelunker[Type] = true;
-		}
-		
-		public override void RandomUpdate(int i, int j)
-		{
-			Main.tileValue[Type] = (short)(Main.hardMode ? 690 : 0);
 		}
 		
 		public override bool CanExplode(int i, int j)

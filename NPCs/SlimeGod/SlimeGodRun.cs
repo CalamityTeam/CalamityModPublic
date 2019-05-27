@@ -40,7 +40,9 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 npc.lifeMax = CalamityWorld.death ? 2000000 : 1600000;
             }
-            npc.knockBackResist = 0f;
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.knockBackResist = 0f;
 			animationType = 50;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;

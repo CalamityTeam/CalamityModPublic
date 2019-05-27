@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             else
             {
-                npc.damage = 200;
+                npc.damage = Main.expertMode ? 200 : 100;
                 npc.dontTakeDamage = false;
             }
             if (!Main.npc[(int)npc.ai[1]].active)
@@ -128,16 +128,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
-		}
-		
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			if (damage > npc.lifeMax / 2)
-			{
-				damage = 0;
-				return false;
-			}
-            return true;
 		}
 		
 		public override bool CheckActive()

@@ -35,9 +35,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
-				npc.buffImmune[BuffID.CursedInferno] = false;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.timeLeft = NPC.activeTime * 30;
 			npc.value = Item.buyPrice(0, 25, 0, 0);
 			npc.HitSound = SoundID.NPCHit20;

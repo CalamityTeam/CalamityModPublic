@@ -61,14 +61,21 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimstoneBoom"), (int)((double)item.damage * 0.75), knockback, Main.myPlayer);
+	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimstoneBoom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
-	    	if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.Next(5) == 0 && !target.boss)
+
+	    	if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.Next(5) == 0 && !target.boss && target.type != 477 &&
+				target.type != 327 && target.type != 135 && target.type != 136 && target.type != 325 && target.type != 344 && target.type != 346 && target.type != 345 &&
+				target.type != mod.NPCType("Reaper") && target.type != mod.NPCType("Mauler") && target.type != mod.NPCType("EidolonWyrmHead") &&
+				target.type != mod.NPCType("EidolonWyrmHeadHuge") && target.type != mod.NPCType("ColossalSquid") && target.type != NPCID.DD2Betsy)
 	    	{
-	    		target.life = 0;
-	            target.HitEffect(0, 10.0);
-	            target.active = false;
-	            target.NPCLoot();
+				if (!CalamityPlayer.areThereAnyDamnBosses)
+				{
+					target.life = 0;
+					target.HitEffect(0, 10.0);
+					target.active = false;
+					target.NPCLoot();
+				}
 	    	}
 		}
 	}

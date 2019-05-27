@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -56,8 +57,9 @@ namespace CalamityMod.Items.Weapons
         {
             if (target.life <= 0)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
-            }
+                int proj = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, Main.rand.Next(569, 572), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+			}
         }
     }
 }

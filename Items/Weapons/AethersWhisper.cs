@@ -14,8 +14,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aether's Whisper");
-            Tooltip.SetDefault("Fires an energy beam that does more damage the further it travels\n" +
-                "Inflicts several long-lasting debuffs and splits on tile hits\n" +
+            Tooltip.SetDefault("Inflicts several long-lasting debuffs and splits on tile hits\n" +
                 "Right click to change from magic to ranged damage");
         }
 
@@ -67,7 +66,14 @@ namespace CalamityMod.Items.Weapons
             return base.CanUseItem(player);
         }
 
-        public override void AddRecipes()
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			float ai0 = (player.altFunctionUse == 2 ? 1f : 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai0, 0f);
+			return false;
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "PlasmaRod");

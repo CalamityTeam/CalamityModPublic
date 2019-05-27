@@ -36,6 +36,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.rare = 2;
 			item.shoot = mod.ProjectileType("SandDollarProj");
 			item.shootSpeed = 14f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 		
 		public override bool CanUseItem(Player player)

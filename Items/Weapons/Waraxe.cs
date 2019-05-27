@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Waraxe");
-        }
+			Tooltip.SetDefault("Critical hits cleave enemy armor, reducing their defense by 15 and protection by 25%");
+		}
 
         public override void SetDefaults()
         {
@@ -28,10 +29,17 @@ namespace CalamityMod.Items.Weapons
             item.axe = 10;
             item.useStyle = 1;
             item.knockBack = 5.25f;
-            item.value = 50000;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }
-    }
+
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			if (crit)
+			{
+				target.AddBuff(mod.BuffType("WarCleave"), 900);
+			}
+		}
+	}
 }

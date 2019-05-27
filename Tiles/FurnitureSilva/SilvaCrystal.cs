@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
+			Main.tileMergeDirt[Type] = false;
 			Main.tileBlockLight[Type] = true;
             TileID.Sets.NeedsGrassFraming[Type] = true;
             soundType = 21;

@@ -30,7 +30,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
 			projectile.hide = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 1;
-        }
+			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
+		}
 
         public override void AI()
         {
@@ -75,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
     	{
-        	if (target.type == NPCID.TargetDummy)
+        	if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
 			{
 				return;
 			}

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-            bool canUse = player.name == "Fabsol" && player.townNPCs <= 1;
+            bool canUse = (player.name == "Fabsol" || player.name == "Totalbiscuit") && player.townNPCs <= 1;
             if (canUse)
             {
                 modPlayer.lol = true;

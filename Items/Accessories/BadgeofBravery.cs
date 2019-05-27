@@ -41,5 +41,13 @@ namespace CalamityMod.Items.Accessories
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-    }
+
+		public override void OnCraft(Recipe recipe)
+		{
+			if (Main.rand.Next(40) == 0)
+				recipe.createItem.type = mod.ItemType("SamuraiBadge");
+			else
+				recipe.createItem.type = item.type;
+		}
+	}
 }

@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("LightBallExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-            for (int num621 = 0; num621 < 30; num621++)
+            for (int num621 = 0; num621 < 10; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 212, 0f, 0f, 100, default(Color), 1.2f);
 				Main.dust[num622].velocity *= 3f;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Patreon
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 			}
-			for (int num623 = 0; num623 < 60; num623++)
+			for (int num623 = 0; num623 < 20; num623++)
 			{
 				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 212, 0f, 0f, 100, default(Color), 1.7f);
 				Main.dust[num624].noGravity = true;

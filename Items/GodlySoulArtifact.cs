@@ -23,6 +23,7 @@ namespace CalamityMod.Items
 			item.height = 28;
 			item.value = Item.buyPrice(1, 50, 0, 0);
 			item.accessory = true;
+			item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
 

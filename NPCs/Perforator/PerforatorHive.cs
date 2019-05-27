@@ -31,15 +31,17 @@ namespace CalamityMod.NPCs.Perforator
 			npc.width = 110; //324
 			npc.height = 100; //216
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 3594 : 2500;
+			npc.lifeMax = CalamityWorld.revenge ? 5400 : 3750;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 5031;
+				npc.lifeMax = 7600;
 			}
 			if (CalamityWorld.bossRushActive)
 			{
-				npc.lifeMax = CalamityWorld.death ? 2000000 : 1800000;
+				npc.lifeMax = CalamityWorld.death ? 3000000 : 2700000;
 			}
+			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
