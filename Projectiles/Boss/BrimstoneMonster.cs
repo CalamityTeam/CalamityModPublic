@@ -10,7 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneMonster : ModProjectile
     {
-        public float speedAdd = 0f;
+        public static float HitboxRadius = 160f;
+		public float speedAdd = 0f;
         public float speedLimit = 0f;
 
     	public override void SetStaticDefaults()
@@ -104,6 +105,21 @@ namespace CalamityMod.Projectiles.Boss
 					return;
 				}
 			}
+        }
+		
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+        {
+            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+            float minDist = dist1;
+            if (dist2 < minDist) minDist = dist2;
+            if (dist3 < minDist) minDist = dist3;
+            if (dist4 < minDist) minDist = dist4;
+
+            return minDist <= HitboxRadius;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

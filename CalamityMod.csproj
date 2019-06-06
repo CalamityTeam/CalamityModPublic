@@ -2389,6 +2389,8 @@
     <Compile Include="Projectiles\Magic\TerraOrb.cs" />
     <Compile Include="Projectiles\Magic\TerraOrb2.cs" />
     <Compile Include="Projectiles\Magic\TerraRay.cs" />
+    <Compile Include="Projectiles\Magic\ThunderstormShot.cs" />
+    <Compile Include="Projectiles\Magic\ThunderstormShotSplit.cs" />
     <Compile Include="Projectiles\Magic\TradewindsProjectile.cs" />
     <Compile Include="Projectiles\Magic\UberBubble.cs" />
     <Compile Include="Projectiles\Magic\UndinesRetribution.cs" />
@@ -6515,6 +6517,8 @@
     <Content Include="Projectiles\Magic\TerraOrb.png" />
     <Content Include="Projectiles\Magic\TerraOrb2.png" />
     <Content Include="Projectiles\Magic\TerraRay.png" />
+    <Content Include="Projectiles\Magic\ThunderstormShot.png" />
+    <Content Include="Projectiles\Magic\ThunderstormShotSplit.png" />
     <Content Include="Projectiles\Magic\TradewindsProjectile.png" />
     <Content Include="Projectiles\Magic\UberBubble.png" />
     <Content Include="Projectiles\Magic\UndinesRetribution.png" />
