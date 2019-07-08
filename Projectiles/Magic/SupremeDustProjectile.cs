@@ -30,10 +30,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.95f) / 255f, ((255 - projectile.alpha) * 0.85f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
-			if (projectile.timeLeft > 200)
-			{
-				projectile.timeLeft = 200;
-			}
 			if (projectile.ai[0] > 7f)
 			{
 				float num296 = 1f;
@@ -52,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.ai[0] += 1f;
 				int num297 = 32;
 				int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-				if ((num297 == 32 && Main.rand.Next(3) == 0))
+				if (Main.rand.Next(3) == 0)
 				{
 					Main.dust[num299].noGravity = true;
 					Main.dust[num299].scale *= 4f;
@@ -70,16 +66,8 @@ namespace CalamityMod.Projectiles.Magic
 				Dust expr_DC94_cp_0 = Main.dust[num299];
 				expr_DC94_cp_0.velocity.Y = expr_DC94_cp_0.velocity.Y * 1.2f;
 				Main.dust[num299].scale *= num296;
-				if (num297 == 75)
-				{
-					Main.dust[num299].velocity += projectile.velocity;
-					if (!Main.dust[num299].noGravity)
-					{
-						Main.dust[num299].velocity *= 0.5f;
-					}
-				}
 				int num399 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-				if ((num297 == 32 && Main.rand.Next(3) == 0))
+				if (Main.rand.Next(3) == 0)
 				{
 					Main.dust[num399].noGravity = true;
 					Main.dust[num399].scale *= 6f;
@@ -97,21 +85,12 @@ namespace CalamityMod.Projectiles.Magic
 				Dust expr_DC94_cp_1 = Main.dust[num399];
 				expr_DC94_cp_1.velocity.Y = expr_DC94_cp_1.velocity.Y * 1.2f;
 				Main.dust[num399].scale *= num296;
-				if (num297 == 75)
-				{
-					Main.dust[num399].velocity += projectile.velocity;
-					if (!Main.dust[num399].noGravity)
-					{
-						Main.dust[num399].velocity *= 0.5f;
-					}
-				}
 			}
 			else
 			{
 				projectile.ai[0] += 1f;
 			}
 			projectile.rotation += 0.3f * (float)projectile.direction;
-			return;	
         }
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

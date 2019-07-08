@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Svantechnical");
-        }
+			Tooltip.SetDefault("Fires several barrages of bullets");
+		}
 
         public override void SetDefaults()
         {

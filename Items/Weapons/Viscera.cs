@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Viscera");
-            Tooltip.SetDefault("The more tiles and enemies the beam bounces off of or travels through the more healing the beam does");
+            Tooltip.SetDefault("Fires a blood beam that heals you on enemy hits\n" +
+				"The more tiles and enemies the beam bounces off of or travels through the more healing the beam does");
             Item.staff[item.type] = true;
         }
 

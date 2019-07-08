@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Polterghast
 {
@@ -71,34 +72,49 @@ namespace CalamityMod.NPCs.Polterghast
 			bossBag = mod.ItemType("PolterghastBag");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(spawnGhost);
+			writer.Write(boostDR);
+			writer.Write(despawnTimer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			spawnGhost = reader.ReadBoolean();
+			boostDR = reader.ReadBoolean();
+			despawnTimer = reader.ReadInt32();
+		}
+
 		public override void AI()
 		{
-			if (Main.raining)
-			{
-				Main.raining = false;
-				if (Main.netMode == 2)
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.5f, 1.25f, 1.25f);
-			npc.TargetClosest(true);
-			Vector2 vector = npc.Center;
-			if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f)
+			CalamityGlobalNPC.ghostBoss = npc.whoAmI;
+
+			bool cloneAlive = false;
+			if (CalamityGlobalNPC.ghostBossClone != -1)
 			{
-				npc.active = false;
+				cloneAlive = Main.npc[CalamityGlobalNPC.ghostBossClone].active;
 			}
+
+			Vector2 vector = npc.Center;
 			bool speedBoost1 = false;
 			bool despawnBoost = false;
-			if (npc.timeLeft < 1500)
-			{
-				npc.timeLeft = 1500;
-			}
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.75; //hooks detach and fire beams
 			bool phase3 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.5 : 0.33); //hooks die and begins charging with ghosts spinning around player
 			bool phase4 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.33 : 0.2); //starts spitting ghost dudes
 			bool phase5 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.1 : 0.05); //starts moving incredibly fast
-			CalamityGlobalNPC.ghostBoss = npc.whoAmI;
+			npc.TargetClosest(true);
+
+			if (Main.raining)
+				CalamityGlobalNPC.StopRain();
+			if (npc.timeLeft < 1500)
+				npc.timeLeft = 1500;
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f)
+				npc.active = false;
+
 			if (npc.localAI[0] == 0f && Main.netMode != 1)
 			{
 				npc.localAI[0] = 1f;
@@ -127,6 +143,7 @@ namespace CalamityMod.NPCs.Polterghast
 			}
 			num730 /= (float)num732;
 			num731 /= (float)num732;
+
 			float num734 = 2.5f;
 			float num735 = 0.025f;
 			if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive)
@@ -135,44 +152,46 @@ namespace CalamityMod.NPCs.Polterghast
 				if (despawnTimer <= 0)
 					despawnBoost = true;
 				speedBoost1 = true;
-				num734 += 8f;
-				num735 = 0.15f;
+				num734 += 2f;
+				num735 += 0.025f;
 			}
 			else
 			{
 				despawnTimer = 600;
 			}
+
 			if (phase2)
 			{
-				num734 = 3.5f;
-				num735 = 0.035f;
+				num734 += 1.5f;
+				num735 += 0.01f;
 			}
+
 			if (phase3)
 			{
-				if (NPC.CountNPCS(mod.NPCType("PolterPhantom")) > 0)
+				if (cloneAlive)
 				{
 					boostDR = true;
 					if (npc.ai[2] >= 300f)
 					{
-						num734 = phase5 ? 18f : 12f;
-						num735 = phase5 ? 0.12f : 0.08f;
+						num734 += phase5 ? 14.5f : 8.5f;
+						num735 += phase5 ? 0.085f : 0.045f;
 					}
 					else
 					{
 						if (phase5)
 						{
-							num734 = 5f;
-							num735 = 0.05f;
+							num734 += 1.5f;
+							num735 += 0.015f;
 						}
 						else if (phase4)
 						{
-							num734 = 4.5f;
-							num735 = 0.045f;
+							num734 += 1f;
+							num735 += 0.01f;
 						}
 						else
 						{
-							num734 = 4f;
-							num735 = 0.04f;
+							num734 += 0.5f;
+							num735 += 0.005f;
 						}
 					}
 					npc.ai[2] += 1f;
@@ -185,8 +204,8 @@ namespace CalamityMod.NPCs.Polterghast
 				else
 				{
 					boostDR = false;
-					num734 = phase5 ? 22f : 18f;
-					num735 = phase5 ? 0.15f : 0.12f;
+					num734 += phase5 ? 18.5f : 14.5f;
+					num735 += phase5 ? 0.115f : 0.085f;
 					npc.localAI[2] += 1f;
 					if (npc.localAI[2] >= 600f)
 					{
@@ -215,10 +234,10 @@ namespace CalamityMod.NPCs.Polterghast
 							num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
 							Main.dust[num624].velocity *= 2f;
 						}
-						npc.netUpdate = true;
 					}
 				}
 			}
+
 			if (expertMode)
 			{
 				num734 += revenge ? 1.5f : 1f;
@@ -226,6 +245,7 @@ namespace CalamityMod.NPCs.Polterghast
 				num735 += revenge ? 0.015f : 0.01f;
 				num735 *= revenge ? 1.2f : 1.1f;
 			}
+
 			Vector2 vector91 = new Vector2(num730, num731);
 			float num736 = Main.player[npc.target].Center.X - vector91.X;
 			float num737 = Main.player[npc.target].Center.Y - vector91.Y;
@@ -233,18 +253,16 @@ namespace CalamityMod.NPCs.Polterghast
 			{
 				num737 *= -1f;
 				num736 *= -1f;
-				num734 += 8f;
+				num734 += 10f;
 			}
 			float num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
+
 			int num739 = 500;
 			if (speedBoost1)
-			{
-				num739 += 500;
-			}
+				num739 += 250;
 			if (expertMode)
-			{
 				num739 += 150;
-			}
+
 			if (num738 >= (float)num739)
 			{
 				num738 = (float)num739 / num738;
@@ -268,42 +286,37 @@ namespace CalamityMod.NPCs.Polterghast
 				num736 *= num738;
 				num737 *= num738;
 			}
+
 			Vector2 vector92 = new Vector2(vector.X, vector.Y);
 			float num740 = Main.player[npc.target].Center.X - vector92.X;
 			float num741 = Main.player[npc.target].Center.Y - vector92.Y;
 			npc.rotation = (float)Math.Atan2((double)num741, (double)num740) + 1.57f;
+
 			if (npc.velocity.X < num736)
 			{
 				npc.velocity.X = npc.velocity.X + num735;
 				if (npc.velocity.X < 0f && num736 > 0f)
-				{
 					npc.velocity.X = npc.velocity.X + num735 * 2f;
-				}
 			}
 			else if (npc.velocity.X > num736)
 			{
 				npc.velocity.X = npc.velocity.X - num735;
 				if (npc.velocity.X > 0f && num736 < 0f)
-				{
 					npc.velocity.X = npc.velocity.X - num735 * 2f;
-				}
 			}
 			if (npc.velocity.Y < num737)
 			{
 				npc.velocity.Y = npc.velocity.Y + num735;
 				if (npc.velocity.Y < 0f && num737 > 0f)
-				{
 					npc.velocity.Y = npc.velocity.Y + num735 * 2f;
-				}
 			}
 			else if (npc.velocity.Y > num737)
 			{
 				npc.velocity.Y = npc.velocity.Y - num735;
 				if (npc.velocity.Y > 0f && num737 < 0f)
-				{
 					npc.velocity.Y = npc.velocity.Y - num735 * 2f;
-				}
 			}
+
 			if (!phase2 && !phase3)
 			{
 				if (speedBoost1)
@@ -318,24 +331,11 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 				if (Main.netMode != 1)
 				{
-					npc.localAI[1] += 1f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.9)
-					{
-						npc.localAI[1] += 1f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.8)
-					{
-						npc.localAI[1] += 1f;
-					}
+					npc.localAI[1] += (expertMode ? 2f : 1.5f);
 					if (speedBoost1 || CalamityWorld.bossRushActive)
-					{
 						npc.localAI[1] += 6f;
-					}
-					if (expertMode)
-					{
-						npc.localAI[1] += 1f;
-					}
-					if (npc.localAI[1] > 120f)
+
+					if (npc.localAI[1] >= 60f)
 					{
 						npc.localAI[1] = 0f;
 						bool flag47 = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -383,7 +383,6 @@ namespace CalamityMod.NPCs.Polterghast
 							vector93.Y += num744 * 3f;
 							int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num748].timeLeft = (num747 == mod.ProjectileType("PhantomBlast") ? 300 : 1200);
-							return;
 						}
 						else
 						{
@@ -413,7 +412,6 @@ namespace CalamityMod.NPCs.Polterghast
 							vector93.Y += num744 * 3f;
 							int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num748].timeLeft = 180;
-							return;
 						}
 					}
 				}
@@ -462,16 +460,11 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 				if (Main.netMode != 1)
 				{
-					npc.localAI[1] += 1f;
+					npc.localAI[1] += (expertMode ? 2f : 1.5f);
 					if (speedBoost1 || CalamityWorld.bossRushActive)
-					{
 						npc.localAI[1] += 8f;
-					}
-					if (expertMode)
-					{
-						npc.localAI[1] += 1f;
-					}
-					if (npc.localAI[1] > 80f)
+
+					if (npc.localAI[1] > 50f)
 					{
 						npc.localAI[1] = 0f;
 						bool flag47 = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -519,7 +512,6 @@ namespace CalamityMod.NPCs.Polterghast
 							vector93.Y += num744 * 3f;
 							int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num748].timeLeft = (num747 == mod.ProjectileType("PhantomBlast2") ? 300 : 1200);
-							return;
 						}
 						else
 						{
@@ -549,7 +541,6 @@ namespace CalamityMod.NPCs.Polterghast
 							vector93.Y += num744 * 3f;
 							int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[num748].timeLeft = 240;
-							return;
 						}
 					}
 				}
@@ -636,7 +627,6 @@ namespace CalamityMod.NPCs.Polterghast
 							Main.npc[num762].netUpdate = true;
 						}
 						npc.localAI[1] = 0f;
-						return;
 					}
 				}
 			}

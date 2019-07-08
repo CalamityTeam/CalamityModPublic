@@ -81,7 +81,6 @@ namespace CalamityMod.Projectiles.Typeless
 			if (projectile.velocity.Y > 16f)
 			{
 				projectile.velocity.Y = 16f;
-				return;
 			}
         }
         
@@ -96,8 +95,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.OnFire, 160);
-        	target.AddBuff(BuffID.CursedInferno, 160);
+        	target.AddBuff(BuffID.OnFire, 120);
+        	target.AddBuff(BuffID.CursedInferno, 120);
         }
     }
 }

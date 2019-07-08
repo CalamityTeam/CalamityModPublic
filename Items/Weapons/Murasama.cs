@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -15,7 +16,8 @@ namespace CalamityMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Murasama");
 			Tooltip.SetDefault("There will be blood!\n" +
-                "ID and power-level locked.  Prove your strength or have the correct user ID to wield this sword.");
+                "ID and power-level locked\n" +
+				"Prove your strength or have the correct user ID to wield this sword");
 		}
 
 		public override void SetDefaults()

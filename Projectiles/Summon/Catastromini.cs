@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,8 +20,8 @@ namespace CalamityMod.Projectiles.Summon
     	
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 20;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
@@ -276,15 +277,24 @@ namespace CalamityMod.Projectiles.Summon
 						value20.Normalize();
 						projectile.velocity = value20 * 8f;
 						projectile.netUpdate = true;
-						return;
 					}
 				}
 			}
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int y6 = num214 * projectile.frame;
+			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, spriteEffects, 0f);
+			return false;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 7;
+            target.immune[projectile.owner] = 9;
         }
     }
 }

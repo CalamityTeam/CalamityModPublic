@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class Sunskater : ModNPC
 	{
-        public bool hasBeenHit = false;
+        private bool hasBeenHit = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -23,7 +23,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void SetDefaults()
 		{
             npc.noGravity = true;
-            npc.damage = 20;
+			npc.lavaImmune = true;
+			npc.damage = 20;
 			npc.width = 58;
 			npc.height = 22;
 			npc.defense = 10;
@@ -38,7 +39,19 @@ namespace CalamityMod.NPCs.NormalNPCs
 			bannerItem = mod.ItemType("SunskaterBanner");
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
+		public override void AI()
         {
             npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
             npc.noGravity = true;

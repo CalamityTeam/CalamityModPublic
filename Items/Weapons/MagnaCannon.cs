@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Magna Cannon");
+			Tooltip.SetDefault("Fires a concentrated blast of energy");
 		}
 
 	    public override void SetDefaults()
@@ -43,10 +44,9 @@ namespace CalamityMod.Items.Weapons
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
-	        int num6 = 3;
-	        for (int index = 0; index < num6; ++index)
+	        for (int index = 0; index < 3; ++index)
 	        {
-	            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+	            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0f, 0f);
 	        }
 	        return false;
 		}

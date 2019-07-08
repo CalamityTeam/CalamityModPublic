@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles
             drop = mod.ItemType("AbyssGravel");
             AddMapEntry(new Color(0, 0, 0));
             mineResist = 10f;
-            minPick = 64;
+            minPick = 65;
             soundType = 21;
             dustType = 33;
 		}

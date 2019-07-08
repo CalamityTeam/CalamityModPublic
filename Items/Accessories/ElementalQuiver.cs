@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Ranged projectiles have a chance to split\n" +
                 "Ranged weapons have a chance to instantly kill normal enemies\n" +
                 "10% increased ranged damage and 5% increased ranged critical strike chance\n" +
-                "Daedalus Emblem effects");
+				"20% reduced ammo usage and increased life regen, minion knockback, defense, and pick speed");
         }
 
         public override void SetDefaults()

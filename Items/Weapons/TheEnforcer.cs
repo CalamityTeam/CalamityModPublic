@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Enforcer");
-        }
+			Tooltip.SetDefault("Fires an essence flame burst and spawns essence flames on enemy hits");
+		}
 
         public override void SetDefaults()
         {
@@ -84,7 +85,7 @@ namespace CalamityMod.Items.Weapons
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, mod.ProjectileType("EssenceFlame2"), (int)((double)((float)item.damage * player.meleeDamage) * 0.25), num74, i, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, mod.ProjectileType("EssenceFlame2"), (int)((float)item.damage * player.meleeDamage * 0.25f), num74, i, 0f, (float)Main.rand.Next(3));
             }
         }
 

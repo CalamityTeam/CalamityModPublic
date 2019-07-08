@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Impaler");
+			Tooltip.SetDefault("Fires explosive and flaming stakes");
 		}
 
 	    public override void SetDefaults()
@@ -48,11 +49,11 @@ namespace CalamityMod.Items.Weapons
 	        float SpeedY = speedY + (float) Main.rand.Next(-5, 6) * 0.05f;
 	        if (Main.rand.Next(3) == 0)
 	        {
-	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ExplodingStake"), (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ExplodingStake"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	        }
 	        else
 	        {
-	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FlamingStake"), (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FlamingStake"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	        }
 	    	return false;
 		}

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Yharon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Burning Sky");
-        }
+			Tooltip.SetDefault("Summons a massive barrage of burning meteors from the sky");
+		}
 
         public override void SetDefaults()
         {
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.useAnimation = 15;
             item.useStyle = 1;
             item.useTurn = true;
-            item.knockBack = 8;
+            item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 68;

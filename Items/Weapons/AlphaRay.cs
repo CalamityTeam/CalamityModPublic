@@ -14,8 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Alpha Ray");
-			Tooltip.SetDefault("Disintegrates everything\n" +
-				"Right click to change modes");
+			Tooltip.SetDefault("Disintegrates everything with a tri-beam of energy and lasers\n" +
+				"Right click to fire a Y-shaped beam of destructive energy and a spread of lasers");
 		}
 
 

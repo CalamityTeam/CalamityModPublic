@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -71,7 +72,7 @@ namespace CalamityMod.Items.Accessories
                 float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
                 if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 1 ||
                     player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 1 ||
-                    player.ownedProjectileCounts[mod.ProjectileType("CloudWaifu")] > 1)
+                    player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] > 1)
                 {
                     player.ClearBuff(mod.BuffType("HotE"));
                 }
@@ -116,7 +117,7 @@ namespace CalamityMod.Items.Accessories
                 player.minionDamage += 0.1f;
                 if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 0 ||
                     player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 0 ||
-                    player.ownedProjectileCounts[mod.ProjectileType("CloudWaifu")] > 0)
+                    player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] > 0)
                 {
                     player.ClearBuff(mod.BuffType("HotE"));
                 }

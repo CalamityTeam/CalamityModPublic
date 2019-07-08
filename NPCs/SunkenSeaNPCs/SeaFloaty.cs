@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
 	public class SeaFloaty : ModNPC
 	{
-		public bool hasBeenHit = false;
+		private bool hasBeenHit = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -36,6 +36,18 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.DeathSound = SoundID.NPCDeath1;
 			banner = npc.type;
 			bannerItem = mod.ItemType("SeaFloatyBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.chaseable);
+			writer.Write(hasBeenHit);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.chaseable = reader.ReadBoolean();
+			hasBeenHit = reader.ReadBoolean();
 		}
 
 		public override void AI()

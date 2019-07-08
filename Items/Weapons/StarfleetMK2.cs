@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starmada");
+			Tooltip.SetDefault("Fires a barrage of stars and plasma blasts");
 		}
 
 	    public override void SetDefaults()

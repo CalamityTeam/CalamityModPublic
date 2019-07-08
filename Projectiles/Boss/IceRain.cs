@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,25 +8,35 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class IceRain : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class IceRain : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ice Rain");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.aiStyle = 1;
+
+		public override void SetDefaults()
+		{
+			projectile.aiStyle = 1;
 			projectile.width = 12;
 			projectile.height = 12;
 			projectile.hostile = true;
 			projectile.penetrate = -1;
-        }
+		}
 
-        public override void AI()
-        {
-        	projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			projectile.velocity.Y = projectile.velocity.Y + 0.2f;
 			if (projectile.localAI[0] == 0f || projectile.localAI[0] == 2f)
 			{
 				projectile.scale += 0.01f;
@@ -46,16 +57,16 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.alpha = 255;
 				}
 			}
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(200, 200, 200, projectile.alpha);
-        }
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(SoundID.Item27, projectile.position);
 			int num3;
 			for (int num373 = 0; num373 < 3; num373 = num3 + 1)
 			{
@@ -65,12 +76,12 @@ namespace CalamityMod.Projectiles.Boss
 				Main.dust[num374].scale = 0.7f;
 				num3 = num373;
 			}
-        }
+		}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.Frostburn, 60, true);
-            target.AddBuff(BuffID.Chilled, 30, true);
-        }
-    }
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.Frostburn, 60, true);
+			target.AddBuff(BuffID.Chilled, 30, true);
+		}
+	}
 }

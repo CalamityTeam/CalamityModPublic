@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CalamityBiomeNPCs
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 		
 		public override void SetDefaults()
 		{
+			npc.lavaImmune = true;
 			npc.aiStyle = 3;
 			npc.damage = 50;
 			npc.width = 18; //324

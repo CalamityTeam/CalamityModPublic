@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Tarragon Helmet");
             Tooltip.SetDefault("Temporary immunity to lava and immunity to cursed inferno, fire, cursed, and chilled debuffs\n" +
-                "Can move freely through liquids\n" +
+                "Can move freely through liquids and 12% increased movement speed\n" +
                 "10% increased rogue damage and critical strike chance\n" +
                 "5% increased damage reduction");
         }
@@ -63,6 +63,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
+			player.moveSpeed += 0.12f;
             player.endurance += 0.05f;
 			player.lavaMax += 240;
 			player.ignoreWater = true;

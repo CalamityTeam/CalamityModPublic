@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
 		
 		public override void SetDefaults()
 		{
-			item.defense = 50;
+			item.defense = 35;
 			item.width = 20;
 			item.height = 24;
             item.value = Item.buyPrice(0, 9, 0, 0);
@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Accessories.RareVariants
 			modPlayer.fabledTortoise = true;
 			player.moveSpeed -= 0.5f;
 			player.thorns = 0.25f;
-			player.statDefense += 42;
 		}
 	}
 }

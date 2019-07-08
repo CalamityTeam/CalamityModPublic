@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
 	public class Hiveling : ModNPC
@@ -29,13 +31,20 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.width = 50;
 			npc.height = 40;
 			npc.aiStyle = -1;
-			npc.damage = 50;
-			npc.defense = 8;
-			npc.lifeMax = 220;
+			npc.damage = 30;
+			npc.defense = 0;
+			npc.lifeMax = 150;
 			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-			npc.knockBackResist = 0.4f;
+			npc.knockBackResist = 0.5f;
 			npc.noGravity = true;
 			npc.value = Item.buyPrice(0, 0, 5, 0);
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 50;
+				npc.defense = 8;
+				npc.knockBackResist = 0.4f;
+				npc.lifeMax = 220;
+			}
 		}
 
 		public override void AI()

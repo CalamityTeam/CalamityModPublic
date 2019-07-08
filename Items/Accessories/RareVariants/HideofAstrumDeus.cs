@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 15, 0, 0);
+            item.value = Item.buyPrice(0, 30, 0, 0);
             item.expert = true;
             item.accessory = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;

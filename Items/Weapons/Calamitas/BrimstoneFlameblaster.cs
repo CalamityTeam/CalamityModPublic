@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Calamitas
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Flameblaster");
+			Tooltip.SetDefault("Fires bouncing brimstone fireballs");
 		}
 
 	    public override void SetDefaults()

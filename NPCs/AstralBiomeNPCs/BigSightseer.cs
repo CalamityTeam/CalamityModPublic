@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class BigSightseer : ModNPC
@@ -28,16 +30,23 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             npc.width = 64;
             npc.height = 56;
-            npc.damage = 85;
-            npc.defense = 30;
-            npc.lifeMax = 640;
+            npc.damage = 50;
+            npc.defense = 20;
+            npc.lifeMax = 430;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.noGravity = true;
-            npc.knockBackResist = 0.7f;
+            npc.knockBackResist = 0.8f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.aiStyle = -1;
 			banner = npc.type;
 			bannerItem = mod.ItemType("BigSightseerBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 85;
+				npc.defense = 30;
+				npc.knockBackResist = 0.7f;
+				npc.lifeMax = 640;
+			}
 		}
 
         public override void FindFrame(int frameHeight)
@@ -168,7 +177,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             npc.width = 16;
             npc.height = 16;
-            npc.damage = 75;
+            npc.damage = 45;
             npc.defense = 0;
             npc.lifeMax = 1;
             npc.HitSound = null;
@@ -178,7 +187,11 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.noTileCollide = true;
             npc.alpha = 80;
             npc.aiStyle = -1;
-        }
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 75;
+			}
+		}
 
         public override void AI()
         {

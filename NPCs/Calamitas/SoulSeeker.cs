@@ -4,13 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Calamitas
 {
 	public class SoulSeeker : ModNPC
 	{
-		public int timer = 0;
-		public bool start = true;
+		private int timer = 0;
+		private bool start = true;
 		
 		public override void SetStaticDefaults()
 		{
@@ -81,7 +82,7 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 				timer = 0;
 			}
-			if (NPC.CountNPCS(mod.NPCType("CalamitasRun3")) < 1)
+			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
 			{
 				npc.active = false;
                 npc.netUpdate = true;

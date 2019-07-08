@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
@@ -23,7 +24,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		
 		public override void SetDefaults() //dust is 173
 		{
-			npc.damage = 50;
+			npc.damage = 60;
 			npc.width = 150;
 			npc.height = 92;
 			npc.scale = 1.1f;
@@ -58,6 +59,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		
 		public override void AI()
 		{
+			CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
             Vector2 vector = npc.Center;
@@ -78,12 +80,14 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             bool flag100 = false;
             bool hyperMode = false;
-            if (NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit")))
-            {
-                flag100 = true;
-            }
-            if (!NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) || CalamityWorld.bossRushActive)
+			if (CalamityGlobalNPC.slimeGodRed != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
+				{
+					flag100 = true;
+				}
+			}
+            if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
             {
                 flag100 = false;
                 hyperMode = true;
@@ -109,7 +113,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							num183 = num179 / num183;
 							num180 *= num183;
 							num182 *= num183;
-							int num184 = 21;
+							int num184 = 24;
 							int num185 = mod.ProjectileType("AbyssMine");
 							value9.X += num180;
 							value9.Y += num182;
@@ -144,7 +148,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = expertMode ? 16 : 18;
+						int num184 = expertMode ? 19 : 21;
 						int num185 = mod.ProjectileType("AbyssBallVolley");
 						value9.X += num180;
 						value9.Y += num182;
@@ -165,7 +169,6 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
             npc.aiAction = 0;
             npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
-            npc.dontTakeDamage = false;
             npc.noTileCollide = false;
             npc.noGravity = false;
             npc.reflectingProjectiles = false;
@@ -198,7 +201,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     npc.ai[0] = 2f;
                     npc.ai[1] = 0f;
-                    return;
                 }
             }
             else if (npc.ai[0] == 2f)
@@ -274,7 +276,6 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                     npc.ai[3] = 0f;
-                    return;
                 }
             }
             else if (npc.ai[0] == 3f)
@@ -318,7 +319,6 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[0] = 4.1f;
                         npc.ai[2] = 0f;
                         npc.velocity = vector272;
-                        return;
                     }
                 }
                 else
@@ -332,7 +332,6 @@ namespace CalamityMod.NPCs.SlimeGod
                     vector272.Normalize();
                     vector272 *= 12f;
                     npc.velocity = (npc.velocity * 5f + vector272) / 6f;
-                    return;
                 }
             }
             else if (npc.ai[0] == 4.1f)
@@ -367,7 +366,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 if (npc.velocity.Y > 16f)
                 {
                     npc.velocity.Y = 16f;
-                    return;
                 }
             }
             else
@@ -466,12 +464,10 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.ai[1] = 0f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
-                        return;
                     }
                 }
                 else if (npc.ai[0] == 7f)
                 {
-                    npc.damage = 0;
                     npc.life = npc.lifeMax;
                     npc.defense = 9999;
                     npc.noTileCollide = true;
@@ -485,7 +481,6 @@ namespace CalamityMod.NPCs.SlimeGod
                         npc.alpha = 255;
                     }
                     npc.velocity.X = npc.velocity.X * 0.98f;
-                    return;
                 }
             }
 			int num244 = Dust.NewDust(npc.position, npc.width, npc.height, 173, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
@@ -534,7 +529,6 @@ namespace CalamityMod.NPCs.SlimeGod
 								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 							}
 						}
-						return;
 					}
 				}
 			}
@@ -542,7 +536,12 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override bool CheckActive()
         {
-            return !NPC.AnyNPCs(mod.NPCType("SlimeGodCore"));
+			if (CalamityGlobalNPC.slimeGod != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.slimeGod].active)
+					return false;
+			}
+            return true;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -561,8 +560,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(BuffID.ManaSickness, 120, true);
-			player.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			player.AddBuff(BuffID.Weak, 180, true);
 		}
 	}
 }

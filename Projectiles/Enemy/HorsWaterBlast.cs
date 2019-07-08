@@ -49,7 +49,6 @@ namespace CalamityMod.Projectiles.Enemy
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
-			return;
         }
 
         public override void Kill(int timeLeft)
@@ -79,7 +78,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(BuffID.Wet, 240);
+        	target.AddBuff(BuffID.Wet, 300);
         }
     }
 }

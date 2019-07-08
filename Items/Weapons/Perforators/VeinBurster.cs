@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vein Burster");
+			Tooltip.SetDefault("Fires a blood ball that sticks to tiles and explodes");
 		}
 
 		public override void SetDefaults()

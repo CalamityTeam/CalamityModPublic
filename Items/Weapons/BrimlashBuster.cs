@@ -13,13 +13,14 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimlash Buster");
-			Tooltip.SetDefault("50% chance to do triple damage on enemy hits");
+			Tooltip.SetDefault("50% chance to do triple damage on enemy hits\n" +
+				"Fires a brimstone bolt that explodes into more bolts on death");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 68;
-			item.damage = 126;
+			item.damage = 100;
 			item.melee = true;
 			item.useAnimation = 25;
 			item.useTime = 25;

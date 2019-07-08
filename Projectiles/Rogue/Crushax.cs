@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Rogue
     	
         public override void SetDefaults()
         {
-            projectile.width = 34;
-            projectile.height = 34;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.friendly = true;
             projectile.penetrate = 2;
             projectile.aiStyle = 2;
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 7;
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 200);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 240);
         }
     }
 }

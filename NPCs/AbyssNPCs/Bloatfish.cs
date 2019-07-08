@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
 			npc.noGravity = true;
+			npc.lavaImmune = true;
 			npc.damage = 5;
 			npc.width = 74;
 			npc.height = 94;

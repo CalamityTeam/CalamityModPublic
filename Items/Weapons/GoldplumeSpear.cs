@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Goldplume Spear");
+			Tooltip.SetDefault("Shoots falling feathers");
 		}
 
 		public override void SetDefaults()

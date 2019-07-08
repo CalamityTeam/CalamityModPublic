@@ -32,7 +32,7 @@ namespace CalamityMod.Items
             item.maxStack = 999;
 			item.rare = 10;
 			item.value = Item.buyPrice(0, 10, 0, 0);
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
     }
 }

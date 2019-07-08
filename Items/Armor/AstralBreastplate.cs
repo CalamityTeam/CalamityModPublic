@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Astral Breastplate");
             Tooltip.SetDefault("+20 max mana and life\n" +
-                               "+2 max minions\n" +
+                               "+3 max minions\n" +
                                "Creature detection");
         }
 
@@ -24,16 +24,16 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 24, 0, 0);
-			item.rare = 7;
-            item.defense = 23;
+			item.value = Item.buyPrice(0, 32, 0, 0);
+			item.rare = 9;
+            item.defense = 25;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
             player.statManaMax2 += 20;
-            player.maxMinions += 2;
+            player.maxMinions += 3;
             player.detectCreature = true;
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AstralBar", 12);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

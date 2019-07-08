@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -24,8 +25,18 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
         }
-        
-        public override void AI()
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
         {
         	projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
@@ -149,7 +160,7 @@ namespace CalamityMod.Projectiles.Boss
 						break;
 					}
 				}
-				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado2"), 0, 4f, Main.myPlayer, 16f, 30f);
+				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado2"), 0, 4f, Main.myPlayer, 11f, 30f);
 				Main.projectile[num236].netUpdate = true;
 			}
         }

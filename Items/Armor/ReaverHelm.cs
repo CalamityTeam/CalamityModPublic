@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Helm");
-            Tooltip.SetDefault("10% increased melee damage, 5% increased melee speed and critical strike chance\n" +
+            Tooltip.SetDefault("15% increased melee damage, 10% increased melee speed, and 5% increased melee critical strike chance\n" +
                 "10% increased movement speed and can move freely through liquids");
         }
 
@@ -54,9 +54,9 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            player.meleeDamage += 0.1f;
+            player.meleeDamage += 0.15f;
             player.meleeCrit += 5;
-            player.meleeSpeed += 0.05f;
+            player.meleeSpeed += 0.1f;
             player.moveSpeed += 0.1f;
         }
 

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lazhar");
+			Tooltip.SetDefault("Fires a bouncing laser that explodes on enemy hits");
 		}
 
 	    public override void SetDefaults()

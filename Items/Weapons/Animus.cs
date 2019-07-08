@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Animus");
+			Tooltip.SetDefault("Randomizes its damage on enemy hits");
 		}
 
 		public override void SetDefaults()
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons
 	
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 5000);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 6000);
 			int damageRan = Main.rand.Next(195); //0 to 195
 			if (damageRan >= 50 && damageRan <= 99) //25%
 			{

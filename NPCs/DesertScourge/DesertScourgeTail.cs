@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -19,11 +20,11 @@ namespace CalamityMod.NPCs.DesertScourge
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 9;
+			npc.damage = 12;
 			npc.npcSlots = 5f;
 			npc.width = 32; //324
 			npc.height = 48; //216
-			npc.defense = 18;
+			npc.defense = 12;
             npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {
@@ -63,7 +64,17 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.scale = 1.15f;
 			}
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;

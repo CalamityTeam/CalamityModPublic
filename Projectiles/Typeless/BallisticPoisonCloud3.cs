@@ -51,13 +51,11 @@ namespace CalamityMod.Projectiles.Typeless
 					if (projectile.alpha > 255)
 					{
 						projectile.alpha = 255;
-						return;
 					}
 				}
 				else if (projectile.owner == Main.myPlayer)
 				{
 					projectile.Kill();
-					return;
 				}
 			}
 			else if (projectile.alpha > 80)
@@ -66,7 +64,6 @@ namespace CalamityMod.Projectiles.Typeless
 				if (projectile.alpha < 80)
 				{
 					projectile.alpha = 80;
-					return;
 				}
 			}
         }

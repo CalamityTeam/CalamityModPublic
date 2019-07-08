@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Urchin Spear");
-        }
+			Tooltip.SetDefault("Poisons enemies and fires short-range stingers");
+		}
 
         public override void SetDefaults()
         {

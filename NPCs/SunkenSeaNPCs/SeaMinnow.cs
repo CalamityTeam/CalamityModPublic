@@ -11,9 +11,7 @@ using CalamityMod.Projectiles;
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
 	public class SeaMinnow : ModNPC
-	{
-		public bool spawnedSchool = false;
-		
+	{		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sea Minnow");

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -51,7 +52,19 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.HitSound = SoundID.NPCHit53;
 			npc.DeathSound = SoundID.NPCDeath44;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -81,37 +94,25 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 			if (npc.ai[1] == 0f)
 			{
-				npc.scale -= 0.02f;
-				npc.alpha += 30;
-				if (npc.alpha >= 250)
+				npc.scale -= 0.01f;
+				npc.alpha += 15;
+				if (npc.alpha >= 125)
 				{
-					npc.alpha = 255;
+					npc.alpha = 130;
 					npc.ai[1] = 1f;
 				}
 			}
 			else if (npc.ai[1] == 1f)
 			{
-				npc.scale += 0.02f;
-				npc.alpha -= 30;
+				npc.scale += 0.01f;
+				npc.alpha -= 15;
 				if (npc.alpha <= 0)
 				{
 					npc.alpha = 0;
 					npc.ai[1] = 0f;
 				}
 			}
-			int num1009 = (npc.ai[0] == 0f) ? 1 : 2;
-			int num1010 = (npc.ai[0] == 0f) ? 60 : 80;
-			for (int num1011 = 0; num1011 < 2; num1011++) 
-			{
-				if (Main.rand.Next(3) < num1009) 
-				{
-					int num1012 = Dust.NewDust(npc.Center - new Vector2((float)num1010), num1010 * 2, num1010 * 2, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
-					Main.dust[num1012].noGravity = true;
-					Main.dust[num1012].velocity *= 0.2f;
-					Main.dust[num1012].fadeIn = 1f;
-				}
-			}
-            if (!player.active || player.dead)
+            if (!player.active || player.dead || CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
@@ -161,7 +162,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					npc.velocity.Y = num785 * num786;
 					npc.ai[0] = 1f;
 					npc.netUpdate = true;
-					return;
 				}
 			} 
 			else 
@@ -177,7 +177,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				if (num789 > 1400f) 
 				{
 					npc.ai[0] = 0f;
-					return;
 				}
 			}
 		}

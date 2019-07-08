@@ -12,7 +12,7 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		private bool halfLife = false;
 		private bool halfLife2 = false;
 		private int spawnDoGCountdown = 0;
-		private float phaseSwitch = 0f;
+		private int phaseSwitch = 0;
 
 		public override void SetStaticDefaults()
 		{
@@ -76,22 +76,32 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(halfLife);
+			writer.Write(halfLife2);
+			writer.Write(spawnDoGCountdown);
+			writer.Write(phaseSwitch);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			halfLife = reader.ReadBoolean();
+			halfLife2 = reader.ReadBoolean();
+			spawnDoGCountdown = reader.ReadInt32();
+			phaseSwitch = reader.ReadInt32();
+		}
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.DoGHead = npc.whoAmI;
 			float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
 			if (playerRunAcceleration <= 1f)
-			{
 				playerRunAcceleration = 1f;
-			}
+
 			if (Main.raining)
-			{
-				Main.raining = false;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
+				CalamityGlobalNPC.StopRain();
+
 			Vector2 vector = npc.Center;
 			bool flies = npc.ai[2] == 0f;
 			bool expertMode = Main.expertMode;
@@ -207,13 +217,13 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 			if (Main.player[npc.target].dead)
 			{
-				flies = false;
-				npc.velocity.Y = npc.velocity.Y + 2f;
-				if ((double)npc.position.Y > Main.worldSurface * 16.0)
+				flies = true;
+				npc.velocity.Y = npc.velocity.Y - 3f;
+				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
-					npc.velocity.Y = npc.velocity.Y + 2f;
+					npc.velocity.Y = npc.velocity.Y - 3f;
 				}
-				if ((double)npc.position.Y > Main.rockLayer * 16.0)
+				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
 					for (int a = 0; a < 200; a++)
 					{
@@ -253,7 +263,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						Main.player[Main.myPlayer].AddBuff(mod.BuffType("Warped"), 2);
 					}
 				}
-				phaseSwitch += 1f;
+				phaseSwitch += 1;
 				npc.localAI[1] = 0f;
 				float speed = playerRunAcceleration * 15f;
 				float turnSpeed = playerRunAcceleration * 0.3f;
@@ -261,7 +271,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				float homingTurnSpeed = playerRunAcceleration * 0.33f;
 				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f) //RAGE
 				{
-					phaseSwitch += 9f;
+					phaseSwitch += 9;
 				}
 				else if ((expertMode && speedBoost5) || CalamityWorld.death)
 				{
@@ -518,10 +528,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					}
 				}
 				npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
-				if (phaseSwitch > 900f)
+				if (phaseSwitch > 900)
 				{
 					npc.ai[2] = 1f;
-					phaseSwitch = 0f;
+					phaseSwitch = 0;
 					npc.netUpdate = true;
 					return;
 				}
@@ -535,7 +545,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						Main.player[Main.myPlayer].AddBuff(mod.BuffType("ExtremeGrav"), 2);
 					}
 				}
-				phaseSwitch += 1f;
+				phaseSwitch += 1;
 				float speed = playerRunAcceleration * 19f;
 				float turnSpeed = playerRunAcceleration * 0.28f;
 				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f) //RAGE
@@ -830,10 +840,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					}
 					npc.localAI[0] = 0f;
 				}
-				if (phaseSwitch > 900f)
+				if (phaseSwitch > 900)
 				{
 					npc.ai[2] = 0f;
-					phaseSwitch = 0f;
+					phaseSwitch = 0;
 					npc.netUpdate = true;
 					return;
 				}
@@ -936,6 +946,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 300, true);
+			player.AddBuff(mod.BuffType("WhisperingDeath"), 420, true);
 			if (CalamityWorld.death)
 			{
 				player.KillMe(PlayerDeathReason.ByOther(10), 1000.0, 0, false);

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Yharon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phoenix Flame Barrage");
-            Tooltip.SetDefault("Baptism by holy fire");
+            Tooltip.SetDefault("Baptism by holy fire\n" +
+				"Casts a barrage of fire from the sky");
             Item.staff[item.type] = true;
         }
 

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
@@ -35,6 +36,18 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.knockBackResist = 0.15f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("PrismTurtleBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.chaseable);
+			writer.Write(hasBeenHit);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.chaseable = reader.ReadBoolean();
+			hasBeenHit = reader.ReadBoolean();
 		}
 
 		public override void AI()

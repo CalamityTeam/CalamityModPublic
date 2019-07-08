@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ion Blaster");
-			Tooltip.SetDefault("Fires ion blasts that speed up and then explode\nThe higher your mana the more damage they will do");
+			Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
+				"The higher your mana the more damage they will do");
 		}
 
 		public override void SetDefaults()

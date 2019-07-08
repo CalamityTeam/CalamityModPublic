@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Clock Gatlignum");
-			Tooltip.SetDefault("33% chance to not consume ammo");
+			Tooltip.SetDefault("33% chance to not consume ammo\n" +
+				"Fires a string of high velocity bullets");
 		}
 
 	    public override void SetDefaults()

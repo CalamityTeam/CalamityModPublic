@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Night's Stabber");
-			Tooltip.SetDefault("Don't underestimate the power of stabby knives\nEnemies release homing dark energy on death");
+			Tooltip.SetDefault("Don't underestimate the power of stabby knives\n" +
+				"Enemies release homing dark energy on death");
 		}
 
 		public override void SetDefaults()

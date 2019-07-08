@@ -40,6 +40,13 @@ namespace CalamityMod
 			r.SetResult(ItemID.BlackLens);
 			r.AddRecipe();
 
+			// Fallen Star
+			r = GetNewRecipe();
+			r.AddIngredient(null, "Stardust", 5);
+			r.AddTile(TileID.MythrilAnvil);
+			r.SetResult(ItemID.FallenStar);
+			r.AddRecipe();
+
 			// Ectoplasm from Ectoblood
 			r = GetNewRecipe();
 			r.AddIngredient(null, "Ectoblood", 3);

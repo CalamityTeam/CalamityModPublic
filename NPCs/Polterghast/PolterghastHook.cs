@@ -7,13 +7,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Polterghast
 {
 	public class PolterghastHook : ModNPC
 	{
-        public int despawnTimer = 300;
-        public bool phase2 = false;
+        private int despawnTimer = 300;
+        private bool phase2 = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -45,14 +46,26 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.DeathSound = SoundID.NPCDeath39;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(phase2);
+			writer.Write(despawnTimer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			phase2 = reader.ReadBoolean();
+			despawnTimer = reader.ReadInt32();
+		}
+
+		public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.3f, 1f, 1f);
             bool expertMode = Main.expertMode;
             bool revenge = CalamityWorld.revenge;
             bool speedBoost1 = false;
             bool despawnBoost = false;
-            if (!Main.npc[CalamityGlobalNPC.ghostBoss].active)
+            if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -213,7 +226,6 @@ namespace CalamityMod.NPCs.Polterghast
                         npc.ai[2] = 0f;
                         npc.ai[3] = 1f;
                         npc.netUpdate = true;
-                        return;
                     }
                 }
                 else

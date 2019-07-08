@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Marnite Rifle Spear");
+			Tooltip.SetDefault("The gun damages enemies that touch it");
 		}
 
 	    public override void SetDefaults()

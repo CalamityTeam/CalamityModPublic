@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Silva Masked Cap");
             Tooltip.SetDefault("13% increased magic damage and critical strike chance\n" +
-				"+100 max mana");
+				"+100 max mana and 19% reduced mana usage");
         }
 
         public override void SetDefaults()
@@ -56,7 +56,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.13f;
+			player.manaCost *= 0.81f;
+			player.magicDamage += 0.13f;
             player.magicCrit += 13;
 			player.statManaMax2 += 100;
 		}

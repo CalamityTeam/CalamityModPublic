@@ -10,8 +10,8 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class DracoBeam2 : ModProjectile
     {
-    	public int start = 60;
-    	public int speedTimer = 120;
+    	private int start = 60;
+    	private int speedTimer = 120;
     	
     	public override void SetStaticDefaults()
 		{
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
         			speedTimer = 120;
         		}
         	}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
             if (Main.rand.Next(4) == 0)
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, 0f, 0f);
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 500);
+            target.AddBuff(BuffID.Daybreak, 600);
         }
     }
 }

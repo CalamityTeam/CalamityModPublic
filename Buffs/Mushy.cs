@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Mushy");
-			Description.SetDefault("Increased defense and life regen by 5");
+			Description.SetDefault("Increased defense and life regen");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;

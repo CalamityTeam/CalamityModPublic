@@ -7,40 +7,40 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class EssenceDust : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class EssenceDust : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Dust");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 46;
-            projectile.height = 46;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-        	projectile.velocity.X *= 0.985f;
-        	projectile.velocity.Y *= 0.975f;
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.85f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
-            for (int num468 = 0; num468 < 5; num468++)
-            {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 0.5f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
-            }
-        }
-        
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+		public override void SetDefaults()
+		{
+			projectile.width = 46;
+			projectile.height = 46;
+			projectile.hostile = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = -1;
+			cooldownSlot = 1;
+		}
+
+		public override void AI()
+		{
+			projectile.velocity.X *= 0.985f;
+			projectile.velocity.Y *= 0.975f;
+			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.85f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
+			for (int num468 = 0; num468 < 5; num468++)
+			{
+				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 0.5f);
+				Main.dust[num469].noGravity = true;
+				Main.dust[num469].velocity *= 0f;
+			}
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 100;
@@ -65,6 +65,6 @@ namespace CalamityMod.Projectiles.Boss
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
-    }
+		}
+	}
 }

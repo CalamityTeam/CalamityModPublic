@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Genisis");
+			Tooltip.SetDefault("Fires a Y-shaped beam of destructive energy and a spread of lasers");
 		}
 
 	    public override void SetDefaults()
@@ -50,7 +51,7 @@ namespace CalamityMod.Items.Weapons
 		    float SpeedY = speedY + (float) Main.rand.Next(-20, 21) * 0.05f;
 	        for (int index = 0; index < num6; ++index)
 	        {
-	            int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, 440, (int)((double)damage * 0.75f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	            int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, 440, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
 	            Main.projectile[projectile].timeLeft = 120;
 	        }
 	        return false;

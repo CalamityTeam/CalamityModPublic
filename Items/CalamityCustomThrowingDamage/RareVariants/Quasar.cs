@@ -20,8 +20,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
 		public override void SafeSetDefaults()
 		{
 			item.width = 52;
-			item.damage = 50;
-			item.crit += 8;
+			item.damage = 80; //50
+			item.crit += 12;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = 12;
@@ -31,9 +31,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 48;
-			item.value = Item.buyPrice(0, 60, 0, 0);
-			item.rare = 7;
-			item.shoot = mod.ProjectileType("RadiantStar");
+			item.value = Item.buyPrice(0, 95, 0, 0);
+			item.rare = 9;
+			item.shoot = mod.ProjectileType("Quasar");
 			item.shootSpeed = 20f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ball O' Fugu");
+			Tooltip.SetDefault("Throws a fish that spews homing spikes");
 		}
 
 	    public override void SetDefaults()

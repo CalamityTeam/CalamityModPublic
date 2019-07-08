@@ -15,7 +15,9 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deathwind");
-        }
+			Tooltip.SetDefault("Fires a spread of arrows\n" +
+				"Wooden arrows are converted to nebula shots");
+		}
 
         public override void SetDefaults()
         {

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mourningstar");
+			Tooltip.SetDefault("Launches a solar whip sword and a solar particle trail that explodes on enemy hits");
 		}
 
 		public override void SetDefaults()

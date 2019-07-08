@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Scavenger
 {
@@ -44,6 +45,7 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
 			npc.noGravity = true;
 			npc.canGhostHeal = false;
+			npc.noTileCollide = true;
 			npc.alpha = 255;
 			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
@@ -65,7 +67,7 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			Vector2 center = npc.Center;
-			if (!Main.npc[CalamityGlobalNPC.scavenger].active)
+			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
 			{
 				npc.active = false;
 				npc.netUpdate = true;
@@ -96,7 +98,6 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 			if (npc.ai[0] == 0f)
 			{
-				npc.noTileCollide = true;
 				float num659 = 14f;
 				if (npc.life < npc.lifeMax / 2)
 				{

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrath of the Ancients");
-        }
+			Tooltip.SetDefault("Casts a granite energy pulse");
+		}
 
         public override void SetDefaults()
         {

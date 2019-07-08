@@ -53,7 +53,6 @@ namespace CalamityMod.Projectiles.Typeless
 				if (projectile.localAI[0] <= 0f)
 				{
 					projectile.Kill();
-					return;
 				}
 			}
         }

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Black Anurian");
+			Tooltip.SetDefault("Spews bubbles and homing plankton");
 		}
 
 	    public override void SetDefaults()

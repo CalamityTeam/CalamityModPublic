@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,36 +10,46 @@ using CalamityMod.NPCs;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class InfernadoRevenge : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class InfernadoRevenge : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernado");
 			Main.projFrames[projectile.type] = 6;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 320;
-            projectile.height = 88;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 360000;
-            cooldownSlot = 1;
-        }
-        
-        public override void AI()
-        {
+
+		public override void SetDefaults()
+		{
+			projectile.width = 320;
+			projectile.height = 88;
+			projectile.hostile = true;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
+			projectile.alpha = 255;
+			projectile.timeLeft = 360000;
+			cooldownSlot = 1;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
 			if (!CalamityPlayer.areThereAnyDamnBosses)
 			{
 				projectile.active = false;
 				projectile.netUpdate = true;
 				return;
 			}
-            int num613 = 35;
+			int num613 = 35;
 			int num614 = 35;
 			float num615 = 3.5f;
 			int num616 = 320;
@@ -117,25 +128,25 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.position.X = projectile.position.X + num624 * (float)(-(float)projectile.direction);
 				return;
 			}
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
 			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 			int y6 = num214 * projectile.frame;
 			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
 			return false;
-        }
-        
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-		{
-        	target.KillMe(PlayerDeathReason.ByOther(11), 1000.0, 0, false);
 		}
-    }
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.KillMe(PlayerDeathReason.ByOther(11), 1000.0, 0, false);
+		}
+	}
 }

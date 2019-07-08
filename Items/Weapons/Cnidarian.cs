@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cnidarian");
+			Tooltip.SetDefault("Fires a seashell when enemies are near");
 		}
 
 	    public override void SetDefaults()
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Weapons
 	        item.useStyle = 5;
 	        item.channel = true;
 	        item.melee = true;
-	        item.knockBack = 3;
+	        item.knockBack = 3f;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
 	        item.autoReuse = true;

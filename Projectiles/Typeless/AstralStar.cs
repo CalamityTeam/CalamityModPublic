@@ -81,7 +81,6 @@ namespace CalamityMod.Projectiles.Typeless
 				if (Main.rand.Next(20) == 0)
 				{
 					Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
-					return;
 				}
 			}
         }

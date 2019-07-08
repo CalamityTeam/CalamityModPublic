@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,27 +8,37 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SirenSong : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class SirenSong : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Musical Note");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 26;
-            projectile.height = 26;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 1800;
-        }
 
-        public override void AI()
-        {
-        	projectile.velocity.X *= 0.985f;
-        	projectile.velocity.Y *= 0.985f;
-        	if (projectile.localAI[0] == 0f)
+		public override void SetDefaults()
+		{
+			projectile.width = 26;
+			projectile.height = 58;
+			projectile.hostile = true;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 1800;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			projectile.velocity.X *= 0.985f;
+			projectile.velocity.Y *= 0.985f;
+			if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale += 0.01f;
 				if (projectile.scale >= 1.1f)
@@ -43,9 +54,9 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.localAI[0] = 0f;
 				}
 			}
-        	if (projectile.ai[1] == 0f)
-        	{
-        		projectile.ai[1] = 1f;
+			if (projectile.ai[1] == 0f)
+			{
+				projectile.ai[1] = 1f;
 				float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
 				Main.harpNote = soundPitch;
 				Main.PlaySound(SoundID.Item26, projectile.position);
@@ -59,8 +70,8 @@ namespace CalamityMod.Projectiles.Boss
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-        	target.AddBuff(BuffID.Confused, 120);
-        }
-    }
+		{
+			target.AddBuff(BuffID.Confused, 120);
+		}
+	}
 }

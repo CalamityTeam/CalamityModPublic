@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
 				{
                     for (int num298 = 0; num298 < 2; num298++)
                     {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
+                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 0.75f);
                         if (Main.rand.Next(3) == 0)
                         {
                             Main.dust[num299].scale *= 1.5f;
@@ -100,23 +100,19 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.ai[0] += 1f;
 			}
 			projectile.rotation += 0.3f * (float)projectile.direction;
-			return;	
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.Next(30) == 0)
-            {
-                target.AddBuff(mod.BuffType("ExoFreeze"), 240);
-            }
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-            target.AddBuff(mod.BuffType("GlacialState"), 100);
-            target.AddBuff(mod.BuffType("Plague"), 100);
-            target.AddBuff(mod.BuffType("HolyLight"), 100);
-            target.AddBuff(BuffID.CursedInferno, 100);
-            target.AddBuff(BuffID.Frostburn, 100);
-            target.AddBuff(BuffID.OnFire, 100);
-            target.AddBuff(BuffID.Ichor, 100);
-        }
+			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+			target.AddBuff(BuffID.CursedInferno, 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(BuffID.OnFire, 120);
+			target.AddBuff(BuffID.Ichor, 120);
+		}
     }
 }

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.SlimeGod
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crimson Crusher Blade");
-        }
+			Tooltip.SetDefault("Inflicts ichor and critical hits lower enemy contact damage");
+		}
 
         public override void SetDefaults()
         {
@@ -41,7 +42,16 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             }
         }
 
-        public override void AddRecipes()
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.Ichor, 180);
+			if (target.damage > 0 && crit)
+			{
+				target.damage -= 10;
+			}
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "EbonianGel", 15);

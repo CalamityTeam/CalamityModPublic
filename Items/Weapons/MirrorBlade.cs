@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons
 		
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 	    	return false;
 		}
 	    
@@ -52,9 +52,9 @@ namespace CalamityMod.Items.Weapons
 	    	{
 	    		conDamage = 236;
 	    	}
-            if (conDamage > 500)
+            if (conDamage > 600)
             {
-                conDamage = 500;
+                conDamage = 600;
             }
             item.damage = conDamage;
 		}

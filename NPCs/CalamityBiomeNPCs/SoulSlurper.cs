@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CalamityBiomeNPCs
 {
@@ -30,7 +31,6 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.knockBackResist = 0.65f;
 			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.noGravity = true;
-			npc.noTileCollide = true;
 			npc.lavaImmune = true;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Fury");
+			Tooltip.SetDefault("Fires a spread of brimstone bolts");
 		}
 
 		public override void SetDefaults()

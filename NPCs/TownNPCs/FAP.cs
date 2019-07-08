@@ -5,6 +5,7 @@ using Terraria.Localization;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
@@ -28,7 +29,8 @@ namespace CalamityMod.NPCs.TownNPCs
 		{
             npc.townNPC = true;
             npc.friendly = true;
-            npc.width = 18;
+			npc.lavaImmune = true;
+			npc.width = 18;
             npc.height = 40;
             npc.aiStyle = 7;
             npc.damage = 10;
@@ -284,7 +286,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 nextSlot++;
             }
 
-            if (CalamityWorld.downedStarGod && !Main.dayTime)
+            if (CalamityWorld.downedAstrageldon && !Main.dayTime)
             {
                 shop.item[nextSlot].SetDefaults(mod.ItemType("StarBeamRye"));
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);

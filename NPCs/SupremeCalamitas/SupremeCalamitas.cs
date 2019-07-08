@@ -9,6 +9,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -23,7 +24,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		private bool canDespawn = false;
 		private bool despawnProj = false;
 		private bool startText = false;
-		private bool wormAlive = false;
 		private bool startBattle = false; //100%
 		private bool startSecondAttack = false; //80%
 		private bool startThirdAttack = false; //60%
@@ -38,6 +38,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		private bool gettingTired5 = false; //1%
 		private bool willCharge = false;
 		private bool canFireSplitingFireball = true;
+		private bool spawnArena = false;
 
 		private int giveUpCounter = 1200;
 		private int lootTimer = 0; //900 * 5 = 4500
@@ -50,6 +51,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		private int spawnY = 0;
 		private int spawnYReset = 0;
 		private int spawnYAdd = 0;
+		private int bulletHellCounter = 0;
+		private int bulletHellCounter2 = 0;
 
 		private Rectangle safeBox = default(Rectangle);
 
@@ -103,11 +106,106 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				music = MusicID.Boss2;
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(protectionBoost);
+			writer.Write(canDespawn);
+			writer.Write(despawnProj);
+			writer.Write(startText);
+			writer.Write(startBattle);
+			writer.Write(startSecondAttack);
+			writer.Write(startThirdAttack);
+			writer.Write(startFourthAttack);
+			writer.Write(startFifthAttack);
+			writer.Write(halfLife);
+			writer.Write(secondStage);
+			writer.Write(gettingTired);
+			writer.Write(gettingTired2);
+			writer.Write(gettingTired3);
+			writer.Write(gettingTired4);
+			writer.Write(gettingTired5);
+			writer.Write(willCharge);
+			writer.Write(canFireSplitingFireball);
+			writer.Write(spawnArena);
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+
+			writer.Write(giveUpCounter);
+			writer.Write(lootTimer);
+			writer.Write(phaseChange);
+			writer.Write(spawnX);
+			writer.Write(spawnX2);
+			writer.Write(spawnXReset);
+			writer.Write(spawnXReset2);
+			writer.Write(spawnXAdd);
+			writer.Write(spawnY);
+			writer.Write(spawnYReset);
+			writer.Write(spawnYAdd);
+			writer.Write(bulletHellCounter);
+			writer.Write(bulletHellCounter2);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			protectionBoost = reader.ReadBoolean();
+			canDespawn = reader.ReadBoolean();
+			despawnProj = reader.ReadBoolean();
+			startText = reader.ReadBoolean();
+			startBattle = reader.ReadBoolean();
+			startSecondAttack = reader.ReadBoolean();
+			startThirdAttack = reader.ReadBoolean();
+			startFourthAttack = reader.ReadBoolean();
+			startFifthAttack = reader.ReadBoolean();
+			halfLife = reader.ReadBoolean();
+			secondStage = reader.ReadBoolean();
+			gettingTired = reader.ReadBoolean();
+			gettingTired2 = reader.ReadBoolean();
+			gettingTired3 = reader.ReadBoolean();
+			gettingTired4 = reader.ReadBoolean();
+			gettingTired5 = reader.ReadBoolean();
+			willCharge = reader.ReadBoolean();
+			canFireSplitingFireball = reader.ReadBoolean();
+			spawnArena = reader.ReadBoolean();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+
+			giveUpCounter = reader.ReadInt32();
+			lootTimer = reader.ReadInt32();
+			phaseChange = reader.ReadInt32();
+			spawnX = reader.ReadInt32();
+			spawnX2 = reader.ReadInt32();
+			spawnXReset = reader.ReadInt32();
+			spawnXReset2 = reader.ReadInt32();
+			spawnXAdd = reader.ReadInt32();
+			spawnY = reader.ReadInt32();
+			spawnYReset = reader.ReadInt32();
+			spawnYAdd = reader.ReadInt32();
+			bulletHellCounter = reader.ReadInt32();
+			bulletHellCounter2 = reader.ReadInt32();
+		}
+
 		public override void AI()
 		{
 			#region StartUp
 			CalamityGlobalNPC.SCal = npc.whoAmI;
 			lootTimer++;
+
+			bool wormAlive = false;
+			if (CalamityGlobalNPC.SCalWorm != -1)
+			{
+				wormAlive = Main.npc[CalamityGlobalNPC.SCalWorm].active;
+			}
+			bool cataclysmAlive = false;
+			if (CalamityGlobalNPC.SCalCataclysm != -1)
+			{
+				cataclysmAlive = Main.npc[CalamityGlobalNPC.SCalCataclysm].active;
+			}
+			bool catastropheAlive = false;
+			if (CalamityGlobalNPC.SCalCatastrophe != -1)
+			{
+				catastropheAlive = Main.npc[CalamityGlobalNPC.SCalCatastrophe].active;
+			}
+
 			if (Main.slimeRain)
 			{
 				Main.StopSlimeRain(true);
@@ -117,13 +215,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 			}
 			if (Main.raining)
-			{
-				Main.raining = false;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
+				CalamityGlobalNPC.StopRain();
+
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			Player player = Main.player[npc.target];
@@ -201,9 +294,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			#endregion
 			#region ArenaCreation
-			if (npc.localAI[3] == 0f)
+			if (!spawnArena)
 			{
-				npc.localAI[3] = 1f;
+				spawnArena = true;
 				Vector2 vectorPlayer = new Vector2(player.position.X, player.position.Y);
 				if (CalamityWorld.bossRushActive)
 				{
@@ -307,10 +400,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			#endregion
 			#region FirstAttack
-			if (npc.localAI[2] < 900f)
+			if (bulletHellCounter2 < 900)
 			{
 				despawnProj = true;
-				npc.localAI[2] += 1f;
+				bulletHellCounter2 += 1;
 				npc.damage = 0;
 				npc.chaseable = false;
 				npc.dontTakeDamage = true;
@@ -322,16 +415,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
 				if (Main.netMode != 1)
 				{
-					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 4f : 6f))
+					bulletHellCounter += 1;
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 4 : 6))
 					{
-						npc.localAI[0] = 0f;
+						bulletHellCounter = 0;
 						int damage = expertMode ? 200 : 250; //800 500
-						if (npc.localAI[2] < 300f) //blasts from above
+						if (bulletHellCounter2 < 300) //blasts from above
 						{
 							Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 4f * uDieLul, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
-						else if (npc.localAI[2] < 600f) //blasts from left and right
+						else if (bulletHellCounter2 < 600) //blasts from left and right
 						{
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3.5f * uDieLul, 0f, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3.5f * uDieLul, 0f, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
@@ -372,18 +465,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					for (int x = 0; x < 5; x++)
 					{
-						int heart = NPC.NewNPC(spawnX + 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
+						NPC.NewNPC(spawnX + 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
 						spawnX += spawnXAdd;
-						if (Main.netMode == 2)
-						{
-							NetMessage.SendData(23, -1, -1, null, heart, 0f, 0f, 0f, 0, 0, 0);
-						}
-						int heart2 = NPC.NewNPC(spawnX2 - 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
+						NPC.NewNPC(spawnX2 - 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
 						spawnX2 -= spawnXAdd;
-						if (Main.netMode == 2)
-						{
-							NetMessage.SendData(23, -1, -1, null, heart2, 0f, 0f, 0f, 0, 0, 0);
-						}
 						spawnY += spawnYAdd;
 					}
 					spawnX = spawnXReset;
@@ -395,10 +480,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			#endregion
 			#region SecondAttack
-			if (npc.localAI[2] < 1800f && startSecondAttack)
+			if (bulletHellCounter2 < 1800 && startSecondAttack)
 			{
 				despawnProj = true;
-				npc.localAI[2] += 1f;
+				bulletHellCounter2 += 1;
 				npc.damage = 0;
 				npc.chaseable = false;
 				npc.dontTakeDamage = true;
@@ -411,36 +496,36 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.netMode != 1)
 				{
 					int damage = expertMode ? 150 : 200; //600 400
-					if (npc.localAI[2] < 1200f)
+					if (bulletHellCounter2 < 1200)
 					{
-						if (npc.localAI[2] % 180 == 0) //blasts from top
+						if (bulletHellCounter2 % 180 == 0) //blasts from top
 						{
 							Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
-					else if (npc.localAI[2] < 1500f && npc.localAI[2] > 1200f)
+					else if (bulletHellCounter2 < 1500 && bulletHellCounter2 > 1200)
 					{
-						if (npc.localAI[2] % 180 == 0) //blasts from right
+						if (bulletHellCounter2 % 180 == 0) //blasts from right
 						{
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -5f * uDieLul, 0f, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
-					else if (npc.localAI[2] > 1500f)
+					else if (bulletHellCounter2 > 1500)
 					{
-						if (npc.localAI[2] % 180 == 0) //blasts from top
+						if (bulletHellCounter2 % 180 == 0) //blasts from top
 						{
 							Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
-					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 6f : 9f))
+					bulletHellCounter += 1;
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 6 : 9))
 					{
-						npc.localAI[0] = 0f;
-						if (npc.localAI[2] < 1200f) //blasts from below
+						bulletHellCounter = 0;
+						if (bulletHellCounter2 < 1200) //blasts from below
 						{
 							Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + 1000f, 0f, -4f * uDieLul, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
-						else if (npc.localAI[2] < 1500f) //blasts from left
+						else if (bulletHellCounter2 < 1500) //blasts from left
 						{
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3.5f * uDieLul, 0f, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
@@ -471,10 +556,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			#endregion
 			#region ThirdAttack
-			if (npc.localAI[2] < 2700f && startThirdAttack)
+			if (bulletHellCounter2 < 2700 && startThirdAttack)
 			{
 				despawnProj = true;
-				npc.localAI[2] += 1f;
+				bulletHellCounter2 += 1;
 				npc.damage = 0;
 				npc.chaseable = false;
 				npc.dontTakeDamage = true;
@@ -487,23 +572,23 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.netMode != 1)
 				{
 					int damage = expertMode ? 150 : 200;
-					if (npc.localAI[2] % 180 == 0) //blasts from top
+					if (bulletHellCounter2 % 180 == 0) //blasts from top
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
-					if (npc.localAI[2] % 240 == 0) //fireblasts from above
+					if (bulletHellCounter2 % 240 == 0) //fireblasts from above
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 1f, 0f);
 					}
-					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 9f : 11f))
+					bulletHellCounter += 1;
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 9 : 11))
 					{
-						npc.localAI[0] = 0f;
-						if (npc.localAI[2] < 2100f) //blasts from above
+						bulletHellCounter = 0;
+						if (bulletHellCounter2 < 2100) //blasts from above
 						{
 							Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 4f * uDieLul, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
-						else if (npc.localAI[2] < 2400f) //blasts from right
+						else if (bulletHellCounter2 < 2400) //blasts from right
 						{
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3.5f * uDieLul, 0f, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
@@ -539,10 +624,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			#endregion
 			#region FourthAttack
-			if (npc.localAI[2] < 3600f && startFourthAttack)
+			if (bulletHellCounter2 < 3600 && startFourthAttack)
 			{
 				despawnProj = true;
-				npc.localAI[2] += 1f;
+				bulletHellCounter2 += 1;
 				npc.damage = 0;
 				npc.chaseable = false;
 				npc.dontTakeDamage = true;
@@ -555,28 +640,28 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.netMode != 1) //more clustered attack
 				{
 					int damage = expertMode ? 150 : 200;
-					if (npc.localAI[2] % 180 == 0) //blasts from top
+					if (bulletHellCounter2 % 180 == 0) //blasts from top
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
-					if (npc.localAI[2] % 240 == 0) //fireblasts from above
+					if (bulletHellCounter2 % 240 == 0) //fireblasts from above
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 1f, 0f);
 					}
-					if (npc.localAI[2] % 450 == 0) //giant homing fireballs
+					if (bulletHellCounter2 % 450 == 0) //giant homing fireballs
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, mod.ProjectileType("BrimstoneMonster"), damage, 0f, Main.myPlayer, 0f, passedVar);
 						passedVar += 1f;
 					}
-					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 12f : 15f))
+					bulletHellCounter += 1;
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 12 : 15))
 					{
-						npc.localAI[0] = 0f;
-						if (npc.localAI[2] < 3000f) //blasts from below
+						bulletHellCounter = 0;
+						if (bulletHellCounter2 < 3000) //blasts from below
 						{
 							Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + 1000f, 0f, -4f * uDieLul, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
-						else if (npc.localAI[2] < 3300f) //blasts from left
+						else if (bulletHellCounter2 < 3300) //blasts from left
 						{
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3.5f * uDieLul, 0f, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
@@ -612,10 +697,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			#endregion
 			#region FifthAttack
-			if (npc.localAI[2] < 4500f && startFifthAttack)
+			if (bulletHellCounter2 < 4500 && startFifthAttack)
 			{
 				despawnProj = true;
-				npc.localAI[2] += 1f;
+				bulletHellCounter2 += 1;
 				npc.damage = 0;
 				npc.chaseable = false;
 				npc.dontTakeDamage = true;
@@ -628,32 +713,32 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.netMode != 1)
 				{
 					int damage = expertMode ? 150 : 200;
-					if (npc.localAI[2] % 240 == 0) //blasts from top
+					if (bulletHellCounter2 % 240 == 0) //blasts from top
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 5f * uDieLul, mod.ProjectileType("BrimstoneGigaBlast"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
-					if (npc.localAI[2] % 360 == 0) //fireblasts from above
+					if (bulletHellCounter2 % 360 == 0) //fireblasts from above
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 1f, 0f);
 					}
-					if (npc.localAI[2] % 450 == 0) //giant homing fireballs
+					if (bulletHellCounter2 % 450 == 0) //giant homing fireballs
 					{
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, mod.ProjectileType("BrimstoneMonster"), damage, 0f, Main.myPlayer, 0f, passedVar);
 						passedVar += 1f;
 					}
-					if (npc.localAI[2] % 30 == 0) //projectiles that move in wave pattern
+					if (bulletHellCounter2 % 30 == 0) //projectiles that move in wave pattern
 					{
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -10f * uDieLul, 0f, mod.ProjectileType("BrimstoneWave"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
-					npc.localAI[0] += 1f;
-					if (npc.localAI[0] > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15f : 18f))
+					bulletHellCounter += 1;
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15 : 18))
 					{
-						npc.localAI[0] = 0f;
-						if (npc.localAI[2] < 3900f) //blasts from above
+						bulletHellCounter = 0;
+						if (bulletHellCounter2 < 3900) //blasts from above
 						{
 							Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 4f * uDieLul, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
-						else if (npc.localAI[2] < 4200f) //blasts from left and right
+						else if (bulletHellCounter2 < 4200) //blasts from left and right
 						{
 							Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), -3.5f * uDieLul, 0f, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
 							Projectile.NewProjectile(player.position.X - 1000f, player.position.Y + (float)Main.rand.Next(-1000, 1000), 3.5f * uDieLul, 0f, mod.ProjectileType("BrimstoneHellblast2"), damage, 0f, Main.myPlayer, 0f, 0f);
@@ -699,12 +784,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					npc.noTileCollide = false;
 					npc.damage = 0;
 					npc.velocity.X *= 0.98f;
-					npc.velocity.Y = 5f;
 					Vector2 vector2 = new Vector2(npc.Center.X, npc.Center.Y);
 					float num = player.Center.X - vector2.X;
 					float num1 = player.Center.Y - vector2.Y;
 					npc.rotation = (float)Math.Atan2((double)num1, (double)num) - 1.57f;
-					if (player.GetModPlayer<CalamityPlayer>(mod).sCalKillCount > 0) //after first time you kill her
+					if (CalamityWorld.downedSCal) //after first time you kill her
 					{
 						if (giveUpCounter == 900)
 						{
@@ -846,18 +930,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						}
 						for (int x = 0; x < 5; x++)
 						{
-							int heart = NPC.NewNPC(spawnX + 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC(spawnX + 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
 							spawnX += spawnXAdd;
-							if (Main.netMode == 2)
-							{
-								NetMessage.SendData(23, -1, -1, null, heart, 0f, 0f, 0f, 0, 0, 0);
-							}
-							int heart2 = NPC.NewNPC(spawnX2 - 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC(spawnX2 - 50, spawnY, mod.NPCType("SCalWormHeart"), 0, 0f, 0f, 0f, 0f, 255);
 							spawnX2 -= spawnXAdd;
-							if (Main.netMode == 2)
-							{
-								NetMessage.SendData(23, -1, -1, null, heart2, 0f, 0f, 0f, 0, 0, 0);
-							}
 							spawnY += spawnYAdd;
 						}
 						spawnX = spawnXReset;
@@ -871,7 +947,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			#endregion
 			#region DespawnProjectiles
-			if (npc.localAI[2] % 900 == 0 && despawnProj)
+			if (bulletHellCounter2 % 900 == 0 && despawnProj)
 			{
 				int proj;
 				for (int x = 0; x < 1000; x = proj + 1)
@@ -1028,15 +1104,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			if (npc.ai[0] == 0f)
 			{
 				npc.damage = expertMode ? 720 : 450;
-				if (NPC.AnyNPCs(mod.NPCType("SCalWormHead")))
+				if (wormAlive)
 				{
-					wormAlive = true;
 					npc.dontTakeDamage = true;
 					npc.chaseable = false;
 				}
 				else
 				{
-					if (NPC.AnyNPCs(mod.NPCType("SupremeCataclysm")) || NPC.AnyNPCs(mod.NPCType("SupremeCatastrophe")))
+					if (cataclysmAlive || catastropheAlive)
 					{
 						npc.dontTakeDamage = true;
 						npc.chaseable = false;
@@ -1054,7 +1129,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						npc.dontTakeDamage = false;
 						npc.chaseable = true;
 					}
-					wormAlive = false;
 				}
 				if (npc.ai[1] == 0f)
 				{
@@ -1514,9 +1588,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			else
 			{
 				npc.damage = expertMode ? 720 : 450;
-				if (NPC.AnyNPCs(mod.NPCType("SCalWormHead")))
+				if (wormAlive)
 				{
-					wormAlive = true;
 					npc.dontTakeDamage = true;
 					npc.chaseable = false;
 				}
@@ -1532,7 +1605,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						npc.dontTakeDamage = false;
 						npc.chaseable = true;
 					}
-					wormAlive = false;
 				}
 				if (npc.ai[1] == 0f)
 				{

@@ -136,7 +136,6 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.localAI[1] >= 120f) 
 			{
 				projectile.Kill();
-				return;
 			}
         }
         

@@ -84,10 +84,7 @@ namespace CalamityMod.World
 					cItem = WorldGen.genRand.NextBool() ? WorldGen.goldBar : WorldGen.silverBar;
 					int addAmount = 0;
 					if (AstralChest)
-					{
-						cItem = mod.ItemType("AstralBar");
 						addAmount = 4;
-					}
 					chest.item[itemIndex].SetDefaults(cItem, false);
 					chest.item[itemIndex].stack = WorldGen.genRand.Next(3 + addAmount, 11 + addAmount * 2);
 					itemIndex++;
@@ -203,7 +200,7 @@ namespace CalamityMod.World
 		#endregion
 
 		#region OreSpawn
-		public static void spawnOre(int type, double frequency, float depth, float depthLimit)
+		public static void SpawnOre(int type, double frequency, float depth, float depthLimit)
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			int x = Main.maxTilesX;
@@ -2529,8 +2526,8 @@ namespace CalamityMod.World
 		}
 		#endregion
 
-		#region IcePyramid
-		public static bool IcePyramid(int i, int j)
+		#region IceTomb
+		public static bool IceTomb(int i, int j)
 		{
 			ushort num = 161;
 			int arg_36_0 = j - WorldGen.genRand.Next(0, 7);

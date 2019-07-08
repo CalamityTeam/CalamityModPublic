@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Atlantis");
-            Tooltip.SetDefault("Casts aquatic spears");
+            Tooltip.SetDefault("Casts aquatic spears that split as they travel");
             Item.staff[item.type] = true;
         }
 

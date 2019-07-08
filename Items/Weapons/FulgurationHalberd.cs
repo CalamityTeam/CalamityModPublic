@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Fulguration Halberd");
 			Tooltip.SetDefault("Inflicts burning blood on enemy hits\n" +
-				"Right click to change modes");
+				"Right click to use as a spear");
 		}
 
 		public override void SetDefaults()

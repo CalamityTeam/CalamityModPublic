@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Marked Magnum");
-			Tooltip.SetDefault("Shots reduce enemy protection\nProjectile damage is multiplied by all of your damage bonuses");
+			Tooltip.SetDefault("Shots reduce enemy protection\n" +
+				"Projectile damage is multiplied by all of your damage bonuses");
 		}
 
 	    public override void SetDefaults()

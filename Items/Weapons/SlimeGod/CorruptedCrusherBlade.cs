@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.SlimeGod
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corrupted Crusher Blade");
-        }
+			Tooltip.SetDefault("Inflicts cursed inferno and critical hits lower enemy defense");
+		}
 
         public override void SetDefaults()
         {
@@ -41,7 +42,16 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             }
         }
 
-        public override void AddRecipes()
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.CursedInferno, 180);
+			if (target.defense > 0 && crit)
+			{
+				target.defense -= 5;
+			}
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "EbonianGel", 15);

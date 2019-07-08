@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class JudgementBlah : ModProjectile
     {
-    	int whiteLightTimer = 5;
+    	private int whiteLightTimer = 5;
     	
     	public override void SetStaticDefaults()
 		{
@@ -93,9 +93,7 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
-			return;
         }
         
         public override void Kill(int timeLeft)

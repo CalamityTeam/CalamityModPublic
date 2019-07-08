@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mantis Claws");
+			Tooltip.SetDefault("Explodes on enemy hits");
 		}
 
 		public override void SetDefaults()

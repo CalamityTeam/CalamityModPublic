@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Ranged
 		
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.Confused, 200);
+        	target.AddBuff(BuffID.Confused, 180);
         }
 	}
 }

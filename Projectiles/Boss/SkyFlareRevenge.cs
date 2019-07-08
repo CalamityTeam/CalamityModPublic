@@ -8,55 +8,55 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class SkyFlareRevenge : ModProjectile
-    {    	
-    	public override void SetStaticDefaults()
+	public class SkyFlareRevenge : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sky Flare");
 			Main.projFrames[projectile.type] = 5;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 10;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-        	projectile.frameCounter++;
+		public override void SetDefaults()
+		{
+			projectile.width = 30;
+			projectile.height = 30;
+			projectile.hostile = true;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 10;
+			cooldownSlot = 1;
+		}
+
+		public override void AI()
+		{
+			projectile.frameCounter++;
 			if (projectile.frameCounter > 5)
 			{
-			    projectile.frame++;
-			    projectile.frameCounter = 0;
+				projectile.frame++;
+				projectile.frameCounter = 0;
 			}
 			if (projectile.frame > 4)
 			{
-			   projectile.frame = 0;
+				projectile.frame = 0;
 			}
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
 			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 			int y6 = num214 * projectile.frame;
 			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
 			return false;
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
-        
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, Main.DiscoG, 53, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
 			int num226 = 36;
 			for (int num227 = 0; num227 < num226; num227++)
 			{
@@ -74,6 +74,6 @@ namespace CalamityMod.Projectiles.Boss
 				int num236 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("InfernadoRevenge"), num235, 4f, Main.myPlayer, 16f, 50f);
 				Main.projectile[num236].netUpdate = true;
 			}
-        }
-    }
+		}
+	}
 }

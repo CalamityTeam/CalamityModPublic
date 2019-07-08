@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 35;
             projectile.friendly = true;
             projectile.penetrate = 5;
+			projectile.extraUpdates = 1;
             projectile.tileCollide = false;
             projectile.magic = true;
         }

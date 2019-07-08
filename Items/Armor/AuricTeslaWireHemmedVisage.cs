@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Wire-Hemmed Visage");
-            Tooltip.SetDefault("20% increased magic damage and critical strike chance and +100 max mana\n" +
+            Tooltip.SetDefault("20% increased magic damage and critical strike chance, +100 max mana, and 20% reduced mana usage\n" +
                                "Not moving boosts all damage and critical strike chance");
         }
 
@@ -68,7 +68,8 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.auricBoost = true;
-            player.magicDamage += 0.2f;
+			player.manaCost *= 0.8f;
+			player.magicDamage += 0.2f;
             player.magicCrit += 20;
 			player.statManaMax2 += 100;
 		}

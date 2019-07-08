@@ -7,11 +7,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
 	public class ToxicMinnow : ModNPC
 	{
+		private bool hasBeenHit = false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Toxic Minnow");
@@ -37,10 +40,26 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			bannerItem = mod.ItemType("ToxicMinnowBanner");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-			npc.noGravity = true;
+			if (npc.justHit)
+			{
+				hasBeenHit = true;
+			}
+			npc.chaseable = hasBeenHit;
 			if (npc.direction == 0)
 			{
 				npc.TargetClosest(true);
@@ -146,8 +165,16 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			if ((double)npc.rotation > 0.2)
 			{
 				npc.rotation = 0.2f;
-				return;
 			}
+		}
+
+		public override bool? CanBeHitByProjectile(Projectile projectile)
+		{
+			if (projectile.minion)
+			{
+				return hasBeenHit;
+			}
+			return null;
 		}
 
 		public override bool CheckDead()

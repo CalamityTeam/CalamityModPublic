@@ -57,7 +57,6 @@ namespace CalamityMod.Projectiles.Magic
 				if (projectile.localAI[0] <= 0f)
 				{
 					projectile.Kill();
-					return;
 				}
 			}
         }

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.LoreItems
 			DisplayName.SetDefault("The Eye of Cthulhu");
 			Tooltip.SetDefault("That eye...how peculiar.\n" +
                 "I sensed it watching you more intensely as you grew stronger.\n" +
-				"Place in your inventory for night vision at all times.");
+				"Place in your inventory for night vision at night.");
 		}
 		
 		public override void SetDefaults()
@@ -35,7 +35,8 @@ namespace CalamityMod.Items.LoreItems
 
 		public override void UpdateInventory(Player player)
 		{
-			player.nightVision = true;
+			if (!Main.dayTime)
+				player.nightVision = true;
 		}
 	}
 }

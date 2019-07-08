@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles.SunkenSea
  			name.SetDefault("Navystone");
  			AddMapEntry(new Color(0, 50, 50), name);
 			mineResist = 2f;
-			minPick = 54;
+			minPick = 55;
 			soundType = 21;
 		}
 

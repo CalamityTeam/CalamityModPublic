@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Providence
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Purge Guzzler");
-			Tooltip.SetDefault("Fires 3 beams of holy energy");
+			Tooltip.SetDefault("Fires three beams of holy energy");
 		}
 
 	    public override void SetDefaults()

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.AstrumDeus
 {
@@ -32,7 +33,6 @@ namespace CalamityMod.Items.AstrumDeus
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.QuickSpawnItem(mod.ItemType("StarlightFuelCell"));
 				if (Main.rand.Next(20) == 0)
 				{
 					switch (Main.rand.Next(3))
@@ -62,14 +62,6 @@ namespace CalamityMod.Items.AstrumDeus
 			if (Main.rand.Next(4) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("Starfall"));
-			}
-			if (Main.rand.Next(4) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Nebulash"));
-			}
-			if (Main.rand.Next(5) == 0)
-			{
-				player.QuickSpawnItem(ItemID.HallowedKey);
 			}
 			player.QuickSpawnItem(mod.ItemType("AstralBulwark"));
 			if (Main.rand.Next(7) == 0)

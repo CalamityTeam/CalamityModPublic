@@ -10,29 +10,29 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TerratomereProjectile : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class TerratomereProjectile : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = 27;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.tileCollide = false;
-            aiType = 132;
-        }
 
-        public override void AI()
-        {
-        	float num472 = projectile.Center.X;
+		public override void SetDefaults()
+		{
+			projectile.width = 20;
+			projectile.height = 20;
+			projectile.aiStyle = 27;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 180;
+			projectile.tileCollide = false;
+			aiType = 132;
+		}
+
+		public override void AI()
+		{
+			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 400f;
 			bool flag17 = false;
@@ -64,45 +64,41 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(0, 200, 0, 0);
-        }
+			Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.75f) / 255f, 0f);
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	if (Main.rand.Next(3) == 0)
-	    	{
-	    		target.AddBuff(mod.BuffType("GlacialState"), 120);
-	    	}
-            target.AddBuff(BuffID.CursedInferno, 1120);
-			target.AddBuff(BuffID.Frostburn, 660);
-			target.AddBuff(BuffID.OnFire, 800);
-			target.AddBuff(BuffID.Ichor, 300);
-        }
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(0, 200, 0, 0);
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(SoundID.Item10, projectile.position);
-            int num3;
-            for (int num795 = 4; num795 < 31; num795 = num3 + 1)
-            {
-                float num796 = projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.8f);
-                Main.dust[num798].noGravity = true;
-                Dust dust = Main.dust[num798];
-                dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.4f);
-                dust = Main.dust[num798];
-                dust.velocity *= 0.05f;
-                num3 = num795;
-            }
-        }
-    }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("GlacialState"), 60);
+			target.AddBuff(BuffID.CursedInferno, 600);
+			target.AddBuff(BuffID.Frostburn, 300);
+			target.AddBuff(BuffID.OnFire, 900);
+			target.AddBuff(BuffID.Ichor, 180);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(SoundID.Item10, projectile.position);
+			int num3;
+			for (int num795 = 4; num795 < 31; num795 = num3 + 1)
+			{
+				float num796 = projectile.oldVelocity.X * (30f / (float)num795);
+				float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
+				int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.8f);
+				Main.dust[num798].noGravity = true;
+				Dust dust = Main.dust[num798];
+				dust.velocity *= 0.5f;
+				num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.4f);
+				dust = Main.dust[num798];
+				dust.velocity *= 0.05f;
+				num3 = num795;
+			}
+		}
+	}
 }

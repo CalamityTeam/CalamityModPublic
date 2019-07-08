@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
@@ -45,7 +46,19 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 			npc.dontCountMe = true;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;

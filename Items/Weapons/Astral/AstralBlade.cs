@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Astral
 
         public override void SetDefaults()
         {
-            item.damage = 90;
+            item.damage = 135;
             item.crit += 25;
             item.melee = true;
             item.width = 60;
@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Astral
             item.useTurn = true;
             item.useStyle = 1;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Astral
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AstralBar", 8);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

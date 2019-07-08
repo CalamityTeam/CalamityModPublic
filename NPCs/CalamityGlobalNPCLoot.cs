@@ -37,7 +37,16 @@ namespace CalamityMod.NPCs
 				}
 				else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
 				{
-					if (npc.boss)
+					int count = 0;
+					for (int j = 0; j < 200; j++)
+					{
+						if (Main.npc[j].active && (Main.npc[j].type == NPCID.EaterofWorldsHead || Main.npc[j].type == NPCID.EaterofWorldsBody || Main.npc[j].type == NPCID.EaterofWorldsTail))
+						{
+							count++;
+							break;
+						}
+					}
+					if (count < 4)
 					{
 						CalamityWorld.bossRushStage = 8;
 						DespawnProj();
@@ -356,6 +365,28 @@ namespace CalamityMod.NPCs
 			}
 			if (!NPC.downedSlimeKing && npc.type == NPCID.KingSlime)
 			{
+				int amount = Main.rand.Next(15, 21);
+				int type = ItemID.Gel;
+				if (Main.expertMode)
+				{
+					amount = (int)((float)amount * 1.5f);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
+				}
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
 			}
 			else if (!NPC.downedBoss1 && npc.type == NPCID.EyeofCthulhu)
@@ -407,6 +438,16 @@ namespace CalamityMod.NPCs
 			{
 				if (!NPC.downedAncientCultist)
 				{
+					string key = "Mods.CalamityMod.DeusText";
+					Color messageColor = Color.Gold;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
@@ -1046,6 +1087,32 @@ namespace CalamityMod.NPCs
 				npc.type == mod.NPCType("PhantomSpiritL")) && !NPC.AnyNPCs(mod.NPCType("Polterghast")) && !CalamityWorld.downedPolterghast)
 			{
 				CalamityMod.ghostKillCount++;
+				if (CalamityMod.ghostKillCount == 10)
+				{
+					string key = "Mods.CalamityMod.GhostBossText2";
+					Color messageColor = Color.Cyan;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
+				else if (CalamityMod.ghostKillCount == 20)
+				{
+					string key = "Mods.CalamityMod.GhostBossText3";
+					Color messageColor = Color.Cyan;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
 				if (CalamityMod.ghostKillCount >= 30 && Main.netMode != 1)
 				{
 					int lastPlayer = npc.lastInteraction;
@@ -1065,6 +1132,32 @@ namespace CalamityMod.NPCs
 			if ((NPC.downedPlantBoss || CalamityWorld.downedCalamitas) && npc.type == NPCID.SandShark && !NPC.AnyNPCs(mod.NPCType("GreatSandShark")))
 			{
 				CalamityMod.sharkKillCount++;
+				if (CalamityMod.sharkKillCount == 4)
+				{
+					string key = "Mods.CalamityMod.SandSharkText";
+					Color messageColor = Color.Goldenrod;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
+				else if (CalamityMod.sharkKillCount == 8)
+				{
+					string key = "Mods.CalamityMod.SandSharkText2";
+					Color messageColor = Color.Goldenrod;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
 				if (CalamityMod.sharkKillCount >= 10 && Main.netMode != 1)
 				{
 					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
@@ -1080,7 +1173,57 @@ namespace CalamityMod.NPCs
 					if (lastPlayer >= 0)
 					{
 						NPC.SpawnOnPlayer(lastPlayer, mod.NPCType("GreatSandShark"));
-						CalamityMod.sharkKillCount = -10;
+						CalamityMod.sharkKillCount = -5;
+					}
+				}
+			}
+			#endregion
+			#region SpawnDeus
+			if (NPC.downedAncientCultist && !CalamityWorld.downedStarGod && npc.type == mod.NPCType("Atlas") && !NPC.AnyNPCs(mod.NPCType("AstrumDeusHeadSpectral")))
+			{
+				CalamityMod.astralKillCount++;
+				if (CalamityMod.astralKillCount == 1)
+				{
+					string key = "Mods.CalamityMod.DeusText2";
+					Color messageColor = Color.Gold;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
+				else if (CalamityMod.astralKillCount == 2)
+				{
+					string key = "Mods.CalamityMod.DeusText3";
+					Color messageColor = Color.Gold;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
+				if (CalamityMod.astralKillCount >= 3 && Main.netMode != 1)
+				{
+					int lastPlayer = npc.lastInteraction;
+					if (!Main.player[lastPlayer].active || Main.player[lastPlayer].dead)
+					{
+						lastPlayer = npc.FindClosestPlayer();
+					}
+					if (lastPlayer >= 0)
+					{
+						CalamityWorld.ChangeTime(false);
+						for (int x = 0; x < 10; x++)
+						{
+							NPC.SpawnOnPlayer(lastPlayer, mod.NPCType("AstrumDeusHead"));
+						}
+						NPC.SpawnOnPlayer(lastPlayer, mod.NPCType("AstrumDeusHeadSpectral"));
+						CalamityMod.astralKillCount = 0;
 					}
 				}
 			}
@@ -1308,63 +1451,63 @@ namespace CalamityMod.NPCs
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SubmarineShocker"));
 						}
-						if (Main.rand.Next(8) == 0)
+						if (Main.rand.Next(12) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HighTestFishingLine);
 						}
-						if (Main.rand.Next(8) == 0)
+						if (Main.rand.Next(12) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerTackleBag);
 						}
-						if (Main.rand.Next(8) == 0)
+						if (Main.rand.Next(12) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TackleBox);
 						}
-						if (Main.rand.Next(5) == 0)
+						if (Main.rand.Next(9) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerEarring);
 						}
-						if (Main.rand.Next(5) == 0)
+						if (Main.rand.Next(9) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishermansGuide);
 						}
-						if (Main.rand.Next(5) == 0)
+						if (Main.rand.Next(9) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WeatherRadio);
 						}
-						if (Main.rand.Next(5) == 0)
+						if (Main.rand.Next(9) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Sextant);
 						}
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.Next(4) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerHat);
 						}
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.Next(4) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerVest);
 						}
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.Next(4) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerPants);
 						}
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.Next(4) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CratePotion, Main.rand.Next(2, 4));
 						}
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.Next(4) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishingPotion, Main.rand.Next(2, 4));
 						}
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.Next(4) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SonarPotion, Main.rand.Next(2, 4));
 						}
-						if (Main.rand.Next(5) == 0)
+						if (Main.rand.Next(9) == 0)
 						{
 							npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("AeroStone"), 1, true);
 						}
-						if (Main.rand.Next(10) == 0)
+						if (Main.rand.Next(15) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenBugNet);
 						}
@@ -1376,65 +1519,65 @@ namespace CalamityMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(5, 10));
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(5, 10));
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(5, 10));
-					if (Main.rand.Next(15) == 0)
+					if (Main.rand.Next(12) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HighTestFishingLine);
 					}
-					if (Main.rand.Next(15) == 0)
+					if (Main.rand.Next(12) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerTackleBag);
 					}
-					if (Main.rand.Next(15) == 0)
+					if (Main.rand.Next(12) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TackleBox);
 					}
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.Next(9) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerEarring);
 					}
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.Next(9) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishermansGuide);
 					}
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.Next(9) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WeatherRadio);
 					}
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.Next(9) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Sextant);
 					}
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.Next(4) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerHat);
 					}
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.Next(4) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerVest);
 					}
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.Next(4) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AnglerPants);
 					}
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.Next(4) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CratePotion, Main.rand.Next(2, 4));
 					}
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.Next(4) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishingPotion, Main.rand.Next(2, 4));
 					}
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.Next(4) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SonarPotion, Main.rand.Next(2, 4));
 					}
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.Next(9) == 0)
 					{
 						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("AeroStone"), 1, true);
 					}
 					if (NPC.downedBoss3)
 					{
-						if (Main.rand.Next(20) == 0)
+						if (Main.rand.Next(15) == 0)
 						{
 							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenBugNet);
 						}
@@ -1495,6 +1638,27 @@ namespace CalamityMod.NPCs
 				{
 					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 				}
+				int amount = Main.rand.Next(5, 8);
+				if (Main.expertMode)
+				{
+					amount = (int)((float)amount * 1.5f);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3459, Main.rand.Next(1, 4), false, 0, false, false);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3458, Main.rand.Next(1, 4), false, 0, false, false);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3457, Main.rand.Next(1, 4), false, 0, false, false);
+				}
+				for (int i = 0; i < amount; i++)
+				{
+					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3456, Main.rand.Next(1, 4), false, 0, false, false);
+				}
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GreaterHealingPotion, Main.rand.Next(8, 15));
 				if (Main.rand.Next(10) == 0)
 				{
@@ -1524,15 +1688,7 @@ namespace CalamityMod.NPCs
 					}
 					if (Main.rand.Next(5) == 0)
 					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HallowedKey);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Starfall"));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Nebulash"));
 					}
 					if (Main.rand.Next(7) == 0)
 					{
@@ -1542,7 +1698,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == mod.NPCType("DevourerofGodsHead"))
 			{
-				CalamityWorld.DoGSecondStageCountdown = 21600; //6 minutes
+				CalamityWorld.DoGSecondStageCountdown = CalamityWorld.downedDoG ? 600 : 21600; //10 seconds or 6 minutes
 				if (Main.netMode == 2)
 				{
 					var netMessage = mod.GetPacket();
@@ -1698,12 +1854,6 @@ namespace CalamityMod.NPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodOrb"));
 			}
 			#endregion
-			#region Thingyouwillneverget
-			if (npc.type == mod.NPCType("Yharon") && Main.rand.Next(100) == 0 && npc.localAI[2] == 1f)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharimsCrystal"));
-			}
-			#endregion
 			#region Rares
 			if (npc.type == NPCID.PossessedArmor)
 			{
@@ -1738,6 +1888,42 @@ namespace CalamityMod.NPCs
 				else if (Main.rand.Next(3) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SeaShell"));
+				}
+			}
+			else if (npc.type == NPCID.GreekSkeleton)
+			{
+				if (Main.expertMode)
+				{
+					if (Main.rand.Next(5) == 0)
+					{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GladiatorHelmet);
+					}
+				}
+				else if (Main.rand.Next(7) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GladiatorHelmet);
+				}
+				if (Main.expertMode)
+				{
+					if (Main.rand.Next(5) == 0)
+					{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GladiatorBreastplate);
+					}
+				}
+				else if (Main.rand.Next(7) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GladiatorBreastplate);
+				}
+				if (Main.expertMode)
+				{
+					if (Main.rand.Next(5) == 0)
+					{
+						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GladiatorLeggings);
+					}
+				}
+				else if (Main.rand.Next(7) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GladiatorLeggings);
 				}
 			}
 			else if (npc.type == NPCID.GiantTortoise)
@@ -2032,14 +2218,14 @@ namespace CalamityMod.NPCs
 			{
 				if (Main.expertMode)
 				{
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.Next(15) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BurntSienna"));
 					}
 				}
 				else
 				{
-					if (Main.rand.Next(15) == 0)
+					if (Main.rand.Next(20) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BurntSienna"));
 					}
@@ -2049,14 +2235,14 @@ namespace CalamityMod.NPCs
 			{
 				if (Main.expertMode)
 				{
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.Next(20) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Terracotta"));
 					}
 				}
 				else
 				{
-					if (Main.rand.Next(15) == 0)
+					if (Main.rand.Next(30) == 0)
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Terracotta"));
 					}
@@ -2821,7 +3007,7 @@ namespace CalamityMod.NPCs
 				{
 					if (!downedPlant)
 					{
-						WorldGenerationMethods.spawnOre(mod.TileType("PerennialOre"), 12E-05, .5f, .7f);
+						WorldGenerationMethods.SpawnOre(mod.TileType("PerennialOre"), 12E-05, .5f, .7f);
 						if (Main.netMode == 0)
 						{
 							Main.NewText(Language.GetTextValue(key2), messageColor2);
@@ -2916,7 +3102,7 @@ namespace CalamityMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
 					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge37"), 1, true);
-					WorldGenerationMethods.spawnOre(mod.TileType("ExodiumOre"), 12E-05, .01f, .07f);
+					WorldGenerationMethods.SpawnOre(mod.TileType("ExodiumOre"), 12E-05, .01f, .07f);
 					if (Main.netMode == 0)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
@@ -2984,6 +3170,19 @@ namespace CalamityMod.NPCs
 				}
 				if (!CalamityWorld.downedAstrageldon)
 				{
+					string key = "Mods.CalamityMod.AureusBossText";
+					string key2 = "Mods.CalamityMod.AureusBossText2";
+					Color messageColor = Color.Gold;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+						Main.NewText(Language.GetTextValue(key2), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor);
+					}
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
@@ -3003,7 +3202,7 @@ namespace CalamityMod.NPCs
 					{
 						string key = "Mods.CalamityMod.SkyOreText";
 						Color messageColor = Color.Cyan;
-						WorldGenerationMethods.spawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
+						WorldGenerationMethods.SpawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
 						if (Main.netMode == 0)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
@@ -3030,7 +3229,7 @@ namespace CalamityMod.NPCs
 					{
 						string key = "Mods.CalamityMod.SkyOreText";
 						Color messageColor = Color.Cyan;
-						WorldGenerationMethods.spawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
+						WorldGenerationMethods.SpawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
 						if (Main.netMode == 0)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
@@ -3289,7 +3488,7 @@ namespace CalamityMod.NPCs
 				{
 					string key = "Mods.CalamityMod.IceOreText";
 					Color messageColor = Color.LightSkyBlue;
-					WorldGenerationMethods.spawnOre(mod.TileType("CryonicOre"), 15E-05, .45f, .65f);
+					WorldGenerationMethods.SpawnOre(mod.TileType("CryonicOre"), 15E-05, .45f, .65f);
 					if (Main.netMode == 0)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
@@ -3371,7 +3570,7 @@ namespace CalamityMod.NPCs
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
 					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge39"), 1, true);
-					WorldGenerationMethods.spawnOre(mod.TileType("UelibloomOre"), 15E-05, .4f, .8f);
+					WorldGenerationMethods.SpawnOre(mod.TileType("UelibloomOre"), 15E-05, .4f, .8f);
 					if (Main.netMode == 0)
 					{
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
@@ -3489,53 +3688,6 @@ namespace CalamityMod.NPCs
 				if (Main.netMode == 2)
 				{
 					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			else if (npc.type == mod.NPCType("Yharon")) //boss 17
-			{
-				string key = "Mods.CalamityMod.DargonBossText";
-				Color messageColor = Color.Orange;
-				string key2 = "Mods.CalamityMod.AuricOreText";
-				Color messageColor2 = Color.Gold;
-				if (!CalamityWorld.downedYharon && npc.localAI[2] == 1f)
-				{
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge44"), 1, true);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"), 2);
-					WorldGenerationMethods.spawnOre(mod.TileType("AuricOre"), 2E-05, .6f, .8f);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-					}
-				}
-				if (npc.localAI[2] == 1f)
-				{
-					CalamityWorld.downedYharon = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-				}
-				if (!CalamityWorld.buffedEclipse && npc.localAI[2] != 2f)
-				{
-					CalamityWorld.buffedEclipse = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
 				}
 			}
 			else if (npc.type == mod.NPCType("SupremeCalamitas")) //boss 18

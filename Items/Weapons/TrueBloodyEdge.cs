@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("True Bloody Edge");
-            Tooltip.SetDefault("Chance to heal the player on enemy hits\nFires a bloody blade");
+            Tooltip.SetDefault("Chance to heal the player on enemy hits\n" +
+				"Fires a bloody blade");
         }
 
         public override void SetDefaults()

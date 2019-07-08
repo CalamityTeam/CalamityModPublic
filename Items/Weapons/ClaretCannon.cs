@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Claret Cannon");
-            Tooltip.SetDefault("Fires bloodfire bullets that drain enemy health");
+            Tooltip.SetDefault("Fires a string of bloodfire bullets that drain enemy health");
         }
 
         public override void SetDefaults()

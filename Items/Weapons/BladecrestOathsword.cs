@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bladecrest Oathsword");
-			Tooltip.SetDefault("Sword of an ancient demon lord");
+			Tooltip.SetDefault("Sword of an ancient demon lord\n" +
+				"Fires a blood scythe");
 		}
 
 		public override void SetDefaults()
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons
 	
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			target.AddBuff(BuffID.OnFire, 200);
+			target.AddBuff(BuffID.OnFire, 240);
 		}
 	}
 }

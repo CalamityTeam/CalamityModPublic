@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -283,7 +284,6 @@ namespace CalamityMod.Projectiles.Summon
                         value20.Normalize();
                         projectile.velocity = value20 * 8f;
                         projectile.netUpdate = true;
-                        return;
                     }
                 }
             }

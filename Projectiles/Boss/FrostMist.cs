@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,6 +26,18 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
 			projectile.alpha = 255;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+			writer.Write(projectile.localAI[1]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+			projectile.localAI[1] = reader.ReadSingle();
 		}
 
 		public override void AI()

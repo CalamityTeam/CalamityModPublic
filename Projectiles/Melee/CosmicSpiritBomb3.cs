@@ -39,7 +39,12 @@ namespace CalamityMod.Projectiles.Melee
 			}
         }
 
-        public override void Kill(int timeLeft)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.Ichor, 180);
+		}
+
+		public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
         	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

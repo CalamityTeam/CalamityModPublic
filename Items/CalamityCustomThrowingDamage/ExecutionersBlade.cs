@@ -14,12 +14,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Executioner's Blade");
+			Tooltip.SetDefault("Throws a stream of homing blades");
 		}
 
 		public override void SafeSetDefaults()
 		{
 			item.width = 50;
-			item.damage = 615;
+			item.damage = 550;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useTime = 3;

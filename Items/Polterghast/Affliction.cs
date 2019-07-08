@@ -26,6 +26,7 @@ namespace CalamityMod.Items.Polterghast
 			item.value = Item.buyPrice(0, 60, 0, 0);
 			item.accessory = true;
 			item.expert = true;
+			item.rare = 9;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vortexpopper");
-        }
+			Tooltip.SetDefault("Fires bubbles everywhere that pop into bullets");
+		}
 
         public override void SetDefaults()
         {

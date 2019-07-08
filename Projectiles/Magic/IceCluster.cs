@@ -64,7 +64,6 @@ namespace CalamityMod.Projectiles.Magic
 				}
 				projectile.rotation += 0.104719758f;
 				Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
-				return;
 			}
 			else
 			{
@@ -107,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 5;
-        	target.AddBuff(mod.BuffType("GlacialState"), 360);
+        	target.AddBuff(mod.BuffType("GlacialState"), 120);
         	Vector2 vector80 = projectile.rotation.ToRotationVector2();
         	if (projectile.owner == Main.myPlayer)
         	{

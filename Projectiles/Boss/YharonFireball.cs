@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -30,6 +31,20 @@ namespace CalamityMod.Projectiles.Boss
 			cooldownSlot = 1;
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(speedX);
+			writer.Write(projectile.localAI[0]);
+			writer.Write(speedX2);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			speedX = reader.ReadSingle();
+			projectile.localAI[0] = reader.ReadSingle();
+			speedX2 = reader.ReadSingle();
+		}
+
 		public override bool PreAI()
 		{
 			projectile.localAI[0] += 1f;
@@ -59,15 +74,18 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
 		{
-			for (int x = 0; x < 3; x++)
+			if (projectile.owner == Main.myPlayer)
 			{
-				Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-				speedX += 3f;
-			}
-			for (int x = 0; x < 2; x++)
-			{
-				Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-				speedX2 += 10f;
+				for (int x = 0; x < 3; x++)
+				{
+					Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+					speedX += 3f;
+				}
+				for (int x = 0; x < 2; x++)
+				{
+					Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, mod.ProjectileType("YharonFireball2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+					speedX2 += 10f;
+				}
 			}
 			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = 144);

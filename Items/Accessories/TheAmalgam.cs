@@ -38,7 +38,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 34;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.expert = true;
-            item.accessory = true;
+			item.rare = 9;
+			item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -64,7 +65,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(250f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(1000f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.meleeDamage += 0.15f;
@@ -97,7 +98,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("PoisonousSeawater"), 500, 5f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("PoisonousSeawater"), 2000, 0f, player.whoAmI, 0f, 0f);
                 }
             }
             if (player.immune)
@@ -120,7 +121,7 @@ namespace CalamityMod.Items.Accessories
                             num15 *= num18;
                             num16 *= num18;
                             int type = (Main.rand.Next(2) == 0 ? mod.ProjectileType("AuraRain") : mod.ProjectileType("StandingFire"));
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, type, 500, 3f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, type, 2000, 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].tileCollide = false;
                         }
                     }
@@ -129,9 +130,9 @@ namespace CalamityMod.Items.Accessories
             int seaCounter = 0;
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0f, 0.5f, 1.25f);
             int num = BuffID.Venom;
-            float num2 = 200f;
+            float num2 = 300f;
             bool flag = seaCounter % 60 == 0;
-            int num3 = 80;
+            int num3 = 320;
             int random = Main.rand.Next(5);
             if (player.whoAmI == Main.myPlayer)
             {
@@ -188,7 +189,7 @@ namespace CalamityMod.Items.Accessories
                             Vector2 velocity = baseVelocity;
                             velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("BrimstoneHellfireballFriendly2"), 500, 5f, Main.myPlayer, 0f, 0f);
+                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("BrimstoneHellfireballFriendly2"), 2000, 5f, Main.myPlayer, 0f, 0f);
                             Main.projectile[projectile].tileCollide = false;
                             Main.projectile[projectile].timeLeft = 50;
                         }

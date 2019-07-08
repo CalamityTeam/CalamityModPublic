@@ -11,6 +11,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class Nova : ModNPC
@@ -36,16 +38,23 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             npc.width = 78;
             npc.height = 50;
-            npc.damage = 75;
-            npc.defense = 25;
-            npc.lifeMax = 350;
+            npc.damage = 45;
+            npc.defense = 15;
+            npc.lifeMax = 230;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.noGravity = true;
-            npc.knockBackResist = 0.4f;
+            npc.knockBackResist = 0.5f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.aiStyle = -1;
 			banner = npc.type;
 			bannerItem = mod.ItemType("NovaBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 75;
+				npc.defense = 25;
+				npc.knockBackResist = 0.4f;
+				npc.lifeMax = 350;
+			}
 		}
 
         public override void FindFrame(int frameHeight)
@@ -169,7 +178,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     if (Main.player[i].getRect().Intersects(myRect))
                     {
                         int direction = npc.Center.X - Main.player[i].Center.X < 0 ? -1 : 1;
-                        Main.player[i].Hurt(PlayerDeathReason.ByNPC(npc.whoAmI), 100, direction);
+                        Main.player[i].Hurt(PlayerDeathReason.ByNPC(npc.whoAmI), npc.damage, direction);
                     }
                 }
             }
@@ -260,7 +269,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-            if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+            if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StellarCannon"));
             }

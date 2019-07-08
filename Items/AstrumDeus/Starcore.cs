@@ -18,7 +18,7 @@ namespace CalamityMod.Items.AstrumDeus
 		{
 			item.width = 28;
 			item.height = 18;
-			item.rare = 7;
+			item.rare = 9;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;
@@ -46,7 +46,8 @@ namespace CalamityMod.Items.AstrumDeus
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "Stardust", 25);
             recipe.AddIngredient(null, "AstralJelly", 8);
-			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.AddIngredient(null, "AstralBar", 4);
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles
 			name.SetDefault("Sulphurous Sand");
 			AddMapEntry(new Color(150, 100, 50), name);
 			mineResist = 1f;
-			minPick = 54;
+			minPick = 55;
 			soundType = 0;
 		}
 

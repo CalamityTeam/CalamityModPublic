@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Triploon");
-        }
+			Tooltip.SetDefault("Launches three harpoons");
+		}
 
         public override void SetDefaults()
         {

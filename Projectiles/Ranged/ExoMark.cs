@@ -134,7 +134,6 @@ namespace CalamityMod.Projectiles.Ranged
 			if (projectile.localAI[1] >= 120f) 
 			{
 				projectile.Kill();
-				return;
 			}
         }
         

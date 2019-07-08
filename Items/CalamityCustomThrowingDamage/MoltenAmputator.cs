@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Molten Amputator");
-        }
+			Tooltip.SetDefault("Throws a scythe that emits molten globs on enemy hits");
+		}
 
         public override void SafeSetDefaults()
         {

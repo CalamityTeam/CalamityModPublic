@@ -7,26 +7,26 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class ShadeNimbusHostile : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class ShadeNimbusHostile : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shade Nimbus");
 			Main.projFrames[projectile.type] = 6;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 54;
-            projectile.height = 28;
-            projectile.tileCollide = false;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 54;
+			projectile.height = 28;
+			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.timeLeft = 360;
-            projectile.penetrate = -1;
-        }
+			projectile.penetrate = -1;
+		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 8)
 			{
@@ -58,6 +58,6 @@ namespace CalamityMod.Projectiles.Boss
 					Projectile.NewProjectile((float)num414, (float)num415, 0f, 5f, mod.ProjectileType("ShaderainHostile"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
 				}
 			}
-        }
-    }
+		}
+	}
 }

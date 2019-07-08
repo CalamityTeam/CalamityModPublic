@@ -75,6 +75,45 @@ namespace CalamityMod.Projectiles.Melee.Spears
 		{
 			target.immune[projectile.owner] = 6;
 			target.AddBuff(BuffID.OnFire, 300);
+			if (projectile.owner == Main.myPlayer)
+			{
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			}
+			if (crit)
+			{
+				for (int i = 0; i < 2; i++)
+				{
+					float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800 : projectile.position.X - 800);
+					Vector2 vector2 = new Vector2(xPos, projectile.position.Y - Main.rand.Next(-800, 801));
+					float num80 = xPos;
+					float speedX = (float)target.position.X - vector2.X;
+					float speedY = (float)target.position.Y - vector2.Y;
+					float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
+					dir = 10 / num80;
+					speedX *= dir * 150;
+					speedY *= dir * 150;
+					if (speedX > 15f)
+					{
+						speedX = 15f;
+					}
+					if (speedX < -15f)
+					{
+						speedX = -15f;
+					}
+					if (speedY > 15f)
+					{
+						speedY = 15f;
+					}
+					if (speedY < -15f)
+					{
+						speedY = -15f;
+					}
+					if (projectile.owner == Main.myPlayer)
+					{
+						Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("TinyFlare"), (int)((double)projectile.damage * 0.5), 2f, projectile.owner);
+					}
+				}
+			}
 		}
 	}
 }

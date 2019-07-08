@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Rogue
     	
         public override void SetDefaults()
         {
-            projectile.width = 25;
-            projectile.height = 25;
+            projectile.width = 24;
+            projectile.height = 24;
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
@@ -64,7 +64,6 @@ namespace CalamityMod.Projectiles.Rogue
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
     }

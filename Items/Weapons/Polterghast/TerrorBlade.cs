@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Polterghast
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Terror Blade");
-			Tooltip.SetDefault("Fires a terror beam that bounces off tiles\nOn every bounce it emits an explosion");
+			Tooltip.SetDefault("Fires a terror beam that bounces off tiles\n" +
+				"On every bounce it emits an explosion");
 		}
 
 		public override void SetDefaults()

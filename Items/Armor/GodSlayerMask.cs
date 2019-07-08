@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("God Slayer Mask");
-            Tooltip.SetDefault("14% increased rogue damage and critical strike chance");
+            Tooltip.SetDefault("14% increased rogue damage and critical strike chance, 18% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.14f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 14;
+			player.moveSpeed += 0.18f;
         }
 
         public override void AddRecipes()

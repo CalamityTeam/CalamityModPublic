@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clockwork Bow");
-            Tooltip.SetDefault("Fires a storm of arrows in random directions\nAll arrows fired will go through blocks");
+            Tooltip.SetDefault("Fires a storm of arrows in random directions\n" +
+				"All arrows fired will go through blocks");
         }
 
         public override void SetDefaults()

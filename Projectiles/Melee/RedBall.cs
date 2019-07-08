@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class RedBall : ModProjectile
     {
-    	public int projTime = 15;
+    	private int projTime = 15;
     	
     	public override void SetStaticDefaults()
 		{
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				if (projectile.owner == Main.myPlayer)
 				{
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, mod.ProjectileType("RedDust"), (int)((double)projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, mod.ProjectileType("RedDust"), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
 				projTime = 15;
 			}

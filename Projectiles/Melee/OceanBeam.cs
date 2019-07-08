@@ -69,7 +69,6 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.velocity.Y > 16f)
 			{
 				projectile.velocity.Y = 16f;
-				return;
 			}
         }
         

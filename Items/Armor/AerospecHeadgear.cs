@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aerospec Headgear");
-            Tooltip.SetDefault("8% increased rogue damage");
+            Tooltip.SetDefault("8% increased rogue damage and 5% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -63,6 +63,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
 			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.08f;
+			player.moveSpeed += 0.05f;
         }
 
         public override void AddRecipes()

@@ -102,7 +102,6 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
 			}
 			projectile.rotation += projectile.velocity.X * 0.1f;
-			return;
         }
 
         public override void Kill(int timeLeft)

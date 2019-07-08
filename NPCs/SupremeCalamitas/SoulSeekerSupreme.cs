@@ -4,13 +4,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
 	public class SoulSeekerSupreme : ModNPC
 	{
-		public int timer = 0;
-		public bool start = true;
+		private int timer = 0;
+		private bool start = true;
 		
 		public override void SetStaticDefaults()
 		{
@@ -70,7 +71,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 				timer = 0;
 			}
-			if (!Main.npc[CalamityGlobalNPC.SCal].active)
+			if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
 			{
 				npc.active = false;
                 npc.netUpdate = true;

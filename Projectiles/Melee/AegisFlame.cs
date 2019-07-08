@@ -87,7 +87,6 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.velocity.Y > 16f)
 			{
 				projectile.velocity.Y = 16f;
-				return;
 			}
         }
         
@@ -95,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
         {
         	if (projectile.owner == Main.myPlayer)
         	{
-        		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("AegisBlast2"), (int)((double)damage * 0.75f), knockback, Main.myPlayer);
+        		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("AegisBlast2"), (int)((double)damage * 0.75), knockback, Main.myPlayer);
         	}
         }
         

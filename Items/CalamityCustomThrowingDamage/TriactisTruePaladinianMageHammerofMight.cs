@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Triactis' True Paladinian Mage-Hammer of Might");
-        }
+			Tooltip.SetDefault("Explodes on enemy hits");
+		}
 
         public override void SafeSetDefaults()
         {

@@ -10,6 +10,9 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
+
+/*Possibly add in a final phase for AI 2 that is similar to Sif's final phase in Dark Souls*/
 
 namespace CalamityMod.NPCs.Yharon
 {
@@ -24,6 +27,10 @@ namespace CalamityMod.NPCs.Yharon
 		private bool useTornado = true;
 		private int healCounter = 0;
 		private int secondPhasePhase = 1;
+		private int teleportLocation = 0;
+		private bool startSecondAI = false;
+		private bool spawnArena = false;
+		private int invincibilityCounter = 0;
 
 		public override void SetStaticDefaults()
 		{
@@ -84,19 +91,49 @@ namespace CalamityMod.NPCs.Yharon
 			bossBag = mod.ItemType("YharonBag");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(protectionBoost);
+			writer.Write(moveCloser);
+			writer.Write(phaseOneLoot);
+			writer.Write(dropLoot);
+			writer.Write(useTornado);
+			writer.Write(healCounter);
+			writer.Write(secondPhasePhase);
+			writer.Write(teleportLocation);
+			writer.Write(startSecondAI);
+			writer.Write(spawnArena);
+			writer.Write(invincibilityCounter);
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			protectionBoost = reader.ReadBoolean();
+			moveCloser = reader.ReadBoolean();
+			phaseOneLoot = reader.ReadBoolean();
+			dropLoot = reader.ReadBoolean();
+			useTornado = reader.ReadBoolean();
+			healCounter = reader.ReadInt32();
+			secondPhasePhase = reader.ReadInt32();
+			teleportLocation = reader.ReadInt32();
+			startSecondAI = reader.ReadBoolean();
+			spawnArena = reader.ReadBoolean();
+			invincibilityCounter = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			#region StartupOrSwitchToAI2
 			dropLoot = (double)npc.life <= (double)npc.lifeMax * 0.1;
+
 			if (Main.raining)
-			{
-				Main.raining = false;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			if (npc.localAI[2] == 1f)
+				CalamityGlobalNPC.StopRain();
+
+			if (startSecondAI)
 			{
 				if (!CalamityWorld.downedBuffedMothron && !CalamityWorld.bossRushActive)
 				{
@@ -129,7 +166,7 @@ namespace CalamityMod.NPCs.Yharon
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
-						npc.localAI[2] = 0f;
+						startSecondAI = false;
 						npc.boss = false;
 						npc.life = 0;
 						if (dropLoot)
@@ -162,9 +199,9 @@ namespace CalamityMod.NPCs.Yharon
 			bool phase4Change = npc.ai[0] > 20f; //Phase 4 stuff
 			int flareCount = 3;
 			bool isCharging = npc.ai[3] < 20f; //10
-			if (npc.localAI[1] == 0f)
+			if (!spawnArena)
 			{
-				npc.localAI[1] = 1f;
+				spawnArena = true;
 				Vector2 vectorPlayer = new Vector2(Main.player[npc.target].position.X, Main.player[npc.target].position.Y);
 				safeBox.X = (int)(vectorPlayer.X - (revenge ? 3000f : 3500f));
 				safeBox.Y = (int)(vectorPlayer.Y - (revenge ? 9000f : 10500f));
@@ -178,16 +215,6 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			#endregion
 			#region SpeedOrDamageChecks
-			float teleportLocation = 0f;
-			int teleChoice = Main.rand.Next(2);
-			if (teleChoice == 0)
-			{
-				teleportLocation = revenge ? 500f : 600f;
-			}
-			else
-			{
-				teleportLocation = revenge ? -500f : -600f;
-			}
 			if (phase4Change)
 			{
 				npc.defense = 140;
@@ -504,7 +531,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			#endregion
@@ -647,7 +673,6 @@ namespace CalamityMod.NPCs.Yharon
 						}
 					}
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 1f) //charge attack
@@ -672,7 +697,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 2f) //fireball attack
@@ -750,7 +774,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f) //Fire small flares
@@ -773,7 +796,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 4f) //enter phase 2
@@ -794,7 +816,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 5f)
@@ -819,7 +840,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			#endregion
@@ -994,7 +1014,6 @@ namespace CalamityMod.NPCs.Yharon
 						npc.ai[2] = 0f;
 					}
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 7f) //charge
@@ -1019,7 +1038,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 8f)
@@ -1050,7 +1068,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 9f)
@@ -1072,7 +1089,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 10f) //start phase 3
@@ -1093,7 +1109,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 11f)
@@ -1118,7 +1133,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 12f)
@@ -1155,7 +1169,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			#endregion
@@ -1339,7 +1352,6 @@ namespace CalamityMod.NPCs.Yharon
 						npc.ai[2] = 0f;
 					}
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 14f) //charge
@@ -1366,7 +1378,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 15f)
@@ -1400,7 +1411,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 16f)
@@ -1425,7 +1435,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 3f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 17f)
@@ -1474,7 +1483,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 18f)
@@ -1501,7 +1509,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 19f)
@@ -1540,7 +1547,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 1f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 20f)
@@ -1574,7 +1580,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			#endregion
@@ -1593,9 +1598,10 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				if (npc.ai[1] == 0f)
 				{
+					teleportLocation = (Main.rand.Next(2) == 0 ? (revenge ? 500 : 600) : (revenge ? -500 : -600));
 					npc.ai[1] = (float)(360 * Math.Sign((vectorCenter - player.Center).X));
 				}
-				Vector2 value7 = player.Center + new Vector2(npc.ai[1], teleportLocation) - vectorCenter; //teleport distance
+				Vector2 value7 = player.Center + new Vector2(npc.ai[1], (float)teleportLocation) - vectorCenter; //teleport distance
 				Vector2 desiredVelocity = Vector2.Normalize(value7 - npc.velocity) * scaleFactor;
 				npc.SimpleFlyMovement(desiredVelocity, npcVelocity);
 				int num32 = Math.Sign(player.Center.X - vectorCenter.X);
@@ -1683,7 +1689,6 @@ namespace CalamityMod.NPCs.Yharon
 						npc.ai[2] = 0f;
 					}
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 22f)
@@ -1715,7 +1720,6 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[2] = 0f;
 					npc.ai[3] += 1f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 23f)
@@ -1775,7 +1779,6 @@ namespace CalamityMod.NPCs.Yharon
 						npc.ai[3] = 0f;
 					}
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 24f)
@@ -1812,13 +1815,12 @@ namespace CalamityMod.NPCs.Yharon
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num1459)
 				{
-					npc.localAI[2] = 1f;
+					startSecondAI = true;
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			#endregion
@@ -1843,16 +1845,6 @@ namespace CalamityMod.NPCs.Yharon
 				phase2 = (double)npc.life <= (double)npc.lifeMax * 0.85;
 				phase3 = (double)npc.life <= (double)npc.lifeMax * 0.6;
 				phase4 = (double)npc.life <= (double)npc.lifeMax * 0.1;
-			}
-			float teleportLocation = 0f;
-			int teleChoice = Main.rand.Next(2);
-			if (teleChoice == 0)
-			{
-				teleportLocation = revenge ? 600f : 700f;
-			}
-			else
-			{
-				teleportLocation = revenge ? -600f : -700f;
 			}
 			npc.defense = 100;
 			if (npc.ai[0] != 8f)
@@ -1882,10 +1874,10 @@ namespace CalamityMod.NPCs.Yharon
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 			}
-			if (npc.localAI[3] < 900f)
+			if (invincibilityCounter < 900)
 			{
 				phase2 = phase3 = phase4 = false;
-				npc.localAI[3] += 1f;
+				invincibilityCounter += 1;
 				int heal = 5; //900 / 5 = 180
 				healCounter += 1;
 				if (healCounter >= heal)
@@ -2515,8 +2507,11 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				if (npc.ai[1] >= 90f)
 				{
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("BigFlare2"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
-					Boom(600, num4);
+					if (Main.netMode != 1)
+					{
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("BigFlare2"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+						Boom(600, num4);
+					}
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -2574,7 +2569,8 @@ namespace CalamityMod.NPCs.Yharon
 					{
 						npc.ai[1] = (float)(300 * Math.Sign((npcCenter - targetData.Center).X));
 					}
-					Vector2 center = targetData.Center + new Vector2(-npc.ai[1], teleportLocation); //teleport distance
+					teleportLocation = (Main.rand.Next(2) == 0 ? (revenge ? 600 : 700) : (revenge ? -600 : -700));
+					Vector2 center = targetData.Center + new Vector2(-npc.ai[1], (float)teleportLocation); //teleport distance
 					npcCenter = (npc.Center = center);
 				}
 				npc.ai[2] += 1f;
@@ -2609,12 +2605,9 @@ namespace CalamityMod.NPCs.Yharon
 							{
 								if (projectile.type == mod.ProjectileType("Infernado2"))
 								{
-									if (projectile.ai[0] < 10f)
-									{
-										projectile.ai[0] = 10f;
-										projectile.netUpdate = true;
-									}
-									if (projectile.timeLeft > 5)
+									if (projectile.timeLeft >= 300)
+										projectile.active = false;
+									else if (projectile.timeLeft > 5)
 										projectile.timeLeft = (int)(5f * projectile.ai[1]);
 								}
 								else if (projectile.type == mod.ProjectileType("BigFlare2"))
@@ -2724,11 +2717,11 @@ namespace CalamityMod.NPCs.Yharon
 			int num159 = 1;
 			float num160 = 0f;
 			int num161 = num159;
-			if (npc.localAI[2] == 1f && !phaseOneLoot)
+			if (startSecondAI && !phaseOneLoot)
 			{
 				bool drawAfterImage2 = (npc.ai[0] == 2f || npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 5f || npc.ai[0] == 7f) && Lighting.NotRetro;
 				SpriteEffects spriteEffects2 = spriteEffects ^ SpriteEffects.FlipHorizontally;
-				if (npc.localAI[3] < 900f)
+				if (invincibilityCounter < 900)
 				{
 					color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
 				}
@@ -2787,20 +2780,65 @@ namespace CalamityMod.NPCs.Yharon
 			{
 				return;
 			}
-			if (npc.localAI[2] == 1f)
+			if (startSecondAI)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BossRush"));				
+				if (Main.rand.Next(10) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharonTrophy"));
+				}
 				if (Main.rand.Next(40) == 0)
 				{
-					if (Main.expertMode)
-						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("VoidVortex"), 1, true);
-					else
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VoidVortex"));
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VoidVortex"));
+				}
+				if (Main.rand.Next(100) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharimsCrystal"));
+				}
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BossRush"));
+				string key = "Mods.CalamityMod.AuricOreText";
+				Color messageColor = Color.Gold;
+				if (!CalamityWorld.downedYharon)
+				{
+					CalamityWorld.downedYharon = true;
+					if (Main.netMode == 2)
+					{
+						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+					}
+					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge44"), 1, true);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"), 2);
+					WorldGenerationMethods.SpawnOre(mod.TileType("AuricOre"), 2E-05, .6f, .8f);
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
 				}
 			}
-			if (Main.rand.Next(10) == 0 && npc.localAI[2] == 1f)
+			else
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharonTrophy"));
+				if (!CalamityWorld.buffedEclipse)
+				{
+					CalamityWorld.buffedEclipse = true;
+					if (Main.netMode == 2)
+					{
+						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+					}
+					string key = "Mods.CalamityMod.DargonBossText";
+					Color messageColor = Color.Orange;
+					if (Main.netMode == 0)
+					{
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == 2)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
 			}
 			if (CalamityWorld.armageddon)
 			{
@@ -2811,7 +2849,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			if (Main.expertMode)
 			{
-				if (npc.localAI[2] == 1f)
+				if (startSecondAI)
 				{
 					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("HellcasterFragment"), Main.rand.Next(22, 29), true);
 				}
@@ -2819,13 +2857,13 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			else
 			{
-				if (npc.localAI[2] == 1f)
+				if (startSecondAI)
 				{
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ForgottenDragonEgg"));
-					}
 					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("HellcasterFragment"), Main.rand.Next(15, 23), true);
+				}
+				if (Main.rand.Next(10) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ForgottenDragonEgg"));
 				}
 				if (Main.rand.Next(7) == 0)
 				{
@@ -2871,7 +2909,7 @@ namespace CalamityMod.NPCs.Yharon
 		#region DamageFormula
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-			if (damage > npc.lifeMax / 10)
+			if (damage > npc.lifeMax / 10 || (!startSecondAI && dropLoot))
 			{
 				damage = 0;
 				return false;
@@ -2883,7 +2921,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			if (newDamage >= 1.0)
 			{
-				if (npc.localAI[2] == 1f)
+				if (startSecondAI)
 				{
 					float protection = (((npc.ichor || npc.onFire2) ? 0.17f : 0.22f) +
 					(protectionBoost ? 0.68f : 0f)); //0.85 or 0.9
@@ -2928,11 +2966,11 @@ namespace CalamityMod.NPCs.Yharon
 		#region FindFrame
 		public override void FindFrame(int frameHeight)
 		{
-			if ((npc.localAI[2] != 1f && (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f || npc.ai[0] == 21f)) ||
-				(npc.localAI[2] == 1f && (npc.ai[0] == 5f || npc.ai[0] < 2f))) //idle
+			if ((!startSecondAI && (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f || npc.ai[0] == 21f)) ||
+				(startSecondAI && (npc.ai[0] == 5f || npc.ai[0] < 2f))) //idle
 			{
 				int num84 = 4; //5
-				if (npc.localAI[2] != 1f && (npc.ai[0] == 6f || npc.ai[0] == 13f || npc.ai[0] == 21f)) //Phase ai switch
+				if (!startSecondAI && (npc.ai[0] == 6f || npc.ai[0] == 13f || npc.ai[0] == 21f)) //Phase ai switch
 				{
 					num84 = 3; //4
 				}
@@ -2947,17 +2985,17 @@ namespace CalamityMod.NPCs.Yharon
 					npc.frame.Y = 0;
 				}
 			}
-			if ((npc.localAI[2] != 1f && (npc.ai[0] == 1f || npc.ai[0] == 5f || npc.ai[0] == 7f || npc.ai[0] == 11f || npc.ai[0] == 14f || npc.ai[0] == 18f || npc.ai[0] == 22f)) ||
-				(npc.localAI[2] == 1f && (npc.ai[0] == 6f || npc.ai[0] == 2f || npc.ai[0] == 7f))) //Charging or birb spawn
+			if ((!startSecondAI && (npc.ai[0] == 1f || npc.ai[0] == 5f || npc.ai[0] == 7f || npc.ai[0] == 11f || npc.ai[0] == 14f || npc.ai[0] == 18f || npc.ai[0] == 22f)) ||
+				(startSecondAI && (npc.ai[0] == 6f || npc.ai[0] == 2f || npc.ai[0] == 7f))) //Charging or birb spawn
 			{
 				npc.frame.Y = frameHeight * 5; //6
 			}
-			if ((npc.localAI[2] != 1f && (npc.ai[0] == 2f || npc.ai[0] == 8f || npc.ai[0] == 12f || npc.ai[0] == 15f || npc.ai[0] == 19f || npc.ai[0] == 23f)) ||
-				(npc.localAI[2] == 1f && (npc.ai[0] == 4f || npc.ai[0] == 3f || npc.ai[0] == 8f))) //Fireball spit, teleport, circle, flamethrower
+			if ((!startSecondAI && (npc.ai[0] == 2f || npc.ai[0] == 8f || npc.ai[0] == 12f || npc.ai[0] == 15f || npc.ai[0] == 19f || npc.ai[0] == 23f)) ||
+				(startSecondAI && (npc.ai[0] == 4f || npc.ai[0] == 3f || npc.ai[0] == 8f))) //Fireball spit, teleport, circle, flamethrower
 			{
 				npc.frame.Y = frameHeight * 5; //6
 			}
-			if (npc.localAI[2] != 1f && (npc.ai[0] == 3f || npc.ai[0] == 9f || npc.ai[0] == -1f || npc.ai[0] == 16f || npc.ai[0] == 20f || npc.ai[0] == 24f)) //Summon tornadoes
+			if (!startSecondAI && (npc.ai[0] == 3f || npc.ai[0] == 9f || npc.ai[0] == -1f || npc.ai[0] == 16f || npc.ai[0] == 20f || npc.ai[0] == 24f)) //Summon tornadoes
 			{
 				int num85 = 90;
 				if (npc.ai[2] < (float)(num85 - 30) || npc.ai[2] > (float)(num85 - 10))
@@ -2982,8 +3020,8 @@ namespace CalamityMod.NPCs.Yharon
 					}
 				}
 			}
-			if ((npc.localAI[2] != 1f && (npc.ai[0] == 4f || npc.ai[0] == 10f || npc.ai[0] == 17f || npc.ai[0] == 25f)) ||
-				(npc.localAI[2] == 1f && npc.ai[0] == 9f)) //Enter new phase
+			if ((!startSecondAI && (npc.ai[0] == 4f || npc.ai[0] == 10f || npc.ai[0] == 17f || npc.ai[0] == 25f)) ||
+				(startSecondAI && npc.ai[0] == 9f)) //Enter new phase
 			{
 				int num86 = 180;
 				if (npc.ai[2] < (float)(num86 - 60) || npc.ai[2] > (float)(num86 - 20))

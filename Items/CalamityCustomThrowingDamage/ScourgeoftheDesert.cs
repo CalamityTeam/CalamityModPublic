@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scourge of the Desert");
-        }
+			Tooltip.SetDefault("Gains velocity over time");
+		}
 
 		public override void SafeSetDefaults()
 		{

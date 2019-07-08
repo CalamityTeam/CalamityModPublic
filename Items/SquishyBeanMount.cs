@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 1;
-			item.rare = 10;
+			item.rare = 9;
 			item.value = Item.buyPrice(1, 0, 0, 0);
 			item.expert = true;
             item.UseSound = SoundID.Item3;

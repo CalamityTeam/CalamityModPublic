@@ -6,50 +6,50 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class MushBombFall : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class MushBombFall : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Falling Mushroom");
-            Main.projFrames[projectile.type] = 4;
-        }
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 480;
-            projectile.aiStyle = 1;
-            aiType = 1;
-        }
-        
-        public override void AI()
-        {
-            projectile.velocity.Y = 5f;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
-            if (projectile.timeLeft < 90)
-            {
-                projectile.tileCollide = true;
-            }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.3f) / 255f);
-            projectile.velocity.X *= 0.99f;
-        }
-        
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 1);
+			Main.projFrames[projectile.type] = 4;
+		}
+
+		public override void SetDefaults()
+		{
+			projectile.width = 20;
+			projectile.height = 20;
+			projectile.hostile = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 480;
+			projectile.aiStyle = 1;
+			aiType = 1;
+		}
+
+		public override void AI()
+		{
+			projectile.velocity.Y = 5f;
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame > 3)
+			{
+				projectile.frame = 0;
+			}
+			if (projectile.timeLeft < 90)
+			{
+				projectile.tileCollide = true;
+			}
+			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.3f) / 255f);
+			projectile.velocity.X *= 0.99f;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 1);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 20;
@@ -74,6 +74,6 @@ namespace CalamityMod.Projectiles.Boss
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
-    }
+		}
+	}
 }

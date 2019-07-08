@@ -87,7 +87,6 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.velocity.Y > 16f)
 			{
 				projectile.velocity.Y = 16f;
-				return;
 			}
         }
         
@@ -103,7 +102,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 7;
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 160);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);
         }
     }
 }

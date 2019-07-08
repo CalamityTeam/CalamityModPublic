@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			item.height = 44;
 			item.value = Item.buyPrice(0, 2, 0, 0);
 			item.rare = 2;
-            item.knockBack = 1;
+            item.knockBack = 1f;
             item.channel = true;
 			item.melee = true;
             item.useStyle = 8;

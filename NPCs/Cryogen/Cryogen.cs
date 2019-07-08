@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Cryogen
 {
@@ -15,9 +16,9 @@ namespace CalamityMod.NPCs.Cryogen
 	public class Cryogen : ModNPC
 	{
 		private int time = 0;
-		private bool oneTime = true;
-		private float iceShard = 0f;
+		private int iceShard = 0;
 		private bool drawAltTexture = false;
+		private int teleportLocationX = 0;
 
 		public override void SetStaticDefaults()
 		{
@@ -80,6 +81,26 @@ namespace CalamityMod.NPCs.Cryogen
 			bossBag = mod.ItemType("CryogenBag");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(drawAltTexture);
+			writer.Write(time);
+			writer.Write(iceShard);
+			writer.Write(teleportLocationX);
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			drawAltTexture = reader.ReadBoolean();
+			time = reader.ReadInt32();
+			iceShard = reader.ReadInt32();
+			teleportLocationX = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 1f, 1f);
@@ -123,10 +144,9 @@ namespace CalamityMod.NPCs.Cryogen
 			{
 				npc.rotation = 0f;
 			}
-			if (oneTime)
+			if (!Main.raining && !CalamityWorld.bossRushActive)
 			{
 				RainStart();
-				oneTime = false;
 			}
 			if (!player.active || player.dead)
 			{
@@ -222,7 +242,6 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.ai[0] = 1f;
 					npc.localAI[0] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 1f)
@@ -313,24 +332,22 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != 1)
 				{
-					iceShard += 4f;
-					if (iceShard > 8f)
+					iceShard += 4;
+					if (iceShard > 8)
 					{
-						iceShard = 0f;
+						iceShard = 0;
 						int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
 						int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
 						int damage = expertMode ? 23 : 26;
 						Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, mod.ProjectileType("IceRain"), damage, 0f, Main.myPlayer, 0f, 0f);
-						return;
 					}
 				}
 				if ((double)npc.life < (double)npc.lifeMax * 0.66)
 				{
 					npc.ai[0] = 2f;
 					npc.localAI[0] = 0f;
-					iceShard = 0f;
+					iceShard = 0;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 2f)
@@ -371,7 +388,6 @@ namespace CalamityMod.NPCs.Cryogen
 								float num181 = Math.Abs(num180) * 0.1f;
 								float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
 								float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-								npc.netUpdate = true;
 								num183 = num179 / num183;
 								num180 *= num183;
 								num182 *= num183;
@@ -418,7 +434,6 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.ai[0] = 3f;
 					npc.localAI[0] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f)
@@ -516,10 +531,10 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != 1)
 				{
-					iceShard += 4f;
-					if (iceShard > 8f)
+					iceShard += 4;
+					if (iceShard > 8)
 					{
-						iceShard = 0f;
+						iceShard = 0;
 						int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
 						int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
 						int damage = expertMode ? 23 : 26;
@@ -531,9 +546,8 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					npc.ai[0] = 4f;
 					npc.localAI[0] = 0f;
-					iceShard = 0f;
+					iceShard = 0;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 4f)
@@ -611,8 +625,8 @@ namespace CalamityMod.NPCs.Cryogen
 								}
 							}
 							npc.ai[1] = 1f;
-							npc.localAI[3] = (float)num1250;
-							iceShard = (float)num1251;
+							teleportLocationX = num1250;
+							iceShard = num1251;
 							npc.netUpdate = true;
 						Block:;
 						}
@@ -626,8 +640,8 @@ namespace CalamityMod.NPCs.Cryogen
 					if (npc.alpha >= 255)
 					{
 						npc.alpha = 255;
-						npc.position.X = npc.localAI[3] * 16f - (float)(npc.width / 2);
-						npc.position.Y = iceShard * 16f - (float)(npc.height / 2);
+						npc.position.X = (float)teleportLocationX * 16f - (float)(npc.width / 2);
+						npc.position.Y = (float)iceShard * 16f - (float)(npc.height / 2);
 						npc.ai[1] = 2f;
 						npc.netUpdate = true;
 					}
@@ -674,8 +688,8 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.ai[1] = 0f;
 					npc.localAI[0] = 0f;
 					npc.localAI[2] = 0f;
-					npc.localAI[3] = 0f;
-					iceShard = 0f;
+					teleportLocationX = 0;
+					iceShard = 0;
 					npc.netUpdate = true;
 					string key = "Mods.CalamityMod.CryogenBossText";
 					Color messageColor = Color.Cyan;
@@ -687,7 +701,6 @@ namespace CalamityMod.NPCs.Cryogen
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
-					return;
 				}
 			}
 			else
@@ -706,14 +719,14 @@ namespace CalamityMod.NPCs.Cryogen
 				float num1376 = num1372 / num1375;
 				num1373 *= num1376;
 				num1374 *= num1376;
-				iceShard -= 1f;
+				iceShard--;
 				if ((double)npc.life < (double)npc.lifeMax * 0.05 || CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
-					if (num1375 < 170f || iceShard > 0f)
+					if (num1375 < 170f || iceShard > 0)
 					{
 						if (num1375 < 170f)
 						{
-							iceShard = 17f;
+							iceShard = 17;
 						}
 						if (npc.velocity.X < 0f)
 						{
@@ -729,11 +742,11 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else if ((double)npc.life < (double)npc.lifeMax * 0.1)
 				{
-					if (num1375 < 190f || iceShard > 0f)
+					if (num1375 < 190f || iceShard > 0)
 					{
 						if (num1375 < 190f)
 						{
-							iceShard = 19f;
+							iceShard = 19;
 						}
 						if (npc.velocity.X < 0f)
 						{
@@ -749,11 +762,11 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else
 				{
-					if (num1375 < 200f || iceShard > 0f)
+					if (num1375 < 200f || iceShard > 0)
 					{
 						if (num1375 < 200f)
 						{
-							iceShard = 20f;
+							iceShard = 20;
 						}
 						if (npc.velocity.X < 0f)
 						{
@@ -780,7 +793,6 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
 				}
 				npc.rotation = npc.velocity.X * 0.15f;
-				return;
 			}
 			if (npc.ai[3] == 0f && npc.life > 0)
 			{
@@ -817,7 +829,6 @@ namespace CalamityMod.NPCs.Cryogen
 								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 							}
 						}
-						return;
 					}
 				}
 			}
@@ -881,58 +892,55 @@ namespace CalamityMod.NPCs.Cryogen
 
 		private void RainStart()
 		{
-			if (!Main.raining)
+			int num = 86400;
+			int num2 = num / 24;
+			Main.rainTime = Main.rand.Next(num2 * 8, num);
+			if (Main.rand.Next(3) == 0)
 			{
-				int num = 86400;
-				int num2 = num / 24;
-				Main.rainTime = Main.rand.Next(num2 * 8, num);
-				if (Main.rand.Next(3) == 0)
-				{
-					Main.rainTime += Main.rand.Next(0, num2);
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Main.rainTime += Main.rand.Next(0, num2 * 2);
-				}
-				if (Main.rand.Next(5) == 0)
-				{
-					Main.rainTime += Main.rand.Next(0, num2 * 2);
-				}
-				if (Main.rand.Next(6) == 0)
-				{
-					Main.rainTime += Main.rand.Next(0, num2 * 3);
-				}
-				if (Main.rand.Next(7) == 0)
-				{
-					Main.rainTime += Main.rand.Next(0, num2 * 4);
-				}
-				if (Main.rand.Next(8) == 0)
-				{
-					Main.rainTime += Main.rand.Next(0, num2 * 5);
-				}
-				float num3 = 1f;
-				if (Main.rand.Next(2) == 0)
-				{
-					num3 += 0.05f;
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					num3 += 0.1f;
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					num3 += 0.15f;
-				}
-				if (Main.rand.Next(5) == 0)
-				{
-					num3 += 0.2f;
-				}
-				Main.rainTime = (int)((float)Main.rainTime * num3);
-				Main.raining = true;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
+				Main.rainTime += Main.rand.Next(0, num2);
+			}
+			if (Main.rand.Next(4) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 2);
+			}
+			if (Main.rand.Next(5) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 2);
+			}
+			if (Main.rand.Next(6) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 3);
+			}
+			if (Main.rand.Next(7) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 4);
+			}
+			if (Main.rand.Next(8) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 5);
+			}
+			float num3 = 1f;
+			if (Main.rand.Next(2) == 0)
+			{
+				num3 += 0.05f;
+			}
+			if (Main.rand.Next(3) == 0)
+			{
+				num3 += 0.1f;
+			}
+			if (Main.rand.Next(4) == 0)
+			{
+				num3 += 0.15f;
+			}
+			if (Main.rand.Next(5) == 0)
+			{
+				num3 += 0.2f;
+			}
+			Main.rainTime = (int)((float)Main.rainTime * num3);
+			Main.raining = true;
+			if (Main.netMode == 2)
+			{
+				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 			}
 		}
 

@@ -14,22 +14,23 @@ namespace CalamityMod.Items.Weapons.Astral
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astral Blaster");
+			Tooltip.SetDefault("Fires a homing astral round");
 		}
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 100;
+	        item.damage = 150;
 	        item.crit += 25;
 	        item.ranged = true;
 	        item.width = 40;
 	        item.height = 24;
-	        item.useTime = 11;
-	        item.useAnimation = 11;
+	        item.useTime = 15;
+	        item.useAnimation = 15;
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 2.75f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
 	        item.UseSound = SoundID.Item41;
 	        item.autoReuse = true;
 	        item.shootSpeed = 14f;
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Astral
 	    
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AstralRound"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AstralRound"), damage, knockBack, player.whoAmI, 0f, 0f);
 	    	return false;
 		}
 	
@@ -47,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Astral
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(null, "AstralBar", 6);
-	        recipe.AddTile(TileID.MythrilAnvil);
+	        recipe.AddTile(TileID.LunarCraftingStation);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 	    }

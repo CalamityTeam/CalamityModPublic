@@ -13,7 +13,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ghoulish Gouger");
-			Tooltip.SetDefault("Throws a ghoulish scythe");
+			Tooltip.SetDefault("Throws a ghoulish scythe that ignores immunity frames");
 		}
 
 		public override void SafeSetDefaults()

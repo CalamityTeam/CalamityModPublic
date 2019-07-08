@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Mask");
-            Tooltip.SetDefault("10% increased magic damage, 5% reduced mana cost, and 5% increased magic critical strike chance\n" +
-                "10% increased movement speed, can move freely through liquids, and +75 max mana");
+            Tooltip.SetDefault("15% increased magic damage, 12% reduced mana cost, and 5% increased magic critical strike chance\n" +
+                "10% increased movement speed, can move freely through liquids, and +80 max mana");
         }
 
         public override void SetDefaults()
@@ -44,19 +44,18 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.reaverBurst = true;
             player.setBonus = "5% increased magic damage\n" +
-                "Your magic projectiles emit a burst of spore gas on enemy hits\n" +
-                "Rage activates when you are damaged";
+                "Your magic projectiles emit a burst of spore gas on enemy hits";
             player.magicDamage += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            player.magicDamage += 0.1f;
+            player.magicDamage += 0.15f;
             player.magicCrit += 5;
-            player.manaCost *= 0.95f;
+            player.manaCost *= 0.88f;
             player.moveSpeed += 0.1f;
-			player.statManaMax2 += 75;
+			player.statManaMax2 += 80;
 		}
 
         public override void AddRecipes()

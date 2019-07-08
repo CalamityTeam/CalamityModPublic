@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -60,7 +61,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.scale = 1.15f;
             }
         }
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(detectsPlayer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			detectsPlayer = reader.ReadBoolean();
+		}
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;

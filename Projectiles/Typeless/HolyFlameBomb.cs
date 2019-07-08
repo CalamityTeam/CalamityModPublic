@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("HolyLight"), 200);
+        	target.AddBuff(mod.BuffType("HolyLight"), 300);
         }
     }
 }

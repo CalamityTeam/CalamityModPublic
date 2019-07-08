@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Devastation");
-			Tooltip.SetDefault("Remnant of the big bang");
+			Tooltip.SetDefault("Fires galaxy blasts that explode");
 		}
 
 		public override void SetDefaults()
@@ -119,9 +119,9 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-	    	target.AddBuff(BuffID.CursedInferno, 200);
-	    	target.AddBuff(BuffID.OnFire, 200);
-	    	target.AddBuff(BuffID.Frostburn, 200);
+	    	target.AddBuff(BuffID.Ichor, 180);
+	    	target.AddBuff(BuffID.OnFire, 600);
+	    	target.AddBuff(BuffID.Frostburn, 300);
 		}
 	}
 }

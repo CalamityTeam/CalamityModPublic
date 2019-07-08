@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 {
 	public class Trasher : ModNPC
 	{
-		public bool hasBeenHit = false;
+		private bool hasBeenHit = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -40,6 +40,18 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.knockBackResist = 0f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("TrasherBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()

@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
+using CalamityMod.World;
 
 namespace CalamityMod.Items
 {

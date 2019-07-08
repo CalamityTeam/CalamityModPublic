@@ -7,13 +7,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Crabulon
 {
 	[AutoloadBossHead]
 	public class CrabulonIdle : ModNPC
 	{
-		private float shotSpacing = 1000f;
+		private int shotSpacing = 1000;
 
 		public override void SetStaticDefaults()
 		{
@@ -25,8 +26,8 @@ namespace CalamityMod.NPCs.Crabulon
 		{
 			npc.npcSlots = 14f;
 			npc.damage = 40;
-			npc.width = 164; //324
-			npc.height = 154; //216
+			npc.width = 280; //324
+			npc.height = 160; //216
 			npc.defense = 8;
 			npc.lifeMax = CalamityWorld.revenge ? 4000 : 3000;
 			if (CalamityWorld.death)
@@ -56,6 +57,16 @@ namespace CalamityMod.NPCs.Crabulon
 			npc.HitSound = SoundID.NPCHit45;
 			npc.DeathSound = SoundID.NPCDeath1;
 			bossBag = mod.ItemType("CrabulonBag");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(shotSpacing);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			shotSpacing = reader.ReadInt32();
 		}
 
 		public override void AI()
@@ -176,7 +187,7 @@ namespace CalamityMod.NPCs.Crabulon
 						player.AddBuff(mod.BuffType("Mushy"), 2);
 					}
 				}
-				int sporeDust = Dust.NewDust(npc.position, npc.width, npc.height, 56, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
+				int sporeDust = Dust.NewDust(npc.position, npc.width, npc.height, 56, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), 1.2f);
 				Main.dust[sporeDust].noGravity = true;
 				Main.dust[sporeDust].velocity *= 0.5f;
 				npc.ai[1] += 1f;
@@ -351,10 +362,10 @@ namespace CalamityMod.NPCs.Crabulon
 							for (int x = 0; x < 20; x++)
 							{
 								int num354 = expertMode ? 11 : 14;
-								Projectile.NewProjectile(npc.Center.X + shotSpacing, npc.Center.Y - 1000f, 0f, 0f, mod.ProjectileType("MushBombFall"), num354, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing -= 100f;
+								Projectile.NewProjectile(npc.Center.X + (float)shotSpacing, npc.Center.Y - 1000f, 0f, 0f, mod.ProjectileType("MushBombFall"), num354, 0f, Main.myPlayer, 0f, 0f);
+								shotSpacing -= 100;
 							}
-							shotSpacing = 1000f;
+							shotSpacing = 1000;
 						}
 						npc.ai[0] = 1f;
 						npc.ai[2] = 0f;
@@ -474,11 +485,11 @@ namespace CalamityMod.NPCs.Crabulon
 			Texture2D textureAttack = mod.GetTexture("NPCs/Crabulon/CrabulonAttack");
 			if (npc.ai[0] > 2f)
 			{
-				CalamityMod.DrawTexture(spriteBatch, textureAttack, 0, npc, drawColor);
+				CalamityMod.DrawTexture(spriteBatch, textureAttack, 0, npc, drawColor, true);
 			}
 			else
 			{
-				CalamityMod.DrawTexture(spriteBatch, (npc.ai[0] == 2f ? texture : Main.npcTexture[npc.type]), 0, npc, drawColor);
+				CalamityMod.DrawTexture(spriteBatch, (npc.ai[0] == 2f ? texture : Main.npcTexture[npc.type]), 0, npc, drawColor, true);
 			}
 			return false;
 		}

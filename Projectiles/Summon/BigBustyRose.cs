@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -234,7 +235,8 @@ namespace CalamityMod.Projectiles.Summon
                         value19 *= scaleFactor3;
                         int num659 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                         Main.projectile[num659].timeLeft = 200;
-                        projectile.netUpdate = true;
+						Main.projectile[num659].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMinion = true;
+						projectile.netUpdate = true;
                     }
                 }
             }

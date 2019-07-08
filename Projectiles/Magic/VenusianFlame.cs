@@ -86,11 +86,15 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.velocity.Y > 16f)
 			{
 				projectile.velocity.Y = 16f;
-				return;
 			}
         }
-        
-        public override bool OnTileCollide(Vector2 oldVelocity)
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 300);
+		}
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate == 0)
             {

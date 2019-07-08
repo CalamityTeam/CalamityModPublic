@@ -7,13 +7,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
 {
 	public class SirenClone : ModNPC
 	{
-		public int timer = 0;
-		
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Siren Clone");
@@ -36,7 +35,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.HitSound = SoundID.NPCHit1;
 			npc.alpha = 255;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.1f;
@@ -44,10 +43,16 @@ namespace CalamityMod.NPCs.Leviathan
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 0.3f);
+			if (CalamityGlobalNPC.siren < 0 || !Main.npc[CalamityGlobalNPC.siren].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 			if (npc.alpha > 50)
 			{
 				npc.alpha -= 5;
@@ -61,32 +66,16 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 			Vector2 direction = Main.player[npc.target].Center - center;
 			direction.Normalize();
-			direction *= (CalamityWorld.death ? 15f : 11f); //9
-			timer++;
-			if (timer > (CalamityWorld.death ? 30 : 60))
+			direction *= 11f;
+			npc.ai[0] += 1f;
+			if (npc.ai[0] > 45f)
 			{
+				npc.ai[0] = 0f;
 				if (Main.netMode != 1)
 				{
-					int type = mod.ProjectileType("WaterSpear");
-                    switch (Main.rand.Next(6))
-                    {
-                        case 0: type = mod.ProjectileType("FrostMist"); break;
-                        case 1:
-                        case 2:
-                        case 3:
-                        case 4:
-                        case 5: type = mod.ProjectileType("WaterSpear"); break;
-                    }
-                    int damage = Main.expertMode ? 26 : 32;
-					Projectile.NewProjectile(center.X, center.Y, direction.X, direction.Y, type, damage, 1f, npc.target);
+					int damage = Main.expertMode ? 26 : 32;
+					Projectile.NewProjectile(center.X, center.Y, direction.X, direction.Y, mod.ProjectileType("WaterSpear"), damage, 0f, npc.target);
 				}
-				timer = 0;
-			}
-			if (NPC.CountNPCS(mod.NPCType("Siren")) < 1)
-			{
-				npc.active = false;
-                npc.netUpdate = true;
-				return;
 			}
 		}
 		

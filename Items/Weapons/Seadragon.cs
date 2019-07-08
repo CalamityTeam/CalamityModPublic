@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Seadragon");
-			Tooltip.SetDefault("50% chance to not consume ammo");
+			Tooltip.SetDefault("50% chance to not consume ammo\n" +
+				"Has a chance to fire homing rockets that explode into fire shards on death");
 		}
 
 	    public override void SetDefaults()
@@ -47,10 +48,10 @@ namespace CalamityMod.Items.Weapons
 		{
 		    float SpeedX = speedX + (float) Main.rand.Next(-10, 11) * 0.05f;
 		    float SpeedY = speedY + (float) Main.rand.Next(-10, 11) * 0.05f;
-		    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+		    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (Main.rand.Next(10) == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SeaDragonRocket"), damage * 2, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SeaDragonRocket"), damage * 2, knockBack, player.whoAmI, 0f, 0f);
             }
 		    return false;
 		}

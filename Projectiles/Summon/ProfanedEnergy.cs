@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class ProfanedEnergy : ModProjectile
     {
-    	public float count = 0f;
+    	private float count = 0f;
     	
     	public override void SetStaticDefaults()
 		{

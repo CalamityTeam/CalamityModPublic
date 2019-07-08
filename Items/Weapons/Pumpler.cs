@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pumpler");
-			Tooltip.SetDefault("33% chance to not consume ammo");
+			Tooltip.SetDefault("33% chance to not consume ammo\n" +
+				"Right click to fire an explosive pumpkin");
 		}
 
 	    public override void SetDefaults()
@@ -42,12 +43,43 @@ namespace CalamityMod.Items.Weapons
             return new Vector2(-5, 0);
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool AltFunctionUse(Player player)
 		{
-		    float SpeedX = speedX + (float) Main.rand.Next(-10, 11) * 0.05f;
-		    float SpeedY = speedY + (float) Main.rand.Next(-10, 11) * 0.05f;
-		    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-		    return false;
+			return true;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.useTime = 36;
+				item.useAnimation = 36;
+				item.shootSpeed = 4f;
+			}
+			else
+			{
+				item.useTime = 9;
+				item.useAnimation = 9;
+				item.shootSpeed = 11f;
+			}
+			return base.CanUseItem(player);
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
+				float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.JackOLantern, (int)((double)damage * 1.65), knockBack * 4f, player.whoAmI, 0f, 0f);
+			}
+			else
+			{
+				float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
+				float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			}
+			return false;
 		}
 	    
 	    public override bool ConsumeAmmo(Player player)

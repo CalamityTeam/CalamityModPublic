@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cursed Dagger");
+			Tooltip.SetDefault("Throws bouncing daggers");
 		}
 
 		public override void SafeSetDefaults()

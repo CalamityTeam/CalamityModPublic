@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroomer");
-        }
+			Tooltip.SetDefault("Has a chance to fire an extremely powerful homing mushroom");
+		}
 
         public override void SetDefaults()
         {
@@ -44,10 +45,10 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (Main.rand.Next(5) == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Shroom"), (int)((double)damage * 1.5f), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Shroom"), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

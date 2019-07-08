@@ -30,7 +30,8 @@ namespace CalamityMod.Items.Yharon
             item.value = Item.buyPrice(1, 0, 0, 0);
             item.accessory = true;
             item.expert = true;
-        }
+			item.rare = 9;
+		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

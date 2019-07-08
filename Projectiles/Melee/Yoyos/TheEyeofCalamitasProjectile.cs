@@ -8,27 +8,27 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class TheEyeofCalamitasProjectile : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class TheEyeofCalamitasProjectile : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Oblivion");
 		}
-    	
-        public override void SetDefaults()
-        {
-        	projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);
-            projectile.width = 16;
-            projectile.scale = 1.1f;
-            projectile.height = 16;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            aiType = 555;
-        }
-        
-        public override void AI()
-        {
-            int[] array = new int[20];
+
+		public override void SetDefaults()
+		{
+			projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);
+			projectile.width = 16;
+			projectile.scale = 1.1f;
+			projectile.height = 16;
+			projectile.penetrate = -1;
+			projectile.melee = true;
+			aiType = 555;
+		}
+
+		public override void AI()
+		{
+			int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
 			bool flag14 = false;
@@ -75,12 +75,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					}
 				}
 			}
-        }
-        
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
-        }
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

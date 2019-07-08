@@ -69,7 +69,6 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
 
@@ -99,13 +98,13 @@ namespace CalamityMod.Projectiles.Melee
 	    		{
 	    			speedX *= dir * random;
 	    			speedY *= dir * random;
-	    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("SHIV"), (int)((double)projectile.damage), 1f, projectile.owner);
+	    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("SHIV"), projectile.damage, 1f, projectile.owner);
 	    		}
     		}
-        	target.AddBuff(mod.BuffType("HolyLight"), 500);
-	    	target.AddBuff(mod.BuffType("GlacialState"), 500);
-	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 500);
-	    	target.AddBuff(mod.BuffType("Plague"), 500);
+        	target.AddBuff(mod.BuffType("HolyLight"), 120);
+	    	target.AddBuff(mod.BuffType("GlacialState"), 120);
+	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+	    	target.AddBuff(mod.BuffType("Plague"), 120);
         }
     }
 }

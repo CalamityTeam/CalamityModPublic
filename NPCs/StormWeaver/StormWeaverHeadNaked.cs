@@ -10,19 +10,21 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
 	[AutoloadBossHead]
 	public class StormWeaverHeadNaked : ModNPC
 	{
-        private bool flies = true;
+		private const float BoltAngleSpread = 280;
+		private int BoltCountdown = 0;
+		private bool flies = true;
         private const float speed = 13f;
         private const float turnSpeed = 0.35f;
         private bool tail = false;
-        private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 5 : 30;
-        private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 6 : 31;
+        private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 20 : 30;
+        private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 21 : 31;
         private int invinceTime = 180;
 
         public override void SetStaticDefaults()
@@ -37,7 +39,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.width = 74; //324
 			npc.height = 74; //216
 			npc.defense = 0;
-            npc.lifeMax = 50000;
+            npc.lifeMax = 100000;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -50,11 +52,11 @@ namespace CalamityMod.NPCs.StormWeaver
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 else
                     music = MusicID.Boss3;
-                npc.lifeMax = 300000;
+                npc.lifeMax = 600000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 2300000;
+                npc.lifeMax = 3300000;
             }
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
@@ -77,7 +79,21 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.buffImmune[k] = true;
 			}
         }
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(BoltCountdown);
+			writer.Write(invinceTime);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			BoltCountdown = reader.ReadInt32();
+			invinceTime = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
@@ -93,7 +109,22 @@ namespace CalamityMod.NPCs.StormWeaver
                 npc.damage = expertMode ? 360 : 180;
                 npc.dontTakeDamage = false;
             }
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
+			if (!Main.raining && !CalamityWorld.bossRushActive)
+			{
+				RainStart();
+			}
+			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
+			int lifePercentage = (int)(100.0 * lifeRatio);
+			int BoltProjectiles = 2;
+			if (lifePercentage < 33)
+			{
+				BoltProjectiles = 4;
+			}
+			else if (lifePercentage < 66)
+			{
+				BoltProjectiles = 3;
+			}
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 			if (npc.ai[3] > 0f)
 			{
 				npc.realLife = (int)npc.ai[3];
@@ -157,7 +188,41 @@ namespace CalamityMod.NPCs.StormWeaver
                     Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
                     Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
-            }
+				if (BoltCountdown == 0)
+				{
+					BoltCountdown = 600;
+				}
+				if (BoltCountdown > 0)
+				{
+					BoltCountdown--;
+					if (BoltCountdown == 0)
+					{
+						int speed2 = revenge ? 8 : 7;
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						{
+							speed2 += 1;
+						}
+						float spawnX2 = (float)Main.rand.Next(2001) - 1000f + Main.player[npc.target].Center.X;
+						float spawnY2 = -1000f + Main.player[npc.target].Center.Y;
+						Vector2 baseSpawn = new Vector2(spawnX2, spawnY2);
+						Vector2 baseVelocity = Main.player[npc.target].Center - baseSpawn;
+						baseVelocity.Normalize();
+						baseVelocity = baseVelocity * speed2;
+						int damage = expertMode ? 50 : 70;
+						for (int i = 0; i < BoltProjectiles; i++)
+						{
+							Vector2 spawn2 = baseSpawn;
+							spawn2.X = spawn2.X + i * 30 - (BoltProjectiles * 15);
+							Vector2 velocity = baseVelocity;
+							velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
+							velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
+							Vector2 vector94 = Main.player[npc.target].Center - spawn2;
+							float ai = (float)Main.rand.Next(100);
+							Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, 466, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+						}
+					}
+				}
+			}
 			int num180 = (int)(npc.position.X / 16f) - 1;
 			int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
 			int num182 = (int)(npc.position.Y / 16f) - 1;
@@ -178,18 +243,17 @@ namespace CalamityMod.NPCs.StormWeaver
 			{
 				num183 = Main.maxTilesY;
 			}
-			npc.localAI[1] = 0f;
 			bool canFly = flies;
 			if (Main.player[npc.target].dead)
 			{
 				npc.TargetClosest(false);
-				canFly = false;
-				npc.velocity.Y = npc.velocity.Y + 10f;
-				if ((double)npc.position.Y > Main.worldSurface * 16.0)
+				canFly = true;
+				npc.velocity.Y = npc.velocity.Y - 10f;
+				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
-					npc.velocity.Y = npc.velocity.Y + 10f;
+					npc.velocity.Y = npc.velocity.Y - 10f;
 				}
-				if ((double)npc.position.Y > Main.rockLayer * 16.0)
+				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
                     CalamityWorld.DoGSecondStageCountdown = 0;
                     if (Main.netMode == 2)
@@ -208,7 +272,19 @@ namespace CalamityMod.NPCs.StormWeaver
 					}
 				}
 			}
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 10000f)
+			/*else if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 3600f)
+			{
+				if (Main.player[npc.target].velocity.X >= 0f)
+				{
+					npc.position.X = Main.player[npc.target].position.X + 800f;
+				}
+				else
+				{
+					npc.position.X = Main.player[npc.target].position.X - 800f;
+				}
+				npc.position.Y = Main.player[npc.target].position.Y;
+			}*/
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 10000f)
             {
                 CalamityWorld.DoGSecondStageCountdown = 0;
                 if (Main.netMode == 2)
@@ -249,35 +325,12 @@ namespace CalamityMod.NPCs.StormWeaver
 					break;
 				}
 			}
-			if (num42 > 0 && !CalamityWorld.death && !CalamityWorld.bossRushActive)
+			num188 = revenge ? 17f : 16f;
+			num189 = revenge ? 0.5f : 0.45f;
+			if (!Main.player[npc.target].ZoneSkyHeight)
 			{
-				num42 *= 16;
-				float num47 = (float)(num42 - 800);
-				if (Main.player[npc.target].position.Y > num47)
-				{
-					num192 = num47;
-					if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 500f)
-					{
-						if (npc.velocity.X > 0f)
-						{
-							num191 = Main.player[npc.target].Center.X + 600f;
-						}
-						else
-						{
-							num191 = Main.player[npc.target].Center.X - 600f;
-						}
-					}
-				}
-			}
-			else
-			{
-				num188 = revenge ? 17f : 16f;
-				num189 = revenge ? 0.5f : 0.45f;
-				if (!Main.player[npc.target].ZoneSkyHeight)
-				{
-					num188 = 24f;
-					num189 = 0.6f;
-				}
+				num188 = 36f; //24
+				num189 = 0.8f; //0.6
 			}
 			float num48 = num188 * 1.3f;
 			float num49 = num188 * 0.7f;
@@ -295,37 +348,17 @@ namespace CalamityMod.NPCs.StormWeaver
 					npc.velocity *= num49;
 				}
 			}
-			if (num42 > 0 && !CalamityWorld.death && !CalamityWorld.bossRushActive)
+			for (int num52 = 0; num52 < 200; num52++)
 			{
-				for (int num51 = 0; num51 < 200; num51++)
+				if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
 				{
-					if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)
+					Vector2 vector4 = Main.npc[num52].Center - npc.Center;
+					if (vector4.Length() < 60f)
 					{
-						Vector2 vector3 = Main.npc[num51].Center - npc.Center;
-						if (vector3.Length() < 400f)
-						{
-							vector3.Normalize();
-							vector3 *= 1000f;
-							num191 -= vector3.X;
-							num192 -= vector3.Y;
-						}
-					}
-				}
-			}
-			else
-			{
-				for (int num52 = 0; num52 < 200; num52++)
-				{
-					if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
-					{
-						Vector2 vector4 = Main.npc[num52].Center - npc.Center;
-						if (vector4.Length() < 60f)
-						{
-							vector4.Normalize();
-							vector4 *= 200f;
-							num191 -= vector4.X;
-							num192 -= vector4.Y;
-						}
+						vector4.Normalize();
+						vector4 *= 200f;
+						num191 -= vector4.X;
+						num192 -= vector4.Y;
 					}
 				}
 			}
@@ -461,6 +494,60 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 			}
 			npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+		}
+
+		private void RainStart()
+		{
+			int num = 86400;
+			int num2 = num / 24;
+			Main.rainTime = Main.rand.Next(num2 * 8, num);
+			if (Main.rand.Next(3) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2);
+			}
+			if (Main.rand.Next(4) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 2);
+			}
+			if (Main.rand.Next(5) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 2);
+			}
+			if (Main.rand.Next(6) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 3);
+			}
+			if (Main.rand.Next(7) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 4);
+			}
+			if (Main.rand.Next(8) == 0)
+			{
+				Main.rainTime += Main.rand.Next(0, num2 * 5);
+			}
+			float num3 = 1f;
+			if (Main.rand.Next(2) == 0)
+			{
+				num3 += 0.05f;
+			}
+			if (Main.rand.Next(3) == 0)
+			{
+				num3 += 0.1f;
+			}
+			if (Main.rand.Next(4) == 0)
+			{
+				num3 += 0.15f;
+			}
+			if (Main.rand.Next(5) == 0)
+			{
+				num3 += 0.2f;
+			}
+			Main.rainTime = (int)((float)Main.rainTime * num3);
+			Main.raining = true;
+			if (Main.netMode == 2)
+			{
+				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

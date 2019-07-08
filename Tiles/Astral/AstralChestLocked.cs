@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.GameInput;
 using Terraria.GameContent.Achievements;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -145,7 +146,7 @@ namespace CalamityMod.Tiles.Astral
 			{
 				if (Chest.isLocked(left, top))
 				{
-					if (!CalamityWorld.downedStarGod)
+					if (!CalamityWorld.downedAstrageldon)
 					{
 						return;
 					}

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Hive");
+			Tooltip.SetDefault("Launches a variety of rockets that explode into bees on death");
 		}
 
 	    public override void SetDefaults()
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 	    		case 3: type = mod.ProjectileType("BeeRPG"); break;
 	    		default: break;
 			}
-	        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 	    	return false;
 		}
 	}

@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScarletDevilProjectile : ModProjectile
     {
+		bool lifesteal = false;
+		
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spear the Gungnir");
@@ -26,18 +28,21 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 420;
+            projectile.timeLeft = 300;
 			projectile.extraUpdates = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
 
         public override void AI()
         {
+			CalamityPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod);
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.55f) / 255f, ((100 - projectile.alpha) * 0.25f) / 255f, ((100 - projectile.alpha) * 0.01f) / 255f);
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 130, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, new Color(255, 255, 255), 0.85f);
 			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 5f)
+			if(projectile.ai[0] == 1f && modPlayer.rogueStealth >= modPlayer.rogueStealthMax && modPlayer.rogueStealthMax > 0f)
+				lifesteal = true;
+			if ((projectile.ai[0] %= 5f) == 0f)
 			{
 				int numProj = 2;
 				float rotation = MathHelper.ToRadians(15);
@@ -53,7 +58,6 @@ namespace CalamityMod.Projectiles.Rogue
 						}
 					}
 				}
-				projectile.ai[0] = 0f;
 			}
         }
 		
@@ -74,13 +78,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ScarletBlast"), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
-			CalamityPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod);
-        	if (target.type == NPCID.TargetDummy || modPlayer.rogueStealth <= 0f)
+			if (target.type == NPCID.TargetDummy || !lifesteal)
 			{
 				return;
 			}
-        	Main.player[Main.myPlayer].statLife += 12;
-			Main.player[Main.myPlayer].HealEffect(12);
+        	Main.player[Main.myPlayer].statLife += 120;
+			Main.player[Main.myPlayer].HealEffect(120);
         }
 		
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

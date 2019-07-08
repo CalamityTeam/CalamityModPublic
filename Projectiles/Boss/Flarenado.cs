@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,32 +8,40 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class Flarenado : ModProjectile
-    {
-    	public int spawnCount = 0;
-    	
-    	public override void SetStaticDefaults()
+	public class Flarenado : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flarenado");
 			Main.projFrames[projectile.type] = 6;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 320;
-            projectile.height = 88;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            cooldownSlot = 1;
-        }
-        
-        public override void AI()
-        {
-        	int num613 = 10;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 320;
+			projectile.height = 88;
+			projectile.hostile = true;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.penetrate = -1;
+			projectile.alpha = 255;
+			projectile.timeLeft = 600;
+			cooldownSlot = 1;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			int num613 = 10;
 			int num614 = 15;
 			float num615 = 1.5f;
 			int num616 = 320;
@@ -51,11 +60,11 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.frame = 0;
 			}
-            if (projectile.timeLeft < 300)
-            {
-                projectile.velocity.X = ((projectile.ai[1] % 2 == 0) ? 10f : -10f);
-                return;
-            }
+			if (projectile.timeLeft < 300)
+			{
+				projectile.velocity.X = ((projectile.ai[1] % 2 == 0) ? 10f : -10f);
+				return;
+			}
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;
@@ -102,7 +111,7 @@ namespace CalamityMod.Projectiles.Boss
 				float num618 = ((float)(num613 + num614) - projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
 				center.Y -= (float)num617 * num618 / 2f;
 				center.Y += 2f;
-                Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+				Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 11f, projectile.ai[1] - 1f);
 			}
 			if (projectile.ai[0] <= 0f)
 			{
@@ -113,31 +122,30 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.ai[0] -= 1f;
 				num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
 				projectile.position.X = projectile.position.X + num624 * (float)(-(float)projectile.direction);
-				return;
 			}
-        }
+		}
 
-        public override bool CanDamage()
-        {
-            if (projectile.timeLeft > 500)
-            {
-                return false;
-            }
-            return true;
-        }
+		public override bool CanDamage()
+		{
+			if (projectile.timeLeft > 480)
+			{
+				return false;
+			}
+			return true;
+		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255, 255, 53, projectile.alpha);
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, 255, 53, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
 			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 			int y6 = num214 * projectile.frame;
 			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
 			return false;
-        }
-    }
+		}
+	}
 }

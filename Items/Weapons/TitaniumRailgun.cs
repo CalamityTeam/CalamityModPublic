@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Titanium Railgun");
-        }
+			Tooltip.SetDefault("Fires a laser");
+		}
 
         public override void SetDefaults()
         {

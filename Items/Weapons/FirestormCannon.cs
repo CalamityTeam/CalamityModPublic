@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Firestorm Cannon");
-			Tooltip.SetDefault("70% chance to not consume flares\nRight click to change modes");
+			Tooltip.SetDefault("70% chance to not consume flares\n" +
+				"Right click to fire a spread of flares");
 		}
 
 	    public override void SetDefaults()

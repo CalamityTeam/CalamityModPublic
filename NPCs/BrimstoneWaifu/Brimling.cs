@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.BrimstoneWaifu
 {
@@ -53,7 +54,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.buffImmune[mod.BuffType("WhisperingDeath")] = false;
 			npc.buffImmune[mod.BuffType("SilvaStun")] = false;
 			npc.noGravity = true;
-			npc.noTileCollide = false;
+			npc.noTileCollide = true;
 			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit23;
 			npc.DeathSound = SoundID.NPCDeath39;
@@ -67,9 +68,27 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(boostDR);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			boostDR = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1f, 0f, 0f);
+			if (CalamityGlobalNPC.brimstoneElemental < 0 || !Main.npc[CalamityGlobalNPC.brimstoneElemental].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 			bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.2;
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
@@ -82,7 +101,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				boostDR = false;
 				npc.chaseable = true;
 			}
-			npc.noTileCollide = true;
 			float num1446 = goIntoShell ? 1f : 6f;
 			int num1447 = 480;
 			float num244;

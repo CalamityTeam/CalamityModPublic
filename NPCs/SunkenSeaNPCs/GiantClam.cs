@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
@@ -28,12 +29,11 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override void SetDefaults()
 		{
-			//npc.damage = Main.hardMode ? 100 : 50;
+			npc.lavaImmune = true;
 			npc.npcSlots = 5f;
 			npc.damage = 50;
-			npc.width = 226;
-			npc.height = 136;
-			//npc.defense = Main.hardMode ? 35 : 10;
+			npc.width = 160;
+			npc.height = 120;
 			npc.defense = 9999;
 			npc.lifeMax = Main.hardMode ? 7500 : 1250;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -50,6 +50,30 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.rarity = 2;
 			banner = npc.type;
 			bannerItem = mod.ItemType("GiantClamBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hitAmount);
+			writer.Write(attack);
+			writer.Write(attackAnim);
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+			writer.Write(hasBeenHit);
+			writer.Write(statChange);
+			writer.Write(hide);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hitAmount = reader.ReadInt32();
+			attack = reader.ReadInt32();
+			attackAnim = reader.ReadBoolean();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+			hasBeenHit = reader.ReadBoolean();
+			statChange = reader.ReadBoolean();
+			hide = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -349,6 +373,13 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantClam/GiantClam4"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantClam/GiantClam5"), 1f);
 			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			Texture2D texture = Main.npcTexture[npc.type];
+			CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor, true);
+			return false;
 		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

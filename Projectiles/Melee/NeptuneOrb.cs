@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class NeptuneOrb : ModProjectile
     {
-    	public int addSprayTimer = 10;
+    	private int addSprayTimer = 10;
     	
     	public override void SetStaticDefaults()
 		{
@@ -45,7 +45,6 @@ namespace CalamityMod.Projectiles.Melee
 			Main.dust[num458].noGravity = true;
 			Main.dust[num458].velocity *= 0.5f;
 			Main.dust[num458].velocity += projectile.velocity * 0.1f;
-			return;
         }
         
         public override void Kill(int timeLeft)

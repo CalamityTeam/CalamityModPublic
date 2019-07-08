@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Sword");
-			Tooltip.SetDefault("Summons brimstone geysers on enemy hits");
+			Tooltip.SetDefault("Summons brimstone geysers on enemy hits\n" +
+				"Right click to throw like a javelin");
 		}
 
         public override void SetDefaults()
@@ -32,11 +33,42 @@ namespace CalamityMod.Items.Weapons
             item.rare = 6;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-        }
-        
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+			item.shoot = mod.ProjectileType("NobodyKnows");
+			item.shootSpeed = 20f;
+		}
+
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.noMelee = true;
+				item.noUseGraphic = true;
+			}
+			else
+			{
+				item.noMelee = false;
+				item.noUseGraphic = false;
+			}
+			return base.CanUseItem(player);
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ProfanedSword"), damage, knockBack, player.whoAmI, 0f, 0f);
+			}
+			return false;
+		}
+
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Brimblast"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
         }
         
@@ -44,7 +76,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.Next(4) == 0)
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
+                Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
             }
         }
         

@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
 using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {

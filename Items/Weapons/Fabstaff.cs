@@ -14,6 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fabstaff");
+			Tooltip.SetDefault("Casts a bouncing beam that splits when enemies are near it\n" +
+				"The splitting can trigger long after the beam has vanished");
 			Item.staff[item.type] = true;
 		}
 

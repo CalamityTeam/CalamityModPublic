@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Providence
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Telluric Glare");
-        }
+			Tooltip.SetDefault("Shoots an extremely fast energy arrow");
+		}
 
         public override void SetDefaults()
         {

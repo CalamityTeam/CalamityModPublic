@@ -10,20 +10,21 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
 	[AutoloadBossHead]
 	public class AquaticScourgeHead : ModNPC
 	{
-		public bool detectsPlayer = false;
-		public bool flies = true;
-		public const int minLength = 30;
-		public const int maxLength = 31;
-		public float speed = 5f; //10
-		public float turnSpeed = 0.08f; //0.15
-		bool TailSpawned = false;
-		public bool despawning = false;
+		private bool detectsPlayer = false;
+		private bool flies = true;
+		private const int minLength = 30;
+		private const int maxLength = 31;
+		private float speed = 5f; //10
+		private float turnSpeed = 0.08f; //0.15
+		private bool TailSpawned = false;
+		private bool despawning = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -67,6 +68,20 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				npc.scale = 1.15f;
 			}
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(despawning);
+			writer.Write(detectsPlayer);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			despawning = reader.ReadBoolean();
+			detectsPlayer = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -180,17 +195,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			bool notOcean = Main.player[npc.target].position.Y < 800f ||
 				(double)Main.player[npc.target].position.Y > Main.worldSurface * 16.0 ||
 				(Main.player[npc.target].position.X > 6400f && Main.player[npc.target].position.X < (float)(Main.maxTilesX * 16 - 6400));
-			if (Main.player[npc.target].dead)
+			if (Main.player[npc.target].dead || (notOcean && !CalamityWorld.bossRushActive))
 			{
 				despawning = true;
 				npc.TargetClosest(false);
 				flies = false;
-				npc.velocity.Y = npc.velocity.Y + 5f;
+				npc.velocity.Y = npc.velocity.Y + 2f;
 				if ((double)npc.position.Y > Main.worldSurface * 16.0)
 				{
-					npc.velocity.Y = npc.velocity.Y + 5f;
+					npc.velocity.Y = npc.velocity.Y + 2f;
 				}
-				if ((double)npc.position.Y > Main.rockLayer * 16.0)
+				if ((double)npc.position.Y > Main.worldSurface * 16.0)
 				{
 					for (int a = 0; a < 200; a++)
 					{

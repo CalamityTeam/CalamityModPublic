@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scorpio");
-			Tooltip.SetDefault("Rockets\nRight click to change modes");
+			Tooltip.SetDefault("BOOM\n" +
+				"Right click to fire a nuke");
 		}
 
 	    public override void SetDefaults()

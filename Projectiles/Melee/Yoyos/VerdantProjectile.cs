@@ -8,33 +8,33 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class VerdantProjectile : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class VerdantProjectile : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Verdant");
 		}
-    	
-        public override void SetDefaults()
-        {
-        	projectile.CloneDefaults(ProjectileID.Kraken);
-            projectile.width = 16;
-            projectile.scale = 1.1f;
-            projectile.height = 16;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            aiType = 554;
-        }
-        
-        public override void AI()
-        {
-            projectile.velocity.X *= 1.01f;
-            projectile.velocity.Y *= 1.01f;
-            if (Main.rand.Next(5) == 0)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-            int[] array = new int[20];
+
+		public override void SetDefaults()
+		{
+			projectile.CloneDefaults(ProjectileID.Kraken);
+			projectile.width = 16;
+			projectile.scale = 1.1f;
+			projectile.height = 16;
+			projectile.penetrate = -1;
+			projectile.melee = true;
+			aiType = 554;
+		}
+
+		public override void AI()
+		{
+			projectile.velocity.X *= 1.01f;
+			projectile.velocity.Y *= 1.01f;
+			if (Main.rand.Next(5) == 0)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			}
+			int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
 			bool flag14 = false;
@@ -85,13 +85,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					}
 				}
 			}
-        }
-        
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-			target.AddBuff(BuffID.OnFire, 200);
-			target.AddBuff(BuffID.CursedInferno, 200);
-        }
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

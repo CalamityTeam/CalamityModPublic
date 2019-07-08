@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.Astrageldon
 {
@@ -32,6 +33,7 @@ namespace CalamityMod.Items.Astrageldon
         {
 			if (CalamityWorld.revenge)
 			{
+				player.QuickSpawnItem(mod.ItemType("StarlightFuelCell"));
 				if (NPC.downedMoonlord)
 				{
 					player.QuickSpawnItem(mod.ItemType("SquishyBeanMount"));
@@ -56,6 +58,14 @@ namespace CalamityMod.Items.Astrageldon
             player.QuickSpawnItem(mod.ItemType("AstralJelly"), Main.rand.Next(12, 17));
             player.QuickSpawnItem(mod.ItemType("Stardust"), Main.rand.Next(30, 41));
             player.QuickSpawnItem(ItemID.FallenStar, Main.rand.Next(30, 51));
+			if (Main.rand.Next(5) == 0)
+			{
+				player.QuickSpawnItem(ItemID.HallowedKey);
+			}
+			if (Main.rand.Next(4) == 0)
+			{
+				player.QuickSpawnItem(mod.ItemType("Nebulash"));
+			}
 			if (Main.rand.Next(7) == 0)
 			{
 				player.QuickSpawnItem(mod.ItemType("AureusMask"));

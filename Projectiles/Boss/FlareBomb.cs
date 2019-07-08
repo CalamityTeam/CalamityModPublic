@@ -5,112 +5,111 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class FlareBomb : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class FlareBomb : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flare Bomb");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.scale = 1.5f;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            projectile.alpha = 50;
-            projectile.timeLeft = 600;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-        	bool revenge = CalamityWorld.revenge;
-        	projectile.frameCounter++;
+		public override void SetDefaults()
+		{
+			projectile.width = 30;
+			projectile.height = 30;
+			projectile.hostile = true;
+			projectile.scale = 1.5f;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
+			projectile.alpha = 50;
+			projectile.timeLeft = 600;
+			cooldownSlot = 1;
+		}
+
+		public override void AI()
+		{
+			bool revenge = CalamityWorld.revenge;
+			projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
 			{
-			    projectile.frame++;
-			    projectile.frameCounter = 0;
+				projectile.frame++;
+				projectile.frameCounter = 0;
 			}
 			if (projectile.frame > 3)
 			{
-			   projectile.frame = 0;
+				projectile.frame = 0;
 			}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 1.5f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
-        	float num953 = revenge ? 110f : 100f; //100
-        	float scaleFactor12 = revenge ? 27f : 25f; //5
+			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 1.5f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+			float num953 = revenge ? 110f : 100f; //100
+			float scaleFactor12 = revenge ? 27f : 25f; //5
 			float num954 = 40f;
-			if (projectile.timeLeft > 30 && projectile.alpha > 0) 
+			if (projectile.timeLeft > 30 && projectile.alpha > 0)
 			{
 				projectile.alpha -= 25;
 			}
-			if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height)) 
+			if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 			{
 				projectile.alpha = 128;
 			}
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
 			{
-			    projectile.frame++;
-			    projectile.frameCounter = 0;
+				projectile.frame++;
+				projectile.frameCounter = 0;
 			}
 			if (projectile.frame > 3)
 			{
-			   projectile.frame = 0;
+				projectile.frame = 0;
 			}
 			Lighting.AddLight(projectile.Center, 1f, 0.7f, 0f);
 			int num959 = (int)projectile.ai[0];
-			if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead) 
+			if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
 			{
-				if (projectile.Distance(Main.player[num959].Center) > num954) 
+				if (projectile.Distance(Main.player[num959].Center) > num954)
 				{
 					Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-					if (vector102.HasNaNs()) 
+					if (vector102.HasNaNs())
 					{
 						vector102 = Vector2.UnitY;
 					}
 					projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
-					return;
 				}
-			} 
-			else 
+			}
+			else
 			{
-				if (projectile.ai[0] != -1f) 
+				if (projectile.ai[0] != -1f)
 				{
 					projectile.ai[0] = -1f;
 					projectile.netUpdate = true;
-					return;
 				}
 			}
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, Main.DiscoG, 53, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
 			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 			int y6 = num214 * projectile.frame;
 			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
 			return false;
-        }
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
@@ -171,6 +170,6 @@ namespace CalamityMod.Projectiles.Boss
 				Gore expr_13D1F_cp_0 = Main.gore[num626];
 				expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
 			}
-        }
-    }
+		}
+	}
 }

@@ -14,12 +14,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernal Spear");
-        }
+			Tooltip.SetDefault("Throws a homing spear that explodes on enemy hits");
+		}
 
         public override void SafeSetDefaults()
         {
             item.width = 72;
-            item.damage = 1700;
+            item.damage = 1500;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 13;

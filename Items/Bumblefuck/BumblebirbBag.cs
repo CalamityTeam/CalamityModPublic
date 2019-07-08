@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.Bumblefuck
 {

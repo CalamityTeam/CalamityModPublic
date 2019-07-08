@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.65f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0f, 0f, 0.65f);
 			for (int num457 = 0; num457 < 5; num457++)
 			{
 				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default(Color), 1.2f);

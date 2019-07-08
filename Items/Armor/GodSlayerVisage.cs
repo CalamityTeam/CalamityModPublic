@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("God Slayer Visage");
             Tooltip.SetDefault("14% increased magic damage and critical strike chance\n" +
-				"+100 max mana");
+				"+100 max mana and 17% reduced mana usage");
         }
 
         public override void SetDefaults()
@@ -52,7 +52,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.14f;
+			player.manaCost *= 0.83f;
+			player.magicDamage += 0.14f;
             player.magicCrit += 14;
 			player.statManaMax2 += 100;
 		}

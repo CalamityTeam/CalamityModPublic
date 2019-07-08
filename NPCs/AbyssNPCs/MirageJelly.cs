@@ -7,14 +7,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
 	public class MirageJelly : ModNPC
 	{
-		public bool teleporting = false;
-		public bool rephasing = false;
-		public bool hasBeenHit = false;
+		private bool teleporting = false;
+		private bool rephasing = false;
+		private bool hasBeenHit = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -40,6 +41,24 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.DeathSound = SoundID.NPCDeath28;
 			banner = npc.type;
 			bannerItem = mod.ItemType("MirageJellyBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(teleporting);
+			writer.Write(rephasing);
+			writer.Write(npc.chaseable);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			teleporting = reader.ReadBoolean();
+			rephasing = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+			npc.dontTakeDamage = reader.ReadBoolean();
 		}
 
 		public override void AI()

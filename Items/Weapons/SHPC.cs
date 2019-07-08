@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("SHPC");
 			Tooltip.SetDefault("Legendary Drop\n" +
 				"Fires plasma orbs that linger and emit massive explosions\n" +
-				"Right click to fire a powerful energy beam\n" +
+				"Right click to fire powerful energy beams\n" +
                 "Revengeance drop");
 		}
 
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons
 	        	{
 	        		float SpeedX = speedX + (float) Main.rand.Next(-40, 41) * 0.05f;
 		    		float SpeedY = speedY + (float) Main.rand.Next(-40, 41) * 0.05f;
-	        		Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SHPB"), (int)((double)damage * 1.1f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	        		Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SHPB"), (int)((double)damage * 1.1), knockBack, player.whoAmI, 0.0f, 0.0f);
 	        	}
 	    		return false;
 	    	}

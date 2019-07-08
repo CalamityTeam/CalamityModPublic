@@ -10,6 +10,7 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -52,7 +53,19 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("GulperEelBanner");
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(detectsPlayer);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			detectsPlayer = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
             if ((Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).anechoicPlating ||

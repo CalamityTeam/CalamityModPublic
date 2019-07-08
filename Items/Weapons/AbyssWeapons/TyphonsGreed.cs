@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Typhon's Greed");
+			Tooltip.SetDefault("Summons water spirits while in use");
 		}
 
 	    public override void SetDefaults()

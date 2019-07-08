@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class Hadarian : ModNPC
@@ -29,14 +31,21 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.width = 50;
             npc.height = 40;
             npc.aiStyle = -1;
-            npc.damage = 78;
-            npc.defense = 18;
-            npc.lifeMax = 490;
+            npc.damage = 50;
+            npc.defense = 8;
+            npc.lifeMax = 330;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            npc.knockBackResist = 0.65f;
+            npc.knockBackResist = 0.75f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
 			banner = npc.type;
 			bannerItem = mod.ItemType("HadarianBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 80;
+				npc.defense = 18;
+				npc.knockBackResist = 0.65f;
+				npc.lifeMax = 490;
+			}
 		}
 
         public override void AI()
@@ -187,7 +196,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-			if (CalamityWorld.downedStarGod && Main.rand.Next(2) == 0)
+			if (CalamityWorld.downedAstrageldon && Main.rand.Next(2) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HadarianMembrane"), Main.rand.Next(1, 3));
 			}

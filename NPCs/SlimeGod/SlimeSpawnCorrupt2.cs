@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
@@ -61,10 +62,10 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			return false;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(BuffID.ManaSickness, 60, true);
+			player.AddBuff(BuffID.Weak, 90, true);
 		}
 	}
 }

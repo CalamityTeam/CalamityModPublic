@@ -4,6 +4,7 @@ using Terraria.GameContent.Events;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TownNPCs
 {

@@ -68,7 +68,6 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
         
@@ -80,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 2;
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 500);
+            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
             if (target.life <= 0)
             {
             	if (projectile.owner == Main.myPlayer)

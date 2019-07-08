@@ -98,5 +98,11 @@ namespace CalamityMod.Projectiles.Rogue
 			Vector2 origin = new Vector2(31f, 29f);
 			spriteBatch.Draw(mod.GetTexture("Projectiles/Rogue/EradicatorProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 600);
+			target.AddBuff(BuffID.Frostburn, 600);
+		}
 	}
 }

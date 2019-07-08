@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.Providence
 				{
 					x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.ProvIndex].Center);
 				}
-				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.5f;
+				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.4f;
 			}
 			return 0.7f; //0.5
 		}
@@ -60,7 +60,6 @@ namespace CalamityMod.NPCs.Providence
 					break;
 				}
 			}
-			//this.DoGIndex = DoGIndex;
 			return ProvIndex != -1;
 		}
 
@@ -69,7 +68,7 @@ namespace CalamityMod.NPCs.Providence
 			if (maxDepth >= 0 && minDepth < 0)
 			{
 				float intensity = this.GetIntensity();
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(200, 150, 0) * intensity);
+				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(250, 225, 200) * intensity);
 			}
 		}
 

@@ -13,6 +13,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimlash");
+			Tooltip.SetDefault("Fires a brimstone bolt that explodes into more bolts on death");
 		}
 
 		public override void SetDefaults()

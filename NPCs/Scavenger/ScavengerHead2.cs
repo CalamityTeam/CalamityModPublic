@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Scavenger
 {
@@ -48,7 +49,7 @@ namespace CalamityMod.NPCs.Scavenger
 		public override void AI()
 		{
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
-            if (!Main.npc[CalamityGlobalNPC.scavenger].active)
+            if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {
                 npc.dontTakeDamage = false;
                 npc.life = 0;

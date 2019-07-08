@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("T1000");
+			Tooltip.SetDefault("Fires a spread of rainbow lasers");
 		}
 
 	    public override void SetDefaults()

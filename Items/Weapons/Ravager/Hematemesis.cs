@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Ravager
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hematemesis");
+			Tooltip.SetDefault("Casts a barrage of blood geysers from below you");
 			Item.staff[item.type] = true;
 		}
 

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Contagion");
+			Tooltip.SetDefault("Fires contagion arrows that leave exploding orbs behind as they travel");
 		}
 
 	    public override void SetDefaults()

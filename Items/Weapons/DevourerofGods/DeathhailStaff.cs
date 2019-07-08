@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Deathhail Staff");
-            Tooltip.SetDefault("Rain death upon your foes!");
+            Tooltip.SetDefault("Rain death upon your foes!\n" +
+				"Casts a storm of nebula shots from the sky");
             Item.staff[item.type] = true;
         }
 

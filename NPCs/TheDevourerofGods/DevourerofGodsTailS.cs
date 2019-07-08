@@ -8,14 +8,16 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
 	[AutoloadBossHead]
 	public class DevourerofGodsTailS : ModNPC
 	{
-		private float beamPortal = 0f;
+		private int beamPortal = 0;
 		private int invinceTime = 360;
+		private bool setAlpha = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -64,6 +66,22 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			else
 				music = MusicID.LunarBoss;
 			npc.dontCountMe = true;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(beamPortal);
+			writer.Write(setAlpha);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			beamPortal = reader.ReadInt32();
+			setAlpha = reader.ReadBoolean();
+			npc.dontTakeDamage = reader.ReadBoolean();
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -124,16 +142,16 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				npc.HitEffect(0, 10.0);
 				npc.checkDead();
 			}
-			if (!Main.npc[CalamityGlobalNPC.DoGHead].active)
+			if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
 			{
 				npc.active = false;
 			}
 			if (Main.netMode != 1)
 			{
-				beamPortal += expertMode ? 2f : 1f;
-				if (beamPortal >= 1800f)
+				beamPortal += expertMode ? 2 : 1;
+				if (beamPortal >= 1800)
 				{
-					beamPortal = 0f;
+					beamPortal = 0;
 					npc.TargetClosest(true);
 					float projectileSpeed = 5f;
 					if (CalamityWorld.death)
@@ -165,17 +183,18 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
-			if (Main.npc[(int)npc.ai[2]].localAI[3] >= 1f)
-			{
-				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
-			}
-			else if (Main.npc[(int)npc.ai[1]].alpha < 128)
+			if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
 			{
 				npc.alpha -= 42;
 				if (npc.alpha <= 0 && invinceTime <= 0)
 				{
+					setAlpha = true;
 					npc.alpha = 0;
 				}
+			}
+			else
+			{
+				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
 			}
 			float fallSpeed = 16f;
 			float turnSpeed = 0.3f;
@@ -473,6 +492,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
+			player.AddBuff(mod.BuffType("WhisperingDeath"), 240, true);
 			int num = Main.rand.Next(2);
 			string key = "Mods.CalamityMod.EdgyBossText8";
 			if (num == 0)

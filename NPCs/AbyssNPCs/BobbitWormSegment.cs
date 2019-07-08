@@ -19,6 +19,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void SetDefaults()
 		{
+			npc.lavaImmune = true;
 			npc.aiStyle = -1;
 			npc.damage = 0;
 			npc.alpha = 255;

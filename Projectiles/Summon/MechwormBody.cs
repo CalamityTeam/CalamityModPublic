@@ -114,7 +114,6 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
 			}
 			projectile.spriteDirection = ((vector134.X > 0f) ? 1 : -1);
-			return;
 		}
         
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

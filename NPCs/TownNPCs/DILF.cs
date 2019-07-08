@@ -4,6 +4,7 @@ using Terraria.GameContent.Events;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
@@ -27,6 +28,7 @@ namespace CalamityMod.NPCs.TownNPCs
 		{
 			npc.townNPC = true;
 			npc.friendly = true;
+			npc.lavaImmune = true;
 			npc.width = 18;
 			npc.height = 40;
 			npc.aiStyle = 7;

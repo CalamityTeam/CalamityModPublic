@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lionfish");
+			Tooltip.SetDefault("Sticks to enemies and injects a potent toxin");
 		}
 
 		public override void SafeSetDefaults()

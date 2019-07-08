@@ -137,7 +137,6 @@ namespace CalamityMod.Projectiles.Enemy
 			if (projectile.localAI[1] >= 120f) 
 			{
 				projectile.Kill();
-				return;
 			}
         }
         

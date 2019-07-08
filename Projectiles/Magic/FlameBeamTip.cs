@@ -53,7 +53,6 @@ namespace CalamityMod.Projectiles.Magic
 						float num50 = projectile.knockBack;
 						int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, num48, num49, num50, projectile.owner, 0f, projectile.ai[1] + 1f);
 						NetMessage.SendData(27, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
-						return;
 					}
         		}
         	}
@@ -72,7 +71,6 @@ namespace CalamityMod.Projectiles.Magic
 				if (projectile.alpha >= 255)
 				{
 					projectile.Kill();
-					return;
 				}
         	}
             if (Main.rand.Next(4) == 0)
@@ -92,7 +90,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 8;
-        	target.AddBuff(BuffID.OnFire, 240);
+        	target.AddBuff(BuffID.OnFire, 300);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,35 +9,45 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DoGNebulaShot : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class DoGNebulaShot : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Death Laser");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 5;
-            projectile.height = 5;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 4;
-            projectile.timeLeft = 180;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f);
-        	if (projectile.ai[0] == 0f)
+		public override void SetDefaults()
+		{
+			projectile.width = 5;
+			projectile.height = 5;
+			projectile.hostile = true;
+			projectile.ignoreWater = true;
+			projectile.alpha = 255;
+			projectile.penetrate = 1;
+			projectile.extraUpdates = 4;
+			projectile.timeLeft = 180;
+			cooldownSlot = 1;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f);
+			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[0] = 1f;
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12);
 			}
-        	if (projectile.alpha > 0)
+			if (projectile.alpha > 0)
 			{
 				projectile.alpha -= 25;
 			}
@@ -60,28 +71,27 @@ namespace CalamityMod.Projectiles.Boss
 				if (projectile.localAI[0] <= 0f)
 				{
 					projectile.Kill();
-					return;
 				}
 			}
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255, 100, 255, 0);
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
-        	int num147 = 0;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, 100, 255, 0);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+			int num147 = 0;
 			int num148 = 0;
-        	float num149 = (float)(Main.projectileTexture[projectile.type].Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
-        	SpriteEffects spriteEffects = SpriteEffects.None;
+			float num149 = (float)(Main.projectileTexture[projectile.type].Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
+			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 			{
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
-        	Microsoft.Xna.Framework.Rectangle value6 = new Microsoft.Xna.Framework.Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
+			Microsoft.Xna.Framework.Rectangle value6 = new Microsoft.Xna.Framework.Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
 			if (projectile.getRect().Intersects(value6))
 			{
 				Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
@@ -101,6 +111,6 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 			return false;
-        }
-    }
+		}
+	}
 }

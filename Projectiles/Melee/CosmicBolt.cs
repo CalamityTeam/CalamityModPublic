@@ -43,7 +43,6 @@ namespace CalamityMod.Projectiles.Melee
 					Main.dust[num442].scale = (float)Main.rand.Next(70, 110) * 0.007f;
 					Main.dust[num442].velocity *= 0.2f;
 				}
-				return;
 			}
         }
     }

@@ -10,7 +10,7 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -76,7 +76,17 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.scale = 1.15f;
 			}
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];

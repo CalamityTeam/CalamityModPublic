@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
                     speedY *= dir * 150;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("AMR2"), (int)((double)projectile.damage * 0.1f), 1f, projectile.owner);
+                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("AMR2"), (int)((double)projectile.damage * 0.1), 1f, projectile.owner);
                     }
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,35 +10,47 @@ using Terraria.Enums;
 
 namespace CalamityMod.Projectiles.Patreon
 {
-    public class DarkSpark : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class DarkSpark : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crystal");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 14;
-            projectile.height = 22;
-            projectile.friendly = true;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 14;
+			projectile.height = 22;
+			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.magic = true;
 			projectile.ignoreWater = true;
-        }
+		}
 
-        public override void AI()
-        {
-        	Player player = Main.player[projectile.owner];
-        	float num = 0f;
-            if (projectile.spriteDirection == -1)
-            {
-                num = 3.14159274f;
-            }
-            Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-        	float num26 = 30f;
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+			writer.Write(projectile.localAI[1]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+			projectile.localAI[1] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			Player player = Main.player[projectile.owner];
+			float num = 0f;
+			if (projectile.spriteDirection == -1)
+			{
+				num = 3.14159274f;
+			}
+			Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
+			float num26 = 30f;
 			if (projectile.ai[0] > 360f)
 			{
 				num26 = 15f;
@@ -49,15 +62,15 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.damage = (int)((float)player.inventory[player.selectedItem].damage * player.magicDamage);
 			projectile.ai[0] += 1f;
 			projectile.ai[1] += 1f;
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.localAI[0] = 1f;
-                projectile.localAI[1] = 255f;
-            }
-            if (projectile.localAI[1] > 0f)
-            {
-                projectile.localAI[1] -= 1f;
-            }
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.localAI[0] = 1f;
+				projectile.localAI[1] = 255f;
+			}
+			if (projectile.localAI[1] > 0f)
+			{
+				projectile.localAI[1] -= 1f;
+			}
 			bool flag9 = false;
 			if (projectile.ai[0] % num26 == 0f)
 			{
@@ -151,12 +164,12 @@ namespace CalamityMod.Projectiles.Patreon
 			player.itemTime = 2;
 			player.itemAnimation = 2;
 			player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
-        	Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
 			if (projectile.hide && !ProjectileID.Sets.DontAttachHideToAlpha[projectile.type])
 			{
 				color25 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
@@ -166,7 +179,7 @@ namespace CalamityMod.Projectiles.Patreon
 			{
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
-        	Texture2D texture2D14 = Main.projectileTexture[projectile.type];
+			Texture2D texture2D14 = Main.projectileTexture[projectile.type];
 			int num215 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 			int y7 = num215 * projectile.frame;
 			Vector2 vector27 = (projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
@@ -194,7 +207,7 @@ namespace CalamityMod.Projectiles.Patreon
 				scale5 = num217;
 			}
 			Main.spriteBatch.Draw(texture2D14, vector27, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y7, texture2D14.Width, num215)), projectile.GetAlpha(color25), projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), projectile.scale, spriteEffects, 0f);
-        	float scaleFactor2 = (float)Math.Cos((double)(6.28318548f * (projectile.ai[0] / 120f))) * 2f + 2f;
+			float scaleFactor2 = (float)Math.Cos((double)(6.28318548f * (projectile.ai[0] / 120f))) * 2f + 2f;
 			if (projectile.ai[0] > 480f)
 			{
 				scaleFactor2 = 4f;
@@ -204,14 +217,14 @@ namespace CalamityMod.Projectiles.Patreon
 				Main.spriteBatch.Draw(texture2D14, vector27 + Vector2.UnitY.RotatedBy((double)(num218 * 6.28318548f / 4f), default(Vector2)) * scaleFactor2, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y7, texture2D14.Width, num215)), projectile.GetAlpha(color25).MultiplyRGBA(new Microsoft.Xna.Framework.Color(255, 255, 255, 0)) * 0.03f, projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), projectile.scale, spriteEffects, 0f);
 			}
 			return false;
-        }
+		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (projectile.ai[0] < 255f)
-        	    return new Color((int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.localAI[1]));
-            else
-                return new Color(255, 255, 255, 0);
-        }
-    }
+		public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.ai[0] < 255f)
+				return new Color((int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.localAI[1]));
+			else
+				return new Color(255, 255, 255, 0);
+		}
+	}
 }

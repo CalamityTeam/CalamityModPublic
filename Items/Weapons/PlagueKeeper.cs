@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Keeper");
-        }
+			Tooltip.SetDefault("Fires a plague and bee cloud");
+		}
 
         public override void SetDefaults()
         {

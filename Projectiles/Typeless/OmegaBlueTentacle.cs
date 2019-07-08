@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using System;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Typeless
 {

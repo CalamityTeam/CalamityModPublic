@@ -190,7 +190,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (!target.boss)
+			if (!CalamityPlayer.areThereAnyDamnBosses)
 			{
 				if (target.rarity != 2)
 				{

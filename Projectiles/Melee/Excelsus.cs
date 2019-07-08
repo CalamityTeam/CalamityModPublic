@@ -97,6 +97,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				projectile.timeLeft = 85;
 			}
+			target.AddBuff(BuffID.OnFire, 600);
 			target.AddBuff(BuffID.Frostburn, 600);
 		}
     }

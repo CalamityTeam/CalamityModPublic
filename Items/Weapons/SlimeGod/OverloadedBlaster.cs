@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Overloaded Blaster");
-			Tooltip.SetDefault("33% chance to not consume gel");
+			Tooltip.SetDefault("33% chance to not consume gel\n" +
+				"Fires a large spread of bouncing slime");
 		}
 
 	    public override void SetDefaults()
@@ -46,16 +47,13 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 		
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			float SpeedA = speedX;
-            float SpeedB = speedY;
-            int num6 = Main.rand.Next(5, 6);
-            for (int index = 0; index < num6; ++index)
+            for (int index = 0; index < 5; ++index)
             {
             	float num7 = speedX;
                 float num8 = speedY;
                 float SpeedX = speedX + (float) Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float) Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
 		}

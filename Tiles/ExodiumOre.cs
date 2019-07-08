@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles
             name.SetDefault("Exodium Ore");
             AddMapEntry(new Color(51, 48, 68), name);
 			mineResist = 5f;
-			minPick = 224;
+			minPick = 225;
 			soundType = 21;
 			Main.tileValue[Type] = 760;
             Main.tileSpelunker[Type] = true;

@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
+using CalamityMod.World;
 
 namespace CalamityMod.Items
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.Items
 			item.width = 28;
 			item.height = 28;
 			item.expert = true;
+			item.rare = 9;
 			item.useAnimation = 45;
 			item.useTime = 45;
 			item.useStyle = 4;

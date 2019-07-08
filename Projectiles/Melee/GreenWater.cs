@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0f, 0.25f, 0.5f);
 			if (projectile.localAI[0] == 0f)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
@@ -50,7 +50,6 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
-			return;
         }
         
         public override void Kill(int timeLeft)

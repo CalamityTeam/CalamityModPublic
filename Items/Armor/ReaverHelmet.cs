@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "16% increased minion damage\n" +
-                "Summons a reaver orb that emits spore gas when enemies are near\n" +
-                "Rage activates when you are damaged";
+                "Summons a reaver orb that emits spore gas when enemies are near";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.reaverOrb = true;
             if (player.whoAmI == Main.myPlayer)

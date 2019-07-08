@@ -15,9 +15,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ataxia Mask");
-            Tooltip.SetDefault("12% increased magic damage, reduces mana usage by 10%, and 10% increased magic critical strike chance\n" +
-                "+100 max mana\n" +
-                "Temporary immunity to lava and immunity to fire damage");
+            Tooltip.SetDefault("12% increased magic damage, reduces mana usage by 15%, and 10% increased magic critical strike chance\n" +
+				"+100 max mana, temporary immunity to lava, and immunity to fire damage");
         }
 
         public override void SetDefaults()
@@ -53,7 +52,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.manaCost *= 0.9f;
+            player.manaCost *= 0.85f;
             player.statManaMax2 += 100;
             player.magicDamage += 0.12f;
             player.magicCrit += 10;

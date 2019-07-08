@@ -94,7 +94,6 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.ai[0] = 0f;
 					projectile.ai[1] = -1f;
 					projectile.netUpdate = true;
-					return;
 				}
 			}
         }

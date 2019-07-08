@@ -62,19 +62,16 @@ namespace CalamityMod.Items.Weapons
             {
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Exoboom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
             }
-            if (Main.rand.Next(5) == 0)
-            {
-                target.AddBuff(mod.BuffType("ExoFreeze"), 500);
-            }
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 200);
-            target.AddBuff(mod.BuffType("GlacialState"), 200);
-            target.AddBuff(mod.BuffType("Plague"), 200);
-            target.AddBuff(mod.BuffType("HolyLight"), 200);
-            target.AddBuff(BuffID.CursedInferno, 200);
-            target.AddBuff(BuffID.Frostburn, 200);
-            target.AddBuff(BuffID.OnFire, 200);
-            target.AddBuff(BuffID.Ichor, 200);
-            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
+			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+			target.AddBuff(BuffID.CursedInferno, 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(BuffID.OnFire, 120);
+			target.AddBuff(BuffID.Ichor, 120);
+			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
             float xPos = (Main.rand.Next(2) == 0) ? player.position.X + 800 : player.position.X - 800;
             Vector2 vector2 = new Vector2(xPos, player.position.Y + Main.rand.Next(-800, 801));
             float num80 = xPos;
@@ -105,7 +102,7 @@ namespace CalamityMod.Items.Weapons
                 for (int comet = 0; comet < 2; comet++)
                 {
                     float ai1 = (Main.rand.NextFloat() + 0.5f);
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Exocomet"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0.0f, ai1);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("Exocomet"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, ai1);
                 }
             }
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal)

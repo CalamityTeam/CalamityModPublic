@@ -77,7 +77,7 @@ namespace CalamityMod.Items.LoreItems
 							player.lifeRegenCount = 0;
 							player.lifeRegenTime = 0;
 						}
-						player.AddBuff(BuffID.ChaosState, 360, true);
+						player.AddBuff(BuffID.ChaosState, 480, true);
 					}
 				}
 			}

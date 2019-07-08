@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimblade");
+			Tooltip.SetDefault("Throws a blade that splits on enemy hits");
 		}
 
 		public override void SafeSetDefaults()

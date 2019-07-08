@@ -8,27 +8,27 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class YinYo : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class YinYo : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Yinyo");
 		}
-    	
-        public override void SetDefaults()
-        {
-        	projectile.CloneDefaults(ProjectileID.Chik);
-            projectile.width = 16;
-            projectile.scale = 0.9f;
-            projectile.height = 16;
-            projectile.penetrate = 5;
-            projectile.melee = true;
-            aiType = 546;
-        }
-        
-        public override void AI()
-        {
-        	int[] array = new int[20];
+
+		public override void SetDefaults()
+		{
+			projectile.CloneDefaults(ProjectileID.Chik);
+			projectile.width = 16;
+			projectile.scale = 0.9f;
+			projectile.height = 16;
+			projectile.penetrate = 5;
+			projectile.melee = true;
+			aiType = 546;
+		}
+
+		public override void AI()
+		{
+			int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
 			bool flag14 = false;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					}
 				}
 			}
-        }
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

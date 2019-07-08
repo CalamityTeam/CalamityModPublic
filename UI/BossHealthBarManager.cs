@@ -44,7 +44,7 @@ namespace CalamityMod.UI
 
         public static bool SHOULD_DRAW_SMALLTEXT_HEALTH = true;
 
-        private static List<BossHPUI> Bars;
+		private static List<BossHPUI> Bars;
 
         private static DynamicSpriteFont HPBarFont;
         private static Texture2D BossMainHPBar;
@@ -173,7 +173,8 @@ namespace CalamityMod.UI
                 ExclusionList.Add(calamity.NPCType("AstrumDeusTailSpectral"));
                 ExclusionList.Add(calamity.NPCType("DesertScourgeBody"));
                 ExclusionList.Add(calamity.NPCType("DesertScourgeTail"));
-                ExclusionList.Add(calamity.NPCType("StormWeaverBody"));
+				ExclusionList.Add(calamity.NPCType("StormWeaverHead"));
+				ExclusionList.Add(calamity.NPCType("StormWeaverBody"));
                 ExclusionList.Add(calamity.NPCType("StormWeaverTail"));
                 ExclusionList.Add(calamity.NPCType("StormWeaverBodyNaked"));
                 ExclusionList.Add(calamity.NPCType("StormWeaverTailNaked"));

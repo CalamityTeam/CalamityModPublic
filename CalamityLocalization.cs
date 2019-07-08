@@ -16,20 +16,31 @@ namespace CalamityMod
 				new [] { "TreeOreText", "Fossilized tree bark is bursting through the jungle's mud." },
 				new [] { "AuricOreText", "A godly aura has blessed the world's caverns." },
 				new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
+
 				new [] { "UglyBossText", "The Sunken Sea trembles..." },
+
 				new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
+
 				new [] { "PlantBossText", "The ocean depths are trembling." },
+
 				new [] { "BabyBossText", "A plague has befallen the Jungle." },
 				new [] { "BabyBossText2", "An ancient automaton roams the land." },
+
 				new [] { "MoonBossText", "The profaned flame blazes fiercely!" },
 				new [] { "MoonBossText2", "Cosmic terrors are watching..." },
 				new [] { "MoonBossText3", "The bloody moon beckons..." },
+
 				new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
 				new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },
+
 				new [] { "ProfanedBossText", "The air is burning..." },
 				new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
 				new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
+
 				new [] { "GhostBossText", "The abyssal spirits have been disturbed." },
+				new [] { "GhostBossText2", "Wails echo through the dilapidated dungeon halls..." },
+				new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
+
 				new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start     
                 new [] { "SupremeBossText4", "You seem so confident, even though you are painfully ignorant of what has yet to transpire." }, //75%
                 new [] { "SupremeBossText5", "Everything was going well until you came along." }, //75%
@@ -58,6 +69,7 @@ namespace CalamityMod
                 new [] { "SupremeBossText17", "One death? That's it? ...I guess you earned this then." },  //die 1 time and win
                 new [] { "SupremeBossText18", "Two deaths, nice job. Here's your reward." }, //die 2 times and win
                 new [] { "SupremeBossText19", "Third time's the charm. Here's a special reward." }, //die 3 times and win
+
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
 				new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
 				new [] { "EdgyBossText3", "A fatal mistake!" },
@@ -72,27 +84,46 @@ namespace CalamityMod
 				new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
 				new [] { "DoGBossText", "The frigid moon shimmers brightly." },
 				new [] { "DoGBossText2", "The harvest moon glows eerily." },
+
 				new [] { "AstralText", "A star has fallen from the heavens!" },
-				new [] { "AstralBossText", "The seal of the stars has been broken!" },
+				new [] { "AureusBossText", "The astral enemies have been empowered!" },
+				new [] { "AureusBossText2", "A faint ethereal click can be heard from the dungeon." },
+				new [] { "AstralBossText", "The seal of the stars has been broken! You can now mine Astral Ore." },
+				new [] { "DeusText", "A star-spawned horror tunnels through the astral infection." },
+				new [] { "DeusText2", "The astral infection trembles..." },
+				new [] { "DeusText3", "The god of the stars draws near..." },
+
 				new [] { "CalamitasBossText", "You underestimate my power..." },
-				new [] { "CalamitasBossText2", "The brothers have awoken!" },
+				new [] { "CalamitasBossText2", "The brothers have been reborn!" },
 				new [] { "CalamitasBossText3", "Impressive child, most impressive..." },
-				new [] { "CalamitasBossText4", "The brothers have been reborn!" },
+
+				new [] { "SandSharkText", "Something stirs in the warm desert sands..." },
+				new [] { "SandSharkText2", "An enormous apex predator approaches..." },
+
 				new [] { "CryogenBossText", "Cryogen is derping out!" },
+
 				new [] { "BloodMoonText", "The Blood Moon is rising..." },
+
 				new [] { "DargonBossText", "The dark sun awaits." },
 				new [] { "DargonBossText2", "My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power." },
+
 				new [] { "RevengeText", "Revengeance is active." },
 				new [] { "RevengeText2", "Revengeance is not active." },
+
 				new [] { "DeathText", "Death is active, enjoy the fun." },
 				new [] { "DeathText2", "Death is not active, not fun enough for you?" },
+
 				new [] { "ArmageddonText", "Bosses will now kill you instantly." },
 				new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
+
 				new [] { "DefiledText", "Your soul is mine..." },
 				new [] { "DefiledText2", "Your soul is yours once more..." },
+
 				new [] { "IronHeartText", "Iron Heart is active, don't die." },
 				new [] { "IronHeartText2", "Iron Heart is not active, you can die again." },
+
 				new [] { "FlameText", "The air is getting warmer around you." },
+
 				new [] { "BossRushStartText", "Hmm? Ah, another contender. Very well, may the ritual commence!" },
 				new [] { "BossRushTierOneEndText", "Hmm? Oh, you're still alive. Unexpected, but don't get complacent just yet." },
 				new [] { "BossRushTierTwoEndText", "Hmm? Persistent aren't you? Perhaps you have some hope of prosperity, unlike past challengers." },
@@ -101,7 +132,9 @@ namespace CalamityMod
 				new [] { "BossRushTierFourEndText", "Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods." },
 				new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
 				new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
+
 				new [] { "BossSpawnText", "Something is approaching..." },
+
 				new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
 				new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
 				new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },
@@ -112,7 +145,9 @@ namespace CalamityMod
 				new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
 				new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
 				new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
+
 				new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
+
 				new [] { "AprilFools", "The LORDE is approaching..." }
 			};
 		}

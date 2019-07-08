@@ -9,6 +9,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class Mantis : ModNPC
@@ -25,17 +27,24 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void SetDefaults()
         {
-            npc.damage = 85;
+            npc.damage = 55;
             npc.width = 60;
             npc.height = 58;
             npc.aiStyle = -1;
-            npc.defense = 16;
-            npc.lifeMax = 510;
-            npc.knockBackResist = 0.1f;
+            npc.defense = 6;
+            npc.lifeMax = 340;
+            npc.knockBackResist = 0.2f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
 			banner = npc.type;
 			bannerItem = mod.ItemType("MantisBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 85;
+				npc.defense = 16;
+				npc.knockBackResist = 0.1f;
+				npc.lifeMax = 510;
+			}
 		}
 
         public override void AI()
@@ -115,7 +124,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 71);
                     Vector2 vector = Main.player[npc.target].Center - npc.Center;
                     vector.Normalize();
-                    Projectile.NewProjectile(npc.Center + (npc.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, mod.ProjectileType("MantisRing"), 76, 0.5f);
+					int damage = CalamityWorld.downedAstrageldon ? 45 : 55;
+                    Projectile.NewProjectile(npc.Center + (npc.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, mod.ProjectileType("MantisRing"), damage, 0f);
                 }
             }
 
@@ -230,7 +240,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-            if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+            if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstralScythe"));
             }

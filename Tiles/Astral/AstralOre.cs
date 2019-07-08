@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Tiles.Astral
             Main.tileSpelunker[Type] = true;
             Main.tileShine2[Type] = true;
 
-            minPick = 199;
+            minPick = 200;
 			dustType = 173;
 			drop = mod.ItemType("AstralOre");
 			ModTranslation name = CreateMapEntryName();

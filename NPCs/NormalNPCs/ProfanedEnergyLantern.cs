@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void AI()
 		{
-			if (!Main.npc[CalamityGlobalNPC.energyFlame].active) 
+			if (CalamityGlobalNPC.energyFlame < 0 || !Main.npc[CalamityGlobalNPC.energyFlame].active) 
 			{
 				npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
 				npc.netUpdate = true;
@@ -172,7 +172,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 							return;
 						}
 						npc.localAI[1] = 250f;
-						return;
 					}
 				}
 			}
@@ -188,7 +187,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-            if (CalamityGlobalNPC.energyFlame > 0)
+            if (CalamityGlobalNPC.energyFlame != -1)
             {
                 Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
                 float drawPositionX = Main.npc[CalamityGlobalNPC.energyFlame].Center.X - center.X;

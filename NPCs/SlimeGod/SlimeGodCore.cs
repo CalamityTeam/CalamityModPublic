@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 50;
+			npc.damage = 60;
 			npc.npcSlots = 10f;
 			npc.width = 44; //324
 			npc.height = 44; //216
@@ -61,6 +62,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		
 		public override void AI()
 		{
+			CalamityGlobalNPC.slimeGod = npc.whoAmI;
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			Player player = Main.player[npc.target];
@@ -77,14 +79,23 @@ namespace CalamityMod.NPCs.SlimeGod
 			Main.dust[num658].noGravity = true;
 			Main.dust[num658].velocity *= 0.5f;
 			bool flag100 = false;
-            if ((NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"))) && 
-                !CalamityWorld.bossRushActive)
-            {
-                flag100 = true;
-            }
+			if (!CalamityWorld.bossRushActive)
+			{
+				if (CalamityGlobalNPC.slimeGodRed != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
+					{
+						flag100 = true;
+					}
+				}
+				if (CalamityGlobalNPC.slimeGodPurple != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
+					{
+						flag100 = true;
+					}
+				}
+			}
 			if (!player.active || player.dead)
 			{
 				npc.TargetClosest(false);
@@ -115,7 +126,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
 			if (!flag100)
 			{
-				npc.damage = 75;
+				npc.damage = expertMode ? 128 : 80;
 				if (Main.netMode != 1)
 				{
                     npc.localAI[1] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
@@ -137,7 +148,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								num183 = num179 / num183;
 								num180 *= num183;
 								num182 *= num183;
-								int num184 = 21;
+								int num184 = 24;
 								int num185 = Main.rand.Next(2);
 								if (num185 == 0)
 								{
@@ -146,7 +157,7 @@ namespace CalamityMod.NPCs.SlimeGod
 								else
 								{
 									num185 = mod.ProjectileType("AbyssMine2");
-                                    num184 = 19;
+                                    num184 = 22;
                                 }
 								value9.X += num180;
 								value9.Y += num182;
@@ -176,7 +187,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							num183 = num179 / num183;
 							num180 *= num183;
 							num182 *= num183;
-							int num184 = expertMode ? 16 : 18;
+							int num184 = expertMode ? 19 : 21;
 							int num185 = Main.rand.Next(2);
 							if (num185 == 0)
 							{
@@ -185,7 +196,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							else
 							{
 								num185 = mod.ProjectileType("AbyssBallVolley2");
-                                num184 = expertMode ? 14 : 16;
+                                num184 = expertMode ? 17 : 19;
                             }
 							value9.X += num180;
 							value9.Y += num182;
@@ -215,11 +226,11 @@ namespace CalamityMod.NPCs.SlimeGod
 			{
 				num1372 = 10f;
 			}
-            if (CalamityWorld.bossRushActive)
+            if (CalamityWorld.bossRushActive || player.gravDir == -1f)
             {
                 num1372 = 22f;
             }
-            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || player.gravDir == -1f || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num1372 += 8f;
             }

@@ -34,6 +34,7 @@ namespace CalamityMod.World
                 return base.UnitApply(origin, x, y, args);
             }
         }
+
         public class PlaceTree : GenAction
         {
             public PlaceTree() { }
@@ -42,6 +43,7 @@ namespace CalamityMod.World
                 return WorldGen.GrowTree(x, y);
             }
         }
+
         public class JungleGrass : GenAction
         {
             private bool _tryMushrooms;
@@ -66,6 +68,7 @@ namespace CalamityMod.World
                 return base.UnitApply(origin, x, y, args);
             }
         }
+
         public class RandomFrom : GenAction
         {
             private GenAction[] _actions;
@@ -84,6 +87,7 @@ namespace CalamityMod.World
                     _weights[i] = _weights[i - 1] + weights[i]; 
                 }
             }
+
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
                 float number = _random.NextFloat(0f, 1f);
@@ -99,11 +103,13 @@ namespace CalamityMod.World
         {
             private float _distance;
             private bool _greaterThan;
+
             public DistanceFromOrigin(bool greater, float distance)
             {
                 _greaterThan = greater;
                 _distance = distance;
             }
+
             public override bool Apply(Point origin, int x, int y, params object[] args)
             {
                 Vector2 worldOrigin = origin.ToWorldCoordinates();

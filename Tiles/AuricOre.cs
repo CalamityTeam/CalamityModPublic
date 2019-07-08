@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Auric Ore");
  			AddMapEntry(new Color(255, 200, 0), name);
 			mineResist = 10f;
-			minPick = 274;
+			minPick = 275;
 			soundType = 21;
 			Main.tileSpelunker[Type] = true;
 		}

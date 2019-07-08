@@ -38,8 +38,8 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.alpha = 0;
 			}
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.7f, 0.3f, 0f);
-			float num55 = 100f;
-			float num56 = 3f;
+			float num55 = 50f;
+			float num56 = 1.5f;
 			if (projectile.ai[1] == 0f)
 			{
 				projectile.localAI[0] += num56;
@@ -54,7 +54,6 @@ namespace CalamityMod.Projectiles.Ranged
 				if (projectile.localAI[0] <= 0f)
 				{
 					projectile.Kill();
-					return;
 				}
 			}
         }
@@ -79,8 +78,8 @@ namespace CalamityMod.Projectiles.Ranged
 			if (projectile.getRect().Intersects(value6))
 			{
 				Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
-				float num162 = 100f;
-				float scaleFactor = 3f;
+				float num162 = 50f;
+				float scaleFactor = 1.5f;
 				if (projectile.ai[1] == 1f)
 				{
 					num162 = (float)((int)projectile.localAI[0]);
@@ -97,7 +96,20 @@ namespace CalamityMod.Projectiles.Ranged
 			return false;
         }
 
-        public override void Kill(int timeLeft)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+			target.AddBuff(BuffID.CursedInferno, 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(BuffID.OnFire, 120);
+			target.AddBuff(BuffID.Ichor, 120);
+		}
+
+		public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14, 1f, 0f);
             int num226 = 36;
@@ -117,14 +129,14 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 50, default(Color), 1.5f);
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 50, default(Color), 1f);
             }
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default(Color), 2.5f);
+                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default(Color), 1.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 50, default(Color), 1.5f);
+                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 50, default(Color), 1f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }

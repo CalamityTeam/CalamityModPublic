@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
@@ -62,6 +63,18 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.scale = 1.5f;
 			}
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -205,6 +218,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 240, true);
+			player.AddBuff(mod.BuffType("WhisperingDeath"), 300, true);
 			player.AddBuff(BuffID.Frostburn, 240, true);
 			player.AddBuff(BuffID.Darkness, 240, true);
 		}

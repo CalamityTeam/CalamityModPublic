@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feralthorn Claymore");
+			Tooltip.SetDefault("Summons thorns on enemy hits");
 		}
 
 		public override void SetDefaults()
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.useTime = 13;
 			item.useTurn = true;
 			item.knockBack = 7.25f;
-			item.UseSound = SoundID.Item8;
+			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 66;
             item.value = Item.buyPrice(0, 60, 0, 0);
@@ -52,7 +53,15 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			target.AddBuff(BuffID.Venom, 200);
+			target.AddBuff(BuffID.Venom, 300);
+			for (int x = 0; x < 2; x++)
+			{
+				Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)((float)item.damage * player.meleeDamage * 0.2), 0f, Main.myPlayer, 0f, 0f);
+			}
+			for (int x = 0; x < 2; x++)
+			{
+				Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)((float)item.damage * player.meleeDamage * 0.2), 0f, Main.myPlayer, 0f, 0f);
+			}
 		}
 	}
 }

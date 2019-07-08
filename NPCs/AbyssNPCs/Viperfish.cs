@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -37,6 +38,18 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.knockBackResist = 0.85f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("ViperfishBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()

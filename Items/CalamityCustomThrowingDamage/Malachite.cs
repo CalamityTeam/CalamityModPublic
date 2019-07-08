@@ -23,7 +23,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SafeSetDefaults()
 		{
 			item.width = 26;
-			item.damage = 58;
+			item.damage = 62;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useTime = 10;
@@ -67,14 +67,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		{
 	    	if (player.altFunctionUse == 2)
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MalachiteBolt"), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MalachiteBolt"), (int)((double)damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
 	    	}
 	    	else
 	    	{
-	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Malachite"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
+	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Malachite"), damage, knockBack, player.whoAmI, 0f, 0f);
 	    	}
+			return false;
 		}
 	}
 }

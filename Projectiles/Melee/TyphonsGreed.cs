@@ -67,7 +67,6 @@ namespace CalamityMod.Projectiles.Melee
 						vector102 = Vector2.UnitY;
 					}
 					projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
-					return;
 				}
 			} 
 			else 

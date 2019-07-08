@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.AquaticScourge
 {
@@ -65,65 +66,65 @@ namespace CalamityMod.Items.AquaticScourge
 			{
 				player.QuickSpawnItem(mod.ItemType("SubmarineShocker"));
 			}
-            if (Main.rand.Next(15) == 0)
+            if (Main.rand.Next(10) == 0)
             {
                 player.QuickSpawnItem(ItemID.HighTestFishingLine);
             }
-            if (Main.rand.Next(30) == 0)
+            if (Main.rand.Next(10) == 0)
             {
                 player.QuickSpawnItem(ItemID.AnglerTackleBag);
             }
-            if (Main.rand.Next(15) == 0)
+            if (Main.rand.Next(10) == 0)
             {
                 player.QuickSpawnItem(ItemID.TackleBox);
             }
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.Next(8) == 0)
             {
                 player.QuickSpawnItem(ItemID.AnglerEarring);
             }
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.Next(8) == 0)
             {
                 player.QuickSpawnItem(ItemID.FishermansGuide);
             }
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.Next(8) == 0)
             {
                 player.QuickSpawnItem(ItemID.WeatherRadio);
             }
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.Next(8) == 0)
             {
                 player.QuickSpawnItem(ItemID.Sextant);
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(3) == 0)
             {
                 player.QuickSpawnItem(ItemID.AnglerHat);
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(3) == 0)
             {
                 player.QuickSpawnItem(ItemID.AnglerVest);
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(3) == 0)
             {
                 player.QuickSpawnItem(ItemID.AnglerPants);
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(3) == 0)
             {
                 player.QuickSpawnItem(ItemID.CratePotion, Main.rand.Next(2, 4));
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(3) == 0)
             {
                 player.QuickSpawnItem(ItemID.FishingPotion, Main.rand.Next(2, 4));
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.Next(3) == 0)
             {
                 player.QuickSpawnItem(ItemID.SonarPotion, Main.rand.Next(2, 4));
             }
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.Next(8) == 0)
             {
                 player.QuickSpawnItem(mod.ItemType("AeroStone"));
             }
             if (NPC.downedBoss3)
             {
-                if (Main.rand.Next(20) == 0)
+                if (Main.rand.Next(12) == 0)
                 {
                     player.QuickSpawnItem(ItemID.GoldenBugNet);
                 }

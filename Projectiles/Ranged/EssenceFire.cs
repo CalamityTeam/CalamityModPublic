@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
 					for (int num298 = 0; num298 < 1; num298++)
 					{
 						int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-						if ((num297 == 173 && Main.rand.Next(3) == 0))
+						if (Main.rand.Next(3) == 0)
 						{
 							Main.dust[num299].noGravity = true;
 							Main.dust[num299].scale *= 3f;
@@ -77,13 +77,10 @@ namespace CalamityMod.Projectiles.Ranged
 						Dust expr_DC94_cp_0 = Main.dust[num299];
 						expr_DC94_cp_0.velocity.Y = expr_DC94_cp_0.velocity.Y * 1.2f;
 						Main.dust[num299].scale *= num296;
-						if (num297 == 173)
+						Main.dust[num299].velocity += projectile.velocity;
+						if (!Main.dust[num299].noGravity)
 						{
-							Main.dust[num299].velocity += projectile.velocity;
-							if (!Main.dust[num299].noGravity)
-							{
-								Main.dust[num299].velocity *= 0.5f;
-							}
+							Main.dust[num299].velocity *= 0.5f;
 						}
 					}
 				}
@@ -93,12 +90,11 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.ai[0] += 1f;
 			}
 			projectile.rotation += 0.3f * (float)projectile.direction;
-			return;	
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
     	{
-        	target.AddBuff(mod.BuffType("GodSlayerInferno"), 500);
+        	target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
         	target.immune[projectile.owner] = 1;
 		}
     }

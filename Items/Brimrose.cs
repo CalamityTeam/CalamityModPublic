@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.useAnimation = 20;
             item.useStyle = 1;
 			item.value = Item.buyPrice(1, 50, 0, 0);
-			item.rare = 10;
+			item.rare = 9;
 			item.expert = true;
             item.UseSound = SoundID.Item3;
             item.noMelee = true;

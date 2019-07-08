@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blood Bath");
-			Tooltip.SetDefault("Drench your foes in blood");
+			Tooltip.SetDefault("Drenches your foes in blood");
 			Item.staff[item.type] = true;
 		}
 

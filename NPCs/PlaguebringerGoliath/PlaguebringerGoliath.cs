@@ -11,20 +11,22 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
 	[AutoloadBossHead]
 	public class PlaguebringerGoliath : ModNPC
 	{
-		private const int MissileProjectiles = 5;
 		private const float MissileAngleSpread = 90;
+		private const int MissileProjectiles = 5;
 		private int MissileCountdown = 0;
-		private bool halfLife = false;
 		private int despawnTimer = 600;
+		private int chargeDistance = 0;
+		private bool charging = false;
+		private bool halfLife = false;
 		private bool canDespawn = false;
-		private float chargeDistance = 0;
+		private bool flyingFrame2 = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -83,6 +85,28 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			else
 				music = MusicID.Boss3;
 			bossBag = mod.ItemType("PlaguebringerGoliathBag");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(halfLife);
+			writer.Write(canDespawn);
+			writer.Write(flyingFrame2);
+			writer.Write(MissileCountdown);
+			writer.Write(despawnTimer);
+			writer.Write(chargeDistance);
+			writer.Write(charging);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			halfLife = reader.ReadBoolean();
+			canDespawn = reader.ReadBoolean();
+			flyingFrame2 = reader.ReadBoolean();
+			MissileCountdown = reader.ReadInt32();
+			despawnTimer = reader.ReadInt32();
+			chargeDistance = reader.ReadInt32();
+			charging = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -183,16 +207,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					{
 						switch (Main.rand.Next(3))
 						{
-							case 0: chargeDistance = 0f; break;
-							case 1: chargeDistance = 400f; break;
-							case 2: chargeDistance = -400f; break;
+							case 0: chargeDistance = 0; break;
+							case 1: chargeDistance = 400; break;
+							case 2: chargeDistance = -400; break;
 						}
 					}
 					npc.ai[0] = (float)num596;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 0f)
@@ -210,15 +233,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				{
 					npc.TargetClosest(true);
 					float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
-					if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - chargeDistance)) < 20f)
+					if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - (float)chargeDistance)) < 20f)
 					{
 						switch (Main.rand.Next(3))
 						{
-							case 0: chargeDistance = 0f; break;
-							case 1: chargeDistance = 400f; break;
-							case 2: chargeDistance = -400f; break;
+							case 0: chargeDistance = 0; break;
+							case 1: chargeDistance = 400; break;
+							case 2: chargeDistance = -400; break;
 						}
-						npc.localAI[0] = 1f;
+						charging = true;
 						npc.ai[1] += 1f;
 						npc.ai[2] = 0f;
 						float num1044 = revenge ? 24f : 22f; //16
@@ -258,7 +281,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
 						return;
 					}
-					npc.localAI[0] = 0f;
+					charging = false;
 					float num1048 = revenge ? 10f : 9f; //12 not a prob
 					float num1049 = revenge ? 0.15f : 0.13f; //0.15 not a prob
 					if ((double)npc.life < (double)npc.lifeMax * 0.75)
@@ -286,7 +309,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						num1048 += 2f;
 						num1049 += 0.1f;
 					}
-					if (npc.position.Y + (float)(npc.height / 2) < (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - chargeDistance))
+					if (npc.position.Y + (float)(npc.height / 2) < (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - (float)chargeDistance))
 					{
 						npc.velocity.Y = npc.velocity.Y + num1049;
 					}
@@ -324,7 +347,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					}
 					npc.direction = (playerLocation < 0 ? 1 : -1);
 					npc.spriteDirection = npc.direction;
-					return;
 				}
 				else
 				{
@@ -377,12 +399,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					}
 					if (npc.ai[2] != 1f)
 					{
-						npc.localAI[0] = 1f;
+						charging = true;
 						return;
 					}
 					npc.TargetClosest(true);
 					npc.spriteDirection = npc.direction;
-					npc.localAI[0] = 0f;
+					charging = false;
 					npc.velocity *= 0.9f;
 					float num1052 = revenge ? 0.13f : 0.115f; //0.1
 					if (npc.life < npc.lifeMax / 2)
@@ -404,7 +426,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					{
 						npc.ai[2] = 0f;
 						npc.ai[1] += 1f;
-						return;
 					}
 				}
 			}
@@ -451,7 +472,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					if (npc.velocity.Y < 0f && num1056 > 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y + num10542;
-						return;
 					}
 				}
 				else if (npc.velocity.Y > num1056)
@@ -460,13 +480,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					if (npc.velocity.Y > 0f && num1056 < 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y - num10542;
-						return;
 					}
 				}
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.localAI[0] = 0f;
+				charging = false;
 				npc.TargetClosest(true);
 				Vector2 vector119 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				Vector2 vector120 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -578,12 +597,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					npc.ai[0] = -1f;
 					npc.ai[1] = 1f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 5f)
 			{
-				npc.localAI[0] = 0f;
+				charging = false;
 				npc.TargetClosest(true);
 				Vector2 vector119 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				Vector2 vector120 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -691,7 +709,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					npc.ai[0] = -1f;
 					npc.ai[1] = 1f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f)
@@ -820,7 +837,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					npc.ai[0] = -1f;
 					npc.ai[1] = 3f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 4f)
@@ -865,7 +881,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 								}
 							}
 						}
-						npc.localAI[0] = 1f;
+						charging = true;
 						npc.ai[1] += 1f;
 						npc.ai[2] = 0f;
 						float num1044 = revenge ? 28f : 26f; //16
@@ -880,7 +896,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						npc.spriteDirection = npc.direction;
 						return;
 					}
-					npc.localAI[0] = 0f;
+					charging = false;
 					float num1048 = 12f; //12 not a prob
 					float num1049 = 0.15f; //0.15 not a prob
 					if (npc.position.Y + (float)(npc.height / 2) < (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 500f))
@@ -921,7 +937,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					}
 					npc.direction = (playerLocation < 0 ? 1 : -1);
 					npc.spriteDirection = npc.direction;
-					return;
 				}
 				else
 				{
@@ -946,12 +961,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					}
 					if (npc.ai[2] != 1f)
 					{
-						npc.localAI[0] = 1f;
+						charging = true;
 						return;
 					}
 					npc.TargetClosest(true);
 					npc.spriteDirection = npc.direction;
-					npc.localAI[0] = 0f;
+					charging = false;
 					npc.velocity *= 0.9f;
 					float num1052 = revenge ? 0.13f : 0.115f; //0.1
 					if (npc.life < npc.lifeMax / 2)
@@ -973,7 +988,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					{
 						npc.ai[2] = 0f;
 						npc.ai[1] += 1f;
-						return;
 					}
 				}
 			}
@@ -1028,13 +1042,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			Texture2D texture = Main.npcTexture[npc.type];
-			if (npc.localAI[0] == 1f)
+			if (charging)
 			{
 				texture = mod.GetTexture("NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");
 			}
 			else
 			{
-				if (npc.localAI[1] == 0f)
+				if (!flyingFrame2)
 				{
 					texture = Main.npcTexture[npc.type];
 				}
@@ -1096,15 +1110,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			if (npc.frame.Y >= frameHeight * 4)
 			{
 				npc.frame.Y = 0;
-				if (npc.localAI[0] != 1f)
+				if (!charging)
 				{
-					npc.localAI[1] += 1f;
+					flyingFrame2 = !flyingFrame2;
 				}
-			}
-			if (npc.localAI[1] > 1f)
-			{
-				npc.localAI[1] = 0f;
-				npc.netUpdate = true;
 			}
 		}
 

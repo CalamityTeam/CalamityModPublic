@@ -49,13 +49,12 @@ namespace CalamityMod.Projectiles.Magic
 					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
 					Main.dust[num448].velocity *= 0.2f;
 				}
-				return;
 			}
         }
         
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	projectile.damage = (int)((double)projectile.damage * 1.1f);
+        	projectile.damage = (int)((double)projectile.damage * 1.1);
         	projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -82,15 +81,16 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				return;
 			}
-        	projectile.damage = (int)((double)projectile.damage * 1.05f);
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-        	target.AddBuff(mod.BuffType("GlacialState"), 100);
-        	target.AddBuff(mod.BuffType("Plague"), 100);
-        	target.AddBuff(mod.BuffType("HolyLight"), 100);
-        	target.AddBuff(BuffID.CursedInferno, 100);
-			target.AddBuff(BuffID.Frostburn, 100);
-			target.AddBuff(BuffID.OnFire, 100);
-			target.AddBuff(BuffID.Ichor, 100);
-        }
+        	projectile.damage = (int)((double)projectile.damage * 1.05);
+			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+			target.AddBuff(BuffID.CursedInferno, 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(BuffID.OnFire, 120);
+			target.AddBuff(BuffID.Ichor, 120);
+		}
     }
 }

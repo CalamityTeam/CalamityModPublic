@@ -10,7 +10,7 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -65,14 +65,25 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.netAlways = true;
 		}
 
-        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.localAI[0] = reader.ReadSingle();
+		}
+
+		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             return false;
         }
 
         public override void AI()
 		{
-            if (NPC.CountNPCS(mod.NPCType("SCalWormHeart")) == 0)
+			CalamityGlobalNPC.SCalWorm = npc.whoAmI;
+			if (!NPC.AnyNPCs(mod.NPCType("SCalWormHeart")) || CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 npc.life = 0;
                 npc.HitEffect(0, 10.0);
@@ -151,7 +162,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 num183 = Main.maxTilesY;
             }
-            npc.localAI[1] = 0f;
             bool canFly = flies;
             if (Main.player[npc.target].dead)
             {

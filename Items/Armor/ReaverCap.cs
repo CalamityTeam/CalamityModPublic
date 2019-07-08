@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Headgear");
-            Tooltip.SetDefault("10% increased rogue damage, 5% increased rogue velocity and critical strike chance\n" +
-                "10% increased movement speed and can move freely through liquids");
+            Tooltip.SetDefault("15% increased rogue damage, 5% increased rogue velocity and critical strike chance\n" +
+                "20% increased movement speed and can move freely through liquids");
         }
 
         public override void SetDefaults()
@@ -47,17 +47,19 @@ namespace CalamityMod.Items.Armor
 			modPlayer.rogueStealthMax = 1.15f;
 			player.setBonus = "5% increased rogue damage\n" +
                 "You emit a cloud of spores when you are hit\n" +
-                "Rage activates when you are damaged";
+				"Rogue stealth builds while not attacking and not moving, up to a max of 115\n" +
+				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.05f;
-            player.moveSpeed += 0.1f;
+            player.moveSpeed += 0.2f;
         }
 
         public override void AddRecipes()

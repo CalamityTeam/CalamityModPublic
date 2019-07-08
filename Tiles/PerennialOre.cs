@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Perennial Ore");
  			AddMapEntry(new Color(200, 250, 100), name);
 			mineResist = 3f;
-			minPick = 199;
+			minPick = 200;
 			soundType = 21;
 			Main.tileSpelunker[Type] = true;
 		}

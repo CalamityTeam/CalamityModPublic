@@ -36,46 +36,46 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			projectile.ai[0] += 1f;
 			int num39 = 0;
-			float spreadMult = 0.5f;
+			float spreadMult = 0.15f;
 			if (projectile.ai[0] >= 120f)
 			{
 				num39++;
-				spreadMult *= 1.05f;
+				spreadMult = 0.13f;
 			}
 			if (projectile.ai[0] >= 240f)
 			{
 				num39++;
-				spreadMult *= 1.1f;
+				spreadMult = 0.11f;
 			}
 			if (projectile.ai[0] >= 360f)
 			{
 				num39++;
-				spreadMult *= 1.15f;
+				spreadMult = 0.09f;
 			}
 			if (projectile.ai[0] >= 480f)
 			{
 				num39++;
-				spreadMult *= 1.2f;
+				spreadMult = 0.07f;
 			}
 			if (projectile.ai[0] >= 600f)
 			{
 				num39++;
-				spreadMult *= 1.25f;
+				spreadMult = 0.05f;
 			}
 			if (projectile.ai[0] >= 720f)
 			{
 				num39++;
-				spreadMult *= 1.3f;
+				spreadMult = 0.04f;
 			}
 			if (projectile.ai[0] >= 840f)
 			{
 				num39++;
-				spreadMult *= 1.4f;
+				spreadMult = 0.03f;
 			}
 			if (projectile.ai[0] >= 960f) //8
 			{
 				num39++;
-				spreadMult *= 1.5f;
+				spreadMult = 0.02f;
 			}
 			int num40 = 40;
 			int num41 = 3;
@@ -137,8 +137,11 @@ namespace CalamityMod.Projectiles.Ranged
 							vector20 = -Vector2.UnitY;
 						}
 						Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -5f, 5f);
-						int num44 = Projectile.NewProjectile(vector21.X, vector21.Y, vector20.X * spreadMult, vector20.Y * spreadMult, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
+						vector20.X = vector20.X + (float)Main.rand.Next(-15, 16) * spreadMult;
+						vector20.Y = vector20.Y + (float)Main.rand.Next(-15, 16) * spreadMult;
+						int num44 = Projectile.NewProjectile(vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
 						Main.projectile[num44].noDropItem = true;
+						Main.projectile[num44].extraUpdates += num39 / 2; //0 to 4
 					}
 				}
 				else

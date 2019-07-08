@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Leviathan
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Leviatitan");
-        }
+			Tooltip.SetDefault("Fires green and normal water blasts");
+		}
 
         public override void SetDefaults()
         {
@@ -56,11 +57,11 @@ namespace CalamityMod.Items.Weapons.Leviathan
             float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
             if (Main.rand.Next(3) == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AquaBlastToxic"), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AquaBlastToxic"), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AquaBlast"), (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AquaBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

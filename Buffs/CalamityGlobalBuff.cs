@@ -67,10 +67,13 @@ namespace CalamityMod.Buffs
 		{
 			if (type == BuffID.NebulaUpDmg1)
 				tip = "7.5% increased damage";
-			if (type == BuffID.NebulaUpDmg2)
+			else if (type == BuffID.NebulaUpDmg2)
 				tip = "15% increased damage";
-			if (type == BuffID.NebulaUpDmg3)
+			else if (type == BuffID.NebulaUpDmg3)
 				tip = "22.5% increased damage";
+			else if (type == BuffID.WeaponImbueVenom || type == BuffID.WeaponImbueCursedFlames || type == BuffID.WeaponImbueFire || type == BuffID.WeaponImbueGold ||
+				type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbueConfetti || type == BuffID.WeaponImbuePoison)
+				tip = "Rogue and " + tip;
 		}
 	}
 }

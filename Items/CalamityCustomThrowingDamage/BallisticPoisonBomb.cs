@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ballistic Poison Bomb");
+			Tooltip.SetDefault("Throws a sticky bomb that explodes into spikes and poison clouds");
 		}
 
 		public override void SafeSetDefaults()

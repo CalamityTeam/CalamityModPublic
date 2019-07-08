@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pwnagehammer");
+			Tooltip.SetDefault("Throws an extremely fast hammer");
 		}
 
 		public override void SafeSetDefaults()

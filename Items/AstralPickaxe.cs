@@ -17,7 +17,7 @@ namespace CalamityMod.Items
 	
         public override void SetDefaults()
         {
-            item.damage = 58;
+            item.damage = 65;
             item.crit += 25;
             item.melee = true;
             item.width = 50;
@@ -25,11 +25,11 @@ namespace CalamityMod.Items
             item.useTime = 5;
             item.useAnimation = 10;
             item.useTurn = true;
-            item.pick = 200;
+            item.pick = 220;
             item.useStyle = 1;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 3;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AstralBar", 7);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

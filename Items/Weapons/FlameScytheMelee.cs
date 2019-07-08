@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flame Scythe");
+			Tooltip.SetDefault("Throws a scythe that explodes on enemy hits");
 		}
 		
 		public override void SetDefaults()

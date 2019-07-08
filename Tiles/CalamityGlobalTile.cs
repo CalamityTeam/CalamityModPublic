@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod;
+using CalamityMod.World;
 using CalamityMod.NPCs;
 
 namespace CalamityMod.Tiles

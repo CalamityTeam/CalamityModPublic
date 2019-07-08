@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Silva Mask");
-            Tooltip.SetDefault("13% increased rogue damage and critical strike chance");
+            Tooltip.SetDefault("13% increased rogue damage and critical strike chance, 20% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -62,6 +62,7 @@ namespace CalamityMod.Items.Armor
         {
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.13f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 13;
+			player.moveSpeed += 0.2f;
         }
 
         public override void AddRecipes()

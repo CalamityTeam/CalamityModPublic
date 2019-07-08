@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Fate's Reveal");
-			Tooltip.SetDefault("Spawns ghostly fire that follows the player");
+			Tooltip.SetDefault("Spawns ghostly fireballs that follow the player");
 			Item.staff[item.type] = true;
 		}
 

@@ -32,7 +32,8 @@ namespace CalamityMod.Items.Cryogen
             item.height = 26;
             item.value = Item.buyPrice(0, 39, 99, 99);
             item.expert = true;
-            item.accessory = true;
+			item.rare = 9;
+			item.accessory = true;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

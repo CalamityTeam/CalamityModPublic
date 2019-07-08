@@ -15,7 +15,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eradicator");
-        }
+			Tooltip.SetDefault("Throws a disk that fires lasers at nearby enemies");
+		}
 
         public override void SafeSetDefaults()
         {

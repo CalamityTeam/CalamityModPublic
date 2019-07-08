@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Headgear");
-            Tooltip.SetDefault("10% increased ranged damage and critical strike chance, reduces ammo cost by 20%\n" +
-                "Immune to Cursed and gives control over gravity");
+            Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
+				"Reduces ammo usage by 20%");
         }
 
         public override void SetDefaults()
@@ -51,10 +51,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.ammoCost80 = true;
-            player.rangedDamage += 0.1f;
-            player.rangedCrit += 10;
-            player.AddBuff(BuffID.Gravitation, 2);
-            player.buffImmune[BuffID.Cursed] = true;
+            player.rangedDamage += 0.13f;
+            player.rangedCrit += 7;
         }
 
         public override void AddRecipes()

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gilded Proboscis");
-            Tooltip.SetDefault("This spear ignores npc immunity frames\nHeals the player on enemy hits");
+            Tooltip.SetDefault("Ignores immunity frames\n" +
+				"Heals the player on enemy hits");
         }
 
         public override void SetDefaults()

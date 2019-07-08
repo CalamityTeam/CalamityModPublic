@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Ataxia Hood");
             Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
-                "50% chance to not consume rogue items\n" +
+                "50% chance to not consume rogue items and 15% increased movement speed\n" +
                 "Temporary immunity to lava and immunity to fire damage");
         }
 
@@ -61,6 +61,7 @@ namespace CalamityMod.Items.Armor
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingAmmoCost50 = true;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
+			player.moveSpeed += 0.15f;
 			player.lavaMax += 240;
 			player.buffImmune[BuffID.OnFire] = true;
         }

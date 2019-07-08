@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Potions
 		{
 			DisplayName.SetDefault("Profaned Rage Potion");
 			Tooltip.SetDefault("Increases critical strike chance by 12% and increases movement and horizontal flight speed by 5%\n" +
-				"In Revengeance Mode you gain more rage when damaged");
+				"In Revengeance Mode you gain more rage when damaged\n" +
+				"While this potion's buff is active the Rage Potion's buff is disabled");
 		}
 
 		public override void SetDefaults()

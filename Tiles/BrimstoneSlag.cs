@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles
 			Main.tileLighted[Type] = false;
             drop = mod.ItemType("BrimstoneSlag");
             mineResist = 6f;
-			minPick = 179;
+			minPick = 180;
 			dustType = 53;
 			soundType = 21;
 			ModTranslation name = CreateMapEntryName();

@@ -8,41 +8,41 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class HiveBombGoliath : ModProjectile
-    {    	
-    	public override void SetStaticDefaults()
+	public class HiveBombGoliath : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hive Bomb");
-            Main.projFrames[projectile.type] = 4;
-        }
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = 1;
-        }
+			Main.projFrames[projectile.type] = 4;
+		}
 
-        public override void AI()
-        {
-            projectile.velocity.X *= 1.01f;
-            projectile.velocity.Y *= 1.01f;
-            if (projectile.position.Y > projectile.ai[1])
-            {
-                projectile.tileCollide = true;
-            }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
+		public override void SetDefaults()
+		{
+			projectile.width = 14;
+			projectile.height = 14;
+			projectile.hostile = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = 1;
+		}
+
+		public override void AI()
+		{
+			projectile.velocity.X *= 1.01f;
+			projectile.velocity.Y *= 1.01f;
+			if (projectile.position.Y > projectile.ai[1])
+			{
+				projectile.tileCollide = true;
+			}
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 4)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame > 3)
+			{
+				projectile.frame = 0;
+			}
 			if (Math.Abs(projectile.velocity.X) >= 3f || Math.Abs(projectile.velocity.Y) >= 3f)
 			{
 				float num247 = 0f;
@@ -74,29 +74,29 @@ namespace CalamityMod.Projectiles.Boss
 				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default(Vector2)) * 1.1f;
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(50, 250, 50, projectile.alpha);
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int y6 = num214 * projectile.frame;
+			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	if (projectile.owner == Main.myPlayer)
-        	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveBombExplosionHostile"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	}
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(50, 250, 50, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveBombExplosionHostile"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			}
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 100;
@@ -157,11 +157,11 @@ namespace CalamityMod.Projectiles.Boss
 				Gore expr_13D1F_cp_0 = Main.gore[num626];
 				expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
 			}
-        }
+		}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("Plague"), 300);
-        }
-    }
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(mod.BuffType("Plague"), 300);
+		}
+	}
 }

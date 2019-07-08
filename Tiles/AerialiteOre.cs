@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Aerialite Ore");
  			AddMapEntry(new Color(0, 255, 255), name);
 			mineResist = 2f;
-			minPick = 64;
+			minPick = 65;
 			soundType = 21;
 			Main.tileSpelunker[Type] = true;
 		}

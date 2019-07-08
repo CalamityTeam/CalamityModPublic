@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,27 +8,37 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class HellfireExplosion : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class HellfireExplosion : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Hellfire Explosion");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 130;
-            projectile.height = 130;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 180;
-        }
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
+		public override void SetDefaults()
+		{
+			projectile.width = 130;
+			projectile.height = 130;
+			projectile.hostile = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = -1;
+			projectile.timeLeft = 180;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
 			if (projectile.localAI[0] == 0f)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
@@ -89,12 +100,11 @@ namespace CalamityMod.Projectiles.Boss
 				Main.dust[num467].velocity.Y = num464;
 				num462++;
 			}
-			return;
-        }
+		}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 360);
-        }
-    }
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 360);
+		}
+	}
 }

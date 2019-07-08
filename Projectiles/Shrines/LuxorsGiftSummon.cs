@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Shrines
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			if (flag64)
 			{
-				if (!modPlayer.luxorsGift)
+				if (!modPlayer.luxorsGift || player.dead)
 				{
 					projectile.Kill();
 				}

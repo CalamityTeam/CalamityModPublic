@@ -18,7 +18,6 @@ namespace CalamityMod.Projectiles
 {
 	public class CalamityGlobalProjectile : GlobalProjectile
 	{
-		#region InstancePerEntity
 		public override bool InstancePerEntity
 		{
 			get
@@ -26,31 +25,27 @@ namespace CalamityMod.Projectiles
 				return true;
 			}
 		}
-		#endregion
 
+		//Class Types
 		public bool rogue = false;
-
 		public bool trueMelee = false;
 
-		private bool setDamageValues = true;
-
+		//Force Class Types
 		public bool forceMelee = false;
-
 		public bool forceRanged = false;
-
 		public bool forceMagic = false;
-
 		public bool forceRogue = false;
+		public bool forceMinion = false;
 
+		//Damage Adjusters
+		private bool setDamageValues = true;
 		public float spawnedPlayerMinionDamageValue = 1f;
-
 		public int spawnedPlayerMinionProjectileDamageValue = 0;
-
-		private int counter = 0;
-
-		private int counter2 = 0;
-
 		private int defDamage = 0;
+
+		//Counters and Timers
+		private int counter = 0;
+		private int counter2 = 0;
 
 		#region SetDefaults
 		public override void SetDefaults(Projectile projectile)
@@ -137,6 +132,7 @@ namespace CalamityMod.Projectiles
 				projectile.melee = true;
 				projectile.ranged = false;
 				projectile.magic = false;
+				projectile.minion = false;
 				rogue = false;
 			}
 			else if (forceRanged)
@@ -146,6 +142,7 @@ namespace CalamityMod.Projectiles
 				projectile.melee = false;
 				projectile.ranged = true;
 				projectile.magic = false;
+				projectile.minion = false;
 				rogue = false;
 			}
 			else if (forceMagic)
@@ -155,6 +152,7 @@ namespace CalamityMod.Projectiles
 				projectile.melee = false;
 				projectile.ranged = false;
 				projectile.magic = true;
+				projectile.minion = false;
 				rogue = false;
 			}
 			else if (forceRogue)
@@ -164,13 +162,33 @@ namespace CalamityMod.Projectiles
 				projectile.melee = false;
 				projectile.ranged = false;
 				projectile.magic = false;
+				projectile.minion = false;
 				rogue = true;
+			}
+			else if (forceMinion)
+			{
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = false;
+				projectile.minion = true;
+				rogue = false;
 			}
 
 			if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)
 			{
 				if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("ThornBlossom"))
 					projectile.penetrate = 1;
+			}
+			else if (projectile.type == ProjectileID.VilethornBase || projectile.type == ProjectileID.VilethornTip)
+			{
+				if (Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type == mod.ItemType("FeralthornClaymore"))
+				{
+					projectile.melee = true;
+					projectile.magic = false;
+					projectile.penetrate = 1;
+				}
 			}
 			else if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
 			{
@@ -220,8 +238,28 @@ namespace CalamityMod.Projectiles
 					counter = 0;
 					if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileID.Mushroom] < 30)
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.Mushroom,
-							(int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+						if (projectile.type == mod.ProjectileType("Nebulash") || projectile.type == mod.ProjectileType("CosmicDischarge") ||
+							projectile.type == mod.ProjectileType("Mourningstar") || projectile.type == ProjectileID.SolarWhipSword)
+						{
+							Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
+							if (Main.player[projectile.owner].direction != 1)
+							{
+								vector24.X = (float)Main.player[projectile.owner].bodyFrame.Width - vector24.X;
+							}
+							if (Main.player[projectile.owner].gravDir != 1f)
+							{
+								vector24.Y = (float)Main.player[projectile.owner].bodyFrame.Height - vector24.Y;
+							}
+							vector24 -= new Vector2((float)(Main.player[projectile.owner].bodyFrame.Width - Main.player[projectile.owner].width), (float)(Main.player[projectile.owner].bodyFrame.Height - 42)) / 2f;
+							Vector2 newCenter = Main.player[projectile.owner].RotatedRelativePoint(Main.player[projectile.owner].position + vector24, true) + projectile.velocity;
+							Projectile.NewProjectile(newCenter.X, newCenter.Y, 0f, 0f, ProjectileID.Mushroom,
+								(int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+						}
+						else
+						{
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.Mushroom,
+								(int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+						}
 					}
 				}
 			}
@@ -969,11 +1007,11 @@ namespace CalamityMod.Projectiles
 			switch (projectile.type)
 			{
 				case ProjectileID.Sharknado:
-					if (projectile.timeLeft > 440)
+					if (projectile.timeLeft > 420)
 						return false;
 					break;
 				case ProjectileID.Cthulunado:
-					if (projectile.timeLeft > 740)
+					if (projectile.timeLeft > 720)
 						return false;
 					break;
 			}
@@ -1045,36 +1083,39 @@ namespace CalamityMod.Projectiles
 		#region Kill
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
-			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).providenceLore && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
-				(projectile.melee || projectile.ranged || projectile.magic || rogue))
+			if (projectile.owner == Main.myPlayer)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
-				for (int i = 0; i < 3; i++)
+				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).providenceLore && projectile.friendly && projectile.damage > 0 &&
+					(projectile.melee || projectile.ranged || projectile.magic || rogue))
 				{
-					int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default(Color), 1f);
-					Main.dust[dust].noGravity = true;
-				}
-			}
-			if (projectile.ranged)
-			{
-				if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).tarraRanged && Main.rand.Next(0, 100) >= 88)
-				{
-					int num251 = Main.rand.Next(2, 4);
-					for (int num252 = 0; num252 < num251; num252++)
+					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+					for (int i = 0; i < 3; i++)
 					{
-						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						while (value15.X == 0f && value15.Y == 0f)
+						int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default(Color), 1f);
+						Main.dust[dust].noGravity = true;
+					}
+				}
+				if (projectile.ranged)
+				{
+					if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).tarraRanged && Main.rand.Next(0, 100) >= 88)
+					{
+						int num251 = Main.rand.Next(2, 4);
+						for (int num252 = 0; num252 < num251; num252++)
 						{
-							value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+							Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+							while (value15.X == 0f && value15.Y == 0f)
+							{
+								value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+							}
+							value15.Normalize();
+							value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+							int newDamage = (int)((double)projectile.damage * 0.33);
+							if (newDamage > 65)
+							{
+								newDamage = 65;
+							}
+							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("TarraEnergy"), newDamage, 0f, projectile.owner, 0f, 0f);
 						}
-						value15.Normalize();
-						value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-						int newDamage = (int)((double)projectile.damage * 0.33);
-						if (newDamage > 65)
-						{
-							newDamage = 65;
-						}
-						Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("TarraEnergy"), newDamage, 0f, projectile.owner, 0f, 0f);
 					}
 				}
 			}

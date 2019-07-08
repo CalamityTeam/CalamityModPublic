@@ -48,28 +48,29 @@ namespace CalamityMod.Projectiles.Melee
 			float num474 = 600f;
 			for (int num475 = 0; num475 < 200; num475++)
 			{
-				if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !Main.npc[num475].boss)
+				NPC npc = Main.npc[num475];
+				if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
 				{
-					npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-					npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
+					npcCenterX = npc.position.X + (float)(npc.width / 2);
+					npcCenterY = npc.position.Y + (float)(npc.height / 2);
 					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - npcCenterX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - npcCenterY);
 					if (num478 < num474)
 					{
-						if (Main.npc[num475].position.X < num472)
+						if (npc.position.X < num472)
 						{
-							Main.npc[num475].velocity.X += 0.05f;
+							npc.velocity.X += 0.05f;
 						}
 						else
 						{
-							Main.npc[num475].velocity.X -= 0.05f;
+							npc.velocity.X -= 0.05f;
 						}
-						if (Main.npc[num475].position.Y < num473)
+						if (npc.position.Y < num473)
 						{
-							Main.npc[num475].velocity.Y += 0.05f;
+							npc.velocity.Y += 0.05f;
 						}
 						else
 						{
-							Main.npc[num475].velocity.Y -= 0.05f;
+							npc.velocity.Y -= 0.05f;
 						}
 					}
 				}

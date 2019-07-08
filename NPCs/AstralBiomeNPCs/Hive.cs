@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
 	public class Hive : ModNPC
@@ -29,14 +31,20 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.width = 38;
 			npc.height = 60;
 			npc.aiStyle = -1;
-			npc.damage = 90;
-			npc.defense = 25;
-			npc.lifeMax = 700;
+			npc.damage = 55;
+			npc.defense = 15;
+			npc.lifeMax = 470;
 			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 0, 15, 0);
 			banner = npc.type;
 			bannerItem = mod.ItemType("HiveBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 90;
+				npc.defense = 25;
+				npc.lifeMax = 700;
+			}
 		}
 
 		public override void AI()
@@ -132,7 +140,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
 			}
-			if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+			if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HivePod"));
 			}

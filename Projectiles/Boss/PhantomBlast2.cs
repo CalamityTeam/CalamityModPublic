@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,33 +9,45 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PhantomBlast2 : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class PhantomBlast2 : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Potent Phantom Blast");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-        	if (projectile.ai[1] == 0f)
+		public override void SetDefaults()
+		{
+			projectile.width = 18;
+			projectile.height = 18;
+			projectile.hostile = true;
+			projectile.alpha = 255;
+			projectile.penetrate = 1;
+			projectile.tileCollide = false;
+			cooldownSlot = 1;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+			writer.Write(projectile.localAI[1]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+			projectile.localAI[1] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			if (projectile.ai[1] == 0f)
 			{
 				projectile.ai[1] = 1f;
 				Main.PlaySound(SoundID.Item20, projectile.position);
 			}
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        	if (projectile.ai[0] >= 30f)
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			if (projectile.ai[0] >= 30f)
 			{
 				projectile.ai[0] = 30f;
 				projectile.velocity.Y = projectile.velocity.Y + 0.035f;
@@ -55,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.timeLeft = 180;
 			}
-        	projectile.localAI[0] += 1f;
+			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 9f)
 			{
 				projectile.alpha -= 5;
@@ -64,40 +77,40 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.alpha = 30;
 				}
 			}
-            projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] == 24f)
-            {
-                projectile.localAI[1] = 0f;
-                for (int l = 0; l < 12; l++)
-                {
-                    Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 60, 0f, 0f, 160, default(Color), 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = projectile.Center + vector3;
-                    Main.dust[num9].velocity = projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-                }
-            }
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(250, 100, 100, projectile.alpha);
-        }
+			projectile.localAI[1] += 1f;
+			if (projectile.localAI[1] == 24f)
+			{
+				projectile.localAI[1] = 0f;
+				for (int l = 0; l < 12; l++)
+				{
+					Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
+					vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
+					vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
+					int num9 = Dust.NewDust(projectile.Center, 0, 0, 60, 0f, 0f, 160, default(Color), 1f);
+					Main.dust[num9].scale = 1.1f;
+					Main.dust[num9].noGravity = true;
+					Main.dust[num9].position = projectile.Center + vector3;
+					Main.dust[num9].velocity = projectile.velocity * 0.1f;
+					Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+				}
+			}
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 125);
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(250, 100, 100, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 125);
+			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
 			projectile.height = 50;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 3; num621++)
+			for (int num621 = 0; num621 < 3; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default(Color), 1.2f);
 				Main.dust[num622].velocity *= 3f;
@@ -116,6 +129,6 @@ namespace CalamityMod.Projectiles.Boss
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
-    }
+		}
+	}
 }

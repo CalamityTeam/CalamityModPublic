@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
 using Terraria.GameContent.Events;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.GreatSandShark
 {
@@ -65,6 +66,24 @@ namespace CalamityMod.NPCs.GreatSandShark
 			npc.timeLeft = NPC.activeTime * 30;
 			banner = npc.type;
 			bannerItem = mod.ItemType("GreatSandSharkBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(resetAI);
+			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			resetAI = reader.ReadBoolean();
+			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
 		}
 
 		public override void AI()

@@ -7,37 +7,34 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TinyFlare : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class TinyFlare : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flare");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 6;
-            projectile.height = 6;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 240;
-            projectile.light = 0.5f;
-            projectile.tileCollide = false;
-        }
 
-        public override void AI()
-        {
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
+		public override void SetDefaults()
+		{
+			projectile.width = 6;
+			projectile.height = 6;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.alpha = 255;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 240;
+			projectile.light = 0.5f;
+			projectile.tileCollide = false;
+			projectile.extraUpdates = 1;
+		}
+
+		public override void AI()
+		{
+			for (int num468 = 0; num468 < 3; num468++)
 			{
-				for (int num468 = 0; num468 < 5; num468++)
-				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default(Color), 0.75f);
-					Main.dust[num469].noGravity = true;
-					Main.dust[num469].velocity *= 0f;
-				}
+				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default(Color), 0.75f);
+				Main.dust[num469].noGravity = true;
+				Main.dust[num469].velocity *= 0f;
 			}
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
@@ -71,13 +68,12 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 600);
-        }
-    }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 300);
+		}
+	}
 }

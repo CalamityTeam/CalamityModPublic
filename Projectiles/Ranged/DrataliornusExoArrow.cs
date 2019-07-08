@@ -74,7 +74,16 @@ namespace CalamityMod.Projectiles.Ranged
 
             target.AddBuff(BuffID.Daybreak, 540);
             target.AddBuff(HolyLight, 540);
-        }
+			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+			target.AddBuff(BuffID.CursedInferno, 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(BuffID.OnFire, 120);
+			target.AddBuff(BuffID.Ichor, 120);
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {

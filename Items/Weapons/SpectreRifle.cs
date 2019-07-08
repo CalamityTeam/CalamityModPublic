@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spectre Rifle");
-        }
+			Tooltip.SetDefault("Fires a powerful homing soul");
+		}
 
         public override void SetDefaults()
         {

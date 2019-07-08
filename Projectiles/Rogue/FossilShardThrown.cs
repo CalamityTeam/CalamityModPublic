@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = 90;
             aiType = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}

@@ -6,14 +6,14 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class CelestialClaymore : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Celestial Claymore");
-			Tooltip.SetDefault("Spawns cosmic energy flames near the player that generate large explosions after 2 seconds");
+			Tooltip.SetDefault("Spawns cosmic energy flames near the player that generate large explosions");
 		}
 
 		public override void SetDefaults()
@@ -29,17 +29,17 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 50;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+			item.value = Item.buyPrice(0, 36, 0, 0);
+			item.rare = 5;
 			item.shoot = mod.ProjectileType("CosmicSpiritBomb1");
 			item.shootSpeed = 0.1f;
 		}
-		
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			float num72 = item.shootSpeed;
-	    	Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-	    	float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
+			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+			float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
 			float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
 			if (player.gravDir == -1f)
 			{
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons
 			{
 				num80 = num72 / num80;
 			}
-	    	num78 *= num80;
+			num78 *= num80;
 			num79 *= num80;
 			int num107 = 3;
 			for (int num108 = 0; num108 < num107; num108++)
@@ -81,19 +81,19 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				switch (Main.rand.Next(3))
 				{
-		    		case 0: type = mod.ProjectileType("CosmicSpiritBomb1"); break;
-		    		case 1: type = mod.ProjectileType("CosmicSpiritBomb2"); break;
-		    		case 2: type = mod.ProjectileType("CosmicSpiritBomb3"); break;
-		    		default: break;
+					case 0: type = mod.ProjectileType("CosmicSpiritBomb1"); break;
+					case 1: type = mod.ProjectileType("CosmicSpiritBomb2"); break;
+					case 2: type = mod.ProjectileType("CosmicSpiritBomb3"); break;
+					default: break;
 				}
 				Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
 			}
-	    	return false;
+			return false;
 		}
-	
-	    public override void MeleeEffects(Player player, Rectangle hitbox)
-	    {
-	        if (Main.rand.Next(4) == 0)
+
+		public override void MeleeEffects(Player player, Rectangle hitbox)
+		{
+			if (Main.rand.Next(4) == 0)
 			{
 				int num249 = Main.rand.Next(2);
 				if (num249 == 0)
@@ -111,6 +111,6 @@ namespace CalamityMod.Items.Weapons
 				int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, num249, (float)(player.direction * 2), 0f, 150, default(Color), 1.3f);
 				Main.dust[num250].velocity *= 0.2f;
 			}
-	    }
+		}
 	}
 }

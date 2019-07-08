@@ -78,7 +78,6 @@ namespace CalamityMod.Projectiles.Rogue
                         num485 *= num486;
                         projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                         projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-                        return;
                     }
                 }
         	}
@@ -140,7 +139,6 @@ namespace CalamityMod.Projectiles.Rogue
 				}
         	}
         	projectile.rotation += 0.5f;
-			return;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

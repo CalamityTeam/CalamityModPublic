@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.owner == Main.myPlayer)
     		{
-    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("InfernalBlade2"), (int)((double)projectile.damage * 0.75f), 1f, projectile.owner);
+    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("InfernalBlade2"), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
     		}
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 240);
         }

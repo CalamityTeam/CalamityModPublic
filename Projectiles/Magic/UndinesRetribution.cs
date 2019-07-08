@@ -50,12 +50,10 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.velocity.X < 0f)
             {
-                //projectile.spriteDirection = -1;
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             }
             else
             {
-                //projectile.spriteDirection = 1;
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             }
             Lighting.AddLight(projectile.Center, 0f, 0.1f, 0.7f);
@@ -103,7 +101,6 @@ namespace CalamityMod.Projectiles.Magic
                     num485 *= num486;
                     projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                     projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-                    return;
                 }
             }
 			else 

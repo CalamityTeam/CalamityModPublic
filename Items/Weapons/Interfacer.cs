@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Disseminator");
-			Tooltip.SetDefault("50% chance to not consume ammo");
+			Tooltip.SetDefault("50% chance to not consume ammo\n" +
+				"Fires a spread of bullets from the gun, above, and below");
 		}
 
 	    public override void SetDefaults()

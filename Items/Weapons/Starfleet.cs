@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starfleet");
+			Tooltip.SetDefault("Fires a spread of plasma blasts");
 		}
 
 	    public override void SetDefaults()

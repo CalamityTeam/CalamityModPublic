@@ -14,9 +14,10 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vivid Clarity");
-			Tooltip.SetDefault("Fires 3 beams of elemental energy near the mouse cursor that bounce on tile hits\n" +
-			                   "These beams split into more beams when enemies are near\n" +
-			                   "The more enemies and tiles the beams hit/pierce the more damage they do");
+			Tooltip.SetDefault("Fires 3 beams of elemental energy near the mouse cursor that bounce\n" +
+			                   "The beams split when enemies are near\n" +
+			                   "The more enemies and tiles the beams hit the more damage they do\n" +
+								"High IQ required");
 			Item.staff[item.type] = true;
 		}
 

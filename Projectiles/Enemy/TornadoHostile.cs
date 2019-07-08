@@ -108,7 +108,6 @@ namespace CalamityMod.Projectiles.Enemy
 					}
 					dust33.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
 				}
-				return;
 			}
         }
         

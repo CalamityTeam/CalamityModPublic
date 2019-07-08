@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
@@ -92,7 +93,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						num14 *= num16;
 						num15 *= num16;
 						spikeTimer = 50f;
-						Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, mod.ProjectileType("CrimsonSpike"), 10, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(vector3.X, vector3.Y, num14, num15, mod.ProjectileType("CrimsonSpike"), 12, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 			}

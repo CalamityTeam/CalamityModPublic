@@ -15,14 +15,16 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Monsoon");
+			Tooltip.SetDefault("Fires a spread of 5 arrows\n" +
+				"Wooden arrows have a chance to be converted to typhoon arrows or sharks");
 		}
 
 		public override void SetDefaults()
 		{
 			item.damage = 63;
 			item.ranged = true;
-			item.width = 30;
-			item.height = 62;
+			item.width = 46;
+			item.height = 78;
 			item.useTime = 21;
 			item.useAnimation = 21;
 			item.useStyle = 5;

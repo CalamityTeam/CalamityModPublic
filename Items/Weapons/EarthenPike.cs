@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Earthen Pike");
-			Tooltip.SetDefault("Crushes enemy defenses");
+			Tooltip.SetDefault("Crushes enemy defenses\n" +
+				"Sprays fossil shards on use");
 		}
 
 		public override void SetDefaults()

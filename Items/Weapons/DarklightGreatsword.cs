@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Darklight Greatsword");
+			Tooltip.SetDefault("Fires a darklight orb that splits on death");
 		}
 
 		public override void SetDefaults()
@@ -37,7 +38,7 @@ namespace CalamityMod.Items.Weapons
 		
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
-	        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * 0.6), knockBack, player.whoAmI, 0.0f, 0.0f);
+	        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
 	        return false;
 		}
 	
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			target.AddBuff(BuffID.Frostburn, 100);
+			target.AddBuff(BuffID.Frostburn, 180);
 		}
 	}
 }

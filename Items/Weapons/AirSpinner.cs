@@ -14,12 +14,13 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Air Spinner");
+			Tooltip.SetDefault("Fires feathers when enemies are near");
 		}
 
 	    public override void SetDefaults()
 	    {
 	    	item.CloneDefaults(ItemID.Valor);
-	        item.damage = 21;
+	        item.damage = 20;
 	        item.useTime = 22;
 	        item.useAnimation = 22;
 	        item.useStyle = 5;

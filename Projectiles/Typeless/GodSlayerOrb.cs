@@ -62,13 +62,12 @@ namespace CalamityMod.Projectiles.Typeless
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-    		target.AddBuff(mod.BuffType("GodSlayerInferno"), 200);
+    		target.AddBuff(mod.BuffType("GodSlayerInferno"), 180);
     	}
     }
 }

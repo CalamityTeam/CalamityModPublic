@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Star");
-            Tooltip.SetDefault("Ice Stars are too brittle to be recovered after being thrown");
+            Tooltip.SetDefault("Throws homing ice stars\n" +
+				"Ice Stars are too brittle to be recovered after being thrown");
         }
 
         public override void SafeSetDefaults()

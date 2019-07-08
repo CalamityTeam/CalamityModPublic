@@ -29,6 +29,7 @@ using CalamityMod.NPCs.Polterghast;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.Skies;
+using CalamityMod.World;
 
 namespace CalamityMod
 {
@@ -48,6 +49,7 @@ namespace CalamityMod
 		//Boss Spawners
 		public static int ghostKillCount = 0;
 		public static int sharkKillCount = 0;
+		public static int astralKillCount = 0;
 
 		//Textures & Shaders
 		public static Texture2D heartOriginal2;
@@ -271,6 +273,7 @@ namespace CalamityMod
 		public static void SetupLists()
 		{
 			Mod calamity = ModLoader.GetMod("CalamityMod");
+			Mod thorium = ModLoader.GetMod("ThoriumMod");
 			if (calamity != null)
 			{
 				donatorList = new List<string>()
@@ -338,7 +341,12 @@ namespace CalamityMod
 					"Jarod Isaac Gordon",
 					"Zombieh",
 					"MingWhy",
-					"Random Weeb"
+					"Random Weeb",
+					"Ahmed Fahad Zamel Al Sharif",
+					"Eragon3942",
+					"TheBlackHand",
+					"william",
+					"Samuel Foreman"
 				};
 
 				rangedProjectileExceptionList = new List<int>()
@@ -880,7 +888,8 @@ namespace CalamityMod
 					ItemID.DaedalusStormbow,
 					ItemID.PhoenixBlaster,
 					ItemID.VenusMagnum,
-					ItemID.BlizzardStaff
+					ItemID.BlizzardStaff,
+					ItemID.Phantasm
 				};
 
 				pumpkinMoonBuffList = new List<int>()
@@ -1260,7 +1269,10 @@ namespace CalamityMod
 					ItemID.Terrarian,
 					calamity.ItemType("BallOFugu"),
 					calamity.ItemType("TyphonsGreed"),
+					calamity.ItemType("UrchinSpear"),
 					calamity.ItemType("AmidiasTrident"),
+					calamity.ItemType("GoldplumeSpear"),
+					calamity.ItemType("EarthenPike"),
 					calamity.ItemType("HellionFlowerSpear"),
 					calamity.ItemType("StarnightLance"),
 					calamity.ItemType("TerraLance"),
@@ -1310,6 +1322,127 @@ namespace CalamityMod
 					NPCID.BoneThrowingSkeleton4,
 					NPCID.GreekSkeleton
 				};
+			}
+
+			if (Config.RevengeanceAndDeathThoriumBossBuff)
+			{
+				if (thorium != null)
+				{
+					enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
+					enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
+					enemyImmunityList.Add(thorium.NPCType("Viscount"));
+					enemyImmunityList.Add(thorium.NPCType("GraniteEnergyStorm"));
+					enemyImmunityList.Add(thorium.NPCType("TheBuriedWarrior"));
+					enemyImmunityList.Add(thorium.NPCType("ThePrimeScouter"));
+					enemyImmunityList.Add(thorium.NPCType("BoreanStrider"));
+					enemyImmunityList.Add(thorium.NPCType("BoreanStriderPopped"));
+					enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder"));
+					enemyImmunityList.Add(thorium.NPCType("FallenDeathBeholder2"));
+					enemyImmunityList.Add(thorium.NPCType("Lich"));
+					enemyImmunityList.Add(thorium.NPCType("LichHeadless"));
+					enemyImmunityList.Add(thorium.NPCType("Abyssion"));
+					enemyImmunityList.Add(thorium.NPCType("AbyssionCracked"));
+					enemyImmunityList.Add(thorium.NPCType("AbyssionReleased"));
+					enemyImmunityList.Add(thorium.NPCType("SlagFury"));
+					enemyImmunityList.Add(thorium.NPCType("Omnicide"));
+					enemyImmunityList.Add(thorium.NPCType("RealityBreaker"));
+					enemyImmunityList.Add(thorium.NPCType("Aquaius"));
+					enemyImmunityList.Add(thorium.NPCType("Aquaius2"));
+
+					revengeanceEnemyBuffList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("QueenJelly"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("Viscount"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("GraniteEnergyStorm"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("TheBuriedWarrior"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("ThePrimeScouter"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStrider"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("BoreanStriderPopped"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("FallenDeathBeholder2"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("Lich"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("LichHeadless"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("Abyssion"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionCracked"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("AbyssionReleased"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("SlagFury"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("Omnicide"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("RealityBreaker"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius"));
+					revengeanceEnemyBuffList.Add(thorium.NPCType("Aquaius2"));
+
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("GrandThunderBirdZap"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("ThunderGust"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BubbleBomb"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenJellyArm"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("QueenTorrent"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRipple2"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountBlood"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountStomp2"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("ViscountRockFall"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("GraniteCharge"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedShock"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedDagger"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrow2"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowF"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowP"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedArrowC"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagic"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BuriedMagicPop"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamOuter"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeam"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("MainBeamCheese"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("VaporizeBlast"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonSurge"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("Vaporize"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitonCharge"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("GravitySpark"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("DoomBeholderBeam"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("VoidLaserPro"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BeholderBeam"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBarrage"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurge"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostSurgeR"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardCascade"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardBoom"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("BlizzardFang"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("FrostMytePro"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("IceAnomaly"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGaze"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichGazeB"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareSpawn"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlare"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichPulse"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichMatter"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("SoulRenderLich"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathD"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("LichFlareDeathU"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("Whirlpool"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssionSpit2"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaRipple"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("AbyssalStrike2"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("OldGodSpit2"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("WaterPulse"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostile"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("TyphoonBlastHostileSmaller"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("AquaBarrage"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnR"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawnL"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("DeathRaySpawn"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniDeath"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("OmniSphereOrb"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameLash"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulse"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlamePulseTorn"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("FlameNova"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("MoltenFury"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("RealityFury"));
+					revengeanceProjectileBuffList.Add(thorium.ProjectileType("UFOBlast"));
+				}
 			}
 		}
 		#endregion
@@ -1955,6 +2088,9 @@ namespace CalamityMod
 				case CalamityModMessageType.AdrenalineSync:
 					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleAdrenaline(reader);
 					break;
+				/*case CalamityModMessageType.DistanceFromBossSync:
+					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleDistanceFromBoss(reader);
+					break;*/
 				case CalamityModMessageType.TeleportPlayer:
 					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleTeleport(reader.ReadInt32(), true, whoAmI);
 					break;
@@ -2009,5 +2145,6 @@ namespace CalamityMod
 		BossSpawnCountdownSync,
 		BossTypeSync,
 		DeathCountSync
+		//DistanceFromBossSync
 	}
 }

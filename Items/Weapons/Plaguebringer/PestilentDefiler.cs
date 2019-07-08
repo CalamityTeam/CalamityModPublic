@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pestilent Defiler");
-        }
+			Tooltip.SetDefault("Fires a plague round that explodes and splits on death");
+		}
 
         public override void SetDefaults()
         {
@@ -43,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SicknessRound"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SicknessRound"), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }

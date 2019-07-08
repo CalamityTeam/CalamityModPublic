@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using System.IO;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -99,17 +100,32 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void SetDefaults()
         {
-            npc.width = 78;
+			npc.lavaImmune = true;
+			npc.width = 78;
             npc.height = 88;
-            npc.damage = 75;
-            npc.defense = 50;
-            npc.lifeMax = 1600;
-            npc.knockBackResist = 0.04f;
+            npc.damage = 70;
+            npc.defense = 40;
+            npc.lifeMax = 1200;
+            npc.knockBackResist = 0.08f;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.aiStyle = -1;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
 			banner = npc.type;
 			bannerItem = mod.ItemType("AtlasBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 100;
+				npc.defense = 50;
+				npc.knockBackResist = 0.04f;
+				npc.lifeMax = 1600;
+			}
+			if (NPC.downedAncientCultist)
+			{
+				npc.damage = 150;
+				npc.defense = 75;
+				npc.knockBackResist = 0f;
+				npc.lifeMax = 2400;
+			}
 		}
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -216,7 +232,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     if (Main.player[i].active && !Main.player[i].dead && Main.player[i].getRect().Intersects(hitbox))
                     {
                         Vector2 before = Main.player[i].velocity;
-                        Main.player[i].Hurt(PlayerDeathReason.ByNPC(npc.whoAmI), 130, npc.direction);
+                        Main.player[i].Hurt(PlayerDeathReason.ByNPC(npc.whoAmI), npc.damage, npc.direction);
                         Vector2 after = Main.player[i].velocity;
                         Vector2 difference = after - before;
 
@@ -600,7 +616,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-            if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+            if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TitanArm"));
             }

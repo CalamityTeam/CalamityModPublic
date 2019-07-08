@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             projectile.width = 14;
-            projectile.height = 52;
+            projectile.height = 14;
             projectile.aiStyle = 4;
             projectile.friendly = true;
             projectile.alpha = 255;
@@ -53,7 +53,6 @@ namespace CalamityMod.Projectiles.Melee
 						float num50 = projectile.knockBack;
 						int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, num48, num49, num50, projectile.owner, 0f, projectile.ai[1] + 1f);
 						NetMessage.SendData(27, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
-						return;
 					}
         		}
         	}
@@ -72,7 +71,6 @@ namespace CalamityMod.Projectiles.Melee
 				if (projectile.alpha >= 255)
 				{
 					projectile.Kill();
-					return;
 				}
         	}
             if (Main.rand.Next(4) == 0)
@@ -91,7 +89,15 @@ namespace CalamityMod.Projectiles.Melee
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 5;
+			if (Main.myPlayer == projectile.owner && !CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (!Main.player[projectile.owner].immune)
+				{
+					Main.player[projectile.owner].immune = true;
+					Main.player[projectile.owner].immuneTime = 5;
+				}
+			}
+			target.immune[projectile.owner] = 5;
         }
     }
 }

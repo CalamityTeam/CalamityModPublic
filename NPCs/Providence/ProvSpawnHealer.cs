@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -65,10 +66,8 @@ namespace CalamityMod.NPCs.Providence
 		
 		public override void AI()
 		{
+			CalamityGlobalNPC.holyBossHealer = npc.whoAmI;
 			bool expertMode = Main.expertMode;
-			bool isHoly = Main.player[npc.target].ZoneHoly;
-			bool isHell = Main.player[npc.target].ZoneUnderworldHeight;
-			npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 30 : 99999;
 			Vector2 vectorCenter = npc.Center;
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(false);
@@ -78,7 +77,9 @@ namespace CalamityMod.NPCs.Providence
                 npc.netUpdate = true;
                 return;
             }
-            if (Math.Sign(npc.velocity.X) != 0) 
+			npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.holyBoss].dontTakeDamage;
+
+			if (Math.Sign(npc.velocity.X) != 0) 
 			{
 				npc.spriteDirection = -Math.Sign(npc.velocity.X);
 			}

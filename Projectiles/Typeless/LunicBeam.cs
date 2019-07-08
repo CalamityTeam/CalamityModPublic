@@ -197,7 +197,6 @@ namespace CalamityMod.Projectiles.Typeless
 				Main.dust[num157].velocity *= 0.25f;
 				Main.dust[num157].noGravity = true;
 				Main.dust[num157].velocity += projectile.velocity * 0.5f;
-				return;
 			}
         }
         

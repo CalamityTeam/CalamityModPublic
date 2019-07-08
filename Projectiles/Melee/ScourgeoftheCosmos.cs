@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ScourgeoftheCosmos : ModProjectile
     {
-        public int bounce = 3;
+        private int bounce = 3;
 
     	public override void SetStaticDefaults()
 		{
@@ -112,11 +112,11 @@ namespace CalamityMod.Projectiles.Melee
                         num629 *= 10f;
                         if (!projectile.melee)
                         {
-                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), (float)((int)((double)projectile.knockBack * 0.35)), Main.myPlayer, 0f, 1f);
+                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 1f);
                         }
                         else
                         {
-                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), (float)((int)((double)projectile.knockBack * 0.35)), Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
                         }
                         num3 = num627;
                     }
@@ -164,11 +164,11 @@ namespace CalamityMod.Projectiles.Melee
                     num629 *= 10f;
                     if (!projectile.melee)
                     {
-                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), (float)((int)((double)projectile.knockBack * 0.35)), Main.myPlayer, 0f, 1f);
+                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 1f);
                     }
                     else
                     {
-                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), (float)((int)((double)projectile.knockBack * 0.35)), Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(projectile.position.X, projectile.position.Y, num628, num629, mod.ProjectileType("ScourgeoftheCosmosMini"), (int)((double)projectile.damage * 0.7), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
                     }
                     num3 = num627;
                 }

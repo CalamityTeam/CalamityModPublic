@@ -237,7 +237,6 @@ namespace CalamityMod.Projectiles.Summon
 						value20.Normalize();
 						projectile.velocity = value20 * 16f; //8
 						projectile.netUpdate = true;
-						return;
 					}
 				}
 			}
@@ -258,10 +257,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 4;
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-            target.AddBuff(mod.BuffType("GlacialState"), 100);
-            target.AddBuff(mod.BuffType("Plague"), 100);
-            target.AddBuff(mod.BuffType("HolyLight"), 100);
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(mod.BuffType("HolyLight"), 120);
         }
     }
 }

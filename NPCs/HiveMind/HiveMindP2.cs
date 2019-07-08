@@ -6,10 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-//reminder to remove unnecessary "CalamityMod." before CalamityWorld
-//reminder to replace "ModLoader.GetMod("CalamityMod")." with "mod."
-//enable the //CalamityGlobalNPC.hiveMind2 bit
+using CalamityMod.World;
 
 /* states:
  * 0 = slow drift
@@ -277,7 +274,7 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			Player player = Main.player[npc.target];
 			npc.defense = (player.ZoneCorrupt || CalamityWorld.bossRushActive) ? 5 : 9999;
-			CalamityGlobalNPC.hiveMind2 = npc.whoAmI;
+			CalamityGlobalNPC.hiveMind = npc.whoAmI;
 			if (npc.alpha != 0)
 			{
 				if (npc.damage != 0)

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -51,7 +52,19 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.HitSound = SoundID.NPCHit53;
 			npc.DeathSound = SoundID.NPCDeath44;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -79,18 +92,18 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 			if (npc.ai[1] == 0f)
 			{
-				npc.scale -= 0.02f;
-				npc.alpha += 30;
-				if (npc.alpha >= 250)
+				npc.scale -= 0.01f;
+				npc.alpha += 15;
+				if (npc.alpha >= 125)
 				{
-					npc.alpha = 255;
+					npc.alpha = 130;
 					npc.ai[1] = 1f;
 				}
 			}
 			else if (npc.ai[1] == 1f)
 			{
-				npc.scale += 0.02f;
-				npc.alpha -= 30;
+				npc.scale += 0.01f;
+				npc.alpha -= 15;
 				if (npc.alpha <= 0)
 				{
 					npc.alpha = 0;
@@ -98,7 +111,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				}
 			}
 			npc.TargetClosest(true);
-            if (!player.active || player.dead)
+            if (!player.active || player.dead || CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
@@ -126,11 +139,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			num1259 *= num1260;
 			npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
-			int num1262 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
-			Main.dust[num1262].velocity *= 0.1f;
-			Main.dust[num1262].scale = 1.3f;
-			Main.dust[num1262].noGravity = true;
-			return;
 		}
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Effervescence");
+			Tooltip.SetDefault("Shoots a massive spread of bubbles");
 		}
 
 		public override void SetDefaults()

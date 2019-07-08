@@ -7,13 +7,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Calamitas
 {
 	[AutoloadBossHead]
 	public class CalamitasRun2 : ModNPC
 	{
-		public bool canDespawn = false;
+		private bool canDespawn = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -28,12 +29,10 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.width = 120; //324
 			npc.height = 120; //216
 			npc.defense = 10;
-			npc.alpha = 25;
-			npc.value = 0f;
-			npc.lifeMax = CalamityWorld.revenge ? 3675 : 2500;
+			npc.lifeMax = CalamityWorld.revenge ? 11025 : 7500;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 4400;
+				npc.lifeMax = 13200;
 			}
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
@@ -71,7 +70,7 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				npc.damage = 200;
 				npc.defense = 95;
-				npc.lifeMax = 30000;
+				npc.lifeMax *= 3;
 			}
 			if (CalamityWorld.bossRushActive)
 			{
@@ -79,6 +78,16 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(canDespawn);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			canDespawn = reader.ReadBoolean();
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -91,6 +100,7 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void AI()
 		{
+			CalamityGlobalNPC.catastrophe = npc.whoAmI;
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool dayTime = Main.dayTime;
@@ -171,8 +181,8 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			if (npc.ai[1] == 0f)
 			{
-				float num861 = 4f;
-				float num862 = 0.15f;
+				float num861 = 4.5f;
+				float num862 = 0.2f;
 				int num863 = 1;
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
 				{
@@ -245,7 +255,7 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 				}
 				npc.ai[2] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
-				if (npc.ai[2] >= 200f)
+				if (npc.ai[2] >= 180f)
 				{
 					npc.ai[1] = 1f;
 					npc.ai[2] = 0f;
@@ -257,7 +267,7 @@ namespace CalamityMod.NPCs.Calamitas
 				if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && fireDelay)
 				{
 					npc.localAI[2] += 1f;
-					if (npc.localAI[2] > 22f)
+					if (npc.localAI[2] > 36f)
 					{
 						npc.localAI[2] = 0f;
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
@@ -271,16 +281,16 @@ namespace CalamityMod.NPCs.Calamitas
 						}
 						if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 						{
-							npc.localAI[1] += 1f;
+							npc.localAI[1] += 0.5f;
 						}
 						if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 						{
-							npc.localAI[1] += 1f;
+							npc.localAI[1] += 0.5f;
 						}
 						if (npc.localAI[1] > 50f)
 						{
 							npc.localAI[1] = 0f;
-							float num867 = 6f;
+							float num867 = 12f;
 							int num868 = expertMode ? 29 : 36;
 							int num869 = mod.ProjectileType("BrimstoneBall");
 							vector86 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -297,7 +307,6 @@ namespace CalamityMod.NPCs.Calamitas
 							vector86.X -= num864 * 1f;
 							vector86.Y -= num865 * 1f;
 							Projectile.NewProjectile(vector86.X, vector86.Y, num864, num865, num869, num868 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-							return;
 						}
 					}
 				}
@@ -308,14 +317,14 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
 					npc.rotation = num842;
-					float num870 = 15f;
+					float num870 = 16f;
 					if (expertMode)
 					{
 						num870 += 2.5f;
 					}
 					if (revenge)
 					{
-						num870 += 1f;
+						num870 += 2.5f;
 					}
 					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					{
@@ -340,9 +349,9 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if (revenge)
 					{
-						npc.ai[2] += 0.1f;
+						npc.ai[2] += 0.5f;
 					}
-					if (npc.ai[2] >= 50f)
+					if (npc.ai[2] >= 60f) //50
 					{
 						npc.velocity.X = npc.velocity.X * 0.93f;
 						npc.velocity.Y = npc.velocity.Y * 0.93f;
@@ -359,20 +368,19 @@ namespace CalamityMod.NPCs.Calamitas
 					{
 						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
 					}
-					if (npc.ai[2] >= 80f)
+					if (npc.ai[2] >= 90f) //80
 					{
 						npc.ai[3] += 1f;
 						npc.ai[2] = 0f;
 						npc.target = 255;
 						npc.rotation = num842;
-						if (npc.ai[3] >= 5f)
+						if (npc.ai[3] >= 4f)
 						{
 							npc.ai[1] = 0f;
 							npc.ai[3] = 0f;
 							return;
 						}
 						npc.ai[1] = 1f;
-						return;
 					}
 				}
 			}
@@ -430,11 +438,12 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CatastropheTrophy"));
 			}
-			if (Main.expertMode && Main.rand.Next(10) == 0)
+			if (Main.expertMode)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrushsawCrasher"));
+				if (Main.rand.Next(10) == 0)
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrushsawCrasher"));
 			}
-			else if (Main.rand.Next(4) == 0)
+			else if (Main.rand.Next(15) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrushsawCrasher"));
 			}

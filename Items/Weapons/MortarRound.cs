@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mortar Round");
-			Tooltip.SetDefault("Large blast radius. Will destroy tiles\nUsed by normal guns");
+			Tooltip.SetDefault("Large blast radius. Will destroy tiles\n" +
+				"Used by normal guns");
 		}
 
 		public override void SetDefaults()

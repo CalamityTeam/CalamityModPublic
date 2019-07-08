@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forbidden Sun");
+			Tooltip.SetDefault("Casts a fire orb that emits a gigantic explosion on death");
 		}
 
 	    public override void SetDefaults()

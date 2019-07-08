@@ -46,7 +46,6 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					projectile.scale = 0.2f;
 					projectile.Kill();
-					return;
 				}
 			}
         }
@@ -61,7 +60,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.Frostburn, 100);
+        	target.AddBuff(BuffID.Frostburn, 120);
         }
     }
 }

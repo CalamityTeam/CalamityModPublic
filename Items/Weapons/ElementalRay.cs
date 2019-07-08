@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Elemental Ray");
+			Tooltip.SetDefault("Casts a rainbow ray that splits when enemies are near it");
 			Item.staff[item.type] = true;
 		}
 

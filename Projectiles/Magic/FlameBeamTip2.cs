@@ -59,7 +59,6 @@ namespace CalamityMod.Projectiles.Magic
 				if (projectile.alpha >= 255)
 				{
 					projectile.Kill();
-					return;
 				}
         	}
             if (Main.rand.Next(4) == 0)
@@ -79,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 8;
-        	target.AddBuff(BuffID.OnFire, 240);
+        	target.AddBuff(BuffID.OnFire, 300);
         }
     }
 }

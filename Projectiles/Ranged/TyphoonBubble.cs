@@ -90,7 +90,6 @@ namespace CalamityMod.Projectiles.Ranged
 			{
 				projectile.position.Y = projectile.position.Y - 16f;
 				projectile.Kill();
-				return;
 			}
         }
         

@@ -104,7 +104,6 @@ namespace CalamityMod.Projectiles.Rogue
 				}
         	}
         	projectile.rotation += 0.5f;
-			return;
         }
         
         public override Color? GetAlpha(Color lightColor)

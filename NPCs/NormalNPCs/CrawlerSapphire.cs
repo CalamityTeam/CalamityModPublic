@@ -38,6 +38,16 @@ namespace CalamityMod.NPCs.NormalNPCs
 			bannerItem = mod.ItemType("SapphireCrawlerBanner");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(detected);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			detected = reader.ReadBoolean();
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			if (!detected)

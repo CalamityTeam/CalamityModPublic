@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tome of Fates");
-            Tooltip.SetDefault("Casts cosmic tentacles to spear your enemies\nCan randomly fire a brimstone tentacle for immense damage");
+            Tooltip.SetDefault("Casts cosmic tentacles to spear your enemies\n" +
+				"Can randomly fire a brimstone tentacle for immense damage");
         }
 
         public override void SetDefaults()

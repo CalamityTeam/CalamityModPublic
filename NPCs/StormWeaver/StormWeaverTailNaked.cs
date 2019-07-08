@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
@@ -26,7 +27,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.width = 48; //324
 			npc.height = 80; //216
 			npc.defense = 0;
-            npc.lifeMax = 50000;
+            npc.lifeMax = 100000;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -38,11 +39,11 @@ namespace CalamityMod.NPCs.StormWeaver
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Weaver");
                 else
                     music = MusicID.Boss3;
-                npc.lifeMax = 300000;
+                npc.lifeMax = 600000;
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 2300000;
+                npc.lifeMax = 3300000;
             }
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
@@ -67,7 +68,19 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
             npc.dontCountMe = true;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;

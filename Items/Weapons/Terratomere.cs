@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Terratomere");
             Tooltip.SetDefault("Linked to the essence of Terraria\n" +
-                               "Heals the player on enemy hits");
+                               "Heals the player on enemy hits\n" +
+							   "Fires a barrage of homing beams that inflict several debuffs");
         }
 
         public override void SetDefaults()
@@ -46,7 +47,7 @@ namespace CalamityMod.Items.Weapons
                 float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
@@ -77,7 +78,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.Next(3) == 0)
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 74);
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
             }
         }
 

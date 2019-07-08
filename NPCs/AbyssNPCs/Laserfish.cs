@@ -7,12 +7,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
 	public class Laserfish : ModNPC
 	{
-		public bool hasBeenHit = false;
+		private bool hasBeenHit = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -37,6 +38,18 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.knockBackResist = 0.65f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("LaserfishBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()

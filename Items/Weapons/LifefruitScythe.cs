@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lifehunt Scythe");
-			Tooltip.SetDefault("Heals the player on enemy hits");
+			Tooltip.SetDefault("Heals the player on enemy hits and shoots an energy scythe");
 		}
 
 		public override void SetDefaults()
@@ -62,8 +62,6 @@ namespace CalamityMod.Items.Weapons
 			}
 	    	player.statLife += 2;
 	    	player.HealEffect(2);
-			target.AddBuff(BuffID.OnFire, 200);
-			target.AddBuff(BuffID.CursedInferno, 200);
 		}
 	}
 }

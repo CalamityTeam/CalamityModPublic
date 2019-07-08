@@ -28,7 +28,8 @@ namespace CalamityMod.Items.Providence
             item.height = 32;
             item.value = Item.buyPrice(0, 45, 0, 0);
             item.expert = true;
-            item.accessory = true;
+			item.rare = 9;
+			item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

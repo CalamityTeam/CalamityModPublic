@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hyperius Bullet");
-			Tooltip.SetDefault("Your enemies might have a bad time");
+			Tooltip.SetDefault("Your enemies might have a bad time\n" +
+				"Spawns additional bullets on enemy hits");
 		}
 
 		public override void SetDefaults()

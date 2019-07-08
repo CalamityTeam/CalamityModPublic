@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Banshee Hook");
-            Tooltip.SetDefault("Swings a banshee hook that explodes on contact");
+            Tooltip.SetDefault("Swings a banshee hook that fires blades and explodes on contact");
         }
 
         public override void SetDefaults()

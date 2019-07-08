@@ -7,33 +7,33 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class CosmicFlameBurst : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class CosmicFlameBurst : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Flame");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 20;
-            projectile.height = 20;
-            aiType = 348;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.penetrate = 1;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.45f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f);
-        	if (projectile.localAI[0] == 0f)
+		public override void SetDefaults()
+		{
+			projectile.width = 20;
+			projectile.height = 20;
+			aiType = 348;
+			projectile.hostile = true;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
+			cooldownSlot = 1;
+		}
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.45f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f);
+			if (projectile.localAI[0] == 0f)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 73);
 				projectile.localAI[0] += 1f;
 			}
-            projectile.localAI[0] += 1f;
+			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 4f)
 			{
 				for (int num468 = 0; num468 < 5; num468++)
@@ -43,11 +43,11 @@ namespace CalamityMod.Projectiles.Boss
 					Main.dust[num469].velocity *= 0f;
 				}
 			}
-        }
-        
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
@@ -72,12 +72,6 @@ namespace CalamityMod.Projectiles.Boss
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 50;
-			projectile.height = 50;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-        }
-    }
+		}
+	}
 }

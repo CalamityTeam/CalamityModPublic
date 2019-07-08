@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.TheEyeOfCthulhu);
-            item.damage = 63;
+            item.damage = 240;
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 5;
@@ -33,11 +33,5 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.shoot = mod.ProjectileType("TheObliterator");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
-            return false;
-        }
     }
 }

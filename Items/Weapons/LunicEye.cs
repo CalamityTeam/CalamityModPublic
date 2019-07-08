@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lunic Eye");
-			Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\nProjectile damage is multiplied by all of your damage bonuses");
+			Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
+				"Projectile damage is multiplied by all of your damage bonuses");
 		}
 
 		public override void SetDefaults()

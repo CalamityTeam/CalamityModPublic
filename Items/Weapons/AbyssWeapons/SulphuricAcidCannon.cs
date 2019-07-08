@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sulphuric Acid Cannon");
+			Tooltip.SetDefault("Fires an acidic bubble that sticks to enemies and emits sulphuric gas");
 		}
 
 	    public override void SetDefaults()

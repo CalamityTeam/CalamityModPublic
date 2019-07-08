@@ -8,27 +8,27 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ChargedBlast3 : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class ChargedBlast3 : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blast");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 5;
-            projectile.height = 5;
-            projectile.friendly = true;
-            projectile.ranged = true;
-            projectile.penetrate = 4;
-            projectile.extraUpdates = 3;
-            projectile.alpha = 255;
-            projectile.timeLeft = 300;
-        }
 
-        public override void AI()
-        {
+		public override void SetDefaults()
+		{
+			projectile.width = 5;
+			projectile.height = 5;
+			projectile.friendly = true;
+			projectile.ranged = true;
+			projectile.penetrate = 4;
+			projectile.extraUpdates = 3;
+			projectile.alpha = 255;
+			projectile.timeLeft = 300;
+		}
+
+		public override void AI()
+		{
 			if (projectile.alpha > 0)
 			{
 				projectile.alpha -= 25;
@@ -54,28 +54,27 @@ namespace CalamityMod.Projectiles.Ranged
 				if (projectile.localAI[0] <= 0f)
 				{
 					projectile.Kill();
-					return;
 				}
 			}
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(100, 100, 255, 0);
-        }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
-        	int num147 = 0;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(100, 100, 255, 0);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
+			int num147 = 0;
 			int num148 = 0;
-        	float num149 = (float)(Main.projectileTexture[projectile.type].Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
-        	SpriteEffects spriteEffects = SpriteEffects.None;
+			float num149 = (float)(Main.projectileTexture[projectile.type].Width - projectile.width) * 0.5f + (float)projectile.width * 0.5f;
+			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 			{
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
-        	Microsoft.Xna.Framework.Rectangle value6 = new Microsoft.Xna.Framework.Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
+			Microsoft.Xna.Framework.Rectangle value6 = new Microsoft.Xna.Framework.Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 500, Main.screenWidth + 1000, Main.screenHeight + 1000);
 			if (projectile.getRect().Intersects(value6))
 			{
 				Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
@@ -95,14 +94,14 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 			}
 			return false;
-        }
+		}
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-        	int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	Main.projectile[explode].penetrate = 1;
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
+			Main.projectile[explode].penetrate = 1;
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
+			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
 			projectile.height = 50;
@@ -126,32 +125,32 @@ namespace CalamityMod.Projectiles.Ranged
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
-            {
-                projectile.Kill();
-            }
-            else
-            {
-                projectile.ai[0] += 0.1f;
-                if (projectile.velocity.X != oldVelocity.X)
-                {
-                    projectile.velocity.X = -oldVelocity.X;
-                }
-                if (projectile.velocity.Y != oldVelocity.Y)
-                {
-                    projectile.velocity.Y = -oldVelocity.Y;
-                }
-            }
-            return false;
-        }
+			projectile.penetrate--;
+			if (projectile.penetrate <= 0)
+			{
+				projectile.Kill();
+			}
+			else
+			{
+				projectile.ai[0] += 0.1f;
+				if (projectile.velocity.X != oldVelocity.X)
+				{
+					projectile.velocity.X = -oldVelocity.X;
+				}
+				if (projectile.velocity.Y != oldVelocity.Y)
+				{
+					projectile.velocity.Y = -oldVelocity.Y;
+				}
+			}
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	Main.projectile[explode].penetrate = 1;
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+		public override void Kill(int timeLeft)
+		{
+			int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
+			Main.projectile[explode].penetrate = 1;
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
+			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 100;
 			projectile.height = 100;
@@ -175,14 +174,14 @@ namespace CalamityMod.Projectiles.Ranged
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.immune[projectile.owner] = 2;
-        	int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	Main.projectile[explode].penetrate = 1;
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.immune[projectile.owner] = 2;
+			int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
+			Main.projectile[explode].penetrate = 1;
+			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
 			projectile.height = 50;
@@ -206,6 +205,6 @@ namespace CalamityMod.Projectiles.Ranged
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
-    }
+		}
+	}
 }

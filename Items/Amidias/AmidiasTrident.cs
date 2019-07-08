@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Amidias
 		public override void SetDefaults()
 		{
 			item.width = 44;
-			item.damage = 20;
+			item.damage = 28;
 			item.melee = true;
 			item.noMelee = true;
 			item.useTurn = true;

@@ -75,9 +75,9 @@ namespace CalamityMod.Projectiles.Magic
 			int num462 = 0;
 			while ((float)num462 < num461)
 			{
-				float num463 = (float)Main.rand.Next(-30, 31);
-				float num464 = (float)Main.rand.Next(-30, 31);
-				float num465 = (float)Main.rand.Next(9, 27);
+				float num463 = (float)Main.rand.Next(-25, 26);
+				float num464 = (float)Main.rand.Next(-25, 26);
+				float num465 = (float)Main.rand.Next(9, 24);
 				float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
 				num466 = num465 / num466;
 				num463 *= num466;
@@ -94,13 +94,12 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num467].velocity.Y = num464;
 				num462++;
 			}
-			return;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 8;
-        	target.AddBuff(BuffID.OnFire, 750);
+        	target.AddBuff(BuffID.OnFire, 600);
         }
     }
 }

@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spectralstorm Cannon");
-			Tooltip.SetDefault("70% chance to not consume flares\nFires a storm of ectoplasm and flares");
+			Tooltip.SetDefault("70% chance to not consume flares\n" +
+				"Fires a storm of ectoplasm and flares");
 		}
 
 	    public override void SetDefaults()

@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nano Purge");
+			Tooltip.SetDefault("Fires a barrage of nano lasers");
 		}
 
 	    public override void SetDefaults()

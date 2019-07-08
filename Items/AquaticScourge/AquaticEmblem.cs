@@ -27,7 +27,7 @@ namespace CalamityMod.Items.AquaticScourge
             item.width = 18;
             item.height = 26;
             item.value = Item.buyPrice(0, 30, 0, 0);
-            item.rare = 5;
+            item.rare = 9;
             item.accessory = true;
             item.expert = true;
         }

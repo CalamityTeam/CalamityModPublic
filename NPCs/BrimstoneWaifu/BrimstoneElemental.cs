@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.BrimstoneWaifu
 {
@@ -78,6 +79,18 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -184,7 +197,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						npc.ai[1] = (float)playerPosX;
 						npc.ai[2] = (float)playerPosY;
 						npc.netUpdate = true;
-						return;
 					}
 				}
 			}
@@ -205,7 +217,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
 					npc.ai[0] = 2f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 2f)
@@ -230,7 +241,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						npc.ai[0] = 0f;
 					}
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f)
@@ -367,7 +377,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 4f)

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.SlimeGod
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The God's Gambit");
-        }
+			Tooltip.SetDefault("Fires a stream of slime when enemies are near");
+		}
 
         public override void SetDefaults()
         {

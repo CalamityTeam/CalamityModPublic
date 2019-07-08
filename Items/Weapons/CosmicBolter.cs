@@ -14,11 +14,12 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Bolter");
+			Tooltip.SetDefault("Fires three bouncing energy bolts");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 70;
+			item.damage = 60;
 			item.ranged = true;
 			item.width = 40;
 			item.height = 76;
@@ -40,10 +41,10 @@ namespace CalamityMod.Items.Weapons
 		{
 			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
 			float num117 = 0.314159274f;
-			int num118 = 2;
+			int num118 = 3;
 			Vector2 vector7 = new Vector2(speedX, speedY);
 			vector7.Normalize();
-			vector7 *= 15f;
+			vector7 *= 30f;
 			bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
 			for (int num119 = 0; num119 < num118; num119++)
 			{
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Weapons
 				{
 					value9 -= vector7;
 				}
-				int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, mod.ProjectileType("LunarBolt2"), (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+				int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, mod.ProjectileType("LunarBolt2"), damage, knockBack, player.whoAmI, 0f, 0f);
 				Main.projectile[num121].noDropItem = true;
 			}
 			return false;

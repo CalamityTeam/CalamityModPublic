@@ -14,12 +14,13 @@ namespace CalamityMod.Items.Weapons.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Pike");
-        }
+			Tooltip.SetDefault("Summons astral star swarms on critical hits");
+		}
 
         public override void SetDefaults()
         {
             item.width = 44;
-            item.damage = 85;
+            item.damage = 128;
             item.crit += 25;
             item.melee = true;
             item.noMelee = true;
@@ -32,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Astral
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 50;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+            item.value = Item.buyPrice(0, 95, 0, 0);
+            item.rare = 9;
             item.shoot = mod.ProjectileType("AstralPike");
             item.shootSpeed = 9f;
         }
@@ -42,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Astral
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AstralBar", 8);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

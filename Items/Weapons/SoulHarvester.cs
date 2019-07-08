@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Harvester");
-			Tooltip.SetDefault("Enemies explode when on low health, spreading the plague");
+			Tooltip.SetDefault("Shoots a soul scythe\n" +
+				"Enemies explode when on low health, spreading the plague");
 		}
 
 		public override void SetDefaults()
@@ -57,8 +58,8 @@ namespace CalamityMod.Items.Weapons
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("Plague"), 200);
-			target.AddBuff(BuffID.CursedInferno, 200);
+			target.AddBuff(mod.BuffType("Plague"), 300);
+			target.AddBuff(BuffID.CursedInferno, 300);
 			if (target.life <= (target.lifeMax * 0.15f))
 			{
 				Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);

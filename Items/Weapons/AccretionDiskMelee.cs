@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Elemental Disk");
-			Tooltip.SetDefault("Shred the fabric of reality!");
+			Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it");
 		}
 		
 		public override void SetDefaults()

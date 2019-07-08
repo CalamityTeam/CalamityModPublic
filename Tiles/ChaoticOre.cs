@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Chaotic Ore");
  			AddMapEntry(new Color(255, 0, 0), name);
 			mineResist = 4f;
-			minPick = 209;
+			minPick = 210;
 			soundType = 21;
 		}
 

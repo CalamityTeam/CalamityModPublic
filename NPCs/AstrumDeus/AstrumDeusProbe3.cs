@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
@@ -26,13 +27,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.width = 30; //324
 			npc.height = 30; //216
 			npc.defense = 30;
-			npc.lifeMax = 900;
+			npc.lifeMax = 1400;
 			if (CalamityWorld.bossRushActive)
 			{
 				npc.lifeMax = 120000;
 			}
 			npc.knockBackResist = 0.95f;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.canGhostHeal = false;
@@ -43,6 +43,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
+			if (CalamityGlobalNPC.astrumDeusHeadMain < 0 || !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
 			{
 				npc.TargetClosest(true);
@@ -132,10 +138,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					int num8 = 37;
+					int num8 = 45;
 					if (Main.expertMode)
 					{
-						num8 = 29;
+						num8 = 35;
 					}
 					int num9 = 84;
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);

@@ -38,8 +38,8 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.alpha = 0;
 			}
 			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0f, 0f, 1f);
-			float num55 = 100f;
-			float num56 = 3f;
+			float num55 = 50f;
+			float num56 = 1.5f;
 			if (projectile.ai[1] == 0f)
 			{
 				projectile.localAI[0] += num56;
@@ -54,7 +54,6 @@ namespace CalamityMod.Projectiles.Ranged
 				if (projectile.localAI[0] <= 0f)
 				{
 					projectile.Kill();
-					return;
 				}
 			}
         }
@@ -79,8 +78,8 @@ namespace CalamityMod.Projectiles.Ranged
 			if (projectile.getRect().Intersects(value6))
 			{
 				Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
-				float num162 = 100f;
-				float scaleFactor = 3f;
+				float num162 = 50f;
+				float scaleFactor = 1.5f;
 				if (projectile.ai[1] == 1f)
 				{
 					num162 = (float)((int)projectile.localAI[0]);
@@ -99,7 +98,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            for (int x = 0; x < 3; x++)
+			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+			target.AddBuff(BuffID.CursedInferno, 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(BuffID.OnFire, 120);
+			target.AddBuff(BuffID.Ichor, 120);
+			for (int x = 0; x < 3; x++)
             {
                 float xPos = projectile.ai[0] > 0 ? projectile.position.X + 500 : projectile.position.X - 500;
                 Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-500, 501));
@@ -112,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
                 speedY *= dir * 150;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("BlueExoArrow2"), (int)((double)projectile.damage * 0.7f), 1f, projectile.owner);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("BlueExoArrow2"), (int)((double)projectile.damage * 0.7), 1f, projectile.owner);
                 }
             }
         }

@@ -86,7 +86,6 @@ namespace CalamityMod.Projectiles.Typeless
 			if (projectile.velocity.Y > 16f)
 			{
 				projectile.velocity.Y = 16f;
-				return;
 			}
         }
         

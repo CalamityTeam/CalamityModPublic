@@ -89,8 +89,6 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				return;
 			}
-        	Main.player[Main.myPlayer].statLife += 1;
-			Main.player[Main.myPlayer].HealEffect(1);
         }
     }
 }

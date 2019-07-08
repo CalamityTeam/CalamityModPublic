@@ -85,7 +85,6 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[num467].velocity.Y = num464;
 				num462++;
 			}
-			return;
         }
     }
 }

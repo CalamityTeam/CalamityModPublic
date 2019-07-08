@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			int[] array = new int[20];
 			int num434 = 0;
-			float num435 = 400f;
+			float num435 = 300f;
 			bool flag14 = false;
 			for (int num436 = 0; num436 < 200; num436 = num3 + 1)
 			{

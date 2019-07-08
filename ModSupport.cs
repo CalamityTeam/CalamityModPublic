@@ -12,6 +12,8 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod
 {
 	public class ModSupport
@@ -57,12 +59,20 @@ namespace CalamityMod
 				};
 				return downed;
 			}
-			else
-			if (methodName.Equals("InZone")) //returns a Func which will return a zone value based on player and name.
+			else if (methodName.Equals("InZone")) //returns a Func which will return a zone value based on player and name.
 			{
 				Func<Player, string, bool> inZone = (p, name) => { return ModSupport.InZone(p, name); };
 				return inZone;
 			}
+			/*else if (methodName.StartsWith("Set") || methodName.StartsWith("Get"))
+			{
+				CalamityPlayer player = Main.player[(int)args[1]].GetModPlayer<CalamityCustomThrowingDamagePlayer>(mod);
+				if (methodName.Equals("SetRogueBoost")) { player.rogueBoost = (float)args[2]; }
+				else if (methodName.Equals("GetrogueBoost")) { return player.rogueBoost; }
+				else if (methodName.Equals("SetrogueCrit")) { player.rogueCrit = (int)args[2]; }
+				else if (methodName.Equals("GetrogueCrit")) { return player.rogueCrit; }
+				return null;
+			}*/
 			return new Exception("CalamityMod Error: NO METHOD FOUND: " + methodName);
 		}
 

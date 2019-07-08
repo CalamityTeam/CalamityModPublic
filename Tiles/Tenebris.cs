@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Tenebris");
  			AddMapEntry(new Color(0, 100, 100), name);
 			mineResist = 3f;
-			minPick = 199;
+			minPick = 200;
 			soundType = 21;
 		}
 

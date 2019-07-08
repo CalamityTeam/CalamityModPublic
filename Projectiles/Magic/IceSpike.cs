@@ -64,7 +64,6 @@ namespace CalamityMod.Projectiles.Magic
                 num485 *= num486;
                 projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                 projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-                return;
             }
         }
 
@@ -79,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-    		target.AddBuff(BuffID.Frostburn, 200);
+    		target.AddBuff(BuffID.Frostburn, 240);
         }
     }
 }

@@ -9,6 +9,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class Aries : ModNPC
@@ -25,17 +27,24 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void SetDefaults()
         {
-            npc.damage = 85;
+            npc.damage = 50;
             npc.width = 56;
             npc.height = 54;
             npc.aiStyle = 41;
-            npc.defense = 24;
-            npc.lifeMax = 450;
-            npc.knockBackResist = 0.5f;
+            npc.defense = 14;
+            npc.lifeMax = 300;
+            npc.knockBackResist = 0.6f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
 			banner = npc.type;
 			bannerItem = mod.ItemType("AriesBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 85;
+				npc.defense = 24;
+				npc.knockBackResist = 0.5f;
+				npc.lifeMax = 450;
+			}
 		}
 
         public override void FindFrame(int frameHeight)
@@ -110,7 +119,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-			if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+			if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StellarKnife"));
 			}

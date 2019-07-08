@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.BrimstoneWaifu
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimlance");
-            Tooltip.SetDefault("This spear causes brimstone explosions on enemy hits\nEnemies killed by the spear drop brimstone fire");
+            Tooltip.SetDefault("This spear causes brimstone explosions on enemy hits\n" +
+				"Enemies killed by the spear drop brimstone fire");
         }
 
         public override void SetDefaults()

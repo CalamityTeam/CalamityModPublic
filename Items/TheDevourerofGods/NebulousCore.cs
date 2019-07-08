@@ -28,7 +28,8 @@ namespace CalamityMod.Items.TheDevourerofGods
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
             item.expert = true;
-        }
+			item.rare = 9;
+		}
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

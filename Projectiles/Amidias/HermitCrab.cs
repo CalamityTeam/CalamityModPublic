@@ -45,14 +45,6 @@ namespace CalamityMod.Projectiles.Amidias
 
 		public override void AI()
 		{
-			/*if(projectile.velocity.X > 0.5f)
-			{
-				projectile.spriteDirection = 1;
-			}
-			else if(projectile.velocity.X < 0.5f)
-			{
-				projectile.spriteDirection = -1;
-			}*/
 			if (spawnDust)
 			{
 				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
@@ -103,7 +95,6 @@ namespace CalamityMod.Projectiles.Amidias
 				{
 					projectile.frameCounter++;
 				}
-
 				if (projectile.frameCounter > 4)
 				{
 					projectile.frame++;
@@ -147,9 +138,9 @@ namespace CalamityMod.Projectiles.Amidias
 								break;
 						}
 
-						if (projectile.velocity.X > 6f)
+						if (projectile.velocity.X > 9f)
 						{
-							projectile.velocity.X = 6f;
+							projectile.velocity.X = 9f;
 						}
 					}
 					else
@@ -166,9 +157,9 @@ namespace CalamityMod.Projectiles.Amidias
 								break;
 						}
 
-						if (projectile.velocity.X < -6f)
+						if (projectile.velocity.X < -9f)
 						{
-							projectile.velocity.X = -6f;
+							projectile.velocity.X = -9f;
 						}
 					}
 				}
@@ -200,9 +191,9 @@ namespace CalamityMod.Projectiles.Amidias
 									break;
 							}
 
-							if (projectile.velocity.X > 6f)
+							if (projectile.velocity.X > 9f)
 							{
-								projectile.velocity.X = 6f;
+								projectile.velocity.X = 9f;
 							}
 						}
 						else
@@ -222,9 +213,9 @@ namespace CalamityMod.Projectiles.Amidias
 									break;
 							}
 
-							if (projectile.velocity.X < -6f)
+							if (projectile.velocity.X < -9f)
 							{
-								projectile.velocity.X = -6f;
+								projectile.velocity.X = -9f;
 							}
 						}
 					}

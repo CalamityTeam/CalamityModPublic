@@ -36,6 +36,18 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			bannerItem = mod.ItemType("EutrophicRayBanner");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.chaseable);
+			writer.Write(hasBeenHit);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.chaseable = reader.ReadBoolean();
+			hasBeenHit = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			npc.TargetClosest(true);

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -19,20 +20,27 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 		
 		public override void SetDefaults()
 		{
-			npc.damage = 30;
+			npc.damage = 20;
 			npc.width = 30; //324
 			npc.height = 30; //216
-			npc.defense = 20;
-			npc.lifeMax = 70;
+			npc.defense = 10;
+			npc.lifeMax = 50;
 			npc.aiStyle = -1;
 			aiType = -1;
-			npc.knockBackResist = 0.85f;
+			npc.knockBackResist = 0.95f;
 			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.DeathSound = SoundID.NPCDeath14;
 			banner = npc.type;
 			bannerItem = mod.ItemType("AstralProbeBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 30;
+				npc.defense = 20;
+				npc.knockBackResist = 0.85f;
+				npc.lifeMax = 70;
+			}
 		}
 		
 		public override void AI()
@@ -125,11 +133,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					int num8 = 18;
-					if (Main.expertMode)
-					{
-						num8 = 14;
-					}
+					int num8 = Main.expertMode ? 14 : 18;
+					if (CalamityWorld.downedAstrageldon)
+						num8 += 6;
+
 					int num9 = 84;
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
 				}
@@ -302,7 +309,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 		
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (CalamityWorld.downedStarGod)
+			if (CalamityWorld.downedAstrageldon)
 			{
 				player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
 			}

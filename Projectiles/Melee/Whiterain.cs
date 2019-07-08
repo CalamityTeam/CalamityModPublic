@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
         		projectile.ai[1] = 1f;
         		Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 125);
         	}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.2f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.2f, 0.2f, 0.2f);
 			for (int num457 = 0; num457 < 2; num457++)
 			{
 				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 91, 0f, 0f, 100, default(Color), 1.25f);
@@ -74,9 +74,7 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
-			return;
         }
     }
 }

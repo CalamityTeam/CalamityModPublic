@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ultra Liquidator");
-			Tooltip.SetDefault("Summons liquidation blades\n" +
+			Tooltip.SetDefault("Summons liquidation blades that summon more blades on enemy hits\n" +
 			                   "The blades inflict ichor, cursed inferno, on fire, and frostburn");
 			Item.staff[item.type] = true;
 		}

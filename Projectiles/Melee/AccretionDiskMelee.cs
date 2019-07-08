@@ -7,31 +7,31 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AccretionDiskMelee : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class AccretionDiskMelee : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Accretion Disk");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 56;
-            projectile.height = 56;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 56;
+			projectile.height = 56;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.tileCollide = false;
+			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 6;
-            projectile.penetrate = -1;
-            projectile.aiStyle = 3;
-            projectile.timeLeft = 400;
-            aiType = 52;
-        }
-        
-        public override void AI()
-        {
-        	if (Main.rand.Next(2) == 0)
+			projectile.penetrate = -1;
+			projectile.aiStyle = 3;
+			projectile.timeLeft = 400;
+			aiType = 52;
+		}
+
+		public override void AI()
+		{
+			if (Main.rand.Next(2) == 0)
 			{
 				for (int num468 = 0; num468 < 1; num468++)
 				{
@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Melee
 					Main.dust[num250].velocity *= 0f;
 				}
 			}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 1f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
-        	int[] array = new int[20];
+			Lighting.AddLight(projectile.Center, 0.15f, 1f, 0.25f);
+			int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
 			bool flag14 = false;
@@ -87,29 +87,28 @@ namespace CalamityMod.Projectiles.Melee
 						if (projectile.owner == Main.myPlayer)
 						{
 							float spread = 45f * 0.0174f;
-					    	double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread/2;
-					    	double deltaAngle = spread/8f;
-					    	double offsetAngle;
-					    	int i;
-					    	for (i = 0; i < 4; i++ )
-					    	{
-					   			offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-					        	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("AccretionDisk2Melee"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					        	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("AccretionDisk2Melee"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					    	}
+							double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
+							double deltaAngle = spread / 8f;
+							double offsetAngle;
+							int i;
+							for (i = 0; i < 4; i++)
+							{
+								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AccretionDisk2Melee"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AccretionDisk2Melee"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+							}
 						}
 					}
-					return;
 				}
 			}
-        }
-        
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-        	target.AddBuff(mod.BuffType("GlacialState"), 100);
-        	target.AddBuff(mod.BuffType("Plague"), 100);
-        	target.AddBuff(mod.BuffType("HolyLight"), 100);
-        }
-    }
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+		}
+	}
 }

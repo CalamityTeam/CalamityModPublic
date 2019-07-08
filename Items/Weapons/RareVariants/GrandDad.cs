@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using CalamityMod.NPCs;
 
 namespace CalamityMod.Items.Weapons.RareVariants
 {
@@ -39,7 +40,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if (!target.boss)
+			if (CalamityGlobalNPC.ShouldAffectNPC(target))
 			{
 				target.knockBackResist = 7f;
 				target.defense = 0;

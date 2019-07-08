@@ -24,6 +24,7 @@ using CalamityMod.Projectiles;
 using CalamityMod.Items;
 using CalamityMod.Items.Armor;
 using CalamityMod.UI;
+using CalamityMod.World;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 using Terraria.ModLoader.IO;
 
@@ -33,987 +34,525 @@ namespace CalamityMod
 	{
 		#region InstanceVars
 
-		#region NormalVars
+		//No Category
 		public static bool areThereAnyDamnBosses = false;
-
+		public bool drawBossHPBar = true;
+		public bool shouldDrawSmallText = true;
 		private const int saveVersion = 0;
-
 		public const float defEndurance = 0.33f;
-
+		//public int distanceFromBoss = -1;
 		public int dashMod;
-
-		public int dashTimeMod;
-
 		public int projTypeJustHitBy;
-
-		public int gainRageCooldown = 60;
-
-		public int bossRushImmunityFrameCurseTimer = 0;
-
-		public int aBulwarkRareMeleeBoostTimer = 0;
-
-		public int ataraxiaDamageBoostCooldown = 0;
-
-		public int ataraxiaDamageBoostCancelTimer = 1200;
-
-		public int nebulaManaNerfCounter = 0;
-
-		public int alcoholPoisonLevel = 0;
-
-		public int modStealthTimer;
-
-		public int hInfernoBoost = 0;
-
-		public int pissWaterBoost = 0;
-
-		public int packetTimer = 0;
-
 		public int sCalDeathCount = 0;
-
 		public int sCalKillCount = 0;
-
 		public int deathCount = 0;
 
+		//Timer and Counter
+		public int bossRushImmunityFrameCurseTimer = 0;
+		public int aBulwarkRareMeleeBoostTimer = 0;
+		public int nebulaManaNerfCounter = 0;
+		public int alcoholPoisonLevel = 0;
+		public int modStealthTimer;
+		public int dashTimeMod;
+		public int hInfernoBoost = 0;
+		public int pissWaterBoost = 0;
+		public int packetTimer = 0;
 		public int bloodflareHeartTimer = 180;
-
 		public int bloodflareManaTimer = 180;
-
+		public int ataraxiaDamageBoostCooldown = 0;
+		public int ataraxiaDamageBoostCancelTimer = 1200;
 		public float ataraxiaDamageBoost = 0f;
-
 		public float rogueStealth = 0f;
-
 		public float rogueStealthMax = 0f;
-
 		public float modStealth = 1f;
-
 		public float aquaticBoost = 1f;
-
 		public float shieldInvinc = 5f;
 
+		//Sound
 		public bool playRogueStealthSound = false;
-
 		public bool playFullRageSound = true;
-
 		public bool playFullAdrenalineSound = true;
-
 		public bool playAdrenalineBurnoutSound = true;
-
 		public bool playFullAdrenalineBurnoutSound = true;
 
-		public bool onyxExcavator = false;
-
-		public bool angryDog = false;
-
-		public bool fab = false;
-
-		public bool crysthamyr = false;
-
-		public bool drawBossHPBar = true;
-
-		public bool shouldDrawSmallText = true;
-		#endregion
-
-		#region ProficiencyStuff
+		//Proficiency
 		public int meleeLevel = 0;
 		public int rangedLevel = 0;
 		public int magicLevel = 0;
 		public int rogueLevel = 0;
 		public int summonLevel = 0;
-
 		public bool shootFireworksLevelUpMelee = true;
 		public bool shootFireworksLevelUpRanged = true;
 		public bool shootFireworksLevelUpMagic = true;
 		public bool shootFireworksLevelUpSummon = true;
 		public bool shootFireworksLevelUpRogue = true;
-
 		public int exactMeleeLevel = 0;
 		public int exactRangedLevel = 0;
 		public int exactMagicLevel = 0;
 		public int exactSummonLevel = 0;
 		public int exactRogueLevel = 0;
+		public int gainLevelCooldown = 120;
 
-		public int gainLevelCooldown = 120; // 120 frames before gaining another stat point, avoiding i-frame nonsense
-		#endregion
+		//Mount
+		public bool onyxExcavator = false;
+		public bool angryDog = false;
+		public bool fab = false;
+		public bool crysthamyr = false;
 
-		#region PetStuff
+		//Pet
 		public bool akato = false;
-
 		public bool leviPet = false;
-
 		public bool sirenPet = false;
-
 		public bool fox = false;
-
 		public bool chibii = false;
-
 		public bool brimling = false;
-
 		public bool bearPet = false;
-
 		public bool kendra = false;
-
 		public bool trashMan = false;
-
 		public int trashManChest = -1;
-		#endregion
 
-		#region StressStuff
+		//Rage
 		public const int stressMax = 10000;
-
 		public int stress;
-
 		public int stressCD;
-
-		public bool heartOfDarkness = false;
-
-		public bool draedonsHeart = false;
-
-		public bool draedonsStressGain = false;
-
-		public bool afflicted = false;
-
-		public bool affliction = false;
-
-		public bool stressPills = false;
-
-		public bool laudanum = false;
-
 		public bool stressLevel500 = false;
-
 		public bool rageMode = false;
-		#endregion
+		public int gainRageCooldown = 60;
 
-		#region AdrenalineStuff
+		//Adrenaline
 		public const int adrenalineMax = 10000;
-
 		public int adrenalineMaxTimer = 300;
-
 		public int adrenalineDmgDown = 600;
-
 		public float adrenalineDmgMult = 1f;
-
 		public int adrenaline;
-
 		public int adrenalineCD;
-
 		public bool adrenalineMode = false;
-		#endregion
 
-		#region PermanentStuff
+		//Permanent Buff
 		public bool extraAccessoryML = false;
-
 		public bool eCore = false;
-
 		public bool pHeart = false;
-
 		public bool cShard = false;
-
 		public bool mFruit = false;
-
 		public bool bOrange = false;
-
 		public bool eBerry = false;
-
 		public bool dFruit = false;
-
 		public bool revJamDrop = false;
-
 		public bool rageBoostOne = false;
-
 		public bool rageBoostTwo = false;
-
 		public bool rageBoostThree = false;
-
 		public bool adrenalineBoostOne = false;
-
 		public bool adrenalineBoostTwo = false;
-
 		public bool adrenalineBoostThree = false;
-		#endregion
 
-		#region LoreStuff
+		//Lore
 		public bool desertScourgeLore = false;
-
 		public bool eaterOfWorldsLore = false;
-
 		public bool hiveMindLore = false;
-
 		public bool perforatorLore = false;
-
 		public bool queenBeeLore = false;
-
 		public bool skeletronLore = false;
-
 		public bool wallOfFleshLore = false;
-
 		public bool destroyerLore = false;
-
 		public bool aquaticScourgeLore = false;
-
 		public bool skeletronPrimeLore = false;
-
 		public bool brimstoneElementalLore = false;
-
 		public bool calamitasLore = false;
-
 		public bool planteraLore = false;
-
 		public bool leviathanAndSirenLore = false;
-
 		public bool astrumAureusLore = false;
-
 		public bool astrumDeusLore = false;
-
 		public bool golemLore = false;
-
 		public bool plaguebringerGoliathLore = false;
-
 		public bool dukeFishronLore = false;
-
 		public bool ravagerLore = false;
-
 		public bool lunaticCultistLore = false;
-
 		public bool moonLordLore = false;
-
 		public bool providenceLore = false;
-
 		public bool polterghastLore = false;
-
 		public bool DoGLore = false;
-
 		public bool yharonLore = false;
-
 		public bool SCalLore = false;
-		#endregion
 
-		#region AccessoryStuff
+		//Accessory
 		public bool fasterMeleeLevel = false;
-
 		public bool fasterRangedLevel = false;
-
 		public bool fasterMagicLevel = false;
-
 		public bool fasterSummonLevel = false;
-
 		public bool fasterRogueLevel = false;
-
 		public bool luxorsGift = false;
-
 		public bool fungalSymbiote = false;
-
 		public bool trinketOfChi = false;
-
 		public bool gladiatorSword = false;
-
 		public bool unstablePrism = false;
-
 		public bool regenator = false;
-
 		public bool theBee = false;
-
 		public int theBeeDamage = 0;
-
 		public bool rBrain = false;
-
 		public bool bloodyWormTooth = false;
-
+		public bool afflicted = false;
+		public bool affliction = false;
+		public bool stressPills = false;
+		public bool laudanum = false;
+		public bool heartOfDarkness = false;
+		public bool draedonsHeart = false;
+		public bool draedonsStressGain = false;
 		public bool rampartOfDeities = false;
-
 		public bool vexation = false;
-
 		public bool fBulwark = false;
-
 		public bool dodgeScarf = false;
-
 		public bool badgeOfBravery = false;
-
 		public bool badgeOfBraveryRare = false;
-
 		public bool scarfCooldown = false;
-
 		public bool cryogenSoul = false;
-
 		public bool yInsignia = false;
-
 		public bool eGauntlet = false;
-
 		public bool eTalisman = false;
-
 		public bool statisBeltOfCurses = false;
-
 		public bool elysianAegis = false;
-
 		public bool elysianGuard = false;
-
 		public bool nCore = false;
-
 		public bool deepDiver = false;
-
 		public bool abyssalDivingSuitPlates = false;
-
 		public bool abyssalDivingSuitCooldown = false;
-
 		public int abyssalDivingSuitPlateHits = 0;
-
 		public bool sirenWaterBuff = false;
-
 		public bool sirenIce = false;
-
 		public bool sirenIceCooldown = false;
-
 		public bool aSpark = false;
-
 		public bool aSparkRare = false;
-
 		public bool aBulwark = false;
-
 		public bool aBulwarkRare = false;
-
 		public bool dAmulet = false;
-
 		public bool fCarapace = false;
-
 		public bool gShell = false;
-
 		public bool absorber = false;
-
 		public bool aAmpoule = false;
-
 		public bool pAmulet = false;
-
 		public bool fBarrier = false;
-
 		public bool aBrain = false;
-
 		public bool lol = false;
-
 		public bool raiderTalisman = false;
-
 		public int raiderStack = 0;
-
 		public bool sGenerator = false;
-
 		public bool sDefense = false;
-
 		public bool sPower = false;
-
 		public bool sRegen = false;
-
 		public bool IBoots = false;
-
 		public bool elysianFire = false;
-
 		public bool sTracers = false;
-
 		public bool eTracers = false;
-
 		public bool cTracers = false;
-
 		public bool frostFlare = false;
-
 		public bool beeResist = false;
-
 		public bool uberBees = false;
-
 		public bool projRef = false;
-
 		public bool projRefRare = false;
-
 		public int projRefRareLifeRegenCounter = 0;
-
 		public bool nanotech = false;
-
 		public bool eQuiver = false;
-
 		public bool shadowMinions = false;
-
 		public bool tearMinions = false;
-
 		public bool alchFlask = false;
-
 		public bool community = false;
-
 		public bool fleshTotem = false;
-
 		public int fleshTotemCooldown = 0;
-
 		public bool bloodPact = false;
-
 		public bool bloodflareCore = false;
-
 		public bool coreOfTheBloodGod = false;
-
 		public bool elementalHeart = false;
-
 		public bool crownJewel = false;
-
 		public bool celestialJewel = false;
-
 		public bool astralArcanum = false;
-
 		public bool harpyRing = false;
-
 		public bool ironBoots = false;
-
 		public bool depthCharm = false;
-
 		public bool anechoicPlating = false;
-
 		public bool jellyfishNecklace = false;
-
 		public bool abyssalAmulet = false;
-
 		public bool lumenousAmulet = false;
-
 		public bool reaperToothNecklace = false;
-
 		public bool aquaticEmblem = false;
-
 		public bool darkSunRing = false;
-
 		public bool calamityRing = false;
-
 		public bool eArtifact = false;
-
 		public bool dArtifact = false;
-
 		public bool gArtifact = false;
-
 		public bool pArtifact = false;
-
 		public bool giantPearl = false;
-
 		public bool normalityRelocator = false;
-
 		public bool fabledTortoise = false;
-		#endregion
+		public bool manaOverloader = false;
 
-		#region ArmorSetStuff
+		//Armor Set
 		public bool victideSet = false;
-
 		public bool aeroSet = false;
-
 		public bool statigelSet = false;
-
 		public bool tarraSet = false;
-
 		public bool tarraMelee = false;
-
 		public bool tarraDefense = false;
-
 		public int tarraCooldown = 0;
-
 		public int tarraDefenseTime = 600;
-
 		public bool tarraMage = false;
-
 		public int tarraMageHealCooldown = 0;
-
 		public int tarraCrits = 0;
-
 		public bool tarraRanged = false;
-
 		public bool tarraThrowing = false;
-
 		public int tarraThrowingCrits = 0;
-
 		public int tarraThrowingCritTimer = 0;
-
 		public bool tarraSummon = false;
-
 		public bool bloodflareSet = false;
-
 		public bool bloodflareMelee = false;
-
 		public int bloodflareMeleeHits = 0;
-
 		public int bloodflareFrenzyTimer = 0;
-
 		public int bloodflareFrenzyCooldown = 0;
-
 		public bool bloodflareRanged = false;
-
 		public int bloodflareRangedCooldown = 0;
-
 		public bool bloodflareThrowing = false;
-
 		public bool bloodflareMage = false;
-
 		public int bloodflareMageCooldown = 0;
-
 		public bool bloodflareSummon = false;
-
 		public int bloodflareSummonTimer = 0;
-
 		public bool godSlayer = false;
-
 		public bool godSlayerDamage = false;
-
 		public bool godSlayerMage = false;
-
 		public bool godSlayerRanged = false;
-
 		public bool godSlayerThrowing = false;
-
 		public bool godSlayerSummon = false;
-
 		public float godSlayerDmg;
-
 		public bool godSlayerReflect = false;
-
 		public bool godSlayerCooldown = false;
-
 		public bool ataxiaBolt = false;
-
 		public bool ataxiaFire = false;
-
 		public bool ataxiaVolley = false;
-
 		public bool ataxiaBlaze = false;
-
 		public bool daedalusAbsorb = false;
-
 		public bool daedalusShard = false;
-
 		public bool reaverSpore = false;
-
 		public bool reaverDoubleTap = false;
-
 		public bool flamethrowerBoost = false;
-
 		public bool shadeRegen = false;
-
 		public bool shadowSpeed = false;
-
 		public bool dsSetBonus = false;
-
 		public bool auricBoost = false;
-
 		public bool daedalusReflect = false;
-
 		public bool daedalusSplit = false;
-
 		public bool reaverBlast = false;
-
 		public bool reaverBurst = false;
-
 		public bool astralStarRain = false;
-
 		public int astralStarRainCooldown = 0;
-
 		public float ataxiaDmg;
-
 		public bool ataxiaMage = false;
-
 		public bool ataxiaGeyser = false;
-
 		public float xerocDmg;
-
 		public bool xerocSet = false;
-
 		public bool silvaSet = false;
-
 		public bool silvaMelee = false;
-
 		public bool silvaRanged = false;
-
 		public bool silvaThrowing = false;
-
 		public bool silvaMage = false;
-
 		public bool silvaSummon = false;
-
 		public bool hasSilvaEffect = false;
-
 		public int silvaCountdown = 600;
-
 		public int silvaHitCounter = 0;
-
 		public bool auricSet = false;
-
 		public bool omegaBlueChestplate = false;
-
 		public bool omegaBlueSet = false;
-
 		public bool omegaBlueHentai = false;
-
 		public int omegaBlueCooldown = 0;
-
 		public bool molluskSet = false;
-		#endregion
 
-		#region DebuffStuff
+		//Debuff
+		public bool wDeath = false;
 		public bool lethalLavaBurn = false;
-
 		public bool aCrunch = false;
-
-		public bool NOU = false;
-
 		public bool hAttack = false;
-
 		public bool horror = false;
-
 		public bool irradiated = false;
-
 		public bool bFlames = false;
-
 		public bool aFlames = false;
-
 		public bool gsInferno = false;
-
 		public bool pFlames = false;
-
 		public bool hFlames = false;
-
 		public bool hInferno = false;
-
 		public bool gState = false;
-
 		public bool bBlood = false;
-
 		public bool eGravity = false;
-
 		public bool weakPetrification = false;
-
 		public bool vHex = false;
-
 		public bool eGrav = false;
-
 		public bool warped = false;
-
 		public bool marked = false;
-
 		public bool cDepth = false;
-
 		public bool fishAlert = false;
-
 		public bool bOut = false;
-
 		public bool clamity = false;
-		#endregion
 
-		#region BuffStuff
+		//Buff
 		public bool trinketOfChiBuff = false;
-
 		public int chiBuffTimer = 0;
-
 		public bool corrEffigy = false;
-
 		public bool crimEffigy = false;
-
 		public bool rRage = false;
-
 		public bool tRegen = false;
-
 		public bool xRage = false;
-
 		public bool xWrath = false;
-
 		public bool graxDefense = false;
-
 		public bool sMeleeBoost = false;
-
 		public bool tFury = false;
-
 		public bool cadence = false;
-
 		public bool omniscience = false;
-
 		public bool zerg = false;
-
 		public bool zen = false;
-
 		public bool yPower = false;
-
 		public bool aWeapon = false;
-
 		public bool tScale = false;
-
 		public bool fabsolVodka = false;
-
 		public bool mushy = false;
-
 		public bool molten = false;
-
 		public bool shellBoost = false;
-
 		public bool cFreeze = false;
-
 		public bool invincible = false;
-
 		public bool shine = false;
-
 		public bool anechoicCoating = false;
-
 		public bool enraged = false;
-
 		public int revivifyTimer = 0;
-
 		public bool permafrostsConcoction = false;
-
 		public bool armorCrumbling = false;
-
 		public bool armorShattering = false;
-
 		public bool ceaselessHunger = false;
-
 		public bool calcium = false;
-
 		public bool soaring = false;
-
 		public bool bounding = false;
-
 		public bool triumph = false;
-
 		public bool penumbra = false;
-
 		public bool photosynthesis = false;
-
 		public bool astralInjection = false;
-
 		public bool gravityNormalizer = false;
-
 		public bool holyWrath = false;
-
 		public bool profanedRage = false;
-
 		public bool draconicSurge = false;
-
 		public int draconicSurgeCooldown = 0;
-
 		public bool vodka = false;
-
 		public bool redWine = false;
-
 		public bool grapeBeer = false;
-
 		public bool moonshine = false;
-
 		public bool rum = false;
-
 		public bool whiskey = false;
-
 		public bool fireball = false;
-
 		public bool everclear = false;
-
 		public bool bloodyMary = false;
-
 		public bool tequila = false;
-
 		public bool caribbeanRum = false;
-
 		public bool cinnamonRoll = false;
-
 		public bool tequilaSunrise = false;
-
 		public bool margarita = false;
-
 		public bool starBeamRye = false;
-
 		public bool screwdriver = false;
-
 		public bool moscowMule = false;
-
 		public bool whiteWine = false;
-
 		public bool evergreenGin = false;
-
 		public bool tranquilityCandle = false;
-
 		public bool chaosCandle = false;
-
 		public bool purpleCandle = false;
-
 		public bool blueCandle = false;
-
 		public bool pinkCandle = false;
-
 		public int pinkCandleTimer = 60;
-
 		public bool yellowCandle = false;
-
 		public bool trippy = false;
-
 		public bool amidiasBlessing = false;
-		#endregion
 
-		#region SummonStuff
+		//Minion
 		public bool glSword = false;
-
 		public bool mWorm = false;
-
 		public bool iClasper = false;
-
 		public bool herring = false;
-
 		public bool calamari = false;
-
 		public bool cEyes = false;
-
 		public bool cSlime = false;
-
 		public bool cSlime2 = false;
-
 		public bool bStar = false;
-
 		public bool aStar = false;
-
 		public bool SP = false;
-
 		public bool dCreeper = false;
-
 		public bool bClot = false;
-
 		public bool eAxe = false;
-
 		public bool SPG = false;
-
 		public bool aChicken = false;
-
 		public bool cLamp = false;
-
 		public bool pGuy = false;
-
 		public bool gDefense = false;
-
 		public bool gOffense = false;
-
 		public bool gHealer = false;
-
 		public bool cEnergy = false;
-
 		public bool sWaifu = false;
-
 		public bool dWaifu = false;
-
 		public bool cWaifu = false;
-
 		public bool bWaifu = false;
-
 		public bool slWaifu = false;
-
 		public bool fClump = false;
-
 		public bool rDevil = false;
-
 		public bool aValkyrie = false;
-
 		public bool sCrystal = false;
-
 		public bool sGod = false;
-
 		public bool sandnado = false;
-
 		public bool vUrchin = false;
-
 		public bool cSpirit = false;
-
 		public bool rOrb = false;
-
 		public bool dCrystal = false;
-
 		public bool sandWaifu = false;
-
 		public bool sandBoobWaifu = false;
-
 		public bool cloudWaifu = false;
-
 		public bool brimstoneWaifu = false;
-
 		public bool sirenWaifu = false;
-
 		public bool allWaifus = false;
-
 		public bool fungalClump = false;
-
 		public bool redDevil = false;
-
 		public bool valkyrie = false;
-
 		public bool slimeGod = false;
-
 		public bool urchin = false;
-
 		public bool chaosSpirit = false;
-
 		public bool reaverOrb = false;
-
 		public bool daedalusCrystal = false;
-
 		public int healCounter = 300;
-
 		public bool shellfish = false;
-
 		public bool hCrab = false;
-		#endregion
 
-		#region BiomeStuff
+		//Biome
 		public bool ZoneCalamity = false;
-
 		public bool ZoneAstral = false;
-
 		public bool ZoneSunkenSea = false;
-
 		public bool ZoneSulphur = false;
-
 		public bool ZoneAbyss = false;
-
 		public bool ZoneAbyssLayer1 = false;
-
 		public bool ZoneAbyssLayer2 = false;
-
 		public bool ZoneAbyssLayer3 = false;
-
 		public bool ZoneAbyssLayer4 = false;
-
 		public int abyssBreathCD;
-		#endregion
 
-		#region TransformationStuff
+		//Transformation
 		public bool abyssalDivingSuitPrevious;
-
 		public bool abyssalDivingSuit;
-
 		public bool abyssalDivingSuitHide;
-
 		public bool abyssalDivingSuitForce;
-
 		public bool abyssalDivingSuitPower;
-
 		public bool sirenBoobsPrevious;
-
 		public bool sirenBoobs;
-
 		public bool sirenBoobsHide;
-
 		public bool sirenBoobsForce;
-
 		public bool sirenBoobsPower;
-
 		public bool sirenBoobsAltPrevious;
-
 		public bool sirenBoobsAlt;
-
 		public bool sirenBoobsAltHide;
-
 		public bool sirenBoobsAltForce;
-
 		public bool sirenBoobsAltPower;
-
 		public bool snowmanPrevious;
-
 		public bool snowman;
-
 		public bool snowmanHide;
-
 		public bool snowmanForce;
-
 		public bool snowmanNoseless;
-
 		public bool snowmanPower;
-		#endregion
+
 		#endregion
 
 		#region SavingAndLoading
@@ -1398,6 +937,7 @@ namespace CalamityMod
 			giantPearl = false;
 			normalityRelocator = false;
 			fabledTortoise = false;
+			manaOverloader = false;
 			lol = false;
 			raiderTalisman = false;
 			sGenerator = false;
@@ -1453,9 +993,9 @@ namespace CalamityMod
 
 			xerocSet = false;
 
-			NOU = false;
 			weakPetrification = false;
 
+			wDeath = false;
 			lethalLavaBurn = false;
 			aCrunch = false;
 			hAttack = false;
@@ -1625,6 +1165,7 @@ namespace CalamityMod
 		public override void UpdateDead()
 		{
 			#region Debuffs
+			//distanceFromBoss = -1;
 			stress = 0;
 			adrenaline = 0;
 			adrenalineMaxTimer = 300;
@@ -1641,6 +1182,7 @@ namespace CalamityMod
 			ataraxiaDamageBoostCooldown = 0;
 			ataraxiaDamageBoostCancelTimer = 1200;
 			theBeeDamage = 0;
+			wDeath = false;
 			lethalLavaBurn = false;
 			aCrunch = false;
 			hAttack = false;
@@ -1868,27 +1410,35 @@ namespace CalamityMod
 		#region BiomeStuff
 		public override void UpdateBiomeVisuals()
 		{
+			bool useNebula = NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead"));
+			player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
+
+			bool useNebulaS = NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS"));
+			player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
+
+			bool useBrimstone = NPC.AnyNPCs(mod.NPCType("CalamitasRun3"));
+			player.ManageSpecialBiomeVisuals("CalamityMod:CalamitasRun3", useBrimstone);
+
+			bool usePlague = NPC.AnyNPCs(mod.NPCType("PlaguebringerGoliath"));
+			player.ManageSpecialBiomeVisuals("CalamityMod:PlaguebringerGoliath", usePlague);
+
 			Point point = player.Center.ToTileCoordinates();
 			bool aboveGround = point.Y > Main.maxTilesY - 320;
 			bool overworld = player.ZoneOverworldHeight && (point.X < 380 || point.X > Main.maxTilesX - 380);
-			bool useNebula = NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead"));
-			player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHead", useNebula);
-			bool useNebulaS = NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS"));
-			player.ManageSpecialBiomeVisuals("CalamityMod:DevourerofGodsHeadS", useNebulaS);
-			bool useBrimstone = NPC.AnyNPCs(mod.NPCType("CalamitasRun3"));
-			player.ManageSpecialBiomeVisuals("CalamityMod:CalamitasRun3", useBrimstone);
-			bool usePlague = NPC.AnyNPCs(mod.NPCType("PlaguebringerGoliath"));
-			player.ManageSpecialBiomeVisuals("CalamityMod:PlaguebringerGoliath", usePlague);
 			bool useFire = NPC.AnyNPCs(mod.NPCType("Yharon"));
 			player.ManageSpecialBiomeVisuals("CalamityMod:Yharon", useFire);
 			player.ManageSpecialBiomeVisuals("HeatDistortion", Main.UseHeatDistortion && (useFire || trippy ||
 				(aboveGround || ((double)point.Y < Main.worldSurface && player.ZoneDesert && !overworld && !Main.raining && !Filters.Scene["Sandstorm"].IsActive()))));
+
 			bool useWater = NPC.AnyNPCs(mod.NPCType("Leviathan"));
 			player.ManageSpecialBiomeVisuals("CalamityMod:Leviathan", useWater);
+
 			bool useHoly = NPC.AnyNPCs(mod.NPCType("Providence"));
 			player.ManageSpecialBiomeVisuals("CalamityMod:Providence", useHoly);
+
 			bool useSBrimstone = NPC.AnyNPCs(mod.NPCType("SupremeCalamitas"));
 			player.ManageSpecialBiomeVisuals("CalamityMod:SupremeCalamitas", useSBrimstone);
+
 			bool inAstral = ZoneAstral;
 			player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
 		}
@@ -1898,16 +1448,7 @@ namespace CalamityMod
 			Point point = player.Center.ToTileCoordinates();
 			ZoneCalamity = CalamityWorld.calamityTiles > 50;
 			ZoneAstral = !player.ZoneDungeon && (CalamityWorld.astralTiles > 950 || (player.ZoneSnow && CalamityWorld.astralTiles > 300));
-
-			bool inSunkenSea = false;
-			int playerPosX = (int)player.Center.X / 16;
-			int playerPosY = (int)player.Center.Y / 16;
-			Tile tile = Framing.GetTileSafely(playerPosX, playerPosY);
-			if (tile.wall == mod.WallType("EutrophicSandWall") || tile.wall == mod.WallType("NavystoneWall"))
-			{
-				inSunkenSea = true;
-			}
-			ZoneSunkenSea = CalamityWorld.sunkenSeaTiles > 300 || inSunkenSea;
+			ZoneSunkenSea = CalamityWorld.sunkenSeaTiles > 150;
 
 			int x = Main.maxTilesX;
 			int y = Main.maxTilesY;
@@ -2053,6 +1594,20 @@ namespace CalamityMod
 		{
 			Point point = player.Center.ToTileCoordinates();
 			#region FirstDebuffs
+			if (wDeath)
+			{
+				if (player.lifeRegen > 0)
+				{
+					player.lifeRegen = 0;
+				}
+				player.lifeRegenTime = 0;
+				player.statDefense -= 50;
+				player.meleeDamage -= 0.1f;
+				player.rangedDamage -= 0.1f;
+				player.magicDamage -= 0.1f;
+				player.minionDamage -= 0.1f;
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage -= 0.1f;
+			}
 			if (bFlames || aFlames)
 			{
 				if (player.lifeRegen > 0)
@@ -2211,12 +1766,14 @@ namespace CalamityMod
 			}
 			if (cadence)
 			{
+				if (player.FindBuffIndex(BuffID.Regeneration) > -1) { player.ClearBuff(BuffID.Regeneration); }
+				if (player.FindBuffIndex(BuffID.Lifeforce) > -1) { player.ClearBuff(BuffID.Lifeforce); }
 				player.discount = true;
 				player.lifeMagnet = true;
 				player.calmed = true;
 				player.loveStruck = true;
-				player.lifeRegen += 2;
-				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 10;
+				player.lifeRegen += 5;
+				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 25;
 			}
 			if (omniscience)
 			{
@@ -2231,7 +1788,7 @@ namespace CalamityMod
 			if (mushy)
 			{
 				player.statDefense += 5;
-				player.lifeRegen += 5;
+				player.lifeRegen += 1;
 			}
 			if (molten)
 			{
@@ -3318,9 +2875,6 @@ namespace CalamityMod
 		#region PostUpdateBuffs
 		public override void PostUpdateBuffs()
 		{
-			if (NOU)
-				NOULOL();
-
 			if (CalamityWorld.defiled)
 				Defiled();
 
@@ -3347,9 +2901,6 @@ namespace CalamityMod
 		#region PostUpdateEquips
 		public override void PostUpdateEquips()
 		{
-			if (NOU)
-				NOULOL();
-
 			if (CalamityWorld.defiled)
 				Defiled();
 
@@ -3381,6 +2932,10 @@ namespace CalamityMod
 			areThereAnyDamnBosses = CalamityGlobalNPC.AnyBossNPCS();
 
 			#region RevengeanceEffects
+			/*if (!areThereAnyDamnBosses)
+			{
+				distanceFromBoss = -1;
+			}*/
 			if (CalamityWorld.revenge)
 			{
 				if (player.lifeSteal > (CalamityWorld.death ? 30f : 40f))
@@ -3510,6 +3065,10 @@ namespace CalamityMod
 									(adrenalineBoostTwo ? 115 : 0) + //401
 									(adrenalineBoostThree ? 100 : 0); //501
 								adrenalineGain = 223 + adrenalineTickBoost; //pre-slime god = 45, pre-astrum deus = 35, pre-polterghast = 25, post-polter = 20
+								/*if (distanceFromBoss == -1 || distanceFromBoss > 5600)
+								{
+									adrenalineGain /= 4;
+								}*/
 							}
 							else
 							{
@@ -3576,6 +3135,8 @@ namespace CalamityMod
 					packetTimer = 0;
 					StressPacket(false);
 					AdrenalinePacket(false);
+					/*if (areThereAnyDamnBosses)
+						DistanceFromBossPacket(false);*/
 				}
 			}
 			#endregion
@@ -3916,16 +3477,30 @@ namespace CalamityMod
 			{
 				abyssBreathCD = 0;
 			}
-			if ((Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && ironBoots) ||
-				(aeroSet && !Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)))
+			if (!player.mount.Active)
 			{
-				player.maxFallSpeed = 15f;
+				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && ironBoots)
+				{
+					player.maxFallSpeed = 7f;
+				}
+				if (aeroSet && !player.wet)
+				{
+					player.maxFallSpeed = 15f;
+				}
+				if (normalityRelocator)
+				{
+					player.maxFallSpeed *= 1.1f;
+				}
+			}
+			if (normalityRelocator)
+			{
+				player.moveSpeed += 0.1f;
 			}
 			if (player.ZoneSkyHeight)
 			{
 				if (astrumDeusLore)
 				{
-					player.moveSpeed += 0.3f;
+					player.moveSpeed += 0.2f;
 				}
 				if (astrumAureusLore)
 				{
@@ -4303,7 +3878,7 @@ namespace CalamityMod
 			}
 			if (desertScourgeLore)
 			{
-				player.statDefense += 10;
+				player.statDefense += 5;
 			}
 			if (skeletronPrimeLore)
 			{
@@ -4311,7 +3886,7 @@ namespace CalamityMod
 			}
 			if (destroyerLore)
 			{
-				player.pickSpeed -= 0.1f;
+				player.pickSpeed -= 0.05f;
 			}
 			if (golemLore)
 			{
@@ -4338,8 +3913,8 @@ namespace CalamityMod
 			}
 			if (eaterOfWorldsLore)
 			{
-				int damage = 20;
-				float knockBack = 2f;
+				int damage = 10;
+				float knockBack = 1f;
 				if (Main.rand.Next(15) == 0)
 				{
 					int num = 0;
@@ -4414,7 +3989,7 @@ namespace CalamityMod
 			{
 				AllDamageBoost(0.05f);
 				AllCritBoost(5);
-				player.statDefense += 10;
+				player.statDefense += 5;
 			}
 			if (ceaselessHunger)
 			{
@@ -4422,61 +3997,57 @@ namespace CalamityMod
 				{
 					if (Main.item[j].active && Main.item[j].noGrabDelay == 0 && Main.item[j].owner == player.whoAmI)
 					{
-						int num = Main.maxTilesX;
-						if (new Rectangle((int)player.position.X - num, (int)player.position.Y - num, player.width + num * 2, player.height + num * 2).Intersects(new Rectangle((int)Main.item[j].position.X, (int)Main.item[j].position.Y, Main.item[j].width, Main.item[j].height)))
+						Main.item[j].beingGrabbed = true;
+						if ((double)player.position.X + (double)player.width * 0.5 > (double)Main.item[j].position.X + (double)Main.item[j].width * 0.5)
 						{
-							Main.item[j].beingGrabbed = true;
-							if ((double)player.position.X + (double)player.width * 0.5 > (double)Main.item[j].position.X + (double)Main.item[j].width * 0.5)
+							if (Main.item[j].velocity.X < 90f + player.velocity.X)
 							{
-								if (Main.item[j].velocity.X < 40f + player.velocity.X)
-								{
-									Item item = Main.item[j];
-									item.velocity.X = item.velocity.X + 4.5f;
-								}
-								if (Main.item[j].velocity.X < 0f)
-								{
-									Item item = Main.item[j];
-									item.velocity.X = item.velocity.X + 4.5f * 0.75f;
-								}
+								Item item = Main.item[j];
+								item.velocity.X = item.velocity.X + 9f;
 							}
-							else
+							if (Main.item[j].velocity.X < 0f)
 							{
-								if (Main.item[j].velocity.X > -40f + player.velocity.X)
-								{
-									Item item = Main.item[j];
-									item.velocity.X = item.velocity.X - 4.5f;
-								}
-								if (Main.item[j].velocity.X > 0f)
-								{
-									Item item = Main.item[j];
-									item.velocity.X = item.velocity.X - 4.5f * 0.75f;
-								}
+								Item item = Main.item[j];
+								item.velocity.X = item.velocity.X + 9f * 0.75f;
 							}
-							if ((double)player.position.Y + (double)player.height * 0.5 > (double)Main.item[j].position.Y + (double)Main.item[j].height * 0.5)
+						}
+						else
+						{
+							if (Main.item[j].velocity.X > -90f + player.velocity.X)
 							{
-								if (Main.item[j].velocity.Y < 40f)
-								{
-									Item item = Main.item[j];
-									item.velocity.Y = item.velocity.Y + 4.5f;
-								}
-								if (Main.item[j].velocity.Y < 0f)
-								{
-									Item item = Main.item[j];
-									item.velocity.Y = item.velocity.Y + 4.5f * 0.75f;
-								}
+								Item item = Main.item[j];
+								item.velocity.X = item.velocity.X - 9f;
 							}
-							else
+							if (Main.item[j].velocity.X > 0f)
 							{
-								if (Main.item[j].velocity.Y > -40f)
-								{
-									Item item = Main.item[j];
-									item.velocity.Y = item.velocity.Y - 4.5f;
-								}
-								if (Main.item[j].velocity.Y > 0f)
-								{
-									Item item = Main.item[j];
-									item.velocity.Y = item.velocity.Y - 4.5f * 0.75f;
-								}
+								Item item = Main.item[j];
+								item.velocity.X = item.velocity.X - 9f * 0.75f;
+							}
+						}
+						if ((double)player.position.Y + (double)player.height * 0.5 > (double)Main.item[j].position.Y + (double)Main.item[j].height * 0.5)
+						{
+							if (Main.item[j].velocity.Y < 90f)
+							{
+								Item item = Main.item[j];
+								item.velocity.Y = item.velocity.Y + 9f;
+							}
+							if (Main.item[j].velocity.Y < 0f)
+							{
+								Item item = Main.item[j];
+								item.velocity.Y = item.velocity.Y + 9f * 0.75f;
+							}
+						}
+						else
+						{
+							if (Main.item[j].velocity.Y > -90f)
+							{
+								Item item = Main.item[j];
+								item.velocity.Y = item.velocity.Y - 9f;
+							}
+							if (Main.item[j].velocity.Y > 0f)
+							{
+								Item item = Main.item[j];
+								item.velocity.Y = item.velocity.Y - 9f * 0.75f;
 							}
 						}
 					}
@@ -4486,7 +4057,7 @@ namespace CalamityMod
 			{
 				AllDamageBoost(0.05f);
 				AllCritBoost(5);
-				player.moveSpeed += 0.15f;
+				player.moveSpeed += 0.1f;
 			}
 			if (lunaticCultistLore)
 			{
@@ -4849,6 +4420,7 @@ namespace CalamityMod
 			}
 			if (armorShattering)
 			{
+				if (player.FindBuffIndex(mod.BuffType("ArmorCrumbling")) > -1) { player.ClearBuff(mod.BuffType("ArmorCrumbling")); }
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.08f;
 				player.meleeDamage += 0.08f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
@@ -4856,11 +4428,13 @@ namespace CalamityMod
 			}
 			if (holyWrath)
 			{
+				if (player.FindBuffIndex(BuffID.Wrath) > -1) { player.ClearBuff(BuffID.Wrath); }
 				AllDamageBoost(0.12f);
 				player.moveSpeed += 0.05f;
 			}
 			if (profanedRage)
 			{
+				if (player.FindBuffIndex(BuffID.Rage) > -1) { player.ClearBuff(BuffID.Rage); }
 				AllCritBoost(12);
 				player.moveSpeed += 0.05f;
 			}
@@ -5113,11 +4687,6 @@ namespace CalamityMod
 					}
 				}
 			}
-			if (normalityRelocator)
-			{
-				player.moveSpeed += 0.1f;
-				player.maxFallSpeed *= 1.1f;
-			}
 			if (CalamityMod.scopedWeaponList.Contains(player.inventory[player.selectedItem].type))
 			{
 				player.scope = true;
@@ -5201,7 +4770,7 @@ namespace CalamityMod
 			{
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)((double)player.wingTimeMax * 0.5);
-				AllDamageBoost(0.05f);
+				AllDamageBoost(0.1f);
 			}
 			if (corrEffigy)
 			{
@@ -5243,6 +4812,14 @@ namespace CalamityMod
 					pinkCandleTimer = 60;
 				}
 			}
+			if (manaOverloader)
+			{
+				player.magicDamage += 0.06f;
+				if (player.statMana > (int)((double)player.statManaMax2 * 0.5))
+					player.lifeRegen -= 3;
+				if (player.statMana < (int)((double)player.statManaMax2 * 0.1))
+					player.ghostHeal = true;
+			}
 			if (rBrain)
 			{
 				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
@@ -5265,16 +4842,19 @@ namespace CalamityMod
 					player.endurance += 0.05f;
 				}
 			}
-			if (rampartOfDeities)
+			if (dAmulet)
 			{
 				player.panic = true;
-				player.armorPenetration += 50;
-				player.manaMagnet = true;
-				player.magicCuffs = true;
+				player.pStone = true;
+				player.armorPenetration += 25;
 				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 				{
 					Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 1.35f, 0.3f, 0.9f);
 				}
+			}
+			if (rampartOfDeities)
+			{
+				player.armorPenetration += 25;
 				player.noKnockback = true;
 				if (player.statLife > (int)((double)player.statLifeMax2 * 0.25))
 				{
@@ -5655,7 +5235,7 @@ namespace CalamityMod
 			}
 			if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 1 ||
 				player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 1 ||
-				player.ownedProjectileCounts[mod.ProjectileType("CloudWaifu")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] > 1)
+				player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("FungalClump")] > 1)
 			{
 				for (int projIndex = 0; projIndex < 1000; projIndex++)
 				{
@@ -5663,7 +5243,7 @@ namespace CalamityMod
 					{
 						if (Main.projectile[projIndex].type == mod.ProjectileType("BigBustyRose") || Main.projectile[projIndex].type == mod.ProjectileType("SirenLure") ||
 							Main.projectile[projIndex].type == mod.ProjectileType("DrewsSandyWaifu") || Main.projectile[projIndex].type == mod.ProjectileType("SandyWaifu") ||
-							Main.projectile[projIndex].type == mod.ProjectileType("CloudWaifu") || Main.projectile[projIndex].type == mod.ProjectileType("FungalClump"))
+							Main.projectile[projIndex].type == mod.ProjectileType("CloudyWaifu") || Main.projectile[projIndex].type == mod.ProjectileType("FungalClump"))
 						{
 							Main.projectile[projIndex].Kill();
 						}
@@ -5675,12 +5255,10 @@ namespace CalamityMod
 				if (player.endurance > 0f)
 					player.endurance *= 0.5f;
 			}
-			if (yharonLore && !CalamityWorld.defiled)
+			if (yharonLore && !CalamityWorld.defiled && !CalamityWorld.bossRushActive)
 			{
 				if (player.wingTimeMax < 50000)
-				{
 					player.wingTimeMax = 50000;
-				}
 			}
 			#endregion
 		}
@@ -5981,10 +5559,14 @@ namespace CalamityMod
 				if (item.melee || item.ranged || item.magic || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
 				{
 					double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600.0; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
-					if (useTimeBeeMultiplier > 1.5)
-						useTimeBeeMultiplier = 1.5;
+					if (useTimeBeeMultiplier > 0.35)
+						useTimeBeeMultiplier = 0.35;
 					theBeeDamage = (int)((double)item.damage * useTimeBeeMultiplier);
 				}
+			}
+			else
+			{
+				theBeeDamage = 0;
 			}
 			if (!theBee)
 			{
@@ -6456,11 +6038,11 @@ namespace CalamityMod
 			}
 			if (perforatorLore)
 			{
-				target.AddBuff(BuffID.Ichor, 450);
+				target.AddBuff(BuffID.Ichor, 90);
 			}
 			if (hiveMindLore)
 			{
-				target.AddBuff(BuffID.CursedInferno, 450);
+				target.AddBuff(BuffID.CursedInferno, 90);
 			}
 			if (holyWrath)
 			{
@@ -6468,7 +6050,41 @@ namespace CalamityMod
 			}
 			else if (providenceLore)
 			{
-				target.AddBuff(mod.BuffType("HolyLight"), 450, false);
+				target.AddBuff(mod.BuffType("HolyLight"), 420, false);
+			}
+			if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			{
+				if (player.meleeEnchant > 0)
+				{
+					if (player.meleeEnchant == 1)
+					{
+						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+					}
+					if (player.meleeEnchant == 2)
+					{
+						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+					}
+					if (player.meleeEnchant == 3)
+					{
+						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+					}
+					if (player.meleeEnchant == 5)
+					{
+						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+					}
+					if (player.meleeEnchant == 6)
+					{
+						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+					}
+					if (player.meleeEnchant == 8)
+					{
+						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+					}
+					if (player.meleeEnchant == 4)
+					{
+						target.AddBuff(BuffID.Midas, 120, false);
+					}
+				}
 			}
 		}
 		#endregion
@@ -6736,11 +6352,11 @@ namespace CalamityMod
 			}
 			if (perforatorLore)
 			{
-				target.AddBuff(BuffID.Ichor, 450);
+				target.AddBuff(BuffID.Ichor, 90);
 			}
 			if (hiveMindLore)
 			{
-				target.AddBuff(BuffID.CursedInferno, 450);
+				target.AddBuff(BuffID.CursedInferno, 90);
 			}
 			if (holyWrath)
 			{
@@ -6748,7 +6364,41 @@ namespace CalamityMod
 			}
 			else if (providenceLore)
 			{
-				target.AddBuff(mod.BuffType("HolyLight"), 450, false);
+				target.AddBuff(mod.BuffType("HolyLight"), 420, false);
+			}
+			if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			{
+				if (player.meleeEnchant > 0)
+				{
+					if (player.meleeEnchant == 1)
+					{
+						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+					}
+					if (player.meleeEnchant == 2)
+					{
+						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+					}
+					if (player.meleeEnchant == 3)
+					{
+						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+					}
+					if (player.meleeEnchant == 5)
+					{
+						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+					}
+					if (player.meleeEnchant == 6)
+					{
+						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+					}
+					if (player.meleeEnchant == 8)
+					{
+						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+					}
+					if (player.meleeEnchant == 4)
+					{
+						target.AddBuff(BuffID.Midas, 120, false);
+					}
+				}
 			}
 		}
 		#endregion
@@ -6868,7 +6518,7 @@ namespace CalamityMod
 						num16 = num15 / num16;
 						num13 *= num16;
 						num14 *= num16;
-						int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 75, 5f, player.whoAmI, 0f, 0f);
+						int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
 						Main.projectile[num17].ranged = false;
 					}
 				}
@@ -6954,7 +6604,7 @@ namespace CalamityMod
 					!player.inventory[player.selectedItem].melee &&
 					!player.inventory[player.selectedItem].ranged &&
 					!player.inventory[player.selectedItem].magic &&
-					!player.inventory[player.selectedItem].thrown) ||
+					!player.inventory[player.selectedItem].GetGlobalItem<CalamityGlobalItem>(mod).rogue) ||
 					player.inventory[player.selectedItem].hammer > 0 ||
 					player.inventory[player.selectedItem].pick > 0 ||
 					player.inventory[player.selectedItem].axe > 0)
@@ -7027,6 +6677,10 @@ namespace CalamityMod
 				if (target.buffImmune[mod.BuffType("GlacialState")])
 					damageMult += 0.2;
 			}
+			else if (proj.type == ProjectileID.InfernoFriendlyBlast)
+			{
+				damageMult += 0.33;
+			}
 			if (CalamityWorld.revenge)
 			{
 				bool DHorHoD = (draedonsHeart || heartOfDarkness);
@@ -7064,25 +6718,17 @@ namespace CalamityMod
 			#region AdditiveBoosts
 			if (theBee && !isSummon)
 			{
-				damage += theBeeDamage;
+				if (hasClassType)
+					damage += theBeeDamage;
 			}
 			if (proj.type == mod.ProjectileType("AcidBullet"))
 			{
-				int defenseAdd = (int)((double)target.defense * 0.1); //100 defense * 0.1 = 10
+				int defenseAdd = (int)((double)target.defense * 0.1 * ((double)damage / 50.0)); //100 defense * 0.1 = 10
 				damage += defenseAdd;
 			}
 			if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == mod.ProjectileType("PlagueBee")))
 			{
-				if (player.inventory[player.selectedItem].type == mod.ItemType("TheSwarmer") || player.inventory[player.selectedItem].type == mod.ItemType("PlagueKeeper") ||
-					player.inventory[player.selectedItem].type == mod.ItemType("Plaguenade"))
-				{
-					damage += Main.rand.Next(10, 21);
-				}
-				else
-				{
-					damage += Main.rand.Next(70, 101);
-					proj.penetrate = 1;
-				}
+				damage += Main.rand.Next(20, 31);
 			}
 			#endregion
 
@@ -7093,12 +6739,12 @@ namespace CalamityMod
 					(player.inventory[player.selectedItem].melee ||
 					player.inventory[player.selectedItem].ranged ||
 					player.inventory[player.selectedItem].magic ||
-					player.inventory[player.selectedItem].thrown) &&
+					player.inventory[player.selectedItem].GetGlobalItem<CalamityGlobalItem>(mod).rogue) &&
 					player.inventory[player.selectedItem].hammer == 0 &&
 					player.inventory[player.selectedItem].pick == 0 &&
 					player.inventory[player.selectedItem].axe == 0)
 				{
-					damage = (int)((double)damage * 0.6);
+					damage = (int)((double)damage * 0.75);
 				}
 			}
 			if (proj.ranged)
@@ -7112,6 +6758,9 @@ namespace CalamityMod
 						damage = (int)((double)damage * 0.8);
 						break;
 					case ProjectileID.HallowStar:
+						damage = (int)((double)damage * 0.7);
+						break;
+					case ProjectileID.SpectreWrath:
 						damage = (int)((double)damage * 0.7);
 						break;
 				}
@@ -7181,7 +6830,7 @@ namespace CalamityMod
 						num16 = num15 / num16;
 						num13 *= num16;
 						num14 *= num16;
-						int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 75, 5f, player.whoAmI, 0f, 0f);
+						int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
 						Main.projectile[num17].ranged = false;
 					}
 				}
@@ -7403,7 +7052,7 @@ namespace CalamityMod
 		{
 			if (triumph)
 			{
-				double HPMultiplier = 0.25 * (1.0 - ((double)npc.life / (double)npc.lifeMax));
+				double HPMultiplier = 0.15 * (1.0 - ((double)npc.life / (double)npc.lifeMax));
 				int damageReduction = (int)((double)damage * HPMultiplier);
 				damage -= damageReduction;
 			}
@@ -7540,8 +7189,8 @@ namespace CalamityMod
 				}
 				else if (npc.type == NPCID.PlanterasTentacle)
 				{
-					player.AddBuff(BuffID.Poisoned, 90);
-					player.AddBuff(BuffID.Bleeding, 150);
+					player.AddBuff(BuffID.Poisoned, 120);
+					player.AddBuff(BuffID.Bleeding, 180);
 				}
 				else if (npc.type == NPCID.Golem || npc.type == NPCID.GolemFistLeft || npc.type == NPCID.GolemFistRight ||
 					npc.type == NPCID.GolemHead || npc.type == NPCID.GolemHeadFree)
@@ -7743,9 +7392,6 @@ namespace CalamityMod
 				player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
 			}
 
-			if (NOU)
-				NOULOL();
-
 			if (CalamityWorld.defiled)
 				Defiled();
 
@@ -7757,26 +7403,7 @@ namespace CalamityMod
 		}
 		#endregion
 
-		#region NOULOL
-		private void NOULOL()
-		{
-			player.ResetEffects();
-			player.head = -1;
-			player.body = -1;
-			player.legs = -1;
-			player.handon = -1;
-			player.handoff = -1;
-			player.back = -1;
-			player.front = -1;
-			player.shoe = -1;
-			player.waist = -1;
-			player.shield = -1;
-			player.neck = -1;
-			player.face = -1;
-			player.balloon = -1;
-			NOU = true;
-		}
-
+		#region Limitations
 		private void WeakPetrification()
 		{
 			player.doubleJumpCloud = false;
@@ -8194,7 +7821,7 @@ namespace CalamityMod
 				{
 					if (Main.rand.Next(4) == 0)
 					{
-						player.AddBuff(mod.BuffType("TarraLifeRegen"), Main.rand.Next(90, 180));
+						player.AddBuff(mod.BuffType("TarraLifeRegen"), 120);
 					}
 				}
 				else if (xerocSet)
@@ -9482,7 +9109,7 @@ namespace CalamityMod
 		{
 			if (player.whoAmI == Main.myPlayer && dodgeScarf && !scarfCooldown)
 			{
-				player.AddBuff(mod.BuffType("ScarfMeleeBoost"), Main.rand.Next(480, 561));
+				player.AddBuff(mod.BuffType("ScarfMeleeBoost"), 540);
 				player.AddBuff(mod.BuffType("ScarfCooldown"), (player.chaosState ? 1800 : 900));
 				player.immune = true;
 				player.immuneTime = 60;
@@ -10377,6 +10004,22 @@ namespace CalamityMod
 			}
 		}
 
+		/*private void DistanceFromBossPacket(bool server)
+		{
+			ModPacket packet = mod.GetPacket(256);
+			packet.Write((byte)CalamityModMessageType.DistanceFromBossSync);
+			packet.Write(player.whoAmI);
+			packet.Write(distanceFromBoss);
+			if (!server)
+			{
+				packet.Send();
+			}
+			else
+			{
+				packet.Send(-1, player.whoAmI);
+			}
+		}*/
+
 		private void DeathPacket(bool server)
 		{
 			ModPacket packet = mod.GetPacket(256);
@@ -10463,6 +10106,15 @@ namespace CalamityMod
 			}
 		}
 
+		/*internal void HandleDistanceFromBoss(BinaryReader reader)
+		{
+			distanceFromBoss = reader.ReadInt32();
+			if (Main.netMode == 2)
+			{
+				DistanceFromBossPacket(true);
+			}
+		}*/
+
 		internal void HandleDeathCount(BinaryReader reader)
 		{
 			deathCount = reader.ReadInt32();
@@ -10488,6 +10140,7 @@ namespace CalamityMod
 				LevelPacket(false, 4);
 				StressPacket(false);
 				AdrenalinePacket(false);
+				//DistanceFromBossPacket(false);
 				DeathPacket(false);
 			}
 		}
@@ -10788,14 +10441,7 @@ namespace CalamityMod
 								Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
 									0, 0f, Main.myPlayer, 0f, 0f);
 							}
-						}
-						if (Main.netMode == 0)
-						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
 					break;
@@ -10818,14 +10464,7 @@ namespace CalamityMod
 								Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
 									0, 0f, Main.myPlayer, 0f, 0f);
 							}
-						}
-						if (Main.netMode == 0)
-						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
 					break;
@@ -10848,14 +10487,7 @@ namespace CalamityMod
 								Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
 									0, 0f, Main.myPlayer, 0f, 0f);
 							}
-						}
-						if (Main.netMode == 0)
-						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
 					break;
@@ -10878,14 +10510,7 @@ namespace CalamityMod
 								Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
 									0, 0f, Main.myPlayer, 0f, 0f);
 							}
-						}
-						if (Main.netMode == 0)
-						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
 					break;
@@ -10908,14 +10533,7 @@ namespace CalamityMod
 								Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -5f, ProjectileID.RocketFireworksBoxRed + Main.rand.Next(4),
 									0, 0f, Main.myPlayer, 0f, 0f);
 							}
-						}
-						if (Main.netMode == 0)
-						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
-						}
-						else if (Main.netMode == 2)
-						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
 					break;

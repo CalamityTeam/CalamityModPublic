@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons.Yharon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Rage");
-        }
+			Tooltip.SetDefault("Fires a spread of five fire waves");
+		}
 
         public override void SetDefaults()
         {
@@ -37,22 +38,15 @@ namespace CalamityMod.Items.Weapons.Yharon
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + 10f * 0.05f;
-            float SpeedY = speedY + 10f * 0.05f;
-            float SpeedX2 = speedX - 10f * 0.05f;
-            float SpeedY2 = speedY - 10f * 0.05f;
-            float SpeedX3 = speedX + 0f * 0.05f;
-            float SpeedY3 = speedY + 0f * 0.05f;
-            float SpeedX4 = speedX - 20f * 0.05f;
-            float SpeedY4 = speedY - 20f * 0.05f;
-            float SpeedX5 = speedX + 20f * 0.05f;
-            float SpeedY5 = speedY + 20f * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75f), knockBack, player.whoAmI, 0.0f, 0.0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, type, (int)((double)damage * 0.75f), knockBack, player.whoAmI, 0.0f, 0.0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, type, (int)((double)damage * 0.75f), knockBack, player.whoAmI, 0.0f, 0.0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX4, SpeedY4, type, (int)((double)damage * 0.75f), knockBack, player.whoAmI, 0.0f, 0.0f);
-            Projectile.NewProjectile(position.X, position.Y, SpeedX5, SpeedY5, type, (int)((double)damage * 0.75f), knockBack, player.whoAmI, 0.0f, 0.0f);
-            return false;
+			for (int index = 0; index < 5; ++index)
+			{
+				float num7 = speedX;
+				float num8 = speedY;
+				float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
+				float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+			}
+			return false;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

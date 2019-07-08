@@ -63,7 +63,6 @@ namespace CalamityMod.Projectiles.SunkenSea
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 30f + num484) / 31f;
 				projectile.velocity.Y = (projectile.velocity.Y * 30f + num485) / 31f;
-				return;
 			}
         }
 

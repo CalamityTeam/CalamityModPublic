@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
@@ -14,6 +15,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 	public class DevourerofGodsBodyS : ModNPC
 	{
 		private int invinceTime = 360;
+		private bool setAlpha = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -62,6 +64,20 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			else
 				music = MusicID.LunarBoss;
 			npc.dontCountMe = true;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(setAlpha);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			setAlpha = reader.ReadBoolean();
+			npc.dontTakeDamage = reader.ReadBoolean();
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
@@ -123,21 +139,22 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				npc.HitEffect(0, 10.0);
 				npc.checkDead();
 			}
-			if (!Main.npc[CalamityGlobalNPC.DoGHead].active)
+			if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
 			{
 				npc.active = false;
 			}
-			if (Main.npc[(int)npc.ai[2]].localAI[3] >= 1f)
-			{
-				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
-			}
-			else if (Main.npc[(int)npc.ai[1]].alpha < 128)
+			if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)
 			{
 				npc.alpha -= 42;
 				if (npc.alpha <= 0 && invinceTime <= 0)
 				{
+					setAlpha = true;
 					npc.alpha = 0;
 				}
+			}
+			else
+			{
+				npc.alpha = Main.npc[(int)npc.ai[2]].alpha;
 			}
 			float fallSpeed = 16f;
 			float turnSpeed = 0.3f;
@@ -431,6 +448,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 240, true);
+			player.AddBuff(mod.BuffType("WhisperingDeath"), 300, true);
 			player.AddBuff(BuffID.Frostburn, 240, true);
 			player.AddBuff(BuffID.Darkness, 240, true);
 		}

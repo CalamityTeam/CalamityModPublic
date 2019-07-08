@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Potions
 		{
 			DisplayName.SetDefault("Holy Wrath Potion");
 			Tooltip.SetDefault("Increases damage by 12% and increases movement and horizontal flight speed by 5%\n" +
-				"Attacks inflict holy fire");
+				"Attacks inflict holy fire\n" +
+				"While this potion's buff is active the Wrath Potion's buff is disabled");
 		}
 
 		public override void SetDefaults()

@@ -51,12 +51,12 @@ namespace CalamityMod.Items.Weapons
 		{
 	    	if (player.altFunctionUse == 2)
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ChargedBlast3"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ChargedBlast3"), (int)((double)damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
 	    		return false;
 	    	}
 	    	else
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
 	    		return false;
 	    	}
 		}

@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Melee
         		projectile.localAI[1] += 1f;
         		projectile.tileCollide = false;
         	}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 1.4f) / 255f, ((255 - projectile.alpha) * 0.85f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
-        }
+			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
+		}
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

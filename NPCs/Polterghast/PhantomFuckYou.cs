@@ -1,16 +1,18 @@
 ﻿using System;
+using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Polterghast
 {
 	public class PhantomFuckYou : ModNPC
 	{
-		public bool start = true;
-        public int timer = 0;
+		private bool start = true;
+        private int timer = 0;
 		
 		public override void SetStaticDefaults()
 		{
@@ -37,6 +39,18 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(start);
+			writer.Write(timer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			start = reader.ReadBoolean();
+			timer = reader.ReadInt32();
+		}
+
 		public override bool PreAI()
 		{
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -49,7 +63,7 @@ namespace CalamityMod.NPCs.Polterghast
 				npc.ai[1] = npc.ai[0];
 				start = false;
 			}
-            if (!Main.npc[CalamityGlobalNPC.ghostBoss].active)
+            if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;

@@ -24,11 +24,11 @@ namespace CalamityMod.Items.Weapons
 	        item.mana = 4;
 	        item.width = 28;
 	        item.height = 30;
-	        item.useTime = 18;
-	        item.useAnimation = 18;
+	        item.useTime = 26;
+	        item.useAnimation = 26;
 	        item.useStyle = 5;
 	        item.noMelee = true;
-	        item.knockBack = 2.5f;
+	        item.knockBack = 2f;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
 	        item.UseSound = SoundID.Item17;

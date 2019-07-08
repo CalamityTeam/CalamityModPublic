@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Empyrean Knives");
-        }
+			Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
+		}
 
         public override void SetDefaults()
         {

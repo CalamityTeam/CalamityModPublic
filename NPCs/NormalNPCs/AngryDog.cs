@@ -7,12 +7,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class AngryDog : ModNPC
 	{
-        public bool reset = false;
+        private bool reset = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -44,7 +45,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 			bannerItem = mod.ItemType("AngryDogBanner");
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(reset);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			reset = reader.ReadBoolean();
+		}
+
+		public override void AI()
         {
             if (Main.rand.Next(900) == 0)
             {

@@ -27,7 +27,8 @@ namespace CalamityMod.Projectiles.Melee
         
         public override void AI()
         {
-        	if (projectile.localAI[0] == 0f)
+			Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
+			if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale -= 0.02f;
 				projectile.alpha += 30;

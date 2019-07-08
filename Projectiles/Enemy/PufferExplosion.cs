@@ -92,7 +92,6 @@ namespace CalamityMod.Projectiles.Enemy
 				Main.dust[num467].velocity.Y = num464;
 				num462++;
 			}
-			return;
         }
     }
 }

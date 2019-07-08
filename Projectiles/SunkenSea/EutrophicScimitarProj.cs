@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 
 		public override void SetDefaults()
 		{
-			projectile.width = 34;
+			projectile.width = 18;
 			projectile.height = 18;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
@@ -35,9 +35,9 @@ namespace CalamityMod.Projectiles.SunkenSea
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.rarity != 2 && !target.boss)
+			if (target.rarity != 2 && !CalamityPlayer.areThereAnyDamnBosses)
 			{
-				target.AddBuff(mod.BuffType("SilvaStun"), 10);
+				target.AddBuff(mod.BuffType("SilvaStun"), 15);
 			}
 		}
 

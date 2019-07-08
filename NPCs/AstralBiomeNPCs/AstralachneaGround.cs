@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -31,11 +32,11 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.width = 70;
             npc.height = 34;
             npc.aiStyle = 3;
-            npc.damage = 90;
-            npc.defense = 30;
-            npc.lifeMax = 750;
+            npc.damage = 55;
+            npc.defense = 20;
+            npc.lifeMax = 500;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            npc.knockBackResist = 0.28f;
+            npc.knockBackResist = 0.38f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.buffImmune[20] = true;
             npc.buffImmune[31] = false;
@@ -43,6 +44,13 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             animationType = NPCID.WallCreeper;
 			banner = npc.type;
 			bannerItem = mod.ItemType("AstralachneaBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 90;
+				npc.defense = 30;
+				npc.knockBackResist = 0.28f;
+				npc.lifeMax = 750;
+			}
 		}
 
         public override void AI()
@@ -150,7 +158,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-            if (CalamityWorld.downedStarGod && Main.rand.Next(7) == 0)
+            if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstralachneaStaff"));
             }

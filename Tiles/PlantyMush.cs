@@ -18,7 +18,6 @@ namespace CalamityMod.Tiles
 			name.SetDefault("Planty Mush");
 			AddMapEntry(new Color(0, 120, 0), name);
 			mineResist = 1f;
-			minPick = 199;
 			soundType = 0;
 		}
 

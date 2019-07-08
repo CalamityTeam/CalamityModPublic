@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Omega Biome Blade");
-			Tooltip.SetDefault("Fires different homing projectiles based on what biome you're in\nProjectiles also change based on moon events");
+			Tooltip.SetDefault("Fires different homing projectiles based on what biome you're in\n" +
+				"Projectiles also change based on moon events");
 		}
 
 		public override void SetDefaults()

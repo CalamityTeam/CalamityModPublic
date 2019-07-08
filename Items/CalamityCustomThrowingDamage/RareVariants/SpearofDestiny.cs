@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spear of Destiny");
+			Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities");
 		}
 
 		public override void SafeSetDefaults()

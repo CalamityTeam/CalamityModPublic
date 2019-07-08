@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -26,6 +27,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			npc.npcSlots = 6f;
 			npc.noGravity = true;
+			npc.lavaImmune = true;
 			npc.damage = 160;
 			npc.width = 280;
 			npc.height = 150;
@@ -49,8 +51,32 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			bannerItem = mod.ItemType("ReaperSharkBanner");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(reset);
+			writer.Write(reset2);
+			writer.Write(hasBeenHit);
+			writer.Write(npc.localAI[0]);
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			reset = reader.ReadBoolean();
+			reset2 = reader.ReadBoolean();
+			hasBeenHit = reader.ReadBoolean();
+			npc.localAI[0] = reader.ReadSingle();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+			{
+				npc.active = false;
+			}
 			bool phase1 = (double)npc.life > (double)npc.lifeMax * 0.5;
 			bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.5;
 			bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.1;

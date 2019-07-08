@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Astral
 				float num474 = 600f;
 				for (int num475 = 0; num475 < 200; num475++)
 				{
-					if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !Main.npc[num475].boss)
+					if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
 					{
 						npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
 						npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);

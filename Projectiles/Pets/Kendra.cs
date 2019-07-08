@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,8 +26,8 @@ namespace CalamityMod.Projectiles.Pets
 		public override void SetDefaults()
 		{
 			projectile.netImportant = true;
-			projectile.width = 56;
-			projectile.height = 56;
+			projectile.width = 46;
+			projectile.height = 46;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.timeLeft *= 5;
@@ -344,6 +345,16 @@ namespace CalamityMod.Projectiles.Pets
 			{
 				projectile.spriteDirection = 1;
 			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int y6 = num214 * projectile.frame;
+			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, spriteEffects, 0f);
+			return false;
 		}
 
 		private bool HoleBelow()

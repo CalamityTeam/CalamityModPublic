@@ -66,8 +66,9 @@ namespace CalamityMod.Projectiles.Rogue
         {
         	if (projectile.penetrate <= 1)
         	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("GoliathExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        		projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+        		int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("GoliathExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+				projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 				projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 				projectile.width = 150;
 				projectile.height = 150;

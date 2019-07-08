@@ -14,7 +14,9 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Holiday Halberd");
-			Tooltip.SetDefault("idk I'm miserable with names\n- The General");
+			Tooltip.SetDefault("idk I'm miserable with names\n" +
+				"- The General\n" +
+				"Fires red and green bouncing balls that emit clouds as they travel");
 		}
 
 		public override void SetDefaults()
@@ -52,11 +54,9 @@ namespace CalamityMod.Items.Weapons
 		
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	switch (Main.rand.Next(6))
+	    	if (Main.rand.Next(3) == 0)
 			{
-	    		case 1: type = mod.ProjectileType("RedBall"); break;
-	    		case 2: type = mod.ProjectileType("GreenBall"); break;
-	    		default: break;
+	    		type = mod.ProjectileType("GreenBall");
 			}
 	       	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
 	    	return false;

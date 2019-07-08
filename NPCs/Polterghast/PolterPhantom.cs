@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Polterghast
 {
@@ -61,14 +62,25 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.DeathSound = SoundID.NPCDeath39;
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(despawnTimer);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			despawnTimer = reader.ReadInt32();
+		}
+
+		public override void AI()
         {
-            npc.alpha -= 5;
+			CalamityGlobalNPC.ghostBossClone = npc.whoAmI;
+			npc.alpha -= 5;
             if (npc.alpha < 50)
             {
                 npc.alpha = 50;
             }
-            if (!Main.npc[CalamityGlobalNPC.ghostBoss].active)
+            if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;

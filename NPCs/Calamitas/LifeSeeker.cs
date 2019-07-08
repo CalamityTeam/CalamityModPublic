@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Calamitas
 {
@@ -20,7 +21,6 @@ namespace CalamityMod.NPCs.Calamitas
 		
 		public override void SetDefaults()
 		{
-			npc.npcSlots = 1f;
 			npc.damage = 35;
 			npc.width = 44; //324
 			npc.height = 30; //216

@@ -13,13 +13,15 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Ruler");
-            Tooltip.SetDefault("Only a storm can fell a greatwood");
+            Tooltip.SetDefault("Only a storm can fell a greatwood\n" +
+				"Fires beams that generate tornadoes on death\n" +
+				"Tornadoes suck enemies in");
         }
 
         public override void SetDefaults()
         {
             item.width = 74;
-            item.damage = 105;
+            item.damage = 65;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;

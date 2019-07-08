@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.ProfanedGuardianBoss
 {
@@ -68,7 +69,23 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(flareTimer);
+			writer.Write(dustTimer);
+			writer.Write(flareProjectiles);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			flareTimer = reader.ReadInt32();
+			dustTimer = reader.ReadInt32();
+			flareProjectiles = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;

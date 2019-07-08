@@ -11,17 +11,17 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
 	public class DevourerofGodsHead2 : ModNPC
 	{
-		public bool tail = false;
-        public bool flies = false;
-		public const int minLength = 15;
-		public const int maxLength = 16;
-        public int invinceTime = 180;
+		private bool tail = false;
+        private bool flies = false;
+		private const int minLength = 15;
+		private const int maxLength = 16;
+        private int invinceTime = 180;
 
         public override void SetStaticDefaults()
 		{
@@ -54,7 +54,19 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 		}
 
-        public override void AI()
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(invinceTime);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			invinceTime = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
+		public override void AI()
         {
 			bool expertMode = Main.expertMode;
 			float playerRunAcceleration = Main.player[npc.target].velocity.Y == 0f ? Math.Abs(Main.player[npc.target].moveSpeed * 0.3f) : (Main.player[npc.target].runAcceleration * 0.8f);
@@ -125,7 +137,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
-            if (!Main.npc[CalamityGlobalNPC.DoGHead].active)
+            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
                 for (int num569 = 0; num569 < 200; num569++)
                 {
@@ -138,13 +150,13 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             if (Main.player[npc.target].dead)
             {
                 npc.TargetClosest(false);
-                flies = false;
-                npc.velocity.Y = npc.velocity.Y + 2f;
-                if ((double)npc.position.Y > Main.worldSurface * 16.0)
+                flies = true;
+                npc.velocity.Y = npc.velocity.Y - 3f;
+                if ((double)npc.position.Y < Main.topWorld + 16f)
                 {
-                    npc.velocity.Y = npc.velocity.Y + 2f;
+                    npc.velocity.Y = npc.velocity.Y - 3f;
                 }
-                if ((double)npc.position.Y > Main.rockLayer * 16.0)
+                if ((double)npc.position.Y < Main.topWorld + 16f)
                 {
                     for (int a = 0; a < 200; a++)
                     {

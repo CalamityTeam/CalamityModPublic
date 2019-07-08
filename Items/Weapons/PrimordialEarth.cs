@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Primordial Earth");
-			Tooltip.SetDefault("An ancient relic from an ancient land");
+			Tooltip.SetDefault("Casts a large blast of dust");
 		}
 
 	    public override void SetDefaults()

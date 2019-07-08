@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Potions
 		{
 			DisplayName.SetDefault("Shattering Potion");
 			Tooltip.SetDefault("Increases melee and rogue damage and critical strike chance by 8%\n" +
-				"Melee and rogue attacks break enemy armor");
+				"Melee and rogue attacks break enemy armor\n" +
+				"While this potion's buff is active the Crumbling Potion's buff is disabled");
 		}
 
 		public override void SetDefaults()

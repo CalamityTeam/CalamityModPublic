@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Elemental Eruption");
-			Tooltip.SetDefault("90% chance to not consume gel");
+			Tooltip.SetDefault("90% chance to not consume gel\n" +
+				"Fires a spread of rainbow flames");
 		}
 
 	    public override void SetDefaults()

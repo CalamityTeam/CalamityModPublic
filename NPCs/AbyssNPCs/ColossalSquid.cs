@@ -7,12 +7,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
 	public class ColossalSquid : ModNPC
 	{
-		public bool hasBeenHit = false;
+		private bool hasBeenHit = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -47,8 +48,32 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			bannerItem = mod.ItemType("ColossalSquidBanner");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
+		}
+
 		public override void AI()
 		{
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+			{
+				npc.active = false;
+			}
 			if (npc.localAI[1] == 1f)
 			{
 				npc.localAI[3] += 1f;

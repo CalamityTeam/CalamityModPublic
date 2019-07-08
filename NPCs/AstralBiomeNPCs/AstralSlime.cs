@@ -9,6 +9,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class AstralSlime : ModNPC
@@ -21,12 +23,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void SetDefaults()
         {
-            npc.damage = 65;
+            npc.damage = 40;
             npc.width = 44;
             npc.height = 28;
             npc.aiStyle = 1;
-            npc.defense = 18;
-            npc.lifeMax = 310;
+            npc.defense = 8;
+            npc.lifeMax = 200;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.alpha = 60;
@@ -35,6 +37,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             animationType = NPCID.BlueSlime;
 			banner = npc.type;
 			bannerItem = mod.ItemType("AstralSlimeBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 65;
+				npc.defense = 18;
+				npc.lifeMax = 310;
+			}
 		}
 
         public override void FindFrame(int frameHeight)

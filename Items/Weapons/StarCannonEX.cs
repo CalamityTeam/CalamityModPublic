@@ -15,6 +15,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Cannon EX");
+			Tooltip.SetDefault("Fires a mix of normal, starfury, and astral stars");
 		}
 
 	    public override void SetDefaults()
@@ -67,8 +68,9 @@ namespace CalamityMod.Items.Weapons
 		{
 			ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StarCannon);
-            recipe.AddIngredient(null, "AstralBar", 15);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(null, "AstralJelly", 10);
+			recipe.AddIngredient(null, "Stardust", 25);
+			recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
 		}

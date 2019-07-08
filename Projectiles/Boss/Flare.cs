@@ -1,42 +1,54 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class Flare : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class Flare : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flare");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.hostile = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
-        }
-        
-        public override void AI()
-        {
-        	projectile.frameCounter++;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 100;
+			projectile.height = 100;
+			projectile.hostile = true;
+			projectile.alpha = 255;
+			projectile.penetrate = -1;
+			projectile.timeLeft = 600;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
 			{
-			    projectile.frame++;
-			    projectile.frameCounter = 0;
+				projectile.frame++;
+				projectile.frameCounter = 0;
 			}
 			if (projectile.frame > 3)
 			{
-			   projectile.frame = 0;
+				projectile.frame = 0;
 			}
-        	if (projectile.ai[1] > 0f)
+			if (projectile.ai[1] > 0f)
 			{
 				int num625 = (int)projectile.ai[1] - 1;
 				if (num625 < 255)
@@ -95,19 +107,18 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.position.Y = projectile.position.Y - 16f;
 				projectile.Kill();
-				return;
 			}
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	bool revenge = CalamityWorld.revenge;
-        	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, Main.DiscoG, 53, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			bool revenge = CalamityWorld.revenge;
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
 			int num226 = 36;
 			for (int num227 = 0; num227 < num226; num227++)
 			{
@@ -124,35 +135,35 @@ namespace CalamityMod.Projectiles.Boss
 				int num231 = (int)(projectile.Center.Y / 16f);
 				int num232 = (int)(projectile.Center.X / 16f);
 				int num233 = 100;
-				if (num232 < 10) 
+				if (num232 < 10)
 				{
 					num232 = 10;
 				}
-				if (num232 > Main.maxTilesX - 10) 
+				if (num232 > Main.maxTilesX - 10)
 				{
 					num232 = Main.maxTilesX - 10;
 				}
-				if (num231 < 10) 
+				if (num231 < 10)
 				{
 					num231 = 10;
 				}
-				if (num231 > Main.maxTilesY - num233 - 10) 
+				if (num231 > Main.maxTilesY - num233 - 10)
 				{
 					num231 = Main.maxTilesY - num233 - 10;
 				}
-				for (int num234 = num231; num234 < num231 + num233; num234++) 
+				for (int num234 = num231; num234 < num231 + num233; num234++)
 				{
 					Tile tile = Main.tile[num232, num234];
-					if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0)) 
+					if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
 					{
 						num231 = num234;
 						break;
 					}
 				}
 				int num235 = Main.expertMode ? 84 : 100; //600
-				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Flarenado"), num235, 4f, Main.myPlayer, 16f, 8f + (revenge ? 2f : 0f));
+				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Flarenado"), num235, 4f, Main.myPlayer, 11f, 8f + (revenge ? 2f : 0f));
 				Main.projectile[num236].netUpdate = true;
 			}
-        }
-    }
+		}
+	}
 }

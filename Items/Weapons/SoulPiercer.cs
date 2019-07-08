@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Piercer");
-            Item.staff[item.type] = true;
+			Tooltip.SetDefault("Casts a powerful ray that summons extra rays on enemy hits");
+			Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()

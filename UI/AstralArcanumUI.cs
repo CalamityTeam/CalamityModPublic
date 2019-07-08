@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 using ReLogic.Graphics;
 
 namespace CalamityMod.UI

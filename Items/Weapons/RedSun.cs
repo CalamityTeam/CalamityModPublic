@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Red Sun");
-            Tooltip.SetDefault("Over paradise");
+            Tooltip.SetDefault("Over paradise\n" +
+				"Drops a barrage of solar flares from the sky");
         }
 
         public override void SetDefaults()
@@ -98,7 +99,7 @@ namespace CalamityMod.Items.Weapons
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("SolarFlare"), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("SolarFlare"), (int)((double)damage * 0.7), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
             return false;
         }
@@ -113,7 +114,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(mod.BuffType("HolyLight"), 500);
+            target.AddBuff(mod.BuffType("HolyLight"), 600);
         }
     }
 }

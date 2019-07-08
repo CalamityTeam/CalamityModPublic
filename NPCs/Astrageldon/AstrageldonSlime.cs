@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Astrageldon
 {
@@ -44,6 +45,18 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.canGhostHeal = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(boostDR);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			boostDR = reader.ReadBoolean();
+			npc.dontTakeDamage = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -131,10 +144,6 @@ namespace CalamityMod.NPCs.Astrageldon
 					Main.dust[num1450].noGravity = true;
 					Main.dust[num1450].scale = 2.5f;
 					num = num1449;
-				}
-				if (npc.localAI[0] >= 260f)
-				{
-					npc.localAI[0] -= 60f;
 				}
 				npc.Center = new Vector2(npc.ai[2] * 16f, npc.ai[3] * 16f);
 				npc.velocity = Vector2.Zero;

@@ -14,7 +14,9 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nullification Pistol");
-			Tooltip.SetDefault("Is it nullable or not?  Let's find out!\nFires a fast null bullet that distorts NPC stats\nUses your life as ammo");
+			Tooltip.SetDefault("Is it nullable or not? Let's find out!\n" +
+				"Fires a fast null bullet that distorts NPC stats\n" +
+				"Uses your life as ammo");
 		}
 
 	    public override void SetDefaults()

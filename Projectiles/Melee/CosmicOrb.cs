@@ -95,7 +95,6 @@ namespace CalamityMod.Projectiles.Melee
 					{
 						Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("CosmicBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					}
-					return;
 				}
 			}
         }

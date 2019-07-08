@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Facemask");
-            Tooltip.SetDefault("10% increased rogue damage and critcal strike chance, increases rogue velocity by 15%\n" +
-                "Immune to Cursed and gives control over gravity");
+            Tooltip.SetDefault("13% increased rogue damage and 7% increased rogue critical strike chance, increases rogue velocity by 15%\n" +
+                "17% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -62,10 +62,9 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
-            player.AddBuff(BuffID.Gravitation, 2);
-            player.buffImmune[BuffID.Cursed] = true;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.13f;
+            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
+			player.moveSpeed += 0.17f;
         }
 
         public override void AddRecipes()

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Astrageldon
 {
@@ -14,6 +15,8 @@ namespace CalamityMod.NPCs.Astrageldon
 	public class Astrageldon : ModNPC
 	{
 		private float bossLife;
+		private int teleportLocationY = 0;
+		private bool stomping = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -23,6 +26,7 @@ namespace CalamityMod.NPCs.Astrageldon
 
 		public override void SetDefaults()
 		{
+			npc.lavaImmune = true;
 			npc.npcSlots = 15f;
 			npc.damage = 90;
 			npc.width = 400;
@@ -73,6 +77,22 @@ namespace CalamityMod.NPCs.Astrageldon
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(stomping);
+			writer.Write(teleportLocationY);
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			stomping = reader.ReadBoolean();
+			teleportLocationY = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -438,7 +458,7 @@ namespace CalamityMod.NPCs.Astrageldon
 						}
 						npc.ai[0] = 6f;
 						npc.ai[3] = (float)num1250;
-						npc.localAI[2] = (float)num1251;
+						teleportLocationY = num1251;
 						npc.netUpdate = true;
 					Block:;
 					}
@@ -453,7 +473,7 @@ namespace CalamityMod.NPCs.Astrageldon
 				{
 					npc.alpha = 255;
 					npc.position.X = npc.ai[3] * 16f - (float)(npc.width / 2);
-					npc.position.Y = npc.localAI[2] * 16f - (float)(npc.height / 2);
+					npc.position.Y = (float)teleportLocationY * 16f - (float)(npc.height / 2);
 					npc.ai[0] = 7f;
 					npc.netUpdate = true;
 				}
@@ -518,10 +538,9 @@ namespace CalamityMod.NPCs.Astrageldon
 			{
 				if (npc.velocity.Y == 0f && npc.ai[1] >= 0f && npc.ai[0] == 3f) //idle before jump
 				{
-					if (npc.localAI[3] > 0f)
+					if (stomping)
 					{
-						npc.localAI[3] = 0f;
-						npc.netUpdate = true;
+						stomping = false;
 					}
 					npc.frameCounter += 1.0;
 					if (npc.frameCounter > 12.0)
@@ -549,12 +568,11 @@ namespace CalamityMod.NPCs.Astrageldon
 				}
 				else //stomping
 				{
-					if (npc.localAI[3] == 0f)
+					if (!stomping)
 					{
-						npc.localAI[3] = 1f;
+						stomping = true;
 						npc.frameCounter = 0.0;
 						npc.frame.Y = 0;
-						npc.netUpdate = true;
 					}
 					npc.frameCounter += 1.0;
 					if (npc.frameCounter > 12.0)
@@ -570,10 +588,9 @@ namespace CalamityMod.NPCs.Astrageldon
 			}
 			else if (npc.ai[0] >= 5f)
 			{
-				if (npc.localAI[3] > 0f)
+				if (stomping)
 				{
-					npc.localAI[3] = 0f;
-					npc.netUpdate = true;
+					stomping = false;
 				}
 				if (npc.velocity.Y == 0f) //idle before teleport
 				{
@@ -604,10 +621,9 @@ namespace CalamityMod.NPCs.Astrageldon
 			}
 			else
 			{
-				if (npc.localAI[3] > 0f)
+				if (stomping)
 				{
-					npc.localAI[3] = 0f;
-					npc.netUpdate = true;
+					stomping = false;
 				}
 				npc.frameCounter += 1.0;
 				if (npc.frameCounter > 12.0)
@@ -738,14 +754,22 @@ namespace CalamityMod.NPCs.Astrageldon
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstralJelly"), Main.rand.Next(9, 13));
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(20, 31));
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FallenStar, Main.rand.Next(25, 41));
+				if (Main.rand.Next(5) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HallowedKey);
+				}
 				if (Main.rand.Next(7) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AureusMask"));
 				}
+				if (Main.rand.Next(5) == 0)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Nebulash"));
+				}
 			}
 			if (NPC.downedMoonlord)
 			{
-				int amount = Main.rand.Next(25, 41) / 2;
+				int amount = Main.rand.Next(6, 11);
 				if (Main.expertMode)
 				{
 					amount = (int)((float)amount * 1.5f);
@@ -773,7 +797,7 @@ namespace CalamityMod.NPCs.Astrageldon
 		{
 			if (npc.soundDelay == 0)
 			{
-				npc.soundDelay = 15;
+				npc.soundDelay = 20;
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AstrumAureusHit"), npc.Center);
 			}
 

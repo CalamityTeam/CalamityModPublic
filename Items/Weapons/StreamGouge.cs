@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stream Gouge");
-            Tooltip.SetDefault("Fires an essence flame beam\nThis spear ignores npc immunity frames");
+            Tooltip.SetDefault("Fires an essence flame beam\n" +
+				"Ignores immunity frames");
         }
 
         public override void SetDefaults()

@@ -24,9 +24,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.consumable = true;
-			item.useAnimation = 12;
+			item.useAnimation = 15;
 			item.useStyle = 1;
-			item.useTime = 12;
+			item.useTime = 15;
 			item.knockBack = 1.5f;
 			item.maxStack = 999;
 			item.UseSound = SoundID.Item1;

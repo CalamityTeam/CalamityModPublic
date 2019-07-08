@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Voidragon");
+			Tooltip.SetDefault("Fires void blasts that explode");
 		}
 
 	    public override void SetDefaults()

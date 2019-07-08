@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.NPCs;
 
 namespace CalamityMod.Items.Weapons 
 {
@@ -13,7 +14,9 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Anarchy Blade");
-			Tooltip.SetDefault("The lower your life the more damage this blade does\nYour hits will generate a large explosion\nIf you're below 50% life your hits have a chance to instantly kill regular enemies");
+			Tooltip.SetDefault("The lower your life the more damage this blade does\n" +
+				"Your hits will generate a large explosion\n" +
+				"If you're below 50% life your hits have a chance to instantly kill regular enemies");
 		}
 
 		public override void SetDefaults()
@@ -64,12 +67,9 @@ namespace CalamityMod.Items.Weapons
 	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimstoneBoom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
 
-	    	if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.Next(5) == 0 && !target.boss && target.type != 477 &&
-				target.type != 327 && target.type != 135 && target.type != 136 && target.type != 325 && target.type != 344 && target.type != 346 && target.type != 345 &&
-				target.type != mod.NPCType("Reaper") && target.type != mod.NPCType("Mauler") && target.type != mod.NPCType("EidolonWyrmHead") &&
-				target.type != mod.NPCType("EidolonWyrmHeadHuge") && target.type != mod.NPCType("ColossalSquid") && target.type != NPCID.DD2Betsy)
+	    	if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.Next(5) == 0)
 	    	{
-				if (!CalamityPlayer.areThereAnyDamnBosses)
+				if (!CalamityPlayer.areThereAnyDamnBosses && CalamityGlobalNPC.ShouldAffectNPC(target))
 				{
 					target.life = 0;
 					target.HitEffect(0, 10.0);

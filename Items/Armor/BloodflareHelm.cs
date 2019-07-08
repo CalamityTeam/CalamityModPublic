@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Helm");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "10% increased rogue damage and critical strike chance");
+                "10% increased rogue damage and critical strike chance, 15% increased movement speed");
         }
 
         public override void SetDefaults()
@@ -64,6 +64,7 @@ namespace CalamityMod.Items.Armor
 			player.ignoreWater = true;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
+			player.moveSpeed += 0.15f;
         }
 
         public override void AddRecipes()

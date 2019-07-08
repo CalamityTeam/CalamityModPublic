@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Mounts
 			mountData.spawnDust = 192;
 			mountData.spawnDustNoGravity = true;
 			mountData.buff = mod.BuffType("TundraLeashBuff");
-			mountData.heightBoost = 8;
+			mountData.heightBoost = 36; //8
 			mountData.fallDamage = 0.3f;
 			mountData.runSpeed = 6.5f;
 			mountData.flightTimeMax = 0;
@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Mounts
 			mountData.playerYOffsets = array;
 			mountData.xOffset = -6;
 			mountData.bodyFrame = 3;
-			mountData.yOffset = 0; //done
-			mountData.playerHeadOffset = 10;
+			mountData.yOffset = 15; //done
+			mountData.playerHeadOffset = 38;
 			mountData.standingFrameCount = 6;
 			mountData.standingFrameDelay = 12;
 			mountData.standingFrameStart = 0;

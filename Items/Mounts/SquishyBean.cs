@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Mounts
             mountData.playerYOffsets = array;
             mountData.xOffset = 0;
             mountData.bodyFrame = 3;
-            mountData.yOffset = 18;
+            mountData.yOffset = 19;
             mountData.playerHeadOffset = 30;
             mountData.standingFrameCount = 1;
             mountData.standingFrameDelay = 12;

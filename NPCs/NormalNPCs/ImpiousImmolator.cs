@@ -23,6 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void SetDefaults()
 		{
 			npc.noGravity = true;
+			npc.lavaImmune = true;
 			npc.damage = 0;
 			npc.width = 60;
 			npc.height = 60;
@@ -42,6 +43,18 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.knockBackResist = 0.2f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("ImpiousImmolatorBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()

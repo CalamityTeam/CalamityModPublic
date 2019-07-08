@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trinity");
-        }
+			Tooltip.SetDefault("Fires a spread of energy bolts");
+		}
 
         public override void SetDefaults()
         {
@@ -37,11 +38,11 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            switch (Main.rand.Next(6))
+            switch (Main.rand.Next(3))
             {
-                case 1: type = 125; break;
-                case 2: type = 123; break;
-                case 3: type = 121; break;
+                case 0: type = 125; break;
+                case 1: type = 123; break;
+                case 2: type = 121; break;
                 default: break;
             }
             for (int projectiles = 0; projectiles <= 3; projectiles++)

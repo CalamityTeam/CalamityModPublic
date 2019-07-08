@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Carnage Ray");
+			Tooltip.SetDefault("Fires a blood ray that splits if enemies are near it");
 			Item.staff[item.type] = true;
 		}
 

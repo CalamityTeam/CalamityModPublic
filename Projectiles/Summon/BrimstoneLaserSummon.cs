@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.minion = true;
-			projectile.minionSlots = 0;
+			projectile.minionSlots = 0f;
 			projectile.penetrate = 1;
 			projectile.alpha = 120;
 			projectile.timeLeft = 300;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 60);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
 		}
 
 		public override Color? GetAlpha(Color lightColor)

@@ -60,7 +60,6 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
 			if (projectile.localAI[0] == 0f)
 			{
@@ -74,7 +73,6 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
-			return;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

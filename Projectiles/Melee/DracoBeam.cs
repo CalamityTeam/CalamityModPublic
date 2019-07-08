@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f);
-            if (Main.rand.Next(3) == 0)
+			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
+			if (Main.rand.Next(3) == 0)
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, 0f, 0f);
             }
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.OnFire, 500);
+            target.AddBuff(BuffID.Daybreak, 600);
         }
     }
 }

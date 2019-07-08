@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Perforator
 {
@@ -61,6 +61,16 @@ namespace CalamityMod.NPCs.Perforator
 			bossBag = mod.ItemType("PerforatorBag");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
@@ -71,6 +81,7 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override void AI()
 		{
+			CalamityGlobalNPC.perfHive = npc.whoAmI;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1.5f, 0f, 0f);
 			Player player = Main.player[npc.target];
 			bool isCrimson = player.ZoneCrimson || CalamityWorld.bossRushActive;
@@ -79,9 +90,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{
 				if (npc.timeLeft > 10)
-				{
 					npc.timeLeft = 10;
-				}
 			}
 			if (!player.active || player.dead)
 			{
@@ -129,20 +138,20 @@ namespace CalamityMod.NPCs.Perforator
 					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 20);
 					for (int num621 = 0; num621 < 8; num621++)
 					{
-						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 170, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 170, 0f, 0f, 100, default(Color), 1f);
 						Main.dust[num622].velocity *= 3f;
 						if (Main.rand.Next(2) == 0)
 						{
-							Main.dust[num622].scale = 0.5f;
+							Main.dust[num622].scale = 0.25f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 						}
 					}
 					for (int num623 = 0; num623 < 16; num623++)
 					{
-						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 3f);
+						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1.5f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 5f;
-						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
+						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1f);
 						Main.dust[num624].velocity *= 2f;
 					}
 					npc.TargetClosest(true);

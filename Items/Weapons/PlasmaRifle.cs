@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plasma Rifle");
-			Tooltip.SetDefault("Fires a plasma blast that explodes\nRight click to change modes");
+			Tooltip.SetDefault("Fires a plasma blast that explodes\n" +
+				"Right click to fire plasma bolts");
 		}
 
 	    public override void SetDefaults()
@@ -52,17 +53,17 @@ namespace CalamityMod.Items.Weapons
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.mana = 40;
-	    		item.useTime = 40;
-	        	item.useAnimation = 40;
-	        	item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
+				item.mana = 5;
+				item.useTime = 8;
+				item.useAnimation = 8;
+				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
 			}
 			else
 			{
-				item.mana = 5;
-	    		item.useTime = 8;
-	        	item.useAnimation = 8;
-	        	item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
+				item.mana = 40;
+				item.useTime = 40;
+				item.useAnimation = 40;
+				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
 			}
 			return base.CanUseItem(player);
 		}

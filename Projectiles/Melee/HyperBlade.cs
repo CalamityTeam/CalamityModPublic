@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
         
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
+        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
         	float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 600f;
@@ -66,7 +66,6 @@ namespace CalamityMod.Projectiles.Melee
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
 
@@ -83,8 +82,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.Venom, 100);
-			target.AddBuff(BuffID.CursedInferno, 200);
+			target.AddBuff(BuffID.Venom, 120);
+			target.AddBuff(BuffID.CursedInferno, 240);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,35 +9,45 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PhantomGhostShot : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class PhantomGhostShot : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Potent Phantom Spirit Shot");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.hostile = true;
-            projectile.alpha = 255;
+
+		public override void SetDefaults()
+		{
+			projectile.width = 14;
+			projectile.height = 14;
+			projectile.hostile = true;
+			projectile.alpha = 255;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.extraUpdates = 2;
 			projectile.penetrate = -1;
 			projectile.timeLeft = 600;
 			cooldownSlot = 1;
-        }
+		}
 
-        public override void AI()
-        {
-        	if (projectile.ai[1] == 0f)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(projectile.localAI[0]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			projectile.localAI[0] = reader.ReadSingle();
+		}
+
+		public override void AI()
+		{
+			if (projectile.ai[1] == 0f)
 			{
 				projectile.ai[1] = 1f;
 				Main.PlaySound(SoundID.Item20, projectile.position);
 			}
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] == 6f)
 			{
@@ -57,11 +68,11 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.alpha = 30;
 				}
 			}
-        }
-        
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(100, 250, 250, projectile.alpha);
-        }
-    }
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(100, 250, 250, projectile.alpha);
+		}
+	}
 }

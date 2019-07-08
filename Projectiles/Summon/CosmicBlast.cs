@@ -80,7 +80,6 @@ namespace CalamityMod.Projectiles.Summon
                 num485 *= num486;
                 projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                 projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-                return;
             }
         }
 
@@ -91,19 +90,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.Next(30) == 0)
-            {
-                target.AddBuff(mod.BuffType("ExoFreeze"), 240);
-            }
-            target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-            target.AddBuff(mod.BuffType("GlacialState"), 100);
-            target.AddBuff(mod.BuffType("Plague"), 100);
-            target.AddBuff(mod.BuffType("HolyLight"), 100);
-            target.AddBuff(BuffID.CursedInferno, 100);
-            target.AddBuff(BuffID.Frostburn, 100);
-            target.AddBuff(BuffID.OnFire, 100);
-            target.AddBuff(BuffID.Ichor, 100);
-        }
+			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(mod.BuffType("HolyLight"), 120);
+			target.AddBuff(BuffID.CursedInferno, 120);
+			target.AddBuff(BuffID.Frostburn, 120);
+			target.AddBuff(BuffID.OnFire, 120);
+			target.AddBuff(BuffID.Ichor, 120);
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

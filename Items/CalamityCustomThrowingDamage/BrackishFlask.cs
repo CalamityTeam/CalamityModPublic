@@ -14,7 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brackish Flask");
-            Tooltip.SetDefault("Full of poisonous saltwater");
+            Tooltip.SetDefault("Explodes into poisonous seawater blasts");
         }
 
         public override void SafeSetDefaults()

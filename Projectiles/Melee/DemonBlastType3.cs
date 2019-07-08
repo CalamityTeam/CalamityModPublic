@@ -94,7 +94,6 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.ai[0] = 0f;
 					projectile.ai[1] = -1f;
 					projectile.netUpdate = true;
-					return;
 				}
 			}
         }
@@ -126,9 +125,10 @@ namespace CalamityMod.Projectiles.Melee
 			}
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-    		projectile.Kill();
-        }
-    }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			projectile.Kill();
+		}
+	}
 }

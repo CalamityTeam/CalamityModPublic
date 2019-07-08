@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crystal Blade");
+			Tooltip.SetDefault("Fires slow-moving clouds of crystal dust");
 		}
 
 		public override void SetDefaults()

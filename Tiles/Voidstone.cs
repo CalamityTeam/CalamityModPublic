@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Capture;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Tiles
 			Main.tileBlockLight[Type] = true;
             soundType = 21;
             mineResist = 10f;
-            minPick = 189;
+            minPick = 180;
 			dustType = 187;
 			drop = mod.ItemType("Voidstone");
 			AddMapEntry(new Color(10, 10, 10));

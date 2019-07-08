@@ -10,6 +10,7 @@ using CalamityMod.Projectiles;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Perforator
 {
@@ -173,7 +174,7 @@ namespace CalamityMod.NPCs.Perforator
             {
                 npc.localAI[1] = 0f;
             }
-            if (Main.player[npc.target].dead || !NPC.AnyNPCs(mod.NPCType("PerforatorHive")))
+            if (Main.player[npc.target].dead || CalamityGlobalNPC.perfHive < 0 || !Main.npc[CalamityGlobalNPC.perfHive].active)
 			{
 				flag94 = false;
 				npc.velocity.Y = npc.velocity.Y + 0.05f;

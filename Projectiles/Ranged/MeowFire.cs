@@ -23,16 +23,12 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.penetrate = -1;
             projectile.extraUpdates = 3;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 90;
         }
 
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f);
-			if (projectile.timeLeft > 60)
-			{
-				projectile.timeLeft = 60;
-			}
 			if (projectile.ai[0] > 7f)
 			{
 				float num296 = 1f;
@@ -55,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
 					for (int num298 = 0; num298 < 2; num298++)
 					{
 						int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-						if ((num297 == 56 && Main.rand.Next(3) == 0))
+						if (Main.rand.Next(3) == 0)
 						{
 							Main.dust[num299].noGravity = true;
 							Main.dust[num299].scale *= 1.75f;
@@ -73,13 +69,10 @@ namespace CalamityMod.Projectiles.Ranged
 						Dust expr_DC94_cp_0 = Main.dust[num299];
 						expr_DC94_cp_0.velocity.Y = expr_DC94_cp_0.velocity.Y * 1.2f;
 						Main.dust[num299].scale *= num296;
-						if (num297 == 56)
+						Main.dust[num299].velocity += projectile.velocity;
+						if (!Main.dust[num299].noGravity)
 						{
-							Main.dust[num299].velocity += projectile.velocity;
-							if (!Main.dust[num299].noGravity)
-							{
-								Main.dust[num299].velocity *= 0.5f;
-							}
+							Main.dust[num299].velocity *= 0.5f;
 						}
 					}
 				}
@@ -89,7 +82,6 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.ai[0] += 1f;
 			}
 			projectile.rotation += 0.3f * (float)projectile.direction;
-			return;	
         }
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -120,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        	target.AddBuff(BuffID.Frostburn, 100);
+        	target.AddBuff(BuffID.Frostburn, 180);
         }
     }
 }

@@ -92,7 +92,6 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					projectile.Kill();
 				}
-				return;
 			}
         }
         

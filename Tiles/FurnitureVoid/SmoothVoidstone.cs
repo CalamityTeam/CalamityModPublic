@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
 			Main.tileBlockLight[Type] = true;
 			soundType = 21;
 			mineResist = 7f;
-			minPick = 190;
+			minPick = 180;
 			drop = mod.ItemType("SmoothVoidstone");
 			AddMapEntry(new Color(27, 24, 31));
 		}

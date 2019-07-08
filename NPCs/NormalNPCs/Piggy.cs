@@ -39,6 +39,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
+			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
+			{
+				return 0f;
+			}
 			return SpawnCondition.TownCritter.Chance * 0.01f;
 		}
 
@@ -77,6 +81,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 				npc.frameCounter = 0.0;
 				npc.frame.Y = frameHeight * 2;
 			}
+		}
+
+		public override void NPCLoot()
+		{
+			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bacon);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

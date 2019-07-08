@@ -7,12 +7,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
 {
 	[AutoloadBossHead]
 	public class Leviathan : ModNPC
 	{
+		private bool altTextureSwap = false;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Leviathan");
@@ -72,18 +75,30 @@ namespace CalamityMod.NPCs.Leviathan
 			bossBag = mod.ItemType("LeviathanBag");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(altTextureSwap);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			altTextureSwap = reader.ReadBoolean();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
+			CalamityGlobalNPC.leviathan = npc.whoAmI;
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			Vector2 vector = npc.Center;
 			Player player = Main.player[npc.target];
 			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-			int npcType = mod.NPCType("Siren");
 			bool sirenAlive = false;
-			if (NPC.CountNPCS(npcType) > 0)
+			if (CalamityGlobalNPC.siren != -1)
 			{
-				sirenAlive = true;
+				sirenAlive = Main.npc[CalamityGlobalNPC.siren].active;
 			}
 			int soundChoice = Main.rand.Next(3);
 			int soundChoiceRage = 92;
@@ -222,25 +237,9 @@ namespace CalamityMod.NPCs.Leviathan
 					{
 						if (!player.dead)
 						{
-							npc.ai[2] += 1f;
+							npc.ai[2] += 1.5f;
 							if (!sirenAlive)
-							{
-								npc.ai[2] += 2f;
-							}
-							else
-							{
-								if (sirenAlive)
-								{
-									if (Siren.phase2)
-									{
-										npc.ai[2] += 0.5f;
-									}
-									if (Siren.phase3)
-									{
-										npc.ai[2] += 0.5f;
-									}
-								}
-							}
+								npc.ai[2] += 2.5f;
 						}
 						if (npc.ai[2] >= 90f)
 						{
@@ -283,26 +282,11 @@ namespace CalamityMod.NPCs.Leviathan
 					float num1058 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector120.X;
 					float num1059 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector120.Y;
 					float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
-					npc.ai[1] += 1f;
+					npc.ai[1] += (revenge ? 2f : 1f);
 					npc.ai[1] += (float)(num1038 / 2);
-					if (revenge)
-					{
-						npc.ai[1] += 1f;
-					}
 					if (!sirenAlive || CalamityWorld.death || CalamityWorld.bossRushActive)
 					{
-						npc.ai[1] += 2f;
-					}
-					else
-					{
-						if ((Siren.phase2 && sirenAlive) || CalamityWorld.bossRushActive)
-						{
-							npc.ai[1] += 0.5f;
-						}
-						if ((Siren.phase3 && sirenAlive) || CalamityWorld.bossRushActive)
-						{
-							npc.ai[1] += 0.5f;
-						}
+						npc.ai[1] += 2.5f;
 					}
 					bool flag103 = false;
 					int spawnLimit = sirenAlive ? 2 : 4;
@@ -394,7 +378,6 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
 						npc.netUpdate = true;
-						return;
 					}
 				}
 				else if (npc.ai[0] == 2f)
@@ -424,7 +407,6 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.TargetClosest(true);
 						if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 20f)
 						{
-							npc.localAI[1] = 1f;
 							npc.ai[1] += 1f;
 							npc.ai[2] = 0f;
 							float num1044 = revenge ? 20f : 18f; //16
@@ -451,7 +433,6 @@ namespace CalamityMod.NPCs.Leviathan
 							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoiceRage);
 							return;
 						}
-						npc.localAI[1] = 0f;
 						float num1048 = revenge ? 7.5f : 6.5f; //12 not a prob
 						float num1049 = revenge ? 0.12f : 0.11f; //0.15 not a prob
 						if ((double)npc.life < (double)npc.lifeMax * 0.25)
@@ -506,7 +487,6 @@ namespace CalamityMod.NPCs.Leviathan
 							npc.velocity.X = 16f;
 						}
 						npc.spriteDirection = npc.direction;
-						return;
 					}
 					else
 					{
@@ -531,12 +511,10 @@ namespace CalamityMod.NPCs.Leviathan
 						}
 						if (npc.ai[2] != 1f)
 						{
-							npc.localAI[1] = 1f;
 							return;
 						}
 						npc.TargetClosest(true);
 						npc.spriteDirection = npc.direction;
-						npc.localAI[1] = 0f;
 						npc.velocity *= 0.9f;
 						float num1052 = revenge ? 0.11f : 0.1f; //0.1
 						if (npc.life < npc.lifeMax / 3 || CalamityWorld.bossRushActive)
@@ -553,7 +531,6 @@ namespace CalamityMod.NPCs.Leviathan
 						{
 							npc.ai[2] = 0f;
 							npc.ai[1] += 1f;
-							return;
 						}
 					}
 				}
@@ -713,24 +690,24 @@ namespace CalamityMod.NPCs.Leviathan
 			Texture2D texture4 = mod.GetTexture("NPCs/Leviathan/LeviathanAltTexTwo");
 			if (npc.ai[0] == 1f)
 			{
-				if (npc.localAI[0] == 0f)
+				if (!altTextureSwap)
 				{
-					CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);
+					CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor, true);
 				}
 				else
 				{
-					CalamityMod.DrawTexture(spriteBatch, texture2, 0, npc, drawColor);
+					CalamityMod.DrawTexture(spriteBatch, texture2, 0, npc, drawColor, true);
 				}
 			}
 			else
 			{
-				if (npc.localAI[0] == 0f)
+				if (!altTextureSwap)
 				{
-					CalamityMod.DrawTexture(spriteBatch, texture3, 0, npc, drawColor);
+					CalamityMod.DrawTexture(spriteBatch, texture3, 0, npc, drawColor, true);
 				}
 				else
 				{
-					CalamityMod.DrawTexture(spriteBatch, texture4, 0, npc, drawColor);
+					CalamityMod.DrawTexture(spriteBatch, texture4, 0, npc, drawColor, true);
 				}
 			}
 			return false;
@@ -747,12 +724,7 @@ namespace CalamityMod.NPCs.Leviathan
 			if (npc.frame.Y >= frameHeight * 3)
 			{
 				npc.frame.Y = 0;
-				npc.localAI[0] += 1f;
-			}
-			if (npc.localAI[0] > 1f)
-			{
-				npc.localAI[0] = 0f;
-				npc.netUpdate = true;
+				altTextureSwap = !altTextureSwap;
 			}
 		}
 

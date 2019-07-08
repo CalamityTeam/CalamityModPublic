@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CosmicWraith
 {
@@ -32,7 +33,17 @@ namespace CalamityMod.NPCs.CosmicWraith
 			npc.HitSound = SoundID.NPCHit53;
 			npc.DeathSound = SoundID.NPCDeath44;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
             npc.rotation = npc.velocity.X * 0.04f;
@@ -75,7 +86,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				npc.timeLeft = 600;
 			}
             Vector2 vector = Main.player[npc.target].Center - npc.Center;
-            if (vector.Length() < 90f || npc.ai[3] >= 900f)
+            if (vector.Length() < 90f || npc.ai[3] >= 300f)
             {
                 npc.dontTakeDamage = false;
                 CheckDead();
@@ -83,8 +94,8 @@ namespace CalamityMod.NPCs.CosmicWraith
                 return;
             }
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = (npc.ai[3] >= 750f ? false : true);
-            if (npc.ai[3] >= 600f)
+            npc.dontTakeDamage = (npc.ai[3] >= 240f ? false : true);
+            if (npc.ai[3] >= 180f)
             {
                 npc.velocity.Y *= 0.985f;
                 npc.velocity.X *= 0.985f;
@@ -128,7 +139,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 				npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
 				npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
 			}
-			return;
 		}
 
         public override Color? GetAlpha(Color drawColor)

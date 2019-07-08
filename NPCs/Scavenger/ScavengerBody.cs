@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Scavenger
 {
@@ -21,6 +22,7 @@ namespace CalamityMod.NPCs.Scavenger
 
 		public override void SetDefaults()
 		{
+			npc.lavaImmune = true;
 			npc.npcSlots = 20f;
 			npc.aiStyle = -1;
 			npc.damage = 100;
@@ -73,6 +75,16 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
 		}
 
 		public override void FindFrame(int frameHeight)

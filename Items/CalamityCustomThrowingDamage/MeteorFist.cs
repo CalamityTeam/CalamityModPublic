@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meteor Fist");
+			Tooltip.SetDefault("Fires a fist that explodes");
 		}
 
 		public override void SafeSetDefaults()

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void SetDefaults()
 		{
+			npc.lavaImmune = true;
 			npc.aiStyle = -1;
 			npc.damage = 150;
 			npc.width = 80; //324
@@ -39,6 +41,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void AI()
 		{
+			if (CalamityGlobalNPC.bobbitWormBottom < 0 || !Main.npc[CalamityGlobalNPC.bobbitWormBottom].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 			if (npc.ai[0] == 0f)
 			{
 				npc.noTileCollide = true;

@@ -14,20 +14,21 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elemental Lance");
-            Tooltip.SetDefault("Rend the cosmos asunder!");
+            Tooltip.SetDefault("Rend the cosmos asunder!\n" +
+				"Fires a lance beam that splits multiple times as it travels");
         }
 
         public override void SetDefaults()
         {
             item.width = 88;
-            item.damage = 104;
+            item.damage = 200;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
             item.noUseGraphic = true;
-            item.useAnimation = 18;
+            item.useAnimation = 36;
             item.useStyle = 5;
-            item.useTime = 18;
+            item.useTime = 36;
             item.knockBack = 9.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

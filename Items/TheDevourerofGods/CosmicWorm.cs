@@ -8,6 +8,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.TheDevourerofGods
 {

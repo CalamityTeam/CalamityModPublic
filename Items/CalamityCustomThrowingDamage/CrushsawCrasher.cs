@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crushsaw Crasher");
-        }
+			Tooltip.SetDefault("Throws bouncing axes");
+		}
 
         public override void SafeSetDefaults()
         {

@@ -8,31 +8,31 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class ShimmersparkProjectile : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class ShimmersparkProjectile : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shimmerspark");
 		}
-    	
-        public override void SetDefaults()
-        {
-        	projectile.CloneDefaults(ProjectileID.Chik);
-            projectile.width = 16;
-            projectile.scale = 0.9f;
-            projectile.height = 16;
-            projectile.penetrate = 8;
-            projectile.melee = true;
-            aiType = 546;
-        }
-        
-        public override void AI()
-        {
-        	if (Main.rand.Next(5) == 0)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 73, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-        	int[] array = new int[20];
+
+		public override void SetDefaults()
+		{
+			projectile.CloneDefaults(ProjectileID.Chik);
+			projectile.width = 16;
+			projectile.scale = 0.9f;
+			projectile.height = 16;
+			projectile.penetrate = 8;
+			projectile.melee = true;
+			aiType = 546;
+		}
+
+		public override void AI()
+		{
+			if (Main.rand.Next(5) == 0)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 73, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			}
+			int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
 			bool flag14 = false;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					}
 				}
 			}
-        }
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -93,8 +93,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-			target.AddBuff(BuffID.Frostburn, 100);
-        }
-    }
+		{
+			target.AddBuff(BuffID.Frostburn, 120);
+		}
+	}
 }

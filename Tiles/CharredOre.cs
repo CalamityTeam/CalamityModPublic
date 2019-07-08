@@ -18,7 +18,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Charred Ore");
  			AddMapEntry(new Color(128, 0, 0), name);
 			mineResist = 6f;
-			minPick = 199;
+			minPick = 200;
             soundType = 21;
             dustType = 235;
             Main.tileSpelunker[Type] = true;

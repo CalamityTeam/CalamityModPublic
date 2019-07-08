@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.5f, 0.35f, 0f);
 			bool flag15 = false;
 			bool flag16 = false;
 			if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
@@ -85,7 +85,6 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num467].velocity.Y = num464;
 				num462++;
 			}
-			return;
         }
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

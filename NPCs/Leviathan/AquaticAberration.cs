@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -52,6 +53,12 @@ namespace CalamityMod.NPCs.Leviathan
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
+			if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 			npc.TargetClosest(false);
 			npc.rotation = npc.velocity.ToRotation();
 			if (Math.Sign(npc.velocity.X) != 0) 

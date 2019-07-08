@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	target.AddBuff(mod.BuffType("GodSlayerInferno"), 500);
+	    	target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
 		}
 	}
 }

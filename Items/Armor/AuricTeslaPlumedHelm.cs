@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auric Tesla Plumed Helm");
-            Tooltip.SetDefault("20% increased rogue damage and critical strike chance\n" +
+            Tooltip.SetDefault("20% increased rogue damage and critical strike chance, 25% increased movement speed\n" +
                                "Not moving boosts all damage and critical strike chance");
         }
 
@@ -76,6 +76,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.auricBoost = true;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.2f;
             CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 20;
+			player.moveSpeed += 0.25f;
         }
 
         public override void AddRecipes()

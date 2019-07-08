@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Rogue
 					Main.dust[num250].velocity *= 0f;
 				}
 			}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 1f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
-        	int[] array = new int[20];
+			Lighting.AddLight(projectile.Center, 0.15f, 1f, 0.25f);
+			int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
 			bool flag14 = false;
@@ -99,17 +99,16 @@ namespace CalamityMod.Projectiles.Rogue
 					    	}
 						}
 					}
-					return;
 				}
 			}
         }
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-        	target.AddBuff(mod.BuffType("GlacialState"), 100);
-        	target.AddBuff(mod.BuffType("Plague"), 100);
-        	target.AddBuff(mod.BuffType("HolyLight"), 100);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+        	target.AddBuff(mod.BuffType("GlacialState"), 120);
+        	target.AddBuff(mod.BuffType("Plague"), 120);
+        	target.AddBuff(mod.BuffType("HolyLight"), 120);
         }
     }
 }

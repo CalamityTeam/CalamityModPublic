@@ -39,6 +39,18 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			bannerItem = mod.ItemType("GhostBellBanner");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.chaseable);
+			writer.Write(hasBeenHit);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.chaseable = reader.ReadBoolean();
+			hasBeenHit = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, 0f, ((255 - npc.alpha) * 1.5f) / 255f, ((255 - npc.alpha) * 1.5f) / 255f);

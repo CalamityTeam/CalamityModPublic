@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Undine's Retribution");
-            Item.staff[item.type] = true;
+			Tooltip.SetDefault("Casts a swarm of homing spears");
+			Item.staff[item.type] = true;
         }
 
 	    public override void SetDefaults()

@@ -11,9 +11,9 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
 	public class Clam : ModNPC
 	{
-		public int hitAmount = 0;
-		public bool hasBeenHit = false;
-		public bool statChange = false;
+		private int hitAmount = 0;
+		private bool hasBeenHit = false;
+		private bool statChange = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -23,11 +23,9 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override void SetDefaults()
 		{
-			//npc.damage = Main.hardMode ? 60 : 30;
 			npc.damage = 30;
 			npc.width = 56;
 			npc.height = 38;
-			//npc.defense = Main.hardMode ? 15 : 6;
 			npc.defense = 9999;
 			npc.lifeMax = Main.hardMode ? 300 : 150;
 			if (Main.expertMode)
@@ -41,6 +39,22 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.knockBackResist = 0.05f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("ClamBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hitAmount);
+			writer.Write(npc.chaseable);
+			writer.Write(hasBeenHit);
+			writer.Write(statChange);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hitAmount = reader.ReadInt32();
+			npc.chaseable = reader.ReadBoolean();
+			hasBeenHit = reader.ReadBoolean();
+			statChange = reader.ReadBoolean();
 		}
 
 		public override void AI()

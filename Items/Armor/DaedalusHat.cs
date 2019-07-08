@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Hood");
-            Tooltip.SetDefault("10% increased magic damage and critical strike chance\n" +
-                "Immune to Cursed, gives control over gravity, and +50 max mana");
+            Tooltip.SetDefault("13% increased magic damage and 7% increased magic critical strike chance\n" +
+				"10% decreased mana usage and +60 max mana");
         }
 
         public override void SetDefaults()
@@ -51,11 +51,10 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 0.1f;
-            player.magicCrit += 10;
-            player.AddBuff(BuffID.Gravitation, 2);
-            player.buffImmune[BuffID.Cursed] = true;
-			player.statManaMax2 += 50;
+			player.manaCost *= 0.9f;
+			player.magicDamage += 0.13f;
+            player.magicCrit += 7;
+			player.statManaMax2 += 60;
 		}
 
         public override void AddRecipes()

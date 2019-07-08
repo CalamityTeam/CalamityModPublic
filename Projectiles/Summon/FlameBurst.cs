@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FlameBurst : ModProjectile
     {
-    	public float count = 0;
+    	private float count = 0;
     	
     	public override void SetStaticDefaults()
 		{
@@ -98,7 +98,6 @@ namespace CalamityMod.Projectiles.Summon
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
 

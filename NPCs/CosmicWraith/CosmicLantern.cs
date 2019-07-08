@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CosmicWraith
 {
@@ -41,7 +42,17 @@ namespace CalamityMod.NPCs.CosmicWraith
 			npc.HitSound = SoundID.NPCHit53;
 			npc.DeathSound = SoundID.NPCDeath44;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;

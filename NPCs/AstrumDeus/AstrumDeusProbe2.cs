@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
@@ -59,11 +60,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 			if (Main.netMode != 1 && npc.localAI[0] >= 360f)
 			{
 				npc.localAI[0] = 0f;
-				int num8 = expertMode ? 35 : 45;
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 2f, direction.Y * 2f, mod.ProjectileType("DeusMine"), num8, 0f, Main.myPlayer, 0f, 0f);
+				int num8 = expertMode ? 42 : 55;
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 5f, direction.Y * 5f, mod.ProjectileType("DeusMine"), num8, 0f, Main.myPlayer, 0f, 0f);
 			}
 			bool anySmallDeusHeads = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
-			if (!NPC.AnyNPCs(mod.NPCType("AstrumDeusHeadSpectral")) && !anySmallDeusHeads)
+			if (CalamityGlobalNPC.astrumDeusHeadMain < 0 || !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)
 			{
 				npc.active = false;
 				npc.netUpdate = true;

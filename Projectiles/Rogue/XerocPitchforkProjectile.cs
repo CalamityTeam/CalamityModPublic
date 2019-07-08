@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void SetDefaults()
 		{
-			projectile.width = 14;
-			projectile.height = 14;
+			projectile.width = 20;
+			projectile.height = 20;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 1;
@@ -59,8 +59,12 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			projectile.damage /= 2;
+			if (projectile.damage < 1)
+			{
+				projectile.damage = 1;
+			}
 			target.immune[projectile.owner] = 2;
-			target.AddBuff(BuffID.CursedInferno, 500);
+			target.AddBuff(BuffID.CursedInferno, 300);
 		}
 	}
 }

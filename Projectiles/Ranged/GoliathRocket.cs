@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("Plague"), 200);
+        	target.AddBuff(mod.BuffType("Plague"), 300);
         }
     }
 }

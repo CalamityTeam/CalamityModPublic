@@ -7,13 +7,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
 	[AutoloadBossHead]
 	public class SupremeCataclysm : ModNPC
 	{
-		private float distanceY = -375f;
+		private int distanceY = -375;
 		
 		public override void SetStaticDefaults()
 		{
@@ -50,7 +51,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
 
-        public override void FindFrame(int frameHeight)
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(distanceY);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			distanceY = reader.ReadInt32();
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -60,8 +71,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override void AI()
 		{
+			CalamityGlobalNPC.SCalCataclysm = npc.whoAmI;
 			bool expertMode = Main.expertMode;
-            if (!Main.npc[CalamityGlobalNPC.SCal].active)
+            if (CalamityGlobalNPC.SCal < 0 || !Main.npc[CalamityGlobalNPC.SCal].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
@@ -71,23 +83,23 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			float num676 = 60f;
 			float num677 = 1.5f;
 			float distanceX = 750f;
-			if (npc.localAI[1] < 750f)
+			if (npc.ai[3] < 750f)
 			{
-				npc.localAI[1] += 1f;
-				distanceY += 1f;
+				npc.ai[3] += 1f;
+				distanceY += 1;
 			}
-			else if (npc.localAI[1] < 1500f)
+			else if (npc.ai[3] < 1500f)
 			{
-				npc.localAI[1] += 1f;
-				distanceY -= 1f;
+				npc.ai[3] += 1f;
+				distanceY -= 1;
 			}
-			if (npc.localAI[1] >= 1500f)
+			if (npc.ai[3] >= 1500f)
 			{
-				npc.localAI[1] = 0f;
+				npc.ai[3] = 0f;
 			}
 			Vector2 vector83 = new Vector2(npc.Center.X, npc.Center.Y);
 			float num678 = Main.player[npc.target].Center.X - vector83.X + distanceX;
-			float num679 = Main.player[npc.target].Center.Y - vector83.Y + distanceY;
+			float num679 = Main.player[npc.target].Center.Y - vector83.Y + (float)distanceY;
             npc.rotation = 1.57f;
             float num680 = (float)Math.Sqrt((double)(num678 * num678 + num679 * num679));
 			num680 = num676 / num680;

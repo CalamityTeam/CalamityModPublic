@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
@@ -60,25 +61,27 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					break;
 				}
 			}
-			//this.DoGIndex = DoGIndex;
 			return DoGIndex != -1;
 		}
 
 		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
 		{
-			if (maxDepth >= 0 && minDepth < 0 && CalamityGlobalNPC.DoGHead >= 0)
+			if (maxDepth >= 0 && minDepth < 0 && CalamityGlobalNPC.DoGHead != -1)
 			{
-				float intensity = this.GetIntensity();
-                if ((double)Main.npc[CalamityGlobalNPC.DoGHead].life < (double)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax * 0.15 || CalamityWorld.death)
-                {
-                    spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
-                        Color.Black * (intensity + 0.5f));
-                }
-                else
-                {
-                    spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
-                        (Main.npc[CalamityGlobalNPC.DoGHead].ai[2] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
-                }
+				if (Main.npc[CalamityGlobalNPC.DoGHead].active)
+				{
+					float intensity = this.GetIntensity();
+					if ((double)Main.npc[CalamityGlobalNPC.DoGHead].life < (double)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax * 0.15 || CalamityWorld.death)
+					{
+						spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
+							Color.Black * (intensity + 0.5f));
+					}
+					else
+					{
+						spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
+							(Main.npc[CalamityGlobalNPC.DoGHead].ai[2] == 0f ? Color.Cyan : Color.Fuchsia) * intensity);
+					}
+				}
 			}
 		}
 

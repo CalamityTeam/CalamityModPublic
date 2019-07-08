@@ -7,27 +7,27 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PlagueExplosion : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class PlagueExplosion : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plague Stinger Explosion");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
-        }
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
+		public override void SetDefaults()
+		{
+			projectile.width = 20;
+			projectile.height = 20;
+			projectile.hostile = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = -1;
+			projectile.timeLeft = 60;
+		}
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
 			bool flag15 = false;
 			bool flag16 = false;
 			if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
@@ -84,12 +84,11 @@ namespace CalamityMod.Projectiles.Boss
 				Main.dust[num467].velocity.Y = num464;
 				num462++;
 			}
-			return;
-        }
+		}
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("Plague"), 240);
-        }
-    }
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(mod.BuffType("Plague"), 240);
+		}
+	}
 }

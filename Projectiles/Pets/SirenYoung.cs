@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Pets
 			{
 				projectile.frame = 0;
 			}
-			underwater = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
+			underwater = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) || modPlayer.leviathanAndSirenLore;
 			if (underwater)
 			{
 				projectile.width = 30;

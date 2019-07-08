@@ -42,6 +42,18 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			bannerItem = mod.ItemType("CatfishBanner");
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+		}
+
 		public override void AI()
 		{
 			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);

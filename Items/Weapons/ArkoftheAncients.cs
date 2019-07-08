@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class ArkoftheAncients : ModItem
 	{
@@ -30,24 +30,24 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 50;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+			item.value = Item.buyPrice(0, 48, 0, 0);
+			item.rare = 6;
 			item.shoot = mod.ProjectileType("EonBeam");
 			item.shootSpeed = 12f;
 		}
-		
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			switch (Main.rand.Next(2))
 			{
-	    		case 0: type = mod.ProjectileType("EonBeam"); break;
-	    		case 1: type = 173; break;
+				case 0: type = mod.ProjectileType("EonBeam"); break;
+				case 1: type = 173; break;
 			}
-	       	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
 			float num72 = Main.rand.Next(18, 25);
 			damage = Main.rand.Next(40, 60);
-	    	Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-	    	float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
+			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+			float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
 			float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
 			if (player.gravDir == -1f)
 			{
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons
 			{
 				num80 = num72 / num80;
 			}
-	    	num78 *= num80;
+			num78 *= num80;
 			num79 *= num80;
 			int num107 = 2;
 			for (int num108 = 0; num108 < num107; num108++)
@@ -92,9 +92,9 @@ namespace CalamityMod.Items.Weapons
 				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
 				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 			}
-	    	return false;
+			return false;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -103,23 +103,23 @@ namespace CalamityMod.Items.Weapons
 			recipe.AddIngredient(ItemID.Starfury);
 			recipe.AddIngredient(ItemID.EnchantedSword);
 			recipe.AddIngredient(ItemID.Excalibur);
-	        recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	        recipe = new ModRecipe(mod);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "EssenceofCinder", 3);
 			recipe.AddIngredient(null, "EssenceofEleum", 3);
 			recipe.AddIngredient(ItemID.Starfury);
 			recipe.AddIngredient(ItemID.Arkhalis);
 			recipe.AddIngredient(ItemID.Excalibur);
-	        recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
-	
-	    public override void MeleeEffects(Player player, Rectangle hitbox)
-	    {
-	        if (Main.rand.Next(5) == 0)
+
+		public override void MeleeEffects(Player player, Rectangle hitbox)
+		{
+			if (Main.rand.Next(5) == 0)
 			{
 				int num249 = Main.rand.Next(3);
 				if (num249 == 0)
@@ -137,14 +137,14 @@ namespace CalamityMod.Items.Weapons
 				int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, num249, (float)(player.direction * 2), 0f, 150, default(Color), 1.3f);
 				Main.dust[num250].velocity *= 0.2f;
 			}
-	    }
-	    
-	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		}
+
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-	    	if(Main.rand.Next(2) == 0)
-	    	{
-	    		target.AddBuff(mod.BuffType("HolyLight"), 500);
-	    	}
+			if (Main.rand.Next(2) == 0)
+			{
+				target.AddBuff(mod.BuffType("HolyLight"), 300);
+			}
 		}
 	}
 }

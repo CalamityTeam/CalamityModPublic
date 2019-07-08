@@ -7,39 +7,40 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
 	public class AstrumDeusBody : ModNPC
 	{
-		public int spawn = 0;
-		
+		private int spawn = 0;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astrum Deus");
 		}
-		
+
 		public override void SetDefaults()
 		{
-			npc.damage = 70; //70
+			npc.damage = 90; //70
 			npc.npcSlots = 5f;
 			npc.width = 38; //324
 			npc.height = 44; //216
 			npc.defense = 45;
-            npc.lifeMax = CalamityWorld.revenge ? 12000 : 8000; //250000
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 19400;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 420000 : 360000;
-            }
+			npc.lifeMax = CalamityWorld.revenge ? 18000 : 12000;
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 29100;
+			}
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = CalamityWorld.death ? 420000 : 360000;
+			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = 6; //new
-            aiType = -1; //new
-            animationType = 10; //new
+			aiType = -1; //new
+			animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.scale = 1.2f;
 			if (Main.expertMode)
@@ -58,27 +59,49 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.buffImmune[k] = true;
 			}
-            npc.dontCountMe = true;
+			npc.dontCountMe = true;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(spawn);
+			writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.chaseable);
+			writer.Write(npc.localAI[3]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			spawn = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
+			npc.localAI[3] = reader.ReadSingle();
+		}
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
+			if (CalamityGlobalNPC.astrumDeusHeadMain != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)
+				{
+					npc.dontTakeDamage = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].dontTakeDamage;
+					npc.chaseable = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].chaseable;
+				}
+			}
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			int defenseDown = (int)(30f * (1f - (float)npc.life / (float)npc.lifeMax));
-			npc.defense = npc.defDefense - defenseDown;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 			if (!Main.npc[(int)npc.ai[1]].active)
-            {
-                npc.life = 0;
-                npc.HitEffect(0, 10.0);
-                npc.active = false;
-            }
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.active = false;
+			}
 			if (Main.npc[(int)npc.ai[1]].alpha < 128)
 			{
 				if (npc.alpha != 0)
@@ -110,11 +133,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 					{
-						float num941 = revenge ? 11f : 9f; //speed
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
-                        {
-                            num941 = 16f;
-                        }
+						float num941 = revenge ? 13f : 12f; //speed
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						{
+							num941 = 18f;
+						}
 						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 						float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
 						float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
@@ -122,9 +145,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 						num944 = num941 / num944;
 						num942 *= num944;
 						num943 *= num944;
-						num942 += (float)Main.rand.Next(-25, 26) * 0.05f;
-						num943 += (float)Main.rand.Next(-25, 26) * 0.05f;
-						int num945 = expertMode ? 31 : 37;
+						int num945 = expertMode ? 35 : 45;
 						int num946 = mod.ProjectileType("AstralShot2");
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
@@ -134,48 +155,64 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 		}
-		
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			return !npc.dontTakeDamage;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
+			Color lightColor = new Color(125, 75, Main.DiscoB, npc.alpha); //250 150 Disco
+			Color newColor = (npc.dontTakeDamage ? lightColor : drawColor);
 			Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAlt");
-			CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, drawColor);
+			CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, newColor);
 			return false;
 		}
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-			if (projectile.type == mod.ProjectileType("TerraFireGreen") || projectile.type == mod.ProjectileType("AtlantisSpear") || projectile.type == mod.ProjectileType("AtlantisSpear2"))
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (projectile.type == mod.ProjectileType("RainbowBoom") || projectile.type == mod.ProjectileType("PlagueBee") || ProjectileID.Sets.StardustDragon[projectile.type])
 			{
-				damage = (int)((double)damage * 0.66);
+				damage = (int)((double)damage * 0.1);
 			}
-            if ((double)npc.life <= (double)npc.lifeMax * 0.33)
-            {
-                damage = (int)((double)damage * 0.33);
-            }
-            else
-            {
-                if (projectile.penetrate == -1 && !projectile.minion && !projectile.thrown)
-                {
-                    damage /= 2;
-                }
-                else if (projectile.penetrate > 1)
-                {
-                    damage /= projectile.penetrate;
-                }
-            }
-        }
-		
+			else if (projectile.type == mod.ProjectileType("RainBolt") || projectile.type == mod.ProjectileType("AtlantisSpear2"))
+			{
+				damage = (int)((double)damage * 0.2);
+			}
+			else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == mod.ProjectileType("CraniumSmasherExplosive") || projectile.type == mod.ProjectileType("BigNukeExplosion"))
+			{
+				damage = (int)((double)damage * 0.3);
+			}
+			else if (projectile.type == mod.ProjectileType("SpikecragSpike"))
+			{
+				damage = (int)((double)damage * 0.5);
+			}
+			else if (projectile.type == mod.ProjectileType("GoliathExplosion"))
+			{
+				damage = (int)((double)damage * 0.6);
+			}
+			if (projectile.penetrate == -1 && !projectile.minion)
+			{
+				damage = (int)((double)damage * 0.2);
+			}
+			else if (projectile.penetrate > 1)
+			{
+				damage /= projectile.penetrate;
+			}
+		}
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (NPC.CountNPCS(mod.NPCType("AstrumDeusProbe3")) < 3 && CalamityWorld.revenge)
@@ -219,12 +256,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 120, true);
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);

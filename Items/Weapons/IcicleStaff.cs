@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Icicle Staff");
-            Item.staff[item.type] = true;
+			Tooltip.SetDefault("Casts icicles from the sky");
+			Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()

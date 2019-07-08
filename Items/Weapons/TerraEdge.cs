@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Edge");
-            Tooltip.SetDefault("Heals the player on enemy hits");
+            Tooltip.SetDefault("Heals the player on enemy hits\n" +
+				"Fires a beam that inflicts ichor for a short time");
         }
 
         public override void SetDefaults()
@@ -57,7 +58,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.Next(5) == 0)
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 74);
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107);
             }
         }
 

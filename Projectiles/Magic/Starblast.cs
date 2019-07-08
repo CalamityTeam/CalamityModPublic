@@ -44,7 +44,6 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.alpha >= 255 && projectile.ai[0] > 5f)
 			{
 				projectile.Kill();
-				return;
 			}
 			if (Main.rand.Next(4) == 0)
 			{

@@ -8,30 +8,30 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class DoGDeath : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class DoGDeath : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Death Beam");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.hostile = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = 300;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-        	if (projectile.alpha > 0)
+		public override void SetDefaults()
+		{
+			projectile.width = 10;
+			projectile.height = 10;
+			projectile.hostile = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.alpha = 255;
+			projectile.penetrate = 1;
+			projectile.extraUpdates = 1;
+			projectile.timeLeft = 300;
+			cooldownSlot = 1;
+		}
+
+		public override void AI()
+		{
+			if (projectile.alpha > 0)
 			{
 				projectile.alpha -= 25;
 			}
@@ -48,8 +48,8 @@ namespace CalamityMod.Projectiles.Boss
 		}
 
 		public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255, 255, 255, projectile.alpha);
-        }
+		{
+			return new Color(255, 255, 255, projectile.alpha);
+		}
 	}
 }

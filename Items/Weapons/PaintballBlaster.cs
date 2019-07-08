@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Speed Blaster");
+			Tooltip.SetDefault("Shoots a string of paint blasts");
 		}
 
 	    public override void SetDefaults()

@@ -167,7 +167,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				if ((double)npc.velocity.Y > 1.2 || (double)npc.velocity.Y < -1.2)
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.99f;
-					return;
 				}
 			}
 		}

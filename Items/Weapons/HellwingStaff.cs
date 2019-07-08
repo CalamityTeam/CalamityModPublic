@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hellwing Staff");
-			Tooltip.SetDefault("Unleashes pillars of flame");
+			Tooltip.SetDefault("Casts pillars of flame");
 			Item.staff[item.type] = true;
 		}
 

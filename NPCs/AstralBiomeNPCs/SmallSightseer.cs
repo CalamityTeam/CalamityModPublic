@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class SmallSightseer : ModNPC
@@ -29,16 +31,23 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             npc.width = 48;
             npc.height = 40;
-            npc.damage = 58;
-            npc.defense = 26;
-            npc.lifeMax = 460;
+            npc.damage = 38;
+            npc.defense = 16;
+            npc.lifeMax = 310;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.noGravity = true;
-            npc.knockBackResist = 0.48f;
+            npc.knockBackResist = 0.58f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.aiStyle = -1;
 			banner = npc.type;
 			bannerItem = mod.ItemType("SmallSightseerBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 58;
+				npc.defense = 26;
+				npc.knockBackResist = 0.48f;
+				npc.lifeMax = 460;
+			}
 		}
 
         public override void FindFrame(int frameHeight)

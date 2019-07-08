@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Permafrost
         {
             damage = 1;
             crit = false;
-            if (target.type != NPCID.TargetDummy)
+            if (target.type != NPCID.TargetDummy && target.type != mod.NPCType("Providence"))
                 target.life -= target.lifeMax * 2 / 100;
             target.checkDead();
         }

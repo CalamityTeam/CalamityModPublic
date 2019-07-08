@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Rogue
     	
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.friendly = true;
             projectile.penetrate = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;

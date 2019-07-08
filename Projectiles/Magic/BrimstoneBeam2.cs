@@ -65,13 +65,12 @@ namespace CalamityMod.Projectiles.Magic
 					Main.dust[num448].velocity *= 0.1f;
 					Main.dust[num448].noGravity = true;
 				}
-				return;
 			}
         }
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
         }
     }
 }

@@ -70,7 +70,6 @@ namespace CalamityMod.Projectiles.Magic
 				int num157 = Dust.NewDust(new Vector2(projectile.position.X + (float)num156, projectile.position.Y + (float)num156), projectile.width - num156 * 2, projectile.height - num156 * 2, 14, 0f, 0f, 100, new Color(0, 255, 255), 0.5f);
 				Main.dust[num157].velocity *= 0.25f;
 				Main.dust[num157].velocity += projectile.velocity * 0.5f;
-				return;
 			}
         }
     }

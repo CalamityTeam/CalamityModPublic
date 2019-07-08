@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cursed Capper");
+			Tooltip.SetDefault("Fires cursed bullets");
 		}
 
 	    public override void SetDefaults()
@@ -32,13 +33,13 @@ namespace CalamityMod.Items.Weapons
 	        item.UseSound = SoundID.Item41;
 	        item.autoReuse = true;
 	        item.shootSpeed = 14f;
-	        item.shoot = mod.ProjectileType("CursedRound");
+	        item.shoot = ProjectileID.CursedBullet;
 	        item.useAmmo = 97;
 	    }
 	    
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("CursedRound"), damage, knockBack, player.whoAmI, 0f, 0f);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.CursedBullet, damage, knockBack, player.whoAmI, 0f, 0f);
 	    	return false;
 		}
 	

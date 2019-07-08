@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Aeries");
-			Tooltip.SetDefault("Their lives are yours");
+			Tooltip.SetDefault("Fires shockblast rounds that can steal enemy life");
 		}
 
 	    public override void SetDefaults()

@@ -14,15 +14,16 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Starfall");
+			Tooltip.SetDefault("Casts a spread of astral stars at the mouse cursor");
 		}
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 39;
+	        item.damage = 59;
             item.crit += 25;
             item.magic = true;
 	        item.mana = 15;
-            item.rare = 7;
+            item.rare = 9;
 	        item.width = 28;
 	        item.height = 30;
 	        item.useTime = 14;
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 	        item.useStyle = 5;
 	        item.noMelee = true;
 	        item.knockBack = 3.25f;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = Item.buyPrice(0, 95, 0, 0);
             item.UseSound = SoundID.Item105;
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("AstralStarMagic");

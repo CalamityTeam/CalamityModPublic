@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Forsaken Saber");
+			Tooltip.SetDefault("Shoots a sand blade that alters its velocity as it travels");
 		}
 
 		public override void SetDefaults()

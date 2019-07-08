@@ -13,6 +13,7 @@ using Terraria.ModLoader.IO;
 using CalamityMod;
 using CalamityMod.NPCs;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
+using CalamityMod.World;
 
 namespace CalamityMod.Items
 {
@@ -122,7 +123,7 @@ namespace CalamityMod.Items
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					if (item.melee)
+					if (item.melee && item.type != mod.ItemType("Murasama"))
 					{
 						Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, mod.ProjectileType("LuxorsGiftMelee"), (int)((double)damage * 0.6), 0f, player.whoAmI, 0f, 0f);
 					}
@@ -388,6 +389,22 @@ namespace CalamityMod.Items
 					return false;
 				}
 				return true;
+			}
+			if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(mod.BuffType("Cadence")) > -1)
+			{
+				return false;
+			}
+			if (item.type == mod.ItemType("CrumblingPotion") && player.FindBuffIndex(mod.BuffType("ArmorShattering")) > -1)
+			{
+				return false;
+			}
+			if (item.type == ItemID.WrathPotion && player.FindBuffIndex(mod.BuffType("HolyWrathBuff")) > -1)
+			{
+				return false;
+			}
+			if (item.type == ItemID.RagePotion && player.FindBuffIndex(mod.BuffType("ProfanedRageBuff")) > -1)
+			{
+				return false;
 			}
 			if ((item.type == ItemID.SuperAbsorbantSponge || item.type == ItemID.EmptyBucket) && modPlayer.ZoneAbyss)
 			{
@@ -1910,11 +1927,15 @@ namespace CalamityMod.Items
 				(modPlayer.holyWrath ? 0.05f : 0f) +
 				(modPlayer.profanedRage ? 0.05f : 0f) +
 				(modPlayer.draconicSurge ? 0.15f : 0f);
+			if (flightSpeedMult > 1.2f)
+				flightSpeedMult = 1.2f;
 
 			speed *= flightSpeedMult;
 
 			float flightAccMult = 1f +
 				(modPlayer.draconicSurge ? 0.15f : 0f);
+			if (flightAccMult > 1.2f)
+				flightAccMult = 1.2f;
 
 			acceleration *= flightAccMult;
 		}
@@ -1925,9 +1946,9 @@ namespace CalamityMod.Items
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			int itemGrabRangeBoost = 0 +
-				(modPlayer.wallOfFleshLore ? 19 : 0) +
-				(modPlayer.planteraLore ? 38 : 0) +
-				(modPlayer.polterghastLore ? 57 : 0);
+				(modPlayer.wallOfFleshLore ? 10 : 0) +
+				(modPlayer.planteraLore ? 20 : 0) +
+				(modPlayer.polterghastLore ? 30 : 0);
 
 			grabRange += itemGrabRangeBoost;
 		}

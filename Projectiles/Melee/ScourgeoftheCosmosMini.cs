@@ -137,7 +137,6 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.velocity.Y < 0f && num383 > 0f)
                 {
                     projectile.velocity.Y = projectile.velocity.Y + num381 * 2f;
-                    return;
                 }
             }
             else if (projectile.velocity.Y > num383)
@@ -146,7 +145,6 @@ namespace CalamityMod.Projectiles.Melee
                 if (projectile.velocity.Y > 0f && num383 < 0f)
                 {
                     projectile.velocity.Y = projectile.velocity.Y - num381 * 2f;
-                    return;
                 }
             }
         }

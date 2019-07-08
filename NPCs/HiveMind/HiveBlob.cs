@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.HiveMind
 {
@@ -43,9 +44,9 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			bool expertMode = Main.expertMode;
 			bool revenge = CalamityWorld.revenge;
-			if (!Main.npc[CalamityGlobalNPC.hiveMind].active)
+			if (CalamityGlobalNPC.hiveMind < 0 || !Main.npc[CalamityGlobalNPC.hiveMind].active)
 			{
-				npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
+				npc.active = false;
 				npc.netUpdate = true;
 				return;
 			}

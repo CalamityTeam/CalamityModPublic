@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wingman");
-        }
+			Tooltip.SetDefault("Fires a concentrated laser beam");
+		}
 
         public override void SetDefaults()
         {
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.Weapons
             int num6 = 3;
             for (int index = 0; index < num6; ++index)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 440, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 440, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

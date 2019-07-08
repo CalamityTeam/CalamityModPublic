@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -25,6 +26,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
 			npc.noGravity = true;
+			npc.lavaImmune = true;
 			npc.damage = 60;
 			npc.width = 126;
 			npc.height = 66;
@@ -39,6 +41,22 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.knockBackResist = 0.85f;
 			banner = npc.type;
 			bannerItem = mod.ItemType("DevilFishBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(hasBeenHit);
+			writer.Write(brokenMask);
+			writer.Write(hitCounter);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			hasBeenHit = reader.ReadBoolean();
+			brokenMask = reader.ReadBoolean();
+			hitCounter = reader.ReadInt32();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()

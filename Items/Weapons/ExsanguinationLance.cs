@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Exsanguination Lance");
+			Tooltip.SetDefault("Explodes on enemy hits and summons homing flares on critical hits");
 		}
 
 		public override void SetDefaults()

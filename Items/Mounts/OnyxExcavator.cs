@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System;
 using CalamityMod.Items;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
+using CalamityMod.World;
 
 namespace CalamityMod.Items.Mounts
 {
@@ -29,14 +30,14 @@ namespace CalamityMod.Items.Mounts
 			int[] array = new int[mountData.totalFrames];
 			for (int l = 0; l < array.Length; l++)
 			{
-				array[l] = 4;
+				array[l] = 2;
 			}
-			array[1] = 2;
-			array[5] = 2;
+			array[1] = 0;
+			array[5] = 0;
 			mountData.playerYOffsets = array;
 			mountData.xOffset = 0; //-6
 			mountData.bodyFrame = 3;
-			mountData.yOffset = 0; //done
+			mountData.yOffset = -1; //done
 			mountData.playerHeadOffset = 10;
 			mountData.standingFrameCount = 1;
 			mountData.standingFrameDelay = 12;
@@ -140,11 +141,12 @@ namespace CalamityMod.Items.Mounts
 								if (tile != null && tile.active() && tile.type != (ushort)mod.TileType("AbyssGravel") &&
 									tile.type != (ushort)mod.TileType("Voidstone") && (tile.type != TileID.Hellstone || Main.hardMode) &&
 									(tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && tile.type != TileID.BlueDungeonBrick &&
-									tile.type != TileID.GreenDungeonBrick && tile.type != TileID.PinkDungeonBrick &&
+									tile.type != TileID.GreenDungeonBrick && tile.type != TileID.PinkDungeonBrick && tile.type != TileID.DemonAltar &&
 									(tile.type != (ushort)mod.TileType("AstralOre") || CalamityWorld.downedStarGod) &&
 									((tile.type != (ushort)mod.TileType("Tenebris") && tile.type != (ushort)mod.TileType("PlantyMush")) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
 									(!player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
-									(Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit))
+									(Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
+									!player.noBuilding && tile.type != TileID.ElderCrystalStand)
 								{
 									WorldGen.KillTile(num824, num825, false, false, false);
 									if (!Main.tile[num824, num825].active() && Main.netMode != 0)

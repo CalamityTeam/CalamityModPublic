@@ -15,9 +15,9 @@ namespace CalamityMod.Items.LoreItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cryogen");
-			Tooltip.SetDefault("You managed to bring down what dozens of sorcerers long ago could not.\n" +
+			Tooltip.SetDefault("The archmage's prison.\n" +
                 "I am unsure if it has grown weaker over the decades of imprisonment.\n" +
-				"Place in your inventory to gain a frost dash that freezes enemies.");
+				"Place in your inventory to gain a frost dash that freezes enemies, at the cost of slightly reduced defense.");
 		}
 		
 		public override void SetDefaults()
@@ -37,6 +37,7 @@ namespace CalamityMod.Items.LoreItems
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			modPlayer.dashMod = 6;
+			player.statDefense -= 10;
 		}
 	}
 }

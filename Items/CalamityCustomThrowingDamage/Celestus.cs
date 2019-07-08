@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestus");
-        }
+			Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits");
+		}
 
         public override void SafeSetDefaults()
         {

@@ -15,6 +15,7 @@ namespace CalamityMod
 		public static bool DisableExpertEnemySpawnsNearHouse = false;
 		public static bool ExpertPillarEnemyKillCountReduction = true;
 		public static bool LethalLava = true;
+		public static bool RevengeanceAndDeathThoriumBossBuff = false;
 
 		public static bool BossRushAccessoryCurse = false;
 		public static bool BossRushHealthCurse = false;
@@ -51,6 +52,7 @@ namespace CalamityMod
 			DisableExpertEnemySpawnsNearHouse = false;
 			ExpertPillarEnemyKillCountReduction = true;
 			LethalLava = true;
+			RevengeanceAndDeathThoriumBossBuff = false;
 
 			BossRushAccessoryCurse = false;
 			BossRushHealthCurse = false;
@@ -77,6 +79,7 @@ namespace CalamityMod
 				Configuration.Get("DisableExpertEnemySpawnsNearHouse", ref DisableExpertEnemySpawnsNearHouse);
 				Configuration.Get("ExpertPillarEnemyKillCountReduction", ref ExpertPillarEnemyKillCountReduction);
 				Configuration.Get("LethalLava", ref LethalLava);
+				Configuration.Get("RevengeanceAndDeathThoriumBossBuff", ref RevengeanceAndDeathThoriumBossBuff);
 
 				Configuration.Get("BossRushAccessoryCurse", ref BossRushAccessoryCurse);
 				Configuration.Get("BossRushHealthCurse", ref BossRushHealthCurse);
@@ -105,6 +108,7 @@ namespace CalamityMod
 			Configuration.Put("DisableExpertEnemySpawnsNearHouse", DisableExpertEnemySpawnsNearHouse);
 			Configuration.Put("ExpertPillarEnemyKillCountReduction", ExpertPillarEnemyKillCountReduction);
 			Configuration.Put("LethalLava", LethalLava);
+			Configuration.Put("RevengeanceAndDeathThoriumBossBuff", RevengeanceAndDeathThoriumBossBuff);
 
 			Configuration.Put("BossRushAccessoryCurse", BossRushAccessoryCurse);
 			Configuration.Put("BossRushHealthCurse", BossRushHealthCurse);
@@ -141,7 +145,7 @@ namespace CalamityMod
 					LethalLava);
 
 				var data2 = new BitsByte(BossRushAccessoryCurse, BossRushHealthCurse, BossRushDashCurse,
-					BossRushXerocCurse, BossRushImmunityFrameCurse);
+					BossRushXerocCurse, BossRushImmunityFrameCurse, RevengeanceAndDeathThoriumBossBuff);
 
 				writer.Write(data);
 				writer.Write(data2);
@@ -173,6 +177,7 @@ namespace CalamityMod
 				BossRushDashCurse = data2[2];
 				BossRushXerocCurse = data2[3];
 				BossRushImmunityFrameCurse = data2[4];
+				RevengeanceAndDeathThoriumBossBuff = data2[5];
 
 				RageMeterXPos = reader.ReadInt32();
 				RageMeterYPos = reader.ReadInt32();

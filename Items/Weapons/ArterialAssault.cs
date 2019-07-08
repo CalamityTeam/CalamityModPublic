@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arterial Assault");
-            Tooltip.SetDefault("Fires a chain of bloodfire arrows from the sky");
+            Tooltip.SetDefault("Fires a chain of arrows from the sky\n" +
+				"Wooden arrows are converted to bloodfire arrows");
         }
 
         public override void SetDefaults()

@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Xeroc Greatsword");
-            Tooltip.SetDefault("Fires homing plasma balls");
+            Tooltip.SetDefault("Fires a spread of homing plasma balls");
         }
 
         public override void SetDefaults()
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 500);
+            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

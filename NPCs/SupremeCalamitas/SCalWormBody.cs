@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -53,7 +54,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			npc.dontCountMe = true;
 		}
-		
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(npc.localAI[3]);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			npc.localAI[3] = reader.ReadSingle();
+		}
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;

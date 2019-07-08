@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hellfire Flamberge");
+			Tooltip.SetDefault("Fires a spread of fireballs");
 		}
 
 		public override void SetDefaults()

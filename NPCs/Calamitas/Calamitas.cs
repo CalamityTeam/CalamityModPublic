@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Calamitas
 {
@@ -28,10 +29,10 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.height = 120; //216
 			npc.defense = 15;
 			npc.value = 0f;
-			npc.lifeMax = CalamityWorld.revenge ? 15000 : 10000;
+			npc.lifeMax = CalamityWorld.revenge ? 51750 : 37500;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 22500;
+				npc.lifeMax = 82750;
 			}
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
@@ -65,11 +66,11 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				npc.damage = 150;
 				npc.defense = 130;
-				npc.lifeMax = 80000;
+				npc.lifeMax *= 3;
 			}
 			if (CalamityWorld.bossRushActive)
 			{
-				npc.lifeMax = CalamityWorld.death ? 1300000 : 1100000;
+				npc.lifeMax = CalamityWorld.death ? 4600000 : 4100000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
@@ -85,6 +86,23 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void AI()
 		{
+			if ((double)npc.life <= (double)npc.lifeMax * 0.75 && Main.netMode != 1)
+			{
+				NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun3"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+				string key = "Mods.CalamityMod.CalamitasBossText";
+				Color messageColor = Color.Orange;
+				if (Main.netMode == 0)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+				}
+				else if (Main.netMode == 2)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				}
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool dayTime = Main.dayTime;
@@ -227,11 +245,11 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 					{
-						npc.localAI[1] += 1f;
+						npc.localAI[1] += 0.5f;
 					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 					{
-						npc.localAI[1] += 2f;
+						npc.localAI[1] += 1f;
 					}
 					if (npc.localAI[1] > 180f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
@@ -246,7 +264,6 @@ namespace CalamityMod.NPCs.Calamitas
 						vector82.X += num825 * 15f;
 						vector82.Y += num826 * 15f;
 						Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, num830, num829 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-						return;
 					}
 				}
 			}
@@ -311,15 +328,15 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 					{
-						npc.localAI[1] += 1f;
+						npc.localAI[1] += 0.5f;
 					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 					{
-						npc.localAI[1] += 1.5f;
+						npc.localAI[1] += 1f;
 					}
 					if (Main.expertMode || CalamityWorld.bossRushActive)
 					{
-						npc.localAI[1] += 1.5f;
+						npc.localAI[1] += 0.5f;
 					}
 					if (npc.localAI[1] > 60f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
@@ -344,7 +361,6 @@ namespace CalamityMod.NPCs.Calamitas
 					npc.ai[3] = 0f;
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
-					return;
 				}
 			}
 		}
@@ -431,30 +447,6 @@ namespace CalamityMod.NPCs.Calamitas
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
-		}
-
-		public override bool CheckDead()
-		{
-			if (Main.netMode != 1)
-			{
-				NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun3"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-				NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-				NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-			}
-			string key = "Mods.CalamityMod.CalamitasBossText";
-			string key2 = "Mods.CalamityMod.CalamitasBossText2";
-			Color messageColor = Color.Orange;
-			if (Main.netMode == 0)
-			{
-				Main.NewText(Language.GetTextValue(key), messageColor);
-				Main.NewText(Language.GetTextValue(key2), messageColor);
-			}
-			else if (Main.netMode == 2)
-			{
-				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor);
-			}
-			return true;
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

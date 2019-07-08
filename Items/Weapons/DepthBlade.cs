@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Depth Blade");
-			Tooltip.SetDefault("Hitting enemies will cause the crush depth debuff\nThe lower the enemies' defense the more damage they take from this debuff");
+			Tooltip.SetDefault("Hitting enemies will cause the crush depth debuff\n" +
+				"The lower the enemies' defense the more damage they take from this debuff");
 		}
 
 		public override void SetDefaults()

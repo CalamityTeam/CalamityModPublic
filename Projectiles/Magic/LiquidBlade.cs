@@ -148,12 +148,12 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.owner == Main.myPlayer)
     		{
-    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("LiquidBlade2"), (int)((double)projectile.damage * 0.75f), 1f, projectile.owner);
+    			Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("LiquidBlade2"), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
     		}
         	target.AddBuff(BuffID.Ichor, 600);
         	target.AddBuff(BuffID.Frostburn, 600);
         	target.AddBuff(BuffID.OnFire, 600);
         	target.AddBuff(BuffID.CursedInferno, 600);
         }
-    }
+	}
 }

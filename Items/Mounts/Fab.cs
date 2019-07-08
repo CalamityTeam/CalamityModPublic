@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Mounts
 			mountData.spawnDust = 234;
 			mountData.spawnDustNoGravity = true;
 			mountData.buff = mod.BuffType("Fab");
-			mountData.heightBoost = 20;
+			mountData.heightBoost = 34;
 			mountData.fallDamage = 0f; //0.5
 			mountData.runSpeed = 7f; //12
 			mountData.dashSpeed = 21f; //8
@@ -41,8 +41,8 @@ namespace CalamityMod.Items.Mounts
 			mountData.playerYOffsets = array;
 			mountData.xOffset = 0;
 			mountData.bodyFrame = 3;
-			mountData.yOffset = 0; //-8
-			mountData.playerHeadOffset = 26; //30
+			mountData.yOffset = 7; //-8
+			mountData.playerHeadOffset = 36; //30
 			mountData.standingFrameCount = 1;
 			mountData.standingFrameDelay = 12;
 			mountData.standingFrameStart = 0;

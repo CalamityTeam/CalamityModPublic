@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons
 	
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 2000);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 600);
 		}
 	}
 }

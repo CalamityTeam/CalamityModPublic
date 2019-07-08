@@ -60,7 +60,7 @@ namespace CalamityMod.Items
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.LifeFruit, 5);
-			recipe.AddIngredient(null, "AstralBar", 5);
+			recipe.AddIngredient(null, "AstralJelly", 5);
 			recipe.AddIngredient(null, "LivingShard", 10);
 			recipe.AddIngredient(null, "Stardust", 20);
 	        recipe.AddTile(TileID.MythrilAnvil);

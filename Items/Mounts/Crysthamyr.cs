@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Mounts
 			mountData.spawnDust = 173;
 			mountData.spawnDustNoGravity = true;
 			mountData.buff = mod.BuffType("GazeOfCrysthamyrBuff");
-			mountData.heightBoost = 20;
+			mountData.heightBoost = 36;
 			mountData.fallDamage = 0f;
 			mountData.runSpeed = 5f;
 			mountData.dashSpeed = 15f;
@@ -46,8 +46,8 @@ namespace CalamityMod.Items.Mounts
 			mountData.playerYOffsets = array;
 			mountData.xOffset = -56;
 			mountData.bodyFrame = 3;
-			mountData.yOffset = -28; //done
-			mountData.playerHeadOffset = 26; //30
+			mountData.yOffset = -20; //done
+			mountData.playerHeadOffset = 38; //30
 			mountData.standingFrameCount = 5;
 			mountData.standingFrameDelay = 12;
 			mountData.standingFrameStart = 0;

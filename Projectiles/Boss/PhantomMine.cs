@@ -7,48 +7,48 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-    public class PhantomMine : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class PhantomMine : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom Orb");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.hostile = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 480;
-            cooldownSlot = 1;
-        }
 
-        public override void AI()
-        {
-            if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 12f)
-            {
-                projectile.velocity *= 1.05f;
-            }
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 30;
+			projectile.height = 30;
+			projectile.hostile = true;
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.timeLeft = 480;
+			cooldownSlot = 1;
+		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, projectile.alpha);
-        }
+		public override void AI()
+		{
+			if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 12f)
+			{
+				projectile.velocity *= 1.05f;
+			}
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 150;
 			projectile.height = 150;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 15; num621++)
+			for (int num621 = 0; num621 < 15; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 180, 0f, 0f, 100, default(Color), 1.2f);
 				Main.dust[num622].velocity *= 3f;
@@ -66,6 +66,6 @@ namespace CalamityMod.Projectiles.Boss
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
-    }
+		}
+	}
 }

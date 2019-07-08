@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class StellarCulex : ModNPC
@@ -30,16 +32,23 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.height = 50;
             npc.aiStyle = 14; //bats
             npc.npcSlots = 0.5f; //needed?
-            npc.damage = 90;
-            npc.defense = 28;
-            npc.knockBackResist = 0.55f;
-            npc.lifeMax = 320;
+            npc.damage = 55;
+            npc.defense = 18;
+            npc.knockBackResist = 0.65f;
+            npc.lifeMax = 210;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.buffImmune[31] = false;
             animationType = NPCID.GiantFlyingFox;
 			banner = npc.type;
 			bannerItem = mod.ItemType("StellarCulexBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 90;
+				npc.defense = 28;
+				npc.knockBackResist = 0.55f;
+				npc.lifeMax = 320;
+			}
 		}
 
         public override void FindFrame(int frameHeight)

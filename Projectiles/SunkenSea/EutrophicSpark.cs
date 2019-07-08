@@ -84,7 +84,6 @@ namespace CalamityMod.Projectiles.SunkenSea
 			if (projectile.velocity.Y > 16f)
 			{
 				projectile.velocity.Y = 16f;
-				return;
 			}
         }
         

@@ -20,6 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		
 		public override void SetDefaults()
 		{
+			npc.lavaImmune = true;
 			npc.aiStyle = 14;
             aiType = 151;
 			npc.damage = 35;

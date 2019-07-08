@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.localAI[0] = 0f;
 				}
 			}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.5f) / 255f, 0f);
         	if (Main.rand.Next(2) == 0)
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f);
@@ -61,8 +61,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 6;
-            target.AddBuff(BuffID.OnFire, 200);
-            target.AddBuff(mod.BuffType("Plague"), 200);
+            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(mod.BuffType("Plague"), 300);
 			if (target.life <= (target.lifeMax * 0.15f))
 			{
 				Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);

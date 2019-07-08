@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
@@ -126,7 +127,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.localAI[0] = 0f;
             }
-            if (Main.netMode != 1 && npc.localAI[0] >= 90f)
+            if (Main.netMode != 1 && npc.localAI[0] >= 180f)
 			{
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))

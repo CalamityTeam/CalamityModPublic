@@ -10,6 +10,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
+using CalamityMod.World;
+
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
     public class FusionFeeder : ModNPC
@@ -29,17 +31,24 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.noGravity = true;
             npc.width = 120;
             npc.height = 24;
-            npc.damage = 64;
+            npc.damage = 45;
             npc.aiStyle = 103;
-            npc.lifeMax = 600;
-            npc.defense = 22;
+            npc.lifeMax = 400;
+            npc.defense = 12;
             npc.value = Item.buyPrice(0, 0, 20, 0);
-            npc.knockBackResist = 0.7f;
+            npc.knockBackResist = 0.8f;
             npc.behindTiles = true;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             animationType = NPCID.SandShark;
 			banner = npc.type;
 			bannerItem = mod.ItemType("FusionFeederBanner");
+			if (CalamityWorld.downedAstrageldon)
+			{
+				npc.damage = 65;
+				npc.defense = 22;
+				npc.knockBackResist = 0.7f;
+				npc.lifeMax = 600;
+			}
 		}
 
         public override void FindFrame(int frameHeight)

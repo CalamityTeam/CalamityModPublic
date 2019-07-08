@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Earth4 : ModProjectile
     {
-    	public int noTileHitCounter = 120;
+    	private int noTileHitCounter = 120;
     	
     	public override void SetStaticDefaults()
 		{
@@ -81,10 +81,9 @@ namespace CalamityMod.Projectiles.Melee
 				if (Main.rand.Next(20) == 0)
 				{
 					Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
-					return;
 				}
 			}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 1.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0f, 1.5f, 0f);
         }
 
         public override void Kill(int timeLeft)

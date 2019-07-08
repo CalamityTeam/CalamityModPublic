@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spyker");
-			Tooltip.SetDefault("Fires spikes that stick to enemies/tiles and explode into shrapnel that also stick to enemies/tiles and explode");
+			Tooltip.SetDefault("Fires spikes that stick to enemies, tiles, and explode into shrapnel");
 		}
 
 	    public override void SetDefaults()

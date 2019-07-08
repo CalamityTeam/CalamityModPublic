@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Daedalus Circlet");
-            Tooltip.SetDefault("5% increased minion damage and +2 max minions\n" +
-                "Immune to Cursed and gives control over gravity");
+            Tooltip.SetDefault("5% increased minion damage and +2 max minions");
         }
 
         public override void SetDefaults()
@@ -63,8 +62,6 @@ namespace CalamityMod.Items.Armor
         {
             player.minionDamage += 0.05f;
             player.maxMinions += 2;
-            player.AddBuff(BuffID.Gravitation, 2);
-            player.buffImmune[BuffID.Cursed] = true;
         }
 
         public override void AddRecipes()

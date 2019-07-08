@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dune Hopper");
-        }
+			Tooltip.SetDefault("Throws a spear that bounces a lot");
+		}
 
 		public override void SafeSetDefaults()
 		{

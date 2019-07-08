@@ -69,7 +69,6 @@ namespace CalamityMod.Projectiles.Ranged
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
 
@@ -83,8 +82,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-    		target.AddBuff(BuffID.OnFire, 200);
-    		target.AddBuff(BuffID.Ichor, 100);
+    		target.AddBuff(BuffID.OnFire, 90);
+    		target.AddBuff(BuffID.Ichor, 60);
         }
     }
 }

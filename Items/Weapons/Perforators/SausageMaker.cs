@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sausage Maker");
+			Tooltip.SetDefault("Sprays homing blood on enemy hits");
 		}
 
 		public override void SetDefaults()

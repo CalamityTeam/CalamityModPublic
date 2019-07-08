@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Energy Staff");
+			Tooltip.SetDefault("Summons a profaned energy turret to fight for you");
 			Item.staff[item.type] = true;
 		}
 

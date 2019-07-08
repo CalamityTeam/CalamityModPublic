@@ -48,8 +48,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(BuffID.ManaSickness, 120);
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+        	target.AddBuff(BuffID.Weak, 120);
         }
     }
 }

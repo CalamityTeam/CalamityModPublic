@@ -8,29 +8,29 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class TheObliterator : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class TheObliterator : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Obliterator");
 		}
-    	
-        public override void SetDefaults()
-        {
-        	projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 1;
-            aiType = 555;
-            projectile.melee = true;
-            projectile.usesLocalNPCImmunity = true;
+
+		public override void SetDefaults()
+		{
+			projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);
+			projectile.width = 16;
+			projectile.height = 16;
+			projectile.penetrate = -1;
+			projectile.extraUpdates = 1;
+			aiType = 555;
+			projectile.melee = true;
+			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 3;
-        }
-        
-        public override void AI()
-        {
-            int[] array = new int[20];
+		}
+
+		public override void AI()
+		{
+			int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
 			bool flag14 = false;
@@ -78,12 +78,18 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					}
 				}
 			}
-        }
+		}
 
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 origin = new Vector2(10f, 10f);
 			spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/Yoyos/TheObliteratorGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 600);
+			target.AddBuff(BuffID.Frostburn, 600);
 		}
 	}
 }

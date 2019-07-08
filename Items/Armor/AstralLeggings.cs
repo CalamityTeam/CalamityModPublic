@@ -23,9 +23,9 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 18, 0, 0);
-			item.rare = 7;
-            item.defense = 17;
+			item.value = Item.buyPrice(0, 24, 0, 0);
+			item.rare = 9;
+            item.defense = 21;
         }
 
         public override void UpdateEquip(Player player)
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AstralBar", 10);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

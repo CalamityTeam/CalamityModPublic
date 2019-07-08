@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
         	projectile.velocity.Y *= 1.015f;
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] == 18f)
+            if (projectile.localAI[0] == 30f)
             {
                 projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)

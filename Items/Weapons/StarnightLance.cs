@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starnight Lance");
-        }
+			Tooltip.SetDefault("Shoots a starnight beam");
+		}
 
         public override void SetDefaults()
         {

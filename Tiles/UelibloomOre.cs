@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Uelibloom Ore");
  			AddMapEntry(new Color(0, 255, 0), name);
 			mineResist = 5f;
-			minPick = 249;
+			minPick = 250;
 			soundType = 21;
 			Main.tileSpelunker[Type] = true;
 		}

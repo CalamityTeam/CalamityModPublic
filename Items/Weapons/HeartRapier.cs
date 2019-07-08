@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heart Rapier");
-			Tooltip.SetDefault("Heals the player upon striking enemies");
+			Tooltip.SetDefault("Heals the player on enemy hits");
 		}
 
 		public override void SetDefaults()

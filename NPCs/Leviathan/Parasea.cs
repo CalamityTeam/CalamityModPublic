@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -44,6 +45,12 @@ namespace CalamityMod.NPCs.Leviathan
         public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
+			if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return;
+			}
 			npc.TargetClosest(true);
 			Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
 			float num1258 = Main.player[npc.target].Center.X - vector145.X;
@@ -56,7 +63,6 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
 			npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + 3.14f; //1.57
-			return;
 		}
 		
 		public override void FindFrame(int frameHeight)

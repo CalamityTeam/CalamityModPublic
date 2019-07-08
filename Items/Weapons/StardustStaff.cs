@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eidolon Staff");
-            Tooltip.SetDefault("The power of an ancient cultist resonates within this staff");
+            Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
+				"Fires a spread of ancient light and has a chance to fire a spinning ice cluster");
             Item.staff[item.type] = true;
         }
 

@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("True Caustic Edge");
-            Tooltip.SetDefault("Pestilent Defilement");
+            Tooltip.SetDefault("Fires a bouncing caustic beam\n" +
+				"Inflicts on fire, poison, and venom");
         }
 
         public override void SetDefaults()

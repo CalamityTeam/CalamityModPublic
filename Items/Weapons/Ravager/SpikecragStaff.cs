@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ravager
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spikecrag Staff");
-			Tooltip.SetDefault("Summons an spikecrag to protect you");
+			Tooltip.SetDefault("Summons a spikecrag to protect you");
 		}
 
 	    public override void SetDefaults()

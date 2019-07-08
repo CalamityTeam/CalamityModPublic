@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("SDFMG");
-            Tooltip.SetDefault("It came from the edge of Terraria\n50% chance to not consume ammo");
+            Tooltip.SetDefault("It came from the edge of Terraria\n" +
+				"50% chance to not consume ammo");
         }
 
         public override void SetDefaults()
@@ -45,9 +46,9 @@ namespace CalamityMod.Items.Weapons
             float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
             if (Main.rand.Next(5) == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FishronRPG"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FishronRPG"), damage, knockBack, player.whoAmI, 0f, 0f);
             }
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

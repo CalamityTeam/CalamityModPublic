@@ -22,7 +22,7 @@ namespace CalamityMod.Items.DesertScourge
             item.width = 18;
             item.height = 26;
             item.value = Item.buyPrice(0, 6, 0, 0);
-            item.rare = 2;
+            item.rare = 9;
             item.accessory = true;
             item.expert = true;
         }

@@ -86,20 +86,18 @@ namespace CalamityMod.Projectiles.Magic
 					Main.dust[num898].noGravity = true;
 					Main.dust[num898].velocity *= 0.1f;
 					Main.dust[num898].velocity -= projectile.velocity * (1.3f - projectile.scale);
-					//Main.dust[num898].fadeIn = (float)(100 + projectile.owner);
 					Main.dust[num898].scale += projectile.scale * 0.75f;
 					num897++;
 				}
-				return;
 			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 100);
-        	target.AddBuff(mod.BuffType("GlacialState"), 100);
-        	target.AddBuff(mod.BuffType("Plague"), 100);
-        	target.AddBuff(mod.BuffType("HolyLight"), 100);
+        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+        	target.AddBuff(mod.BuffType("GlacialState"), 120);
+        	target.AddBuff(mod.BuffType("Plague"), 120);
+        	target.AddBuff(mod.BuffType("HolyLight"), 120);
         }
     }
 }

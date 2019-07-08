@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Conclave Crossfire");
-			Tooltip.SetDefault("50% chance to not consume ammo");
+			Tooltip.SetDefault("50% chance to not consume ammo\n" +
+				"Fires two spreads of bullets, one from the gun and one from the sky");
 		}
 
 	    public override void SetDefaults()

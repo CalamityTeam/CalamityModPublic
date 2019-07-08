@@ -12,7 +12,7 @@ using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
 using CalamityMod.NPCs.Calamitas;
-using CalamityMod;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Calamitas
 {
@@ -36,10 +36,10 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.width = 120;
 			npc.height = 120;
 			npc.defense = 25;
-			npc.lifeMax = CalamityWorld.revenge ? 36750 : 27500;
+			npc.lifeMax = CalamityWorld.revenge ? 38812 : 28125;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 60250;
+				npc.lifeMax = 62062;
 			}
 			npc.aiStyle = -1; //new
 			aiType = -1; //new
@@ -80,15 +80,29 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				npc.damage = 160;
 				npc.defense = 150;
-				npc.lifeMax = 120000;
+				npc.lifeMax *= 3;
 				npc.value = Item.buyPrice(0, 35, 0, 0);
 			}
 			if (CalamityWorld.bossRushActive)
 			{
-				npc.lifeMax = CalamityWorld.death ? 3300000 : 3000000;
+				npc.lifeMax = CalamityWorld.death ? 3450000 : 3075000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(secondStage);
+			writer.Write(halfLife);
+			writer.Write(npc.chaseable);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			secondStage = reader.ReadBoolean();
+			halfLife = reader.ReadBoolean();
+			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -101,6 +115,7 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void AI()
 		{
+			CalamityGlobalNPC.calamitas = npc.whoAmI;
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool dayTime = Main.dayTime;
@@ -140,28 +155,33 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				if (Main.netMode != 1)
 				{
-					int num660 = (int)((double)npc.lifeMax * 0.45);
+					int num660 = (int)((double)npc.lifeMax * 0.3); //70%, 40%, and 10%
 					if ((float)(npc.life + num660) < bossLife)
 					{
 						bossLife = (float)npc.life;
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("RedSpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("GraySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
-						if (CalamityWorld.death)
+						if (bossLife <= (float)npc.lifeMax * 0.1)
 						{
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("RedSpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("GraySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+							string key = "Mods.CalamityMod.CalamitasBossText2";
+							Color messageColor = Color.Orange;
+							if (Main.netMode == 0)
+							{
+								Main.NewText(Language.GetTextValue(key), messageColor);
+							}
+							else if (Main.netMode == 2)
+							{
+								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+							}
 						}
-						string key = "Mods.CalamityMod.CalamitasBossText4";
-						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						else if (bossLife <= (float)npc.lifeMax * 0.4)
 						{
-							Main.NewText(Language.GetTextValue(key), messageColor);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 						}
-						else if (Main.netMode == 2)
+						else
 						{
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 						}
-						return;
 					}
 				}
 			}
@@ -169,10 +189,21 @@ namespace CalamityMod.NPCs.Calamitas
 			int num568 = 0;
 			if (expertMode)
 			{
-				if (NPC.AnyNPCs(mod.NPCType("CalamitasRun")) || NPC.AnyNPCs(mod.NPCType("CalamitasRun2")))
+				if (CalamityGlobalNPC.cataclysm != -1)
 				{
-					flag100 = true;
-					num568 += 255;
+					if (Main.npc[CalamityGlobalNPC.cataclysm].active)
+					{
+						flag100 = true;
+						num568 += 255;
+					}
+				}
+				if (CalamityGlobalNPC.catastrophe != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.catastrophe].active)
+					{
+						flag100 = true;
+						num568 += 255;
+					}
 				}
 				npc.defense += num568 * 50;
 				if (!flag100)
@@ -312,21 +343,24 @@ namespace CalamityMod.NPCs.Calamitas
 				if (Main.netMode != 1)
 				{
 					npc.localAI[1] += 1f;
-					if (revenge)
+					if (!flag100)
 					{
-						npc.localAI[1] += 0.5f;
-					}
-					if (CalamityWorld.death || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 1f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 1f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 1f;
+						if (revenge)
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+						{
+							npc.localAI[1] += 0.5f;
+						}
 					}
 					if (npc.localAI[1] > 180f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
@@ -345,7 +379,6 @@ namespace CalamityMod.NPCs.Calamitas
 						vector82.X += num825 * 15f;
 						vector82.Y += num826 * 15f;
 						Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, num830, num829 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-						return;
 					}
 				}
 			}
@@ -404,29 +437,32 @@ namespace CalamityMod.NPCs.Calamitas
 				if (Main.netMode != 1)
 				{
 					npc.localAI[1] += 1f;
-					if (revenge)
+					if (!flag100)
 					{
-						npc.localAI[1] += 0.5f;
-					}
-					if (CalamityWorld.death || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-					{
-						npc.localAI[1] += 1f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
-					if (expertMode)
-					{
-						npc.localAI[1] += 1.5f;
+						if (revenge)
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+						{
+							npc.localAI[1] += 0.5f;
+						}
+						if (expertMode)
+						{
+							npc.localAI[1] += 0.5f;
+						}
 					}
 					if (npc.localAI[1] > 60f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
@@ -451,7 +487,6 @@ namespace CalamityMod.NPCs.Calamitas
 					npc.ai[3] = 0f;
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
-					return;
 				}
 			}
 		}
@@ -548,7 +583,7 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-			name = "A Calamitas Doppelganger";
+			name = "The Calamitas Clone";
 			potionType = ItemID.GreaterHealingPotion;
 		}
 

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Onyx Chain Blaster");
-			Tooltip.SetDefault("50% chance to not consume ammo");
+			Tooltip.SetDefault("50% chance to not consume ammo\n" +
+				"Fires a spread of bullets and an onyx shard");
 		}
 
 	    public override void SetDefaults()
@@ -47,12 +48,12 @@ namespace CalamityMod.Items.Weapons
 		{
 		    float SpeedX = speedX + (float) Main.rand.Next(-25, 26) * 0.05f;
 		    float SpeedY = speedY + (float) Main.rand.Next(-25, 26) * 0.05f;
-		    Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.9f, SpeedY * 0.9f, 661, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+		    Projectile.NewProjectile(position.X, position.Y, SpeedX * 0.9f, SpeedY * 0.9f, 661, damage, knockBack, player.whoAmI, 0f, 0f);
 		    for (int i = 0; i <= 3; i++)
 		    {
 		    	float SpeedNewX = speedX + (float) Main.rand.Next(-45, 46) * 0.05f;
 		    	float SpeedNewY = speedY + (float) Main.rand.Next(-45, 46) * 0.05f;
-		    	Projectile.NewProjectile(position.X, position.Y, SpeedNewX, SpeedNewY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+		    	Projectile.NewProjectile(position.X, position.Y, SpeedNewX, SpeedNewY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 		    }
 		    return false;
 		}

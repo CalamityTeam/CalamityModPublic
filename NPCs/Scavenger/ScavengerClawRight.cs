@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Scavenger
 {
@@ -19,6 +20,7 @@ namespace CalamityMod.NPCs.Scavenger
 
 		public override void SetDefaults()
 		{
+			npc.lavaImmune = true;
 			npc.aiStyle = -1;
 			npc.damage = 88;
 			npc.width = 80; //324
@@ -65,7 +67,7 @@ namespace CalamityMod.NPCs.Scavenger
 
 		public override void AI()
 		{
-			if (!Main.npc[CalamityGlobalNPC.scavenger].active)
+			if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
 			{
 				npc.active = false;
 				npc.netUpdate = true;
@@ -209,7 +211,6 @@ namespace CalamityMod.NPCs.Scavenger
 				{
 					npc.noTileCollide = true;
 					npc.ai[0] = 0f;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f)

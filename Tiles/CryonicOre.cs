@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Tiles
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Tiles
  			name.SetDefault("Cryonic Ore");
  			AddMapEntry(new Color(0, 0, 150), name);
 			mineResist = 3f;
-			minPick = 179;
+			minPick = 180;
 			soundType = 21;
 			Main.tileSpelunker[Type] = true;
 		}

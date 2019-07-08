@@ -5,9 +5,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 using CalamityMod.Projectiles;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -15,8 +17,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 	public class CeaselessVoid : ModNPC
 	{
 		private float bossLife;
-		private float beamPortal = 0f;
-		private float shootBoost = 0;
+		private int beamPortal = 0;
+		private int shootBoost = 0;
 
 		public override void SetStaticDefaults()
 		{
@@ -26,16 +28,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void SetDefaults()
 		{
-			npc.damage = 0;
+			npc.damage = 150;
 			npc.npcSlots = 36f;
 			npc.width = 100; //324
 			npc.height = 100; //216
 			npc.defense = 0;
 			npc.lifeMax = 200;
-			if (Main.expertMode)
-			{
-				npc.lifeMax = 400;
-			}
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 			if (calamityModMusic != null)
 				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -63,6 +61,20 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.DeathSound = SoundID.NPCDeath14;
 		}
 
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(beamPortal);
+			writer.Write(shootBoost);
+			writer.Write(npc.dontTakeDamage);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			beamPortal = reader.ReadInt32();
+			shootBoost = reader.ReadInt32();
+			npc.dontTakeDamage = reader.ReadBoolean();
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;
@@ -71,8 +83,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.frame.Y = frame * frameHeight;
 		}
 
+		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			Texture2D texture = Main.npcTexture[npc.type];
+			CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor, true);
+			return false;
+		}
+
 		public override void AI()
 		{
+			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
+			int lifePercentage = (int)(100.0 * lifeRatio);
 			Player player = Main.player[npc.target];
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
@@ -115,21 +136,78 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			{
 				npc.timeLeft = 2400;
 			}
+			if (lifePercentage < 90)
+			{
+				float num472 = npc.Center.X;
+				float num473 = npc.Center.Y;
+				float num474 = (float)(500.0 * (1.0 - lifeRatio));
+				if (!player.ZoneDungeon)
+				{
+					num474 *= 1.5f;
+				}
+				npc.ai[0] += 1f;
+				if (npc.ai[0] == 60f)
+				{
+					npc.ai[0] = 0f;
+					int numDust = (int)(0.2f * MathHelper.TwoPi * num474);
+					float angleIncrement = MathHelper.TwoPi / (float)numDust;
+					Vector2 dustOffset = new Vector2(num474, 0f);
+					dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
+					for (int i = 0; i < numDust; i++)
+					{
+						dustOffset = dustOffset.RotatedBy(angleIncrement);
+						int dust = Dust.NewDust(npc.Center, 1, 1, 173);
+						Main.dust[dust].position = npc.Center + dustOffset;
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].fadeIn = 1f;
+						Main.dust[dust].velocity *= 0f;
+						Main.dust[dust].scale = 0.5f;
+					}
+					for (int num475 = 0; num475 < 255; num475++)
+					{
+						if (Collision.CanHit(npc.Center, 1, 1, Main.player[num475].Center, 1, 1))
+						{
+							float num476 = Main.player[num475].position.X + (float)(Main.player[num475].width / 2);
+							float num477 = Main.player[num475].position.Y + (float)(Main.player[num475].height / 2);
+							float num478 = Math.Abs(npc.position.X + (float)(npc.width / 2) - num476) + Math.Abs(npc.position.Y + (float)(npc.height / 2) - num477);
+							if (num478 < num474)
+							{
+								if (Main.player[num475].position.X < num472)
+								{
+									Main.player[num475].velocity.X += 15f;
+								}
+								else
+								{
+									Main.player[num475].velocity.X -= 15f;
+								}
+								if (Main.player[num475].position.Y < num473)
+								{
+									Main.player[num475].velocity.Y += 15f;
+								}
+								else
+								{
+									Main.player[num475].velocity.Y -= 15f;
+								}
+							}
+						}
+					}
+				}
+			}
 			if (Main.netMode != 1)
 			{
-				beamPortal += expertMode ? 2f : 1f;
+				beamPortal += expertMode ? 2 : 1;
 				beamPortal += shootBoost;
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
-					beamPortal += 4f;
+					beamPortal += 4;
 				}
 				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
-					beamPortal += 2f;
+					beamPortal += 2;
 				}
-				if (beamPortal >= 1200f)
+				if (beamPortal >= 1200)
 				{
-					beamPortal = 0f;
+					beamPortal = 0;
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
@@ -141,8 +219,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 						num944 = num941 / num944;
 						num942 *= num944;
 						num943 *= num944;
-						num942 += (float)Main.rand.Next(-10, 11) * 0.05f;
-						num943 += (float)Main.rand.Next(-10, 11) * 0.05f;
 						int num945 = expertMode ? 42 : 58;
 						int num946 = mod.ProjectileType("DoGBeamPortal");
 						vector104.X += num942 * 5f;
@@ -151,7 +227,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 						Main.projectile[num947].timeLeft = 300;
 						npc.netUpdate = true;
 					}
-					if (npc.life <= (int)((double)npc.lifeMax * 0.5) && revenge)
+					if (lifePercentage < 50 && revenge)
 					{
 						float spread = 45f * 0.0174f;
 						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
@@ -169,11 +245,15 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					}
 				}
 			}
-			float num823 = 10f;
-			float num824 = 0.2f;
+			float num823 = 7.5f;
+			float num824 = 0.1f;
+			if (!player.ZoneDungeon)
+			{
+				num823 = 15f;
+			}
 			Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 			float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-			float num826 = player.position.Y + (float)(player.height / 2) - 300f - vector82.Y;
+			float num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
 			float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
 			num827 = num823 / num827;
 			num825 *= num827;
@@ -222,7 +302,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					if ((float)(npc.life + num660) < bossLife)
 					{
 						bossLife = (float)npc.life;
-						shootBoost += 1f;
+						shootBoost += 1;
 						int glob = revenge ? 8 : 4;
 						if (bossLife <= 0.5f)
 						{
@@ -232,7 +312,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 						{
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("DarkEnergySpawn"), 0, 0f, Main.myPlayer, 0f, 0f);
 						}
-						return;
 					}
 				}
 			}

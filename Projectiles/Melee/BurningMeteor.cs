@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BurningMeteor : ModProjectile
     {
-    	public int noTileHitCounter = 120;
+    	private int noTileHitCounter = 120;
     	
     	public override void SetStaticDefaults()
 		{

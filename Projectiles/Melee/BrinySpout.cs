@@ -113,7 +113,6 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.ai[0] -= 1f;
 				num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
 				projectile.position.X = projectile.position.X + num624 * (float)(-(float)projectile.direction);
-				return;
 			}
         }
         

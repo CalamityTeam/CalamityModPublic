@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Galactus Blade");
-			Tooltip.SetDefault("Forged with the fury of nuclear chaos");
+			Tooltip.SetDefault("Forged with the fury of nuclear chaos\n" +
+				"Launches a barrage of comets from the sky");
 		}
 
 		public override void SetDefaults()

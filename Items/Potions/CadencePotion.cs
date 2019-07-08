@@ -10,8 +10,9 @@ namespace CalamityMod.Items.Potions
 		{
 			DisplayName.SetDefault("Cadance Potion");
 			Tooltip.SetDefault("Gives the cadence buff which reduces shop prices and enemy aggro\n" +
-							   "Increases life regen and increases max life by 10%\n" +
-							   "Increases heart pickup range");
+							   "Increases life regen and increases max life by 25%\n" +
+							   "Increases heart pickup range\n" +
+								"While this potion's buff is active, Regeneration Potion and Lifeforce Potion buffs are disabled");
 		}
 
 		public override void SetDefaults()

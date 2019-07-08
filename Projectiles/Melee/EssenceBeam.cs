@@ -7,36 +7,26 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EssenceBeam : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class EssenceBeam : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 10;
-            projectile.extraUpdates = 100;
-            projectile.timeLeft = 120;
-        }
 
-        public override void AI()
-        {
-        	if (projectile.velocity.X != projectile.velocity.X)
-			{
-				projectile.position.X = projectile.position.X + projectile.velocity.X;
-				projectile.velocity.X = -projectile.velocity.X;
-			}
-			if (projectile.velocity.Y != projectile.velocity.Y)
-			{
-				projectile.position.Y = projectile.position.Y + projectile.velocity.Y;
-				projectile.velocity.Y = -projectile.velocity.Y;
-			}
+		public override void SetDefaults()
+		{
+			projectile.width = 4;
+			projectile.height = 4;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.penetrate = 10;
+			projectile.extraUpdates = 100;
+			projectile.timeLeft = 120;
+		}
+
+		public override void AI()
+		{
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 3f)
 			{
@@ -50,14 +40,13 @@ namespace CalamityMod.Projectiles.Melee
 					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
 					Main.dust[num448].velocity *= 0.2f;
 				}
-				return;
 			}
-        }
-        
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-    	{
-        	target.AddBuff(mod.BuffType("GodSlayerInferno"), 500);
-        	target.immune[projectile.owner] = 2;
 		}
-    }
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+			target.immune[projectile.owner] = 2;
+		}
+	}
 }

@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
         	projectile.alpha = 50;
-			return;
         }
         
         public override void Kill(int timeLeft)

@@ -14,7 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gel Dart");
-        }
+			Tooltip.SetDefault("Throws bouncing darts");
+		}
 
         public override void SafeSetDefaults()
         {

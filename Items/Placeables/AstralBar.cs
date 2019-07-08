@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Placeables
             item.width = 16;
             item.height = 16;
             item.maxStack = 99;
-            item.rare = 7;
-			item.value = Item.buyPrice(0, 4, 50, 0);
+            item.rare = 9;
+			item.value = Item.buyPrice(0, 5, 50, 0);
 		}
 
         public override void AddRecipes()
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Placeables
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Stardust", 12);
             recipe.AddIngredient(mod.ItemType("AstralOre"), 8);
-            recipe.AddTile(TileID.AdamantiteForge);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this, 4);
             recipe.AddRecipe();
         }

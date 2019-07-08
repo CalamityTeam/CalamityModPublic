@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Majestic Guard");
-			Tooltip.SetDefault("Has a chance to lower enemy defense by 10 when striking them\nIf enemy defense is 0 or below your attacks will heal you");
+			Tooltip.SetDefault("Has a chance to lower enemy defense by 10 when striking them\n" +
+				"If enemy defense is 0 or below your attacks will heal you");
 		}
 
 		public override void SetDefaults()

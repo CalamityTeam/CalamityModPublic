@@ -14,6 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crystalline");
+			Tooltip.SetDefault("Splits into several projectiles as it travels");
 		}
 
 		public override void SafeSetDefaults()

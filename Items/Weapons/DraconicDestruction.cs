@@ -13,7 +13,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Draconic Destruction");
-			Tooltip.SetDefault("Fires a draconic sword beam that explodes into additional beams\nAdditional beams fly up and down to shred enemies");
+			Tooltip.SetDefault("Fires a draconic sword beam that explodes into additional beams\n" +
+				"Additional beams fly up and down to shred enemies");
 		}
 
 		public override void SetDefaults()
@@ -58,7 +59,7 @@ namespace CalamityMod.Items.Weapons
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-	    	target.AddBuff(BuffID.OnFire, 500);
+	    	target.AddBuff(BuffID.Daybreak, 600);
 		}
 	}
 }

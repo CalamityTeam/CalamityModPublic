@@ -11,8 +11,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 {
 	public class Horse : ModNPC
 	{
-		int chargetimer = 0;
-		int basespeed = 1;
+		private int chargetimer = 0;
+		private int basespeed = 1;
 
 		public override void SetStaticDefaults()
 		{
@@ -44,6 +44,18 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.rarity = 2;
 			banner = npc.type;
 			bannerItem = mod.ItemType("EarthElementalBanner");
+		}
+
+		public override void SendExtraAI(BinaryWriter writer)
+		{
+			writer.Write(chargetimer);
+			writer.Write(basespeed);
+		}
+
+		public override void ReceiveExtraAI(BinaryReader reader)
+		{
+			chargetimer = reader.ReadInt32();
+			basespeed = reader.ReadInt32();
 		}
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)

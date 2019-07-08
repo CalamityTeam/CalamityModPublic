@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tears of Heaven");
-            Tooltip.SetDefault("Casts slow-moving balls of heavenly light");
+            Tooltip.SetDefault("Casts slow-moving homing balls of heavenly light");
         }
 
         public override void SetDefaults()
