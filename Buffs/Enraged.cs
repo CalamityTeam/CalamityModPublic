@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Enraged");
-			Description.SetDefault("Enemies are enraged and do 1.5 times damage");
+			Description.SetDefault("All damage taken is increased by 25%");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;
