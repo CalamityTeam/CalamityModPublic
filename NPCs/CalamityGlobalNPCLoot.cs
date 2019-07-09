@@ -1507,9 +1507,12 @@ namespace CalamityMod.NPCs
 						{
 							npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("AeroStone"), 1, true);
 						}
-						if (Main.rand.Next(15) == 0)
+						if (NPC.downedBoss3)
 						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenBugNet);
+							if (Main.rand.Next(15) == 0)
+							{
+								Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GoldenBugNet);
+							}
 						}
 					}
 				}
