@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs.Fabsol
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Everclear");
-			Description.SetDefault("Damage and critical strike chance boosted, life regen and defense reduced");
+			Description.SetDefault("25% increased damage, -10 life regen and -40 defense");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;

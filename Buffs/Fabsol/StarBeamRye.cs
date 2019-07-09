@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs.Fabsol
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Star Beam Rye");
-			Description.SetDefault("Max mana, magic damage, and magic critical strike chance boosted, defense, mana usage, and life regen reduced");
+			Description.SetDefault("Max mana and magic damage increaseed. Defense, mana usage, and life regen reduced");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;

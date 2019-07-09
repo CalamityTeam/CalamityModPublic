@@ -12,7 +12,7 @@ namespace CalamityMod.Buffs.Fabsol
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Grape Beer");
-			Description.SetDefault("Life regen, defense, and movement speed reduced");
+			Description.SetDefault("Defense and movement speed reduced");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;
