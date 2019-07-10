@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons
 {
     public class StellarContemptMelee : ModItem
     {
-        public static int BaseDamage = 391;
+        public static int BaseDamage = 575;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()

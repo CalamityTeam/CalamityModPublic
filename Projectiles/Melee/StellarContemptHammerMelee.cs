@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
-        private static float ReboundTime = 20f;
+        private static float ReboundTime = 26f;
         private static int AfterimageDelay = 3;
 
         public override void SetStaticDefaults()

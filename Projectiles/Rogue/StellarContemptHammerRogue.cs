@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
-        private static float ReboundTime = 20f;
+        private static float ReboundTime = 26f;
         private static int AfterimageDelay = 3;
 
         public override void SetStaticDefaults()
@@ -178,7 +178,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     int idx = Projectile.NewProjectile(startPoint, velocity, 645, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     Main.projectile[idx].magic = false;
-                    Main.projectile[idx].melee = true;
+                    Main.projectile[idx].GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
                 }
             }
         }

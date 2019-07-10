@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Weapons
 {
     public class GalaxySmasherMelee : ModItem
     {
-        public static int BaseDamage = 1080;
+        public static int BaseDamage = 855;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()

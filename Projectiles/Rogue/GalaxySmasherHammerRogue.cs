@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
-        private static float ReboundTime = 24f;
+        private static float ReboundTime = 26f;
 
         public override void SetStaticDefaults()
         {

@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons
             item.damage = BaseDamage;
             item.knockBack = 9.5f;
             item.mana = 26;
-            item.useAnimation = 35;
-            item.useTime = 35;
+            item.useAnimation = 37;
+            item.useTime = 37;
             item.autoReuse = true;
             item.noMelee = true;
 

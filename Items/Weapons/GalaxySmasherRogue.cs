@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons
 {
     public class GalaxySmasherRogue : CalamityDamageItem
     {
-        public static int BaseDamage = 1080;
+        public static int BaseDamage = 855;
         public static float Speed = 18f;
 
         public override void SetStaticDefaults()
