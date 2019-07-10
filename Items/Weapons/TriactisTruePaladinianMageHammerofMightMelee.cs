@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TruePaladinsHammerMelee");
+            recipe.AddIngredient(null, "GalaxySmasherMelee");
             recipe.AddIngredient(ItemID.SoulofMight, 30);
             recipe.AddIngredient(null, "ShadowspecBar", 5);
             recipe.AddTile(null, "DraedonsForge");

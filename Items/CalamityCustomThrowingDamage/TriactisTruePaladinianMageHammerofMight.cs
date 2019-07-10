@@ -41,7 +41,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "TruePaladinsHammer");
+            recipe.AddIngredient(null, "GalaxySmasherRogue");
             recipe.AddIngredient(ItemID.SoulofMight, 30);
             recipe.AddIngredient(null, "ShadowspecBar", 5);
             recipe.AddTile(null, "DraedonsForge");
