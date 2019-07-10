@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using CalamityMod;
 using CalamityMod.NPCs;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
+using CalamityMod.World;
 
 namespace CalamityMod.Buffs
 {
@@ -65,15 +66,27 @@ namespace CalamityMod.Buffs
 
 		public override void ModifyBuffTip(int type, ref string tip, ref int rare)
 		{
-			if (type == BuffID.NebulaUpDmg1)
-				tip = "7.5% increased damage";
-			else if (type == BuffID.NebulaUpDmg2)
-				tip = "15% increased damage";
-			else if (type == BuffID.NebulaUpDmg3)
-				tip = "22.5% increased damage";
-			else if (type == BuffID.WeaponImbueVenom || type == BuffID.WeaponImbueCursedFlames || type == BuffID.WeaponImbueFire || type == BuffID.WeaponImbueGold ||
-				type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbueConfetti || type == BuffID.WeaponImbuePoison)
-				tip = "Rogue and " + tip;
+            if (type == BuffID.NebulaUpDmg1)
+                tip = "7.5% increased damage";
+            else if (type == BuffID.NebulaUpDmg2)
+                tip = "15% increased damage";
+            else if (type == BuffID.NebulaUpDmg3)
+                tip = "22.5% increased damage";
+            else if (type == BuffID.WeaponImbueVenom || type == BuffID.WeaponImbueCursedFlames || type == BuffID.WeaponImbueFire || type == BuffID.WeaponImbueGold ||
+                type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbueConfetti || type == BuffID.WeaponImbuePoison)
+                tip = "Rogue and " + tip;
+            else if (type == BuffID.IceBarrier)
+                tip = "Damage taken is reduced by 15%";
+            else if (type == BuffID.ChaosState && CalamityWorld.revenge)
+                tip += ". All damage taken increased by 50%";
+            else if (type == BuffID.Ichor)
+            {
+                tip = "Defense reduced by 20";
+                if (CalamityWorld.revenge)
+                    tip += ". All damage taken increased by 25%";
+            }
+            else if (type == BuffID.CursedInferno && CalamityWorld.revenge)
+                tip += ". All damage taken increased by 20%";
 		}
 	}
 }
