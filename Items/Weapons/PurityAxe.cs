@@ -11,7 +11,10 @@ namespace CalamityMod.Items.Weapons
 {
 	public class PurityAxe : ModItem
 	{
-		public override void SetStaticDefaults()
+        private static int AxePower = 25;
+        private static float PowderSpeed = 21f;
+
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Axe of Purity");
             Tooltip.SetDefault("Left click to use as a tool\nRight click to cleanse evil");
@@ -26,7 +29,7 @@ namespace CalamityMod.Items.Weapons
 	        item.useTime = 19;
 	        item.useAnimation = 19;
 	        item.useTurn = true;
-	        item.axe = 25;
+	        item.axe = AxePower;
 	        item.useStyle = 1;
 	        item.knockBack = 5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
@@ -40,17 +43,24 @@ namespace CalamityMod.Items.Weapons
             return true;
         }
 
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int idx = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Main.projectile[idx].melee = true;
+            return false;
+        }
+
         public override bool CanUseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
                 item.axe = 0;
                 item.shoot = ProjectileID.PurificationPowder;
-                item.shootSpeed = 12f;
+                item.shootSpeed = PowderSpeed;
             }
             else
             {
-                item.axe = 25;
+                item.axe = AxePower;
                 item.shoot = 0;
                 item.shootSpeed = 0f;
             }
