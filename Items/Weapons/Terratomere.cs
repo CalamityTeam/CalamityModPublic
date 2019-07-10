@@ -88,8 +88,8 @@ namespace CalamityMod.Items.Weapons
             {
                 target.AddBuff(mod.BuffType("GlacialState"), 300);
             }
-            target.AddBuff(BuffID.CursedInferno, 680);
-            target.AddBuff(BuffID.Frostburn, 620);
+            target.AddBuff(BuffID.CursedInferno, 600);
+            target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Ichor, 300);
             if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
