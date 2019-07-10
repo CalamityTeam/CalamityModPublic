@@ -4,4 +4,6 @@ bin/
 bin/*
 obj/
 obj/*
+Properties/
+Properties/*
 CalamityMod.csproj.user
