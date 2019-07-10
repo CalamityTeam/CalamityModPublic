@@ -98,10 +98,10 @@ namespace CalamityMod.Items.Weapons.RareVariants
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("HolyLight"), 500);
-			target.AddBuff(mod.BuffType("GlacialState"), 500);
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 500);
-			target.AddBuff(mod.BuffType("Plague"), 500);
+			target.AddBuff(mod.BuffType("HolyLight"), 480);
+			target.AddBuff(mod.BuffType("GlacialState"), 480);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 480);
+			target.AddBuff(mod.BuffType("Plague"), 480);
 		}
 	}
 }
