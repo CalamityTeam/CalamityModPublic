@@ -41,11 +41,11 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
 
-        public override void GetWeaponDamage(Player player, ref int damage)
+        // Gains 100% of missing health as base damage. CHECK to make sure this doesn't double-scale with melee damage boosts.
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            float damageAdd = ((float)lifeAmount + (float)item.damage);
-            damage = (int)(damageAdd * player.meleeDamage);
+            add += lifeAmount * player.meleeDamage;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

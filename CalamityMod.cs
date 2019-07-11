@@ -2110,7 +2110,7 @@ namespace CalamityMod
 					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleDeathCount(reader);
 					break;
 				default:
-					ErrorLogger.Log("CalamityMod: Unknown Message type: " + msgType);
+					Instance.Logger.Warn("Unknown Message type: " + msgType);
 					break;
 			}
 		}

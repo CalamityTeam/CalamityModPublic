@@ -737,7 +737,7 @@ namespace CalamityMod
 			}
 			else
 			{
-				ErrorLogger.Log("CalamityMod: Unknown loadVersion: " + loadVersion);
+				CalamityMod.Instance.Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
 		#endregion
@@ -5529,30 +5529,30 @@ namespace CalamityMod
 		#endregion
 
 		#region GetWeaponDamageAndKB
-		public override void GetWeaponDamage(Item item, ref int damage)
+		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult)
 		{
 			bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
 			if (isTrueMelee)
 			{
-				double damageMult = 1.0 +
-					(dodgeScarf ? 0.2 : 0.0) +
-					((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2.0 : 0.0) +
-					(DoGLore ? 0.5 : 0.0) +
-					(fungalSymbiote ? 0.25 : 0.0);
+				float damageMult = 1.0f +
+					(dodgeScarf ? 0.2f : 0.0f) +
+					((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2.0f : 0.0f) +
+					(DoGLore ? 0.5f : 0.0f) +
+					(fungalSymbiote ? 0.25f : 0.0f);
 
-				damage = (int)((double)damage * damageMult);
+                mult *= damageMult;
 			}
 			if (flamethrowerBoost && item.ranged && item.useAmmo == 23)
 			{
-				damage = (int)((double)damage * 1.25);
+                mult *= 1.25f;
 			}
 			if ((cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type)) || (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type)))
 			{
-				damage = (int)((double)damage * 1.15);
+                mult *= 1.15f;
 			}
 			if (fireball && CalamityMod.fireWeaponList.Contains(item.type))
 			{
-				damage = (int)((double)damage * 1.1);
+                mult *= 1.1f;
 			}
 			if (theBee && player.statLife >= player.statLifeMax2)
 			{

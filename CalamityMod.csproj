@@ -17,5 +17,8 @@
     <Reference Include="FNA">
       <HintPath>D:\Steam\steamapps\common\Terraria\ModCompile\FNA.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\TML Source\references\log4net.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

@@ -54,13 +54,13 @@ namespace CalamityMod.Items.Weapons
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
 	        }
 	    }
-	    
-	    public override void GetWeaponDamage(Player player, ref int damage)
+
+        // Gains 10% of missing health as base damage. CHECK to make sure this doesn't double-scale with melee damage boosts.
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult)
 	    {
 	    	int lifeAmount = player.statLifeMax2 - player.statLife;
-	    	float damageAdd = (((float)lifeAmount * 0.1f) + (float)item.damage);
-	    	damage = (int)(damageAdd * player.meleeDamage);
-	    }
+            add += lifeAmount * 0.1f * player.meleeDamage;
+        }
 	    
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {

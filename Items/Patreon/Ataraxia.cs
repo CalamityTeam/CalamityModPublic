@@ -42,11 +42,10 @@ namespace CalamityMod.Items.Patreon
 			item.shootSpeed = 9f;
 		}
 
-		public override void GetWeaponDamage(Player player, ref int damage)
+        // This does actually work, but we should probably remove it.
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult)
 		{
-			float damageBoost = (float)BaseDamage * player.GetModPlayer<CalamityPlayer>(mod).ataraxiaDamageBoost;
-			float damageAdd = damageBoost + (float)BaseDamage;
-			damage = (int)(damageAdd * player.meleeDamage);
+			mult = 1f + player.GetModPlayer<CalamityPlayer>(mod).ataraxiaDamageBoost;
 		}
 
 		// Fires one large and two small projectiles which stay together in formation.

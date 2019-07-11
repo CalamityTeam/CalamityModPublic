@@ -658,18 +658,19 @@ namespace CalamityMod
 			r.SetResult(ItemID.TerraBlade);
 			r.AddRecipe();
 		}
-		#endregion
+        #endregion
 
-		public static void AddRecipeGroups()
+        // Replace Lang.misc[37] ("Any") with the appropriate Language.GetText (no clue what the keys are)
+        public static void AddRecipeGroups()
 		{
-			RecipeGroup group = new RecipeGroup(() => Lang.misc[37] + (" Silt"), new int[]
+            RecipeGroup group = new RecipeGroup(() => "Any Silt", new int[]
 			{
 				ItemID.SiltBlock,
 				ItemID.SlushBlock
 			});
 			RecipeGroup.RegisterGroup("SiltGroup", group);
 
-			group = new RecipeGroup(() => Lang.misc[37] + (" Lunar Pickaxe"), new int[]
+			group = new RecipeGroup(() => "Any Lunar Pickaxe", new int[]
 			{
 				ItemID.SolarFlarePickaxe,
 				ItemID.VortexPickaxe,
@@ -678,7 +679,7 @@ namespace CalamityMod
 			});
 			RecipeGroup.RegisterGroup("LunarPickaxe", group);
 
-			group = new RecipeGroup(() => Lang.misc[37] + (" Lunar Hamaxe"), new int[]
+			group = new RecipeGroup(() => "Any Lunar Hamaxe", new int[]
 			{
 				ItemID.LunarHamaxeSolar,
 				ItemID.LunarHamaxeVortex,
@@ -687,7 +688,7 @@ namespace CalamityMod
 			});
 			RecipeGroup.RegisterGroup("LunarHamaxe", group);
 
-			group = new RecipeGroup(() => Lang.misc[37] + (" Wings"), new int[]
+			group = new RecipeGroup(() => "Any Wings", new int[]
 			{
 				ItemID.DemonWings,
 				ItemID.AngelWings,

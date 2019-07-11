@@ -298,7 +298,7 @@ namespace CalamityMod.Items
 			}
 			else
 			{
-				ErrorLogger.Log("CalamityMod: Unknown loadVersion: " + loadVersion);
+				CalamityMod.Instance.Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
 

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Yharon
 {
 	public class YharonBag : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
