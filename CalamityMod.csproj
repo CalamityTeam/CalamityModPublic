@@ -10,4 +10,12 @@
   <Target Name="BuildMod" AfterTargets="Build">
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TML Source\src\tModLoader\Terraria.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="FNA">
+      <HintPath>D:\Steam\steamapps\common\Terraria\ModCompile\FNA.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
