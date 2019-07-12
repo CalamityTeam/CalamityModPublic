@@ -7,6 +7,8 @@ namespace CalamityMod.Items.Yharon
 {
 	public class YharonBag : ModItem
 	{
+        public override int BossBagNPC => mod.NPCType("Yharon");
+
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
@@ -21,7 +23,6 @@ namespace CalamityMod.Items.Yharon
 			item.height = 24;
 			item.rare = 9;
 			item.expert = true;
-			bossBagNPC = mod.NPCType("Yharon");
 		}
 
 		public override bool CanRightClick()
