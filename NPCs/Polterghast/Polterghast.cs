@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 			float num734 = 2.5f;
 			float num735 = 0.025f;
-			if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive)
+			if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
 			{
 				despawnTimer--;
 				if (despawnTimer <= 0)

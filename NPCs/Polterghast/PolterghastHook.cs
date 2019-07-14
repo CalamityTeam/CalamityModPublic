@@ -71,7 +71,8 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.netUpdate = true;
                 return;
             }
-            if (CalamityGlobalNPC.ghostBoss != -1 && !Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].ZoneDungeon && !CalamityWorld.bossRushActive)
+            if (CalamityGlobalNPC.ghostBoss != -1 && !Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].ZoneDungeon &&
+				(double)Main.player[Main.npc[CalamityGlobalNPC.ghostBoss].target].position.Y < Main.worldSurface * 16.0 && !CalamityWorld.bossRushActive)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0) { despawnBoost = true; }
