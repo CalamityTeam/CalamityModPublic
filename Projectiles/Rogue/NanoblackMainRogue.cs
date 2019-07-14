@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -12,6 +11,8 @@ namespace CalamityMod.Projectiles.Rogue
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
         private static float ReboundTime = 50f;
+        private static int MinBladeTimer = 13;
+        private static int MaxBladeTimer = 18;
 
         public override void SetStaticDefaults()
 		{
@@ -39,6 +40,13 @@ namespace CalamityMod.Projectiles.Rogue
             drawOriginOffsetY = -4;
             drawOriginOffsetX = 0;
 
+            // Initialize the frame counter and random blade delay on the very first frame.
+            if (projectile.timeLeft == Lifetime)
+            {
+                projectile.ai[0] = 0f;
+                projectile.ai[1] = GetBladeDelay();
+            }
+
             // Produces electricity and green firework sparks constantly while in flight.
             if (Main.rand.Next(3) == 0)
             {
@@ -51,20 +59,17 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[idx].scale = scale;
             }
 
-            // ai[0] stores whether the scythe is returning. If 0, it isn't. If 1, it is.
-            if (projectile.ai[0] == 0f)
-			{
-				projectile.ai[1] += 1f;
-				if (projectile.ai[1] >= ReboundTime)
-				{
-					projectile.ai[0] = 1f;
-					projectile.ai[1] = 0f;
-					projectile.netUpdate = true;
-				}
-        	}
-        	else
-			{
-				projectile.tileCollide = false;
+            // ai[0] is a frame counter. ai[1] is a countdown to spawning the next nanoblack energy blade.
+            projectile.ai[0] += 1f;
+            projectile.ai[1] -= 1f;
+
+            // On the frame the scythe begins returning, send a net update.
+            if (projectile.ai[0] == ReboundTime)
+                projectile.netUpdate = true;
+
+            // The scythe runs its returning AI if the frame counter is greater than ReboundTime.
+            if (projectile.ai[0] >= ReboundTime)
+            {
                 float returnSpeed = NanoblackReaperRogue.Speed;
 				float acceleration = 2.4f;
                 Player owner = Main.player[projectile.owner];
@@ -113,14 +118,22 @@ namespace CalamityMod.Projectiles.Rogue
 						projectile.Kill();
         	}
 
-            // Create nanoblack energy blades while in flight after a delay.
-            if(Lifetime - projectile.timeLeft >= 4 && Main.rand.Next(16) == 0)
+            // Create nanoblack energy blades at a somewhat-random rate while in flight.
+            if (projectile.ai[1] <= 0f)
+            {
                 SpawnEnergyBlade();
+                projectile.ai[1] = GetBladeDelay();
+            }
 
             // Rotate the scythe as it flies.
             float spin = (projectile.direction <= 0) ? -1f : 1f;
         	projectile.rotation += spin * RotationIncrement;
 			return;
+        }
+
+        private int GetBladeDelay()
+        {
+            return Main.rand.Next(MinBladeTimer, MaxBladeTimer + 1);
         }
 
         private void SpawnEnergyBlade()

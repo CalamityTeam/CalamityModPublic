@@ -10,12 +10,15 @@ namespace CalamityMod.Projectiles.Melee
     public class NanoblackSplitMelee : ModProjectile
     {
         private static int SpriteWidth = 52;
-        private static float MaxRotationSpeed = 0.25f;
         private static int Lifetime = 90;
-        private static float HomingStartRange = 100f;
-        private static float HomingBreakRange = 600f;
-        private static float HomingBonusRange = 100f;
-        private static float MaxSpeed = 12f;
+        private static float MaxRotationSpeed = 0.25f;
+        private static float MaxSpeed = 22f;
+
+        private static float HomingStartRange = 500f;
+        private static float HomingBreakRange = 900f;
+        private static float HomingBonusRangeCap = 200f;
+        private static float BaseHomingFactor = 1.6f;
+        private static float MaxHomingFactor = 3.2f;
 
         public override void SetStaticDefaults()
 		{
@@ -30,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 6;
+            projectile.penetrate = 4;
             projectile.extraUpdates = 1;
             projectile.timeLeft = Lifetime;
             projectile.usesLocalNPCImmunity = true;
@@ -153,12 +156,11 @@ namespace CalamityMod.Projectiles.Melee
             return target;
         }
 
-        // Energy blades home more aggressively the closer they are to their target.
-        // The homing factor ranges from 0.6 to 3.6 at point blank.
+        // Energy blades home even more aggressively if they are very close to their target.
         private float CalcHomingFactor(float dist)
         {
-            float baseFactor = 0.6f;
-            float bonus = 3f * (1f - dist / HomingBonusRange);
+            float baseFactor = BaseHomingFactor;
+            float bonus = (MaxHomingFactor - BaseHomingFactor) * (1f - dist / HomingBonusRangeCap);
             if (bonus < 0f)
                 bonus = 0f;
             return baseFactor + bonus;

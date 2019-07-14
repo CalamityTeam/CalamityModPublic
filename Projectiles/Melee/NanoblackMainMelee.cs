@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Melee
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
         private static float ReboundTime = 50f;
+        private static int MinBladeTimer = 13;
+        private static int MaxBladeTimer = 18;
 
         public override void SetStaticDefaults()
 		{
@@ -31,12 +33,19 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
         }
-        
+
         public override void AI()
         {
             drawOffsetX = -11;
             drawOriginOffsetY = -4;
             drawOriginOffsetX = 0;
+
+            // Initialize the frame counter and random blade delay on the very first frame.
+            if (projectile.timeLeft == Lifetime)
+            {
+                projectile.ai[0] = 0f;
+                projectile.ai[1] = GetBladeDelay();
+            }
 
             // Produces electricity and green firework sparks constantly while in flight.
             if (Main.rand.Next(3) == 0)
@@ -50,76 +59,81 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[idx].scale = scale;
             }
 
-            // ai[0] stores whether the scythe is returning. If 0, it isn't. If 1, it is.
-            if (projectile.ai[0] == 0f)
-			{
-				projectile.ai[1] += 1f;
-				if (projectile.ai[1] >= ReboundTime)
-				{
-					projectile.ai[0] = 1f;
-					projectile.ai[1] = 0f;
-					projectile.netUpdate = true;
-				}
-        	}
-        	else
-			{
-				projectile.tileCollide = false;
+            // ai[0] is a frame counter. ai[1] is a countdown to spawning the next nanoblack energy blade.
+            projectile.ai[0] += 1f;
+            projectile.ai[1] -= 1f;
+
+            // On the frame the scythe begins returning, send a net update.
+            if (projectile.ai[0] == ReboundTime)
+                projectile.netUpdate = true;
+
+            // The scythe runs its returning AI if the frame counter is greater than ReboundTime.
+            if (projectile.ai[0] >= ReboundTime)
+            {
                 float returnSpeed = NanoblackReaperMelee.Speed;
-				float acceleration = 2.4f;
+                float acceleration = 2.4f;
                 Player owner = Main.player[projectile.owner];
 
                 // Delete the scythe if it's excessively far away.
                 Vector2 playerCenter = owner.Center;
-				float xDist = playerCenter.X - projectile.Center.X;
-				float yDist = playerCenter.Y - projectile.Center.Y;
-				float dist = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
-				if (dist > 3000f)
-					projectile.Kill();
+                float xDist = playerCenter.X - projectile.Center.X;
+                float yDist = playerCenter.Y - projectile.Center.Y;
+                float dist = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
+                if (dist > 3000f)
+                    projectile.Kill();
 
-				dist = returnSpeed / dist;
-				xDist *= dist;
-				yDist *= dist;
+                dist = returnSpeed / dist;
+                xDist *= dist;
+                yDist *= dist;
 
                 // Home back in on the player.
-				if (projectile.velocity.X < xDist)
-				{
-					projectile.velocity.X = projectile.velocity.X + acceleration;
-					if (projectile.velocity.X < 0f && xDist > 0f)
-						projectile.velocity.X += acceleration;
-				}
-				else if (projectile.velocity.X > xDist)
-				{
-					projectile.velocity.X = projectile.velocity.X - acceleration;
-					if (projectile.velocity.X > 0f && xDist < 0f)
-						projectile.velocity.X -= acceleration;
-				}
-				if (projectile.velocity.Y < yDist)
-				{
-					projectile.velocity.Y = projectile.velocity.Y + acceleration;
-					if (projectile.velocity.Y < 0f && yDist > 0f)
-						projectile.velocity.Y += acceleration;
-				}
-				else if (projectile.velocity.Y > yDist)
-				{
-					projectile.velocity.Y = projectile.velocity.Y - acceleration;
-					if (projectile.velocity.Y > 0f && yDist < 0f)
-						projectile.velocity.Y -= acceleration;
-				}
+                if (projectile.velocity.X < xDist)
+                {
+                    projectile.velocity.X = projectile.velocity.X + acceleration;
+                    if (projectile.velocity.X < 0f && xDist > 0f)
+                        projectile.velocity.X += acceleration;
+                }
+                else if (projectile.velocity.X > xDist)
+                {
+                    projectile.velocity.X = projectile.velocity.X - acceleration;
+                    if (projectile.velocity.X > 0f && xDist < 0f)
+                        projectile.velocity.X -= acceleration;
+                }
+                if (projectile.velocity.Y < yDist)
+                {
+                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
+                    if (projectile.velocity.Y < 0f && yDist > 0f)
+                        projectile.velocity.Y += acceleration;
+                }
+                else if (projectile.velocity.Y > yDist)
+                {
+                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
+                    if (projectile.velocity.Y > 0f && yDist < 0f)
+                        projectile.velocity.Y -= acceleration;
+                }
 
                 // Delete the projectile if it touches its owner.
-				if (Main.myPlayer == projectile.owner)
-					if (projectile.Hitbox.Intersects(owner.Hitbox))
-						projectile.Kill();
-        	}
+                if (Main.myPlayer == projectile.owner)
+                    if (projectile.Hitbox.Intersects(owner.Hitbox))
+                        projectile.Kill();
+            }
 
-            // Create nanoblack energy blades while in flight after a delay.
-            if(Lifetime - projectile.timeLeft >= 4 && Main.rand.Next(16) == 0)
+            // Create nanoblack energy blades at a somewhat-random rate while in flight.
+            if (projectile.ai[1] <= 0f)
+            {
                 SpawnEnergyBlade();
+                projectile.ai[1] = GetBladeDelay();
+            }
 
             // Rotate the scythe as it flies.
             float spin = (projectile.direction <= 0) ? -1f : 1f;
         	projectile.rotation += spin * RotationIncrement;
 			return;
+        }
+
+        private int GetBladeDelay()
+        {
+            return Main.rand.Next(MinBladeTimer, MaxBladeTimer + 1);
         }
 
         private void SpawnEnergyBlade()
