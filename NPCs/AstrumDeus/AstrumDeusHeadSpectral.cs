@@ -50,9 +50,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = 6; //new
+			npc.aiStyle = -1; //new
 			aiType = -1; //new
-			animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.scale = 1.2f;
 			if (Main.expertMode)
@@ -198,34 +197,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 						Main.npc[lol].ai[2] = (float)npc.whoAmI;
 						Main.npc[lol].ai[1] = (float)Previous;
 						Main.npc[Previous].ai[0] = (float)lol;
+						NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
 						Previous = lol;
 					}
 					tailSpawned = true;
 				}
-				if (!npc.active && Main.netMode == 2)
-				{
-					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
-				}
-			}
-			int num180 = (int)(npc.position.X / 16f) - 1;
-			int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
-			int num182 = (int)(npc.position.Y / 16f) - 1;
-			int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
-			if (num180 < 0)
-			{
-				num180 = 0;
-			}
-			if (num181 > Main.maxTilesX)
-			{
-				num181 = Main.maxTilesX;
-			}
-			if (num182 < 0)
-			{
-				num182 = 0;
-			}
-			if (num183 > Main.maxTilesY)
-			{
-				num183 = Main.maxTilesY;
 			}
 			bool canFly = flies;
 			if (Main.player[npc.target].dead || Main.dayTime)
@@ -248,18 +224,38 @@ namespace CalamityMod.NPCs.AstrumDeus
 					}
 				}
 			}
-			/*else if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 3600f)
+			int num180 = (int)(npc.position.X / 16f) - 1;
+			int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
+			int num182 = (int)(npc.position.Y / 16f) - 1;
+			int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+			if (num180 < 0)
 			{
-				if (Main.player[npc.target].velocity.X >= 0f)
-				{
-					npc.position.X = Main.player[npc.target].position.X + 800f;
-				}
-				else
-				{
-					npc.position.X = Main.player[npc.target].position.X - 800f;
-				}
-				npc.position.Y = Main.player[npc.target].position.Y;
-			}*/
+				num180 = 0;
+			}
+			if (num181 > Main.maxTilesX)
+			{
+				num181 = Main.maxTilesX;
+			}
+			if (num182 < 0)
+			{
+				num182 = 0;
+			}
+			if (num183 > Main.maxTilesY)
+			{
+				num183 = Main.maxTilesY;
+			}
+			if (npc.velocity.X < 0f)
+			{
+				npc.spriteDirection = -1;
+			}
+			else if (npc.velocity.X > 0f)
+			{
+				npc.spriteDirection = 1;
+			}
+			if (Main.player[npc.target].dead)
+			{
+				npc.TargetClosest(false);
+			}
 			float num188 = speed + speedBoost;
 			float num189 = turnSpeed + turnSpeedBoost;
 			Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -340,6 +336,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.velocity = Vector2.Zero;
 				npc.position.X = npc.position.X + num191;
 				npc.position.Y = npc.position.Y + num192;
+				if (num191 < 0f)
+				{
+					npc.spriteDirection = -1;
+				}
+				else if (num191 > 0f)
+				{
+					npc.spriteDirection = 1;
+				}
 			}
 			else
 			{

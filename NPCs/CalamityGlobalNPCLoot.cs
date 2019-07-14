@@ -30,8 +30,9 @@ namespace CalamityMod.NPCs
 			if (CalamityWorld.bossRushActive)
 				return BossRushLootCancel(npc, mod);
 
-            if (AbyssLootCancel(npc, mod))
-                return false;
+			bool abyssLootCancel = AbyssLootCancel(npc, mod);
+			if (abyssLootCancel)
+				return false;
 
 			if (CalamityWorld.revenge)
 			{
@@ -441,7 +442,7 @@ namespace CalamityMod.NPCs
 				((((double)(npc.position.Y / 16f) > (Main.rockLayer - (double)Main.maxTilesY * 0.05)) &&
 				abyssPosY && abyssPosX) || CalamityWorld.abyssTiles > 200) && !npc.buffImmune[mod.BuffType("CrushDepth")]);
 
-			return !hurtByAbyss;
+			return hurtByAbyss;
 		}
 		#endregion
 
