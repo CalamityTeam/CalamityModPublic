@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Patreon
 {
 	public class Ataraxia : ModItem
 	{
-		public static int BaseDamage = 3120;
+		public static int BaseDamage = 3750; // 3120 before scaling was removed; 20.2% buff
 
 		public override void SetStaticDefaults()
 		{
@@ -40,12 +40,6 @@ namespace CalamityMod.Items.Patreon
 
 			item.shoot = mod.ProjectileType("AtaraxiaMain");
 			item.shootSpeed = 9f;
-		}
-
-        // This does actually work, but we should probably remove it.
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult)
-		{
-			mult = 1f + player.GetModPlayer<CalamityPlayer>(mod).ataraxiaDamageBoost;
 		}
 
 		// Fires one large and two small projectiles which stay together in formation.

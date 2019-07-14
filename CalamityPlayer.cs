@@ -59,9 +59,6 @@ namespace CalamityMod
 		public int packetTimer = 0;
 		public int bloodflareHeartTimer = 180;
 		public int bloodflareManaTimer = 180;
-		public int ataraxiaDamageBoostCooldown = 0;
-		public int ataraxiaDamageBoostCancelTimer = 1200;
-		public float ataraxiaDamageBoost = 0f;
 		public float rogueStealth = 0f;
 		public float rogueStealthMax = 0f;
 		public float modStealth = 1f;
@@ -1176,11 +1173,8 @@ namespace CalamityMod
 			astralStarRainCooldown = 0;
 			bloodflareMageCooldown = 0;
 			tarraMageHealCooldown = 0;
-			ataraxiaDamageBoost = 0f;
 			bossRushImmunityFrameCurseTimer = 0;
 			aBulwarkRareMeleeBoostTimer = 0;
-			ataraxiaDamageBoostCooldown = 0;
-			ataraxiaDamageBoostCancelTimer = 1200;
 			theBeeDamage = 0;
 			wDeath = false;
 			lethalLavaBurn = false;
@@ -3849,27 +3843,6 @@ namespace CalamityMod
 				player.rangedDamage -= (1f - player.stealth) * 0.4f; //change 80 to 40
 				player.rangedCrit -= (int)((1f - player.stealth) * 5f); //change 20 to 15
 			}
-			if (player.inventory[player.selectedItem].type != mod.ItemType("Ataraxia"))
-			{
-				ataraxiaDamageBoost = 0f;
-				ataraxiaDamageBoostCancelTimer = 1200;
-			}
-			else
-			{
-				if (ataraxiaDamageBoostCancelTimer > 0)
-					ataraxiaDamageBoostCancelTimer--;
-				if (ataraxiaDamageBoostCancelTimer <= 0)
-				{
-					if (ataraxiaDamageBoost > 0f)
-						ataraxiaDamageBoost -= 0.01f;
-					if (ataraxiaDamageBoost < 0f)
-						ataraxiaDamageBoost = 0f;
-				}
-				if (ataraxiaDamageBoostCooldown > 0)
-					ataraxiaDamageBoostCooldown--;
-				if (ataraxiaDamageBoost > 0.3f)
-					ataraxiaDamageBoost = 0.3f;
-			}
 			if (projRefRareLifeRegenCounter > 0)
 			{
 				projRefRareLifeRegenCounter--;
@@ -6455,16 +6428,6 @@ namespace CalamityMod
 
 			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
 			{
-				if (item.type == mod.ItemType("Ataraxia"))
-				{
-					ataraxiaDamageBoostCancelTimer = 1200;
-					if (ataraxiaDamageBoostCooldown <= 0)
-					{
-						ataraxiaDamageBoostCooldown = 90;
-						if (ataraxiaDamageBoost < 0.3f)
-							ataraxiaDamageBoost += 0.01f;
-					}
-				}
 				if (item.melee && !item.noMelee && !item.noUseGraphic)
 				{
 					if (ataxiaGeyser)
@@ -6904,16 +6867,6 @@ namespace CalamityMod
 						int healAmount = (Main.rand.Next(3) + 1);
 						player.statLife += healAmount;
 						player.HealEffect(healAmount);
-					}
-				}
-				if (proj.type == mod.ProjectileType("AtaraxiaMain") || proj.type == mod.ProjectileType("AtaraxiaHoming") ||
-					proj.type == mod.ProjectileType("AtaraxiaSplit") || proj.type == mod.ProjectileType("AtaraxiaSide"))
-				{
-					ataraxiaDamageBoostCancelTimer = 1200;
-					if (proj.type == mod.ProjectileType("AtaraxiaMain"))
-					{
-						if (ataraxiaDamageBoost < 0.3f)
-							ataraxiaDamageBoost += 0.0025f;
 					}
 				}
 				if (Config.ProficiencyEnabled)
@@ -7710,7 +7663,6 @@ namespace CalamityMod
 		public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
 		{
 			modStealth = 1f;
-			ataraxiaDamageBoost = 0f;
 			if (player.whoAmI == Main.myPlayer)
 			{
 				if (rageMode)
