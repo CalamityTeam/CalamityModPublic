@@ -1670,19 +1670,14 @@ namespace CalamityMod.NPCs
 				{
 					case NPCID.KingSlime:
 						return BossRushKingSlimeAI(npc);
-						break;
 					case NPCID.BrainofCthulhu:
 						return BossRushBrainofCthulhuAI(npc);
-						break;
 					case NPCID.EaterofWorldsHead:
 						return BossRushEaterofWorldsAI(npc);
-						break;
 					case NPCID.QueenBee:
 						return BossRushQueenBeeAI(npc);
-						break;
 					case NPCID.DukeFishron:
 						return BossRushDukeFishronAI(npc);
-						break;
 					default:
 						break;
 				}

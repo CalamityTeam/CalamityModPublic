@@ -27,14 +27,16 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.summon = false;
 		}
 
-		public override void GetWeaponDamage(Player player, ref int damage)
-		{
-			damage = (int)((double)item.damage * (double)(CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage + 5E-06f)); //plus one otherwise weird shit happens
-		}
+        // Calculates a rogue weapon's damage using the player's rogue damage stat.
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult)
+        {
+            mult *= (CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage + 5E-06f); //plus one otherwise weird shit happens
+        }
 
-		public override void GetWeaponCrit(Player player, ref int crit)
+        // Calculates a rogue weapon's crit chance using the player's rogue crit chance.
+        public override void GetWeaponCrit(Player player, ref int crit)
 		{
-			crit = (item.crit + CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit); //change crit back to normal
+			crit = (item.crit + CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit);
 		}
 
 		public override void GetWeaponKnockback(Player player, ref float knockback)

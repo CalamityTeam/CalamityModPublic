@@ -10,7 +10,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 {
 	public class AstrumDeusProbe : ModNPC
 	{
-		private int timer = 0;
 		private bool start = true;
 
 		public override void SetStaticDefaults()

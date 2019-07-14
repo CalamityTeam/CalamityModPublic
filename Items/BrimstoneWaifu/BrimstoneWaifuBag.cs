@@ -7,7 +7,9 @@ namespace CalamityMod.Items.BrimstoneWaifu
 {
 	public class BrimstoneWaifuBag : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override int BossBagNPC => mod.NPCType("BrimstoneElemental");
+
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -21,7 +23,6 @@ namespace CalamityMod.Items.BrimstoneWaifu
 			item.height = 24;
 			item.expert = true;
 			item.rare = 9;
-			bossBagNPC = mod.NPCType("BrimstoneElemental");
 		}
 
 		public override bool CanRightClick()

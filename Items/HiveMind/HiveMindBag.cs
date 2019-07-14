@@ -7,7 +7,9 @@ namespace CalamityMod.Items.HiveMind
 {
 	public class HiveMindBag : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override int BossBagNPC => mod.NPCType("HiveMindP2");
+
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -21,7 +23,6 @@ namespace CalamityMod.Items.HiveMind
 			item.height = 24;
 			item.rare = 9;
 			item.expert = true;
-			bossBagNPC = mod.NPCType("HiveMindP2");
 		}
 
 		public override bool CanRightClick()

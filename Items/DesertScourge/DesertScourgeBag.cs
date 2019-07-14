@@ -7,7 +7,9 @@ namespace CalamityMod.Items.DesertScourge
 {
 	public class DesertScourgeBag : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override int BossBagNPC => mod.NPCType("DesertScourgeHead");
+
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -21,7 +23,6 @@ namespace CalamityMod.Items.DesertScourge
 			item.height = 24;
 			item.rare = 9;
 			item.expert = true;
-			bossBagNPC = mod.NPCType("DesertScourgeHead");
 		}
 
 		public override bool CanRightClick()

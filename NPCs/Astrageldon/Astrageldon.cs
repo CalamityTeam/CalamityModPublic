@@ -14,8 +14,7 @@ namespace CalamityMod.NPCs.Astrageldon
 	[AutoloadBossHead]
 	public class Astrageldon : ModNPC
 	{
-		private float bossLife;
-		private int teleportLocationY = 0;
+        private int teleportLocationY = 0;
 		private bool stomping = false;
 
 		public override void SetStaticDefaults()

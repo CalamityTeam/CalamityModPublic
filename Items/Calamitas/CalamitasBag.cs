@@ -7,7 +7,9 @@ namespace CalamityMod.Items.Calamitas
 {
 	public class CalamitasBag : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override int BossBagNPC => mod.NPCType("CalamitasRun3");
+
+        public override void SetStaticDefaults()
  		{
  			DisplayName.SetDefault("Treasure Bag");
  			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -21,7 +23,6 @@ namespace CalamityMod.Items.Calamitas
 			item.height = 24;
 			item.rare = 9;
 			item.expert = true;
-			bossBagNPC = mod.NPCType("CalamitasRun3");
 		}
 
 		public override bool CanRightClick()

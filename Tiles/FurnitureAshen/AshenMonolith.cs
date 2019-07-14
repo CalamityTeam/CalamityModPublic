@@ -10,9 +10,9 @@ using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-	public class AshenMonolith : ModTile
+    public class AshenMonolith : ModTile
 	{
-		public override void SetDefaults()
+        public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
@@ -39,7 +39,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
 			dustType = mod.DustType("Pixel");
 			adjTiles = new int[] { TileID.GrandfatherClocks };
 		}
-		int animationFrameWidth = 36;
 
 		public override bool HasSmartInteract()
 		{

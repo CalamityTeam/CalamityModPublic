@@ -11,8 +11,6 @@ namespace CalamityMod.Projectiles.Pets
 {
 	public class DannyDevito : ModProjectile
 	{
-		private int chosenIdle = 0;
-		private int idleTimer = 0;
 		private int playerStill = 0;
 		private bool fly = false;
 

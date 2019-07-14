@@ -7,7 +7,9 @@ namespace CalamityMod.Items.AstrumDeus
 {
 	public class AstrumDeusBag : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override int BossBagNPC => mod.NPCType("AstrumDeusHeadSpectral");
+
+        public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -21,7 +23,6 @@ namespace CalamityMod.Items.AstrumDeus
 			item.height = 24;
 			item.expert = true;
 			item.rare = 9;
-			bossBagNPC = mod.NPCType("AstrumDeusHeadSpectral");
 		}
 
 		public override bool CanRightClick()

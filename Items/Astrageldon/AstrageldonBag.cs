@@ -7,7 +7,9 @@ namespace CalamityMod.Items.Astrageldon
 {
 	public class AstrageldonBag : ModItem
 	{
-		public override void SetStaticDefaults()
+        public override int BossBagNPC => mod.NPCType("Astrageldon");
+
+        public override void SetStaticDefaults()
  		{
  			DisplayName.SetDefault("Treasure Bag");
  			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -21,7 +23,6 @@ namespace CalamityMod.Items.Astrageldon
 			item.height = 24;
 			item.expert = true;
 			item.rare = 9;
-			bossBagNPC = mod.NPCType("Astrageldon");
 		}
 
 		public override bool CanRightClick()

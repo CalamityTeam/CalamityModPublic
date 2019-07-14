@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Magic
     {
     	private int x;
     	private double speed = 10;
-        private float startSpeedX = 0f;
         private float startSpeedY = 0f;
 
         public override void SetStaticDefaults()
