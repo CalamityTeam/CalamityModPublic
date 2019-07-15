@@ -14,11 +14,11 @@ namespace CalamityMod.Projectiles.Rogue
         private static float MaxRotationSpeed = 0.25f;
         private static float MaxSpeed = 22f;
 
-        private static float HomingStartRange = 500f;
-        private static float HomingBreakRange = 900f;
+        private static float HomingStartRange = 600f;
+        private static float HomingBreakRange = 1000f;
         private static float HomingBonusRangeCap = 200f;
         private static float BaseHomingFactor = 1.6f;
-        private static float MaxHomingFactor = 3.2f;
+        private static float MaxHomingFactor = 6.6f;
 
         public override void SetStaticDefaults()
 		{
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             bool bossFound = false;
             int target = -1;
-            float minDist = HomingStartRange * 2f;
+            float minDist = HomingStartRange;
             for (int i = 0; i < 200; ++i)
             {
                 NPC npc = Main.npc[i];
