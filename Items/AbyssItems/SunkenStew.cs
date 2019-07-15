@@ -29,6 +29,9 @@ namespace CalamityMod.Items.AbyssItems
 			item.useStyle = 2;
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
+            item.potion = true;
+            item.healLife = 120;
+            item.healMana = 150;
             item.buffType = BuffID.WellFed;
             item.buffTime = 216000;
 			item.value = Item.buyPrice(0, 2, 0, 0);
@@ -39,31 +42,13 @@ namespace CalamityMod.Items.AbyssItems
             return player.FindBuffIndex(BuffID.PotionSickness) == -1;
         }
 
-        public override bool ConsumeItem(Player player)
+        // due to the lovely code of Quick Heal, have to cancel Restoration Potion's hardcoded heal time and replace it
+        public override bool UseItem(Player player)
         {
-            return player.FindBuffIndex(BuffID.PotionSickness) == -1;
-        }
-
-        public override void OnConsumeItem(Player player)
-        {
-            player.statLife += 120;
-            player.statMana += 150;
-            if (player.statLife > player.statLifeMax2)
-            {
-                player.statLife = player.statLifeMax2;
-            }
-            if (player.statMana > player.statManaMax2)
-            {
-                player.statMana = player.statManaMax2;
-            }
-            player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-            if (Main.myPlayer == player.whoAmI)
-            {
-                player.HealEffect(120, true);
-                player.ManaEffect(150);
-            }
             player.AddBuff(BuffID.WellFed, 216000);
+            player.ClearBuff(BuffID.PotionSickness);
             player.AddBuff(BuffID.PotionSickness, (player.pStone ? 2220 : 3000));
+            return true;
         }
 
         public override void AddRecipes()
