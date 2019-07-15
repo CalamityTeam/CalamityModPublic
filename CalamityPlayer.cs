@@ -454,7 +454,7 @@ namespace CalamityMod
 		public bool purpleCandle = false;
 		public bool blueCandle = false;
 		public bool pinkCandle = false;
-		public int pinkCandleTimer = 60;
+        public double pinkCandleHealFraction = 0D;
 		public bool yellowCandle = false;
 		public bool trippy = false;
 		public bool amidiasBlessing = false;
@@ -1287,7 +1287,7 @@ namespace CalamityMod
 			purpleCandle = false;
 			blueCandle = false;
 			pinkCandle = false;
-			pinkCandleTimer = 60;
+            pinkCandleHealFraction = 0D;
 			yellowCandle = false;
 			trippy = false;
 			amidiasBlessing = false;
@@ -4770,16 +4770,15 @@ namespace CalamityMod
 			}
 			if (pinkCandle)
 			{
-				if (pinkCandleTimer > 0) { pinkCandleTimer--; } // 1 per second
-				if (pinkCandleTimer <= 0)
-				{
-					if (player.statLife < player.statLifeMax2)
-					{
-						float regen = (float)player.statLifeMax2 * 0.004f;
-						player.statLife += (int)regen;
-					}
-					pinkCandleTimer = 60;
-				}
+                // every frame, add up 1/60th of the healing value (0.4% max HP per second)
+                pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
+                if(pinkCandleHealFraction >= 1D)
+                {
+                    pinkCandleHealFraction = 0D;
+                    player.statLife += 1;
+                    if (player.statLife > player.statLifeMax2)
+                        player.statLife = player.statLifeMax2;
+                }
 			}
 			if (manaOverloader)
 			{
