@@ -11,7 +11,7 @@ namespace CalamityMod.Buffs.Fabsol
 	{
 		public override void SetDefaults()
 		{
-			DisplayName.SetDefault("Adamant Will");
+			DisplayName.SetDefault("Resilience");
 			Description.SetDefault("Neither rain nor wind can snuff its undying flame");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.debuff[Type] = true;

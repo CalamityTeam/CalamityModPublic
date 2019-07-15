@@ -10,7 +10,8 @@ namespace CalamityMod.Items.FabsolStuff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Resilient Candle");
-			Tooltip.SetDefault("When placed down nearby players have the effectiveness of their defense increased by 5%");
+			Tooltip.SetDefault("When placed, nearby players' defense blocks 5% more damage\n" +
+                "'Neither rain nor wind can snuff its undying flame'");
 		}
 
 		public override void SetDefaults()

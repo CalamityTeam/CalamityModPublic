@@ -10,8 +10,11 @@ namespace CalamityMod.Items.FabsolStuff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spiteful Candle");
-			Tooltip.SetDefault("When placed down nearby enemies take 5% more damage, this bypasses enemy DR");
-		}
+			Tooltip.SetDefault("When placed, nearby enemies take 5% more damage.\n" +
+                "This extra damage bypasses enemy damage reduction\n" +
+                "'Its hateful glow flickers with ire'");
+
+        }
 
 		public override void SetDefaults()
 		{

@@ -10,8 +10,9 @@ namespace CalamityMod.Items.FabsolStuff
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vigorous Candle");
-			Tooltip.SetDefault("When placed down nearby players regenerate 0.4% of their maximum health per second\n" +
-							   "This is separate from normal life regeneration, bypassing caps and not being affected by damage taken or current movement");
+			Tooltip.SetDefault("When placed, nearby players regenerate 0.4% of their maximum health per second\n" +
+                "This regeneration is at full power even while moving and bypasses Revengeance Mode caps\n" +
+                "'Its brilliant light suffuses those nearby with hope'");
 		}
 
 		public override void SetDefaults()
