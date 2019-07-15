@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Patreon
 {
     public class DragonPow : ModItem
     {
-        public static int BaseDamage = 6600;
+        public static int BaseDamage = 11800;
         public static float Speed = 13f;
         public static float ReturnSpeed = 20f;
         public static float SparkSpeed = 0.6f;
