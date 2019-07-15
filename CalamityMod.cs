@@ -671,7 +671,8 @@ namespace CalamityMod
 					calamity.ItemType("DragonsBreath"),
 					calamity.ItemType("PhoenixFlameBarrage"),
 					calamity.ItemType("ProfanedTrident"),
-					calamity.ItemType("TheBurningSky")
+					calamity.ItemType("TheBurningSky"),
+                    calamity.ItemType("HeliumFlash")
 				};
 
 				natureWeaponList = new List<int>()
