@@ -12,9 +12,9 @@ namespace CalamityMod.Items.AbyssItems
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Sunken Stew");
-            Tooltip.SetDefault("Causes potion sickness for 50 (37 with Philosopher's Stone effect) seconds instead of 60\n" +
-                "Restores 120 life and 150 mana");
+			DisplayName.SetDefault("Hadal Stew");
+            Tooltip.SetDefault("Only gives 50 (37 with Philosopher's Stone) seconds of Potion Sickness\n" +
+                "Grants Well Fed for 60 minutes\n" + "Cannot be used via Quick Buff");
         }
 		
 		public override void SetDefaults()
@@ -32,8 +32,6 @@ namespace CalamityMod.Items.AbyssItems
             item.potion = true;
             item.healLife = 120;
             item.healMana = 150;
-            item.buffType = BuffID.WellFed;
-            item.buffTime = 216000;
 			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
@@ -42,12 +40,12 @@ namespace CalamityMod.Items.AbyssItems
             return player.FindBuffIndex(BuffID.PotionSickness) == -1;
         }
 
-        // due to the lovely code of Quick Heal, have to cancel Restoration Potion's hardcoded heal time and replace it
+        // fixes hardcoded potion sickness duration from quick heal
         public override bool UseItem(Player player)
         {
-            player.AddBuff(BuffID.WellFed, 216000);
             player.ClearBuff(BuffID.PotionSickness);
-            player.AddBuff(BuffID.PotionSickness, (player.pStone ? 2220 : 3000));
+            player.AddBuff(BuffID.PotionSickness, player.pStone ? 2220 : 3000);
+            player.AddBuff(BuffID.WellFed, 216000);
             return true;
         }
 
