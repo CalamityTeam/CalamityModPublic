@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Offensive Guardian");
-			Description.SetDefault("The attacker will protect you");
+			Description.SetDefault("The attacker will fight for you");
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}
