@@ -13,8 +13,9 @@ namespace CalamityMod.Items.AbyssItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hadal Stew");
-            Tooltip.SetDefault("Only gives 50 (37 with Philosopher's Stone) seconds of Potion Sickness\n" +
-                "Grants Well Fed for 60 minutes\n" + "Cannot be used via Quick Buff");
+            Tooltip.SetDefault(@"Restores 150 mana
+Only gives 50 (37 with Philosopher's Stone) seconds of Potion Sickness
+Grants Well Fed");
         }
 		
 		public override void SetDefaults()
@@ -30,8 +31,9 @@ namespace CalamityMod.Items.AbyssItems
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
             item.potion = true;
+            item.buffType = BuffID.WellFed;
+            item.buffTime = 216000;
             item.healLife = 120;
-            item.healMana = 150;
 			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
@@ -43,10 +45,33 @@ namespace CalamityMod.Items.AbyssItems
         // fixes hardcoded potion sickness duration from quick heal
         public override bool UseItem(Player player)
         {
+            player.statLife += 120;
+            player.statMana += 150;
+            if (player.statLife > player.statLifeMax2)
+            {
+                player.statLife = player.statLifeMax2;
+            }
+            if (player.statMana > player.statManaMax2)
+            {
+                player.statMana = player.statManaMax2;
+            }
+            player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+            if (Main.myPlayer == player.whoAmI)
+            {
+                player.HealEffect(120, true);
+                player.ManaEffect(150);
+            }
+
             player.ClearBuff(BuffID.PotionSickness);
             player.AddBuff(BuffID.PotionSickness, player.pStone ? 2220 : 3000);
             player.AddBuff(BuffID.WellFed, 216000);
             return true;
+        }
+
+        // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
+        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
+        {
+            healValue = 0;
         }
 
         public override void AddRecipes()
