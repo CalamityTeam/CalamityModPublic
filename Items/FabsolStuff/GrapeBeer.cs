@@ -1,5 +1,4 @@
-using System;
-using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,9 +10,9 @@ namespace CalamityMod.Items.FabsolStuff
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Grape Beer");
-			Tooltip.SetDefault(@"Reduces defense by 2 and movement speed by 5%
-This crap is abhorrent but you might like it
-Restores 100 life and mana");
+			Tooltip.SetDefault(@"Restores 100 mana
+Reduces defense by 2 and movement speed by 5%
+This crap is abhorrent but you might like it");
 		}
 
 		public override void SetDefaults()
@@ -27,18 +26,13 @@ Restores 100 life and mana");
             item.useTime = 17;
             item.useStyle = 2;
             item.UseSound = SoundID.Item3;
+            item.healLife = 100;
             item.consumable = true;
-            item.buffType = mod.BuffType("GrapeBeer");
-            item.buffTime = 3600; //3600 = 1 minute
+            item.potion = true;
             item.value = Item.buyPrice(0, 0, 65, 0);
 		}
 
         public override bool CanUseItem(Player player)
-        {
-            return player.FindBuffIndex(BuffID.PotionSickness) == -1;
-        }
-
-        public override bool ConsumeItem(Player player)
         {
             return player.FindBuffIndex(BuffID.PotionSickness) == -1;
         }
@@ -62,7 +56,18 @@ Restores 100 life and mana");
                 player.ManaEffect(100);
             }
             player.AddBuff(mod.BuffType("GrapeBeer"), 3600);
-            player.AddBuff(BuffID.PotionSickness, (player.pStone ? 2700 : 3600));
+        }
+
+        // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
+        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
+        {
+            healValue = 0;
+        }
+
+        // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Items.AbyssItems
 {
@@ -17,32 +14,30 @@ namespace CalamityMod.Items.AbyssItems
 Only gives 50 (37 with Philosopher's Stone) seconds of Potion Sickness
 Grants Well Fed");
         }
-		
-		public override void SetDefaults()
-		{
-			item.width = 28;
-			item.height = 18;
-			item.useTurn = true;
-			item.maxStack = 30;
+
+        public override void SetDefaults()
+        {
+            item.width = 28;
+            item.height = 18;
+            item.useTurn = true;
+            item.maxStack = 30;
             item.useAnimation = 17;
-			item.useTime = 17;
+            item.useTime = 17;
             item.rare = 3;
-			item.useStyle = 2;
-			item.UseSound = SoundID.Item3;
-			item.consumable = true;
+            item.useStyle = 2;
+            item.UseSound = SoundID.Item3;
+            item.consumable = true;
             item.potion = true;
             item.buffType = BuffID.WellFed;
             item.buffTime = 216000;
             item.healLife = 120;
-			item.value = Item.buyPrice(0, 2, 0, 0);
-		}
+            item.value = Item.buyPrice(0, 2, 0, 0);
+        }
 
         public override bool CanUseItem(Player player)
         {
             return player.FindBuffIndex(BuffID.PotionSickness) == -1;
         }
-
-        // fixes hardcoded potion sickness duration from quick heal
         public override bool UseItem(Player player)
         {
             player.statLife += 120;
@@ -62,8 +57,10 @@ Grants Well Fed");
                 player.ManaEffect(150);
             }
 
+            // fixes hardcoded potion sickness duration from quick heal
             player.ClearBuff(BuffID.PotionSickness);
             player.AddBuff(BuffID.PotionSickness, player.pStone ? 2220 : 3000);
+
             player.AddBuff(BuffID.WellFed, 216000);
             return true;
         }
@@ -72,6 +69,12 @@ Grants Well Fed");
         public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
         {
             healValue = 0;
+        }
+
+        // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
+        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        {
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
         }
 
         public override void AddRecipes()
