@@ -46,16 +46,8 @@ namespace CalamityMod.Items.Armor
                 "This effect has a 1 second cooldown before it can trigger again";
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.astralStarRain = true;
-            player.moveSpeed += 0.25f;
-            player.meleeDamage += 0.28f;
-            player.meleeCrit += 21;
-            player.rangedDamage += 0.28f;
-            player.rangedCrit += 21;
-            player.magicDamage += 0.28f;
-            player.magicCrit += 21;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.28f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 21;
-            player.minionDamage += 0.28f;
+            player.allDamage += 0.28f;
+            modPlayer.AllCritBoost(21);
         }
 
         public override void UpdateEquip(Player player)

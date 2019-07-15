@@ -30,11 +30,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.05f;
-            player.magicDamage += 0.05f;
-            player.rangedDamage += 0.05f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
-            player.minionDamage += 0.05f;
+            player.allDamage += 0.05f;
             player.moveSpeed += 0.05f;
         }
 

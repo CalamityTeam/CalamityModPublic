@@ -1596,11 +1596,7 @@ namespace CalamityMod
 				}
 				player.lifeRegenTime = 0;
 				player.statDefense -= 50;
-				player.meleeDamage -= 0.1f;
-				player.rangedDamage -= 0.1f;
-				player.magicDamage -= 0.1f;
-				player.minionDamage -= 0.1f;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage -= 0.1f;
+                player.allDamage -= 0.1f;
 			}
 			if (bFlames || aFlames)
 			{
@@ -3139,16 +3135,16 @@ namespace CalamityMod
 			if (stressPills)
 			{
 				player.statDefense += 8;
-				AllDamageBoost(0.08f);
+                player.allDamage += 0.08f;
 			}
 			if (laudanum)
 			{
 				player.statDefense += 6;
-				AllDamageBoost(0.06f);
+                player.allDamage += 0.06f;
 			}
 			if (draedonsHeart)
 			{
-				AllDamageBoost(0.1f);
+                player.allDamage += 0.1f;
 			}
 			if (!stressLevel500 && player.FindBuffIndex(mod.BuffType("HeartAttack")) > -1) { player.ClearBuff(mod.BuffType("HeartAttack")); }
 			if (draedonsHeart && (double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
@@ -3159,7 +3155,7 @@ namespace CalamityMod
 			{
 				if (heartOfDarkness || draedonsHeart)
 				{
-					AllDamageBoost(0.1f);
+                    player.allDamage += 0.1f;
 				}
 				player.statLifeMax2 += player.statLifeMax / 5 / 20 * 5;
 			}
@@ -3169,7 +3165,7 @@ namespace CalamityMod
 				player.endurance += CalamityWorld.revenge ? 0.07f : 0.05f;
 				player.statDefense += CalamityWorld.revenge ? 20 : 15;
 				float damageBoost = CalamityWorld.revenge ? 0.12f : 0.1f;
-				AllDamageBoost(damageBoost);
+                player.allDamage += damageBoost;
 				player.statLifeMax2 += CalamityWorld.revenge ? (player.statLifeMax / 5 / 20 * 10) : (player.statLifeMax / 5 / 20 * 5);
 			}
 			#endregion
@@ -3535,7 +3531,7 @@ namespace CalamityMod
 					damageUp *= 2f;
 					critUp *= 2;
 				}
-				AllDamageBoost(damageUp);
+                player.allDamage += damageUp;
 				AllCritBoost(critUp);
 			}
 			if (!bOut)
@@ -3960,7 +3956,7 @@ namespace CalamityMod
 			}
 			if (skeletronLore)
 			{
-				AllDamageBoost(0.05f);
+                player.allDamage += 0.05f;
 				AllCritBoost(5);
 				player.statDefense += 5;
 			}
@@ -4028,7 +4024,7 @@ namespace CalamityMod
 			}
 			if (dukeFishronLore)
 			{
-				AllDamageBoost(0.05f);
+                player.allDamage += 0.05f;
 				AllCritBoost(5);
 				player.moveSpeed += 0.1f;
 			}
@@ -4036,7 +4032,7 @@ namespace CalamityMod
 			{
 				player.endurance += 0.04f;
 				player.statDefense += 4;
-				AllDamageBoost(0.04f);
+                player.allDamage += 0.04f;
 				AllCritBoost(4);
 				player.minionKB += 0.5f;
 				player.moveSpeed += 0.1f;
@@ -4047,7 +4043,7 @@ namespace CalamityMod
 				{
 					player.endurance += 0.05f;
 					player.statDefense += 10;
-					AllDamageBoost(0.1f);
+                    player.allDamage += 0.1f;
 					AllCritBoost(10);
 					player.minionKB += 1.5f;
 					player.moveSpeed += 0.15f;
@@ -4155,7 +4151,7 @@ namespace CalamityMod
 			{
 				if (trinketOfChiBuff)
 				{
-					AllDamageBoost(0.5f);
+                    player.allDamage += 0.5f;
 					if (player.itemAnimation > 0)
 						chiBuffTimer = 0;
 				}
@@ -4231,7 +4227,7 @@ namespace CalamityMod
 						modStealth = 1f;
 				}
 				float damageBoost = (1f - modStealth) * 0.2f;
-				AllDamageBoost(damageBoost);
+                player.allDamage += damageBoost;
 				int critBoost = (int)((1f - modStealth) * 10f);
 				AllCritBoost(critBoost);
 				if (modStealthTimer > 0)
@@ -4296,7 +4292,7 @@ namespace CalamityMod
 						NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 					}
 					float damageBoost = (5f - shieldInvinc) * 0.03f;
-					AllDamageBoost(damageBoost);
+                    player.allDamage += damageBoost;
 					int critBoost = (int)((5f - shieldInvinc) * 2f);
 					AllCritBoost(critBoost);
 					player.aggro += (int)((5f - shieldInvinc) * 220f);
@@ -4402,7 +4398,7 @@ namespace CalamityMod
 			if (holyWrath)
 			{
 				if (player.FindBuffIndex(BuffID.Wrath) > -1) { player.ClearBuff(BuffID.Wrath); }
-				AllDamageBoost(0.12f);
+                player.allDamage += 0.12f;
 				player.moveSpeed += 0.05f;
 			}
 			if (profanedRage)
@@ -4414,18 +4410,18 @@ namespace CalamityMod
 			if (irradiated)
 			{
 				player.statDefense -= 10;
-				AllDamageBoost(0.05f);
+				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;
 				player.moveSpeed += 0.05f;
 			}
 			if (rRage)
 			{
-				AllDamageBoost(0.05f);
+                player.allDamage += 0.05f;
 				player.moveSpeed += 0.05f;
 			}
 			if (xRage)
 			{
-				AllDamageBoost(0.1f);
+				player.allDamage += 0.1f;
 			}
 			if (xWrath)
 			{
@@ -4433,7 +4429,7 @@ namespace CalamityMod
 			}
 			if (godSlayerCooldown)
 			{
-				AllDamageBoost(0.1f);
+				player.allDamage += 0.1f;
 			}
 			if (graxDefense)
 			{
@@ -4443,7 +4439,7 @@ namespace CalamityMod
 			}
 			if (sMeleeBoost)
 			{
-				AllDamageBoost(0.1f);
+				player.allDamage += 0.1f;
 				AllCritBoost(5);
 			}
 			if (tFury)
@@ -4455,7 +4451,7 @@ namespace CalamityMod
 			{
 				player.endurance += 0.05f;
 				player.statDefense += 5;
-				AllDamageBoost(0.06f);
+				player.allDamage += 0.06f;
 				AllCritBoost(2);
 				player.minionKB += 1f;
 				player.moveSpeed += 0.15f;
@@ -4469,7 +4465,7 @@ namespace CalamityMod
 			if (darkSunRing)
 			{
 				player.maxMinions += 2;
-				AllDamageBoost(0.12f);
+				player.allDamage += 0.12f;
 				player.minionKB += 1.2f;
 				player.pickSpeed -= 0.15f;
 				if (Main.dayTime)
@@ -4492,7 +4488,7 @@ namespace CalamityMod
 			if (fabsolVodka)
 			{
 				alcoholPoisonLevel++;
-				AllDamageBoost(0.08f);
+				player.allDamage += 0.08f;
 				player.statDefense -= 20;
 			}
 			if (vodka)
@@ -4500,7 +4496,7 @@ namespace CalamityMod
 				alcoholPoisonLevel++;
 				player.lifeRegen -= 1;
 				player.statDefense -= 4;
-				AllDamageBoost(0.06f);
+				player.allDamage += 0.06f;
 				AllCritBoost(2);
 			}
 			if (redWine)
@@ -4537,7 +4533,7 @@ namespace CalamityMod
 			{
 				alcoholPoisonLevel++;
 				player.statDefense -= 8;
-				AllDamageBoost(0.04f);
+				player.allDamage += 0.04f;
 				AllCritBoost(2);
 			}
 			if (everclear)
@@ -4545,7 +4541,7 @@ namespace CalamityMod
 				alcoholPoisonLevel += 2;
 				player.lifeRegen -= 10;
 				player.statDefense -= 40;
-				AllDamageBoost(0.25f);
+				player.allDamage += 0.25f;
 			}
 			if (bloodyMary)
 			{
@@ -4554,7 +4550,7 @@ namespace CalamityMod
 				if (Main.bloodMoon)
 				{
 					player.statDefense -= 6;
-					AllDamageBoost(0.15f);
+					player.allDamage += 0.15f;
 					AllCritBoost(7);
 					player.moveSpeed += 0.15f;
 				}
@@ -4566,7 +4562,7 @@ namespace CalamityMod
 				if (Main.dayTime)
 				{
 					player.statDefense += 5;
-					AllDamageBoost(0.03f);
+					player.allDamage += 0.03f;
 					AllCritBoost(2);
 					player.endurance += 0.03f;
 				}
@@ -4578,7 +4574,7 @@ namespace CalamityMod
 				if (Main.dayTime)
 				{
 					player.statDefense += 15;
-					AllDamageBoost(0.07f);
+					player.allDamage += 0.07f;
 					AllCritBoost(3);
 					player.endurance += 0.07f;
 				}
@@ -4620,7 +4616,7 @@ namespace CalamityMod
 			{
 				alcoholPoisonLevel++;
 				player.lifeRegen -= 2;
-				AllDamageBoost(0.09f);
+				player.allDamage += 0.09f;
 				AllCritBoost(3);
 			}
 			if (whiteWine)
@@ -4721,7 +4717,7 @@ namespace CalamityMod
 				float damageBoost = floatTypeBoost * 0.5f;
 				player.endurance += (floatTypeBoost * 0.25f);
 				player.statDefense += integerTypeBoost;
-				AllDamageBoost(damageBoost);
+				player.allDamage += damageBoost;
 				AllCritBoost(critBoost);
 				player.minionKB += floatTypeBoost;
 				player.moveSpeed += floatTypeBoost;
@@ -4743,7 +4739,7 @@ namespace CalamityMod
 			{
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)((double)player.wingTimeMax * 0.5);
-				AllDamageBoost(0.1f);
+				player.allDamage += 0.1f;
 			}
 			if (corrEffigy)
 			{
@@ -4752,7 +4748,7 @@ namespace CalamityMod
 			}
 			if (crimEffigy)
 			{
-				AllDamageBoost(0.15f);
+				player.allDamage += 0.15f;
 				player.statDefense += 10;
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.8);
 			}
@@ -4796,7 +4792,7 @@ namespace CalamityMod
 			if (rBrain)
 			{
 				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
-					AllDamageBoost(0.1f);
+					player.allDamage += 0.1f;
 				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
 					player.moveSpeed -= 0.05f;
 			}
@@ -4892,7 +4888,7 @@ namespace CalamityMod
 				player.buffImmune[47] = true;
 				if (player.statLife > (int)((double)player.statLifeMax2 * 0.75))
 				{
-					AllDamageBoost(0.1f);
+					player.allDamage += 0.1f;
 				}
 				if (player.statLife < (int)((double)player.statLifeMax2 * 0.25))
 				{
@@ -4903,7 +4899,7 @@ namespace CalamityMod
 			{
 				if (player.statLife < (int)((double)player.statLifeMax2 * 0.5))
 				{
-					AllDamageBoost(0.15f);
+					player.allDamage += 0.15f;
 				}
 			}
 			if (ataxiaBlaze)
@@ -4956,44 +4952,44 @@ namespace CalamityMod
 				player.lavaMax += 240;
 				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
 				{
-					AllDamageBoost(0.1f);
+					player.allDamage += 0.1f;
 				}
 			}
 			if (reaperToothNecklace)
 			{
-				AllDamageBoost(0.25f);
+				player.allDamage += 0.25f;
 				player.statDefense /= 2;
 			}
 			if (deepDiver)
 			{
-				AllDamageBoost(0.15f);
+				player.allDamage += 0.15f;
 				player.statDefense += (int)((double)player.statDefense * 0.15);
 				player.moveSpeed += 0.15f;
 			}
 			if (coreOfTheBloodGod)
 			{
 				player.endurance += 0.05f;
-				AllDamageBoost(0.07f);
+				player.allDamage += 0.07f;
 				if (player.statDefense < 100)
 				{
-					AllDamageBoost(0.15f);
+					player.allDamage += 0.15f;
 				}
 			}
 			else if (bloodflareCore)
 			{
 				if (player.statDefense < 100)
 				{
-					AllDamageBoost(0.15f);
+					player.allDamage += 0.15f;
 				}
 				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
 				{
 					player.endurance += 0.1f;
-					AllDamageBoost(0.2f);
+					player.allDamage += 0.2f;
 				}
 				else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
 				{
 					player.endurance += 0.05f;
-					AllDamageBoost(0.1f);
+					player.allDamage += 0.1f;
 				}
 			}
 			if (godSlayerThrowing)
@@ -5140,11 +5136,11 @@ namespace CalamityMod
 			}
 			if (dArtifact)
 			{
-				AllDamageBoost(0.25f);
+				player.allDamage += 0.25f;
 			}
 			if (trippy)
 			{
-				AllDamageBoost(0.5f);
+				player.allDamage += 0.5f;
 			}
 			if (eArtifact)
 			{
@@ -5507,25 +5503,24 @@ namespace CalamityMod
 			bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
 			if (isTrueMelee)
 			{
-				float damageMult = 1.0f +
-					(dodgeScarf ? 0.2f : 0.0f) +
+				float damageMult = (dodgeScarf ? 0.2f : 0.0f) +
 					((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2.0f : 0.0f) +
 					(DoGLore ? 0.5f : 0.0f) +
 					(fungalSymbiote ? 0.25f : 0.0f);
 
-                mult *= damageMult;
+                add += damageMult;
 			}
 			if (flamethrowerBoost && item.ranged && item.useAmmo == 23)
 			{
-                mult *= 1.25f;
+                add += 0.25f;
 			}
 			if ((cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type)) || (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type)))
 			{
-                mult *= 1.15f;
+                add += 0.15f;
 			}
 			if (fireball && CalamityMod.fireWeaponList.Contains(item.type))
 			{
-                mult *= 1.1f;
+                add += 0.1f;
 			}
 			if (theBee && player.statLife >= player.statLifeMax2)
 			{
@@ -9789,10 +9784,11 @@ namespace CalamityMod
 				}
 			}
 		}
-		#endregion
+        #endregion
 
-		/*#region NurseModifications
-		public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
+        #region NurseModifications
+        /*
+        public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
 		{
 			if (CalamityWorld.revenge)
 			{
@@ -9820,29 +9816,22 @@ namespace CalamityMod
 				price = (int)((double)price * priceMultiplier);
 			}
 		}
-		#endregion*/
+        */
+        #endregion
 
-		#region DamageAndCrit
-		public void AllDamageBoost(float boost)
-		{
-			player.meleeDamage += boost;
-			player.rangedDamage += boost;
-			player.magicDamage += boost;
-			player.minionDamage += boost;
-			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += boost;
-		}
-
-		public void AllCritBoost(int boost)
+        #region All-Class Crit Boost
+        public void AllCritBoost(int boost)
 		{
 			player.meleeCrit += boost;
 			player.rangedCrit += boost;
 			player.magicCrit += boost;
+            player.thrownCrit += boost;
 			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += boost;
 		}
-		#endregion
+        #endregion
 
-		#region PacketStuff
-		private void ExactLevelPacket(bool server, int levelType)
+        #region PacketStuff
+        private void ExactLevelPacket(bool server, int levelType)
 		{
 			ModPacket packet = mod.GetPacket(256);
 			switch (levelType)

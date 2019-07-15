@@ -42,11 +42,7 @@ namespace CalamityMod.Items.TheDevourerofGods
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.nCore = true;
-            player.magicDamage += 0.12f;
-            player.meleeDamage += 0.12f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
-            player.rangedDamage += 0.12f;
-            player.minionDamage += 0.12f;
+            player.allDamage += 0.12f;
             int damage = 1500;
             float knockBack = 3f;
             if (Main.rand.Next(15) == 0)

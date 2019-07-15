@@ -34,11 +34,7 @@ namespace CalamityMod.Items.Cryogen
 		{
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0f, 0.25f, 0.6f);
 			player.endurance += 0.05f;
-			player.meleeDamage += 0.03f;
-			player.magicDamage += 0.03f;
-			player.rangedDamage += 0.03f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
-			player.minionDamage += 0.03f;
+            player.allDamage += 0.03f;
 		}
     }
 }

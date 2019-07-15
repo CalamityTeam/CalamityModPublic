@@ -31,20 +31,12 @@ No positive life regen");
 
         public override void UpdateEquip(Player player)
         {
-            const float damageUp = 0.12f;
-            const int critUp = 8;
-            player.meleeDamage += damageUp;
-            player.rangedDamage += damageUp;
-            player.magicDamage += damageUp;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += damageUp;
-            player.minionDamage += damageUp;
-            player.meleeCrit += critUp;
-            player.rangedCrit += critUp;
-            player.magicCrit += critUp;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += critUp;
+            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            player.allDamage += 0.12f;
+            modPlayer.AllCritBoost(8);
 
             //insert enable crush depth, disable positive life regen
-            player.GetModPlayer<CalamityPlayer>().omegaBlueChestplate = true;
+            modPlayer.omegaBlueChestplate = true;
         }
 
         public override void AddRecipes()

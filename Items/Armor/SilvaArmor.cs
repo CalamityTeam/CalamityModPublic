@@ -34,15 +34,8 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 80;
             player.moveSpeed += 0.2f;
-            player.meleeDamage += 0.12f;
-            player.meleeCrit += 8;
-            player.rangedDamage += 0.12f;
-            player.rangedCrit += 8;
-            player.magicDamage += 0.12f;
-            player.magicCrit += 8;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
-            player.minionDamage += 0.12f;
+            player.allDamage += 0.12f;
+            player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
         }
 
         public override void AddRecipes()

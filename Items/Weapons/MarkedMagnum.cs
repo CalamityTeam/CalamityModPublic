@@ -41,10 +41,11 @@ namespace CalamityMod.Items.Weapons
 		{
 			return new Vector2(-5, 0);
 		}
-	    
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        // Test to ensure this isn't overpowered because it now scales with TML's new all-damage stat.
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	float damageMult = player.meleeDamage + player.rangedDamage + player.magicDamage + 
+	    	float damageMult = 4 * player.allDamage + player.meleeDamage + player.rangedDamage + player.magicDamage + 
                 CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage + player.minionDamage;
 	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * damageMult), knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;

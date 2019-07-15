@@ -38,15 +38,8 @@ namespace CalamityMod.Items.Armor
 	    	player.thorns = 100f;
 	    	player.statLifeMax2 += 200;
 	        player.statManaMax2 += 200;
-	        player.magicCrit += 15;
-			player.magicDamage += 0.15f;
-			player.meleeCrit += 15;
-			player.meleeDamage += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 15;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-			player.rangedCrit += 15;
-			player.rangedDamage += 0.15f;
-			player.minionDamage += 0.15f;
+            player.allDamage += 0.15f;
+            modPlayer.AllCritBoost(15);
 			player.meleeSpeed += 0.2f;
 	    }
 	

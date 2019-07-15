@@ -10,6 +10,8 @@ namespace CalamityMod.Items.Weapons
 {
     public class DraedonsExoblade : ModItem
     {
+        private static int BaseDamage = 6700;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
@@ -24,7 +26,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 80;
-            item.damage = 6700;
+            item.damage = BaseDamage;
             item.useAnimation = 14;
             item.useStyle = 1;
             item.useTime = 14;
@@ -41,11 +43,10 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
 
-        // Gains 100% of missing health as base damage. CHECK to make sure this doesn't double-scale with melee damage boosts.
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult)
         {
             int lifeAmount = player.statLifeMax2 - player.statLife;
-            add += lifeAmount * player.meleeDamage;
+            add += (lifeAmount * player.meleeDamage / BaseDamage);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

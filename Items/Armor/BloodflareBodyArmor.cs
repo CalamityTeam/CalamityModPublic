@@ -33,15 +33,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 40;
-            player.meleeDamage += 0.12f;
-            player.meleeCrit += 8;
-            player.magicDamage += 0.12f;
-            player.magicCrit += 8;
-            player.rangedDamage += 0.12f;
-            player.rangedCrit += 8;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
-            player.minionDamage += 0.12f;
+            player.allDamage += 0.12f;
+            player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
             if (player.lavaWet)
             {
                 player.statDefense += 30;

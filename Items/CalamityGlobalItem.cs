@@ -1690,8 +1690,6 @@ namespace CalamityMod.Items
 				player.magicDamage += 0.2f;
 			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
-			else if (item.type == ItemID.CrimsonHelmet)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.02f;
 			else if (item.type == ItemID.ApprenticeHat)
 				player.minionDamage += 0.3f;
 			else if (item.type == ItemID.SquireGreatHelm)
@@ -1733,38 +1731,20 @@ namespace CalamityMod.Items
 			#region Body
 			if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
-			else if (item.type == ItemID.CrimsonScalemail)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.02f;
 			else if (item.type == ItemID.PalladiumBreastplate)
-			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
-			}
 			else if (item.type == ItemID.CobaltBreastplate)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
-			else if (item.type == ItemID.MythrilChainmail)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
 			else if (item.type == ItemID.OrichalcumBreastplate)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 6;
-			else if (item.type == ItemID.AdamantiteBreastplate)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.06f;
 			else if (item.type == ItemID.TitaniumBreastplate)
-			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.04f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
-			}
 			else if (item.type == ItemID.HallowedPlateMail)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
 			else if (item.type == ItemID.ChlorophytePlateMail)
-			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
-			}
 			else if (item.type == ItemID.Gi)
-			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
-			}
 			else if (item.type == ItemID.ApprenticeRobe)
 				player.minionDamage -= 0.2f;
 			else if (item.type == ItemID.SquirePlating)
@@ -1795,24 +1775,14 @@ namespace CalamityMod.Items
 			#region Legs
 			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.05f;
-			else if (item.type == ItemID.CrimsonGreaves)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.02f;
 			else if (item.type == ItemID.PalladiumLeggings)
-			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.02f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 1;
-			}
 			else if (item.type == ItemID.MythrilGreaves)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
 			else if (item.type == ItemID.AdamantiteLeggings)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 4;
 			else if (item.type == ItemID.TitaniumLeggings)
-			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
-			}
-			else if (item.type == ItemID.HallowedGreaves)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.07f;
 			else if (item.type == ItemID.ChlorophyteGreaves)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
 			else if (item.type == ItemID.ApprenticeTrousers)
@@ -1864,28 +1834,24 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.WormScarf)
 				player.endurance -= 0.07f;
 
-			if (item.type == ItemID.AvengerEmblem)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.12f;
 			if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
 				(item.type == ItemID.SunStone && Main.dayTime))
 			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
 			}
 			if (item.type == ItemID.DestroyerEmblem)
 			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
 			}
 			if (item.type == ItemID.EyeoftheGolem)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
 			if (item.type == ItemID.PutridScent)
 			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
 			}
 
-			if (item.prefix == 62)
+            // Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
+            if (item.prefix == 62)
 				player.endurance += 0.0025f;
 			if (item.prefix == 63)
 				player.endurance += 0.005f;
@@ -1893,6 +1859,8 @@ namespace CalamityMod.Items
 				player.endurance += 0.0075f;
 			if (item.prefix == 65)
 				player.endurance += 0.01f;
+
+            // Precise only gives 1% crit
 			if (item.prefix == 67)
 			{
 				player.meleeCrit -= 1;
@@ -1900,6 +1868,8 @@ namespace CalamityMod.Items
 				player.magicCrit -= 1;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 1;
 			}
+
+            // Lucky only gives 2% crit
 			if (item.prefix == 68)
 			{
 				player.meleeCrit -= 2;
@@ -1907,14 +1877,6 @@ namespace CalamityMod.Items
 				player.magicCrit -= 2;
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
 			}
-			if (item.prefix == 69)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.01f;
-			if (item.prefix == 70)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.02f;
-			if (item.prefix == 71)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.03f;
-			if (item.prefix == 72)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.04f;
 		}
 		#endregion
 

@@ -42,11 +42,7 @@ namespace CalamityMod.Items.Calamitas
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.calamityRing = true;
-            player.meleeDamage += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-            player.rangedDamage += 0.15f;
-            player.magicDamage += 0.15f;
-            player.minionDamage += 0.15f;
+            player.allDamage += 0.15f;
             player.endurance -= 0.3f;
             if (player.whoAmI == Main.myPlayer)
             {

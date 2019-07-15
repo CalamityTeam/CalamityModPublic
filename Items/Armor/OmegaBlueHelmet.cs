@@ -32,19 +32,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-
-            const float damageUp = 0.12f;
-            const int critUp = 8;
-            player.meleeDamage += damageUp;
-            player.rangedDamage += damageUp;
-            player.magicDamage += damageUp;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += damageUp;
-            player.minionDamage += damageUp;
-            player.meleeCrit += critUp;
-            player.rangedCrit += critUp;
-            player.magicCrit += critUp;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += critUp;
-
+            player.allDamage += 0.12f;
+            player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
             player.maxMinions += 2;
         }
 

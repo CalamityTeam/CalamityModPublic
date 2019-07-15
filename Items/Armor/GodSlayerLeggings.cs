@@ -32,15 +32,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.35f;
-            player.meleeDamage += 0.1f;
-            player.meleeCrit += 6;
-            player.magicDamage += 0.1f;
-            player.magicCrit += 6;
-            player.rangedDamage += 0.1f;
-            player.rangedCrit += 6;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 6;
-            player.minionDamage += 0.1f;
+            player.allDamage += 0.1f;
+            player.GetModPlayer<CalamityPlayer>().AllCritBoost(6);
         }
 
         public override void AddRecipes()

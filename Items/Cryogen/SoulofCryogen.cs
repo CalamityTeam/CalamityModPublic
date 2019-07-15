@@ -61,14 +61,9 @@ namespace CalamityMod.Items.Cryogen
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-            CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
             modPlayer.cryogenSoul = true;
             player.pickSpeed -= 0.05f;
-            player.magicDamage += 0.05f;
-            player.rangedDamage += 0.05f;
-            player.meleeDamage += 0.05f;
-            player.minionDamage += 0.05f;
-            modPlayer2.throwingDamage += 0.05f;
+            player.allDamage += 0.05f;
             player.wingTimeMax = 100;
         }
     }

@@ -34,23 +34,14 @@ namespace CalamityMod.Buffs
             {
                 CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
             }
-            else if (type == BuffID.Wrath)
-            {
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-            }
             else if (type == BuffID.WellFed)
             {
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
                 CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
             }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
                 float nebulaDamage = 0.075f * (float)player.nebulaLevelDamage; //7.5% to 22.5%
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += nebulaDamage;
-				player.meleeDamage -= nebulaDamage;
-				player.rangedDamage -= nebulaDamage;
-				player.magicDamage -= nebulaDamage;
-				player.minionDamage -= nebulaDamage;
+                player.allDamage -= nebulaDamage;
 			}
 			else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
 			{

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Leggings");
-            Tooltip.SetDefault("20% increased movement speed; greater speed boost if health is lower\n" +
+            Tooltip.SetDefault("20% increased movement speed; 35% increase when below half health\n" +
                 "6% increased damage and critical strike chance\n" +
                 "Leggings of a fabled explorer");
         }
@@ -37,15 +37,8 @@ namespace CalamityMod.Items.Armor
             {
                 player.moveSpeed += 0.15f;
             }
-            player.meleeDamage += 0.06f;
-            player.meleeCrit += 6;
-            player.magicDamage += 0.06f;
-            player.magicCrit += 6;
-            player.rangedDamage += 0.06f;
-            player.rangedCrit += 6;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.06f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 6;
-            player.minionDamage += 0.06f;
+            player.allDamage += 0.06f;
+            player.GetModPlayer<CalamityPlayer>().AllCritBoost(6);
         }
 
         public override void AddRecipes()

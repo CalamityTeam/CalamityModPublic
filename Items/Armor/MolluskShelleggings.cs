@@ -11,11 +11,12 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Legs)]
     public class MolluskShelleggings : ModItem
 	{
+
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mollusk Shelleggings");
-            Tooltip.SetDefault("5% increased damage and 4% increased critical strike chance\n" +
-							   "5% decreased movement speed");
+            Tooltip.SetDefault("12% increased damage and 4% increased critical strike chance\n" +
+							   "7% decreased movement speed");
 		}
 
 		public override void SetDefaults()
@@ -29,17 +30,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            const float damageUp = 0.12f;
-            const int critUp = 4;
-            player.meleeDamage += damageUp;
-            player.rangedDamage += damageUp;
-            player.magicDamage += damageUp;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += damageUp;
-            player.minionDamage += damageUp;
-            player.meleeCrit += critUp;
-            player.rangedCrit += critUp;
-            player.magicCrit += critUp;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += critUp;
+            player.allDamage += 0.12f;
+            player.GetModPlayer<CalamityPlayer>().AllCritBoost(4);
 			player.moveSpeed -= 0.07f;
         }
 

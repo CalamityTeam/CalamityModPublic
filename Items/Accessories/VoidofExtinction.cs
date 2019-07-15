@@ -63,18 +63,10 @@ namespace CalamityMod.Items.Accessories
             modPlayer.calamityRing = true;
 			player.lavaRose = true;
 			player.lavaMax += 240;
-			player.meleeDamage += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-            player.rangedDamage += 0.15f;
-            player.magicDamage += 0.15f;
-            player.minionDamage += 0.15f;
+            player.allDamage += 0.15f;
             if (player.lavaWet)
             {
-                player.meleeDamage += 0.25f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.25f;
-                player.rangedDamage += 0.25f;
-                player.magicDamage += 0.25f;
-                player.minionDamage += 0.25f;
+                player.allDamage += 0.25f;
             }
             if (player.immune)
             {

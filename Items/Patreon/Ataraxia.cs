@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Patreon
 {
 	public class Ataraxia : ModItem
 	{
-		public static int BaseDamage = 3750; // 3120 before scaling was removed; 20.2% buff
+        public static int BaseDamage = 5600;
 
 		public override void SetStaticDefaults()
 		{

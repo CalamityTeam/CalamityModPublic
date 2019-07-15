@@ -39,15 +39,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerReflect = true;
             player.statLifeMax2 += 100;
             player.moveSpeed += 0.25f;
-            player.meleeDamage += 0.08f;
-            player.meleeCrit += 5;
-            player.rangedDamage += 0.08f;
-            player.rangedCrit += 5;
-            player.magicDamage += 0.08f;
-            player.magicCrit += 5;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.08f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
-            player.minionDamage += 0.08f;
+            player.allDamage += 0.08f;
+            modPlayer.AllCritBoost(5);
         }
 
         public override void AddRecipes()

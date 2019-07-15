@@ -39,19 +39,11 @@ namespace CalamityMod.Items.Leviathan
 				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 				{
 					player.endurance += 0.05f;
-					player.meleeDamage += 0.05f;
-					CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
-					player.rangedDamage += 0.05f;
-					player.magicDamage += 0.05f;
-					player.minionDamage += 0.05f;
-				}
+                    player.allDamage += 0.05f;
+                }
 				else
 				{
-					player.meleeDamage += 0.1f;
-					CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-					player.rangedDamage += 0.1f;
-					player.magicDamage += 0.1f;
-					player.minionDamage += 0.1f;
+                    player.allDamage += 0.1f;
 					player.statDefense += 20;
 					player.moveSpeed += 0.75f;
 				}

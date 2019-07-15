@@ -35,11 +35,7 @@ namespace CalamityMod.Items.Yharon
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.meleeDamage += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-            player.rangedDamage += 0.15f;
-            player.magicDamage += 0.15f;
-            player.minionDamage += 0.15f;
+            player.allDamage += 0.15f;
             player.statDefense += 30;
             if (((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1))
             {

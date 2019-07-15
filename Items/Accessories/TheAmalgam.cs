@@ -68,29 +68,17 @@ namespace CalamityMod.Items.Accessories
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(1000f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
-            player.meleeDamage += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-            player.rangedDamage += 0.15f;
-            player.magicDamage += 0.15f;
-            player.minionDamage += 0.15f;
+            player.allDamage += 0.15f;
             player.ignoreWater = true;
 			player.lavaRose = true;
 			player.lavaMax += 240;
 			if (player.lavaWet)
             {
-                player.meleeDamage += 0.15f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.15f;
-                player.rangedDamage += 0.15f;
-                player.magicDamage += 0.15f;
-                player.minionDamage += 0.15f;
+                player.allDamage += 0.15f;
             }
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.meleeDamage += 0.1f;
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-                player.rangedDamage += 0.1f;
-                player.magicDamage += 0.1f;
-                player.minionDamage += 0.1f;
+                player.allDamage += 0.1f;
                 player.statDefense += 40;
                 player.moveSpeed += 0.75f;
             }

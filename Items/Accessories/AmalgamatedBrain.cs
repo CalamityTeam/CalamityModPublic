@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-            CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
             modPlayer.aBrain = true;
             if (player.immune)
             {
@@ -60,11 +59,7 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            player.meleeDamage += 0.12f;
-            player.magicDamage += 0.12f;
-            player.rangedDamage += 0.12f;
-            modPlayer2.throwingDamage += 0.12f;
-            player.minionDamage += 0.12f;
+            player.allDamage += 0.12f;
         }
 
         public override void AddRecipes()

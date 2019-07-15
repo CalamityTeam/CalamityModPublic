@@ -67,15 +67,8 @@ namespace CalamityMod.Items.Armor
 		public override void UpdateEquip(Player player)
 		{
 			player.maxMinions += 10;
-			player.meleeDamage += 0.3f;
-			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.3f;
-			player.rangedDamage += 0.3f;
-			player.magicDamage += 0.3f;
-			player.minionDamage += 0.3f;
-			player.meleeCrit += 15;
-			player.magicCrit += 15;
-			player.rangedCrit += 15;
-			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 15;
+            player.allDamage += 0.3f;
+            player.GetModPlayer<CalamityPlayer>().AllCritBoost(15);
 		}
 
 		public override void AddRecipes()
