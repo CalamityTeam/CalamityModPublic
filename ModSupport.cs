@@ -8,12 +8,13 @@ namespace CalamityMod
 	public class ModSupport
 	{
         // Returns Calamity's boss downed booleans based on a string provided.
-        public static readonly Func<string, bool> BossDowned = (name) =>
+        public static readonly Func<string, bool> Downed = (name) =>
         {
             name = name.ToLower();
             switch (name)
             {
                 default: return false;
+
                 case "desertscourge":
                 case "desert scourge": return CalamityWorld.downedDesertScourge;
 
@@ -143,43 +144,92 @@ namespace CalamityMod
             }
         };
 
+        // Returns Calamity's "in biome" booleans based on a string provided.
+        public static readonly Func<Player, string, bool> InZone = (p, name) =>
+        {
+            Mod calamity = ModLoader.GetMod("CalamityMod");
+            name = name.ToLower();
+            switch (name)
+            {
+                default: return false;
+
+                case "calamity": // backwards compatibility
+                case "calamitybiome":
+                case "calamity biome":
+                case "crag":
+                case "crags":
+                case "profanedcrag": // remove these when the actual profaned biome is added
+                case "profaned crag":
+                case "profanedcrags":
+                case "profaned crags":
+                case "brimstone":
+                case "brimstonecrag":
+                case "brimstone crag":
+                case "brimstonecrags":
+                case "brimstone crags": return p.GetModPlayer<CalamityPlayer>(calamity).ZoneCalamity;
+
+                case "astral":
+                case "astralbiome":
+                case "astral biome":
+                case "astralinfection":
+                case "astral infection": return p.GetModPlayer<CalamityPlayer>(calamity).ZoneAstral;
+            }
+        };
+
+        // Returns Calamity's various difficulty modes/modifiers based on a string provided.
+        public static readonly Func<string, bool> Difficulty = (name) =>
+        {
+            name = name.ToLower();
+            switch (name)
+            {
+                default: return false;
+
+                case "revengeance":
+                case "rev":
+                case "revengeancemode":
+                case "revengeance mode": return CalamityWorld.revenge;
+
+                case "death":
+                case "deathmode":
+                case "death mode": return CalamityWorld.death;
+
+                case "defiled":
+                case "defiledrune":
+                case "defiled rune":
+                case "defiledmode":
+                case "defiled mode": return CalamityWorld.defiled;
+
+                case "armageddon":
+                case "arma":
+                case "instakill":
+                case "instagib":
+                case "armageddonmode":
+                case "armageddon mode": return CalamityWorld.armageddon;
+
+                case "ironheart":
+                case "iron heart":
+                case "steelsoul":
+                case "steel soul":
+                case "permadeath": return CalamityWorld.ironHeart;
+            }
+        };
+
         public static object Call(params object[] args)
 		{
-			if (args.Length <= 0 || !(args[0] is string)) return new Exception("FATAL: No function name specified. First argument must be a function name.");
+			if (args.Length <= 0 || !(args[0] is string)) return new Exception("ERROR: No function name specified. First argument must be a function name.");
 
-			string methodName = (string)args[0];
-
-            // Checks whether a certain boss has been defeated
-            if (methodName.Equals("Downed"))
-                return BossDowned;
-
-            else if (methodName.Equals("InZone")) //returns a Func which will return a zone value based on player and name.
+            string methodName = (string)args[0];
+            switch (methodName)
             {
-                Func<Player, string, bool> inZone = (p, name) => { return ModSupport.InZone(p, name); };
-                return inZone;
+                case "Downed":
+                    return Downed;
+                case "InZone":
+                    return InZone;
+                case "Difficulty":
+                    return Difficulty;
             }
-			/*else if (methodName.StartsWith("Set") || methodName.StartsWith("Get"))
-			{
-				CalamityPlayer player = Main.player[(int)args[1]].GetModPlayer<CalamityCustomThrowingDamagePlayer>(mod);
-				if (methodName.Equals("SetRogueBoost")) { player.rogueBoost = (float)args[2]; }
-				else if (methodName.Equals("GetrogueBoost")) { return player.rogueBoost; }
-				else if (methodName.Equals("SetrogueCrit")) { player.rogueCrit = (int)args[2]; }
-				else if (methodName.Equals("GetrogueCrit")) { return player.rogueCrit; }
-				return null;
-			}*/
-			return new Exception("CalamityMod Error: NO METHOD FOUND: " + methodName);
-		}
 
-		public static bool InZone(Player p, string zoneName)
-		{
-			Mod calamity = ModLoader.GetMod("CalamityMod");
-			zoneName = zoneName.ToLower();
-			switch (zoneName)
-			{
-				case "calamity": return p.GetModPlayer<CalamityPlayer>(calamity).ZoneCalamity;
-				case "astral": return p.GetModPlayer<CalamityPlayer>(calamity).ZoneAstral;
-			}
-			return false;
+			return new Exception("ERROR: Invalid function name provided as first argument.");
 		}
 	}
 }
