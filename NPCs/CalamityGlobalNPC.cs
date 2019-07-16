@@ -6052,7 +6052,9 @@ namespace CalamityMod.NPCs
 					num = num1176;
 				}
 			}
-			npc.dontTakeDamage = NPC.CountNPCS(NPCID.MoonLordFreeEye) > 3;
+
+			if (npc.ai[0] == 1f)
+				npc.dontTakeDamage = NPC.CountNPCS(NPCID.MoonLordFreeEye) > 3;
 		}
 
 		private void RevengeanceMoonLordHandAI(NPC npc)
