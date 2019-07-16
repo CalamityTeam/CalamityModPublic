@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -80,15 +78,6 @@ namespace CalamityMod.Projectiles.Rogue
 		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 250, 250);
-        }
-		
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-			CalamityPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod);
-        	if (target.type == NPCID.TargetDummy || modPlayer.rogueStealth <= 0f)
-			{
-				return;
-			}
         }
     }
 }

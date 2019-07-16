@@ -2858,12 +2858,19 @@ namespace CalamityMod
 				player.ClearBuff(BuffID.WindPushed);
 			}
 		}
-		#endregion
+        #endregion
 
-		#region PostUpdate
+        #region RogueStealthStrike
+        public bool StealthStrikeAvailable()
+        {
+            return rogueStealth >= rogueStealthMax && rogueStealthMax > 0f;
+        }
+        #endregion
 
-		#region PostUpdateBuffs
-		public override void PostUpdateBuffs()
+        #region PostUpdate
+
+        #region PostUpdateBuffs
+        public override void PostUpdateBuffs()
 		{
 			if (CalamityWorld.defiled)
 				Defiled();

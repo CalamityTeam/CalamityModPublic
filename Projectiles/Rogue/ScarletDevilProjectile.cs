@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using Terraria.GameContent.Achievements;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -40,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 130, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, new Color(255, 255, 255), 0.85f);
 			projectile.ai[0] += 1f;
-			if(projectile.ai[0] == 1f && modPlayer.rogueStealth >= modPlayer.rogueStealthMax && modPlayer.rogueStealthMax > 0f)
+			if(projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
 				lifesteal = true;
 			if ((projectile.ai[0] %= 5f) == 0f)
 			{
