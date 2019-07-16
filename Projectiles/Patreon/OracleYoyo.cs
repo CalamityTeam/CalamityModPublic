@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Patreon
 		private static float MaxDischargeRate = 0.53f;
 		private static float ChargePerHit = 6f;
 
-		private static int AuraBaseDamage = 40;
+		private static int AuraBaseDamage = 160;
 		private static int HitsPerOrbVolley = 6;
 
 		public override void SetStaticDefaults()

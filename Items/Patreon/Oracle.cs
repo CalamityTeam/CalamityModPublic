@@ -2,13 +2,12 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Patreon
 {
     public class Oracle : ModItem
     {
-        public static int BaseDamage = 1360;
+        public static int BaseDamage = 480;
 
         public override void SetStaticDefaults()
         {
