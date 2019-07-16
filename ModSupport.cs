@@ -1,69 +1,110 @@
 using System;
-using System.Reflection;
-using System.IO;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-
 using CalamityMod.World;
 
 namespace CalamityMod
 {
 	public class ModSupport
 	{
-		public static object Call(params object[] args)
+        // Returns Calamity's boss downed booleans based on a string provided.
+        public static readonly Func<string, bool> BossDowned = (name) =>
+        {
+            name = name.ToLower();
+            switch (name)
+            {
+                default: return false;
+                case "desertscourge":
+                case "desert scourge": return CalamityWorld.downedDesertScourge;
+                case "crabulon": return CalamityWorld.downedCrabulon;
+                case "hivemind":
+                case "hive mind":
+                case "thehivemind":
+                case "the hive mind": return CalamityWorld.downedHiveMind;
+                case "perforator":
+                case "perforators":
+                case "theperforators":
+                case "the perforators":
+                case "perforatorhive":
+                case "perforator hive":
+                case "the perforator hive": return CalamityWorld.downedPerforator;
+                case "slimegod":
+                case "slime god":
+                case "theslimegod":
+                case "the slime god": return CalamityWorld.downedSlimeGod;
+                case "cryogen": return CalamityWorld.downedCryogen;
+                case "brimstoneelemental":
+                case "brimstone elemental": return CalamityWorld.downedBrimstoneElemental;
+                case "calamitas":
+                case "clone":
+                case "calamitasclone":
+                case "calamitas clone":
+                case "clonelamitas":
+                case "calamitasdoppelganger":
+                case "calamitas doppelganger": return CalamityWorld.downedCalamitas;
+                case "siren":
+                case "thesiren":
+                case "the siren":
+                case "leviathan":
+                case "theleviathan":
+                case "the leviathan":
+                case "sirenleviathan":
+                case "siren leviathan":
+                case "sirenandleviathan":
+                case "siren and leviathan":
+                case "the siren and the leviathan": return CalamityWorld.downedLeviathan;
+                case "aureus":
+                case "astrumaureus":
+                case "astrum aureus": return CalamityWorld.downedAstrageldon;
+                case "pbg":
+                case "plaguebringer":
+                case "plaguebringergoliath":
+                case "plaguebringer goliath":
+                case "theplaguebringergoliath":
+                case "the plaguebringer goliath": return CalamityWorld.downedPlaguebringer;
+                case "ravager": return CalamityWorld.downedScavenger;
+                case "astrumdeus":
+                case "astrum deus": return CalamityWorld.downedStarGod;
+                case "guardians":
+                case "donuts":
+                case "profanedguardians":
+                case "profaned guardians":
+                case "theprofanedguardians":
+                case "the profaned guardians": return CalamityWorld.downedGuardians;
+                case "providence":
+                case "providencetheprofanedgoddess":
+                case "providence the profaned goddess":
+                case "providence, the profaned goddess": return CalamityWorld.downedProvidence;
+                case "polterghast":
+                case "necroghast":
+                case "necroplasm": return CalamityWorld.downedPolterghast;
+                case "sentinelany": return (CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 || CalamityWorld.downedSentinel3);
+                case "sentinelall": return (CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3);
+                case "sentinel1": return CalamityWorld.downedSentinel1;
+                case "sentinel2": return CalamityWorld.downedSentinel2;
+                case "sentinel3": return CalamityWorld.downedSentinel3;
+                case "devourerofgods": return CalamityWorld.downedDoG;
+                case "bumblebirb": return CalamityWorld.downedBumble;
+                case "yharon": return CalamityWorld.downedYharon;
+                case "supremecalamitas": return CalamityWorld.downedSCal;
+            }
+        };
+
+        public static object Call(params object[] args)
 		{
-			if (args.Length <= 0 || !(args[0] is string)) return new Exception("CalamityMod Error: NO METHOD NAME! First param MUST be a method name!");
+			if (args.Length <= 0 || !(args[0] is string)) return new Exception("FATAL: No function name specified. First argument must be a function name.");
+
 			string methodName = (string)args[0];
-			if (methodName.Equals("Downed")) //returns a Func which will return a downed value based on name.
-			{
-				Func<string, bool> downed = (name) =>
-				{
-					name = name.ToLower();
-					switch (name)
-					{
-						default: return false;
-						case "desertscourge": return CalamityWorld.downedDesertScourge;
-						case "crabulon": return CalamityWorld.downedCrabulon;
-						case "hivemind": return CalamityWorld.downedHiveMind;
-						case "perforator":
-						case "perforators": return CalamityWorld.downedPerforator;
-						case "slimegod": return CalamityWorld.downedSlimeGod;
-						case "cryogen": return CalamityWorld.downedCryogen;
-						case "brimstoneelemental": return CalamityWorld.downedBrimstoneElemental;
-						case "calamitas": return CalamityWorld.downedCalamitas;
-						case "leviathan": return CalamityWorld.downedLeviathan;
-						case "astrumdeus": return CalamityWorld.downedStarGod;
-						case "plaguebringer": return CalamityWorld.downedPlaguebringer;
-						case "ravager": return CalamityWorld.downedScavenger;
-						case "guardians": return CalamityWorld.downedGuardians;
-						case "providence": return CalamityWorld.downedProvidence;
-						case "polterghast": return CalamityWorld.downedPolterghast;
-						case "sentinelany": return (CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 || CalamityWorld.downedSentinel3);
-						case "sentinelall": return (CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3);
-						case "sentinel1": return CalamityWorld.downedSentinel1;
-						case "sentinel2": return CalamityWorld.downedSentinel2;
-						case "sentinel3": return CalamityWorld.downedSentinel3;
-						case "devourerofgods": return CalamityWorld.downedDoG;
-						case "bumblebirb": return CalamityWorld.downedBumble;
-						case "yharon": return CalamityWorld.downedYharon;
-						case "supremecalamitas": return CalamityWorld.downedSCal;
-					}
-				};
-				return downed;
-			}
-			else if (methodName.Equals("InZone")) //returns a Func which will return a zone value based on player and name.
-			{
-				Func<Player, string, bool> inZone = (p, name) => { return ModSupport.InZone(p, name); };
-				return inZone;
-			}
+
+            // Checks whether a certain boss has been defeated
+            if (methodName.Equals("Downed"))
+                return BossDowned;
+
+            else if (methodName.Equals("InZone")) //returns a Func which will return a zone value based on player and name.
+            {
+                Func<Player, string, bool> inZone = (p, name) => { return ModSupport.InZone(p, name); };
+                return inZone;
+            }
 			/*else if (methodName.StartsWith("Set") || methodName.StartsWith("Get"))
 			{
 				CalamityPlayer player = Main.player[(int)args[1]].GetModPlayer<CalamityCustomThrowingDamagePlayer>(mod);
