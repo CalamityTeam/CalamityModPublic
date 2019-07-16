@@ -31,6 +31,7 @@ namespace CalamityMod
                 case "the perforators":
                 case "perforatorhive":
                 case "perforator hive":
+                case "theperforatorhive":
                 case "the perforator hive": return CalamityWorld.downedPerforator;
 
                 case "slimegod":
@@ -148,6 +149,7 @@ namespace CalamityMod
         public static readonly Func<Player, string, bool> InZone = (p, name) =>
         {
             Mod calamity = ModLoader.GetMod("CalamityMod");
+            CalamityPlayer mp = p.GetModPlayer<CalamityPlayer>(calamity);
             name = name.ToLower();
             switch (name)
             {
@@ -158,7 +160,7 @@ namespace CalamityMod
                 case "calamity biome":
                 case "crag":
                 case "crags":
-                case "profanedcrag": // remove these when the actual profaned biome is added
+                case "profanedcrag": // remove these four when the actual profaned biome is added
                 case "profaned crag":
                 case "profanedcrags":
                 case "profaned crags":
@@ -166,13 +168,74 @@ namespace CalamityMod
                 case "brimstonecrag":
                 case "brimstone crag":
                 case "brimstonecrags":
-                case "brimstone crags": return p.GetModPlayer<CalamityPlayer>(calamity).ZoneCalamity;
+                case "brimstone crags": return mp.ZoneCalamity;
 
                 case "astral":
                 case "astralbiome":
                 case "astral biome":
                 case "astralinfection":
-                case "astral infection": return p.GetModPlayer<CalamityPlayer>(calamity).ZoneAstral;
+                case "astral infection": return mp.ZoneAstral;
+
+
+                case "sunkensea":
+                case "sunken sea":
+                case "thesunkensea":
+                case "the sunken sea": return mp.ZoneSunkenSea;
+
+                case "sulfur":
+                case "sulphur":
+                case "sulfursea":
+                case "sulfur sea":
+                case "sulphursea":
+                case "sulphur sea":
+                case "sulfuroussea":
+                case "sulfurous sea":
+                case "sulphuroussea":
+                case "sulphurous sea": return mp.ZoneSulphur;
+
+                case "abyss":
+                case "theabyss":
+                case "the abyss":
+                case "anyabyss":
+                case "any abyss":
+                case "abyssany":
+                case "any abyss layer": return mp.ZoneAbyss;
+
+                case "abyss1":
+                case "abyss 1":
+                case "abyss_1":
+                case "layer1":
+                case "layer 1":
+                case "layer_1":
+                case "abysslayer1":
+                case "abyss layer 1": return mp.ZoneAbyssLayer1;
+
+                case "abyss2":
+                case "abyss 2":
+                case "abyss_2":
+                case "layer2":
+                case "layer 2":
+                case "layer_2":
+                case "abysslayer2":
+                case "abyss layer 2": return mp.ZoneAbyssLayer2;
+
+                case "abyss3":
+                case "abyss 3":
+                case "abyss_3":
+                case "layer3":
+                case "layer 3":
+                case "layer_3":
+                case "abysslayer3":
+                case "abyss layer 3": return mp.ZoneAbyssLayer3;
+
+                case "abyss4":
+                case "abyss 4":
+                case "abyss_4":
+                case "layer4":
+                case "layer 4":
+                case "layer_4":
+                case "abysslayer4":
+                case "abyss layer 4": return mp.ZoneAbyssLayer4;
             }
         };
 
