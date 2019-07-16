@@ -102,9 +102,9 @@ namespace CalamityMod.World
 		public static bool downedOldDuke = false;
 		public static bool downedGuardians = false;
 		public static bool downedProvidence = false;
-		public static bool downedSentinel1 = false;
-		public static bool downedSentinel2 = false;
-		public static bool downedSentinel3 = false;
+		public static bool downedSentinel1 = false; // Ceaseless Void
+		public static bool downedSentinel2 = false; // Storm Weaver
+		public static bool downedSentinel3 = false; // Signus, Envoy of the Devourer
 		public static bool downedPolterghast = false;
 		public static bool downedDoG = false;
 		public static bool downedBumble = false;

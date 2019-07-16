@@ -16,11 +16,14 @@ namespace CalamityMod
                 default: return false;
                 case "desertscourge":
                 case "desert scourge": return CalamityWorld.downedDesertScourge;
+
                 case "crabulon": return CalamityWorld.downedCrabulon;
+
                 case "hivemind":
                 case "hive mind":
                 case "thehivemind":
                 case "the hive mind": return CalamityWorld.downedHiveMind;
+
                 case "perforator":
                 case "perforators":
                 case "theperforators":
@@ -28,13 +31,17 @@ namespace CalamityMod
                 case "perforatorhive":
                 case "perforator hive":
                 case "the perforator hive": return CalamityWorld.downedPerforator;
+
                 case "slimegod":
                 case "slime god":
                 case "theslimegod":
                 case "the slime god": return CalamityWorld.downedSlimeGod;
+
                 case "cryogen": return CalamityWorld.downedCryogen;
+
                 case "brimstoneelemental":
                 case "brimstone elemental": return CalamityWorld.downedBrimstoneElemental;
+
                 case "calamitas":
                 case "clone":
                 case "calamitasclone":
@@ -42,6 +49,7 @@ namespace CalamityMod
                 case "clonelamitas":
                 case "calamitasdoppelganger":
                 case "calamitas doppelganger": return CalamityWorld.downedCalamitas;
+
                 case "siren":
                 case "thesiren":
                 case "the siren":
@@ -53,40 +61,85 @@ namespace CalamityMod
                 case "sirenandleviathan":
                 case "siren and leviathan":
                 case "the siren and the leviathan": return CalamityWorld.downedLeviathan;
+
                 case "aureus":
                 case "astrumaureus":
                 case "astrum aureus": return CalamityWorld.downedAstrageldon;
+
                 case "pbg":
                 case "plaguebringer":
                 case "plaguebringergoliath":
                 case "plaguebringer goliath":
                 case "theplaguebringergoliath":
                 case "the plaguebringer goliath": return CalamityWorld.downedPlaguebringer;
+
                 case "ravager": return CalamityWorld.downedScavenger;
+
                 case "astrumdeus":
                 case "astrum deus": return CalamityWorld.downedStarGod;
+
                 case "guardians":
                 case "donuts":
                 case "profanedguardians":
                 case "profaned guardians":
                 case "theprofanedguardians":
                 case "the profaned guardians": return CalamityWorld.downedGuardians;
+
+                case "bumblebirb": return CalamityWorld.downedBumble;
+
                 case "providence":
                 case "providencetheprofanedgoddess":
                 case "providence the profaned goddess":
                 case "providence, the profaned goddess": return CalamityWorld.downedProvidence;
+
                 case "polterghast":
                 case "necroghast":
                 case "necroplasm": return CalamityWorld.downedPolterghast;
-                case "sentinelany": return (CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 || CalamityWorld.downedSentinel3);
-                case "sentinelall": return (CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3);
-                case "sentinel1": return CalamityWorld.downedSentinel1;
-                case "sentinel2": return CalamityWorld.downedSentinel2;
-                case "sentinel3": return CalamityWorld.downedSentinel3;
-                case "devourerofgods": return CalamityWorld.downedDoG;
-                case "bumblebirb": return CalamityWorld.downedBumble;
-                case "yharon": return CalamityWorld.downedYharon;
-                case "supremecalamitas": return CalamityWorld.downedSCal;
+
+                case "sentinel1": // backwards compatibility
+                case "void":
+                case "ceaselessvoid":
+                case "ceaseless void": return CalamityWorld.downedSentinel1;
+
+                case "sentinel2": // backwards compatibility
+                case "stormweaver":
+                case "storm weaver": return CalamityWorld.downedSentinel2;
+
+                case "sentinel3": // backwards compatibility
+                case "cosmicwraith":
+                case "cosmic wraith":
+                case "signus":
+                case "signusenvoyofthedevourer":
+                case "signus envoy of the devourer":
+                case "signus, envoy of the devourer": return CalamityWorld.downedSentinel3;
+
+                case "sentinelany": // backwards compatibility
+                case "anysentinel":
+                case "any sentinel":
+                case "onesentinel":
+                case "one sentinel":
+                case "sentinel": return (CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 || CalamityWorld.downedSentinel3);
+
+                case "sentinelall": // backwards compatibility
+                case "sentinels":
+                case "allsentinel":
+                case "allsentinels":
+                case "all sentinels": return (CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3);
+
+                case "dog":
+                case "devourerofgods":
+                case "devourer of gods":
+                case "thedevourerofgods":
+                case "the devourer of gods": return CalamityWorld.downedDoG;
+
+                case "yharon":
+                case "jungledragonyharon":
+                case "jungle dragon yharon":
+                case "jungle dragon, yharon": return CalamityWorld.downedYharon;
+
+                case "scal":
+                case "supremecalamitas":
+                case "supreme calamitas": return CalamityWorld.downedSCal;
             }
         };
 
