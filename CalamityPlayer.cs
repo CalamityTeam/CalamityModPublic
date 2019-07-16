@@ -5529,7 +5529,6 @@ namespace CalamityMod
                 add += 0.1f;
 			}
 
-            // TODO: rework The Bee damage to use the flat variable here
 			if (theBee && player.statLife >= player.statLifeMax2)
 			{
 				if (item.melee || item.ranged || item.magic || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
