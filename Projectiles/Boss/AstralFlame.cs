@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.timeLeft = 480;
+            projectile.timeLeft = 485;
         }
 
         public override void AI()
@@ -100,7 +100,19 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.timeLeft > 400)
+			{
+				projectile.localAI[1] += 1f;
+				byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
+				byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
+				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+			}
+			return new Color(255, 255, 255, projectile.alpha);
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
         	target.AddBuff(mod.BuffType("GodSlayerInferno"), 120);
         }
