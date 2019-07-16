@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -15,9 +11,8 @@ namespace CalamityMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Animosity");
 			Tooltip.SetDefault("50% chance to not consume ammo\n" +
-			                   "Fires a powerful sniper round\n" +
-			                   "Right click to fire a burst of bullets\n" +
-                               "Revengeance drop");
+                "Fires a powerful sniper round\n" +
+                "Right click to fire a burst of bullets\n");
 		}
 
 	    public override void SetDefaults()
@@ -83,7 +78,7 @@ namespace CalamityMod.Items.Weapons
 	    	}
 	    	else
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 242, (int)((double)damage * 5.8f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.BulletHighVelocity, (int)((double)damage * 5.8f), knockBack, player.whoAmI, 0.0f, 0.0f);
 	    		return false;
 	    	}
 		}

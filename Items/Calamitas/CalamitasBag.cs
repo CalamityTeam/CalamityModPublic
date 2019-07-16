@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Calamitas
 		{
 			if (CalamityWorld.revenge)
 			{
-				player.QuickSpawnItem(mod.ItemType("Animosity"));
 				if (Main.rand.Next(20) == 0)
 				{
 					switch (Main.rand.Next(3))
@@ -68,6 +67,10 @@ namespace CalamityMod.Items.Calamitas
 			{
 				player.QuickSpawnItem(mod.ItemType("BlightedEyeStaff"));
 			}
+            if (Main.rand.Next(3) == 0)
+            {
+                player.QuickSpawnItem(mod.ItemType("Animosity"));
+            }
             if (CalamityWorld.downedProvidence)
             {
                 player.QuickSpawnItem(mod.ItemType("Bloodstone"), Main.rand.Next(35, 46));
