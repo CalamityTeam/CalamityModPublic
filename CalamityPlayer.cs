@@ -5504,7 +5504,7 @@ namespace CalamityMod
 		#endregion
 
 		#region GetWeaponDamageAndKB
-		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult)
+		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
 		{
 			bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type)));
 			if (isTrueMelee)
@@ -5528,6 +5528,8 @@ namespace CalamityMod
 			{
                 add += 0.1f;
 			}
+
+            // TODO: rework The Bee damage to use the flat variable here
 			if (theBee && player.statLife >= player.statLifeMax2)
 			{
 				if (item.melee || item.ranged || item.magic || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)

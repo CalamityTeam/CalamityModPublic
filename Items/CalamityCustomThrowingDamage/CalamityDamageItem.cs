@@ -27,10 +27,10 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.summon = false;
 		}
 
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult)
+        // 5E-06 to prevent downrounding is not needed anymore, added by TML itself
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
-            float formula = CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
-            add += formula + 5E-06f; // tiny add to fix downrounding
+            add += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
         }
 
         public override void GetWeaponCrit(Player player, ref int crit)
