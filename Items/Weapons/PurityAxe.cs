@@ -45,7 +45,8 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int idx = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            int powderDamage = (int)(0.85f * damage);
+            int idx = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, powderDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
             Main.projectile[idx].melee = true;
             return false;
         }
