@@ -105,6 +105,14 @@ namespace CalamityMod
         }
         #endregion
 
+        #region Revengeance Bag Accessories
+        public static bool DropRevBagAccessories(Player p)
+        {
+            CalamityMod mod = CalamityMod.Instance;
+            return DropItemFromSetCondition(p, CalamityWorld.revenge, 20, mod.ItemType("StressPills"), mod.ItemType("Laudanum"), mod.ItemType("HeartofDarkness"));
+        }
+        #endregion
+
         #region NPC Item Drops 100% Chance
         /// <summary>
         /// Drops a stack of one or more items from the given NPC. Optionally spawns one copy of this drop per player.
