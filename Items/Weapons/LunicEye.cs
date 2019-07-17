@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
@@ -41,12 +38,17 @@ namespace CalamityMod.Items.Weapons
 			return new Vector2(-15, 0);
 		}
 
-        // Test to ensure this isn't overpowered because it now scales with TML's new all-damage stat.
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-            float damageMult = 4 * player.allDamage + player.meleeDamage + player.rangedDamage + player.magicDamage +
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage + player.minionDamage;
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * damageMult), knockBack, player.whoAmI, 0.0f, 0.0f);
+            float damageMult = 1f + 4f * (player.allDamage - 1f);
+            damageMult += player.meleeDamage - 1f;
+            damageMult += player.rangedDamage - 1f;
+            damageMult += player.magicDamage - 1f;
+            damageMult += player.minionDamage - 1f;
+            damageMult += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
+
+            int boostedDamage = (int)(damage * damageMult);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, boostedDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}
 		
