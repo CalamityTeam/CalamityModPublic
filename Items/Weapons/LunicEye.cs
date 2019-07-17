@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Lunic Eye");
 			Tooltip.SetDefault("Fires lunic beams that reduce enemy protection\n" +
-				"Projectile damage is multiplied by all of your damage bonuses");
+                "This weapon scales with all your damage stats at once");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 80;
-			item.damage = 7;
+			item.damage = 9;
 			item.rare = 5;
 			item.useAnimation = 15;
 			item.useTime = 15;
@@ -38,17 +38,21 @@ namespace CalamityMod.Items.Weapons
 			return new Vector2(-15, 0);
 		}
 
+        // Lunic Eye scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            float formula = 5f * (player.allDamage - 1f);
+            formula += player.meleeDamage - 1f;
+            formula += player.rangedDamage - 1f;
+            formula += player.magicDamage - 1f;
+            formula += player.minionDamage - 1f;
+            formula += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
+            add += formula;
+        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-            float damageMult = 1f + 4f * (player.allDamage - 1f);
-            damageMult += player.meleeDamage - 1f;
-            damageMult += player.rangedDamage - 1f;
-            damageMult += player.magicDamage - 1f;
-            damageMult += player.minionDamage - 1f;
-            damageMult += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
-
-            int boostedDamage = (int)(damage * damageMult);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, boostedDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}
 		
