@@ -34,7 +34,7 @@ namespace CalamityMod
 				bossChecklist.Call("AddBossWithInfo", "Astrum Aureus", 10.6f, (Func<bool>)(() => CalamityWorld.downedAstrageldon), "Use an [i:" + mod.ItemType("AstralChunk") + "] at Night"); //8.5
 				bossChecklist.Call("AddBossWithInfo", "Plaguebringer Goliath", 11.5f, (Func<bool>)(() => CalamityWorld.downedPlaguebringer), "Use an [i:" + mod.ItemType("Abomination") + "] in the Jungle Biome"); //9
 				bossChecklist.Call("AddBossWithInfo", "Ravager", 12.5f, (Func<bool>)(() => CalamityWorld.downedScavenger), "Use an [i:" + mod.ItemType("AncientMedallion") + "]"); //9.5
-				bossChecklist.Call("AddBossWithInfo", "Astrum Deus", 13.5f, (Func<bool>)(() => CalamityWorld.downedStarGod), "Use a [i:" + mod.ItemType("Starcore") + "] at Night"); //9.6
+				bossChecklist.Call("AddBossWithInfo", "Astrum Deus", 13.5f, (Func<bool>)(() => CalamityWorld.downedStarGod), "Use a [i:" + mod.ItemType("Starcore") + "] at Night or defeat 3 empowered astral titans"); //9.6
 				//bossChecklist.Call("AddBossWithInfo", "The Old Duke", 13.6f, (Func<bool>)(() => CalamityWorld.downedOldDuke), "Fishing with some type of bait in the Sulphuric Sea"); //9.7
 				bossChecklist.Call("AddBossWithInfo", "Profaned Guardians", 14.5f, (Func<bool>)(() => CalamityWorld.downedGuardians), "Use a [i:" + mod.ItemType("ProfanedShard") + "] in the Hallow or Underworld Biomes"); //10
 				bossChecklist.Call("AddBossWithInfo", "Bumblebirb", 14.6f, (Func<bool>)(() => CalamityWorld.downedBumble), "Use [i:" + mod.ItemType("BirbPheromones") + "] in the Jungle Biome"); //16
@@ -46,7 +46,6 @@ namespace CalamityMod
 				bossChecklist.Call("AddBossWithInfo", "Devourer of Gods", 16f, (Func<bool>)(() => CalamityWorld.downedDoG), "Use a [i:" + mod.ItemType("CosmicWorm") + "]"); //15
 				bossChecklist.Call("AddBossWithInfo", "Yharon", 17f, (Func<bool>)(() => CalamityWorld.downedYharon), "Use a [i:" + mod.ItemType("ChickenEgg") + "] in the Jungle Biome"); //17
 				bossChecklist.Call("AddBossWithInfo", "Supreme Calamitas", 18f, (Func<bool>)(() => CalamityWorld.downedSCal), "Use an [i:" + mod.ItemType("EyeofExtinction") + "]"); //18
-				//bossChecklist.Call("AddBossWithInfo", "MEME GOD", 19f, (Func<bool>)(() => CalamityWorld.downedLORDE), "Use [i:" + mod.ItemType("NO") + "]"); //19
 			}
 		}
 
