@@ -2101,7 +2101,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Vehemenc"));
 				}
-				int itemChoice = Main.rand.Next(14);
+				int itemChoice = Main.rand.Next(15);
 				if (itemChoice == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Animus")); //done
@@ -2152,13 +2152,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 				else if (itemChoice == 12)
 				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Svantechnical")); //done
-				}
-				else if (itemChoice == 13)
-				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrystylCrusher")); //done
 				}
-			}
+                else if (itemChoice == 13)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperMelee")); //done
+                }
+                else
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperRogue")); //done
+                }
+            }
 			else
 			{
 				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("CalamitousEssence"), Main.rand.Next(20, 31), true);
