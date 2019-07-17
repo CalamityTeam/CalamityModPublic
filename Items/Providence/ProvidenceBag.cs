@@ -32,60 +32,24 @@ namespace CalamityMod.Items.Providence
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BlissfulBombardier"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("HolyCollider"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("MoltenAmputator"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("PurgeGuzzler"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("SolarFlare"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("TelluricGlare"));
-			}
-			if (Main.rand.Next(40) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("SamuraiBadge"));
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("ProvidenceMask"));
-			}
-			player.QuickSpawnItem(mod.ItemType("UnholyEssence"), Main.rand.Next(25, 36));
-			player.QuickSpawnItem(mod.ItemType("DivineGeode"), Main.rand.Next(15, 26));
-			player.QuickSpawnItem(mod.ItemType("RuneofCos"));
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            DropHelper.DropItemChance(player, mod.ItemType("HolyCollider"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("SolarFlare"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("TelluricGlare"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("BlissfulBombardier"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("PurgeGuzzler"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("MoltenAmputator"), 3);
+
+            DropHelper.DropItemChance(player, mod.ItemType("SamuraiBadge"), 40);
+
+            DropHelper.DropItemChance(player, mod.ItemType("ProvidenceMask"), 7);
+
+            DropHelper.DropItem(player, mod.ItemType("UnholyEssence"), 25, 35);
+            DropHelper.DropItem(player, mod.ItemType("DivineGeode"), 15, 25);
+
+            DropHelper.DropItem(player, mod.ItemType("RuneofCos"));
 		}
 	}
 }
