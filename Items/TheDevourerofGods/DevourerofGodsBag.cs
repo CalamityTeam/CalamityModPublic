@@ -48,7 +48,7 @@ namespace CalamityMod.Items.TheDevourerofGods
             // Weapons
             DropHelper.DropItemChance(player, mod.ItemType("Excelsus"), 3);
             DropHelper.DropItemChance(player, mod.ItemType("EradicatorMelee"), 3);
-            float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryChanceFloat;
+            float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, mod.ItemType("CosmicDischarge"), CalamityWorld.revenge, dischargeChance);
             DropHelper.DropItemChance(player, mod.ItemType("TheObliterator"), 3);
             DropHelper.DropItemChance(player, mod.ItemType("Deathwind"), 3);

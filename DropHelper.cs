@@ -24,12 +24,12 @@ namespace CalamityMod
         /// <summary>
         /// Legendary drops have a 1 in X chance of dropping, where X is this variable.
         /// </summary>
-        public static readonly int LegendaryChanceInt = 100;
+        public static readonly int LegendaryDropRateInt = 100;
 
         /// <summary>
         /// Legendary weapons have this chance to drop (decimal number out of 1.0).
         /// </summary>
-        public static readonly float LegendaryChanceFloat = 0.01f;
+        public static readonly float LegendaryDropRateFloat = 0.01f;
 
         /// <summary>
         /// Rare Item Variants have a 1 in X chance of dropping, where X is this variable.

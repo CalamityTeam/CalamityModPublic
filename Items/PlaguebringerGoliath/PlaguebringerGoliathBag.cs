@@ -45,7 +45,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
             DropHelper.DropItemChance(player, mod.ItemType("TheHive"), 3);
             DropHelper.DropItemChance(player, mod.ItemType("MepheticSprayer"), 3); // Blight Spewer
             DropHelper.DropItemChance(player, mod.ItemType("PlagueStaff"), 3);
-            float malachiteChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryChanceFloat;
+            float malachiteChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, mod.ItemType("Malachite"), CalamityWorld.revenge, malachiteChance);
 
             // Equipment

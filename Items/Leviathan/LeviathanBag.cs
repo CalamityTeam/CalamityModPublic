@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Leviathan
             // Equipment
             DropHelper.DropItemCondition(player, mod.ItemType("LeviathanAmbergris"), Main.hardMode);
             DropHelper.DropItemCondition(player, mod.ItemType("LureofEnthrallment"), Main.hardMode, 3, 1, 1);
-            float communityChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryChanceFloat;
+            float communityChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, mod.ItemType("TheCommunity"), CalamityWorld.revenge, communityChance);
 
             // Vanity
