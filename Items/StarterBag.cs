@@ -27,28 +27,40 @@ namespace CalamityMod.Items
 
 		public override void RightClick(Player player)
 		{
-            player.QuickSpawnItem(ItemID.CopperBroadsword); //melee needs
-            player.QuickSpawnItem(ItemID.CopperBow); //ranged needs
-            player.QuickSpawnItem(ItemID.WoodenArrow, 100);
-            player.QuickSpawnItem(ItemID.AmethystStaff); //mage needs
-			player.QuickSpawnItem(ItemID.ManaCrystal);
-            player.QuickSpawnItem(mod.ItemType("WulfrumKnife"), 150);
-            player.QuickSpawnItem(ItemID.SlimeStaff); //summoner needs
-            player.QuickSpawnItem(ItemID.CopperHammer); //tool needs
-            player.QuickSpawnItem(ItemID.MiningPotion); //mining needs
-            player.QuickSpawnItem(ItemID.SpelunkerPotion, 2); //mining/treasure needs
-            player.QuickSpawnItem(ItemID.SwiftnessPotion, 3); //movement needs
-            player.QuickSpawnItem(ItemID.GillsPotion, 2); //abyss needs
-            player.QuickSpawnItem(ItemID.ShinePotion); //mining needs
-            player.QuickSpawnItem(ItemID.SlimeCrown); //speedruns lul needs
-            player.QuickSpawnItem(ItemID.Chest, 3); //storage needs
-            player.QuickSpawnItem(ItemID.Torch, 25); //speedruns lul needs
-            player.QuickSpawnItem(ItemID.Bomb, 10); //speedruns lul needs
-            player.QuickSpawnItem(mod.ItemType("Death"));
-            player.QuickSpawnItem(mod.ItemType("DefiledRune"));
-			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-			if (calamityModMusic != null)
-				player.QuickSpawnItem(calamityModMusic.ItemType("CalamityMusicbox"));
+            // Weapons
+            DropHelper.DropItem(player, ItemID.CopperBroadsword);
+            DropHelper.DropItem(player, ItemID.CopperBow);
+            DropHelper.DropItem(player, ItemID.WoodenArrow, 100);
+            DropHelper.DropItem(player, ItemID.AmethystStaff);
+            DropHelper.DropItem(player, ItemID.ManaCrystal);
+            DropHelper.DropItem(player, ItemID.SlimeStaff);
+            DropHelper.DropItem(player, mod.ItemType("WulfrumKnife"), 150);
+
+            // Tools / Utility
+            DropHelper.DropItem(player, ItemID.CopperHammer);
+            DropHelper.DropItem(player, ItemID.Bomb, 10);
+            DropHelper.DropItem(player, ItemID.MiningPotion);
+            DropHelper.DropItem(player, ItemID.SpelunkerPotion, 2);
+            DropHelper.DropItem(player, ItemID.SwiftnessPotion, 3);
+            DropHelper.DropItem(player, ItemID.GillsPotion, 2);
+            DropHelper.DropItem(player, ItemID.ShinePotion);
+
+            // Tiles / Placeables
+            DropHelper.DropItem(player, ItemID.Torch, 25);
+            DropHelper.DropItem(player, ItemID.Chest, 3);
+
+            // Difficulty items
+            DropHelper.DropItem(player, mod.ItemType("Death"));
+            DropHelper.DropItem(player, mod.ItemType("DefiledRune"));
+
+            // Speedrun King Slime
+            DropHelper.DropItem(player, ItemID.SlimeCrown);
+
+            // Music box (if music mod installed)
+
+			Mod musicMod = ModLoader.GetMod("CalamityModMusic");
+			if (musicMod != null)
+				DropHelper.DropItem(player, musicMod.ItemType("CalamityMusicbox"));
 		}
 	}
 }

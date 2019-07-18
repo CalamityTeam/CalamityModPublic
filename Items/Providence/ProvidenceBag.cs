@@ -1,7 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.Providence
 {
@@ -35,6 +33,11 @@ namespace CalamityMod.Items.Providence
             player.TryGettingDevArmor();
             DropHelper.DropRevBagAccessories(player);
 
+            // Materials
+            DropHelper.DropItem(player, mod.ItemType("UnholyEssence"), 25, 35);
+            DropHelper.DropItem(player, mod.ItemType("DivineGeode"), 15, 25);
+
+            // Weapons
             DropHelper.DropItemChance(player, mod.ItemType("HolyCollider"), 3);
             DropHelper.DropItemChance(player, mod.ItemType("SolarFlare"), 3);
             DropHelper.DropItemChance(player, mod.ItemType("TelluricGlare"), 3);
@@ -42,13 +45,13 @@ namespace CalamityMod.Items.Providence
             DropHelper.DropItemChance(player, mod.ItemType("PurgeGuzzler"), 3);
             DropHelper.DropItemChance(player, mod.ItemType("MoltenAmputator"), 3);
 
-            DropHelper.DropItemChance(player, mod.ItemType("SamuraiBadge"), 40);
+            // Equipment
+            DropHelper.DropItemChance(player, mod.ItemType("SamuraiBadge"), DropHelper.RareVariantDropRateInt);
 
+            // Vanity
             DropHelper.DropItemChance(player, mod.ItemType("ProvidenceMask"), 7);
 
-            DropHelper.DropItem(player, mod.ItemType("UnholyEssence"), 25, 35);
-            DropHelper.DropItem(player, mod.ItemType("DivineGeode"), 15, 25);
-
+            // Other
             DropHelper.DropItem(player, mod.ItemType("RuneofCos"));
 		}
 	}

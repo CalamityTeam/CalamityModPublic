@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.PlaguebringerGoliath
@@ -32,78 +31,30 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(100) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("Malachite"));
-				}
-				else if (CalamityWorld.defiled)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						player.QuickSpawnItem(mod.ItemType("Malachite"));
-					}
-				}
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("PestilentDefiler"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("ThePlaguebringer"));
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("PlaguebringerGoliathMask"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("TheHive"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Malevolence"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("DiseasedPike"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("VirulentKatana"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("MepheticSprayer"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("PlagueStaff"));
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BloomStone"));
-			}
-			player.QuickSpawnItem(mod.ItemType("ToxicHeart"));
-			player.QuickSpawnItem(mod.ItemType("PlagueCellCluster"), Main.rand.Next(13, 18));
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, mod.ItemType("PlagueCellCluster"), 13, 17);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("VirulentKatana"), 3); // Virulence
+            DropHelper.DropItemChance(player, mod.ItemType("DiseasedPike"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("ThePlaguebringer"), 3); // Pandemic
+            DropHelper.DropItemChance(player, mod.ItemType("Malevolence"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("PestilentDefiler"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("TheHive"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("MepheticSprayer"), 3); // Blight Spewer
+            DropHelper.DropItemChance(player, mod.ItemType("PlagueStaff"), 3);
+            float malachiteChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryChanceFloat;
+            DropHelper.DropItemCondition(player, mod.ItemType("Malachite"), CalamityWorld.revenge, malachiteChance);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("ToxicHeart"));
+            DropHelper.DropItemChance(player, mod.ItemType("BloomStone"), 10);
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("PlaguebringerGoliathMask"), 7);
 		}
 	}
 }

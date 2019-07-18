@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Polterghast
@@ -32,56 +31,27 @@ namespace CalamityMod.Items.Polterghast
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				player.QuickSpawnItem(mod.ItemType("Ectoheart"));
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BansheeHook"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("DaemonsFlame"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("EtherealSubjugator"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("FatesReveal"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("GhastlyVisage"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("GhoulishGouger"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("TerrorBlade"));
-			}
-			player.QuickSpawnItem(mod.ItemType("RuinousSoul"), Main.rand.Next(6, 11));
-			player.QuickSpawnItem(mod.ItemType("Affliction"));
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, mod.ItemType("RuinousSoul"), 6, 10);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("TerrorBlade"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("BansheeHook"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("DaemonsFlame"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("FatesReveal"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("GhastlyVisage"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("EtherealSubjugator"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("GhoulishGouger"), 3);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("Affliction"));
+            DropHelper.DropItemCondition(player, mod.ItemType("Ectoheart"), CalamityWorld.revenge);
+
+            // Vanity
+            // there is no Polterghast mask yet
 		}
 	}
 }

@@ -32,110 +32,44 @@ namespace CalamityMod.Items.AquaticScourge
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
 			player.TryGettingDevArmor();
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("DeepseaStaff"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Downpour"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Barinautical"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("SubmarineShocker"));
-			}
-            if (Main.rand.Next(10) == 0)
-            {
-                player.QuickSpawnItem(ItemID.HighTestFishingLine);
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                player.QuickSpawnItem(ItemID.AnglerTackleBag);
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                player.QuickSpawnItem(ItemID.TackleBox);
-            }
-            if (Main.rand.Next(8) == 0)
-            {
-                player.QuickSpawnItem(ItemID.AnglerEarring);
-            }
-            if (Main.rand.Next(8) == 0)
-            {
-                player.QuickSpawnItem(ItemID.FishermansGuide);
-            }
-            if (Main.rand.Next(8) == 0)
-            {
-                player.QuickSpawnItem(ItemID.WeatherRadio);
-            }
-            if (Main.rand.Next(8) == 0)
-            {
-                player.QuickSpawnItem(ItemID.Sextant);
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(ItemID.AnglerHat);
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(ItemID.AnglerVest);
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(ItemID.AnglerPants);
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(ItemID.CratePotion, Main.rand.Next(2, 4));
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(ItemID.FishingPotion, Main.rand.Next(2, 4));
-            }
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(ItemID.SonarPotion, Main.rand.Next(2, 4));
-            }
-            if (Main.rand.Next(8) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("AeroStone"));
-            }
-            if (NPC.downedBoss3)
-            {
-                if (Main.rand.Next(12) == 0)
-                {
-                    player.QuickSpawnItem(ItemID.GoldenBugNet);
-                }
-            }
-            player.QuickSpawnItem(mod.ItemType("AquaticEmblem"));
-			player.QuickSpawnItem(mod.ItemType("VictoryShard"), Main.rand.Next(15, 26));
-			player.QuickSpawnItem(ItemID.Coral, Main.rand.Next(7, 12));
-			player.QuickSpawnItem(ItemID.Seashell, Main.rand.Next(7, 12));
-			player.QuickSpawnItem(ItemID.Starfish, Main.rand.Next(7, 12));
-            player.QuickSpawnItem(ItemID.SoulofSight, Main.rand.Next(25, 41));
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, ItemID.SoulofSight, 25, 40);
+            DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 15, 25);
+            DropHelper.DropItem(player, ItemID.Coral, 7, 11);
+            DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
+            DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("SubmarineShocker"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Barinautical"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Downpour"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("DeepseaStaff"), 3);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("AquaticEmblem"));
+            DropHelper.DropItemChance(player, mod.ItemType("AeroStone"), 8);
+
+            // Vanity
+            // there is no Aquatic Scourge mask yet
+
+            // Fishing
+            DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, 10);
+            DropHelper.DropItemChance(player, ItemID.AnglerTackleBag, 10);
+            DropHelper.DropItemChance(player, ItemID.TackleBox, 10);
+            DropHelper.DropItemChance(player, ItemID.AnglerEarring, 8);
+            DropHelper.DropItemChance(player, ItemID.FishermansGuide, 8);
+            DropHelper.DropItemChance(player, ItemID.WeatherRadio, 8);
+            DropHelper.DropItemChance(player, ItemID.Sextant, 8);
+            DropHelper.DropItemChance(player, ItemID.AnglerHat, 3);
+            DropHelper.DropItemChance(player, ItemID.AnglerVest, 3);
+            DropHelper.DropItemChance(player, ItemID.AnglerPants, 3);
+            DropHelper.DropItemChance(player, ItemID.FishingPotion, 3, 2, 3);
+            DropHelper.DropItemChance(player, ItemID.SonarPotion, 3, 2, 3);
+            DropHelper.DropItemChance(player, ItemID.CratePotion, 3, 2, 3);
+            DropHelper.DropItemCondition(player, ItemID.GoldenBugNet, NPC.downedBoss3, 12, 1, 1);
         }
 	}
 }

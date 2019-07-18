@@ -32,98 +32,39 @@ namespace CalamityMod.Items.Leviathan
 
 		public override void OpenBossBag(Player player)
 		{
-			bool hardMode = Main.hardMode;
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(100) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("TheCommunity"));
-				}
-				else if (CalamityWorld.defiled)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						player.QuickSpawnItem(mod.ItemType("TheCommunity"));
-					}
-				}
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.QuickSpawnItem(mod.ItemType("EnchantedPearl"));
-			if (Main.rand.Next(10) == 0)
-			{
-				player.QuickSpawnItem(ItemID.HotlineFishingHook);
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				player.QuickSpawnItem(ItemID.BottomlessBucket);
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				player.QuickSpawnItem(ItemID.SuperAbsorbantSponge);
-			}
-			if (Main.rand.Next(5) == 0)
-			{
-				player.QuickSpawnItem(ItemID.CratePotion, Main.rand.Next(5, 9));
-			}
-			if (Main.rand.Next(5) == 0)
-			{
-				player.QuickSpawnItem(ItemID.FishingPotion, Main.rand.Next(5, 9));
-			}
-			if (Main.rand.Next(5) == 0)
-			{
-				player.QuickSpawnItem(ItemID.SonarPotion, Main.rand.Next(5, 9));
-			}
-			if (!hardMode)
-			{
-				player.QuickSpawnItem(mod.ItemType("IOU"));
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("LeviathanMask"));
-			}
-			if (hardMode)
-			{
-				player.TryGettingDevArmor();
-				if (Main.rand.Next(3) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("Atlantis")); //done
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("BrackishFlask")); //done
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("Leviatitan")); //done
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("LureofEnthrallment"));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("SirensSong")); //done
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("Greentide")); //done
-				}
-				player.QuickSpawnItem(mod.ItemType("LeviathanAmbergris")); //done
-			}
+            // siren & levi are available PHM, so this check is necessary to keep vanilla consistency
+            if (Main.hardMode)
+                player.TryGettingDevArmor();
+
+            DropHelper.DropRevBagAccessories(player);
+
+            // Weapons
+            DropHelper.DropItemCondition(player, mod.ItemType("Greentide"), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, mod.ItemType("Leviatitan"), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, mod.ItemType("SirensSong"), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, mod.ItemType("Atlantis"), Main.hardMode, 3, 1, 1);
+            DropHelper.DropItemCondition(player, mod.ItemType("BrackishFlask"), Main.hardMode, 3, 1, 1);
+
+            // Equipment
+            DropHelper.DropItemCondition(player, mod.ItemType("LeviathanAmbergris"), Main.hardMode);
+            DropHelper.DropItemCondition(player, mod.ItemType("LureofEnthrallment"), Main.hardMode, 3, 1, 1);
+            float communityChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryChanceFloat;
+            DropHelper.DropItemCondition(player, mod.ItemType("TheCommunity"), CalamityWorld.revenge, communityChance);
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("LeviathanMask"), 7);
+
+            // Fishing
+            DropHelper.DropItem(player, mod.ItemType("EnchantedPearl"));
+            DropHelper.DropItemChance(player, ItemID.HotlineFishingHook, 10);
+            DropHelper.DropItemChance(player, ItemID.BottomlessBucket, 10);
+            DropHelper.DropItemChance(player, ItemID.SuperAbsorbantSponge, 10);
+            DropHelper.DropItemChance(player, ItemID.FishingPotion, 5, 5, 8);
+            DropHelper.DropItemChance(player, ItemID.SonarPotion, 5, 5, 8);
+            DropHelper.DropItemChance(player, ItemID.CratePotion, 5, 5, 8);
+
+            // Other
+            DropHelper.DropItemCondition(player, mod.ItemType("IOU"), !Main.hardMode);
 		}
 	}
 }

@@ -40,86 +40,33 @@ namespace CalamityMod.Items.TheDevourerofGods
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (player.GetModPlayer<CalamityPlayer>(mod).fabsolVodka)
-				{
-					player.QuickSpawnItem(mod.ItemType("Fabsol"));
-				}
-				if (CalamityWorld.death && player.difficulty == 2)
-				{
-					player.QuickSpawnItem(mod.ItemType("CosmicPlushie"));
-				}
-				if (Main.rand.Next(100) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("CosmicDischarge"));
-				}
-				else if (CalamityWorld.defiled)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						player.QuickSpawnItem(mod.ItemType("CosmicDischarge"));
-					}
-				}
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			if (Main.rand.Next(40) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Norfleet"));
-			}
-			if (Main.rand.Next(40) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Skullmasher"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("DeathhailStaff"));
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("DevourerofGodsMask"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Eradicator"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Excelsus"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("TheObliterator"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("EradicatorMelee"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Deathwind"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("StaffoftheMechworm"));
-			}
-			player.QuickSpawnItem(mod.ItemType("CosmiliteBar"), Main.rand.Next(30, 40));
-			player.QuickSpawnItem(mod.ItemType("NebulousCore"));
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, mod.ItemType("CosmiliteBar"), 30, 39);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("Excelsus"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("EradicatorMelee"), 3);
+            float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryChanceFloat;
+            DropHelper.DropItemCondition(player, mod.ItemType("CosmicDischarge"), CalamityWorld.revenge, dischargeChance);
+            DropHelper.DropItemChance(player, mod.ItemType("TheObliterator"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Deathwind"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Skullmasher"), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItemChance(player, mod.ItemType("Norfleet"), DropHelper.RareVariantDropRateInt);
+            DropHelper.DropItemChance(player, mod.ItemType("DeathhailStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("StaffoftheMechworm"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Eradicator"), 3);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("NebulousCore"));
+            bool vodka = player.GetModPlayer<CalamityPlayer>(mod).fabsolVodka;
+            DropHelper.DropItemCondition(player, mod.ItemType("Fabsol"), CalamityWorld.revenge && vodka);
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("DevourerofGodsMask"), 7);
+            DropHelper.DropItemCondition(player, mod.ItemType("CosmicPlushie"), CalamityWorld.death && player.difficulty == 2);
 		}
 	}
 }

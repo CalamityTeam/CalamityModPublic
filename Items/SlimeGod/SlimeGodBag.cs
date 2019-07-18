@@ -32,65 +32,29 @@ namespace CalamityMod.Items.SlimeGod
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				player.QuickSpawnItem(mod.ItemType("ElectrolyteGelPack"));
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			int maskChoice = Main.rand.Next(2);
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("OverloadedBlaster"));
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				if (maskChoice == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("SlimeGodMask"));
-				}
-				else
-				{
-					player.QuickSpawnItem(mod.ItemType("SlimeGodMask2"));
-				}
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("AbyssalTome"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("EldritchTome"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("CrimslimeStaff"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("CorroslimeStaff"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("GelDart"), Main.rand.Next(100, 126));
-			}
-			player.QuickSpawnItem(mod.ItemType("StaticRefiner"));
-			player.QuickSpawnItem(mod.ItemType("ManaOverloader"));
-			player.QuickSpawnItem(ItemID.Gel, Main.rand.Next(150, 201));
-			player.QuickSpawnItem(mod.ItemType("PurifiedGel"), Main.rand.Next(30, 51));
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, ItemID.Gel, 150, 200);
+            DropHelper.DropItem(player, mod.ItemType("PurifiedGel"), 30, 50);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("OverloadedBlaster"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("AbyssalTome"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("EldritchTome"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("CorroslimeStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("CrimslimeStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("GelDart"), 3, 100, 125);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("ManaOverloader"));
+            DropHelper.DropItemCondition(player, mod.ItemType("ElectrolyteGelPack"), CalamityWorld.revenge);
+
+            // Vanity
+            DropHelper.DropItemFromSetChance(player, 7, mod.ItemType("SlimeGodMask"), mod.ItemType("SlimeGodMask2"));
+
+            // Other
+            DropHelper.DropItem(player, mod.ItemType("StaticRefiner"));
 		}
 	}
 }

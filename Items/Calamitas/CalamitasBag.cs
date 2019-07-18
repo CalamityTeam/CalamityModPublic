@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Calamitas
@@ -32,57 +31,27 @@ namespace CalamityMod.Items.Calamitas
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
 			player.TryGettingDevArmor();
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("CalamitasInferno"));
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("CalamitasMask"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("TheEyeofCalamitas"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BlightedEyeStaff"));
-			}
-            if (Main.rand.Next(3) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("Animosity"));
-            }
-            if (CalamityWorld.downedProvidence)
-            {
-                player.QuickSpawnItem(mod.ItemType("Bloodstone"), Main.rand.Next(35, 46));
-            }
-            if (Main.rand.Next(10) == 0)
-            {
-                player.QuickSpawnItem(mod.ItemType("ChaosStone"));
-            }
-            player.QuickSpawnItem(mod.ItemType("CalamityDust"), Main.rand.Next(14, 19));
-			player.QuickSpawnItem(mod.ItemType("EssenceofChaos"), Main.rand.Next(5, 10));
-			player.QuickSpawnItem(mod.ItemType("BlightedLens"), Main.rand.Next(1, 4));
-			player.QuickSpawnItem(mod.ItemType("CalamityRing"));
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, mod.ItemType("CalamityDust"), 14, 18);
+            DropHelper.DropItem(player, mod.ItemType("BlightedLens"), 1, 3);
+            DropHelper.DropItem(player, mod.ItemType("EssenceofChaos"), 5, 9);
+            DropHelper.DropItemCondition(player, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 35, 45);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("TheEyeofCalamitas"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Animosity"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("CalamitasInferno"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("BlightedEyeStaff"), 3);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("CalamityRing"));
+            DropHelper.DropItemChance(player, mod.ItemType("ChaosStone"), 10);
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("CalamitasMask"), 7);
 		}
 	}
 }

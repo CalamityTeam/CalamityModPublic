@@ -32,48 +32,23 @@ namespace CalamityMod.Items.Crabulon
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				player.QuickSpawnItem(mod.ItemType("MushroomPlasmaRoot"));
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("CrabulonMask"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("HyphaeRod"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("MycelialClaws"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Mycoroot"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Fungicide"));
-			}
-			player.QuickSpawnItem(ItemID.GlowingMushroom, Main.rand.Next(25, 36));
-			player.QuickSpawnItem(ItemID.MushroomGrassSeeds, Main.rand.Next(5, 11));
-			player.QuickSpawnItem(mod.ItemType("FungalClump"));
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, ItemID.GlowingMushroom, 25, 35);
+            DropHelper.DropItem(player, ItemID.MushroomGrassSeeds, 5, 10);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("MycelialClaws"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Fungicide"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("HyphaeRod"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Mycoroot"), 3);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("FungalClump"));
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("CrabulonMask"), 7);
 		}
 	}
 }

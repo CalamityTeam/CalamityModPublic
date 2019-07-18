@@ -32,43 +32,24 @@ namespace CalamityMod.Items.AstrumDeus
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			if (Main.rand.Next(40) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Quasar"));
-			}
-			if (Main.rand.Next(40) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("HideofAstrumDeus"));
-			}
-			player.TryGettingDevArmor();
-			player.QuickSpawnItem(mod.ItemType("Stardust"), Main.rand.Next(60, 91));
-			if (Main.rand.Next(4) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Starfall"));
-			}
-			player.QuickSpawnItem(mod.ItemType("AstralBulwark"));
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("AstrumDeusMask"));
-			}
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, mod.ItemType("Stardust"), 60, 90);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("Starfall"), 4);
+            DropHelper.DropItemChance(player, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
+
+            // Equipment
+            float f = Main.rand.NextFloat();
+            bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
+            DropHelper.DropItemCondition(player, mod.ItemType("AstralBulwark"), !replaceWithRare);
+            DropHelper.DropItemCondition(player, mod.ItemType("HideofAstrumDeus"), replaceWithRare);
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("AstrumDeusMask"), 7);
 		}
 	}
 }

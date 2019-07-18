@@ -32,68 +32,29 @@ namespace CalamityMod.Items.Perforator
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("PerforatorMask"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Aorta"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BloodyRupture"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("SausageMaker"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BloodBath"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("VeinBurster"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Eviscerator"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("ToothBall"), Main.rand.Next(50, 76));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BloodClotStaff"));
-			}
-			player.QuickSpawnItem(mod.ItemType("BloodyWormTooth"));
-			player.QuickSpawnItem(ItemID.Vertebrae, Main.rand.Next(10, 21));
-			player.QuickSpawnItem(ItemID.CrimtaneBar, Main.rand.Next(9, 15));
-			player.QuickSpawnItem(mod.ItemType("BloodSample"), Main.rand.Next(30, 41));
-			if (Main.hardMode)
-			{
-				player.QuickSpawnItem(ItemID.Ichor, Main.rand.Next(15, 31));
-			}
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, ItemID.Vertebrae, 10, 20);
+            DropHelper.DropItem(player, ItemID.CrimtaneBar, 9, 14);
+            DropHelper.DropItem(player, mod.ItemType("BloodSample"), 30, 40);
+            DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("VeinBurster"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("BloodyRupture"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("SausageMaker"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Aorta"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Eviscerator"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("BloodBath"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("BloodClotStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("ToothBall"), 3, 50, 75);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("BloodyWormTooth"));
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("PerforatorMask"), 7);
 		}
 	}
 }

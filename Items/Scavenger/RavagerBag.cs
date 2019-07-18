@@ -32,77 +32,40 @@ namespace CalamityMod.Items.Scavenger
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				player.QuickSpawnItem(mod.ItemType("InfernalBlood"));
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			if (CalamityWorld.downedProvidence)
-			{
-				player.QuickSpawnItem(mod.ItemType("Bloodstone"), Main.rand.Next(60, 71));
-				player.QuickSpawnItem(mod.ItemType("VerstaltiteBar"), Main.rand.Next(7, 13));
-				player.QuickSpawnItem(mod.ItemType("DraedonBar"), Main.rand.Next(7, 13));
-				player.QuickSpawnItem(mod.ItemType("CruptixBar"), Main.rand.Next(7, 13));
-				player.QuickSpawnItem(mod.ItemType("CoreofCinder"), Main.rand.Next(2, 5));
-				player.QuickSpawnItem(mod.ItemType("CoreofEleum"), Main.rand.Next(2, 5));
-				player.QuickSpawnItem(mod.ItemType("CoreofChaos"), Main.rand.Next(2, 5));
-				player.QuickSpawnItem(mod.ItemType("BarofLife"));
-				if (Main.rand.Next(2) == 0)
-				{
-					player.QuickSpawnItem(mod.ItemType("CoreofCalamity"));
-				}
-				player.QuickSpawnItem(mod.ItemType("BloodflareCore"));
-			}
-			else
-			{
-				player.QuickSpawnItem(mod.ItemType("VerstaltiteBar"), Main.rand.Next(2, 4));
-				player.QuickSpawnItem(mod.ItemType("DraedonBar"), Main.rand.Next(2, 4));
-				player.QuickSpawnItem(mod.ItemType("CruptixBar"), Main.rand.Next(2, 4));
-				player.QuickSpawnItem(mod.ItemType("CoreofCinder"), Main.rand.Next(1, 4));
-				player.QuickSpawnItem(mod.ItemType("CoreofEleum"), Main.rand.Next(1, 4));
-				player.QuickSpawnItem(mod.ItemType("CoreofChaos"), Main.rand.Next(1, 4));
-			}
-			if (Main.rand.Next(2) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BloodPact"));
-			}
-			if (Main.rand.Next(2) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("FleshTotem"));
-			}
-			switch (Main.rand.Next(5))
-			{
-				case 0:
-					player.QuickSpawnItem(mod.ItemType("Hematemesis"));
-					break;
-				case 1:
-					player.QuickSpawnItem(mod.ItemType("RealmRavager"));
-					break;
-				case 2:
-					player.QuickSpawnItem(mod.ItemType("SpikecragStaff"));
-					break;
-				case 3:
-					player.QuickSpawnItem(mod.ItemType("UltimusCleaver"));
-					break;
-				case 4:
-					player.QuickSpawnItem(mod.ItemType("CraniumSmasher"));
-					break;
-			}
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            int barMin = CalamityWorld.downedProvidence ?  7 : 2;
+            int barMax = CalamityWorld.downedProvidence ? 12 : 3;
+            int coreMin = CalamityWorld.downedProvidence ? 2 : 1;
+            int coreMax = CalamityWorld.downedProvidence ? 4 : 3;
+            DropHelper.DropItemCondition(player, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 60, 70);
+            DropHelper.DropItem(player, mod.ItemType("VerstaltiteBar"), barMin, barMax);
+            DropHelper.DropItem(player, mod.ItemType("DraedonBar"), barMin, barMax);
+            DropHelper.DropItem(player, mod.ItemType("CruptixBar"), barMin, barMax);
+            DropHelper.DropItem(player, mod.ItemType("CoreofCinder"), coreMin, coreMax);
+            DropHelper.DropItem(player, mod.ItemType("CoreofEleum"), coreMin, coreMax);
+            DropHelper.DropItem(player, mod.ItemType("CoreofChaos"), coreMin, coreMax);
+            DropHelper.DropItemCondition(player, mod.ItemType("BarofLife"), CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, mod.ItemType("CoreofCalamity"), CalamityWorld.downedProvidence, 0.5f);
+
+            // Weapons
+            DropHelper.DropItemFromSet(player,
+                mod.ItemType("UltimusCleaver"),
+                mod.ItemType("RealmRavager"),
+                mod.ItemType("Hematemesis"),
+                mod.ItemType("SpikecragStaff"),
+                mod.ItemType("CraniumSmasher"));
+
+            // Equipment
+            DropHelper.DropItemChance(player, mod.ItemType("BloodPact"), 0.5f);
+            DropHelper.DropItemChance(player, mod.ItemType("FleshTotem"), 0.5f);
+            DropHelper.DropItemCondition(player, mod.ItemType("BloodflareCore"), CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, mod.ItemType("InfernalBlood"), CalamityWorld.revenge);
+
+            // Vanity
+            // there is no Ravager mask yet
 		}
 	}
 }

@@ -10,6 +10,38 @@ namespace CalamityMod
 {
     public class DropHelper
     {
+        #region Global Drop Chances
+        /// <summary>
+        /// The Defiled Rune boosts various low drop rates to one in this value.
+        /// </summary>
+        public static readonly int DefiledDropRateInt = 20;
+
+        /// <summary>
+        /// The Defiled Rune boosts various low drop rates to this chance (decimal number out of 1.0).
+        /// </summary>
+        public static readonly float DefiledDropRateFloat = 0.05f;
+
+        /// <summary>
+        /// Legendary drops have a 1 in X chance of dropping, where X is this variable.
+        /// </summary>
+        public static readonly int LegendaryChanceInt = 100;
+
+        /// <summary>
+        /// Legendary weapons have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public static readonly float LegendaryChanceFloat = 0.01f;
+
+        /// <summary>
+        /// Rare Item Variants have a 1 in X chance of dropping, where X is this variable.
+        /// </summary>
+        public static readonly int RareVariantDropRateInt = 40;
+
+        /// <summary>
+        /// Rare Item Variants have this chance to drop (decimal number out of 1.0).
+        /// </summary>
+        public static readonly float RareVariantDropRateFloat = 0.025f;
+        #endregion
+
         #region Extra Boss Bags
         /// <summary>
         /// The number of extra loot bags bosses drop when Revengeance Mode is active.<br></br>
@@ -34,13 +66,6 @@ namespace CalamityMod
         /// This is normally 5. Bosses drop 5 bags on normal, and 6 on Expert+.
         /// </summary>
         public static int ArmageddonExtraBags = 5;
-        #endregion
-
-        #region Defiled Drop Chance Boost
-        /// <summary>
-        /// This is the value that Defiled Rune boosts certain low drop chances to (a decimal number <= 1.0).
-        /// </summary>
-        public static float DefiledChanceBoost = 0.05f;
         #endregion
 
         #region Boss Bag Drop Helper

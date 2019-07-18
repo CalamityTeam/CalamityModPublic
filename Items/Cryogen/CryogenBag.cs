@@ -32,75 +32,35 @@ namespace CalamityMod.Items.Cryogen
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				player.QuickSpawnItem(mod.ItemType("FrostFlare"));
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("CryogenMask"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("GlacialCrusher"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Avalanche"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("BittercoldStaff"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("IceStar"), Main.rand.Next(150, 201));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("EffluviumBow"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Icebreaker"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("SnowstormStaff"));
-			}
-			if (Main.rand.Next(40) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Regenator"));
-			}
-			if (Main.rand.Next(5) == 0)
-			{
-				player.QuickSpawnItem(ItemID.FrozenKey);
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("CryoStone"));
-			}
-			player.QuickSpawnItem(ItemID.SoulofMight, Main.rand.Next(25, 41));
-			player.QuickSpawnItem(mod.ItemType("CryoBar"), Main.rand.Next(20, 41));
-			player.QuickSpawnItem(mod.ItemType("EssenceofEleum"), Main.rand.Next(5, 10));
-			player.QuickSpawnItem(mod.ItemType("SoulofCryogen"));
-			player.QuickSpawnItem(ItemID.FrostCore);
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, ItemID.SoulofMight, 25, 40);
+            DropHelper.DropItem(player, mod.ItemType("CryoBar"), 20, 40);
+            DropHelper.DropItem(player, mod.ItemType("EssenceofEleum"), 5, 9);
+            DropHelper.DropItem(player, ItemID.FrostCore);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("Avalanche"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("GlacialCrusher"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("EffluviumBow"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("BittercoldStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("SnowstormStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Icebreaker"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("IceStar"), 3, 150, 200);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("SoulfofCryogen"));
+            DropHelper.DropItemCondition(player, mod.ItemType("FrostFlare"), CalamityWorld.revenge);
+            DropHelper.DropItemChance(player, mod.ItemType("CryoStone"), 10);
+            DropHelper.DropItemChance(player, mod.ItemType("Regenator"), DropHelper.RareVariantDropRateInt);
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("CryogenMask"), 7);
+
+            // Other
+            DropHelper.DropItemChance(player, ItemID.FrozenKey, 5);
 		}
 	}
 }

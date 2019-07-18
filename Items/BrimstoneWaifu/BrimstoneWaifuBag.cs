@@ -32,55 +32,26 @@ namespace CalamityMod.Items.BrimstoneWaifu
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				player.QuickSpawnItem(mod.ItemType("CharredRelic"));
-				if (CalamityWorld.downedProvidence)
-				{
-					player.QuickSpawnItem(mod.ItemType("Brimrose"));
-				}
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			switch (Main.rand.Next(3))
-			{
-				case 0:
-					player.QuickSpawnItem(mod.ItemType("Abaddon"));
-					break;
-				case 1:
-					player.QuickSpawnItem(mod.ItemType("Abaddon"));
-					player.QuickSpawnItem(mod.ItemType("Brimlance"));
-					break;
-				case 2:
-					player.QuickSpawnItem(mod.ItemType("Abaddon"));
-					player.QuickSpawnItem(mod.ItemType("SeethingDischarge"));
-					break;
-			}
-			if (CalamityWorld.downedProvidence)
-			{
-				player.QuickSpawnItem(mod.ItemType("Bloodstone"), Main.rand.Next(25, 36));
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("RoseStone"));
-			}
-			player.QuickSpawnItem(ItemID.SoulofFright, Main.rand.Next(25, 41));
-			player.QuickSpawnItem(mod.ItemType("EssenceofChaos"), Main.rand.Next(5, 10));
-			player.QuickSpawnItem(mod.ItemType("Gehenna"));
-		}
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, ItemID.SoulofFright, 25, 40);
+            DropHelper.DropItem(player, mod.ItemType("EssenceofChaos"), 5, 9);
+            DropHelper.DropItemCondition(player, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 25, 35);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("Brimlance"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("SeethingDischarge"), 3);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("Abaddon"));
+            DropHelper.DropItem(player, mod.ItemType("Gehenna"));
+            DropHelper.DropItemChance(player, mod.ItemType("RoseStone"), 10);
+            DropHelper.DropItemCondition(player, mod.ItemType("Brimrose"), CalamityWorld.revenge && CalamityWorld.downedProvidence);
+
+            // Vanity
+            DropHelper.DropItemCondition(player, mod.ItemType("CharredRelic"), CalamityWorld.revenge);
+        }
 	}
 }

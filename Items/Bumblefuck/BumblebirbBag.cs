@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Bumblefuck
@@ -32,43 +31,18 @@ namespace CalamityMod.Items.Bumblefuck
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				player.QuickSpawnItem(mod.ItemType("RedLightningContainer"));
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			player.TryGettingDevArmor();
-			if (Main.rand.Next(40) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Swordsplosion"));
-			}
-			switch (Main.rand.Next(3))
-			{
-				case 0:
-					player.QuickSpawnItem(mod.ItemType("RougeSlash"));
-					break;
-				case 1:
-					player.QuickSpawnItem(mod.ItemType("GildedProboscis"));
-					break;
-				case 2:
-					player.QuickSpawnItem(mod.ItemType("GoldenEagle"));
-					break;
-			}
-			player.QuickSpawnItem(mod.ItemType("EffulgentFeather"), Main.rand.Next(9, 15));
+            player.TryGettingDevArmor();
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, mod.ItemType("EffulgentFeather"), 9, 14);
+
+            // Weapons
+            DropHelper.DropItemFromSet(player, mod.ItemType("GildedProboscis"), mod.ItemType("GoldenEagle"), mod.ItemType("RougeSlash"));
+            DropHelper.DropItemChance(player, mod.ItemType("Swordsplosion"), DropHelper.RareVariantDropRateInt);
+
+            // Equipment
+            DropHelper.DropItemCondition(player, mod.ItemType("RedLightningContainer"), CalamityWorld.revenge);
 		}
 	}
 }

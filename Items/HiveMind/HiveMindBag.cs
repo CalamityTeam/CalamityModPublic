@@ -32,64 +32,28 @@ namespace CalamityMod.Items.HiveMind
 
 		public override void OpenBossBag(Player player)
 		{
-			if (CalamityWorld.revenge)
-			{
-				if (Main.rand.Next(20) == 0)
-				{
-					switch (Main.rand.Next(3))
-					{
-						case 0:
-							player.QuickSpawnItem(mod.ItemType("StressPills"));
-							break;
-						case 1:
-							player.QuickSpawnItem(mod.ItemType("Laudanum"));
-							break;
-						case 2:
-							player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-							break;
-					}
-				}
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("ShaderainStaff"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("LeechingDagger"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("ShadowdropStaff"));
-			}
-			if (Main.rand.Next(7) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("HiveMindMask"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("PerfectDark"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("Shadethrower"));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("RotBall"), Main.rand.Next(50, 76));
-			}
-			if (Main.rand.Next(3) == 0)
-			{
-				player.QuickSpawnItem(mod.ItemType("DankStaff"));
-			}
-			player.QuickSpawnItem(mod.ItemType("RottenBrain"));
-			player.QuickSpawnItem(ItemID.RottenChunk, Main.rand.Next(10, 21));
-			player.QuickSpawnItem(ItemID.DemoniteBar, Main.rand.Next(9, 15));
-			player.QuickSpawnItem(mod.ItemType("TrueShadowScale"), Main.rand.Next(30, 41));
-			if (Main.hardMode)
-			{
-				player.QuickSpawnItem(ItemID.CursedFlame, Main.rand.Next(15, 31));
-			}
+            DropHelper.DropRevBagAccessories(player);
+
+            // Materials
+            DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
+            DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);
+            DropHelper.DropItem(player, mod.ItemType("TrueShadowScale"), 30, 40);
+            DropHelper.DropItemCondition(player, ItemID.CursedFlame, Main.hardMode, 15, 30);
+
+            // Weapons
+            DropHelper.DropItemChance(player, mod.ItemType("PerfectDark"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("LeechingDagger"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("Shadethrower"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("ShadowdropStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("ShaderainStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("DankStaff"), 3);
+            DropHelper.DropItemChance(player, mod.ItemType("RotBall"), 3, 50, 75);
+
+            // Equipment
+            DropHelper.DropItem(player, mod.ItemType("RottenBrain"));
+
+            // Vanity
+            DropHelper.DropItemChance(player, mod.ItemType("HiveMindMask"), 7);
 		}
 	}
 }
