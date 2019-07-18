@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Utilities;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using CalamityMod;
-using CalamityMod.NPCs;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 using CalamityMod.World;
 

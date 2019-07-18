@@ -130,11 +130,24 @@ namespace CalamityMod
         }
         #endregion
 
-        #region Revengeance Bag Accessories
+        #region Specific Drop Helpers
         public static bool DropRevBagAccessories(Player p)
         {
             CalamityMod mod = CalamityMod.Instance;
             return DropItemFromSetCondition(p, CalamityWorld.revenge, 20, mod.ItemType("StressPills"), mod.ItemType("Laudanum"), mod.ItemType("HeartofDarkness"));
+        }
+
+        public static int DropResidentEvilAmmo(NPC theBoss, bool alreadyKilled, int magnum, int bazooka, int hydra)
+        {
+            if (alreadyKilled)
+                return 0;
+
+            CalamityMod mod = CalamityMod.Instance;
+            int dropped = 0;
+            dropped += DropItem(theBoss, mod.ItemType("MagnumRounds"), magnum);
+            dropped += DropItem(theBoss, mod.ItemType("GrenadeRounds"), bazooka);
+            dropped += DropItem(theBoss, mod.ItemType("ExplosiveShells"), hydra);
+            return dropped;
         }
         #endregion
 
@@ -160,10 +173,14 @@ namespace CalamityMod
             else
                 quantity = Main.rand.Next(minQuantity, maxQuantity + 1);
 
+            // If the final quantity is 0 or less, don't bother.
+            if (quantity <= 0)
+                return 0;
+
             // If the drop is supposed to be instanced, drop it as such.
             if (dropPerPlayer)
             {
-                npc.DropItemInstanced(npc.position, npc.Size, itemID, quantity);
+                npc.DropItemInstanced(npc.position, npc.Size, itemID, quantity, true);
             }
             else
             {
@@ -370,7 +387,7 @@ namespace CalamityMod
             // If the drop is supposed to be instanced, drop it as such.
             if (dropPerPlayer)
             {
-                npc.DropItemInstanced(npc.position, npc.Size, itemID);
+                npc.DropItemInstanced(npc.position, npc.Size, itemID, true);
             }
             else
             {
@@ -545,6 +562,10 @@ namespace CalamityMod
             // Otherwise pick a random amount to drop, inclusive.
             else
                 quantity = Main.rand.Next(minQuantity, maxQuantity + 1);
+
+            // If the final quantity is 0 or less, don't bother.
+            if (quantity <= 0)
+                return 0;
 
             p.QuickSpawnItem(itemID, quantity);
             return quantity;
