@@ -46,6 +46,7 @@ namespace CalamityMod.Items.Crabulon
 
             // Equipment
             DropHelper.DropItem(player, mod.ItemType("FungalClump"));
+            DropHelper.DropItemCondition(player, mod.ItemType("MushroomPlasmaRoot"), CalamityWorld.revenge);
 
             // Vanity
             DropHelper.DropItemChance(player, mod.ItemType("CrabulonMask"), 7);
