@@ -33,7 +33,6 @@ namespace CalamityMod.Items.BrimstoneWaifu
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, ItemID.SoulofFright, 25, 40);

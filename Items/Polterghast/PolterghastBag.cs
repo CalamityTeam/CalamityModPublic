@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Polterghast
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("RuinousSoul"), 6, 10);

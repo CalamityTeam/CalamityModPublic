@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.HiveMind
 {
@@ -32,8 +31,6 @@ namespace CalamityMod.Items.HiveMind
 
 		public override void OpenBossBag(Player player)
 		{
-            DropHelper.DropRevBagAccessories(player);
-
             // Materials
             DropHelper.DropItem(player, ItemID.RottenChunk, 10, 20);
             DropHelper.DropItem(player, ItemID.DemoniteBar, 9, 14);

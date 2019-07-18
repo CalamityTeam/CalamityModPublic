@@ -32,8 +32,6 @@ namespace CalamityMod.Items.SlimeGod
 
 		public override void OpenBossBag(Player player)
 		{
-            DropHelper.DropRevBagAccessories(player);
-
             // Materials
             DropHelper.DropItem(player, ItemID.Gel, 150, 200);
             DropHelper.DropItem(player, mod.ItemType("PurifiedGel"), 30, 50);

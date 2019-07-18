@@ -41,7 +41,6 @@ namespace CalamityMod.Items.TheDevourerofGods
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("CosmiliteBar"), 30, 39);

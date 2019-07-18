@@ -32,7 +32,6 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("PlagueCellCluster"), 13, 17);

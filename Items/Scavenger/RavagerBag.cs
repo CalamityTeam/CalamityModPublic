@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Scavenger
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             int barMin = CalamityWorld.downedProvidence ?  7 : 2;

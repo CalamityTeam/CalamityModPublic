@@ -32,8 +32,6 @@ namespace CalamityMod.Items.Crabulon
 
 		public override void OpenBossBag(Player player)
 		{
-            DropHelper.DropRevBagAccessories(player);
-
             // Materials
             DropHelper.DropItem(player, ItemID.GlowingMushroom, 25, 35);
             DropHelper.DropItem(player, ItemID.MushroomGrassSeeds, 5, 10);

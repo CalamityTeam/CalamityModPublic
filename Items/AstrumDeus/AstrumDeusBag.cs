@@ -1,7 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.AstrumDeus
 {
@@ -33,7 +31,6 @@ namespace CalamityMod.Items.AstrumDeus
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("Stardust"), 60, 90);

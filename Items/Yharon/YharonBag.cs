@@ -32,9 +32,6 @@ namespace CalamityMod.Items.Yharon
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
-
-            // Materials
 
             // Weapons
             DropHelper.DropItemChance(player, mod.ItemType("DragonRage"), 3);

@@ -36,8 +36,6 @@ namespace CalamityMod.Items.Leviathan
             if (Main.hardMode)
                 player.TryGettingDevArmor();
 
-            DropHelper.DropRevBagAccessories(player);
-
             // Weapons
             DropHelper.DropItemCondition(player, mod.ItemType("Greentide"), Main.hardMode, 3, 1, 1);
             DropHelper.DropItemCondition(player, mod.ItemType("Leviatitan"), Main.hardMode, 3, 1, 1);

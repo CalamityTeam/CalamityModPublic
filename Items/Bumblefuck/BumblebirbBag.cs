@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Bumblefuck
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("EffulgentFeather"), 9, 14);

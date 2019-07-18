@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.AquaticScourge
 {
@@ -33,7 +32,6 @@ namespace CalamityMod.Items.AquaticScourge
 		public override void OpenBossBag(Player player)
 		{
 			player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, ItemID.SoulofSight, 25, 40);

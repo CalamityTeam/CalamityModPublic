@@ -31,8 +31,6 @@ namespace CalamityMod.Items.DesertScourge
 
 		public override void OpenBossBag(Player player)
 		{
-            DropHelper.DropRevBagAccessories(player);
-
             // Materials
             DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 10, 16);
             DropHelper.DropItem(player, ItemID.Coral, 7, 11);

@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.Perforator
 {
@@ -32,8 +31,6 @@ namespace CalamityMod.Items.Perforator
 
 		public override void OpenBossBag(Player player)
 		{
-            DropHelper.DropRevBagAccessories(player);
-
             // Materials
             DropHelper.DropItem(player, ItemID.Vertebrae, 10, 20);
             DropHelper.DropItem(player, ItemID.CrimtaneBar, 9, 14);

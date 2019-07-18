@@ -1469,14 +1469,18 @@ namespace CalamityMod.Items
 		}
 		#endregion
 
-		#region BossBagChanges
+		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
+        #region BossBagChanges
 		public override void OpenVanillaBag(string context, Player player, int arg)
 		{
-			bool revenge = CalamityWorld.revenge;
+            bool revenge = CalamityWorld.revenge;
 			bool defiled = CalamityWorld.defiled;
 			if (context == "bossBag")
 			{
-				switch (arg)
+                // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
+                DropHelper.DropRevBagAccessories(player);
+
+                switch (arg)
 				{
 					case ItemID.KingSlimeBossBag:
 						if (revenge)
@@ -1582,24 +1586,6 @@ namespace CalamityMod.Items
 						if (Main.rand.Next(40) == 0)
 							player.QuickSpawnItem(mod.ItemType("GrandDad"));
 						break;
-				}
-				if (revenge)
-				{
-					if (Main.rand.Next(20) == 0)
-					{
-						switch (Main.rand.Next(3))
-						{
-							case 0:
-								player.QuickSpawnItem(mod.ItemType("StressPills"));
-								break;
-							case 1:
-								player.QuickSpawnItem(mod.ItemType("Laudanum"));
-								break;
-							case 2:
-								player.QuickSpawnItem(mod.ItemType("HeartofDarkness"));
-								break;
-						}
-					}
 				}
 			}
 		}

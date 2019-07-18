@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Astrageldon
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("AstralJelly"), 12, 16);

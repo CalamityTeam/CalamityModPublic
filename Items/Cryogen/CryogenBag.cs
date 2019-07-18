@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Cryogen
 		public override void OpenBossBag(Player player)
 		{
             player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, ItemID.SoulofMight, 25, 40);

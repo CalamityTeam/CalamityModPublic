@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Calamitas
 		public override void OpenBossBag(Player player)
 		{
 			player.TryGettingDevArmor();
-            DropHelper.DropRevBagAccessories(player);
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("CalamityDust"), 14, 18);
