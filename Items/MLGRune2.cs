@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 
 namespace CalamityMod.Items
@@ -15,8 +10,8 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Celestial Onion");
-			Tooltip.SetDefault("Doesn't do anything currently...or does it!?\n" +
-			                   "Consuming it does something that cannot be reversed");
+			Tooltip.SetDefault("Grants a seventh accesory slot\n" +
+                "This will not work if you already have seven or more accessory slots");
 		}
 		
 		public override void SetDefaults()
