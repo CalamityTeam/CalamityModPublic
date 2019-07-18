@@ -1473,8 +1473,6 @@ namespace CalamityMod.Items
         #region BossBagChanges
 		public override void OpenVanillaBag(string context, Player player, int arg)
 		{
-            bool revenge = CalamityWorld.revenge;
-			bool defiled = CalamityWorld.defiled;
 			if (context == "bossBag")
 			{
                 // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
@@ -1482,109 +1480,68 @@ namespace CalamityMod.Items
 
                 switch (arg)
 				{
-					case ItemID.KingSlimeBossBag:
-						if (revenge)
-							player.QuickSpawnItem(mod.ItemType("CrownJewel"));
+                    // King Slime
+                    case ItemID.KingSlimeBossBag:
+                        DropHelper.DropItemCondition(player, mod.ItemType("CrownJewel"), CalamityWorld.revenge);
 						break;
-					case ItemID.EyeOfCthulhuBossBag:
-						player.QuickSpawnItem(mod.ItemType("VictoryShard"), Main.rand.Next(3, 6));
-						if (Main.rand.Next(3) == 0)
-							player.QuickSpawnItem(mod.ItemType("TeardropCleaver"));
-						if (revenge)
-							player.QuickSpawnItem(mod.ItemType("CounterScarf"));
+
+                    // Eye of Cthulhu
+                    case ItemID.EyeOfCthulhuBossBag:
+                        DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 3, 5);
+                        DropHelper.DropItemChance(player, mod.ItemType("TeardropCleaver"), 3);
+                        DropHelper.DropItemCondition(player, mod.ItemType("CounterScarf"), CalamityWorld.revenge);
 						break;
-					case ItemID.SkeletronBossBag:
-						if (Main.rand.Next(40) == 0)
-							player.QuickSpawnItem(mod.ItemType("ClothiersWrath"));
+
+                    // Skeletron
+                    case ItemID.SkeletronBossBag:
+                        DropHelper.DropItemChance(player, mod.ItemType("ClothiersWrath"), DropHelper.RareVariantDropRateInt);
 						break;
+
+                    // Wall of Flesh
 					case ItemID.WallOfFleshBossBag:
-						player.QuickSpawnItem(mod.ItemType("MLGRune"));
-						if (Main.rand.Next(3) == 0)
-							player.QuickSpawnItem(mod.ItemType("Meowthrower"));
-						if (Main.rand.Next(8) == 0)
-							player.QuickSpawnItem(mod.ItemType("RogueEmblem"));
-						if (Main.rand.Next(5) == 0)
-						{
-							switch (Main.rand.Next(2))
-							{
-								case 0:
-									player.QuickSpawnItem(ItemID.CrimsonKey);
-									break;
-								case 1:
-									player.QuickSpawnItem(ItemID.CorruptionKey);
-									break;
-							}
-						}
-						break;
+                        DropHelper.DropItemChance(player, mod.ItemType("Meowthrower"), 3);
+                        DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 8);
+                        DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
+                        DropHelper.DropItem(player, mod.ItemType("MLGRune")); // Demon Trophy
+                        break;
+
+                    // Destroyer
 					case ItemID.DestroyerBossBag:
-						if (revenge)
-						{
-							if (Main.rand.Next(100) == 0)
-								player.QuickSpawnItem(mod.ItemType("SHPC"));
-							else if (defiled)
-							{
-								if (Main.rand.Next(20) == 0)
-									player.QuickSpawnItem(mod.ItemType("SHPC"));
-							}
-						}
+                        float shpcChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        DropHelper.DropItemCondition(player, mod.ItemType("SHPC"), CalamityWorld.revenge, shpcChance);
 						break;
-					case ItemID.PlanteraBossBag:
-						player.QuickSpawnItem(mod.ItemType("LivingShard"), Main.rand.Next(8, 12));
-						if (Main.rand.Next(5) == 0)
-							player.QuickSpawnItem(ItemID.JungleKey);
-						if (revenge)
-						{
-							if (Main.rand.Next(100) == 0)
-								player.QuickSpawnItem(mod.ItemType("BlossomFlux"));
-							else if (defiled)
-							{
-								if (Main.rand.Next(20) == 0)
-									player.QuickSpawnItem(mod.ItemType("BlossomFlux"));
-							}
-						}
+
+                    // Plantera
+                    case ItemID.PlanteraBossBag:
+                        DropHelper.DropItem(player, mod.ItemType("LivingShard"), 8, 11);
+                        float bFluxChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        DropHelper.DropItemCondition(player, mod.ItemType("BlossomFlux"), CalamityWorld.revenge, bFluxChance);
+                        DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
 						break;
-					case ItemID.GolemBossBag:
-						if (revenge)
-						{
-							if (Main.rand.Next(100) == 0)
-								player.QuickSpawnItem(mod.ItemType("AegisBlade"));
-							else if (defiled)
-							{
-								if (Main.rand.Next(20) == 0)
-									player.QuickSpawnItem(mod.ItemType("AegisBlade"));
-							}
-						}
+
+                    // Golem
+                    case ItemID.GolemBossBag:
+                        float aegisChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        DropHelper.DropItemCondition(player, mod.ItemType("AegisBlade"), CalamityWorld.revenge, aegisChance);
 						break;
-					case ItemID.FishronBossBag:
-						if (revenge)
-						{
-							if (Main.rand.Next(100) == 0)
-								player.QuickSpawnItem(mod.ItemType("BrinyBaron"));
-							else if (defiled)
-							{
-								if (Main.rand.Next(20) == 0)
-									player.QuickSpawnItem(mod.ItemType("BrinyBaron"));
-							}
-						}
+
+                    // Duke Fishron
+                    case ItemID.FishronBossBag:
+                        float baronChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        DropHelper.DropItemCondition(player, mod.ItemType("BrinyBaron"), CalamityWorld.revenge, baronChance);
 						break;
-					case ItemID.BossBagBetsy:
-						if (revenge)
-						{
-							if (Main.rand.Next(100) == 0)
-								player.QuickSpawnItem(mod.ItemType("Vesuvius"));
-							else if (defiled)
-							{
-								if (Main.rand.Next(20) == 0)
-									player.QuickSpawnItem(mod.ItemType("Vesuvius"));
-							}
-						}
-						break;
-					case ItemID.MoonLordBossBag:
-						player.QuickSpawnItem(mod.ItemType("MLGRune2"));
-						if (Main.rand.Next(40) == 0)
-							player.QuickSpawnItem(mod.ItemType("Infinity"));
-						if (Main.rand.Next(40) == 0)
-							player.QuickSpawnItem(mod.ItemType("GrandDad"));
+
+                    // Betsy
+                    case ItemID.BossBagBetsy:
+                        float vesuviusChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+                        DropHelper.DropItemCondition(player, mod.ItemType("Vesuvius"), CalamityWorld.revenge);
+                        break;
+
+                    // Moon Lord
+                    case ItemID.MoonLordBossBag:
+                        DropHelper.DropItem(player, mod.ItemType("MLGRune2")); // Celestial Onion
+                        DropHelper.DropItemChance(player, mod.ItemType("GrandDad"), DropHelper.RareVariantDropRateInt);
+                        DropHelper.DropItemChance(player, mod.ItemType("Infinity"), DropHelper.RareVariantDropRateInt);
 						break;
 				}
 			}
