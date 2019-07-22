@@ -387,7 +387,7 @@ namespace CalamityMod
             // If the drop is supposed to be instanced, drop it as such.
             if (dropPerPlayer)
             {
-                npc.DropItemInstanced(npc.position, npc.Size, itemID, true);
+                npc.DropItemInstanced(npc.position, npc.Size, itemID, 1, true);
             }
             else
             {
