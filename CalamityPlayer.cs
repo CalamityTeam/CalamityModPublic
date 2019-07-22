@@ -4775,18 +4775,20 @@ namespace CalamityMod
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
 				player.maxMinions += 2;
 			}
-			if (pinkCandle)
-			{
+
+            if (pinkCandle)
+            {
                 // every frame, add up 1/60th of the healing value (0.4% max HP per second)
                 pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
-                if(pinkCandleHealFraction >= 1D)
+                if (pinkCandleHealFraction >= 1D)
                 {
                     pinkCandleHealFraction = 0D;
-                    player.statLife += 1;
-                    if (player.statLife > player.statLifeMax2)
-                        player.statLife = player.statLifeMax2;
+                    if (player.statLife < player.statLifeMax2)
+                        player.statLife++;
                 }
-			}
+            }
+            else pinkCandleHealFraction = 0D;
+
 			if (manaOverloader)
 			{
 				player.magicDamage += 0.06f;
