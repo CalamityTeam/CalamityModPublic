@@ -214,7 +214,7 @@ namespace CalamityMod.Tiles
             Texture2D glowmask = mod.GetTexture("Tiles/Voidstone_Glowmask");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = new Color(128, 128, 128, 128);
+            Color drawColour = new Color(25, 25, 25, 25);
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
             if (!trackTile.halfBrick() && trackTile.slope() == 0)
