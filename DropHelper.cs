@@ -68,7 +68,17 @@ namespace CalamityMod
         public static int ArmageddonExtraBags = 5;
         #endregion
 
-        #region Boss Bag Drop Helper
+        #region Boss Bag Drop Helpers
+        public static int DropArmageddonBags(NPC theBoss)
+        {
+            if (!CalamityWorld.armageddon)
+                return 0;
+
+            for (int i = 0; i < ArmageddonExtraBags; ++i)
+                theBoss.DropBossBags();
+            return ArmageddonExtraBags;
+        }
+
         /// <summary>
         /// Automatically drops the correct number of boss bags for each difficulty based on constants kept in DropHelper.
         /// </summary>
@@ -82,14 +92,8 @@ namespace CalamityMod
             if (theBoss is null)
                 return bagsDropped;
 
-            // Armageddon bags drop even on Normal.
-            if (CalamityWorld.armageddon)
-            {
-                for (int i = 0; i < ArmageddonExtraBags; ++i)
-                    theBoss.DropBossBags();
-
-                bagsDropped += ArmageddonExtraBags;
-            }
+            // Armageddon's bonus bags drop even on Normal.
+            bagsDropped += DropArmageddonBags(theBoss);
 
             // If the difficulty isn't Expert+, no more bags are dropped.
             if (!Main.expertMode)

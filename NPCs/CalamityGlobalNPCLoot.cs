@@ -1,23 +1,9 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.GameContent;
-using Terraria.GameContent.Achievements;
-using Terraria.GameContent.Events;
-using Terraria.GameContent.Tile_Entities;
-using Terraria.GameContent.UI;
 using Terraria.ID;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
-using CalamityMod.Projectiles;
-using CalamityMod;
-using CalamityMod.Items;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs
@@ -34,81 +20,97 @@ namespace CalamityMod.NPCs
 			if (abyssLootCancel)
 				return false;
 
-			if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge)
+            {
+                if (npc.type == NPCID.Probe)
+                    return false;
+            }
+
+            // Determine whether this NPC is the second Twin killed in a fight, regardless of which Twin it is.
+            bool lastTwinStanding = false;
+            if (npc.type == NPCID.Retinazer)
+                lastTwinStanding = !NPC.AnyNPCs(NPCID.Spazmatism);
+            else if (npc.type == NPCID.Spazmatism)
+                lastTwinStanding = !NPC.AnyNPCs(NPCID.Retinazer);
+
+            // Mechanical Bosses' combined lore item
+            bool mechLore = !NPC.downedMechBossAny && (lastTwinStanding || npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge20"), true, mechLore);
+
+            // King Slime
+            if (npc.type == NPCID.KingSlime)
+            {
+                // Drop a huge spray of individual Gel items
+                int minGel = Main.expertMode ? 90 : 60;
+                int maxGel = Main.expertMode ? 120 : 80;
+                int amount = Main.rand.Next(minGel, maxGel + 1);
+                for (int i = 0; i < amount; ++i)
+                    DropHelper.DropItem(npc, ItemID.Gel);
+
+                // King Slime doesn't have a lore item yet
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedSlimeKing, 2, 0, 0);
+            }
+
+            // Eye of Cthulhu
+            else if (npc.type == NPCID.EyeofCthulhu)
+            {
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge3"), true, !NPC.downedBoss1);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss1, 2, 0, 0);
+            }
+
+            // Queen Bee
+            else if (npc.type == NPCID.QueenBee)
+            {
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge16"), true, !NPC.downedQueenBee);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedQueenBee, 2, 0, 0);
+            }
+
+            // The Destroyer
+			else if (npc.type == NPCID.TheDestroyer)
 			{
-				if (npc.type == NPCID.Probe)
-					return false;
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge21"), true, !NPC.downedMechBoss1);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
 			}
 
-			if (!NPC.downedMechBossAny && (npc.type == NPCID.Spazmatism || npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime))
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge20"), 1, true);
+            // Retinazer OR Spazmatism (whichever is killed last)
+			else if (lastTwinStanding)
+			{
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge22"), true, !NPC.downedMechBoss2);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
+			}
 
-			if (!NPC.downedSlimeKing && npc.type == NPCID.KingSlime)
+            // Skeletron Prime
+			else if (npc.type == NPCID.SkeletronPrime)
 			{
-				int amount = Main.rand.Next(15, 21);
-				if (Main.expertMode)
-					amount = (int)((float)amount * 1.5f);
-				int type = ItemID.Gel;
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge23"), true, !NPC.downedMechBoss3);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
+			}
 
-				for (int i = 0; i < amount; i++)
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
-				for (int i = 0; i < amount; i++)
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
-				for (int i = 0; i < amount; i++)
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
-				for (int i = 0; i < amount; i++)
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, type, Main.rand.Next(1, 4), false, 0, false, false);
+            // Plantera
+			else if (npc.type == NPCID.Plantera)
+			{
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge25"), true, !NPC.downedPlantBoss);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
+			}
 
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-			}
-			else if (!NPC.downedBoss1 && npc.type == NPCID.EyeofCthulhu)
+            // Duke Fishron
+			else if (npc.type == NPCID.DukeFishron)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge3"), 1, true);
-			}
-			else if (!NPC.downedQueenBee && npc.type == NPCID.QueenBee)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 2);
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge16"), 1, true);
-			}
-			else if (!NPC.downedMechBoss1 && npc.type == NPCID.TheDestroyer)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge21"), 1, true);
-			}
-			else if (!NPC.downedMechBoss2 && npc.type == NPCID.Spazmatism)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge22"), 1, true);
-			}
-			else if (!NPC.downedMechBoss3 && npc.type == NPCID.SkeletronPrime)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge23"), 1, true);
-			}
-			else if (!NPC.downedPlantBoss && npc.type == NPCID.Plantera)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge25"), 1, true);
-			}
-			else if (!NPC.downedFishron && npc.type == NPCID.DukeFishron)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge2"), 1, true);
-			}
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge2"), true, !NPC.downedFishron);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
+            }
+
+            // Lunatic Cultist
 			else if (npc.type == NPCID.CultistBoss)
 			{
-				if (!NPC.downedAncientCultist)
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge4"), true, !NPC.downedAncientCultist);
+                DropHelper.DropResidentEvilAmmo(npc, NPC.downedAncientCultist, 4, 2, 1);
+
+                // Blood Moon lore item
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge34"), true, Main.bloodMoon);
+
+                // Deus text (this is not a loot function)
+                if (!NPC.downedAncientCultist)
 				{
 					string key = "Mods.CalamityMod.DeusText";
 					Color messageColor = Color.Gold;
@@ -117,15 +119,7 @@ namespace CalamityMod.NPCs
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					else if (Main.netMode == 2)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 4);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 2);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"));
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge4"), 1, true);
-				}
-
-				if (Main.bloodMoon)
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge34"), 1, true);
+                }
 			}
 			return true;
 		}
@@ -302,7 +296,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == mod.NPCType("DevourerofGodsHeadS"))
 			{
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Rock"), 1, true);
+                DropHelper.DropItem(npc, mod.ItemType("Rock"), true);
 				CalamityWorld.bossRushStage = 0;
 				DespawnProj();
 				CalamityWorld.bossRushActive = false;
@@ -499,429 +493,286 @@ namespace CalamityMod.NPCs
 		#region Rare Variants
 		private void RareVariants(NPC npc, Mod mod)
 		{
-			if (npc.type == NPCID.BloodZombie && NPC.downedBoss3 && !npc.SpawnedFromStatue)
-			{
-				if (Main.rand.Next(200) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Carnage"));
-			}
-			else if (npc.type == NPCID.TacticalSkeleton)
-			{
-				if (Main.rand.Next(200) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrueConferenceCall"));
-			}
-			else if (npc.type == NPCID.DesertBeast)
-			{
-				if (Main.rand.Next(200) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EvilSmasher"));
-			}
-			else if (npc.type == NPCID.DungeonSpirit)
-			{
-				if (Main.rand.Next(200) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PearlGod"));
-			}
-			else if (npc.type == NPCID.RuneWizard)
-			{
-				if (Main.rand.Next(10) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EyeofMagnus"));
-			}
-			else if (npc.type == NPCID.Mimic && !npc.SpawnedFromStatue)
-			{
-				if (Main.rand.Next(100) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheBee"));
-			}
+            switch(npc.type)
+            {
+                default:
+                    break;
+                case NPCID.BloodZombie:
+                    DropHelper.DropItemCondition(npc, mod.ItemType("Carnage"), NPC.downedBoss3 && !npc.SpawnedFromStatue, 200, 1, 1);
+                    break;
+                case NPCID.TacticalSkeleton:
+                    DropHelper.DropItemChance(npc, mod.ItemType("TrueConferenceCall"), 200);
+                    break;
+                case NPCID.DesertBeast:
+                    DropHelper.DropItemChance(npc, mod.ItemType("EvilSmasher"), 200);
+                    break;
+                case NPCID.DungeonSpirit:
+                    DropHelper.DropItemChance(npc, mod.ItemType("PearlGod"), 200);
+                    break;
+                case NPCID.RuneWizard:
+                    DropHelper.DropItemChance(npc, mod.ItemType("EyeofMagnus"), 10);
+                    break;
+                case NPCID.Mimic:
+                    DropHelper.DropItemCondition(npc, mod.ItemType("TheBee"), !npc.SpawnedFromStatue, 100, 1, 1);
+                    break;
+            }
 		}
 		#endregion
 
 		#region Defiled Loot
 		private void DefiledLoot(NPC npc, Mod mod)
 		{
-			if (npc.type == NPCID.AnglerFish || npc.type == NPCID.Werewolf)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AdhesiveBandage);
+            switch (npc.type)
+            {
+                default:
+                    break;
+                case NPCID.Werewolf:
+                    DropHelper.DropItemChance(npc, ItemID.MoonCharm, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.AnglerFish:
+                    DropHelper.DropItemChance(npc, ItemID.AdhesiveBandage, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.DesertBeast:
+                    DropHelper.DropItemChance(npc, ItemID.AncientHorn, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.ArmoredSkeleton:
+                    DropHelper.DropItemChance(npc, ItemID.BeamSword, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.ArmorPolish, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Clown:
+                    DropHelper.DropItemChance(npc, ItemID.Bananarang, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.ToxicSludge:
+                    DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.EyeofCthulhu:
+                    DropHelper.DropItemChance(npc, ItemID.Binoculars, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.WanderingEye:
+                    DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.CorruptSlime:
+                    DropHelper.DropItemChance(npc, ItemID.Blindfold, DropHelper.DefiledDropRateInt);
+                    break;
+                // This is all the random skeletons in the hardmode dungeon
+                case 269: case 270: case 271: case 272: case 273: case 274: case 275: case 276: case 277: case 278: case 279: case 280:
+                    DropHelper.DropItemChance(npc, ItemID.Keybrand, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.BoneFeather, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.MagnetSphere, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.WispinaBottle, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.UndeadMiner:
+                    DropHelper.DropItemChance(npc, ItemID.BonePickaxe, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.ScutlixRider:
+                    DropHelper.DropItemChance(npc, ItemID.BrainScrambler, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Vampire:
+                    DropHelper.DropItemChance(npc, ItemID.BrokenBatWing, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.MoonStone, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.CaveBat:
+                    DropHelper.DropItemChance(npc, ItemID.ChainKnife, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.DepthMeter, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.DarkCaster:
+                    DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.PirateCaptain:
+                    DropHelper.DropItemChance(npc, ItemID.CoinGun, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.DiscountCard, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.Cutlass, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.LuckyCoin, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.PirateStaff, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Reaper:
+                    DropHelper.DropItemChance(npc, ItemID.DeathSickle, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Demon:
+                    DropHelper.DropItemChance(npc, ItemID.DemonScythe, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.DesertDjinn:
+                    DropHelper.DropItemChance(npc, ItemID.DjinnLamp, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.DjinnsCurse, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Shark:
+                    DropHelper.DropItemChance(npc, ItemID.DivingHelmet, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Pixie:
+                case NPCID.Wraith:
+                case NPCID.Mummy:
+                    DropHelper.DropItemChance(npc, ItemID.FastClock, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.RedDevil:
+                    DropHelper.DropItemChance(npc, ItemID.FireFeather, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.IceElemental:
+                case NPCID.IcyMerman:
+                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.FrostStaff, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.ArmoredViking:
+                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.IceTortoise:
+                    DropHelper.DropItemChance(npc, ItemID.IceSickle, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.FrozenTurtleShell, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Harpy:
+                    DropHelper.DropItemCondition(npc, ItemID.GiantHarpyFeather, Main.hardMode, DropHelper.DefiledDropRateFloat);
+                    break;
+                case NPCID.QueenBee:
+                    DropHelper.DropItemChance(npc, ItemID.HoneyedGoggles, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Piranha:
+                    DropHelper.DropItemChance(npc, ItemID.Hook, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.DiabolistRed:
+                case NPCID.DiabolistWhite:
+                    DropHelper.DropItemChance(npc, ItemID.InfernoFork, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.PinkJellyfish:
+                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Paladin:
+                    DropHelper.DropItemChance(npc, ItemID.Kraken, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.PaladinsHammer, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.SkeletonArcher:
+                    DropHelper.DropItemChance(npc, ItemID.Marrow, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.MagicQuiver, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Lavabat:
+                    DropHelper.DropItemChance(npc, ItemID.MagmaStone, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.WalkingAntlion:
+                    DropHelper.DropItemChance(npc, ItemID.AntlionClaw, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.DarkMummy:
+                    DropHelper.DropItemChance(npc, ItemID.Blindfold, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.GreenJellyfish:
+                    DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.CursedSkull:
+                    DropHelper.DropItemChance(npc, ItemID.Nazar, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.FireImp:
+                    DropHelper.DropItemChance(npc, ItemID.ObsidianRose, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.BlackRecluse:
+                case NPCID.BlackRecluseWall:
+                    DropHelper.DropItemChance(npc, ItemID.PoisonStaff, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.SkeletonSniper:
+                    DropHelper.DropItemChance(npc, ItemID.RifleScope, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.ChaosElemental:
+                    DropHelper.DropItemChance(npc, ItemID.RodofDiscord, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Necromancer:
+                case NPCID.NecromancerArmored:
+                    DropHelper.DropItemChance(npc, ItemID.ShadowbeamStaff, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.SnowFlinx:
+                    DropHelper.DropItemChance(npc, ItemID.SnowballLauncher, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.RaggedCaster:
+                case NPCID.RaggedCasterOpenCoat:
+                    DropHelper.DropItemChance(npc, ItemID.SpectreStaff, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Plantera:
+                    DropHelper.DropItemChance(npc, ItemID.TheAxe, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.GiantBat:
+                    DropHelper.DropItemChance(npc, ItemID.TrifoldMap, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.AngryTrapper:
+                    DropHelper.DropItemChance(npc, ItemID.Uzi, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.Corruptor:
+                case NPCID.FloatyGross:
+                    DropHelper.DropItemChance(npc, ItemID.Vitamins, DropHelper.DefiledDropRateInt);
+                    break;
+                case NPCID.GiantTortoise:
+                    DropHelper.DropItemCondition(npc, ItemID.Yelets, NPC.downedMechBossAny, DropHelper.DefiledDropRateFloat);
+                    break;
+            }
 
-				if (npc.type == NPCID.Werewolf)
-				{
-					if (Main.rand.Next(20) == 0)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MoonCharm);
-				}
-			}
-			else if (npc.type == NPCID.DesertBeast)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AncientHorn);
-			}
-			else if (npc.type == NPCID.ArmoredSkeleton)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BeamSword);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ArmorPolish);
-			}
-			else if (npc.type == NPCID.Clown)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bananarang);
-			}
-			else if (npc.type == NPCID.Hornet || npc.type == NPCID.MossHornet || npc.type == NPCID.ToxicSludge)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Bezoar);
+            // Every type of demon eye counts for Black Lenses
+            if (CalamityMod.demonEyeList.Contains(npc.type))
+                DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
 
-				if (npc.type == NPCID.MossHornet)
-				{
-					if (Main.rand.Next(20) == 0)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TatteredBeeWing);
-				}
-			}
-			else if (npc.type == NPCID.EyeofCthulhu)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Binoculars);
-			}
-			else if (npc.type == NPCID.DemonEye || npc.type == NPCID.WanderingEye)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlackLens);
-			}
-			else if (npc.type == NPCID.CorruptSlime || npc.type == NPCID.DarkMummy)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Blindfold);
-			}
-			else if (npc.type >= 269 && npc.type <= 280)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Keybrand);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneFeather);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagnetSphere);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.WispinaBottle);
-			}
-			else if (npc.type == NPCID.UndeadMiner)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BonePickaxe);
-			}
-			else if (npc.type == NPCID.Skeleton)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneSword);
-			}
-			else if (npc.type == NPCID.ScutlixRider)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BrainScrambler);
-			}
-			else if (npc.type == NPCID.Vampire)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BrokenBatWing);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MoonStone);
-			}
-			else if (npc.type == NPCID.CaveBat)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ChainKnife);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DepthMeter);
-			}
-			else if (npc.type == NPCID.DarkCaster || npc.type == NPCID.AngryBones)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ClothierVoodooDoll);
-			}
-			else if (npc.type == NPCID.PirateCaptain)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CoinGun);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DiscountCard);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Cutlass);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.LuckyCoin);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PirateStaff);
-			}
-			else if (npc.type == NPCID.Reaper)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DeathSickle);
-			}
-			else if (npc.type == NPCID.Demon)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DemonScythe);
-			}
-			else if (npc.type == NPCID.DesertDjinn)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DjinnLamp);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DjinnsCurse);
-			}
-			else if (npc.type == NPCID.Shark)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DivingHelmet);
-			}
-			else if (npc.type == NPCID.Pixie || npc.type == NPCID.Wraith || npc.type == NPCID.Mummy)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FastClock);
-			}
-			else if (npc.type == NPCID.RedDevil)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FireFeather);
-			}
-			else if (npc.type == NPCID.IceElemental || npc.type == NPCID.IcyMerman || npc.type == NPCID.ArmoredViking || npc.type == NPCID.IceTortoise)
-			{
-				if (npc.type == NPCID.IceElemental || npc.type == NPCID.IcyMerman)
-				{
-					if (Main.rand.Next(20) == 0)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrostStaff);
-				}
+            // Every type of Skeleton counts for the Bone Sword
+            if (CalamityMod.skeletonList.Contains(npc.type))
+                DropHelper.DropItemChance(npc, ItemID.BoneSword, DropHelper.DefiledDropRateInt);
 
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.IceSickle);
+            // Every type of Angry Bones counts for the Clothier Voodoo Doll
+            if (CalamityMod.angryBonesList.Contains(npc.type))
+                DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
 
-				if (npc.type == NPCID.IceTortoise)
-				{
-					if (Main.rand.Next(20) == 0)
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrozenTurtleShell);
-				}
-			}
-			else if (npc.type == NPCID.Harpy && Main.hardMode)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GiantHarpyFeather);
-			}
-			else if (npc.type == mod.NPCType("SunBat"))
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HelFire);
-			}
-			else if (npc.type == mod.NPCType("Cryon"))
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Amarok);
-			}
-			else if (npc.type == NPCID.QueenBee)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HoneyedGoggles);
-			}
-			else if (npc.type == NPCID.Piranha)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Hook);
-			}
-			else if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.InfernoFork);
-			}
-			else if (npc.type == NPCID.PinkJellyfish)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.JellyfishNecklace);
-			}
-			else if (npc.type == NPCID.Paladin)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Kraken);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PaladinsHammer);
-			}
-			else if (npc.type == NPCID.SkeletonArcher)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicQuiver);
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Marrow);
-			}
-			else if (npc.type == NPCID.Lavabat)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagmaStone);
-			}
-			else if (npc.type == NPCID.WalkingAntlion)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.AntlionClaw);
-			}
-			else if (npc.type == NPCID.DarkMummy || npc.type == NPCID.GreenJellyfish)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Megaphone);
-			}
-			else if (npc.type == NPCID.CursedSkull)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
-			}
-			else if (npc.type == NPCID.FireImp)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ObsidianRose);
-			}
-			else if (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.PoisonStaff);
-			}
-			else if (npc.type == NPCID.SkeletonSniper)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RifleScope);
-			}
-			else if (npc.type == NPCID.ChaosElemental)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RodofDiscord);
-			}
-			else if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.ShadowbeamStaff);
-			}
-			else if (npc.type == NPCID.SnowFlinx)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SnowballLauncher);
-			}
-			else if (npc.type == NPCID.RaggedCaster)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SpectreStaff);
-			}
-			else if (npc.type == NPCID.Plantera)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TheAxe);
-			}
-			else if (npc.type == NPCID.GiantBat)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TrifoldMap);
-			}
-			else if (npc.type == NPCID.AngryTrapper)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Uzi);
-			}
-			else if (npc.type == NPCID.FloatyGross || npc.type == NPCID.Corruptor)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vitamins);
-			}
-			else if (NPC.downedMechBossAny && npc.type == NPCID.GiantTortoise)
-			{
-				if (Main.rand.Next(20) == 0)
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Yelets);
-			}
+            // Every type of hornet AND moss hornet can drop Bezoar
+            if (CalamityMod.hornetList.Contains(npc.type) || CalamityMod.mossHornetList.Contains(npc.type))
+                DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
+
+            // Every type of moss hornet can drop Tattered Bee Wings
+            if (CalamityMod.mossHornetList.Contains(npc.type))
+                DropHelper.DropItemChance(npc, ItemID.TatteredBeeWing, DropHelper.DefiledDropRateInt);
+
+            // Because all switch cases must be constant at compile time, modded NPC IDs (which can change) can't be included.
+            if (npc.type == mod.NPCType("SunBat"))
+                DropHelper.DropItemChance(npc, ItemID.HelFire, DropHelper.DefiledDropRateInt);
+
+            else if (npc.type == mod.NPCType("Cryon"))
+                DropHelper.DropItemChance(npc, ItemID.Amarok, DropHelper.DefiledDropRateInt);
 		}
 		#endregion
 
 		#region Armageddon Loot
 		private void ArmageddonLoot(NPC npc, Mod mod)
 		{
-			int dropAmt = 5;
-			if (npc.type == NPCID.Golem)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.DukeFishron)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.DD2Betsy)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.EyeofCthulhu)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.BrainofCthulhu)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
-			{
-				if (npc.boss)
-				{
-					for (int i = 0; i < dropAmt; i++)
-						npc.DropBossBags();
-				}
-			}
-			else if (npc.type == NPCID.QueenBee)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.SkeletronHead)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.WallofFlesh)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.MoonLordCore)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.KingSlime)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.Retinazer || npc.type == NPCID.Spazmatism)
-			{
-				int num64 = NPCID.Retinazer;
-				if (npc.type == NPCID.Retinazer)
-					num64 = NPCID.Spazmatism;
-
-				if (!NPC.AnyNPCs(num64))
-				{
-					for (int i = 0; i < dropAmt; i++)
-						npc.DropBossBags();
-				}
-			}
-			else if (npc.type == NPCID.SkeletronPrime)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.TheDestroyer)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
-			else if (npc.type == NPCID.Plantera)
-			{
-				for (int i = 0; i < dropAmt; i++)
-					npc.DropBossBags();
-			}
+            switch(npc.type)
+            {
+                default:
+                    break;
+                case NPCID.KingSlime:
+                case NPCID.EyeofCthulhu:
+                case NPCID.EaterofWorldsHead:
+                case NPCID.EaterofWorldsBody:
+                case NPCID.EaterofWorldsTail:
+                    if (npc.boss) // only drop from the 1 "boss" segment (redcode)
+                        DropHelper.DropArmageddonBags(npc);
+                    break;
+                case NPCID.BrainofCthulhu:
+                case NPCID.QueenBee:
+                case NPCID.SkeletronHead:
+                case NPCID.WallofFlesh:
+                case NPCID.Retinazer: // only drop if spaz is already dead
+                    if (!NPC.AnyNPCs(NPCID.Spazmatism))
+                        DropHelper.DropArmageddonBags(npc);
+                    break;
+                case NPCID.Spazmatism: // only drop if ret is already dead
+                    if (!NPC.AnyNPCs(NPCID.Retinazer))
+                        DropHelper.DropArmageddonBags(npc);
+                    break;
+                case NPCID.TheDestroyer:
+                case NPCID.SkeletronPrime:
+                case NPCID.Plantera:
+                case NPCID.Golem:
+                case NPCID.DD2Betsy:
+                case NPCID.DukeFishron:
+                case NPCID.MoonLordCore:
+                    DropHelper.DropArmageddonBags(npc);
+                    break;
+            }
 		}
-		#endregion
+        #endregion
 
-		#region Check Boss Spawn
-		private void CheckBossSpawn(NPC npc, Mod mod)
+        #region Check Boss Spawn
+        // not really drop code
+        private void CheckBossSpawn(NPC npc, Mod mod)
 		{
 			if ((npc.type == mod.NPCType("PhantomSpirit") || npc.type == mod.NPCType("PhantomSpiritS") || npc.type == mod.NPCType("PhantomSpiritM") ||
 				npc.type == mod.NPCType("PhantomSpiritL")) && !NPC.AnyNPCs(mod.NPCType("Polterghast")) && !CalamityWorld.downedPolterghast)
