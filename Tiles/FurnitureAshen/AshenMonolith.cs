@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -10,18 +11,18 @@ using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    public class AshenMonolith : ModTile
+	public class AshenMonolith : ModTile
 	{
         public override void SetDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileNoAttach[Type] = true;
-			Main.tileLavaDeath[Type] = false;
-			Main.tileLighted[Type] = true;
-			TileID.Sets.HasOutlines[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
-			TileObjectData.newTile.LavaDeath = false;
-			TileObjectData.newTile.Height = 5;
+            Main.tileLavaDeath[Type] = false;
+            Main.tileLighted[Type] = true;
+            TileID.Sets.HasOutlines[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.Height = 5;
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{
 				16,
@@ -30,58 +31,37 @@ namespace CalamityMod.Tiles.FurnitureAshen
 				16,
 				16
 			};
-			TileObjectData.newTile.Origin = new Point16(0, 4);
-			TileObjectData.newTile.UsesCustomCanPlace = true;
-			TileObjectData.addTile(Type);
+            TileObjectData.newTile.Origin = new Point16(0, 4);
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-			AddMapEntry(new Color(191, 142, 111), name);
-			name.SetDefault("Ashen Monolith");
-			dustType = mod.DustType("Pixel");
+            AddMapEntry(new Color(191, 142, 111), name);
+            name.SetDefault("Ashen Monolith");
+            dustType = mod.DustType("Pixel");
 			adjTiles = new int[] { TileID.GrandfatherClocks };
-		}
+        }
+        int animationFrameWidth = 36;
 
-		public override bool HasSmartInteract()
-		{
-			return true;
-		}
+        public override bool HasSmartInteract()
+        {
+            return true;
+        }
 
-		public override bool CreateDust(int i, int j, ref int type)
-		{
-			Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
-			Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
-			return false;
-		}
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
+            return false;
+        }
 
-		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-		{
-			r = 1f;
-			g = 0.5f;
-			b = 0.5f;
-		}
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 1f;
+            g = 0.5f;
+            b = 0.5f;
+        }
 
-		//public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
-		//{
-		//    int uniqueAnimationFrame = Main.tileFrame[Type] + i;
-		//    uniqueAnimationFrame = (uniqueAnimationFrame % 54) + 1;
-
-		//    frameXOffset = uniqueAnimationFrame * animationFrameWidth;
-		//}
-
-		//public override void AnimateTile(ref int frame, ref int frameCounter)
-		//{
-		//    frameCounter++;
-		//    if (frameCounter > 6)
-		//    {
-		//        frameCounter = 0;
-		//        frame++;
-		//        if (frame > 54)
-		//        {
-		//            frame = 1;
-		//        }
-		//    }
-		//}
-
-		public override void RightClick(int x, int y)
+        public override void RightClick(int x, int y)
 		{
 			{
 				string text = "AM";
@@ -151,140 +131,86 @@ namespace CalamityMod.Tiles.FurnitureAshen
 			Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("AshenMonolith"));
 		}
 
-		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
-		{
-			if (!Lighting.NotRetro)
-			{
-				return;
-			}
-			Tile currentTile = Main.tile[i, j];
-			if (currentTile.type == mod.TileType("AshenMonolith"))
-			{
-				//This is used to draw the eye, where the frame is changed depending on the player's position relative to the eye's centre.
-				//To make sure that each section draws correctly, if the tile is the left side of the eye then add 8 to the point compared to the player's position, and if it's on the right then subtract 8
-				//Likewise, if frameY = 1 then add 8, if it's 0 then subtract 8
-				Vector2 eyeCentre = new Vector2(i * 16, j * 16);
-				switch (currentTile.frameX)
-				{
-					case 0:
-						eyeCentre += new Vector2(8f, 0f);
-						break;
-					case 1:
-						eyeCentre -= new Vector2(8f, 0f);
-						break;
-					default:
-						break;
-				}
-				switch (currentTile.frameY)
-				{
-					case 0:
-						eyeCentre += new Vector2(0f, 8f);
-						break;
-					case 1:
-						eyeCentre -= new Vector2(0f, 8f);
-						break;
-					default:
-						break;
-				}
-				//The eye should track the closest player
-				Vector2 playerPos = eyeCentre;
-				float shortestDistance = 9999f;
-				for (int x = 0; x < Main.player.Length; x++)
-				{
-					if ((Main.player[x].position - eyeCentre).Length() < shortestDistance)
-					{
-						playerPos = Main.player[x].position;
-						shortestDistance = (Main.player[x].position - eyeCentre).Length();
-					}
-				}
-				//Use this to determine which eye frame to draw
-				//Default positions for the eye (This is for the pupil being centred)
-				int frameX = 5;
-				int frameY = 2;
-				float differenceX = eyeCentre.X - playerPos.X;
-				float differenceY = eyeCentre.Y - playerPos.Y;
-				int frameXPositive = 1;
-				int frameYPositive = 1;
-				if (differenceX < 0)
-				{
-					frameXPositive = -1;
-				}
-				if (differenceY < 0)
-				{
-					frameYPositive = -1;
-				}
-				int frameDifferenceX = 0;
-				int frameDifferenceY = 0;
-				if (differenceX < -160 || differenceX > 160)
-				{
-					frameDifferenceX = 5 * frameXPositive;
-				}
-				else if (differenceX < -92 || differenceX > 92)
-				{
-					frameDifferenceX = 4 * frameXPositive;
-				}
-				else if (differenceX < -64 || differenceX > 64)
-				{
-					frameDifferenceX = 3 * frameXPositive;
-				}
-				else if (differenceX < -32 || differenceX > 32)
-				{
-					frameDifferenceX = 2 * frameXPositive;
-				}
-				else if (differenceX < -16 || differenceX > 16)
-				{
-					frameDifferenceX = frameXPositive;
-				}
-				if (differenceY < -64 || differenceY > 64)
-				{
-					frameDifferenceY = 2 * frameYPositive;
-				}
-				else if (differenceY < -16 || differenceY > 16)
-				{
-					frameDifferenceY = frameYPositive;
-				}
-				frameX -= frameDifferenceX;
-				frameY -= frameDifferenceY;
-				frameX = frameX * 36;
-				frameY = frameY * 90;
-				//Initialize the default draw offset of the post drawn sections, then update it to not have the 4 tile offset if camera mode is enabled
-				Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X + GetDrawOffset(), j * 16 - Main.screenPosition.Y + GetDrawOffset());
-				if (CaptureManager.Instance.IsCapturing)
-				{
-					drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y);
-				}
-				Texture2D eyeSheet = mod.GetTexture("Tiles/FurnitureAshen/AshenMonolith_Eye");
-				spriteBatch.Draw
-				(
-					eyeSheet,
-					drawOffset,
-					new Rectangle(frameX + currentTile.frameX, frameY + currentTile.frameY, 16, 16),
-					new Color(255, 255, 255, 255),
-					0,
-					new Vector2(0f, 0f),
-					1,
-					SpriteEffects.None,
-					0f
-				);
-			}
-		}
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            //This is used to draw the eye, where the frame is changed depending on the player's position relative to the eye's centre.
+            Tile currentTile = Main.tile[i, j];
+            Vector2 eyeCentre = new Vector2(i * 16, j * 16);
+            if (currentTile.frameX == 0) { eyeCentre += new Vector2(16f, 0f); }
+            if (currentTile.frameY == 0) { eyeCentre += new Vector2(0f, 16f); }
+            //The eye should track the closest player
+            Vector2 playerPos = eyeCentre;
+            float distanceToTarget = 9999f;
+            for (int x = 0; x < Main.player.Length; x++)
+            {
+                if ((Main.player[x].position - eyeCentre).Length() < distanceToTarget)
+                {
+                    playerPos = Main.player[x].position;
+                    distanceToTarget = (Main.player[x].position - eyeCentre).Length();
+                }
+            }
+            //Use this to determine which eye frame to draw
+            //Default positions for the eye (This is for the pupil being centred)
+            int frameX = 5;
+            int frameY = 2;
+            //horizontal and vertical range for the eye before it reaches maximum value (in tiles). Used to get the various 'magnitudes' of the eye to work
+            int xRange = 0;
+            if(distanceToTarget > 250)
+            {
+                xRange = 5;
+            }
+            else if (distanceToTarget > 170)
+            {
+                xRange = 4;
+            }
+            else if (distanceToTarget > 100)
+            {
+                xRange = 3;
+            }
+            else if (distanceToTarget > 40)
+            {
+                xRange = 2;
+            }
+            else if (distanceToTarget > 10)
+            {
+                xRange = 1;
+            }
+            int yRange = 0;
+            if (distanceToTarget > 170)
+            {
+                yRange = 2;
+            }
+            else if (distanceToTarget > 10)
+            {
+                yRange = 1;
+            }
 
-		/// <summary>
-		/// Gets the offset in both axes that should be used for drawing the additions to the tile
-		/// </summary>
-		/// <returns>The pixel draw offset of the postdrawn sprite in both axes</returns>
-		private int GetDrawOffset()
-		{
-			int drawOffset = 0;
-			if (Main.screenWidth < 1664f)
-			{
-				drawOffset = 193;
-			}
-			else
-			{
-				drawOffset = (int)(-0.5f * (float)Main.screenWidth + 1025f);
-			}
-			return (drawOffset - 1);
-		}
-	}
+            //Attempt to use this to get the eye to look in the direction of the player
+            Vector2 eyeToPlayer = (playerPos - eyeCentre) / 16;
+            eyeToPlayer.X = (int)eyeToPlayer.X;
+            eyeToPlayer.Y = (int)eyeToPlayer.Y;
+
+            float factor = Math.Abs((Math.Abs(eyeToPlayer.X) >= 2 * Math.Abs(eyeToPlayer.Y)) ? eyeToPlayer.X / xRange : eyeToPlayer.Y / yRange);
+            if (factor != 0) { eyeToPlayer = eyeToPlayer / factor; }
+            frameX += (int)(eyeToPlayer.X);
+            frameY += (int)(eyeToPlayer.Y);
+            frameX = frameX * 36;
+            frameY = frameY * 90;
+            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+            Texture2D eyeSheet = mod.GetTexture("Tiles/FurnitureAshen/AshenMonolith_Eye");
+            spriteBatch.Draw
+            (
+                eyeSheet,
+                drawOffset,
+                new Rectangle(frameX + currentTile.frameX, frameY + currentTile.frameY, 16, 16),
+                new Color(255, 255, 255, 255),
+                0,
+                new Vector2(0f, 0f),
+                1,
+                SpriteEffects.None,
+                0f
+            );
+        }
+    }
 }

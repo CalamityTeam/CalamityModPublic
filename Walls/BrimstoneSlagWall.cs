@@ -1,26 +1,61 @@
-using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-    public class BrimstoneSlagWall : ModWall
-    {
-        public override void SetDefaults()
+	public class BrimstoneSlagWall : ModWall
+	{
+		public override void SetDefaults()
+		{
+			Main.wallHouse[Type] = true;
+			dustType = mod.DustType("Sparkle");
+			drop = mod.ItemType("BrimstoneSlagWall");
+			AddMapEntry(new Color(24, 16, 29));
+        }
+
+        public override bool CreateDust(int i, int j, ref int type)
         {
-            Main.wallHouse[Type] = true;
-            drop = mod.ItemType("BrimstoneSlagWall");
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Brimstone Slag Wall");
-            AddMapEntry(new Color(20, 20, 20), name);
-            dustType = 53;
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 60, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(100, 100, 100), 1f);
+            return false;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
+		{
+			num = fail ? 1 : 3;
+		}
+
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            num = fail ? 1 : 3;
+            Texture2D sprite = mod.GetTexture("Walls/BrimstoneSlagWall");
+            Color lightColor = Lighting.GetColor(i, j);
+            Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+            zero -= new Vector2(8, 8);
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
+            int[] sheetOffset = CreatePattern(i, j);
+            spriteBatch.Draw
+                (
+                    sprite,
+                    drawOffset,
+                    new Rectangle(sheetOffset[0] + Main.tile[i, j].wallFrameX(), sheetOffset[1] + Main.tile[i, j].wallFrameY(), 32, 32),
+                    lightColor,
+                    0,
+                    new Vector2(0f, 0f),
+                    1,
+                    SpriteEffects.None,
+                    0f
+                );
+            return false;
+        }
+
+        private int[] CreatePattern(int i, int j)
+        {
+            int[] sheetOffset = new int[2] { i % 2, j % 2 };
+            sheetOffset[0] = sheetOffset[0] * 468;
+            sheetOffset[1] = sheetOffset[1] * 180;
+            return (sheetOffset);
         }
     }
 }

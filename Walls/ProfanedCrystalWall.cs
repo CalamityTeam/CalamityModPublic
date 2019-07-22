@@ -9,6 +9,7 @@ namespace CalamityMod.Walls
 		public override void SetDefaults()
 		{
 			Main.wallHouse[Type] = true;
+            Main.wallLargeFrames[Type] = 2;
 			dustType = mod.DustType("Sparkle");
             soundType = 13;
 			drop = mod.ItemType("ProfanedCrystalWall");
