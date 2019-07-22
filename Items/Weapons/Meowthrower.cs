@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Meowthrower");
-			Tooltip.SetDefault("Consumes gel at a 50% chance\n" +
+			Tooltip.SetDefault("50% chance to not consume gel\n" +
 				"Fires blue and pink flames that emit meows on enemy hits");
 		}
 
