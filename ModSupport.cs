@@ -177,7 +177,6 @@ namespace CalamityMod
                 case "astralinfection":
                 case "astral infection": return mp.ZoneAstral;
 
-
                 case "sunkensea":
                 case "sunken sea":
                 case "thesunkensea":
