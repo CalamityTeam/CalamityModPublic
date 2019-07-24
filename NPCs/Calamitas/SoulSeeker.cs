@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.canGhostHeal = false;
 			npc.damage = 60;
 			npc.defense = 20;
-			npc.lifeMax = 3750;
+			npc.lifeMax = 2500;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 200000 : 150000;

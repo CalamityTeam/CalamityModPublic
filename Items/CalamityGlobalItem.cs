@@ -478,6 +478,19 @@ namespace CalamityMod.Items
 						break;
 				}
 			}
+
+			/*if (item.ammo == 97)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria")
+					{
+						if (line2.Name == "Damage")
+							line2.text = "";
+					}
+				}
+			}*/
+
 			if (item.type == ItemID.SuperAbsorbantSponge)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -1465,78 +1478,78 @@ namespace CalamityMod.Items
 		#endregion
 
 		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
-        #region BossBagChanges
+		#region BossBagChanges
 		public override void OpenVanillaBag(string context, Player player, int arg)
 		{
 			if (context == "bossBag")
 			{
-                // Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
-                DropHelper.DropRevBagAccessories(player);
+				// Give a chance for Laudanum, Stress Pills and Heart of Darkness from every boss bag
+				DropHelper.DropRevBagAccessories(player);
 
-                switch (arg)
+				switch (arg)
 				{
-                    // King Slime
-                    case ItemID.KingSlimeBossBag:
-                        DropHelper.DropItemCondition(player, mod.ItemType("CrownJewel"), CalamityWorld.revenge);
+					// King Slime
+					case ItemID.KingSlimeBossBag:
+						DropHelper.DropItemCondition(player, mod.ItemType("CrownJewel"), CalamityWorld.revenge);
 						break;
 
-                    // Eye of Cthulhu
-                    case ItemID.EyeOfCthulhuBossBag:
-                        DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 3, 5);
-                        DropHelper.DropItemChance(player, mod.ItemType("TeardropCleaver"), 3);
-                        DropHelper.DropItemCondition(player, mod.ItemType("CounterScarf"), CalamityWorld.revenge);
+					// Eye of Cthulhu
+					case ItemID.EyeOfCthulhuBossBag:
+						DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 3, 5);
+						DropHelper.DropItemChance(player, mod.ItemType("TeardropCleaver"), 3);
+						DropHelper.DropItemCondition(player, mod.ItemType("CounterScarf"), CalamityWorld.revenge);
 						break;
 
-                    // Skeletron
-                    case ItemID.SkeletronBossBag:
-                        DropHelper.DropItemChance(player, mod.ItemType("ClothiersWrath"), DropHelper.RareVariantDropRateInt);
+					// Skeletron
+					case ItemID.SkeletronBossBag:
+						DropHelper.DropItemChance(player, mod.ItemType("ClothiersWrath"), DropHelper.RareVariantDropRateInt);
 						break;
 
-                    // Wall of Flesh
+					// Wall of Flesh
 					case ItemID.WallOfFleshBossBag:
-                        DropHelper.DropItemChance(player, mod.ItemType("Meowthrower"), 3);
-                        DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 8);
-                        DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
-                        DropHelper.DropItem(player, mod.ItemType("MLGRune")); // Demon Trophy
-                        break;
+						DropHelper.DropItemChance(player, mod.ItemType("Meowthrower"), 3);
+						DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 8);
+						DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
+						DropHelper.DropItem(player, mod.ItemType("MLGRune")); // Demon Trophy
+						break;
 
-                    // Destroyer
+					// Destroyer
 					case ItemID.DestroyerBossBag:
-                        float shpcChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("SHPC"), CalamityWorld.revenge, shpcChance);
+						float shpcChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+						DropHelper.DropItemCondition(player, mod.ItemType("SHPC"), CalamityWorld.revenge, shpcChance);
 						break;
 
-                    // Plantera
-                    case ItemID.PlanteraBossBag:
-                        DropHelper.DropItem(player, mod.ItemType("LivingShard"), 8, 11);
-                        float bFluxChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("BlossomFlux"), CalamityWorld.revenge, bFluxChance);
-                        DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
+					// Plantera
+					case ItemID.PlanteraBossBag:
+						DropHelper.DropItem(player, mod.ItemType("LivingShard"), 8, 11);
+						float bFluxChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+						DropHelper.DropItemCondition(player, mod.ItemType("BlossomFlux"), CalamityWorld.revenge, bFluxChance);
+						DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
 						break;
 
-                    // Golem
-                    case ItemID.GolemBossBag:
-                        float aegisChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("AegisBlade"), CalamityWorld.revenge, aegisChance);
+					// Golem
+					case ItemID.GolemBossBag:
+						float aegisChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+						DropHelper.DropItemCondition(player, mod.ItemType("AegisBlade"), CalamityWorld.revenge, aegisChance);
 						break;
 
-                    // Duke Fishron
-                    case ItemID.FishronBossBag:
-                        float baronChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("BrinyBaron"), CalamityWorld.revenge, baronChance);
+					// Duke Fishron
+					case ItemID.FishronBossBag:
+						float baronChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+						DropHelper.DropItemCondition(player, mod.ItemType("BrinyBaron"), CalamityWorld.revenge, baronChance);
 						break;
 
-                    // Betsy
-                    case ItemID.BossBagBetsy:
-                        float vesuviusChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-                        DropHelper.DropItemCondition(player, mod.ItemType("Vesuvius"), CalamityWorld.revenge);
-                        break;
+					// Betsy
+					case ItemID.BossBagBetsy:
+						float vesuviusChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+						DropHelper.DropItemCondition(player, mod.ItemType("Vesuvius"), CalamityWorld.revenge);
+						break;
 
-                    // Moon Lord
-                    case ItemID.MoonLordBossBag:
-                        DropHelper.DropItem(player, mod.ItemType("MLGRune2")); // Celestial Onion
-                        DropHelper.DropItemChance(player, mod.ItemType("GrandDad"), DropHelper.RareVariantDropRateInt);
-                        DropHelper.DropItemChance(player, mod.ItemType("Infinity"), DropHelper.RareVariantDropRateInt);
+					// Moon Lord
+					case ItemID.MoonLordBossBag:
+						DropHelper.DropItem(player, mod.ItemType("MLGRune2")); // Celestial Onion
+						DropHelper.DropItemChance(player, mod.ItemType("GrandDad"), DropHelper.RareVariantDropRateInt);
+						DropHelper.DropItemChance(player, mod.ItemType("Infinity"), DropHelper.RareVariantDropRateInt);
 						break;
 				}
 			}
@@ -1778,18 +1791,14 @@ namespace CalamityMod.Items
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
 			}
 			if (item.type == ItemID.DestroyerEmblem)
-			{
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
-			}
 			if (item.type == ItemID.EyeoftheGolem)
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
 			if (item.type == ItemID.PutridScent)
-			{
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
-			}
 
-            // Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
-            if (item.prefix == 62)
+			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
+			if (item.prefix == 62)
 				player.endurance += 0.0025f;
 			if (item.prefix == 63)
 				player.endurance += 0.005f;
@@ -1798,7 +1807,7 @@ namespace CalamityMod.Items
 			if (item.prefix == 65)
 				player.endurance += 0.01f;
 
-            // Precise only gives 1% crit
+			// Precise only gives 1% crit
 			if (item.prefix == 67)
 			{
 				player.meleeCrit -= 1;
@@ -1807,7 +1816,7 @@ namespace CalamityMod.Items
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 1;
 			}
 
-            // Lucky only gives 2% crit
+			// Lucky only gives 2% crit
 			if (item.prefix == 68)
 			{
 				player.meleeCrit -= 2;

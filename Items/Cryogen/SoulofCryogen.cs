@@ -63,8 +63,8 @@ namespace CalamityMod.Items.Cryogen
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.cryogenSoul = true;
             player.pickSpeed -= 0.05f;
-            player.allDamage += 0.05f;
-            player.wingTimeMax = 100;
+			player.allDamage += 0.05f;
+			player.wingTimeMax = 100;
         }
     }
 }

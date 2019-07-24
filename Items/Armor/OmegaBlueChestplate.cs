@@ -31,13 +31,11 @@ No positive life regen");
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
-            player.allDamage += 0.12f;
-            modPlayer.AllCritBoost(8);
-
-            //insert enable crush depth, disable positive life regen
-            modPlayer.omegaBlueChestplate = true;
-        }
+			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+			player.allDamage += 0.12f;
+			modPlayer.AllCritBoost(8);
+			modPlayer.omegaBlueChestplate = true;
+		}
 
         public override void AddRecipes()
         {

@@ -18,10 +18,10 @@ namespace CalamityMod.Items.Accessories.Wings
 			DisplayName.SetDefault("MOAB");
 			Tooltip.SetDefault("The mother of all balloons\n" +
 				"Counts as wings\n" +
-				"Horizontal speed: 6\n" +
+				"Horizontal speed: 6.5\n" +
 				"Acceleration multiplier: 1\n" +
 				"Good vertical speed\n" +
-				"Flight time: 60");
+				"Flight time: 75");
 		}
 
 		public override void SetDefaults()
@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Accessories.Wings
 			player.autoJump = true;
 			player.noFallDmg = true;
 			player.jumpSpeedBoost += 0.8f;
-			player.wingTimeMax = 60;
+			player.wingTimeMax = 75;
 		}
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
@@ -110,7 +110,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
 		{
-			speed = 6f;
+			speed = 6.5f;
 		}
 
 		public override void AddRecipes()
@@ -120,6 +120,9 @@ namespace CalamityMod.Items.Accessories.Wings
 			recipe.AddIngredient(ItemID.BundleofBalloons);
 			recipe.AddIngredient(ItemID.LuckyHorseshoe);
 			recipe.AddIngredient(ItemID.Jetpack);
+			recipe.AddIngredient(ItemID.SoulofMight);
+			recipe.AddIngredient(ItemID.SoulofSight);
+			recipe.AddIngredient(ItemID.SoulofFright);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

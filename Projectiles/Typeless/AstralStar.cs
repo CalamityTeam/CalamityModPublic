@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class AstralStar : ModProjectile
     {
-    	public int noTileHitCounter = 120;
+    	private int noTileHitCounter = 120;
     	
     	public override void SetStaticDefaults()
 		{
@@ -24,7 +25,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.alpha = 50;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+		}
 
         public override void AI()
         {
@@ -121,5 +124,11 @@ namespace CalamityMod.Projectiles.Typeless
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
+	}
 }

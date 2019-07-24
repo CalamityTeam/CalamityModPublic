@@ -95,14 +95,14 @@ namespace CalamityMod
 		public static List<int> scopedWeaponList;
 		public static List<int> trueMeleeBoostExceptionList;
 
-        public static List<int> zombieList;
-        public static List<int> demonEyeList;
-        public static List<int> skeletonList;
-        public static List<int> angryBonesList;
-        public static List<int> hornetList;
-        public static List<int> mossHornetList;
+		public static List<int> zombieList;
+		public static List<int> demonEyeList;
+		public static List<int> skeletonList;
+		public static List<int> angryBonesList;
+		public static List<int> hornetList;
+		public static List<int> mossHornetList;
 
-        public static CalamityMod Instance;
+		public static CalamityMod Instance;
 
 		public CalamityMod()
 		{
@@ -249,12 +249,12 @@ namespace CalamityMod
 			scopedWeaponList = null;
 			trueMeleeBoostExceptionList = null;
 
-            zombieList = null;
-            demonEyeList = null;
+			zombieList = null;
+			demonEyeList = null;
 			skeletonList = null;
-            angryBonesList = null;
-            hornetList = null;
-            mossHornetList = null;
+			angryBonesList = null;
+			hornetList = null;
+			mossHornetList = null;
 
 			BossHealthBarManager.Unload();
 			base.Unload();
@@ -684,7 +684,7 @@ namespace CalamityMod
 					calamity.ItemType("PhoenixFlameBarrage"),
 					calamity.ItemType("ProfanedTrident"),
 					calamity.ItemType("TheBurningSky"),
-                    calamity.ItemType("HeliumFlash")
+					calamity.ItemType("HeliumFlash")
 				};
 
 				natureWeaponList = new List<int>()
@@ -1042,6 +1042,7 @@ namespace CalamityMod
 					NPCID.PlanterasHook,
 					NPCID.PlanterasTentacle,
 					NPCID.BrainofCthulhu,
+					NPCID.Creeper,
 					NPCID.Paladin,
 					NPCID.BoneLee,
 					NPCID.MourningWood,
@@ -1309,62 +1310,62 @@ namespace CalamityMod
 					calamity.ItemType("YinYo")
 				};
 
-                zombieList = new List<int>()
-                {
-                    NPCID.Zombie,
-                    NPCID.SmallZombie,
-                    NPCID.BigZombie,
-                    NPCID.ArmedZombie,
-                    NPCID.BaldZombie,
-                    NPCID.SmallBaldZombie,
-                    NPCID.BigBaldZombie,
-                    NPCID.PincushionZombie,
-                    NPCID.SmallPincushionZombie,
-                    NPCID.BigPincushionZombie,
-                    NPCID.ArmedZombiePincussion, // what is this spelling
+				zombieList = new List<int>()
+				{
+					NPCID.Zombie,
+					NPCID.SmallZombie,
+					NPCID.BigZombie,
+					NPCID.ArmedZombie,
+					NPCID.BaldZombie,
+					NPCID.SmallBaldZombie,
+					NPCID.BigBaldZombie,
+					NPCID.PincushionZombie,
+					NPCID.SmallPincushionZombie,
+					NPCID.BigPincushionZombie,
+					NPCID.ArmedZombiePincussion, // what is this spelling
                     NPCID.SlimedZombie,
-                    NPCID.SmallSlimedZombie,
-                    NPCID.BigSlimedZombie,
-                    NPCID.ArmedZombieSlimed,
-                    NPCID.SwampZombie,
-                    NPCID.SmallSwampZombie,
-                    NPCID.BigSwampZombie,
-                    NPCID.ArmedZombieSwamp,
-                    NPCID.TwiggyZombie,
-                    NPCID.SmallTwiggyZombie,
-                    NPCID.BigTwiggyZombie,
-                    NPCID.ArmedZombieTwiggy,
-                    NPCID.FemaleZombie,
-                    NPCID.SmallFemaleZombie,
-                    NPCID.BigFemaleZombie,
-                    NPCID.ArmedZombieCenx,
-                    NPCID.ZombieRaincoat,
-                    NPCID.SmallRainZombie,
-                    NPCID.BigRainZombie,
-                    NPCID.ZombieEskimo,
-                    NPCID.ArmedZombieEskimo
+					NPCID.SmallSlimedZombie,
+					NPCID.BigSlimedZombie,
+					NPCID.ArmedZombieSlimed,
+					NPCID.SwampZombie,
+					NPCID.SmallSwampZombie,
+					NPCID.BigSwampZombie,
+					NPCID.ArmedZombieSwamp,
+					NPCID.TwiggyZombie,
+					NPCID.SmallTwiggyZombie,
+					NPCID.BigTwiggyZombie,
+					NPCID.ArmedZombieTwiggy,
+					NPCID.FemaleZombie,
+					NPCID.SmallFemaleZombie,
+					NPCID.BigFemaleZombie,
+					NPCID.ArmedZombieCenx,
+					NPCID.ZombieRaincoat,
+					NPCID.SmallRainZombie,
+					NPCID.BigRainZombie,
+					NPCID.ZombieEskimo,
+					NPCID.ArmedZombieEskimo
                     // halloween zombies not included because they don't drop shackles or zombie arms
                 };
 
-                demonEyeList = new List<int>()
-                {
-                    NPCID.DemonEye,
-                    NPCID.DemonEye2,
-                    NPCID.CataractEye,
-                    NPCID.CataractEye2,
-                    NPCID.SleepyEye,
-                    NPCID.SleepyEye2,
-                    NPCID.DialatedEye, // it is spelled "dilated"
+				demonEyeList = new List<int>()
+				{
+					NPCID.DemonEye,
+					NPCID.DemonEye2,
+					NPCID.CataractEye,
+					NPCID.CataractEye2,
+					NPCID.SleepyEye,
+					NPCID.SleepyEye2,
+					NPCID.DialatedEye, // it is spelled "dilated"
                     NPCID.DialatedEye2, // yep
                     NPCID.GreenEye,
-                    NPCID.GreenEye2,
-                    NPCID.PurpleEye,
-                    NPCID.PurpleEye2,
-                    NPCID.DemonEyeOwl,
-                    NPCID.DemonEyeSpaceship
-                };
+					NPCID.GreenEye2,
+					NPCID.PurpleEye,
+					NPCID.PurpleEye2,
+					NPCID.DemonEyeOwl,
+					NPCID.DemonEyeSpaceship
+				};
 
-                skeletonList = new List<int>()
+				skeletonList = new List<int>()
 				{
 					NPCID.BigPantlessSkeleton,
 					NPCID.SmallPantlessSkeleton,
@@ -1391,46 +1392,46 @@ namespace CalamityMod
 					NPCID.GreekSkeleton
 				};
 
-                angryBonesList = new List<int>()
-                {
-                    NPCID.AngryBones,
-                    NPCID.ShortBones,
-                    NPCID.BigBoned,
-                    NPCID.AngryBonesBig,
-                    NPCID.AngryBonesBigMuscle,
-                    NPCID.AngryBonesBigHelmet
-                };
+				angryBonesList = new List<int>()
+				{
+					NPCID.AngryBones,
+					NPCID.ShortBones,
+					NPCID.BigBoned,
+					NPCID.AngryBonesBig,
+					NPCID.AngryBonesBigMuscle,
+					NPCID.AngryBonesBigHelmet
+				};
 
-                hornetList = new List<int>()
-                {
-                    NPCID.Hornet,
-                    NPCID.LittleStinger,
-                    NPCID.BigStinger,
-                    NPCID.HornetFatty,
-                    NPCID.LittleHornetFatty,
-                    NPCID.BigHornetFatty,
-                    NPCID.HornetHoney,
-                    NPCID.LittleHornetHoney,
-                    NPCID.BigHornetHoney,
-                    NPCID.HornetLeafy,
-                    NPCID.LittleHornetLeafy,
-                    NPCID.BigHornetLeafy,
-                    NPCID.HornetSpikey,
-                    NPCID.LittleHornetSpikey,
-                    NPCID.BigHornetSpikey,
-                    NPCID.HornetStingy,
-                    NPCID.LittleHornetStingy,
-                    NPCID.BigHornetStingy
-                };
+				hornetList = new List<int>()
+				{
+					NPCID.Hornet,
+					NPCID.LittleStinger,
+					NPCID.BigStinger,
+					NPCID.HornetFatty,
+					NPCID.LittleHornetFatty,
+					NPCID.BigHornetFatty,
+					NPCID.HornetHoney,
+					NPCID.LittleHornetHoney,
+					NPCID.BigHornetHoney,
+					NPCID.HornetLeafy,
+					NPCID.LittleHornetLeafy,
+					NPCID.BigHornetLeafy,
+					NPCID.HornetSpikey,
+					NPCID.LittleHornetSpikey,
+					NPCID.BigHornetSpikey,
+					NPCID.HornetStingy,
+					NPCID.LittleHornetStingy,
+					NPCID.BigHornetStingy
+				};
 
-                mossHornetList = new List<int>()
-                {
-                    NPCID.MossHornet,
-                    NPCID.TinyMossHornet,
-                    NPCID.LittleMossHornet,
-                    NPCID.BigMossHornet,
-                    NPCID.GiantMossHornet
-                };
+				mossHornetList = new List<int>()
+				{
+					NPCID.MossHornet,
+					NPCID.TinyMossHornet,
+					NPCID.LittleMossHornet,
+					NPCID.BigMossHornet,
+					NPCID.GiantMossHornet
+				};
 			}
 
 			if (Config.RevengeanceAndDeathThoriumBossBuff)
@@ -2197,6 +2198,9 @@ namespace CalamityMod
 				case CalamityModMessageType.AdrenalineSync:
 					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleAdrenaline(reader);
 					break;
+				case CalamityModMessageType.RadiationSync:
+					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleRadiation(reader);
+					break;
 				/*case CalamityModMessageType.DistanceFromBossSync:
 					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleDistanceFromBoss(reader);
 					break;*/
@@ -2253,7 +2257,8 @@ namespace CalamityMod
 		DoGCountdownSync,
 		BossSpawnCountdownSync,
 		BossTypeSync,
-		DeathCountSync
+		DeathCountSync,
+		RadiationSync
 		//DistanceFromBossSync
 	}
 }

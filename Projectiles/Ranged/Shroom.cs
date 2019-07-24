@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,11 +25,13 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = false;
             projectile.timeLeft = 120;
             projectile.ranged = true;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f, ((255 - projectile.alpha) * 0.65f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.6f);
         	projectile.rotation += 1f;
             float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
@@ -62,7 +65,6 @@ namespace CalamityMod.Projectiles.Ranged
 				num485 *= num486;
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-				return;
 			}
         }
         
@@ -70,5 +72,11 @@ namespace CalamityMod.Projectiles.Ranged
         {
         	target.immune[projectile.owner] = 5;
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
+	}
 }

@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ContagionArrow : ModProjectile
     {
-    	public int addBallTimer = 10;
+    	private int addBallTimer = 10;
     	
     	public override void SetStaticDefaults()
 		{
@@ -26,7 +26,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
             projectile.ranged = true;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
         public override void AI()
         {
@@ -53,14 +55,11 @@ namespace CalamityMod.Projectiles.Ranged
         {
         	target.AddBuff(mod.BuffType("Plague"), 600);
         }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-			int y6 = num214 * projectile.frame;
-			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
-        }
-    }
+		}
+	}
 }

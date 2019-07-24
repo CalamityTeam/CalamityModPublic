@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -10,7 +11,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
 	public class NorfleetComet : ModProjectile
 	{
-		public int noTileHitCounter = 120;
+		private int noTileHitCounter = 120;
 
 		public override void SetStaticDefaults()
 		{
@@ -28,6 +29,8 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.penetrate = 1;
 			projectile.timeLeft = 600;
 			projectile.ignoreWater = true;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void AI()
@@ -120,6 +123,12 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[num195].velocity *= 2f;
 				Main.dust[num195].noGravity = true;
 			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class EmpyreanKnives : ModProjectile
     {
-        public int bounce = 3;
+        private int bounce = 3;
 
     	public override void SetStaticDefaults()
 		{
@@ -25,7 +26,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 300;
             projectile.melee = true;
             projectile.extraUpdates = 1;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+		}
 
         public override void AI()
         {
@@ -143,5 +146,11 @@ namespace CalamityMod.Projectiles.Rogue
 			int num2 = projectile.owner;
 			Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, 305, 0, 0f, projectile.owner, (float)num2, num);
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+	}
 }

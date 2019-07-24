@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -24,11 +26,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 240;
             aiType = 48;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
         
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.65f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.5f, 0f, 0.65f);
         	if (Main.rand.Next(5) == 0)
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -101,5 +105,11 @@ namespace CalamityMod.Projectiles.Rogue
 				Main.dust[num624].velocity *= 2f;
 			}
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+	}
 }

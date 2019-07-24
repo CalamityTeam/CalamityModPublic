@@ -18,7 +18,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 	public class AquaticScourgeHead : ModNPC
 	{
 		private bool detectsPlayer = false;
-		private bool flies = true;
 		private const int minLength = 30;
 		private const int maxLength = 31;
 		private float speed = 5f; //10
@@ -199,7 +198,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				despawning = true;
 				npc.TargetClosest(false);
-				flies = false;
 				npc.velocity.Y = npc.velocity.Y + 2f;
 				if ((double)npc.position.Y > Main.worldSurface * 16.0)
 				{
@@ -248,7 +246,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				npc.spriteDirection = 1;
 			}
-			bool canFly = flies;
 			if (Main.player[npc.target].dead)
 			{
 				npc.TargetClosest(false);

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Shrines
@@ -22,7 +24,9 @@ namespace CalamityMod.Projectiles.Shrines
             projectile.penetrate = 1;
 			projectile.alpha = 255;
 			projectile.timeLeft = 180;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{
@@ -91,5 +95,11 @@ namespace CalamityMod.Projectiles.Shrines
 				Main.dust[num214].noGravity = true;
 			}
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
+	}
 }

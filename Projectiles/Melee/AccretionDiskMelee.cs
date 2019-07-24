@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,6 +28,8 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.aiStyle = 3;
 			projectile.timeLeft = 400;
 			aiType = 52;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void AI()
@@ -110,5 +113,11 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(mod.BuffType("Plague"), 120);
 			target.AddBuff(mod.BuffType("HolyLight"), 120);
 		}
-	}
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
+        }
+    }
 }

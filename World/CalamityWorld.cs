@@ -23,7 +23,7 @@ namespace CalamityMod.World
 {
 	public class CalamityWorld : ModWorld
 	{
-		#region InstanceVars
+		#region Vars
 		//private const int ExpandWorldBy = 200;
 
 		public static int DoGSecondStageCountdown = 0;
@@ -115,7 +115,7 @@ namespace CalamityMod.World
 		public static bool downedLORDE = false;
 		public static bool downedCLAM = false;
 
-		//Vanilla
+		//Vanilla, NOT NEEDED, UPDATE LOOT CODE TO PRENPCLOOT
 		public static bool downedWhar = false; //BoC or EoW
 		public static bool downedSkullHead = false; //Skeletron
 		public static bool downedUgly = false; //Wall of Flesh
@@ -411,7 +411,7 @@ namespace CalamityMod.World
 			}
 			else
 			{
-                CalamityMod.Instance.Logger.Error("Unknown loadVersion: " + loadVersion);
+				CalamityMod.Instance.Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
 		#endregion

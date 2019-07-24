@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Animosity");
-			Tooltip.SetDefault("50% chance to not consume ammo\n" +
-                "Fires a powerful sniper round\n" +
-                "Right click to fire a burst of bullets\n");
+			Tooltip.SetDefault(@"50% chance to not consume ammo
+Fires a powerful sniper round
+Right click to fire a burst of bullets");
 		}
 
 	    public override void SetDefaults()
@@ -73,12 +73,12 @@ namespace CalamityMod.Items.Weapons
 	    	{
 	    		float SpeedX = speedX + (float) Main.rand.Next(-10, 11) * 0.05f;
 		    	float SpeedY = speedY + (float) Main.rand.Next(-10, 11) * 0.05f;
-		    	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+		    	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 	    		return false;
 	    	}
 	    	else
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.BulletHighVelocity, (int)((double)damage * 5.8f), knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.BulletHighVelocity, (int)(damage * 5.8f), knockBack, player.whoAmI, 0f, 0f);
 	    		return false;
 	    	}
 		}

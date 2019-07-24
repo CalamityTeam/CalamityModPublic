@@ -10,8 +10,8 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Celestial Onion");
-			Tooltip.SetDefault("Grants a seventh accesory slot\n" +
-                "This will not work if you already have seven or more accessory slots");
+			Tooltip.SetDefault(@"Alien power pulses inside its layers
+Consuming it does something that cannot be reversed");
 		}
 		
 		public override void SetDefaults()

@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 598;
             projectile.penetrate = 3;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
         
         public override void AI()
@@ -35,12 +37,11 @@ namespace CalamityMod.Projectiles.Rogue
         		projectile.rotation -= 1.57f;
         	}
         }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
+	}
 }

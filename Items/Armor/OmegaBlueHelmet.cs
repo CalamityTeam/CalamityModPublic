@@ -32,9 +32,11 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
-            player.allDamage += 0.12f;
-            player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
-            player.maxMinions += 2;
+
+			player.allDamage += 0.12f;
+			player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
+
+			player.maxMinions += 2;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

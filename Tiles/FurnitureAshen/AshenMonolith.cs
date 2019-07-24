@@ -194,7 +194,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             if (factor != 0) { eyeToPlayer = eyeToPlayer / factor; }
             frameX += (int)(eyeToPlayer.X);
             frameY += (int)(eyeToPlayer.Y);
-            frameX = frameX * 36;
+            frameX = frameX * animationFrameWidth;
             frameY = frameY * 90;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;

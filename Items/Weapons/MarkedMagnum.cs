@@ -38,25 +38,25 @@ namespace CalamityMod.Items.Weapons
 			return new Vector2(-5, 0);
 		}
 
-        // Marked Magnum scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-        {
-            float formula = 5f * (player.allDamage - 1f);
-            formula += player.meleeDamage - 1f;
-            formula += player.rangedDamage - 1f;
-            formula += player.magicDamage - 1f;
-            formula += player.minionDamage - 1f;
-            formula += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
-            add += formula;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		// Marked Magnum scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
+		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    	return false;
+			float formula = 5f * (player.allDamage - 1f);
+			formula += player.meleeDamage - 1f;
+			formula += player.rangedDamage - 1f;
+			formula += player.magicDamage - 1f;
+			formula += player.minionDamage - 1f;
+			formula += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
+			add += formula;
 		}
-	
-	    public override void AddRecipes()
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			return false;
+		}
+
+		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(ItemID.HellstoneBar, 7);

@@ -7,30 +7,30 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class HellfireExplosionFriendly : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class HellfireExplosionFriendly : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 130;
-            projectile.height = 130;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 200;
-            projectile.magic = true;
-            projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 15;
-        }
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
+		public override void SetDefaults()
+		{
+			projectile.width = 130;
+			projectile.height = 130;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = -1;
+			projectile.timeLeft = 180;
+			projectile.magic = true;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+		}
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, 0.9f, 0f, 0f);
 			if (projectile.localAI[0] == 0f)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
@@ -92,11 +92,11 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num467].velocity.Y = num464;
 				num462++;
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 600);
-        }
-    }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 600);
+		}
+	}
 }

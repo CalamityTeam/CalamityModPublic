@@ -223,14 +223,14 @@ namespace CalamityMod.NPCs.Cryogen
 				float num1243 = player.Center.X - vector142.X;
 				float num1244 = player.Center.Y - vector142.Y;
 				float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
-				float num1246 = isChill ? 3f : 5f;
+				float num1246 = isChill ? 4f : 6f;
 				if (CalamityWorld.death)
 				{
-					num1246 = isChill ? 4f : 6f;
+					num1246 = isChill ? 5f : 7f;
 				}
 				if (CalamityWorld.bossRushActive)
 				{
-					num1246 = 10f;
+					num1246 = 11f;
 				}
 				num1245 = num1246 / num1245;
 				num1243 *= num1245;
@@ -273,15 +273,15 @@ namespace CalamityMod.NPCs.Cryogen
 						}
 					}
 				}
-				float num1164 = isChill ? 4f : 6f;
-				float num1165 = isChill ? 1f : 1.2f;
+				float num1164 = isChill ? 5f : 7f;
+				float num1165 = isChill ? 1.1f : 1.3f;
 				if (CalamityWorld.death)
 				{
-					num1164 = isChill ? 5f : 7f;
+					num1164 = isChill ? 6f : 8f;
 				}
 				if (CalamityWorld.bossRushActive)
 				{
-					num1164 = 12f;
+					num1164 = 13f;
 				}
 				Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num1166 = player.Center.X - vector133.X;
@@ -415,14 +415,14 @@ namespace CalamityMod.NPCs.Cryogen
 				float num1243 = player.Center.X - vector142.X;
 				float num1244 = player.Center.Y - vector142.Y;
 				float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
-				float num1246 = isChill ? 5f : 7f;
+				float num1246 = isChill ? 6f : 8f;
 				if (CalamityWorld.death)
 				{
-					num1246 = isChill ? 6f : 8f;
+					num1246 = isChill ? 7f : 9f;
 				}
 				if (CalamityWorld.bossRushActive)
 				{
-					num1246 = 14f;
+					num1246 = 15f;
 				}
 				num1245 = num1246 / num1245;
 				num1243 *= num1245;
@@ -476,11 +476,11 @@ namespace CalamityMod.NPCs.Cryogen
 						}
 					}
 				}
-				float num1164 = isChill ? 4.5f : 6.5f;
-				float num1165 = isChill ? 1.1f : 1.3f;
+				float num1164 = isChill ? 5.5f : 7.5f;
+				float num1165 = isChill ? 1.2f : 1.4f;
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
-					num1164 = isChill ? 5.5f : 7.5f;
+					num1164 = isChill ? 6.5f : 8.5f;
 				}
 				Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num1166 = player.Center.X - vector133.X;
@@ -584,10 +584,10 @@ namespace CalamityMod.NPCs.Cryogen
 				float num1243 = player.Center.X - vector142.X;
 				float num1244 = player.Center.Y - vector142.Y;
 				float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
-				float speed = revenge ? 4.5f : 4f;
+				float speed = revenge ? 5.5f : 5f;
 				if (CalamityWorld.bossRushActive)
 				{
-					speed = 9f;
+					speed = 10f;
 				}
 				num1245 = speed / num1245;
 				num1243 *= num1245;

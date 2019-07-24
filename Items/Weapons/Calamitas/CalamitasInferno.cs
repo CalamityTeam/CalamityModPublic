@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Calamitas
             item.rare = 7;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("BrimstoneHellfireballFriendly");
-            item.shootSpeed = 16f;
+            item.shootSpeed = 9f;
         }
     }
 }

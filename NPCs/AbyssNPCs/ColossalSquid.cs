@@ -70,10 +70,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void AI()
 		{
-			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
-			{
-				npc.active = false;
-			}
 			if (npc.localAI[1] == 1f)
 			{
 				npc.localAI[3] += 1f;
@@ -479,6 +475,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					}
 				}
 			}
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f)
+			{
+				npc.active = false;
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -533,8 +533,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("ColossalSquid")) &&
-				!NPC.AnyNPCs(mod.NPCType("Reaper")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")))
+			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("ColossalSquid")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}

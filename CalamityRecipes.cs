@@ -658,12 +658,11 @@ namespace CalamityMod
 			r.SetResult(ItemID.TerraBlade);
 			r.AddRecipe();
 		}
-        #endregion
+		#endregion
 
-        // Replace Lang.misc[37] ("Any") with the appropriate Language.GetText (no clue what the keys are)
-        public static void AddRecipeGroups()
+		public static void AddRecipeGroups()
 		{
-            RecipeGroup group = new RecipeGroup(() => "Any Silt", new int[]
+			RecipeGroup group = new RecipeGroup(() => "Any Silt", new int[]
 			{
 				ItemID.SiltBlock,
 				ItemID.SlushBlock

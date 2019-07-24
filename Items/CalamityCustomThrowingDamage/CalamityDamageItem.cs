@@ -27,13 +27,14 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.summon = false;
 		}
 
-        // 5E-06 to prevent downrounding is not needed anymore, added by TML itself
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-        {
-            add += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
-        }
+		// 5E-06 to prevent downrounding is not needed anymore, added by TML itself
+		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			add += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
+		}
 
-        public override void GetWeaponCrit(Player player, ref int crit)
+		// Calculates a rogue weapon's crit chance using the player's rogue crit chance.
+		public override void GetWeaponCrit(Player player, ref int crit)
 		{
 			crit = (item.crit + CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit);
 		}

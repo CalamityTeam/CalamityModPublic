@@ -13,9 +13,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 {
 	public class AquaticScourgeBodyAlt : ModNPC
 	{
-        public bool detectsPlayer = false;
-        public float speed = 5f; //10
-        public float turnSpeed = 0.08f; //0.15
+        private bool detectsPlayer = false;
+        private float speed = 5f; //10
+        private float turnSpeed = 0.08f; //0.15
 
         public override void SetStaticDefaults()
 		{

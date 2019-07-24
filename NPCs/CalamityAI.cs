@@ -1,0 +1,491 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.DataStructures;
+/*using Terraria.GameContent;
+using Terraria.GameContent.Achievements;
+using Terraria.GameContent.Events;
+using Terraria.GameContent.Tile_Entities;
+using Terraria.GameContent.UI;*/
+using Terraria.ID;
+/*using Terraria.World.Generation;
+using Terraria.GameContent.Generation;
+using CalamityMod.Tiles;
+using CalamityMod.Projectiles;
+using CalamityMod;
+using CalamityMod.Items;*/
+using CalamityMod.World;
+
+namespace CalamityMod.NPCs
+{
+	public class CalamityAI
+	{
+		#region Astrum Aureus
+		public static void AstrumAureusAI(NPC npc, Mod mod)
+		{
+			// Variables
+			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+			int shootBuff = (int)(2f * (1f - (float)npc.life / (float)npc.lifeMax));
+			float shootTimer = 1f + ((float)shootBuff);
+			bool dayTime = Main.dayTime;
+			Player player = Main.player[npc.target];
+			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+
+			// Despawn
+			if (!player.active || player.dead || dayTime)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+
+				if (!player.active || player.dead)
+				{
+					npc.noTileCollide = true;
+					npc.velocity = new Vector2(0f, 10f);
+
+					if (npc.timeLeft > 150)
+						npc.timeLeft = 150;
+
+					return;
+				}
+			}
+			else
+			{
+				if (npc.timeLeft < 1800)
+					npc.timeLeft = 1800;
+			}
+
+			// Emit light when not Idle
+			if (npc.ai[0] != 1f)
+				Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 2.55f, 1f, 0f);
+
+			// Fire projectiles while walking, teleporting, or falling
+			if (npc.ai[0] == 2f || npc.ai[0] >= 5f || (npc.ai[0] == 4f && npc.velocity.Y > 0f) ||
+				npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			{
+				if (Main.netMode != 1)
+				{
+					npc.localAI[0] += ((npc.ai[0] == 2f || (npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode)) ? 4f : shootTimer);
+					if (npc.localAI[0] >= 180f)
+					{
+						npc.localAI[0] = 0f;
+						npc.TargetClosest(true);
+						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+						int laserDamage = expertMode ? 35 : 45;
+						if (NPC.downedMoonlord && revenge && !CalamityWorld.bossRushActive)
+							laserDamage *= 3;
+
+						// Fire astral flames while teleporting
+						if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						{
+							Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+							float spread = 45f * 0.0174f;
+							double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
+							double deltaAngle = spread / 8f;
+							double offsetAngle;
+							int i;
+							for (i = 0; i < 4; i++)
+							{
+								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 7f),
+									(float)(Math.Cos(offsetAngle) * 7f), mod.ProjectileType("AstralFlame"), laserDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 7f),
+									(float)(-Math.Cos(offsetAngle) * 7f), mod.ProjectileType("AstralFlame"), laserDamage, 0f, Main.myPlayer, 0f, 0f);
+							}
+						}
+
+						// Fire astral lasers while falling or walking
+
+						else if ((npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode) || npc.ai[0] == 2f)
+						{
+							float num179 = 18.5f;
+							Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+							float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+							float num181 = Math.Abs(num180) * 0.1f;
+							float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
+							float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+							npc.netUpdate = true;
+							num183 = num179 / num183;
+							num180 *= num183;
+							num182 *= num183;
+							int num185 = mod.ProjectileType("AstralLaser");
+							value9.X += num180;
+							value9.Y += num182;
+							for (int num186 = 0; num186 < 5; num186++)
+							{
+								num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
+								num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								num183 = num179 / num183;
+								num180 += (float)Main.rand.Next(-60, 61);
+								num182 += (float)Main.rand.Next(-60, 61);
+								num180 *= num183;
+								num182 *= num183;
+								Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, laserDamage, 0f, Main.myPlayer, 0f, 0f);
+							}
+						}
+					}
+				}
+			}
+
+			// Start up
+
+			if (npc.ai[0] == 0f)
+			{
+				// If hit or after two seconds start Idle phase
+				npc.ai[1] += 1f;
+				if (npc.justHit || npc.ai[1] >= 120f)
+				{
+					// Set AI to next phase (Idle) and reset other AI
+					npc.ai[0] = 1f;
+					npc.ai[1] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Idle
+
+			else if (npc.ai[0] == 1f)
+			{
+				// Decrease defense
+				npc.defense = 0;
+
+				// Slow down
+				npc.velocity.X *= 0.98f;
+				npc.velocity.Y *= 0.98f;
+
+				// Stay vulnerable for a maximum of 1.5 or 2.5 seconds
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= ((npc.life < npc.lifeMax / 4 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
+				{
+					// Increase defense
+					npc.defense = 120;
+
+					// Stop colliding with tiles
+					npc.noGravity = true;
+					npc.noTileCollide = true;
+
+					// Set AI to next phase (Walk) and reset other AI
+					npc.ai[0] = 2f;
+					npc.ai[1] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Walk
+
+			else if (npc.ai[0] == 2f)
+			{
+				// Set walking speed
+				float num823 = 4.5f;
+				if ((double)npc.life < (double)npc.lifeMax * 0.5)
+					num823 = 5.5f;
+				if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+					num823 = 7f;
+
+				// Set walking direction
+				if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
+				{
+					npc.velocity.X = npc.velocity.X * 0.9f;
+					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+						npc.velocity.X = 0f;
+				}
+				else
+				{
+					float playerLocation = npc.Center.X - player.Center.X;
+					npc.direction = (playerLocation < 0 ? 1 : -1);
+
+					if (npc.direction > 0)
+						npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
+					if (npc.direction < 0)
+						npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
+				}
+
+				// Walk through tiles if colliding with tiles and player is out of reach
+				int num854 = 80;
+				int num855 = 20;
+				Vector2 position2 = new Vector2(npc.Center.X - (float)(num854 / 2), npc.position.Y + (float)npc.height - (float)num855);
+
+				bool flag52 = false;
+				if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y + (float)player.height - 16f)
+					flag52 = true;
+
+				if (flag52)
+					npc.velocity.Y = npc.velocity.Y + 0.5f;
+				else if (Collision.SolidCollision(position2, num854, num855))
+				{
+					if (npc.velocity.Y > 0f)
+						npc.velocity.Y = 0f;
+
+					if ((double)npc.velocity.Y > -0.2)
+						npc.velocity.Y = npc.velocity.Y - 0.025f;
+					else
+						npc.velocity.Y = npc.velocity.Y - 0.2f;
+
+					if (npc.velocity.Y < -4f)
+						npc.velocity.Y = -4f;
+				}
+				else
+				{
+					if (npc.velocity.Y < 0f)
+						npc.velocity.Y = 0f;
+
+					if ((double)npc.velocity.Y < 0.1)
+						npc.velocity.Y = npc.velocity.Y + 0.025f;
+					else
+						npc.velocity.Y = npc.velocity.Y + 0.5f;
+				}
+
+				// Walk for a maximum of 6 seconds
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 360f)
+				{
+					// Collide with tiles again
+					npc.noGravity = false;
+					npc.noTileCollide = false;
+
+					// Set AI to next phase (Jump) and reset other AI
+					npc.ai[0] = 3f;
+					npc.ai[1] = 0f;
+					npc.netUpdate = true;
+				}
+
+				// Limit downward velocity
+				if (npc.velocity.Y > 10f)
+					npc.velocity.Y = 10f;
+			}
+
+			// Jump
+
+			else if (npc.ai[0] == 3f)
+			{
+				npc.noTileCollide = false;
+				if (npc.velocity.Y == 0f)
+				{
+					// Slow down
+					npc.velocity.X = npc.velocity.X * 0.8f;
+
+					// Half second delay before jumping
+					npc.ai[1] += 1f;
+					if (npc.ai[1] >= 30f)
+						npc.ai[1] = -20f;
+					else if (npc.ai[1] == -1f)
+					{
+						// Set jump velocity, reset and set AI to next phase (Stomp)
+						npc.TargetClosest(true);
+						npc.velocity.X = (float)(4 * npc.direction);
+						npc.velocity.Y = -14.5f;
+						npc.ai[0] = 4f;
+						npc.ai[1] = 0f;
+					}
+				}
+			}
+
+			// Stomp
+
+			else if (npc.ai[0] == 4f)
+			{
+				if (npc.velocity.Y == 0f)
+				{
+					// Play stomp sound
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LegStomp"), (int)npc.position.X, (int)npc.position.Y);
+
+					// Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
+					npc.ai[2] += 1f;
+					if (npc.ai[2] >= 2f)
+					{
+						npc.ai[0] = ((npc.life < npc.lifeMax / 2 || revenge) ? 5f : 1f);
+						npc.ai[2] = 0f;
+					}
+					else
+						npc.ai[0] = 3f;
+
+					// Spawn dust for visual effect
+					for (int num622 = (int)npc.position.X - 20; num622 < (int)npc.position.X + npc.width + 40; num622 += 20)
+					{
+						for (int num623 = 0; num623 < 4; num623++)
+						{
+							int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.5f);
+							Main.dust[num624].velocity *= 0.2f;
+						}
+					}
+				}
+				else
+				{
+					// Set velocities while falling, this happens before the stomp
+					npc.TargetClosest(true);
+					if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
+					{
+						npc.velocity.X = npc.velocity.X * 0.9f;
+						npc.velocity.Y = npc.velocity.Y + 0.6f;
+					}
+					else
+					{
+						if (npc.direction < 0)
+							npc.velocity.X = npc.velocity.X - 0.2f;
+						else if (npc.direction > 0)
+							npc.velocity.X = npc.velocity.X + 0.2f;
+
+						float num626 = 8f;
+						if (revenge)
+							num626 += 1f;
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+							num626 += 2f;
+						if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
+							num626 += 1f;
+						if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive)
+							num626 += 1f;
+
+						if (npc.velocity.X < -num626)
+							npc.velocity.X = -num626;
+						if (npc.velocity.X > num626)
+							npc.velocity.X = num626;
+					}
+				}
+			}
+
+			// Teleport
+
+			else if (npc.ai[0] == 5f)
+			{
+				// Slow down
+				npc.velocity.X *= 0.95f;
+				npc.velocity.Y *= 0.95f;
+
+				// Spawn slimes and start teleport
+				if (Main.netMode != 1)
+				{
+					npc.localAI[1] += 1f;
+					if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+						npc.localAI[1] += 5f;
+
+					if (npc.localAI[1] >= 240f)
+					{
+						// Spawn slimes
+						bool spawnFlag = revenge;
+						if (NPC.CountNPCS(mod.NPCType("AstrageldonSlime")) > 1)
+							spawnFlag = false;
+						if (spawnFlag && Main.netMode != 1)
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
+
+						// Reset localAI and find a teleport destination
+						npc.localAI[1] = 0f;
+						npc.TargetClosest(true);
+						int num1249 = 0;
+						int num1250;
+						int num1251;
+
+						while (true)
+						{
+							num1249++;
+							num1250 = (int)player.Center.X / 16;
+							num1251 = (int)player.Center.Y / 16;
+							num1250 += Main.rand.Next(-30, 31);
+							num1251 += Main.rand.Next(-30, 31);
+
+							if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height))
+								break;
+
+							if (num1249 > 100)
+								goto Block;
+						}
+
+						// Set AI to next phase (Mid-teleport), set AI 2 and 3 to teleport coordinates X and Y respectively
+						npc.ai[0] = 6f;
+						npc.ai[2] = (float)num1250;
+						npc.ai[3] = (float)num1251;
+						npc.netUpdate = true;
+					Block:;
+					}
+				}
+			}
+
+			// Mid-teleport
+
+			else if (npc.ai[0] == 6f)
+			{
+				// Become immune
+				npc.chaseable = false;
+				npc.dontTakeDamage = true;
+
+				// Turn invisible
+				npc.alpha += 10;
+				if (npc.alpha >= 255)
+				{
+					// Set position to teleport destination
+					npc.position.X = npc.ai[2] * 16f - (float)(npc.width / 2);
+					npc.position.Y = npc.ai[3] * 16f - (float)(npc.height / 2);
+
+					// Reset alpha and set AI to next phase (End of teleport)
+					npc.alpha = 255;
+					npc.ai[0] = 7f;
+					npc.netUpdate = true;
+				}
+
+				// Play sound for cool effect
+				if (npc.soundDelay == 0)
+				{
+					npc.soundDelay = 15;
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+				}
+
+				// Emit dust to make the teleport pretty
+				int num;
+				for (int num245 = 0; num245 < 10; num245 = num + 1)
+				{
+					int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
+					Main.dust[num244].noGravity = true;
+					Main.dust[num244].velocity *= 0.5f;
+					num = num245;
+				}
+			}
+
+			// End of teleport
+
+			else if (npc.ai[0] == 7f)
+			{
+				// Turn visible
+				npc.alpha -= 10;
+				if (npc.alpha <= 0)
+				{
+					// Spawn slimes
+					bool spawnFlag = revenge;
+					if (NPC.CountNPCS(mod.NPCType("AstrageldonSlime")) > 1)
+						spawnFlag = false;
+					if (spawnFlag && Main.netMode != 1)
+						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
+
+					// Become vulnerable
+					npc.chaseable = true;
+					npc.dontTakeDamage = false;
+
+					// Reset alpha and set AI to next phase (Idle)
+					npc.alpha = 0;
+					npc.ai[0] = 1f;
+					npc.netUpdate = true;
+				}
+
+				// Play sound at teleport destination for cool effect
+				if (npc.soundDelay == 0)
+				{
+					npc.soundDelay = 15;
+					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+				}
+
+				// Emit dust to make the teleport pretty
+				int num;
+				for (int num245 = 0; num245 < 10; num245 = num + 1)
+				{
+					int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
+					Main.dust[num244].noGravity = true;
+					Main.dust[num244].velocity *= 0.5f;
+					num = num245;
+				}
+			}
+		}
+		#endregion
+	}
+}

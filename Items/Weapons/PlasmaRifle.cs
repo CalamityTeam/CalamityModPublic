@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -72,11 +68,11 @@ namespace CalamityMod.Items.Weapons
 		{
 	    	if (player.altFunctionUse == 2)
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaBolt"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaBolt"), damage, knockBack, player.whoAmI, 0f, 0f);
 	    	}
 	    	else
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaShot"), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("PlasmaShot"), (int)(damage * 0.75f), knockBack, player.whoAmI, 0f, 0f);
 	    	}
 			return false;
 		}

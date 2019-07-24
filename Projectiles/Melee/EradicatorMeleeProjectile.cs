@@ -28,6 +28,8 @@ namespace CalamityMod.Projectiles.Melee
             aiType = 52;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 3;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
         
         public override void AI()
@@ -85,15 +87,14 @@ namespace CalamityMod.Projectiles.Melee
 				}
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 origin = new Vector2(31f, 29f);
 			spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/EradicatorMeleeProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);

@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.extraUpdates = 3;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
         
         public override void AI()
@@ -142,6 +144,12 @@ namespace CalamityMod.Projectiles.Melee
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(2) == 0 ? 89 : 229, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }

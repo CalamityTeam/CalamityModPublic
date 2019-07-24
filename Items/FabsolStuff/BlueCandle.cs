@@ -5,15 +5,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.FabsolStuff
 {
-	public class BlueCandle: ModItem
+	public class BlueCandle : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Weightless Candle");
 			Tooltip.SetDefault("When placed, nearby players gain 15% movement speed, 10% wing time, and 5% acceleration\n" +
-                "'The floating flame seems to uplift your very spirit'");
-
-        }
+				"'The floating flame seems to uplift your very spirit'");
+		}
 
 		public override void SetDefaults()
 		{

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
@@ -22,7 +24,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 3;
             projectile.aiStyle = 1;
             aiType = 1;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+		}
         
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -48,5 +52,11 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 			}
         }
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
+	}
 }
