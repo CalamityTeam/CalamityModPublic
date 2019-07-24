@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Armor
 	    	player.thorns = 100f;
 	    	player.statLifeMax2 += 200;
 	        player.statManaMax2 += 200;
-            player.allDamage += 0.15f;
-            modPlayer.AllCritBoost(15);
+			player.allDamage += 0.15f;
+			modPlayer.AllCritBoost(15);
 			player.meleeSpeed += 0.2f;
 	    }
 	

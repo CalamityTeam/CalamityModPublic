@@ -2154,15 +2154,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrystylCrusher")); //done
 				}
-                else if (itemChoice == 13)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperMelee")); //done
-                }
-                else
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperRogue")); //done
-                }
-            }
+				else if (itemChoice == 13)
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperMelee")); //done
+				}
+				else
+				{
+					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperRogue")); //done
+				}
+			}
 			else
 			{
 				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("CalamitousEssence"), Main.rand.Next(20, 31), true);

@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Calamitas
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.calamityRing = true;
-            player.allDamage += 0.15f;
-            player.endurance -= 0.3f;
+			player.allDamage += 0.15f;
+			player.endurance -= 0.3f;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.immune)

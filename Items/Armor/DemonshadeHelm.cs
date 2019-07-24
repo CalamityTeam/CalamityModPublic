@@ -67,8 +67,8 @@ namespace CalamityMod.Items.Armor
 		public override void UpdateEquip(Player player)
 		{
 			player.maxMinions += 10;
-            player.allDamage += 0.3f;
-            player.GetModPlayer<CalamityPlayer>().AllCritBoost(15);
+			player.allDamage += 0.3f;
+			player.GetModPlayer<CalamityPlayer>().AllCritBoost(15);
 		}
 
 		public override void AddRecipes()

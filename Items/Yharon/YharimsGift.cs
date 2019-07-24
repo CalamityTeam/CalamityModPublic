@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Yharon
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.allDamage += 0.15f;
-            player.statDefense += 30;
+			player.allDamage += 0.15f;
+			player.statDefense += 30;
             if (((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1))
             {
                 dragonTimer--;

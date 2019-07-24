@@ -10,10 +10,10 @@ namespace CalamityMod.Buffs
 {
 	public class RageMode : ModBuff
 	{
-        public static string RevTip = "150% damage boost. Can be boosted by other items up to 210%.";
-        public static string DeathTip = "300% damage boost. Can be boosted by other items up to 510%.";
+		public static string RevTip = "150% damage boost. Can be boosted by other items up to 210%.";
+		public static string DeathTip = "300% damage boost. Can be boosted by other items up to 510%.";
 
-        public override void SetDefaults()
+		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Rage Mode");
 			Description.SetDefault(RevTip);
@@ -21,18 +21,18 @@ namespace CalamityMod.Buffs
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			longerExpertDebuff = false;
-            canBeCleared = false;
-        }
-		
+			canBeCleared = false;
+		}
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).rageMode = true;
 		}
 
-        public override void ModifyBuffTip(ref string tip, ref int rare)
-        {
-            if (CalamityWorld.death)
-                tip = DeathTip;
-        }
-    }
+		public override void ModifyBuffTip(ref string tip, ref int rare)
+		{
+			if (CalamityWorld.death)
+				tip = DeathTip;
+		}
+	}
 }

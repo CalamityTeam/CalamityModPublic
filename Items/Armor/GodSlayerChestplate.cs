@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Armor
             player.thorns += 0.5f;
             player.statLifeMax2 += 60;
             player.moveSpeed += 0.15f;
-            player.allDamage += 0.11f;
-            modPlayer.AllCritBoost(6);
-        }
+			player.allDamage += 0.11f;
+			modPlayer.AllCritBoost(6);
+		}
 
         public override void AddRecipes()
         {

@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.width = 60;
             projectile.height = 60;
-            projectile.scale = 0.7f;
+            projectile.scale = 0.75f;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.tileCollide = false;
@@ -77,10 +77,11 @@ namespace CalamityMod.Projectiles.Ranged
         
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+			SpriteEffects spriteEffects = (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
 			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
 			int y6 = num214 * projectile.frame;
-			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, spriteEffects, 0f);
 			return false;
         }
 

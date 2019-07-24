@@ -37,8 +37,8 @@ namespace CalamityMod
             if (!ReadConfig())
             {
                 SetDefaults();
-                CalamityMod.Instance.Logger.Warn("Couldn't find config file! Creating a new one...");
-            }
+				CalamityMod.Instance.Logger.Warn("Couldn't find config file! Creating a new one...");
+			}
             SaveConfig();
         }
 

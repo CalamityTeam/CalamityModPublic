@@ -7,9 +7,9 @@ namespace CalamityMod.Items.Crabulon
 {
 	public class CrabulonBag : ModItem
 	{
-        public override int BossBagNPC => mod.NPCType("CrabulonIdle");
+		public override int BossBagNPC => mod.NPCType("CrabulonIdle");
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -32,22 +32,22 @@ namespace CalamityMod.Items.Crabulon
 
 		public override void OpenBossBag(Player player)
 		{
-            // Materials
-            DropHelper.DropItem(player, ItemID.GlowingMushroom, 25, 35);
-            DropHelper.DropItem(player, ItemID.MushroomGrassSeeds, 5, 10);
+			// Materials
+			DropHelper.DropItem(player, ItemID.GlowingMushroom, 25, 35);
+			DropHelper.DropItem(player, ItemID.MushroomGrassSeeds, 5, 10);
 
-            // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("MycelialClaws"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Fungicide"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("HyphaeRod"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Mycoroot"), 3);
+			// Weapons
+			DropHelper.DropItemChance(player, mod.ItemType("MycelialClaws"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("Fungicide"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("HyphaeRod"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("Mycoroot"), 3);
 
-            // Equipment
-            DropHelper.DropItem(player, mod.ItemType("FungalClump"));
-            DropHelper.DropItemCondition(player, mod.ItemType("MushroomPlasmaRoot"), CalamityWorld.revenge);
+			// Equipment
+			DropHelper.DropItem(player, mod.ItemType("FungalClump"));
+			DropHelper.DropItemCondition(player, mod.ItemType("MushroomPlasmaRoot"), CalamityWorld.revenge);
 
-            // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("CrabulonMask"), 7);
+			// Vanity
+			DropHelper.DropItemChance(player, mod.ItemType("CrabulonMask"), 7);
 		}
 	}
 }

@@ -84,8 +84,8 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 
 		public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
 		{
-            long coordCombo = (long)i << 32 | (long)j;
-            ulong randSeed = Main.TileFrameSeed ^ (ulong)coordCombo;
+			long coordCombo = (long)i << 32 | (long)j;
+			ulong randSeed = Main.TileFrameSeed ^ (ulong)coordCombo;
 			Color color = new Color(100, 100, 100, 0);
 			int frameX = Main.tile[i, j].frameX;
 			int frameY = Main.tile[i, j].frameY;

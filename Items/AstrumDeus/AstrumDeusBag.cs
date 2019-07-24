@@ -5,9 +5,9 @@ namespace CalamityMod.Items.AstrumDeus
 {
 	public class AstrumDeusBag : ModItem
 	{
-        public override int BossBagNPC => mod.NPCType("AstrumDeusHeadSpectral");
+		public override int BossBagNPC => mod.NPCType("AstrumDeusHeadSpectral");
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -30,23 +30,23 @@ namespace CalamityMod.Items.AstrumDeus
 
 		public override void OpenBossBag(Player player)
 		{
-            player.TryGettingDevArmor();
+			player.TryGettingDevArmor();
 
-            // Materials
-            DropHelper.DropItem(player, mod.ItemType("Stardust"), 60, 90);
+			// Materials
+			DropHelper.DropItem(player, mod.ItemType("Stardust"), 60, 90);
 
-            // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("Starfall"), 4);
-            DropHelper.DropItemChance(player, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
+			// Weapons
+			DropHelper.DropItemChance(player, mod.ItemType("Starfall"), 4);
+			DropHelper.DropItemChance(player, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
 
-            // Equipment
-            float f = Main.rand.NextFloat();
-            bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
-            DropHelper.DropItemCondition(player, mod.ItemType("AstralBulwark"), !replaceWithRare);
-            DropHelper.DropItemCondition(player, mod.ItemType("HideofAstrumDeus"), replaceWithRare);
+			// Equipment
+			float f = Main.rand.NextFloat();
+			bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
+			DropHelper.DropItemCondition(player, mod.ItemType("AstralBulwark"), !replaceWithRare);
+			DropHelper.DropItemCondition(player, mod.ItemType("HideofAstrumDeus"), replaceWithRare);
 
-            // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("AstrumDeusMask"), 7);
+			// Vanity
+			DropHelper.DropItemChance(player, mod.ItemType("AstrumDeusMask"), 7);
 		}
 	}
 }

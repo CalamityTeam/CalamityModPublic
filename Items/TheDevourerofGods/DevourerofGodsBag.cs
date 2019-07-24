@@ -9,9 +9,9 @@ namespace CalamityMod.Items.TheDevourerofGods
 {
 	public class DevourerofGodsBag : ModItem
 	{
-        public override int BossBagNPC => mod.NPCType("DevourerofGodsHeadS");
+		public override int BossBagNPC => mod.NPCType("DevourerofGodsHeadS");
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -40,32 +40,32 @@ namespace CalamityMod.Items.TheDevourerofGods
 
 		public override void OpenBossBag(Player player)
 		{
-            player.TryGettingDevArmor();
+			player.TryGettingDevArmor();
 
-            // Materials
-            DropHelper.DropItem(player, mod.ItemType("CosmiliteBar"), 30, 39);
+			// Materials
+			DropHelper.DropItem(player, mod.ItemType("CosmiliteBar"), 30, 39);
 
-            // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("Excelsus"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("EradicatorMelee"), 3);
-            float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, mod.ItemType("CosmicDischarge"), CalamityWorld.revenge, dischargeChance);
-            DropHelper.DropItemChance(player, mod.ItemType("TheObliterator"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Deathwind"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Skullmasher"), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, mod.ItemType("Norfleet"), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, mod.ItemType("DeathhailStaff"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("StaffoftheMechworm"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Eradicator"), 3);
+			// Weapons
+			DropHelper.DropItemChance(player, mod.ItemType("Excelsus"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("EradicatorMelee"), 3);
+			float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+			DropHelper.DropItemCondition(player, mod.ItemType("CosmicDischarge"), CalamityWorld.revenge, dischargeChance);
+			DropHelper.DropItemChance(player, mod.ItemType("TheObliterator"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("Deathwind"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("Skullmasher"), DropHelper.RareVariantDropRateInt);
+			DropHelper.DropItemChance(player, mod.ItemType("Norfleet"), DropHelper.RareVariantDropRateInt);
+			DropHelper.DropItemChance(player, mod.ItemType("DeathhailStaff"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("StaffoftheMechworm"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("Eradicator"), 3);
 
-            // Equipment
-            DropHelper.DropItem(player, mod.ItemType("NebulousCore"));
-            bool vodka = player.GetModPlayer<CalamityPlayer>(mod).fabsolVodka;
-            DropHelper.DropItemCondition(player, mod.ItemType("Fabsol"), CalamityWorld.revenge && vodka);
+			// Equipment
+			DropHelper.DropItem(player, mod.ItemType("NebulousCore"));
+			bool vodka = player.GetModPlayer<CalamityPlayer>(mod).fabsolVodka;
+			DropHelper.DropItemCondition(player, mod.ItemType("Fabsol"), CalamityWorld.revenge && vodka);
 
-            // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("DevourerofGodsMask"), 7);
-            DropHelper.DropItemCondition(player, mod.ItemType("CosmicPlushie"), CalamityWorld.death && player.difficulty == 2);
+			// Vanity
+			DropHelper.DropItemChance(player, mod.ItemType("DevourerofGodsMask"), 7);
+			DropHelper.DropItemCondition(player, mod.ItemType("CosmicPlushie"), CalamityWorld.death && player.difficulty == 2);
 		}
 	}
 }

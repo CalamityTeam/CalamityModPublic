@@ -33,7 +33,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 		{
             CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
             Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
-            player.allDamage += 0.03f;
+			player.allDamage += 0.03f;
 			int bloomCounter = 0;
 			int num = 186;
 			float num2 = 150f;

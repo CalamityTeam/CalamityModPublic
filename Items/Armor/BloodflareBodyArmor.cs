@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 40;
-            player.allDamage += 0.12f;
-            player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
-            if (player.lavaWet)
+			player.allDamage += 0.12f;
+			player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
+			if (player.lavaWet)
             {
                 player.statDefense += 30;
                 player.lifeRegen += 10;

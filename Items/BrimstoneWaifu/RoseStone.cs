@@ -44,7 +44,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.6f, 0f, 0.25f);
 			player.lifeRegen += 1;
 			player.statLifeMax2 += 20;
-            player.allDamage += 0.03f;
+			player.allDamage += 0.03f;
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			modPlayer.brimstoneWaifu = true;
 			if (player.whoAmI == Main.myPlayer)

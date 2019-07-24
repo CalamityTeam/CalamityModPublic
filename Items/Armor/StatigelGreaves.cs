@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.05f;
-            player.moveSpeed += 0.05f;
+			player.allDamage += 0.05f;
+			player.moveSpeed += 0.05f;
         }
 
         public override void AddRecipes()

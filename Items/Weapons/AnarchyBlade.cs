@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons
 {
 	public class AnarchyBlade : ModItem
 	{
-        private static int BaseDamage = 110;
+		private static int BaseDamage = 110;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Anarchy Blade");
 			Tooltip.SetDefault("The lower your life the more damage this blade does\n" +
@@ -57,14 +57,14 @@ namespace CalamityMod.Items.Weapons
 	        }
 	    }
 
-        // Gains 10% of missing health as base damage.
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-        {
-            int lifeAmount = player.statLifeMax2 - player.statLife;
-            flat += lifeAmount * 0.1f * player.meleeDamage;
-        }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		// Gains 10% of missing health as base damage.
+		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			int lifeAmount = player.statLifeMax2 - player.statLife;
+			flat += lifeAmount * 0.1f * player.meleeDamage;
+		}
+	    
+	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimstoneBoom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);

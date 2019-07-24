@@ -27,36 +27,36 @@ namespace CalamityMod.Items
 
 		public override void RightClick(Player player)
 		{
-            // Weapons
-            DropHelper.DropItem(player, ItemID.CopperBroadsword);
-            DropHelper.DropItem(player, ItemID.CopperBow);
-            DropHelper.DropItem(player, ItemID.WoodenArrow, 100);
-            DropHelper.DropItem(player, ItemID.AmethystStaff);
-            DropHelper.DropItem(player, ItemID.ManaCrystal);
-            DropHelper.DropItem(player, ItemID.SlimeStaff);
-            DropHelper.DropItem(player, mod.ItemType("WulfrumKnife"), 150);
+			// Weapons
+			DropHelper.DropItem(player, ItemID.CopperBroadsword);
+			DropHelper.DropItem(player, ItemID.CopperBow);
+			DropHelper.DropItem(player, ItemID.WoodenArrow, 100);
+			DropHelper.DropItem(player, ItemID.AmethystStaff);
+			DropHelper.DropItem(player, ItemID.ManaCrystal);
+			DropHelper.DropItem(player, ItemID.SlimeStaff);
+			DropHelper.DropItem(player, mod.ItemType("WulfrumKnife"), 150);
 
-            // Tools / Utility
-            DropHelper.DropItem(player, ItemID.CopperHammer);
-            DropHelper.DropItem(player, ItemID.Bomb, 10);
-            DropHelper.DropItem(player, ItemID.MiningPotion);
-            DropHelper.DropItem(player, ItemID.SpelunkerPotion, 2);
-            DropHelper.DropItem(player, ItemID.SwiftnessPotion, 3);
-            DropHelper.DropItem(player, ItemID.GillsPotion, 2);
-            DropHelper.DropItem(player, ItemID.ShinePotion);
+			// Tools / Utility
+			DropHelper.DropItem(player, ItemID.CopperHammer);
+			DropHelper.DropItem(player, ItemID.Bomb, 10);
+			DropHelper.DropItem(player, ItemID.MiningPotion);
+			DropHelper.DropItem(player, ItemID.SpelunkerPotion, 2);
+			DropHelper.DropItem(player, ItemID.SwiftnessPotion, 3);
+			DropHelper.DropItem(player, ItemID.GillsPotion, 2);
+			DropHelper.DropItem(player, ItemID.ShinePotion);
 
-            // Tiles / Placeables
-            DropHelper.DropItem(player, ItemID.Torch, 25);
-            DropHelper.DropItem(player, ItemID.Chest, 3);
+			// Tiles / Placeables
+			DropHelper.DropItem(player, ItemID.Torch, 25);
+			DropHelper.DropItem(player, ItemID.Chest, 3);
 
-            // Difficulty items
-            DropHelper.DropItem(player, mod.ItemType("Death"));
-            DropHelper.DropItem(player, mod.ItemType("DefiledRune"));
+			// Difficulty items
+			DropHelper.DropItem(player, mod.ItemType("Death"));
+			DropHelper.DropItem(player, mod.ItemType("DefiledRune"));
 
-            // Speedrun King Slime
-            DropHelper.DropItem(player, ItemID.SlimeCrown);
+			// Speedrun King Slime
+			DropHelper.DropItem(player, ItemID.SlimeCrown);
 
-            // Music box (if music mod installed)
+			// Music box (if music mod installed)
 
 			Mod musicMod = ModLoader.GetMod("CalamityModMusic");
 			if (musicMod != null)

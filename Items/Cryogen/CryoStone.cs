@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Cryogen
 		{
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0f, 0.25f, 0.6f);
 			player.endurance += 0.05f;
-            player.allDamage += 0.03f;
+			player.allDamage += 0.03f;
 		}
     }
 }

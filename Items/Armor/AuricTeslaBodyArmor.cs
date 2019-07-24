@@ -39,9 +39,9 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayerReflect = true;
             player.statLifeMax2 += 100;
             player.moveSpeed += 0.25f;
-            player.allDamage += 0.08f;
-            modPlayer.AllCritBoost(5);
-        }
+			player.allDamage += 0.08f;
+			modPlayer.AllCritBoost(5);
+		}
 
         public override void AddRecipes()
         {

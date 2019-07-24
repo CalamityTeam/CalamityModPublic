@@ -33,7 +33,7 @@ namespace CalamityMod.Items.DesertScourge
 			Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0f, 0.425f, 0.425f);
         	player.moveSpeed += 0.1f;
         	player.jumpSpeedBoost += 2.0f;
-            player.allDamage += 0.03f;
+			player.allDamage += 0.03f;
 		}
     }
 }

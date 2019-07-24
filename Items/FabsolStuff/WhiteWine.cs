@@ -30,13 +30,13 @@ I drank a full barrel of this stuff once in one night, I couldn't remember who I
             item.consumable = true;
             item.healMana = 400;
             item.buffType = mod.BuffType("WhiteWine");
-            item.buffTime = 10800; // 3 minutes
+            item.buffTime = 10800; //3 minutes
             item.value = Item.buyPrice(0, 16, 60, 0);
 		}
 
-        public override void OnConsumeItem(Player player)
-        {
-            player.AddBuff(mod.BuffType("WhiteWine"), 10800);
-        }
-    }
+		public override void OnConsumeItem(Player player)
+		{
+			player.AddBuff(mod.BuffType("WhiteWine"), 10800);
+		}
+	}
 }

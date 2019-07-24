@@ -63,8 +63,8 @@ namespace CalamityMod.Items.Accessories
                 player.endurance += 0.05f;
                 player.statManaMax2 += 50;
                 player.manaCost *= 0.95f;
-                player.allDamage += 0.08f;
-                int damage = NPC.downedMoonlord ? 150 : 90;
+				player.allDamage += 0.08f;
+				int damage = NPC.downedMoonlord ? 150 : 90;
                 float damageMult = CalamityWorld.downedDoG ? 2f : 1f;
                 if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 1 ||
                     player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 1 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 1 ||
@@ -106,8 +106,8 @@ namespace CalamityMod.Items.Accessories
                 player.endurance += 0.06f;
                 player.statManaMax2 += 60;
                 player.manaCost *= 0.93f;
-                player.allDamage += 0.1f;
-                if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 0 ||
+				player.allDamage += 0.1f;
+				if (player.ownedProjectileCounts[mod.ProjectileType("BigBustyRose")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SirenLure")] > 0 ||
                     player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 0 || player.ownedProjectileCounts[mod.ProjectileType("SandyWaifu")] > 0 ||
                     player.ownedProjectileCounts[mod.ProjectileType("CloudyWaifu")] > 0)
                 {

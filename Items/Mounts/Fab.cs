@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Mounts
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			if (modPlayer.fabsolVodka)
 			{
-                player.allDamage += 0.1f;
+				player.allDamage += 0.1f;
 			}
 			if (Math.Abs(player.velocity.X) > 12f || Math.Abs(player.velocity.Y) > 12f)
 			{

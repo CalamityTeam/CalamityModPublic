@@ -39,11 +39,11 @@ namespace CalamityMod.Items.Leviathan
 				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 				{
 					player.endurance += 0.05f;
-                    player.allDamage += 0.05f;
-                }
+					player.allDamage += 0.05f;
+				}
 				else
 				{
-                    player.allDamage += 0.1f;
+					player.allDamage += 0.1f;
 					player.statDefense += 20;
 					player.moveSpeed += 0.75f;
 				}

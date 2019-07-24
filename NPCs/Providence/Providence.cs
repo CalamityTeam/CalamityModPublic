@@ -894,64 +894,64 @@ namespace CalamityMod.NPCs.Providence
 			return false;
 		}
 
-        public override void NPCLoot()
-        {
-            DropHelper.DropBags(npc);
-            DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceTrophy"), 10);
+		public override void NPCLoot()
+		{
+			DropHelper.DropBags(npc);
+			DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceTrophy"), 10);
 
-            DropHelper.DropItemCondition(npc, mod.ItemType("ElysianWings"), Main.expertMode && biomeType != 2);
-            DropHelper.DropItemCondition(npc, mod.ItemType("ElysianAegis"), Main.expertMode && biomeType == 2);
+			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianWings"), Main.expertMode && biomeType != 2);
+			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianAegis"), Main.expertMode && biomeType == 2);
 
-            // Drops which are inside the bag on Expert+
-            if (!Main.expertMode)
-            {
-                DropHelper.DropItemChance(npc, mod.ItemType("HolyCollider"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("SolarFlare"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("TelluricGlare"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("BlissfulBombardier"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("PurgeGuzzler"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("MoltenAmputator"), 4);
+			// Drops which are inside the bag on Expert+
+			if (!Main.expertMode)
+			{
+				DropHelper.DropItemChance(npc, mod.ItemType("HolyCollider"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("SolarFlare"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("TelluricGlare"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("BlissfulBombardier"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("PurgeGuzzler"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("MoltenAmputator"), 4);
 
-                DropHelper.DropItemChance(npc, mod.ItemType("SamuraiBadge"), 40);
+				DropHelper.DropItemChance(npc, mod.ItemType("SamuraiBadge"), 40);
 
-                DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceMask"), 7);
+				DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceMask"), 7);
 
-                DropHelper.DropItem(npc, mod.ItemType("UnholyEssence"), 20, 30);
-                DropHelper.DropItem(npc, mod.ItemType("DivineGeode"), 10, 15);
+				DropHelper.DropItem(npc, mod.ItemType("UnholyEssence"), 20, 30);
+				DropHelper.DropItem(npc, mod.ItemType("DivineGeode"), 10, 15);
 
-                DropHelper.DropItem(npc, mod.ItemType("RuneofCos"));
-            }
-            
-            if (Main.netMode != 1)
-            {
-                SpawnLootBox();
-            }
+				DropHelper.DropItem(npc, mod.ItemType("RuneofCos"));
+			}
+
+			if (Main.netMode != 1)
+			{
+				SpawnLootBox();
+			}
 		}
 
-        private void SpawnLootBox()
-        {
-            int num52 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-            int num53 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-            int num54 = npc.width / 2 / 16 + 1;
-            for (int num55 = num52 - num54; num55 <= num52 + num54; num55++)
-            {
-                for (int num56 = num53 - num54; num56 <= num53 + num54; num56++)
-                {
-                    if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55, num56].active())
-                    {
-                        Main.tile[num55, num56].type = (ushort)mod.TileType("ProfanedRock");
-                        Main.tile[num55, num56].active(true);
-                    }
-                    Main.tile[num55, num56].lava(false);
-                    Main.tile[num55, num56].liquid = 0;
+		private void SpawnLootBox()
+		{
+			int num52 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+			int num53 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+			int num54 = npc.width / 2 / 16 + 1;
+			for (int num55 = num52 - num54; num55 <= num52 + num54; num55++)
+			{
+				for (int num56 = num53 - num54; num56 <= num53 + num54; num56++)
+				{
+					if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55, num56].active())
+					{
+						Main.tile[num55, num56].type = (ushort)mod.TileType("ProfanedRock");
+						Main.tile[num55, num56].active(true);
+					}
+					Main.tile[num55, num56].lava(false);
+					Main.tile[num55, num56].liquid = 0;
 
-                    if (Main.netMode == 2)
-                        NetMessage.SendTileSquare(-1, num55, num56, 1, TileChangeType.None);
-                    else
-                        WorldGen.SquareTileFrame(num55, num56, true);
-                }
-            }
-        }
+					if (Main.netMode == 2)
+						NetMessage.SendTileSquare(-1, num55, num56, 1, TileChangeType.None);
+					else
+						WorldGen.SquareTileFrame(num55, num56, true);
+				}
+			}
+		}
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{

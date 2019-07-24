@@ -42,8 +42,8 @@ namespace CalamityMod.Items.TheDevourerofGods
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.nCore = true;
-            player.allDamage += 0.12f;
-            int damage = 1500;
+			player.allDamage += 0.12f;
+			int damage = 1500;
             float knockBack = 3f;
             if (Main.rand.Next(15) == 0)
             {

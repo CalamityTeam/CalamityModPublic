@@ -6,9 +6,9 @@ namespace CalamityMod.Items.Calamitas
 {
 	public class CalamitasBag : ModItem
 	{
-        public override int BossBagNPC => mod.NPCType("CalamitasRun3");
+		public override int BossBagNPC => mod.NPCType("CalamitasRun3");
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
  		{
  			DisplayName.SetDefault("Treasure Bag");
  			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -33,24 +33,24 @@ namespace CalamityMod.Items.Calamitas
 		{
 			player.TryGettingDevArmor();
 
-            // Materials
-            DropHelper.DropItem(player, mod.ItemType("CalamityDust"), 14, 18);
-            DropHelper.DropItem(player, mod.ItemType("BlightedLens"), 1, 3);
-            DropHelper.DropItem(player, mod.ItemType("EssenceofChaos"), 5, 9);
-            DropHelper.DropItemCondition(player, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 35, 45);
+			// Materials
+			DropHelper.DropItem(player, mod.ItemType("CalamityDust"), 14, 18);
+			DropHelper.DropItem(player, mod.ItemType("BlightedLens"), 1, 3);
+			DropHelper.DropItem(player, mod.ItemType("EssenceofChaos"), 5, 9);
+			DropHelper.DropItemCondition(player, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 35, 45);
 
-            // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("TheEyeofCalamitas"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("Animosity"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("CalamitasInferno"), 3);
-            DropHelper.DropItemChance(player, mod.ItemType("BlightedEyeStaff"), 3);
+			// Weapons
+			DropHelper.DropItemChance(player, mod.ItemType("TheEyeofCalamitas"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("Animosity"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("CalamitasInferno"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("BlightedEyeStaff"), 3);
 
-            // Equipment
-            DropHelper.DropItem(player, mod.ItemType("CalamityRing"));
-            DropHelper.DropItemChance(player, mod.ItemType("ChaosStone"), 10);
+			// Equipment
+			DropHelper.DropItem(player, mod.ItemType("CalamityRing"));
+			DropHelper.DropItemChance(player, mod.ItemType("ChaosStone"), 10);
 
-            // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("CalamitasMask"), 7);
+			// Vanity
+			DropHelper.DropItemChance(player, mod.ItemType("CalamitasMask"), 7);
 		}
 	}
 }

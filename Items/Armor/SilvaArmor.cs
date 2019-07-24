@@ -34,9 +34,9 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 80;
             player.moveSpeed += 0.2f;
-            player.allDamage += 0.12f;
-            player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
-        }
+			player.allDamage += 0.12f;
+			player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
+		}
 
         public override void AddRecipes()
         {

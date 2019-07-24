@@ -6,9 +6,9 @@ namespace CalamityMod.Items.Bumblefuck
 {
 	public class BumblebirbBag : ModItem
 	{
-        public override int BossBagNPC => mod.NPCType("Bumblefuck");
+		public override int BossBagNPC => mod.NPCType("Bumblefuck");
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Treasure Bag");
 			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -31,17 +31,17 @@ namespace CalamityMod.Items.Bumblefuck
 
 		public override void OpenBossBag(Player player)
 		{
-            player.TryGettingDevArmor();
+			player.TryGettingDevArmor();
 
-            // Materials
-            DropHelper.DropItem(player, mod.ItemType("EffulgentFeather"), 9, 14);
+			// Materials
+			DropHelper.DropItem(player, mod.ItemType("EffulgentFeather"), 9, 14);
 
-            // Weapons
-            DropHelper.DropItemFromSet(player, mod.ItemType("GildedProboscis"), mod.ItemType("GoldenEagle"), mod.ItemType("RougeSlash"));
-            DropHelper.DropItemChance(player, mod.ItemType("Swordsplosion"), DropHelper.RareVariantDropRateInt);
+			// Weapons
+			DropHelper.DropItemFromSet(player, mod.ItemType("GildedProboscis"), mod.ItemType("GoldenEagle"), mod.ItemType("RougeSlash"));
+			DropHelper.DropItemChance(player, mod.ItemType("Swordsplosion"), DropHelper.RareVariantDropRateInt);
 
-            // Equipment
-            DropHelper.DropItemCondition(player, mod.ItemType("RedLightningContainer"), CalamityWorld.revenge);
+			// Equipment
+			DropHelper.DropItemCondition(player, mod.ItemType("RedLightningContainer"), CalamityWorld.revenge);
 		}
 	}
 }

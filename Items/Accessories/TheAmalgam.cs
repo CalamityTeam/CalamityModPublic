@@ -68,18 +68,18 @@ namespace CalamityMod.Items.Accessories
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(1000f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
-            player.allDamage += 0.15f;
-            player.ignoreWater = true;
+			player.allDamage += 0.15f;
+			player.ignoreWater = true;
 			player.lavaRose = true;
 			player.lavaMax += 240;
 			if (player.lavaWet)
             {
-                player.allDamage += 0.15f;
-            }
+				player.allDamage += 0.15f;
+			}
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-                player.allDamage += 0.1f;
-                player.statDefense += 40;
+				player.allDamage += 0.1f;
+				player.statDefense += 40;
                 player.moveSpeed += 0.75f;
             }
             if (((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1))

@@ -7,9 +7,9 @@ namespace CalamityMod.Items.Astrageldon
 {
 	public class AstrageldonBag : ModItem
 	{
-        public override int BossBagNPC => mod.NPCType("Astrageldon");
+		public override int BossBagNPC => mod.NPCType("Astrageldon");
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
  		{
  			DisplayName.SetDefault("Treasure Bag");
  			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
@@ -32,25 +32,25 @@ namespace CalamityMod.Items.Astrageldon
 
         public override void OpenBossBag(Player player)
         {
-            player.TryGettingDevArmor();
+			player.TryGettingDevArmor();
 
-            // Materials
-            DropHelper.DropItem(player, mod.ItemType("AstralJelly"), 12, 16);
-            DropHelper.DropItem(player, mod.ItemType("Stardust"), 30, 40);
-            DropHelper.DropItem(player, ItemID.FallenStar, 30, 50);
+			// Materials
+			DropHelper.DropItem(player, mod.ItemType("AstralJelly"), 12, 16);
+			DropHelper.DropItem(player, mod.ItemType("Stardust"), 30, 40);
+			DropHelper.DropItem(player, ItemID.FallenStar, 30, 50);
 
-            // Weapons
-            DropHelper.DropItemChance(player, mod.ItemType("Nebulash"), 4);
+			// Weapons
+			DropHelper.DropItemChance(player, mod.ItemType("Nebulash"), 4);
 
-            // Equipment
-            DropHelper.DropItemCondition(player, mod.ItemType("SquishyBeanMount"), CalamityWorld.revenge && NPC.downedMoonlord);
+			// Equipment
+			DropHelper.DropItemCondition(player, mod.ItemType("SquishyBeanMount"), CalamityWorld.revenge && NPC.downedMoonlord);
 
-            // Vanity
-            DropHelper.DropItemChance(player, mod.ItemType("AureusMask"), 7);
+			// Vanity
+			DropHelper.DropItemChance(player, mod.ItemType("AureusMask"), 7);
 
-            // Other
-            DropHelper.DropItemCondition(player, mod.ItemType("StarlightFuelCell"), CalamityWorld.revenge);
-            DropHelper.DropItemChance(player, ItemID.HallowedKey, 5);
-        }
+			// Other
+			DropHelper.DropItemCondition(player, mod.ItemType("StarlightFuelCell"), CalamityWorld.revenge);
+			DropHelper.DropItemChance(player, ItemID.HallowedKey, 5);
+		}
 	}
 }

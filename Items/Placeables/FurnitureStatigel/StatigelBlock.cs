@@ -36,13 +36,13 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "StatigelPlatform", 2);
             recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.AddRecipe();
+			recipe.AddTile(TileID.WorkBenches);
+			recipe.AddRecipe();
 
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "StatigelWall", 4);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
-        }
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "StatigelWall", 4);
+			recipe.SetResult(this);
+			recipe.AddTile(TileID.WorkBenches);
+		}
 	}
 }

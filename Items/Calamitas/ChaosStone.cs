@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Calamitas
         	Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.85f, 0f, 0f);
 			player.statManaMax2 += 50;
 			player.manaCost *= 0.95f;
-            player.allDamage += 0.03f;
+			player.allDamage += 0.03f;
 		}
     }
 }

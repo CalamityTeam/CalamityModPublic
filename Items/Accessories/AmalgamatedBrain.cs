@@ -59,8 +59,8 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-            player.allDamage += 0.12f;
-        }
+			player.allDamage += 0.12f;
+		}
 
         public override void AddRecipes()
         {

@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons
 {
     public class DraedonsExoblade : ModItem
     {
-        private static int BaseDamage = 6700;
+		private static int BaseDamage = 6700;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
             Tooltip.SetDefault("Ancient blade of Yharim's weapons and armors expert, Draedon\n" +
@@ -43,14 +43,14 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
 
-        // Gains 100% of missing health as base damage.
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-        {
-            int lifeAmount = player.statLifeMax2 - player.statLife;
-            flat += lifeAmount * player.meleeDamage;
-        }
+		// Gains 100% of missing health as base damage.
+		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			int lifeAmount = player.statLifeMax2 - player.statLife;
+			flat += lifeAmount * player.meleeDamage;
+		}
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
+		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.Next(4) == 0)
             {
