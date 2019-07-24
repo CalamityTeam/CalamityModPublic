@@ -35,13 +35,6 @@ namespace CalamityMod.Projectiles.Melee
         	projectile.velocity.X *= 1.06f;
         	projectile.velocity.Y *= 1.06f;
         }
-        
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
