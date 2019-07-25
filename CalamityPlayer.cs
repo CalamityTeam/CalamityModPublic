@@ -9269,21 +9269,34 @@ namespace CalamityMod
             // DoG:             30000   3 gold
             // Yharon:          48000   4 gold 80 silver
             if (CalamityWorld.revenge)
-			{
-                double priceMultiplier = 1D +
-                    (NPC.downedBoss3 ? 2D : 0D) +
-                    (Main.hardMode ? 2D : 0D) +
-                    (NPC.downedMechBossAny ? 3D : 0D) +
-                    (NPC.downedPlantBoss || CalamityWorld.downedCalamitas ? 4D : 0D) +
-                    (NPC.downedGolemBoss ? 4D : 0D) +
-                    (CalamityWorld.downedPlaguebringer || CalamityWorld.downedScavenger || NPC.downedFishron ? 8D : 0D) +
-                    (NPC.downedMoonlord ? 16D : 0D) +
-                    (CalamityWorld.downedProvidence ? 20D : 0D) +
-                    (CalamityWorld.downedDoG ? 40D : 0D) +
-                    (CalamityWorld.downedYharon ? 60D : 0D);
-				price = (int)(price * priceMultiplier);
+            {
+                // start with a vanilla cost of zero instead of 3 silver
+                price -= Item.buyPrice(0, 0, 3, 0);
 
-                // Additionally, multiply the price by 5 if a boss is alive.
+                if (CalamityWorld.downedYharon)
+                    price += Item.buyPrice(0, 4, 80, 0);
+                else if (CalamityWorld.downedDoG)
+                    price += Item.buyPrice(0, 3, 0, 0);
+                else if (CalamityWorld.downedProvidence)
+                    price += Item.buyPrice(0, 1, 80, 0);
+                else if (NPC.downedMoonlord)
+                    price += Item.buyPrice(0, 1, 20, 0);
+                else if (NPC.downedFishron || CalamityWorld.downedPlaguebringer || CalamityWorld.downedScavenger)
+                    price += Item.buyPrice(0, 0, 72, 0);
+                else if (NPC.downedGolemBoss)
+                    price += Item.buyPrice(0, 0, 48, 0);
+                else if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+                    price += Item.buyPrice(0, 0, 36, 0);
+                else if (NPC.downedMechBossAny)
+                    price += Item.buyPrice(0, 0, 24, 0);
+                else if (Main.hardMode)
+                    price += Item.buyPrice(0, 0, 15, 0);
+                else if (NPC.downedBoss3)
+                    price += Item.buyPrice(0, 0, 9, 0);
+                else
+                    price += Item.buyPrice(0, 0, 3, 0);
+
+                // Multiply the price by 5 if a boss is alive. This includes debuff cost!
                 if (areThereAnyDamnBosses)
                     price *= 5;
 
