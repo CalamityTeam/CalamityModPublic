@@ -115,15 +115,7 @@ namespace CalamityMod.World
 		public static bool downedLORDE = false;
 		public static bool downedCLAM = false;
 
-		//Vanilla, NOT NEEDED, UPDATE LOOT CODE TO PRENPCLOOT
-		public static bool downedWhar = false; //BoC or EoW
-		public static bool downedSkullHead = false; //Skeletron
-		public static bool downedUgly = false; //Wall of Flesh
-		public static bool downedSkeletor = false; //Skeletron Prime
-		public static bool downedPlantThing = false; //Plantera
-		public static bool downedGolemBaby = false; //Golem
-		public static bool downedMoonDude = false; //Moon Lord
-		public static bool downedBetsy = false; //Betsy
+        public static bool downedBetsy = false;
 		#endregion
 
 		#endregion
@@ -178,16 +170,8 @@ namespace CalamityMod.World
 			downedCLAM = false;
 			downedBumble = false;
 			downedCrabulon = false;
-			downedBetsy = false;
-			downedScavenger = false;
-			downedWhar = false;
-			downedSkullHead = false;
-			downedUgly = false;
-			downedSkeletor = false;
-			downedPlantThing = false;
-			downedGolemBaby = false;
-			downedMoonDude = false;
-			downedBossAny = false;
+            downedBetsy = false;
+            downedBossAny = false;
 			spawnedHardBoss = false;
 			demonMode = false;
 			onionMode = false;
@@ -233,15 +217,8 @@ namespace CalamityMod.World
 			if (downedSCal) downed.Add("supremeCalamitas");
 			if (downedBumble) downed.Add("bumblebirb");
 			if (downedCrabulon) downed.Add("crabulon");
-			if (downedBetsy) downed.Add("betsy");
+            if (downedBetsy) downed.Add("betsy");
 			if (downedScavenger) downed.Add("scavenger");
-			if (downedWhar) downed.Add("boss2");
-			if (downedSkullHead) downed.Add("boss3");
-			if (downedUgly) downed.Add("wall");
-			if (downedSkeletor) downed.Add("skeletronPrime");
-			if (downedPlantThing) downed.Add("planter");
-			if (downedGolemBaby) downed.Add("baby");
-			if (downedMoonDude) downed.Add("moonDude");
 			if (downedBossAny) downed.Add("anyBoss");
 			if (demonMode) downed.Add("demonMode");
 			if (onionMode) downed.Add("onionMode");
@@ -301,15 +278,8 @@ namespace CalamityMod.World
 			downedSCal = downed.Contains("supremeCalamitas");
 			downedBumble = downed.Contains("bumblebirb");
 			downedCrabulon = downed.Contains("crabulon");
-			downedBetsy = downed.Contains("betsy");
+            downedBetsy = downed.Contains("betsy");
 			downedScavenger = downed.Contains("scavenger");
-			downedWhar = downed.Contains("boss2");
-			downedSkullHead = downed.Contains("boss3");
-			downedUgly = downed.Contains("wall");
-			downedSkeletor = downed.Contains("skeletronPrime");
-			downedPlantThing = downed.Contains("planter");
-			downedGolemBaby = downed.Contains("baby");
-			downedMoonDude = downed.Contains("moonDude");
 			downedBossAny = downed.Contains("anyBoss");
 			demonMode = downed.Contains("demonMode");
 			onionMode = downed.Contains("onionMode");
@@ -364,21 +334,22 @@ namespace CalamityMod.World
 				downedSentinel3 = flags2[6];
 				downedYharon = flags2[7];
 
-				BitsByte flags3 = reader.ReadByte();
+                // Explicitly discard the now-unused vanilla boss booleans
+                BitsByte flags3 = reader.ReadByte();
 				downedSCal = flags3[0];
 				downedBumble = flags3[1];
 				downedCrabulon = flags3[2];
 				downedBetsy = flags3[3];
 				downedScavenger = flags3[4];
-				downedWhar = flags3[5];
-				downedSkullHead = flags3[6];
-				downedUgly = flags3[7];
+				_ = flags3[5];
+				_ = flags3[6];
+				_ = flags3[7];
 
 				BitsByte flags4 = reader.ReadByte();
-				downedSkeletor = flags4[0];
-				downedPlantThing = flags4[1];
-				downedGolemBaby = flags4[2];
-				downedMoonDude = flags4[3];
+				_ = flags4[0];
+				_ = flags4[1];
+				_ = flags4[2];
+				_ = flags4[3];
 				downedBossAny = flags4[4];
 				demonMode = flags4[5];
 				onionMode = flags4[6];
@@ -439,21 +410,22 @@ namespace CalamityMod.World
 			flags2[6] = downedSentinel3;
 			flags2[7] = downedYharon;
 
-			BitsByte flags3 = new BitsByte();
+            // Don't write meaningful values for the now-unused vanilla boss booleans
+            BitsByte flags3 = new BitsByte();
 			flags3[0] = downedSCal;
 			flags3[1] = downedBumble;
 			flags3[2] = downedCrabulon;
-			flags3[3] = downedBetsy;
+            flags3[3] = downedBetsy;
 			flags3[4] = downedScavenger;
-			flags3[5] = downedWhar;
-			flags3[6] = downedSkullHead;
-			flags3[7] = downedUgly;
+			flags3[5] = false;
+			flags3[6] = false;
+            flags3[7] = false;
 
-			BitsByte flags4 = new BitsByte();
-			flags4[0] = downedSkeletor;
-			flags4[1] = downedPlantThing;
-			flags4[2] = downedGolemBaby;
-			flags4[3] = downedMoonDude;
+            BitsByte flags4 = new BitsByte();
+			flags4[0] = false;
+			flags4[1] = false;
+			flags4[2] = false;
+            flags4[3] = false;
 			flags4[4] = downedBossAny;
 			flags4[5] = demonMode;
 			flags4[6] = onionMode;
@@ -518,21 +490,22 @@ namespace CalamityMod.World
 			downedSentinel3 = flags2[6];
 			downedYharon = flags2[7];
 
-			BitsByte flags3 = reader.ReadByte();
+            // Explicitly discard the now-unused vanilla boss booleans
+            BitsByte flags3 = reader.ReadByte();
 			downedSCal = flags3[0];
 			downedBumble = flags3[1];
 			downedCrabulon = flags3[2];
 			downedBetsy = flags3[3];
 			downedScavenger = flags3[4];
-			downedWhar = flags3[5];
-			downedSkullHead = flags3[6];
-			downedUgly = flags3[7];
+			_ = flags3[5];
+			_ = flags3[6];
+			_ = flags3[7];
 
 			BitsByte flags4 = reader.ReadByte();
-			downedSkeletor = flags4[0];
-			downedPlantThing = flags4[1];
-			downedGolemBaby = flags4[2];
-			downedMoonDude = flags4[3];
+			_ = flags4[0];
+			_ = flags4[1];
+			_ = flags4[2];
+			_ = flags4[3];
 			downedBossAny = flags4[4];
 			demonMode = flags4[5];
 			onionMode = flags4[6];
