@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 100;
+			item.width = 102;
 			item.damage = 680;
 			item.melee = true;
 			item.useAnimation = 15;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 9.5f;
 			item.UseSound = SoundID.Item60;
 			item.autoReuse = true;
-			item.height = 100;
+			item.height = 102;
 			item.value = Item.buyPrice(2, 50, 0, 0);
 			item.rare = 10;
 			item.shoot = mod.ProjectileType("EonBeam");

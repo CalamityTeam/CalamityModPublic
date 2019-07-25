@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 36;
+			item.width = 42;
 			item.damage = 62;
 			item.melee = true;
 			item.useAnimation = 24;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 6f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.height = 36;
+			item.height = 42;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
 			item.shoot = mod.ProjectileType("BiomeOrb");
