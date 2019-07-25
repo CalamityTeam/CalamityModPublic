@@ -1084,6 +1084,7 @@ namespace CalamityMod.Projectiles
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			int frameHeight = texture.Height / Main.projFrames[projectile.type];
 			int frameY = frameHeight * projectile.frame;
+			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight);
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
@@ -1094,14 +1095,13 @@ namespace CalamityMod.Projectiles
 					Vector2 drawOrigin = new Vector2(texture.Width * 0.5f, projectile.height * 0.5f);
 					for (int i = 0; i < projectile.oldPos.Length; i++)
 					{
-						Vector2 drawPos = projectile.oldPos[i] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+						Vector2 drawPos = projectile.oldPos[i] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
 						Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-						Main.spriteBatch.Draw(texture, drawPos, null, color, projectile.rotation, drawOrigin, projectile.scale, spriteEffects, 0f);
+						Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
 					}
 					break;
 				case 1:
 					Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
-					Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight);
 					int num157 = 8;
 					int num161 = 1;
 					while (num161 < num157)
@@ -1115,9 +1115,7 @@ namespace CalamityMod.Projectiles
 						IL_6899:
 						float num164 = (float)(num157 - num161);
 						color26 *= num164 / ((float)ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
-						Vector2 value4 = (projectile.oldPos[num161]);
-						float num165 = projectile.rotation;
-						Main.spriteBatch.Draw(texture, value4 + projectile.Size / 2f - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + projectile.rotation * 0f * (float)(num161 - 1) * projectile.spriteDirection, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+						Main.spriteBatch.Draw(texture, projectile.oldPos[num161] + projectile.Size / 2f - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
 						goto IL_6881;
 					}
 					break;

@@ -9258,41 +9258,44 @@ namespace CalamityMod
 		{
             // In Rev+, nurse costs scale as the game progresses.
             // Base:            300     3 silver
-            // Skeletron:       900     9 silver
-            // Hardmode:        1500    15 silver
-            // Any Mech Boss:   2400    24 silver
-            // Plantera/Cal:    3600    36 silver
-            // Golem:           4800    48 silver
-            // Fish/PBG/Rav:    7200    72 silver
-            // Moon Lord:       12000   1 gold 20 silver
-            // Providence:      18000   1 gold 80 silver
-            // DoG:             30000   3 gold
-            // Yharon:          48000   4 gold 80 silver
+            // EoC:             900     9 silver
+            // Skeletron:       1200    12 silver
+            // Hardmode:        2400    24 silver
+            // Any Mech Boss:   4000    40 silver
+            // Plantera/Cal:    6000    60 silver
+            // Golem:           9000    90 silver
+            // Fish/PBG/Rav:    12000   1 gold 20 silver
+            // Moon Lord:       20000   2 gold
+            // Providence:      32000   3 gold 20 silver
+            // DoG:             60000   6 gold
+            // Yharon:          90000   9 gold
             if (CalamityWorld.revenge)
             {
                 // start with a vanilla cost of zero instead of 3 silver
                 price -= Item.buyPrice(0, 0, 3, 0);
 
                 if (CalamityWorld.downedYharon)
-                    price += Item.buyPrice(0, 4, 80, 0);
+                    price += Item.buyPrice(0, 9, 0, 0);
                 else if (CalamityWorld.downedDoG)
-                    price += Item.buyPrice(0, 3, 0, 0);
+                    price += Item.buyPrice(0, 6, 0, 0);
                 else if (CalamityWorld.downedProvidence)
-                    price += Item.buyPrice(0, 1, 80, 0);
+                    price += Item.buyPrice(0, 3, 20, 0);
                 else if (NPC.downedMoonlord)
-                    price += Item.buyPrice(0, 1, 20, 0);
+                    price += Item.buyPrice(0, 2, 0, 0);
                 else if (NPC.downedFishron || CalamityWorld.downedPlaguebringer || CalamityWorld.downedScavenger)
-                    price += Item.buyPrice(0, 0, 72, 0);
+                    price += Item.buyPrice(0, 1, 20, 0);
                 else if (NPC.downedGolemBoss)
-                    price += Item.buyPrice(0, 0, 48, 0);
+                    price += Item.buyPrice(0, 0, 90, 0);
                 else if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
-                    price += Item.buyPrice(0, 0, 36, 0);
+                    price += Item.buyPrice(0, 0, 60, 0);
                 else if (NPC.downedMechBossAny)
-                    price += Item.buyPrice(0, 0, 24, 0);
+                    price += Item.buyPrice(0, 0, 40, 0);
                 else if (Main.hardMode)
-                    price += Item.buyPrice(0, 0, 15, 0);
+                    price += Item.buyPrice(0, 0, 24, 0);
                 else if (NPC.downedBoss3)
-                    price += Item.buyPrice(0, 0, 9, 0);
+                    price += Item.buyPrice(0, 0, 12, 0);
+                else if (NPC.downedBoss1)
+                    price += Item.buyPrice(0, 0, 6, 0);
                 else
                     price += Item.buyPrice(0, 0, 3, 0);
 
@@ -9301,8 +9304,8 @@ namespace CalamityMod
                     price *= 5;
 
                 // Add cost based on the player's radiation. (varies from 0 to 1000)
-                // It costs 100,000 (10 gold) to remove a full radiation meter.
-                price += (int)(100D * radiation);
+                // It costs 600,000 (60 gold) to remove a full radiation meter.
+                price += (int)(600D * radiation);
             }
         }
 

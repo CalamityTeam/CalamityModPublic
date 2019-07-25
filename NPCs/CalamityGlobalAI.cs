@@ -5,18 +5,7 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
-/*using Terraria.GameContent;
-using Terraria.GameContent.Achievements;
-using Terraria.GameContent.Events;
-using Terraria.GameContent.Tile_Entities;
-using Terraria.GameContent.UI;*/
 using Terraria.ID;
-/*using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
-using CalamityMod.Projectiles;
-using CalamityMod;
-using CalamityMod.Items;*/
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs
@@ -4653,18 +4642,18 @@ namespace CalamityMod.NPCs
 					}
 
 					// Speed increase
-					npc.velocity.X *= 1.005f;
-					npc.velocity.Y *= 1.005f;
+					npc.velocity.X *= (CalamityWorld.death ? 1.004f : 1.0025f);
+					npc.velocity.Y *= (CalamityWorld.death ? 1.004f : 1.0025f);
 					if (enraged || configBossRushBoost)
 					{
-						npc.velocity.X *= 1.01f;
-						npc.velocity.Y *= 1.01f;
+						npc.velocity.X *= 1.015f;
+						npc.velocity.Y *= 1.015f;
 					}
 				}
 				else
 				{
 					// Switch attacking modes more often
-					npc.ai[2] += (retAlive ? 0f : 0.5f);
+					npc.ai[2] += (retAlive ? 0f : 0.25f);
 
 					// Enrage
 					if (targetFloatingUp)
