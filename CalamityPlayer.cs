@@ -9223,33 +9223,75 @@ namespace CalamityMod
 		#region Nurse Modifications
 		public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
 		{
-			if (CalamityWorld.revenge && areThereAnyDamnBosses)
+            // Change chat text to indicate increased prices in Rev+ if bosses are alive
+            if (CalamityWorld.revenge && areThereAnyDamnBosses)
 			{
-				chatText = "Now is not the time!";
-				return false;
+                int priceGougeChat = Main.rand.Next(6);
+                switch(priceGougeChat)
+                {
+                    default:
+                        break;
+                    case 0:
+                        chatText = "You know, I charge a premium for dangerous working conditions.";
+                        break;
+                    case 1:
+                        chatText = "Can you please get rid of that thing first? No?";
+                        break;
+                    case 2:
+                        chatText = "'Make it quick?' Miracles cost money around here!";
+                        break;
+                    case 3:
+                        chatText = "This won't cover my life insurance.";
+                        break;
+                    case 4:
+                        chatText = "I hate high stress conditions. This is NOT helping!";
+                        break;
+                    case 5:
+                        chatText = "... Seriously?";
+                        break;
+                }
 			}
 			return true;
 		}
 
 		public override void ModifyNursePrice(NPC nurse, int health, bool removeDebuffs, ref int price)
 		{
-			if (CalamityWorld.revenge)
+            // In Rev+, nurse costs scale as the game progresses.
+            // Base:            300     3 silver
+            // Skeletron:       900     9 silver
+            // Hardmode:        1500    15 silver
+            // Any Mech Boss:   2400    24 silver
+            // Plantera/Cal:    3600    36 silver
+            // Golem:           4800    48 silver
+            // Fish/PBG/Rav:    7200    72 silver
+            // Moon Lord:       12000   1 gold 20 silver
+            // Providence:      18000   1 gold 80 silver
+            // DoG:             30000   3 gold
+            // Yharon:          48000   4 gold 80 silver
+            if (CalamityWorld.revenge)
 			{
-				double priceMultiplier = 1.0 + //3 silver base
-					(Main.hardMode ? 99.0 : 0.0) + //3 gold
-					(NPC.downedMechBossAny ? 200.0 : 0.0) + //9 gold
-					(NPC.downedPlantBoss ? 300.0 : 0.0) + //18 gold
-					(NPC.downedGolemBoss ? 400.0 : 0.0) + //30 gold
-					(NPC.downedFishron ? 500.0 : 0.0) + //45 gold
-					(NPC.downedAncientCultist ? 600.0 : 0.0) + //63 gold
-					(NPC.downedMoonlord ? 700.0 : 0.0) + //84 gold
-					(CalamityWorld.downedProvidence ? 800.0 : 0.0) + //1 platinum 8 gold
-					(CalamityWorld.downedDoG ? 900.0 : 0.0) + //1 platinum 35 gold
-					(CalamityWorld.downedYharon ? 1000.0 : 0.0) + //1 platinum 65 gold
-					radiation; //Adds 0.0 to 1000.0, max is 30 gold
-				price = (int)((double)price * priceMultiplier);
-			}
-		}
+                double priceMultiplier = 1D +
+                    (NPC.downedBoss3 ? 2D : 0D) +
+                    (Main.hardMode ? 2D : 0D) +
+                    (NPC.downedMechBossAny ? 3D : 0D) +
+                    (NPC.downedPlantBoss || CalamityWorld.downedCalamitas ? 4D : 0D) +
+                    (NPC.downedGolemBoss ? 4D : 0D) +
+                    (CalamityWorld.downedPlaguebringer || CalamityWorld.downedScavenger || NPC.downedFishron ? 8D : 0D) +
+                    (NPC.downedMoonlord ? 16D : 0D) +
+                    (CalamityWorld.downedProvidence ? 20D : 0D) +
+                    (CalamityWorld.downedDoG ? 40D : 0D) +
+                    (CalamityWorld.downedYharon ? 60D : 0D);
+				price = (int)(price * priceMultiplier);
+
+                // Additionally, multiply the price by 5 if a boss is alive.
+                if (areThereAnyDamnBosses)
+                    price *= 5;
+
+                // Add cost based on the player's radiation. (varies from 0 to 1000)
+                // It costs 100,000 (10 gold) to remove a full radiation meter.
+                price += (int)(100D * radiation);
+            }
+        }
 
 		public override void PostNurseHeal(NPC nurse, int health, bool removeDebuffs, int price)
 		{
