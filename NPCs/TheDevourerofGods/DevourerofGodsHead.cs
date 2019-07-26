@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Localization;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
@@ -860,7 +854,45 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			potionType = ItemID.None;
 		}
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        // DoG phase 1 does not drop loot, but starts the sentinel phase of the fight.
+        public override void NPCLoot()
+        {
+            // Skip the sentinel phase entirely if DoG has already been killed
+            CalamityWorld.DoGSecondStageCountdown = CalamityWorld.downedDoG ? 600 : 21600;
+
+            if (Main.netMode == 2)
+            {
+                var netMessage = mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                netMessage.Send();
+            }
+
+            // Turn off active Rage and Adrenaline mode from all players (why?)
+            for (int playerIndex = 0; playerIndex < Main.player.Length; playerIndex++)
+            {
+                if (Main.player[playerIndex].active)
+                {
+                    Player player = Main.player[playerIndex];
+                    for (int l = 0; l < 22; l++)
+                    {
+                        int hasBuff = player.buffType[l];
+                        if (hasBuff == mod.BuffType("AdrenalineMode"))
+                        {
+                            player.DelBuff(l);
+                            l = -1;
+                        }
+                        if (hasBuff == mod.BuffType("RageMode"))
+                        {
+                            player.DelBuff(l);
+                            l = -1;
+                        }
+                    }
+                }
+            }
+        }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
 			{

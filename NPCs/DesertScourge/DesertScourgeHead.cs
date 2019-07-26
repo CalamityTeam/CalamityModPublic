@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles;
 using Terraria.World.Generation;
@@ -23,12 +24,12 @@ namespace CalamityMod.NPCs.DesertScourge
         private const int minLength = 30;
         private const int maxLength = 31;
         private bool TailSpawned = false;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Desert Scourge");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 20; //66
@@ -457,13 +458,94 @@ namespace CalamityMod.NPCs.DesertScourge
 				}
 			}
 		}
-		
-		public override void BossLoot(ref string name, ref int potionType)
+
+        #region Loot
+        public override void BossLoot(ref string name, ref int potionType)
 		{
-			potionType = ItemID.SandBlock;
+			potionType = ItemID.None;
 		}
-		
-		public override void HitEffect(int hitDirection, double damage)
+
+        public override bool SpecialNPCLoot()
+        {
+            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+                mod.NPCType("DesertScourgeHead"),
+                mod.NPCType("DesertScourgeBody"),
+                mod.NPCType("DesertScourgeTail"));
+            npc.position = Main.npc[closestSegmentID].position;
+
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
+            DropHelper.DropItemChance(npc, mod.ItemType("DesertScourgeTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge"), true, !CalamityWorld.downedDesertScourge);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
+            {
+                // Materials
+                DropHelper.DropItem(npc, mod.ItemType("VictoryShard"), 7, 14);
+                DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
+                DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
+                DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("AquaticDischarge"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("Barinade"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("StormSpray"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("SeaboundStaff"), 4);
+                float f = Main.rand.NextFloat();
+                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
+                if (f < 0.25f) // 1/4 chance of getting Scourge of the Desert OR Dune Hopper replacing it
+                {
+                    DropHelper.DropItemCondition(npc, mod.ItemType("ScourgeoftheDesert"), !replaceWithRare);
+                    DropHelper.DropItemCondition(npc, mod.ItemType("DuneHopper"), replaceWithRare);
+                }
+
+                // Equipment
+                DropHelper.DropItem(npc, mod.ItemType("OceanCrest"));
+                DropHelper.DropItemChance(npc, mod.ItemType("AeroStone"), 10);
+                DropHelper.DropItemChance(npc, mod.ItemType("DeepDiver"), DropHelper.RareVariantDropRateInt);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("DesertScourgeMask"), 7);
+
+                // Fishing
+                DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 15);
+                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 15);
+                DropHelper.DropItemChance(npc, ItemID.TackleBox, 15);
+                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 10);
+                DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 10);
+                DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 10);
+                DropHelper.DropItemChance(npc, ItemID.Sextant, 10);
+                DropHelper.DropItemChance(npc, ItemID.AnglerHat, 5);
+                DropHelper.DropItemChance(npc, ItemID.AnglerVest, 5);
+                DropHelper.DropItemChance(npc, ItemID.AnglerPants, 5);
+                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 5, 2, 3);
+                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 5, 2, 3);
+                DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 2, 3);
+                DropHelper.DropItemCondition(npc, ItemID.GoldenBugNet, NPC.downedBoss3, 20, 1, 1);
+            }
+
+            // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open
+            if (!CalamityWorld.downedDesertScourge)
+            {
+                string key = "Mods.CalamityMod.OpenSunkenSea";
+                Color messageColor = Color.Aquamarine;
+                if (Main.netMode == 0)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == 2)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+
+            // Mark Desert Scourge as dead
+            CalamityWorld.downedDesertScourge = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+            return true;
+        }
+        #endregion
+
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
 			{
@@ -479,13 +561,13 @@ namespace CalamityMod.NPCs.DesertScourge
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
             npc.damage = (int)(npc.damage * 1.8f);
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Bleeding, 300, true);

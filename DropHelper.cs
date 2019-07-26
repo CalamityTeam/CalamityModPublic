@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using CalamityMod;
@@ -66,9 +67,63 @@ namespace CalamityMod
 		/// This is normally 5. Bosses drop 5 bags on normal, and 6 on Expert+.
 		/// </summary>
 		public static int ArmageddonExtraBags = 5;
-		#endregion
+        #endregion
 
-		#region Boss Bag Drop Helpers
+        #region Boss Bag Drop Helpers
+        /// <summary>
+        /// Automatically drops the correct number of boss bags for each difficulty based on constants kept in DropHelper.
+        /// </summary>
+        /// <param name="theBoss">The NPC to drop boss bags for.</param>
+        /// <returns>The number of boss bags dropped.</returns>
+        public static int DropBags(NPC theBoss)
+        {
+            int bagsDropped = 0;
+
+            // Don't drop any bags for an invalid NPC.
+            if (theBoss is null)
+                return bagsDropped;
+
+            // Armageddon's bonus bags drop even on Normal.
+            bagsDropped += DropArmageddonBags(theBoss);
+
+            // If the difficulty isn't Expert+, no more bags are dropped.
+            if (!Main.expertMode)
+                return bagsDropped;
+
+            // Drop the 1 vanilla Expert Mode boss bag.
+            theBoss.DropBossBags();
+            bagsDropped++;
+
+            // If Rev is active, possibly drop extra bags.
+            if (CalamityWorld.revenge)
+            {
+                for (int i = 0; i < RevExtraBags; ++i)
+                    theBoss.DropBossBags();
+
+                bagsDropped += RevExtraBags;
+            }
+
+            // If Death is active, possibly drop extra bags.
+            if (CalamityWorld.death)
+            {
+                for (int i = 0; i < DeathExtraBags; ++i)
+                    theBoss.DropBossBags();
+
+                bagsDropped += DeathExtraBags;
+            }
+
+            // If Defiled is active, possibly drop extra bags.
+            if (CalamityWorld.defiled)
+            {
+                for (int i = 0; i < DefiledExtraBags; ++i)
+                    theBoss.DropBossBags();
+
+                bagsDropped += DefiledExtraBags;
+            }
+
+            return bagsDropped;
+        }
+
         /// <summary>
         /// Drops the correct number of boss bags for Armageddon.
         /// </summary>
@@ -83,70 +138,55 @@ namespace CalamityMod
 				theBoss.DropBossBags();
 			return ArmageddonExtraBags;
 		}
+        #endregion
 
-		/// <summary>
-		/// Automatically drops the correct number of boss bags for each difficulty based on constants kept in DropHelper.
-		/// </summary>
-		/// <param name="theBoss">The NPC to drop boss bags for.</param>
-		/// <returns>The number of boss bags dropped.</returns>
-		public static int DropBags(NPC theBoss)
-		{
-			int bagsDropped = 0;
+        #region Specific Drop Helpers
+        /// <summary>
+        /// Finds the worm segment nearest to an NPC's target by combing the NPC array for the closest NPC that is one of the specified types.<br></br>
+        /// Return the specified NPC's index if no matching worm segment was found.
+        /// </summary>
+        /// <param name="wormHead">The NPC whose target is used for distance comparisons.</param>
+        /// <param name="wormSegmentIDs">An array (or multiple parameters) of NPC IDs which are the worm segments to look for.</param>
+        /// <returns>An index in the NPC array of the closest worm segment, or the specified NPC's index.</returns>
+        public static int FindClosestWormSegment(NPC wormHead, params int[] wormSegmentIDs)
+        {
+            List<int> idsToCheck = new List<int>(wormSegmentIDs);
+            Vector2 playerPos = Main.player[wormHead.target].Center;
 
-			// Don't drop any bags for an invalid NPC.
-			if (theBoss is null)
-				return bagsDropped;
+            int r = wormHead.whoAmI;
+            float minDist = 1E+06f;
+            for (int i = 0; i < Main.npc.Length; ++i)
+            {
+                NPC n = Main.npc[i];
+                if (n != null && n.active && idsToCheck.Contains(n.type))
+                {
+                    float dist = (n.Center - playerPos).Length();
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        r = i;
+                    }
+                }
+            }
+            return r;
+        }
 
-			// Armageddon's bonus bags drop even on Normal.
-			bagsDropped += DropArmageddonBags(theBoss);
-
-			// If the difficulty isn't Expert+, no more bags are dropped.
-			if (!Main.expertMode)
-				return bagsDropped;
-
-			// Drop the 1 vanilla Expert Mode boss bag.
-			theBoss.DropBossBags();
-			bagsDropped++;
-
-			// If Rev is active, possibly drop extra bags.
-			if (CalamityWorld.revenge)
-			{
-				for (int i = 0; i < RevExtraBags; ++i)
-					theBoss.DropBossBags();
-
-				bagsDropped += RevExtraBags;
-			}
-
-			// If Death is active, possibly drop extra bags.
-			if (CalamityWorld.death)
-			{
-				for (int i = 0; i < DeathExtraBags; ++i)
-					theBoss.DropBossBags();
-
-				bagsDropped += DeathExtraBags;
-			}
-
-			// If Defiled is active, possibly drop extra bags.
-			if (CalamityWorld.defiled)
-			{
-				for (int i = 0; i < DefiledExtraBags; ++i)
-					theBoss.DropBossBags();
-
-				bagsDropped += DefiledExtraBags;
-			}
-
-			return bagsDropped;
-		}
-		#endregion
-
-		#region Specific Drop Helpers
-		public static bool DropRevBagAccessories(Player p)
+        public static bool DropRevBagAccessories(Player p)
 		{
 			CalamityMod mod = CalamityMod.Instance;
 			return DropItemFromSetCondition(p, CalamityWorld.revenge, 20, mod.ItemType("StressPills"), mod.ItemType("Laudanum"), mod.ItemType("HeartofDarkness"));
 		}
 
-		public static int DropResidentEvilAmmo(NPC theBoss, bool alreadyKilled, int magnum, int bazooka, int hydra)
+        /// <summary>
+        /// Drops finite use "Resident Evil" ammunition from the given NPC, if the downed boolean isn't already true.
+        /// </summary>
+        /// <param name="theBoss">The NPC to drop ammo from.</param>
+        /// <param name="alreadyKilled">A downed boolean corresponding to this NPC. Use "false" to always drop ammo.</param>
+        /// <param name="magnum">The number of Magnum Rounds to drop.</param>
+        /// <param name="bazooka">The number of Grenade Rounds to drop.</param>
+        /// <param name="hydra">The number of Explosive Shells to drop.</param>
+        /// <returns></returns>
+        public static int DropResidentEvilAmmo(NPC theBoss, bool alreadyKilled, int magnum, int bazooka, int hydra)
 		{
 			if (alreadyKilled)
 				return 0;
@@ -158,6 +198,41 @@ namespace CalamityMod
 			dropped += DropItem(theBoss, mod.ItemType("ExplosiveShells"), hydra);
 			return dropped;
 		}
+
+        /// <summary>
+        /// Randomly peppers stacks of 1 of the specified item all across the given NPC's hitbox.<br></br>
+        /// Makes it appear as though the NPC "explodes" into a cloud of many identical items. Best used with floating items such as Souls.
+        /// </summary>
+        /// <param name="npc">The NPC which should drop the item(s).</param>
+        /// <param name="itemID">The ID of the item(s) to drop.</param>
+        /// <param name="minQuantity">The minimum number of items to drop. Defaults to 1.</param>
+        /// <param name="maxQuantity">The maximum number of items to drop. Defaults to 0, meaning the minimum quantity is always used.</param>
+        /// <param name="stackSize">The number of items to place in each separate stack.</param>
+        /// <returns>The number of items dropped. Not always equal to quantity if stack size isn't 1.</returns>
+        public static int DropItemSpray(NPC npc, int itemID, int minQuantity = 1, int maxQuantity = 0, int stackSize = 1)
+        {
+            int quantity;
+
+            // If they're equal (or for some reason max is less??) then just drop the minimum amount.
+            if (maxQuantity <= minQuantity)
+                quantity = minQuantity;
+
+            // Otherwise pick a random amount to drop, inclusive.
+            else
+                quantity = Main.rand.Next(minQuantity, maxQuantity + 1);
+
+            int dropped = 0;
+            Vector2 pos = Vector2.Zero;
+            for (int i = 0; i < quantity; i += stackSize)
+            {
+                pos.X = Main.rand.NextFloat(npc.Hitbox.Left, npc.Hitbox.Right);
+                pos.Y = Main.rand.NextFloat(npc.Hitbox.Top, npc.Hitbox.Bottom);
+                Item.NewItem(pos, itemID, stackSize);
+                dropped += stackSize;
+            }
+
+            return dropped;
+        }
 		#endregion
 
 		#region NPC Item Drops 100% Chance
@@ -193,7 +268,7 @@ namespace CalamityMod
 			}
 			else
 			{
-				Item.NewItem(npc.Hitbox, itemID, quantity);
+                Item.NewItem(npc.Hitbox, itemID, quantity);
 			}
 
 			return quantity;

@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.World;
@@ -44,6 +43,7 @@ namespace CalamityMod.Items.TheDevourerofGods
 
 			// Materials
 			DropHelper.DropItem(player, mod.ItemType("CosmiliteBar"), 30, 39);
+            DropHelper.DropItem(player, mod.ItemType("CosmiliteBrick"), 200, 320);
 
 			// Weapons
 			DropHelper.DropItemChance(player, mod.ItemType("Excelsus"), 3);

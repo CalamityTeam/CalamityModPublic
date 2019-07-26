@@ -33,21 +33,21 @@ namespace CalamityMod.Items.AquaticScourge
 		{
 			player.TryGettingDevArmor();
 
-			// Materials
-			DropHelper.DropItem(player, ItemID.SoulofSight, 25, 40);
+			// Materials (Souls of Sight are Hardmode only)
+			DropHelper.DropItemCondition(player, ItemID.SoulofSight, Main.hardMode, 25, 40);
 			DropHelper.DropItem(player, mod.ItemType("VictoryShard"), 15, 25);
 			DropHelper.DropItem(player, ItemID.Coral, 7, 11);
 			DropHelper.DropItem(player, ItemID.Seashell, 7, 11);
 			DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
 
-			// Weapons
-			DropHelper.DropItemChance(player, mod.ItemType("SubmarineShocker"), 3);
-			DropHelper.DropItemChance(player, mod.ItemType("Barinautical"), 3);
-			DropHelper.DropItemChance(player, mod.ItemType("Downpour"), 3);
-			DropHelper.DropItemChance(player, mod.ItemType("DeepseaStaff"), 3);
+			// Weapons (Hardmode only)
+			DropHelper.DropItemCondition(player, mod.ItemType("SubmarineShocker"), Main.hardMode, 3, 1, 1);
+			DropHelper.DropItemCondition(player, mod.ItemType("Barinautical"), Main.hardMode, 3, 1, 1);
+			DropHelper.DropItemCondition(player, mod.ItemType("Downpour"), Main.hardMode, 3, 1, 1);
+			DropHelper.DropItemCondition(player, mod.ItemType("DeepseaStaff"), Main.hardMode, 3, 1, 1);
 
-			// Equipment
-			DropHelper.DropItem(player, mod.ItemType("AquaticEmblem"));
+			// Equipment (Emblem is Hardmode only)
+			DropHelper.DropItemCondition(player, mod.ItemType("AquaticEmblem"), Main.hardMode);
 			DropHelper.DropItemChance(player, mod.ItemType("AeroStone"), 8);
 
 			// Vanity
