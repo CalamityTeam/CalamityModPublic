@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
 			DisplayName.SetDefault("Acid Mist");
             Main.projFrames[projectile.type] = 10;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;

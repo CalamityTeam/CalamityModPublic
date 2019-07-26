@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Granite Energy");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;

@@ -38,12 +38,12 @@ namespace CalamityMod.Items.Weapons
 	        item.useAmmo = 97;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-5, 0);
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 		    float SpeedX = speedX + (float) Main.rand.Next(-25, 26) * 0.05f;
@@ -57,14 +57,14 @@ namespace CalamityMod.Items.Weapons
 		    }
 		    return false;
 		}
-	    
+
 	    public override bool ConsumeAmmo(Player player)
 	    {
 	    	if (Main.rand.Next(0, 100) < 50)
 	    		return false;
 	    	return true;
 	    }
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

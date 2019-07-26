@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 60;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 4;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

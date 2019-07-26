@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Angry Dog");
 			Main.npcFrameCount[npc.type] = 10;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -623,21 +623,21 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneSnow && 
+            return spawnInfo.player.ZoneSnow &&
             	!spawnInfo.player.ZoneTowerStardust &&
             	!spawnInfo.player.ZoneTowerSolar &&
             	!spawnInfo.player.ZoneTowerVortex &&
             	!spawnInfo.player.ZoneTowerNebula &&
-                !spawnInfo.player.ZoneDungeon && 
+                !spawnInfo.player.ZoneDungeon &&
 				!spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea &&
 				!spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Bleeding, 180, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -652,7 +652,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 0)

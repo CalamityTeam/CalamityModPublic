@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
 				"Place in your inventory to gain increased max health while wearing the siren heart and treasure detect while wearing the strange orb.\n" +
 				"Allows the young siren pet to move normally while outside of liquids.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 7;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

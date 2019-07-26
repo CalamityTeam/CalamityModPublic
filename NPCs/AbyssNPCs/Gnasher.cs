@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			DisplayName.SetDefault("Gnasher");
 			Main.npcFrameCount[npc.type] = 5;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 25;

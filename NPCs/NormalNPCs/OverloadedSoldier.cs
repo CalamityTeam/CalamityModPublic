@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Overloaded Soldier");
 			Main.npcFrameCount[npc.type] = 15;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 3;
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
         }
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBoneDust"));

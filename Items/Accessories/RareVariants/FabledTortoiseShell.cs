@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
 								"Enemies take damage when they hit you\n" +
 								"You move quickly for a short time if you take damage");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 35;

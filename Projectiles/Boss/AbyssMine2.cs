@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Abyss Mine");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;

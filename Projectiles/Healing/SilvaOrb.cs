@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Healing
 		{
 			DisplayName.SetDefault("Silva Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -29,18 +29,18 @@ namespace CalamityMod.Projectiles.Healing
         public override void AI()
         {
         	projectile.alpha -= 2;
-			if (projectile.localAI[0] == 0f) 
+			if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale += 0.05f;
-				if ((double)projectile.scale > 1.2) 
+				if ((double)projectile.scale > 1.2)
 				{
 					projectile.localAI[0] = 1f;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				projectile.scale -= 0.05f;
-				if ((double)projectile.scale < 0.8) 
+				if ((double)projectile.scale < 0.8)
 				{
 					projectile.localAI[0] = 0f;
 				}
@@ -73,12 +73,12 @@ namespace CalamityMod.Projectiles.Healing
 			projectile.velocity.Y = (projectile.velocity.Y * 15f + num490) / 16f;
 			return;
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(Main.DiscoR, 203, 103, projectile.alpha);
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	for (int num407 = 0; num407 < 5; num407++)

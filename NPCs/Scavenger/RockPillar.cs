@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			DisplayName.SetDefault("Rock Pillar");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.Scavenger
                 }
             }
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

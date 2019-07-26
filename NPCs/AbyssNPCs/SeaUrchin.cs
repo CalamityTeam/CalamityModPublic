@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			DisplayName.SetDefault("Sea Urchin");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("SeaUrchinBanner");
 		}
-		
+
 		public override void AI()
 		{
 			int num = 30;
@@ -315,12 +315,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.rotation += npc.velocity.X * 0.05f;
 			npc.spriteDirection = -npc.direction;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
             player.AddBuff(BuffID.Venom, 120, true);
         }
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
@@ -329,12 +329,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
             return SpawnCondition.OceanMonster.Chance * 0.2f;
         }
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UrchinStinger"), Main.rand.Next(15, 26));
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

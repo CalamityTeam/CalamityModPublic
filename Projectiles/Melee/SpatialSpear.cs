@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Spear");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Typeless
 			DisplayName.SetDefault("Flame");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;

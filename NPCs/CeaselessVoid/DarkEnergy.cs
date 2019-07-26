@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			DisplayName.SetDefault("Dark Energy");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
@@ -130,13 +130,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.timeLeft = 2400;
             }
-            if (npc.ai[0] == 0f) 
+            if (npc.ai[0] == 0f)
 			{
 				Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num784 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector96.X;
 				float num785 = Main.npc[CalamityGlobalNPC.voidBoss].Center.Y - vector96.Y;
 				float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-				if (num786 > 90f) 
+				if (num786 > 90f)
 				{
 					num786 = 8f / num786; //8f
 					num784 *= num786;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					npc.velocity.Y = npc.velocity.Y * 1.05f; //1.05f
 					npc.velocity.X = npc.velocity.X * 1.05f; //1.05f
 				}
-				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(50) == 0) || Main.rand.Next(100) == 0)) 
+				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(50) == 0) || Main.rand.Next(100) == 0))
 				{
 					npc.TargetClosest(true);
 					vector96 = new Vector2(npc.Center.X, npc.Center.Y);
@@ -163,8 +163,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					npc.ai[0] = 1f;
 					npc.netUpdate = true;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				Vector2 value4 = player.Center - npc.Center;
 				value4.Normalize();
@@ -174,13 +174,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				float num787 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector97.X;
 				float num788 = Main.npc[CalamityGlobalNPC.voidBoss].Center.Y - vector97.Y;
 				float num789 = (float)Math.Sqrt((double)(num787 * num787 + num788 * num788));
-				if (num789 > 1400f) 
+				if (num789 > 1400f)
 				{
 					npc.ai[0] = 0f;
 				}
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -188,13 +188,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				player.AddBuff(mod.BuffType("Horror"), 300, true);
 			}
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

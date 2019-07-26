@@ -40,12 +40,12 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
-		
+
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			}
 			return base.CanUseItem(player);
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	if (player.altFunctionUse == 2)

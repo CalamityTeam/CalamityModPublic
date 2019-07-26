@@ -10,14 +10,14 @@ namespace CalamityMod.Projectiles.Summon
     public class AquaticStar : ModProjectile
     {
     	public float dust = 0f;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Aquatic Star");
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             aiType = 388;
         }
-        
+
         public override void AI()
         {
         	if (dust == 0f)
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
 				}
 			}
 		}
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             return false;

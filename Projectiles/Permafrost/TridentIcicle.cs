@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Permafrost
 			projectile.penetrate = 2;
 			projectile.ignoreWater = true;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Trident Icicle");
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Permafrost
             int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88);
             Main.dust[index2].noGravity = true;
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             target.AddBuff(BuffID.Frostburn, 480);

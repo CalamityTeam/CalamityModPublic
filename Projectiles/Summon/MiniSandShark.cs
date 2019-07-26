@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Mini Sand Shark");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.alpha = 255;
             projectile.minionSlots = 0f;
         }
-        
+
         public override void AI()
         {
             projectile.alpha -= 40;

@@ -12,12 +12,12 @@ namespace CalamityMod.Projectiles.Melee
     {
     	private int start = 60;
     	private int speedTimer = 120;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 50;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, 0f, 0f);
             }
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

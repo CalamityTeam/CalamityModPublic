@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Stream");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

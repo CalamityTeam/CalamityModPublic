@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -22,12 +22,12 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.light = 1f;
             projectile.timeLeft = 300;
         }
-        
+
         public override void AI()
         {
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f);
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

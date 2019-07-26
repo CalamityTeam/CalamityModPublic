@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
                 "Prepare to face the terrors that lurk in the light and dark parts of this world.\n" +
 				"Place in your inventory to gain increased item grab range.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 4;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

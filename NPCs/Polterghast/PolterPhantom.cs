@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Polterghast
 			DisplayName.SetDefault("Polterghast");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 210;
@@ -256,25 +256,25 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.frame.Y = 0;
             }
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
             if (CalamityWorld.revenge)
 			    player.AddBuff(mod.BuffType("Horror"), 180, true);
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default(Color), 1f);

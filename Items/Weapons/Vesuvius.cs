@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Vesuvius : ModItem
 	{
@@ -41,12 +41,12 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("AsteroidMolten");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
-		
+
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons
 			}
 			return base.CanUseItem(player);
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	if (player.altFunctionUse == 2)
@@ -101,18 +101,18 @@ namespace CalamityMod.Items.Weapons
 				}
 		    	num78 *= num80;
 				num79 *= num80;
-				for (int num113 = 0; num113 < 4; num113++) 
+				for (int num113 = 0; num113 < 4; num113++)
 				{
 					vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
 					vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
 					vector2.Y -= (float)(100 * num113);
 					num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;
 					num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-					if (num79 < 0f) 
+					if (num79 < 0f)
 					{
 						num79 *= -1f;
 					}
-					if (num79 < 20f) 
+					if (num79 < 20f)
 					{
 						num79 = 20f;
 					}

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "The chunks left over from the brain must have been absorbed by the crimson and reconstituted into it.\n" +
 				"Place in your inventory for all of your projectiles to inflict ichor when in the crimson.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 3;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

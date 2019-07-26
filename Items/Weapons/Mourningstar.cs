@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Mourningstar : ModItem
 	{
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = 611;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	float ai3 = (Main.rand.NextFloat() - 0.75f) * 0.7853982f; //0.5

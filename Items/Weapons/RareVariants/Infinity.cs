@@ -40,12 +40,12 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			item.useAmmo = 97;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
 		}
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-5, 0);
 		}
-	    
+
 	    public override bool AltFunctionUse(Player player)
 		{
 			return true;

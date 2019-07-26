@@ -38,14 +38,14 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.shootSpeed = 14f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			int MAX = item.stack;
 		    int launched = 0;
 		    foreach (Projectile projectile in Main.projectile)
 		    if (projectile.type == item.shoot && projectile.owner == item.owner && projectile.active)
-			{	
+			{
 		        launched++;
 			}
 		    return (launched >= MAX) ? false : true;

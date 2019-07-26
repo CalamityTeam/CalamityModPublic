@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Yharon
 				intensity -= 0.01f;
 			}
 		}
-		
+
 		private float GetIntensity()
 		{
 			if (this.UpdateYIndex())
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			return 0.66f;
 		}
-		
+
 		public override Color OnTileColor(Color inColor)
 		{
 			float intensity = this.GetIntensity();

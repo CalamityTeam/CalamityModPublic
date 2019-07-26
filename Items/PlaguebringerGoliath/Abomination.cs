@@ -17,7 +17,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 			Tooltip.SetDefault("Calls in the airborne jungle abomination\n" +
                 "Summons the Plaguebringer Goliath");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -29,12 +29,12 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneJungle && !NPC.AnyNPCs(mod.NPCType("PlaguebringerGoliath"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("PlaguebringerGoliath"));

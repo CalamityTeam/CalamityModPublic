@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Bubble");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;

@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			DisplayName.SetDefault("Corrupt Slime Spawn");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 14;
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (Main.netMode != 1 && npc.life <= 0)

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.alpha = 0;
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
         	Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);

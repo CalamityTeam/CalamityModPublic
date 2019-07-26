@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs
 			Main.buffNoSave[Type] = true;
 			longerExpertDebuff = false;
 		}
-		
+
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).eFreeze = true;

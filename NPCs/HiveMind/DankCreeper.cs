@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			DisplayName.SetDefault("Dank Creeper");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 24;
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 		}
-		
+
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.HiveMind
 				npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.HiveMind
 				player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.HiveMind
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore3"), 1f);
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.expertMode && Main.netMode != 1)

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.extraUpdates = 1;
 			aiType = ProjectileID.Bullet;
 		}
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);

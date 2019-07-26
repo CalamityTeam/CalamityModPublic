@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class ForbiddenSun : ModItem
 	{
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("ForbiddenSunProjectile");
 	        item.shootSpeed = 9f;
 	    }
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

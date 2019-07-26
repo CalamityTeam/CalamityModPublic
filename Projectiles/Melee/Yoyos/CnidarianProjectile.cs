@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 		{
 			DisplayName.SetDefault("Cnidarian");
 		}
-    	
+
         public override void SetDefaults()
         {
         	projectile.CloneDefaults(ProjectileID.CorruptYoyo);

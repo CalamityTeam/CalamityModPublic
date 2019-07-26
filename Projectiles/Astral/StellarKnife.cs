@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Astral
 		{
 			DisplayName.SetDefault("Stellar Knife");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Astral
             projectile.timeLeft = 600;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
 			projectile.ai[1] += 0.75f;
@@ -82,14 +82,14 @@ namespace CalamityMod.Projectiles.Astral
 				}
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	for (int k = 0; k < 5; k++)

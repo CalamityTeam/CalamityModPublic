@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Yharon
 			                   "It yearns for the jungle\n" +
                                "Not consumable");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -30,12 +30,12 @@ namespace CalamityMod.Items.Yharon
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneJungle && !NPC.AnyNPCs(mod.NPCType("Yharon")) && CalamityWorld.downedBossAny;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Yharon"));

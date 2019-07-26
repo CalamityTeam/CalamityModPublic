@@ -17,7 +17,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Cosmolight");
 			Tooltip.SetDefault("Changes night to day and vice versa");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;

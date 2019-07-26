@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("5% increased damage reduction\n" +
 				"Enemies take damage when they touch you");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 3;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 1;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.endurance += 0.05f;

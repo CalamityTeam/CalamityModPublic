@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Coral Spike");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;

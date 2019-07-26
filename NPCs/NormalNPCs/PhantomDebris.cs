@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Phantom Debris");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 30;
@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
         }
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBoneDust"));

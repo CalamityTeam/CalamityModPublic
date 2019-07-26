@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			DisplayName.SetDefault("Crimson Slime Spawn");
 			Main.npcFrameCount[npc.type] = 2;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 1;
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.buffImmune[24] = true;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.expertMode)
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Cursed, 60, true);

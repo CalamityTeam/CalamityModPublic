@@ -30,7 +30,7 @@ namespace CalamityMod.Dusts
                 Lighting.AddLight(dust.position, 0.4f * dust.scale, 0.24f * dust.scale, 0.04f * dust.scale);
             }
 
-            if (dust.customData != null) 
+            if (dust.customData != null)
             {
                 if (dust.customData is bool && (bool)dust.customData) //slowdown or nah
                 {

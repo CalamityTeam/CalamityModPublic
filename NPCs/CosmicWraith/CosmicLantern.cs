@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 			DisplayName.SetDefault("Cosmic Lantern");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
             npc.alpha -= 3;
@@ -111,13 +111,13 @@ namespace CalamityMod.NPCs.CosmicWraith
 				player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
 			}
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 0;
 			return npc.alpha == 0;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

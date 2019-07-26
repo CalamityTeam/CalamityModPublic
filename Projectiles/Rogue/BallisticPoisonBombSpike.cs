@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Spike");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
         	projectile.alpha -= 10;
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num469].velocity *= 0f;
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 240);

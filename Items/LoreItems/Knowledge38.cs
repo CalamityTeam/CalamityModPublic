@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
 				"Much like a phoenix from the ashes their deaths are simply a part of their life cycle.\n" +
 				"Many times my forces have had to destroy these beings in search of the Profaned Goddess.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

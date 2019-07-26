@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Ball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.velocity.Y = 16f;
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;

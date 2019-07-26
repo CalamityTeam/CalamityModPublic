@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
         	projectile.penetrate--;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 4;

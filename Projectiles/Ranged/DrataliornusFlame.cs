@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
                     {
                         NPC npc = Main.npc[i];
 
-                        if (npc.active && npc.chaseable && npc.lifeMax > 5 && !npc.dontTakeDamage && !npc.friendly && 
+                        if (npc.active && npc.chaseable && npc.lifeMax > 5 && !npc.dontTakeDamage && !npc.friendly &&
                             !npc.immortal && Collision.CanHit(projectile.Center, 0, 0, npc.Center, 0, 0))
                         {
                             float distance = Vector2.Distance(projectile.Center, npc.Center);

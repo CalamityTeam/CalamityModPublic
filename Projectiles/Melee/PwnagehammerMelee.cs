@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Hammer");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
-        
+
         public override void AI()
         {
         	projectile.velocity.X *= 1.06f;

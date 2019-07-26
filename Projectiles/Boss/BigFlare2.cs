@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 			DisplayName.SetDefault("Big Flare");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 100;
@@ -109,12 +109,12 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.Kill();
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, Main.DiscoG, 53, projectile.alpha);
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
@@ -134,27 +134,27 @@ namespace CalamityMod.Projectiles.Boss
 				int num231 = (int)(projectile.Center.Y / 16f);
 				int num232 = (int)(projectile.Center.X / 16f);
 				int num233 = 100;
-				if (num232 < 10) 
+				if (num232 < 10)
 				{
 					num232 = 10;
 				}
-				if (num232 > Main.maxTilesX - 10) 
+				if (num232 > Main.maxTilesX - 10)
 				{
 					num232 = Main.maxTilesX - 10;
 				}
-				if (num231 < 10) 
+				if (num231 < 10)
 				{
 					num231 = 10;
 				}
-				if (num231 > Main.maxTilesY - num233 - 10) 
+				if (num231 > Main.maxTilesY - num233 - 10)
 				{
 					num231 = Main.maxTilesY - num233 - 10;
 				}
 				int spawnAreaY = Main.maxTilesY - num231;
-				for (int num234 = num231; num234 < num231 + spawnAreaY; num234++) 
+				for (int num234 = num231; num234 < num231 + spawnAreaY; num234++)
 				{
 					Tile tile = Main.tile[num232, num234 + 10];
-					if (tile.active() && !TileID.Sets.Platforms[tile.type] && (Main.tileSolid[(int)tile.type] || tile.liquid != 0)) 
+					if (tile.active() && !TileID.Sets.Platforms[tile.type] && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
 					{
 						num231 = num234;
 						break;

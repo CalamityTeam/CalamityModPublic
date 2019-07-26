@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Atlantis Spear");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 52;

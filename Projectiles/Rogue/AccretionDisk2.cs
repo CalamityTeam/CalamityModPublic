@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Accretion Disk");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 56;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
-        
+
         public override void AI()
         {
             if (Main.rand.Next(10) == 0)
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 			Lighting.AddLight(projectile.Center, 0.15f, 1f, 0.25f);
 		}
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 5;

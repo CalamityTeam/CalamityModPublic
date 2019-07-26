@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Healing
 			DisplayName.SetDefault("Flame");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Healing
             projectile.alpha = 255;
             projectile.extraUpdates = 3;
         }
-		
+
         public override void AI()
         {
         	projectile.alpha -= 5;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Healing
 			projectile.velocity.Y = (projectile.velocity.Y * 15f + num490) / 16f;
 			return;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);

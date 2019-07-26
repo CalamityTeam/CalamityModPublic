@@ -12,7 +12,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Draedon's Remote");
 			Tooltip.SetDefault("Mayhem...");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -24,12 +24,12 @@ namespace CalamityMod.Items
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !Main.dayTime && !NPC.AnyNPCs(NPCID.TheDestroyer) && !NPC.AnyNPCs(NPCID.SkeletronPrime) && !NPC.AnyNPCs(NPCID.Spazmatism) && !NPC.AnyNPCs(NPCID.Retinazer);
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             CalamityGlobalNPC.DraedonMayhem = true;

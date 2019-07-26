@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Cranium Smasher");
 		}
-    	
+
          public override void SetDefaults()
         {
             projectile.width = 50;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.tileCollide = false;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-		
+
 		public override void AI()
         {
 			projectile.ai[0] += 1f;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.velocity.Y = projectile.velocity.Y + 0.085f;
 			projectile.velocity.X = projectile.velocity.X * 0.99f;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	for (int i = 0; i < 5; i++)
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, (projectile.oldVelocity.X / 2), (projectile.oldVelocity.Y / 2), 0, default(Color), 1f);
 			}
         }
-		
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
 			if (projectile.penetrate == 0)

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("MarniteSpearProjectile");
 			item.shootSpeed = 5f;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("StormSurge");
 			item.shootSpeed = 10f;
 		}
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

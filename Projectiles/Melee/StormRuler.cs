@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Ruler");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.alpha = 255;
             projectile.timeLeft = 600;
         }
-        
+
         public override void AI()
         {
 			Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
            	}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

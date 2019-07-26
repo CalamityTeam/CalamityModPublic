@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.Yharon
 			DisplayName.SetDefault("Detonating Flame");
 			Main.npcFrameCount[npc.type] = 5;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Yharon
 			npc.DeathSound = SoundID.NPCDeath55;
 			npc.alpha = 255;
 		}
-		
+
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
@@ -70,12 +70,12 @@ namespace CalamityMod.NPCs.Yharon
 			npc.rotation = (float)Math.Atan2((double)num791, (double)num790) - 1.57f;
 			return;
 		}
-		
+
 		public override Color? GetAlpha(Color drawColor)
 		{
 			return new Color(255, Main.DiscoG, 53, 0);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -83,13 +83,13 @@ namespace CalamityMod.NPCs.Yharon
 				player.AddBuff(mod.BuffType("MarkedforDeath"), 300);
 			}
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.Yharon
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

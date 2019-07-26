@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 		{
 			DisplayName.SetDefault("Spear");
 		}
-    	
+
         public override void SetDefaults()
         {
 			projectile.width = 50;  //The width of the .png file in pixels divided by 2.
@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
         	{
         		projectile.ai[0] += 0.95f;
         	}
-        	
+
         	if(Main.player[projectile.owner].itemAnimation == 0)
         	{
         		projectile.Kill();
         	}
-        	
+
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
         	if(projectile.spriteDirection == -1)
         	{

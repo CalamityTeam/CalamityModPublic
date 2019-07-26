@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Shrines
 			Main.buffNoSave[Type] = true;
 			longerExpertDebuff = false;
 		}
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).trinketOfChiBuff = true;

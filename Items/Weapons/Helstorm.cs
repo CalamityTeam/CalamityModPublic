@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 11.5f;
 			item.useAmmo = 97;
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{    
+		{
 		    for (int index = 0; index < 2; ++index)
 		    {
 		        float num7 = speedX;
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons
 		    }
 		    return false;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons
             recipe.SetResult(this);
             recipe.AddRecipe();
 		}
-		
+
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			target.AddBuff(BuffID.OnFire, 400);

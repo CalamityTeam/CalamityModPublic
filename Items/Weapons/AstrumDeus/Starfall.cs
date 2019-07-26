@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
 	        item.shoot = mod.ProjectileType("AstralStarMagic");
 	        item.shootSpeed = 12f;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
             float num72 = item.shootSpeed;

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
 				"Fortunately, fate will have it so that it is a world I shall never have to see, for better or for worse.\n" +
 				"Place in your inventory to gain nearly-infinite wing flight time but at the cost of a 25% decrease to all damage.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

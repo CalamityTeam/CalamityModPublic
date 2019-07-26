@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class AccretionDiskMelee : ModItem
 	{
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Elemental Disk");
 			Tooltip.SetDefault("Throws a disk that has a chance to generate several disks if enemies are near it");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 38;

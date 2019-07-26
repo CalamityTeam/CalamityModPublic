@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Crystal Shot");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

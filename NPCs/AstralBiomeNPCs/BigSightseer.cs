@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
     public class BigSightseer : ModNPC
     {
         private static Texture2D glowmask;
-        
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Big Sightseer");

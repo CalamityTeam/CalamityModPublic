@@ -11,12 +11,12 @@ namespace CalamityMod.Projectiles.Ranged
     public class ContagionArrow : ModProjectile
     {
     	private int addBallTimer = 10;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Contagion Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			projectile.velocity.Y = projectile.velocity.Y + 0.075f;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("Plague"), 600);

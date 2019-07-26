@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Charred Slime");
 			Main.npcFrameCount[npc.type] = 2;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 1;
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("CharredSlimeBanner");
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !NPC.downedPlantBoss)
@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.Underworld.Chance * 0.06f;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CharredOre"), Main.rand.Next(10, 27));

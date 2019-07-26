@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Melee
     public class Light : ModProjectile
     {
     	public int speedTimer = 120;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Light");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

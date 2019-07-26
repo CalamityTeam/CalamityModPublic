@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Hellfire");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			return;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

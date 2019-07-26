@@ -13,12 +13,12 @@ namespace CalamityMod.NPCs.Polterghast
 	{
 		private bool start = true;
         private int timer = 0;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phantom");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -97,17 +97,17 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.ai[1] += 0.5f; //1f
 			return false;
 		}
-		
+
 		public override Color? GetAlpha(Color drawColor)
 		{
 			return new Color(200, 200, 200, npc.alpha);
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);

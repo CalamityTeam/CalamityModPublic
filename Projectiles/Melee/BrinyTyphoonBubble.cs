@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Bubble");
 			Main.projFrames[projectile.type] = 3;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.timeLeft = 5;
         }
-        
+
         public override void AI()
         {
 			if (projectile.ai[1] > 0f)

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Shroom");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 5;

@@ -1285,7 +1285,7 @@ namespace CalamityMod.NPCs
                 int needlerDropRate = expert ? 20 : 25;
                 DropHelper.DropItemChance(npc, mod.ItemType("Needler"), needlerDropRate);
             }
-            
+
             // Every type of Skeleton counts for the Waraxe and Ancient Bone Dust
 			if (CalamityMod.skeletonList.Contains(npc.type))
 			{
@@ -1383,7 +1383,7 @@ namespace CalamityMod.NPCs
 		//
         // CONTINUE HERE
         //
-        
+
         #region Boss Loot
 		private void BossLoot(NPC npc, Mod mod)
 		{

@@ -40,7 +40,7 @@ namespace CalamityMod.World.Planets
             }
 
             PlacePlanet(origin, radius, _random.Next(oreTypes));
-            
+
             return base.Place(origin, structures);
         }
 
@@ -115,7 +115,7 @@ namespace CalamityMod.World.Planets
                 {
                     control = planetoid.RandomPointOnCircleEdge();
                 }
-                
+
                 BezierCurve curve = new BezierCurve(start, control, end);
 
                 int strokeSteps = 50;

@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			DisplayName.SetDefault("Ravager");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Scavenger
 				npc.lifeMax = 50000;
 			}
 		}
-		
+
 		public override void AI()
 		{
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
@@ -267,7 +267,7 @@ namespace CalamityMod.NPCs.Scavenger
 				npc.netUpdate = true;
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -287,7 +287,7 @@ namespace CalamityMod.NPCs.Scavenger
 				}
 			}
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Fire");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			projectile.rotation += 0.3f * (float)projectile.direction;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 8;

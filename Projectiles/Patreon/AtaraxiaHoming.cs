@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Patreon
 			DisplayName.SetDefault("Definitely Not Exoblade");
             Main.projFrames[projectile.type] = NumAnimationFrames;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;

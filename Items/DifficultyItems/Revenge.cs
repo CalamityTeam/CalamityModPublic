@@ -29,7 +29,7 @@ namespace CalamityMod.Items.DifficultyItems
 				"DO NOT USE IF A BOSS IS ALIVE!\n" +
 				"Can be toggled on and off.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.DifficultyItems
 			item.UseSound = SoundID.Item119;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			if (!Main.expertMode || CalamityWorld.bossRushActive)

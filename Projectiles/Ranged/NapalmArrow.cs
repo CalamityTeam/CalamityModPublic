@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
             projectile.aiStyle = 1;
         }
-        
+
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

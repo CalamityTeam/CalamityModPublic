@@ -20,7 +20,7 @@ namespace CalamityMod.Items.TheDevourerofGods
 			Tooltip.SetDefault("Summons the Devourer of Gods\n" +
                 "Not consumable");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -31,12 +31,12 @@ namespace CalamityMod.Items.TheDevourerofGods
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")) && !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")) && CalamityWorld.DoGSecondStageCountdown <= 0 && CalamityWorld.downedBossAny;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             string key = "Mods.CalamityMod.EdgyBossText12";

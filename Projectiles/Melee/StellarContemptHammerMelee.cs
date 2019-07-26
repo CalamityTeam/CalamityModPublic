@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Stellar Contempt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 44;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.extraUpdates = 3;
             projectile.timeLeft = Lifetime;
         }
-        
+
         public override void AI()
         {
             drawOffsetX = -11;
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Melee
         	projectile.rotation += RotationIncrement;
 			return;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             // Some dust gets produced on impact.

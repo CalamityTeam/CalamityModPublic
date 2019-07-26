@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
 			DisplayName.SetDefault("Cloud");
             Main.projFrames[projectile.type] = 4;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Enemy
         {
             target.AddBuff(BuffID.Poisoned, 600);
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 600);

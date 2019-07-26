@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			DisplayName.SetDefault("The Slime God");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 60;
@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 music = MusicID.Boss1;
             bossBag = mod.ItemType("SlimeGodBag");
 		}
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.slimeGod = npc.whoAmI;
@@ -320,7 +320,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			potionType = ItemID.HealingPotion;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -355,13 +355,13 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.VortexDebuff, 240, true);

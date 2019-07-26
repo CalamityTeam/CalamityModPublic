@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
             item.autoReuse = true;
             item.shootSpeed = 18f;
         }
-        
+
         public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 	    }
-        
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             int i = Main.myPlayer;
@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("GreenWater"), (int)((float)item.damage * player.meleeDamage), num74, i, 0f, (float)Main.rand.Next(10));
 			}
         }
-        
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
         	int randomDust = Main.rand.Next(2);

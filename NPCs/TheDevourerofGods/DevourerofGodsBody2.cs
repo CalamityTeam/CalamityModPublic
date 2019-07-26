@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			DisplayName.SetDefault("Cosmic Guardian");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 130; //70
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
@@ -111,17 +111,17 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 120, true);

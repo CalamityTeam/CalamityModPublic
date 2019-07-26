@@ -14,7 +14,7 @@ namespace CalamityMod.Items
 	    {
  		    DisplayName.SetDefault("Astral Pickaxe");
  	    }
-	
+
         public override void SetDefaults()
         {
             item.damage = 65;

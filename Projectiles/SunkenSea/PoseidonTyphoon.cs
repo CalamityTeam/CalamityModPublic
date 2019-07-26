@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Poseidon Typhoon");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
         }
-		
+
 		public override void AI()
         {
 			projectile.rotation += projectile.velocity.X * 0.05f;
@@ -70,12 +70,12 @@ namespace CalamityMod.Projectiles.SunkenSea
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(200, 200, 200, 0);
         }
-		
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
         {
         	projectile.penetrate--;

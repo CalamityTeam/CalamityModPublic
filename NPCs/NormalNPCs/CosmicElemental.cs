@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Cosmic Elemental");
 			Main.npcFrameCount[npc.type] = 22;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 0.5f;
@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("CosmicElementalBanner");
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.Cavern.Chance * 0.01f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			player.AddBuff(BuffID.Confused, 180, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(10) == 0)

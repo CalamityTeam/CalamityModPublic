@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Glare");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 1;
         }
-        
+
         public override void AI()
         {
         	projectile.localAI[0] += 1f;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[num624].velocity *= 2f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
     		target.AddBuff(mod.BuffType("HolyLight"), 120);

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class GreatswordofBlah : ModItem
 	{
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 12f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -10,7 +10,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Marnite Obliterator");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.damage = 13;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items
 			item.shoot = mod.ProjectileType("MarniteObliterator");
 			item.shootSpeed = 40f;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

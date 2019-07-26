@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Blast");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 18;
@@ -36,10 +36,10 @@ namespace CalamityMod.Projectiles.Magic
 			float num1025 = 420f;
 			float x3 = 0.15f;
 			float y3 = 0.15f;
-			if (flag61) 
+			if (flag61)
 			{
 				int num1026 = (int)projectile.ai[1];
-				if (!Main.projectile[num1026].active || Main.projectile[num1026].type != num1024) 
+				if (!Main.projectile[num1026].active || Main.projectile[num1026].type != num1024)
 				{
 					projectile.Kill();
 					return;
@@ -50,44 +50,44 @@ namespace CalamityMod.Projectiles.Magic
 			int npcChase = 0;
 			float num73 = npcArray[npcChase];
 			npcArray[npcChase] = num73 + 1f;
-			if (projectile.ai[0] < num1025) 
+			if (projectile.ai[0] < num1025)
 			{
 				bool flag62 = true;
 				int num1027 = (int)projectile.ai[1];
-				if (Main.projectile[num1027].active && Main.projectile[num1027].type == num1024) 
+				if (Main.projectile[num1027].active && Main.projectile[num1027].type == num1024)
 				{
-					if (!flag60 && Main.projectile[num1027].oldPos[1] != Vector2.Zero) 
+					if (!flag60 && Main.projectile[num1027].oldPos[1] != Vector2.Zero)
 					{
 						projectile.position += Main.projectile[num1027].position - Main.projectile[num1027].oldPos[1];
 					}
-					if (projectile.Center.HasNaNs()) 
+					if (projectile.Center.HasNaNs())
 					{
 						projectile.Kill();
 						return;
 					}
-				} 
-				else 
+				}
+				else
 				{
 					projectile.ai[0] = num1025;
 					flag62 = false;
 					projectile.Kill();
 				}
-				if (flag62 && !flag60) 
+				if (flag62 && !flag60)
 				{
 					projectile.velocity += new Vector2((float)Math.Sign(Main.projectile[num1027].Center.X - projectile.Center.X), (float)Math.Sign(Main.projectile[num1027].Center.Y - projectile.Center.Y)) * new Vector2(x3, y3);
-					if (projectile.velocity.Length() > 6f) 
+					if (projectile.velocity.Length() > 6f)
 					{
 						projectile.velocity *= 6f / projectile.velocity.Length();
 					}
 				}
-				if (Main.rand.Next(2) == 0) 
+				if (Main.rand.Next(2) == 0)
 				{
 					int num1028 = Dust.NewDust(projectile.Center, 8, 8, 60, 0f, 0f, 0, default(Color), 1f);
 					Main.dust[num1028].position = projectile.Center;
 					Main.dust[num1028].velocity = projectile.velocity;
 					Main.dust[num1028].noGravity = true;
 					Main.dust[num1028].scale = 1.5f;
-					if (flag62) 
+					if (flag62)
 					{
 						Main.dust[num1028].customData = Main.projectile[(int)projectile.ai[1]];
 					}

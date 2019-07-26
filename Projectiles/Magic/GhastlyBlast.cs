@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Blast");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -42,16 +42,16 @@ namespace CalamityMod.Projectiles.Magic
 				num1013 = 1;
 			}
 			projectile.alpha -= 15;
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}
-			if (num1013 == 0) 
+			if (num1013 == 0)
 			{
 				projectile.rotation -= 0.104719758f;
-				if (Main.rand.Next(3) == 0) 
+				if (Main.rand.Next(3) == 0)
 				{
-					if (Main.rand.Next(2) == 0) 
+					if (Main.rand.Next(2) == 0)
 					{
 						Vector2 vector140 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
 						Dust dust28 = Main.dust[Dust.NewDust(projectile.Center - vector140 * 30f, 0, 0, 60, 0f, 0f, 0, default(Color), 1f)];
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
 						dust28.scale = 0.5f + Main.rand.NextFloat();
 						dust28.fadeIn = 0.5f;
 						dust28.customData = projectile;
-					} 
+					}
 					else
 					{
 						Vector2 vector141 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
@@ -74,11 +74,11 @@ namespace CalamityMod.Projectiles.Magic
 						dust29.customData = projectile;
 					}
 				}
-				if (projectile.ai[0] >= 30f) 
+				if (projectile.ai[0] >= 30f)
 				{
 					projectile.velocity *= 0.98f;
 					projectile.scale += 0.00744680827f;
-					if (projectile.scale > 1.2f) 
+					if (projectile.scale > 1.2f)
 					{
 						projectile.scale = 1.2f;
 					}
@@ -90,14 +90,14 @@ namespace CalamityMod.Projectiles.Magic
 					projectile.velocity *= 4f;
 					projectile.ai[0] = 0f;
 				}
-			} 
+			}
 			else if (num1013 == 1)
 			{
 				projectile.rotation -= 0.104719758f;
 				int num3;
-				for (int num1014 = 0; num1014 < 1; num1014 = num3 + 1) 
+				for (int num1014 = 0; num1014 < 1; num1014 = num3 + 1)
 				{
-					if (Main.rand.Next(2) == 0) 
+					if (Main.rand.Next(2) == 0)
 					{
 						Vector2 vector142 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
 						Dust dust30 = Main.dust[Dust.NewDust(projectile.Center - vector142 * 30f, 0, 0, 60, 0f, 0f, 0, default(Color), 1f)];
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Magic
 						dust30.fadeIn = 0.5f;
 						dust30.customData = projectile;
 						dust30.color = Color.Crimson;
-					} 
+					}
 					else
 					{
 						Vector2 vector143 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Magic
 					}
 					num3 = num1014;
 				}
-				if (projectile.ai[0] % 30f == 0f && projectile.ai[0] < 241f && Main.myPlayer == projectile.owner) 
+				if (projectile.ai[0] % 30f == 0f && projectile.ai[0] < 241f && Main.myPlayer == projectile.owner)
 				{
 					Vector2 vector144 = Vector2.UnitY.RotatedByRandom(6.2831854820251465) * 12f;
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector144.X, vector144.Y, mod.ProjectileType("GhastlySubBlast"), projectile.damage, 0f, projectile.owner, 0f, (float)projectile.whoAmI);
@@ -139,14 +139,14 @@ namespace CalamityMod.Projectiles.Magic
 				float num1015 = 800f;
 				bool flag59 = false;
 				int num1016 = 0;
-				if (projectile.ai[1] == 0f) 
+				if (projectile.ai[1] == 0f)
 				{
-					for (int num1017 = 0; num1017 < 200; num1017 = num3 + 1) 
+					for (int num1017 = 0; num1017 < 200; num1017 = num3 + 1)
 					{
-						if (Main.npc[num1017].CanBeChasedBy(projectile, false)) 
+						if (Main.npc[num1017].CanBeChasedBy(projectile, false))
 						{
 							Vector2 center13 = Main.npc[num1017].Center;
-							if (projectile.Distance(center13) < num1015 && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, Main.npc[num1017].position, Main.npc[num1017].width, Main.npc[num1017].height)) 
+							if (projectile.Distance(center13) < num1015 && Collision.CanHit(new Vector2(projectile.position.X + (float)(projectile.width / 2), projectile.position.Y + (float)(projectile.height / 2)), 1, 1, Main.npc[num1017].position, Main.npc[num1017].width, Main.npc[num1017].height))
 							{
 								num1015 = projectile.Distance(center13);
 								vector145 = center13;
@@ -156,9 +156,9 @@ namespace CalamityMod.Projectiles.Magic
 						}
 						num3 = num1017;
 					}
-					if (flag59) 
+					if (flag59)
 					{
-						if (projectile.ai[1] != (float)(num1016 + 1)) 
+						if (projectile.ai[1] != (float)(num1016 + 1))
 						{
 							projectile.netUpdate = true;
 						}
@@ -166,16 +166,16 @@ namespace CalamityMod.Projectiles.Magic
 					}
 					flag59 = false;
 				}
-				if (projectile.ai[1] != 0f) 
+				if (projectile.ai[1] != 0f)
 				{
 					int num1018 = (int)(projectile.ai[1] - 1f);
-					if (Main.npc[num1018].active && Main.npc[num1018].CanBeChasedBy(projectile, true) && projectile.Distance(Main.npc[num1018].Center) < 1000f) 
+					if (Main.npc[num1018].active && Main.npc[num1018].CanBeChasedBy(projectile, true) && projectile.Distance(Main.npc[num1018].Center) < 1000f)
 					{
 						flag59 = true;
 						vector145 = Main.npc[num1018].Center;
 					}
 				}
-				if (!projectile.friendly) 
+				if (!projectile.friendly)
 				{
 					flag59 = false;
 				}
@@ -198,17 +198,17 @@ namespace CalamityMod.Projectiles.Magic
 					projectile.velocity.Y = (projectile.velocity.Y * (float)(num1020 - 1) + num1022) / (float)num1020;
 				}
 			}
-			if (projectile.alpha < 150) 
+			if (projectile.alpha < 150)
 			{
 				Lighting.AddLight(projectile.Center, 0.9f, 0f, 0.1f);
 			}
-			if (projectile.ai[0] >= 600f) 
+			if (projectile.ai[0] >= 600f)
 			{
 				projectile.Kill();
 				return;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
@@ -217,7 +217,7 @@ namespace CalamityMod.Projectiles.Magic
 			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
 			return false;
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha);

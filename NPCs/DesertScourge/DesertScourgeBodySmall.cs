@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.DesertScourge
 		{
 			DisplayName.SetDefault("Desert Scourge");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 10; //70
@@ -46,12 +46,12 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.dontCountMe = true;
 			npc.scale = 0.75f;
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -70,17 +70,17 @@ namespace CalamityMod.NPCs.DesertScourge
 				}
 			}
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -99,12 +99,12 @@ namespace CalamityMod.NPCs.DesertScourge
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Bleeding, 60, true);

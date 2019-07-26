@@ -15,13 +15,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 	public class SupremeCatastrophe : ModNPC
 	{
 		private int distanceY = 375;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Catastrophe");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Eradicator");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 58;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0.03f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);

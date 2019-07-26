@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Golden Round");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Typeless
 			projectile.timeLeft = 300;
 			projectile.extraUpdates = 2;
 		}
-		
+
 		public override void AI()
         {
             if (projectile.localAI[0] < 5f)

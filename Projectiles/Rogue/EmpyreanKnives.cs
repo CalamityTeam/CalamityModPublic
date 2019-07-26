@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Knife");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;

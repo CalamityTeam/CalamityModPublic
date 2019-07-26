@@ -18,8 +18,8 @@ namespace CalamityMod.UI
     /*
     Heyo! Here's some things you might need to know about this class and where to change things:
 
-    In the "Load" method is where the "OneToMany" dictionary is updated. 
-    If an NPC is made up of multiple segments (such as EoW, etc.) that all have separate health but would be considered a single boss, you can update the dictionary. 
+    In the "Load" method is where the "OneToMany" dictionary is updated.
+    If an NPC is made up of multiple segments (such as EoW, etc.) that all have separate health but would be considered a single boss, you can update the dictionary.
     The boss health bar will automatically keep track of all segments of that type and add up the health.
 
     The "SetupExclusionList" method allows you to check for if certain mods are loaded and setup the exclusion list based on what mods are loaded.
@@ -27,9 +27,9 @@ namespace CalamityMod.UI
 
     If you need to add a special kind of health bar, like the EoW one which counts the number of segments left, let me know.
     I may need to dive into the spaghetti to add it.
-    
+
     There's a few readonly fields at the top of both classes that you can edit should you deem it fit to. Change the animation lengths, etc.
-    The bar uses those and shouldn't have any problems dealing with the new values 
+    The bar uses those and shouldn't have any problems dealing with the new values
     (although the flickering in the start animation will always happen in the first 20 frames or so)
 
     As for toggling, in the Mod File, you can simply add a boolean check and not draw or update the health bar manager.
@@ -233,7 +233,7 @@ namespace CalamityMod.UI
 
                 //Abyss
                 MinibossHPBarList.Add(calamity.NPCType("EidolonWyrmHeadHuge"));
-                
+
                 //Post-ML
                 MinibossHPBarList.Add(calamity.NPCType("SupremeCataclysm"));
                 MinibossHPBarList.Add(calamity.NPCType("SupremeCatastrophe"));
@@ -589,7 +589,7 @@ namespace CalamityMod.UI
                     {
                         if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
                         {
-                            if ((Main.npc[i].type == NPCID.MoonLordHead || Main.npc[i].type == NPCID.MoonLordHand || Main.npc[i].type == NPCID.MoonLordCore) && 
+                            if ((Main.npc[i].type == NPCID.MoonLordHead || Main.npc[i].type == NPCID.MoonLordHand || Main.npc[i].type == NPCID.MoonLordCore) &&
                                 Main.npc[i].ai[0] == -2f) continue;
                             currentLife += Main.npc[i].life;
                             maxLife += Main.npc[i].lifeMax;
@@ -651,7 +651,7 @@ namespace CalamityMod.UI
                         _specialData[2] = count3;
                         break;
                     case SpecialType.SkeletPrime:
-                        int count4 = NPC.CountNPCS(NPCID.PrimeVice) + NPC.CountNPCS(NPCID.PrimeCannon) + 
+                        int count4 = NPC.CountNPCS(NPCID.PrimeVice) + NPC.CountNPCS(NPCID.PrimeCannon) +
                             NPC.CountNPCS(NPCID.PrimeSaw) + NPC.CountNPCS(NPCID.PrimeLaser);
                         _specialData[3] = count4;
                         break;
@@ -674,12 +674,12 @@ namespace CalamityMod.UI
                     default:
                         break;
                     case SpecialType2.Calam:
-                        int count = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun")) + 
+                        int count = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun")) +
                             NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("CalamitasRun2"));
                         _specialData2[0] = count;
                         break;
                     case SpecialType2.Ceaseless:
-                        int count2 = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("DarkEnergy")) + 
+                        int count2 = NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("DarkEnergy")) +
                             NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("DarkEnergy2")) +
                             NPC.CountNPCS(ModLoader.GetMod("CalamityMod").NPCType("DarkEnergy3"));
                         _specialData2[1] = count2;

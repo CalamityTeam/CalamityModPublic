@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Perforator
 			DisplayName.SetDefault("Bloody Worm Food");
 			Tooltip.SetDefault("Summons the Perforator Hive");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.Perforator
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneCrimson && !NPC.AnyNPCs(mod.NPCType("PerforatorHive"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("PerforatorHive"));

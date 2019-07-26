@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("+20 max mana\n" +
 				"Standing still boosts mana regen");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 1;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.statManaMax2 += 20;

@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs
 			Main.buffNoSave[Type] = true;
 			longerExpertDebuff = false;
 		}
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).molten = true;

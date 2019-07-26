@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Contagion Ball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

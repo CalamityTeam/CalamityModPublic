@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
 		{
 			DisplayName.SetDefault("Tornado");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -24,24 +24,24 @@ namespace CalamityMod.Projectiles.Enemy
             projectile.penetrate = -1;
             projectile.timeLeft = 1200;
         }
-        
+
         public override void AI()
         {
 			float num1125 = 600f;
-			if (projectile.soundDelay == 0) 
+			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = -1;
 				Main.PlaySound(2, projectile.Center, 122);
 			}
 			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= num1125) 
+			if (projectile.ai[0] >= num1125)
 			{
 				projectile.Kill();
 			}
-			if (projectile.localAI[0] >= 30f) 
+			if (projectile.localAI[0] >= 30f)
 			{
 				projectile.damage = 0;
-				if (projectile.ai[0] < num1125 - 120f) 
+				if (projectile.ai[0] < num1125 - 120f)
 				{
 					float num1126 = projectile.ai[0] % 60f;
 					projectile.ai[0] = num1125 - 120f + num1126;
@@ -64,30 +64,30 @@ namespace CalamityMod.Projectiles.Enemy
 			projectile.width = (int)(value74.X * 0.65f);
 			projectile.height = (int)value74.Y;
 			projectile.Center = vector146;
-			if (projectile.owner == Main.myPlayer) 
+			if (projectile.owner == Main.myPlayer)
 			{
 				bool flag74 = false;
 				Vector2 center16 = Main.player[projectile.owner].Center;
 				Vector2 top = Main.player[projectile.owner].Top;
-				for (float num1131 = 0f; num1131 < 1f; num1131 += 0.05f) 
+				for (float num1131 = 0f; num1131 < 1f; num1131 += 0.05f)
 				{
 					Vector2 position2 = Vector2.Lerp(value72, value73, num1131);
-					if (Collision.CanHitLine(position2, 0, 0, center16, 0, 0) || Collision.CanHitLine(position2, 0, 0, top, 0, 0)) 
+					if (Collision.CanHitLine(position2, 0, 0, center16, 0, 0) || Collision.CanHitLine(position2, 0, 0, top, 0, 0))
 					{
 						flag74 = true;
 						break;
 					}
 				}
-				if (!flag74 && projectile.ai[0] < num1125 - 120f) 
+				if (!flag74 && projectile.ai[0] < num1125 - 120f)
 				{
 					float num1132 = projectile.ai[0] % 60f;
 					projectile.ai[0] = num1125 - 120f + num1132;
 					projectile.netUpdate = true;
 				}
 			}
-			if (projectile.ai[0] < num1125 - 120f) 
+			if (projectile.ai[0] < num1125 - 120f)
 			{
-				for (int num1133 = 0; num1133 < 1; num1133++) 
+				for (int num1133 = 0; num1133 < 1; num1133++)
 				{
 					float value75 = -0.5f;
 					float value76 = 0.9f;
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Enemy
 					dust33.customData = vector146 + value78;
 					dust33.fadeIn = 1f;
 					dust33.scale = 0.3f;
-					if (value77.X > -1.2f) 
+					if (value77.X > -1.2f)
 					{
 						dust33.velocity.X = 1f + Main.rand.NextFloat();
 					}
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Enemy
 				}
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	float num226 = 600f;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Blade");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -74,12 +74,12 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num489].noGravity = true;
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	SpriteEffects spriteEffects = SpriteEffects.None;

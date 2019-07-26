@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Vehemence");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num459].velocity *= 0.1f;
         	}
         }
-        
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
         	double lifeAmount = (double)target.life;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
         		damage = 1000000;
         	}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	if (target.life == target.lifeMax)

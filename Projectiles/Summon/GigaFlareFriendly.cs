@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 			DisplayName.SetDefault("Flare");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
 				return;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

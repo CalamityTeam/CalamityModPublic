@@ -19,7 +19,7 @@ namespace CalamityMod.Items
                 "Revengeance drop");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 5));
         }
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;

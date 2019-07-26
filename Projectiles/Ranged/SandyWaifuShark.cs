@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Shark");
 			Main.projFrames[projectile.type] = 8;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 60;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			SpriteEffects spriteEffects = (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
  			Tooltip.SetDefault("Use in the Brimstone Crag at your own risk\n" +
                 "Summons the Brimstone Elemental");
  		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -24,13 +24,13 @@ namespace CalamityMod.Items.BrimstoneWaifu
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			return modPlayer.ZoneCalamity && !NPC.AnyNPCs(mod.NPCType("BrimstoneElemental"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("BrimstoneElemental"));

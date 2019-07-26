@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Calamitas
                 "Summons Calamitas\n" +
 				"Not consumable");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Calamitas
 			item.useStyle = 4;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !Main.dayTime && !NPC.AnyNPCs(mod.NPCType("Calamitas")) && !NPC.AnyNPCs(mod.NPCType("CalamitasRun3"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Calamitas"));

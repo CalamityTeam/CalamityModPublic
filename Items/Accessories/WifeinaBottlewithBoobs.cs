@@ -13,7 +13,7 @@ using Terraria.Utilities;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Accessories 
+namespace CalamityMod.Items.Accessories
 {
 	public class WifeinaBottlewithBoobs : ModItem
 	{
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("Summons a sand elemental to heal you\n" +
 				";D");
 		}
-		
+
 	    public override void SetDefaults()
 	    {
 	        item.width = 20;

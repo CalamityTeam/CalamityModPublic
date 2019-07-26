@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.DesertScourge
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(5) == 0)
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.DesertScourge
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
 	        }
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	if (target.life <= 0)

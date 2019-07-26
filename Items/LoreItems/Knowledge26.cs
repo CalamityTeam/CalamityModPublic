@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "Finally put to rest, she will suffer no longer from the grief caused by the deaths of her people.\n" +
 				"Place in your inventory to improve the inferno potion effect.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

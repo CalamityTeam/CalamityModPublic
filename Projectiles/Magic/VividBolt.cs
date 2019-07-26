@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(mod.BuffType("ExoFreeze"), 30);

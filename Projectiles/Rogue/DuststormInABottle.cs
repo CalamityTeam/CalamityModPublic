@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Duststorm");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 48;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107); //change

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return true;
 		}
-		
+
 		public override void AI()
 		{
 			projectile.ai[0] += 1f;
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.knockBack = (float)((int)((double)projectile.knockBack * 0.995));
 			}
 		}
-		
+
 		public override bool PreAI()
         {
 			for (int num136 = 0; num136 < 5; num136++)
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return false;
 		}
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (projectile.owner == Main.myPlayer)

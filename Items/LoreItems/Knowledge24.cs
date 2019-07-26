@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "Though the bloody inferno still lingers, observing your progress.\n" +
 				"Place in your inventory to gain a boost to your minion slots but at the cost of reduced max health.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

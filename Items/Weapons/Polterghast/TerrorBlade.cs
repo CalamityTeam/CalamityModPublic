@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
 			item.shootSpeed = 20f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(3) == 0)

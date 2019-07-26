@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Hellblast");
             Main.projFrames[projectile.type] = 4;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 40;

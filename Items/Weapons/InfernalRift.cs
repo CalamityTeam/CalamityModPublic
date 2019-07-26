@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class InfernalRift : ModItem
 	{
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("InfernalBlade");
 	        item.shootSpeed = 16f;
 	    }
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	    	Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Rain");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 120;
             projectile.melee = true;
         }
-        
+
         public override void AI()
         {
         	if (projectile.ai[1] == 0f)

@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalamityMod.Projectiles.Magic 
+namespace CalamityMod.Projectiles.Magic
 {
 	public class FlamingPumpkin : ModProjectile
 	{
@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Pumpkin");
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 14;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.magic = true;
 			projectile.friendly = true;
 		}
-		
+
 		public override void AI()
 		{
 			if (Main.rand.Next(3) == 0)
@@ -32,4 +32,4 @@ namespace CalamityMod.Projectiles.Magic
 			}
 		}
 	}
-}	
+}

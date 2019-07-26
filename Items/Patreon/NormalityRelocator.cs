@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Patreon
 				"Works while in the inventory");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 38;

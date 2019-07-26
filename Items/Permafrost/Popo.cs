@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Permafrost
             return false;
         }
     }
-	
+
 	public class PopoNoselessHead : EquipTexture
     {
         public override bool DrawHead()

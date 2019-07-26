@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			DisplayName.SetDefault("Bubble");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Patreon
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, mod.ProjectileType("KeelhaulGeyserBottom"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Melee
     public class RedBall : ModProjectile
     {
     	private int projTime = 15;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
 				projTime = 15;
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;

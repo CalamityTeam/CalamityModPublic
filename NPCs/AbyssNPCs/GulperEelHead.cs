@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			DisplayName.SetDefault("Gulper Eel");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 135;

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Root");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
         	if (Main.rand.Next(4) == 0)
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
         	}
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

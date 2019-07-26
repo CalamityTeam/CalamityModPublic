@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
 				"Though struck down from its place among the stars its remnants have gathered strength, aiming to take its rightful place in the cosmos once more.\n" +
 				"Place in your inventory to gain increased movement speed in space.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 9;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

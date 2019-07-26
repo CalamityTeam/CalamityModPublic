@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 			DisplayName.SetDefault("Blob");
 			Main.projFrames[projectile.type] = 2;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;

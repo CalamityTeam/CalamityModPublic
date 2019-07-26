@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Prism Shard");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

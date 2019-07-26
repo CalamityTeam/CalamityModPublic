@@ -12,7 +12,7 @@ namespace CalamityMod.Items.AquaticScourge
 			Tooltip.SetDefault("The sulphuric sand stirs...\n" +
                 "Summons the Aquatic Scourge");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -24,13 +24,13 @@ namespace CalamityMod.Items.AquaticScourge
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             return modPlayer.ZoneSulphur && !NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("AquaticScourgeHead"));

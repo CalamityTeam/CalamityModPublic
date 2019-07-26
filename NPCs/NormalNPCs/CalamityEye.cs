@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Calamity Eye");
 			Main.npcFrameCount[npc.type] = 2;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.lavaImmune = true;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("CalamityEyeBanner");
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !NPC.downedPlantBoss || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
@@ -59,13 +59,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.OverworldNightMonster.Chance * 0.045f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Weak, 120, true);
 			player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 0)

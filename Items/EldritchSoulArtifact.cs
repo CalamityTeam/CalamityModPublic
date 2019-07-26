@@ -16,7 +16,7 @@ namespace CalamityMod.Items
 			Tooltip.SetDefault("Knowledge\n" +
                 "Boosts melee speed by 10%, shoot speed by 25%, rogue damage by 15%, max minions by 2, and reduces mana cost by 15%");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

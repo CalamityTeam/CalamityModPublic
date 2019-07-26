@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -22,12 +22,12 @@ namespace CalamityMod.Projectiles.Summon
             projectile.light = 1f;
             projectile.timeLeft = 300;
         }
-        
+
         public override void AI()
         {
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

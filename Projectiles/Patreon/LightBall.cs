@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			DisplayName.SetDefault("Light Ball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 28;

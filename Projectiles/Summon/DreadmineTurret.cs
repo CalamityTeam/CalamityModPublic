@@ -10,13 +10,13 @@ namespace CalamityMod.Projectiles.Summon
     public class DreadmineTurret : ModProjectile
     {
     	public float count = 0;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dreadmine Turret");
             Main.projFrames[projectile.type] = 2;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = Projectile.SentryLifeTime;
             projectile.penetrate = -1;
         }
-        
+
         public override void AI()
         {
 			if (projectile.localAI[0] == 0f)
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             center.X += (float)(num3 / 2);
                             center.Y += (float)(num3 / 2);
-                            if (Collision.CanHit(new Vector2(projectile.Center.X, projectile.position.Y), 1, 1, center, 1, 1) || 
+                            if (Collision.CanHit(new Vector2(projectile.Center.X, projectile.position.Y), 1, 1, center, 1, 1) ||
                                 Collision.CanHit(new Vector2(projectile.Center.X, projectile.position.Y - 50f), 1, 1, center, 1, 1))
                             {
                                 int num6 = (int)center.X / 16;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
                                 {
                                     for (int k = 0; k < 1000; k++)
                                     {
-                                        if (Main.projectile[k].active && Main.projectile[k].owner == Main.myPlayer && 
+                                        if (Main.projectile[k].active && Main.projectile[k].owner == Main.myPlayer &&
                                             Main.projectile[k].type == mod.ProjectileType("Dreadmine") && (center - Main.projectile[k].Center).Length() < 48f)
                                         {
                                             flag = false;

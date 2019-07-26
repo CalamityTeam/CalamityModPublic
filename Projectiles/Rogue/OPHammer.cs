@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Hammer");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 62;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, 0.35f, 0.35f, 0f);
@@ -106,12 +106,12 @@ namespace CalamityMod.Projectiles.Rogue
         	}
         	projectile.rotation += 0.5f;
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(250, 250, 250, 50);
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);

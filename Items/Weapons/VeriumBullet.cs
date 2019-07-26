@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Verium Bullet");
 			Tooltip.SetDefault("There is no escape!");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.damage = 8;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Flame");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 180;
             projectile.alpha = 255;
         }
-		
+
         public override void AI()
         {
         	projectile.alpha -= 5;
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);

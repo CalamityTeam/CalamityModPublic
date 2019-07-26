@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Phoenix Fire");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;

@@ -16,7 +16,7 @@ namespace CalamityMod.UI
 	public class UIImage : UIElement
 	{
 		public Texture2D texture = null;
-		
+
 		public UIImage(Texture2D tex, int width = -1, int height = -1) : base()
 		{
 			texture = tex;
@@ -31,6 +31,6 @@ namespace CalamityMod.UI
             //base.IsMouseHovering ? Color.White : Color.Silver; //uncomment this to produce it getting brighter if hovered over.
 			int width = (int)dimensions.Width, height = (int)dimensions.Height;
 			spriteBatch.Draw(texture, new Rectangle((int)dimensions.X, (int)dimensions.Y, width, height), new Rectangle(0, 0, width, height), color);
-		}		
+		}
 	}
 }

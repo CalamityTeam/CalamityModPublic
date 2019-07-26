@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.HiveMind
 			DisplayName.SetDefault("Dark Heart");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 10;
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.HitSound = SoundID.NPCHit13;
 			npc.DeathSound = SoundID.NPCDeath21;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.HiveMind
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
@@ -118,12 +118,12 @@ namespace CalamityMod.NPCs.HiveMind
 				}
 			}
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)

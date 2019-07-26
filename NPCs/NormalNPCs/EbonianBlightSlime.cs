@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Ebonian Blight Slime");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 1;
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("EbonianBlightSlimeBanner");
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
@@ -63,13 +63,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.Corruption.Chance * 0.15f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.ManaSickness, 120, true);
 			player.AddBuff(BuffID.Weak, 120, true);
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EbonianGel"), Main.rand.Next(15, 17));

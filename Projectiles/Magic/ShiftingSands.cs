@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Shifting Sands");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 18;
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.velocity.Y = 16f;
             }
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

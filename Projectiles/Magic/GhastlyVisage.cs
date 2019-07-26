@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Visage");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
             int manaCost = (int)(20f * player.manaCost);
 			if (projectile.localAI[1] == 0f)
 			{
-				if (player.statMana < manaCost) 
+				if (player.statMana < manaCost)
 				{
                     if (player.manaFlower)
                     {

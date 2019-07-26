@@ -674,7 +674,7 @@ namespace CalamityMod.World
 					Abyss.PlaceAbyss();
 				}));
 			}
-			
+
 			tasks.Add(new PassLegacy("Planetoid Test", WorldGenerationMethods.Planetoids));
 
 		}

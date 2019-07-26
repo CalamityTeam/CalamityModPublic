@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Placeables
 			DisplayName.SetDefault("Draedon's Forge");
 			Tooltip.SetDefault("Used to craft uber-tier items");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 30;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Placeables
 			item.createTile = mod.TileType("DraedonsForge");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

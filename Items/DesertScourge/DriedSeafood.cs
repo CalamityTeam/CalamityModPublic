@@ -13,7 +13,7 @@ namespace CalamityMod.Items.DesertScourge
 			Tooltip.SetDefault("The desert sand stirs...\n" +
                 "Summons the Desert Scourge");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -25,12 +25,12 @@ namespace CalamityMod.Items.DesertScourge
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneDesert && !NPC.AnyNPCs(mod.NPCType("DesertScourgeHead"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DesertScourgeHead"));

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Healing
 		{
 			DisplayName.SetDefault("Heal");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

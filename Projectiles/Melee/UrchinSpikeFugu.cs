@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Urchin Spike");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 90;
             projectile.noEnchantments = true;
         }
-        
+
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity.Y = projectile.velocity.Y + 0.015f;
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.Venom, 180);

@@ -18,7 +18,7 @@ namespace CalamityMod.Items
 			Tooltip.SetDefault("Permanently makes Rage Mode do 15% (60% in Death Mode) more damage\n" +
                 "Revengeance drop");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items
 			item.UseSound = SoundID.Item122;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);

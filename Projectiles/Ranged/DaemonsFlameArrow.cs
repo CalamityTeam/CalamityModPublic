@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Ranged
     public class DaemonsFlameArrow : ModProjectile
     {
     	public int x;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;

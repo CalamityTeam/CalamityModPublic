@@ -13,7 +13,7 @@ using Terraria.Utilities;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Accessories 
+namespace CalamityMod.Items.Accessories
 {
 	public class WifeinaBottle : ModItem
 	{
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
 			DisplayName.SetDefault("Elemental in a Bottle");
 			Tooltip.SetDefault("Summons a sand elemental to fight for you");
 		}
-		
+
 	    public override void SetDefaults()
 	    {
 	        item.width = 20;

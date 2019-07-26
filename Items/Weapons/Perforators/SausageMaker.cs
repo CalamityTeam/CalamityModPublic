@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 			item.shoot = mod.ProjectileType("SausageMaker");
 			item.shootSpeed = 6f;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

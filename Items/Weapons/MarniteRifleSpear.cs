@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
 	        item.useAmmo = 97;
 	        item.shoot = 10;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

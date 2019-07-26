@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     }
                 }
             }
-            
+
             //DO DUST
             Dust d = CalamityGlobalNPC.SpawnDustOnNPC(npc, 114, frameHeight, mod.DustType("AstralOrange"), new Rectangle(78, 34, 36, 18), Vector2.Zero, 0.45f, true);
             if (d != null)
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 Vector2 between = target.Center - npc.Center;
 
                 //after locking target for x amount of time and being far enough away
-                if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.Next(180) == 0) 
+                if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.Next(180) == 0)
                 {
                     //set ai mode to target and travel
                     npc.ai[3] = -1f;
@@ -130,9 +130,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     {
                         Explode();
                     }
-                    
+
                     npc.velocity += new Vector2(npc.ai[1], npc.ai[2]) * travelAcceleration; //acceleration per frame
-                    
+
                     //rotation
                     npc.rotation = npc.velocity.ToRotation();
                 }
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             spriteBatch.Draw(glowmask, npc.Center - Main.screenPosition - new Vector2(0, 4f), npc.frame, Color.White * 0.75f, npc.rotation, new Vector2(57f, 37f), npc.scale, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0f);
         }
-        
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.player.GetModPlayer<CalamityPlayer>().ZoneAstral && spawnInfo.player.ZoneOverworldHeight)

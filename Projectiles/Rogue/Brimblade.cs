@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Brimblade");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 52;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);

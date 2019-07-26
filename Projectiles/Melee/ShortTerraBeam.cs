@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -35,14 +35,14 @@ namespace CalamityMod.Projectiles.Melee
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y);
             }
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
 			Main.PlaySound(SoundID.Item10, projectile.position);

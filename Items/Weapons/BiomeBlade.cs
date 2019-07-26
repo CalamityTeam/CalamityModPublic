@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class BiomeBlade : ModItem
 	{
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("BiomeOrb");
 			item.shootSpeed = 12f;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(5) == 0)

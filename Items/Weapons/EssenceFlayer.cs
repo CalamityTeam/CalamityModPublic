@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class EssenceFlayer : ModItem
 	{
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 21f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(3) == 0)
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
 	        }
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);

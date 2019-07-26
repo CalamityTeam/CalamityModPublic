@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Nanoblack Blade");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

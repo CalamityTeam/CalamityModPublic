@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.HiveMind
 			DisplayName.SetDefault("Hive Cyst");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 0f;
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.HitSound = SoundID.NPCHit1;
 			npc.rarity = 2;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.HiveMind
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || NPC.AnyNPCs(mod.NPCType("HiveCyst")) || NPC.AnyNPCs(mod.NPCType("HiveMind")) || NPC.AnyNPCs(mod.NPCType("HiveMindP2")))
@@ -50,13 +50,13 @@ namespace CalamityMod.NPCs.HiveMind
 			}
 			return SpawnCondition.Corruption.Chance * (Main.hardMode ? 0.05f : 0.5f);
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = 2000;
 			npc.damage = 0;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

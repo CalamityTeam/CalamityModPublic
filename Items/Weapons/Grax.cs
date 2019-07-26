@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Grax : ModItem
 	{
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			player.AddBuff(mod.BuffType("GraxDefense"), 480);

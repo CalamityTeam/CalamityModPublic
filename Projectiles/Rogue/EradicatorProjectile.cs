@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Eradicator");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 58;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);

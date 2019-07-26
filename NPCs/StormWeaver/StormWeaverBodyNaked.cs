@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		{
 			DisplayName.SetDefault("Storm Weaver");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 120; //70
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
@@ -173,12 +173,12 @@ namespace CalamityMod.NPCs.StormWeaver
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
@@ -251,7 +251,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
         }
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);

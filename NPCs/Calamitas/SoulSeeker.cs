@@ -12,12 +12,12 @@ namespace CalamityMod.NPCs.Calamitas
 	{
 		private int timer = 0;
 		private bool start = true;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Soul Seeker");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.ai[1] += 2f;
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 			}
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;

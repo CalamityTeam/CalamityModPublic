@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Scythe");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 70;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-        
+
         public override void AI()
         {
         	if (projectile.soundDelay == 0)

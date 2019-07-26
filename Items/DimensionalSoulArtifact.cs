@@ -17,7 +17,7 @@ namespace CalamityMod.Items
                 "Boosts all damage by 25%\n" +
                 "But at what cost?");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

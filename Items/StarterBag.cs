@@ -11,7 +11,7 @@ namespace CalamityMod.Items
  			DisplayName.SetDefault("Starter Bag");
  			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
  		}
-		
+
 		public override void SetDefaults()
 		{
 			item.consumable = true;

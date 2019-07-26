@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		{
 			DisplayName.SetDefault("Stasis Probe");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.buffImmune[24] = true;
 		}
-		
+
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
@@ -206,13 +206,13 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.netUpdate = true;
 			}
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)
@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 			}
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

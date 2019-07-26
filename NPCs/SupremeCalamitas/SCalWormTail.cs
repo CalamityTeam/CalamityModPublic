@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			DisplayName.SetDefault("Sepulcher");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
@@ -54,12 +54,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			npc.dontCountMe = true;
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
             if (!Main.npc[(int)npc.ai[1]].active)
@@ -116,12 +116,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 			}
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

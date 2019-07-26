@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("ProBolt");
 	        item.useAmmo = 97;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ProBolt"), damage, knockBack, player.whoAmI, 0f, 0f);

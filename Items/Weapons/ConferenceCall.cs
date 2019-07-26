@@ -37,19 +37,19 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = 10;
 	        item.useAmmo = 97;
 	    }
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);
 		}
-	    
+
 	    public override bool ConsumeAmmo(Player player)
 	    {
 	    	if (Main.rand.Next(0, 100) < 50)
 	    		return false;
 	    	return true;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	        int num6 = Main.rand.Next(4, 6);
@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Weapons
 			}
 	        return false;
 	    }
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

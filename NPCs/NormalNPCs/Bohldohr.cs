@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			DisplayName.SetDefault("BOHLDOHR");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("BOHLDOHRBanner");
 		}
-		
+
 		public override void AI()
 		{
 			int num = 30;
@@ -318,7 +318,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.rotation += npc.velocity.X * 0.05f;
 			npc.spriteDirection = -npc.direction;
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !NPC.downedPlantBoss)
@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.JungleTemple.Chance * 0.05f;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

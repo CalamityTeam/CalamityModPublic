@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Blast");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 4;
             projectile.timeLeft = 600;
         }
-        
+
         public override void AI()
 		{
         	if (projectile.scale <= 3.6f)

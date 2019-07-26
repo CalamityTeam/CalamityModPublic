@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Plagueshell");
 			Main.npcFrameCount[npc.type] = 8;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 2f;
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("PlagueshellBanner");
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
 			player.AddBuff(mod.BuffType("Plague"), 300, true);
 		}
-		
+
 		public override void NPCLoot()
 		{
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(3, 5));

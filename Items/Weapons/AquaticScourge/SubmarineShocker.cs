@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.AquaticScourge
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(5) == 0)
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.AquaticScourge
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 226);
 	        }
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Spark"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);

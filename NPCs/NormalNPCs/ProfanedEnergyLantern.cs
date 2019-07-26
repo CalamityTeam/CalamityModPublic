@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Profaned Energy");
             Main.npcFrameCount[npc.type] = 6;
         }
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 1f;
@@ -34,24 +34,24 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}
-		
+
 		public override void AI()
 		{
-			if (CalamityGlobalNPC.energyFlame < 0 || !Main.npc[CalamityGlobalNPC.energyFlame].active) 
+			if (CalamityGlobalNPC.energyFlame < 0 || !Main.npc[CalamityGlobalNPC.energyFlame].active)
 			{
 				npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
 				npc.netUpdate = true;
 				return;
 			}
 			int num750 = CalamityGlobalNPC.energyFlame;
-			if (npc.ai[3] > 0f) 
+			if (npc.ai[3] > 0f)
 			{
 				num750 = (int)npc.ai[3] - 1;
 			}
-			if (Main.netMode != 1) 
+			if (Main.netMode != 1)
 			{
 				npc.localAI[0] -= 1f;
-				if (npc.localAI[0] <= 0f) 
+				if (npc.localAI[0] <= 0f)
 				{
 					npc.localAI[0] = (float)Main.rand.Next(120, 480);
 					npc.ai[0] = (float)Main.rand.Next(-100, 101);
@@ -62,21 +62,21 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.TargetClosest(true);
 			float num751 = 0.1f;
 			float num752 = 500f;
-			if ((double)Main.npc[CalamityGlobalNPC.energyFlame].life < (double)Main.npc[CalamityGlobalNPC.energyFlame].lifeMax * 0.25) 
+			if ((double)Main.npc[CalamityGlobalNPC.energyFlame].life < (double)Main.npc[CalamityGlobalNPC.energyFlame].lifeMax * 0.25)
 			{
 				num752 += 50f;
 			}
-			if ((double)Main.npc[CalamityGlobalNPC.energyFlame].life < (double)Main.npc[CalamityGlobalNPC.energyFlame].lifeMax * 0.1) 
+			if ((double)Main.npc[CalamityGlobalNPC.energyFlame].life < (double)Main.npc[CalamityGlobalNPC.energyFlame].lifeMax * 0.1)
 			{
 				num752 += 50f;
 			}
-			if (Main.expertMode) 
+			if (Main.expertMode)
 			{
 				float num753 = 1f - (float)npc.life / (float)npc.lifeMax;
 				num752 += num753 * 200f;
 				num751 += 0.15f;
 			}
-			if (!Main.npc[num750].active || CalamityGlobalNPC.energyFlame < 0) 
+			if (!Main.npc[num750].active || CalamityGlobalNPC.energyFlame < 0)
 			{
 				npc.active = false;
 				return;
@@ -96,51 +96,51 @@ namespace CalamityMod.NPCs.NormalNPCs
 			num760 = num752 / num760;
 			num758 *= num760;
 			num759 *= num760;
-			if (npc.position.X < num754 + num758) 
+			if (npc.position.X < num754 + num758)
 			{
 				npc.velocity.X = npc.velocity.X + num751;
-				if (npc.velocity.X < 0f && num758 > 0f) 
+				if (npc.velocity.X < 0f && num758 > 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.9f;
 				}
-			} 
-			else if (npc.position.X > num754 + num758) 
+			}
+			else if (npc.position.X > num754 + num758)
 			{
 				npc.velocity.X = npc.velocity.X - num751;
-				if (npc.velocity.X > 0f && num758 < 0f) 
+				if (npc.velocity.X > 0f && num758 < 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.9f;
 				}
 			}
-			if (npc.position.Y < num755 + num759) 
+			if (npc.position.Y < num755 + num759)
 			{
 				npc.velocity.Y = npc.velocity.Y + num751;
-				if (npc.velocity.Y < 0f && num759 > 0f) 
-				{
-					npc.velocity.Y = npc.velocity.Y * 0.9f;
-				}
-			} 
-			else if (npc.position.Y > num755 + num759) 
-			{
-				npc.velocity.Y = npc.velocity.Y - num751;
-				if (npc.velocity.Y > 0f && num759 < 0f) 
+				if (npc.velocity.Y < 0f && num759 > 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.9f;
 				}
 			}
-			if (npc.velocity.X > 8f) 
+			else if (npc.position.Y > num755 + num759)
+			{
+				npc.velocity.Y = npc.velocity.Y - num751;
+				if (npc.velocity.Y > 0f && num759 < 0f)
+				{
+					npc.velocity.Y = npc.velocity.Y * 0.9f;
+				}
+			}
+			if (npc.velocity.X > 8f)
 			{
 				npc.velocity.X = 8f;
 			}
-			if (npc.velocity.X < -8f) 
+			if (npc.velocity.X < -8f)
 			{
 				npc.velocity.X = -8f;
 			}
-			if (npc.velocity.Y > 8f) 
+			if (npc.velocity.Y > 8f)
 			{
 				npc.velocity.Y = 8f;
 			}
-			if (npc.velocity.Y < -8f) 
+			if (npc.velocity.Y < -8f)
 			{
 				npc.velocity.Y = -8f;
 			}
@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
 			return true;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

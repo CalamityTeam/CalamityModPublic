@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Brackish Flask");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 48;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107); //change
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.owner == Main.myPlayer)
 			{
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("BrackishWaterBlast"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				for (i = 0; i < 4; i++) 
+				for (i = 0; i < 4; i++)
 				{
 					offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("BrackishWater"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 	    {
 			target.AddBuff(BuffID.Venom, 300);

@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 		{
 			DisplayName.SetDefault("Astral Probe");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 20;
@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 				npc.lifeMax = 70;
 			}
 		}
-		
+
 		public override void AI()
 		{
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 				npc.netUpdate = true;
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             if (npc.soundDelay == 0)
@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 0)
@@ -301,12 +301,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			return (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.1f : 0f;
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.downedAstrageldon)

@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Wulfrum Drone");
 			Main.npcFrameCount[npc.type] = 5;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 10;
@@ -36,12 +36,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("WulfrumDroneBanner");
 		}
-		
+
 		public override void AI()
 		{
 			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.05f : 0.2f);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WulfrumShard"), Main.rand.Next(1, 4));

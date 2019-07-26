@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
 				"+20 max life and mana\n" +
 				"Standing still boosts life and mana regen");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 6;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.moveSpeed += 0.1f;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Accessories
 				player.manaRegenBonus += 2;
 			}
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Accretion Disk");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 56;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
-        
+
         public override void AI()
         {
         	if (Main.rand.Next(2) == 0)
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);

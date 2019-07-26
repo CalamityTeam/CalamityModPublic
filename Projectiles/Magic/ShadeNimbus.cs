@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Nimbus");
 			Main.projFrames[projectile.type] = 6;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 54;

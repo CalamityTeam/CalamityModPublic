@@ -20,12 +20,12 @@ namespace CalamityMod.Projectiles.Permafrost
 			projectile.penetrate = 1;
 			projectile.extraUpdates = 1;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Snowball");
 		}
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             target.AddBuff(BuffID.Frostburn, 300);

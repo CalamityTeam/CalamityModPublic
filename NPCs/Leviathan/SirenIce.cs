@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Leviathan
 		{
 			DisplayName.SetDefault("Ice Shield");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.Leviathan
 		{
 			player.AddBuff(BuffID.Frostburn, 240, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

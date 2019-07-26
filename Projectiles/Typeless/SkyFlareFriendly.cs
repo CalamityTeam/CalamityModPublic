@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
 			DisplayName.SetDefault("Flare");
 			Main.projFrames[projectile.type] = 5;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -91,12 +91,12 @@ namespace CalamityMod.Projectiles.Typeless
 				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, Main.DiscoG, 53, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Typeless
 			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
 			return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

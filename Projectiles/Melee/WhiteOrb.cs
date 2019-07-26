@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 60;
             projectile.melee = true;
         }
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, 0.2f, 0.2f, 0.2f);

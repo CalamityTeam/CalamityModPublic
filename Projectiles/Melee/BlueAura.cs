@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Blue Aura");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;

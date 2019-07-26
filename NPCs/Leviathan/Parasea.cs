@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Leviathan
 			DisplayName.SetDefault("Parasea");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
 			npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + 3.14f; //1.57
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -72,12 +72,12 @@ namespace CalamityMod.NPCs.Leviathan
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Wet, 60, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)

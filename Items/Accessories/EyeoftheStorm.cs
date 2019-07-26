@@ -13,7 +13,7 @@ using Terraria.Utilities;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Accessories 
+namespace CalamityMod.Items.Accessories
 {
 	public class EyeoftheStorm : ModItem
 	{
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
 			DisplayName.SetDefault("Eye of the Storm");
 			Tooltip.SetDefault("Summons a cloud elemental to fight for you");
 		}
-		
+
 	    public override void SetDefaults()
 	    {
 	        item.width = 20;

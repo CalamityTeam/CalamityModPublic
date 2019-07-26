@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables
 		{
 			DisplayName.SetDefault("Hive Mind Trophy");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 30;

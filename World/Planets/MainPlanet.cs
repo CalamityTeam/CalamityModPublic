@@ -49,7 +49,7 @@ namespace CalamityMod.World.Planets
                 new Actions.SetTile(TileID.Dirt, true),
                 new Actions.PlaceWall(WallID.DirtUnsafe)
             }));
-            
+
             //PLACE STONE AND WALL
             float outerRadiusPercentage = _random.NextFloat(0.75f, 0.85f);
             Circle outerCore = new Circle(planetoid.Center, planetoid.Radius * outerRadiusPercentage);

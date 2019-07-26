@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Nope");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 2;

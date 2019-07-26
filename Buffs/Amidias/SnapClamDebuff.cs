@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Amidias
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}
-		
+
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).clamDebuff = true;

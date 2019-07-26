@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Blood Scythe");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 28;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
 			projectile.timeLeft = 600;
         }
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.075f) / 255f);

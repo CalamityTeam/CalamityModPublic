@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Nanotech");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -27,19 +27,19 @@ namespace CalamityMod.Projectiles.Typeless
         {
 			Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.4f, 0.15f));
 			projectile.rotation += projectile.velocity.X * 0.2f;
-			if (projectile.velocity.X > 0f) 
+			if (projectile.velocity.X > 0f)
 			{
 				projectile.rotation += 0.08f;
-			} 
-			else 
+			}
+			else
 			{
 				projectile.rotation -= 0.08f;
 			}
 			projectile.ai[1] += 1f;
-			if (projectile.ai[1] > 30f) 
+			if (projectile.ai[1] > 30f)
 			{
 				projectile.alpha += 5;
-				if (projectile.alpha >= 255) 
+				if (projectile.alpha >= 255)
 				{
 					projectile.alpha = 255;
 					projectile.Kill();
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Typeless
                 return;
             }
         }
-        
+
         public override void Kill(int timeLeft)
         {
 			int num3;
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Typeless
 				num3 = num191;
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(0, 255 - projectile.alpha, 0, 0);

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Kunai");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;

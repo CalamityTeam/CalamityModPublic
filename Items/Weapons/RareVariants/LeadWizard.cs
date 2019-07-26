@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 	        item.useAmmo = 97;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
 		}
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-5, 0);
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, 242, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 			return false;
 		}
-	    
+
 	    public override bool ConsumeAmmo(Player player)
 	    {
 	    	if (Main.rand.Next(0, 100) < 33)

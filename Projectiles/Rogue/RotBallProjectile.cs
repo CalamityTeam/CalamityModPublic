@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Ball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 48;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

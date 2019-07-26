@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
 			DisplayName.SetDefault("Chaos Amulet");
 			Tooltip.SetDefault("Spelunker effect and increased life regen");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Accessories
             item.rare = 5;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.findTreasure = true;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Patreon
 				"If you get hit their effects will disappear for 5 seconds");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 32;

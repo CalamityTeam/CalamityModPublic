@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return true;
 		}
-		
+
 		public override bool PreAI()
         {
 			for (int num136 = 0; num136 < 5; num136++)
@@ -65,14 +65,14 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return false;
 		}
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(BuffID.Poisoned, 180);
 			target.AddBuff(BuffID.Venom, 180);
 			target.AddBuff(mod.BuffType("Plague"), 180);
         }
-		
+
 		public override void Kill(int timeLeft)
         {
 			if (projectile.owner == Main.myPlayer)

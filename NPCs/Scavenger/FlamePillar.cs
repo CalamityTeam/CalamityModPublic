@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Scavenger
 			DisplayName.SetDefault("Flame Pillar");
             Main.npcFrameCount[npc.type] = 4;
         }
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.Scavenger
                 }
             }
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

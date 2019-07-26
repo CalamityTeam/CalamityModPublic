@@ -17,7 +17,7 @@ namespace CalamityMod.Items.ProfanedGuardian
                 "Summons the Profaned Guardians\n" +
                 "Can only be used during daytime");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -29,12 +29,12 @@ namespace CalamityMod.Items.ProfanedGuardian
 			item.consumable = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !NPC.AnyNPCs(mod.NPCType("ProfanedGuardianBoss")) && Main.dayTime && (player.ZoneHoly || player.ZoneUnderworldHeight);
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("ProfanedGuardianBoss"));

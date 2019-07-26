@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Homer");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

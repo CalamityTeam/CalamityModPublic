@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Bat");
 			Main.projFrames[projectile.type] = 5;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;

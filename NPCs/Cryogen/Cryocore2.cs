@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Cryogen
 			DisplayName.SetDefault("Cryocore");
             Main.npcFrameCount[npc.type] = 6;
         }
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 37;
@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.Cryogen
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

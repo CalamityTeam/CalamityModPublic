@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Mark");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -28,18 +28,18 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.localNPCHitCooldown = 5;
         }
-        
+
         public override void AI()
         {
 			Color newColor3 = new Color(255, 255, 255);
-			if (projectile.soundDelay == 0) 
+			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = -1;
 				Main.PlaySound(2, projectile.Center, 60);
 			}
-			if (projectile.localAI[1] < 30f) 
+			if (projectile.localAI[1] < 30f)
 			{
-				for (int num1134 = 0; num1134 < 1; num1134++) 
+				for (int num1134 = 0; num1134 < 1; num1134++)
 				{
 					float value79 = -0.5f;
 					float value80 = 0.9f;
@@ -54,14 +54,14 @@ namespace CalamityMod.Projectiles.Ranged
 					dust34.customData = projectile.Center + value82;
 					dust34.fadeIn = 1f;
 					dust34.scale = 0.3f;
-					if (value81.X > -1.2f) 
+					if (value81.X > -1.2f)
 					{
 						dust34.velocity.X = 1f + Main.rand.NextFloat();
 					}
 					dust34.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
 				}
 			}
-			if (projectile.localAI[0] == 0f) 
+			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 0.8f;
 				projectile.direction = 1;
@@ -69,35 +69,35 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.Center = new Vector2((float)(point9.X * 16 + 8), (float)(point9.Y * 16 + 8));
 			}
 			projectile.rotation = projectile.localAI[1] / 40f * 6.28318548f * (float)projectile.direction;
-			if (projectile.localAI[1] < 33f) 
+			if (projectile.localAI[1] < 33f)
 			{
-				if (projectile.alpha > 0) 
+				if (projectile.alpha > 0)
 				{
 					projectile.alpha -= 8;
 				}
-				if (projectile.alpha < 0) 
+				if (projectile.alpha < 0)
 				{
 					projectile.alpha = 0;
 				}
 			}
-			if (projectile.localAI[1] > 103f) 
+			if (projectile.localAI[1] > 103f)
 			{
-				if (projectile.alpha < 255) 
+				if (projectile.alpha < 255)
 				{
 					projectile.alpha += 16;
 				}
-				if (projectile.alpha > 255) 
+				if (projectile.alpha > 255)
 				{
 					projectile.alpha = 255;
 				}
 			}
-			if (projectile.alpha == 0) 
+			if (projectile.alpha == 0)
 			{
 				Lighting.AddLight(projectile.Center, newColor3.ToVector3() * 0.5f);
 			}
-			for (int num1135 = 0; num1135 < 2; num1135++) 
+			for (int num1135 = 0; num1135 < 2; num1135++)
 			{
-				if (Main.rand.Next(10) == 0) 
+				if (Main.rand.Next(10) == 0)
 				{
 					Vector2 value83 = Vector2.UnitY.RotatedBy((double)((float)num1135 * 3.14159274f), default(Vector2)).RotatedBy((double)projectile.rotation, default(Vector2));
 					Dust dust35 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 107, 0f, 0f, 225, newColor3, 1f)];
@@ -108,9 +108,9 @@ namespace CalamityMod.Projectiles.Ranged
 					dust35.velocity = value83 * 2.5f;
 				}
 			}
-			for (int num1136 = 0; num1136 < 2; num1136++) 
+			for (int num1136 = 0; num1136 < 2; num1136++)
 			{
-				if (Main.rand.Next(10) == 0) 
+				if (Main.rand.Next(10) == 0)
 				{
 					Vector2 value84 = Vector2.UnitY.RotatedBy((double)((float)num1136 * 3.14159274f), default(Vector2));
 					Dust dust36 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 107, 0f, 0f, 225, newColor3, 1.5f)];
@@ -121,22 +121,22 @@ namespace CalamityMod.Projectiles.Ranged
 					dust36.velocity = value84 * 2.5f;
 				}
 			}
-			if (projectile.localAI[1] < 33f || projectile.localAI[1] > 87f) 
+			if (projectile.localAI[1] < 33f || projectile.localAI[1] > 87f)
 			{
 				projectile.scale = projectile.Opacity / 2f * projectile.localAI[0];
 			}
 			projectile.velocity = Vector2.Zero;
 			projectile.localAI[1] += 1f;
-			if (projectile.localAI[1] == 60f && projectile.owner == Main.myPlayer) 
+			if (projectile.localAI[1] == 60f && projectile.owner == Main.myPlayer)
 			{
 				Projectile.NewProjectile(projectile.Center, Vector2.Zero, mod.ProjectileType("ExoTornado"), projectile.damage, 2f, projectile.owner, 1f, 0f);
 			}
-			if (projectile.localAI[1] >= 120f) 
+			if (projectile.localAI[1] >= 120f)
 			{
 				projectile.Kill();
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Magic
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 60, 0f, 0f);
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 8;

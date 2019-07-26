@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Star");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
 	            for (int k = 0; k < 3; k++)
 	            {
 	            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 227, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-	            	Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("TinyCrystal"), 
+	            	Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("TinyCrystal"),
 	            	(int)((double)projectile.damage * 0.5), projectile.knockBack * 0.15f, Main.myPlayer, 0f, 0f);
 	            }
         	}

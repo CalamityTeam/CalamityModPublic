@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Mourningstar");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -118,7 +118,7 @@ namespace CalamityMod.Projectiles.Melee
 				}
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
         	Vector2 mountedCenter = Main.player[projectile.owner].MountedCenter;
@@ -192,19 +192,19 @@ namespace CalamityMod.Projectiles.Melee
 			Main.spriteBatch.Draw(texture2D22, value30 - Main.screenPosition + value29, new Microsoft.Xna.Framework.Rectangle?(rectangle8), alpha3, rotation24, texture2D22.Frame(1, 1, 0, 0).Top(), projectile.scale, SpriteEffects.None, 0f);
 			return false;
 		}
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, 200, 0, 0);
         }
-        
+
         public override void CutTiles()
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
 			Vector2 unit = projectile.velocity;
 			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
 		}
-        
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
         	if (projHitbox.Intersects(targetHitbox))
@@ -218,11 +218,11 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			return false;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.Daybreak, 300);
-			if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer) 
+			if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, damage, 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 			}

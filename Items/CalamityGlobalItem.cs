@@ -1879,8 +1879,8 @@ namespace CalamityMod.Items
 		{
 			if (Main.rand.NextFloat(1f) < chancePerFrame)
 			{
-				//Calculate values 
-				//distance from player, 
+				//Calculate values
+				//distance from player,
 				//the vector offset from the player center
 				//the vector between the pos and the player
 				float distance = Main.rand.NextFloat(minDistance, maxDistance);

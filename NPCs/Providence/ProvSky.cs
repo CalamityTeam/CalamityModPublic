@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Providence
 				intensity -= 0.01f;
 			}
 		}
-		
+
 		private float GetIntensity()
 		{
 			if (this.UpdatePIndex())
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Providence
 			}
 			return 0.7f; //0.5
 		}
-		
+
 		public override Color OnTileColor(Color inColor)
 		{
 			float intensity = this.GetIntensity();

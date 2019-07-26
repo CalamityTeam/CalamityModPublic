@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 		{
 			DisplayName.SetDefault("Eidolon Tablet");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -23,12 +23,12 @@ namespace CalamityMod.Items
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !NPC.AnyNPCs(NPCID.CultistBoss) && !NPC.LunarApocalypseIsUp && !NPC.AnyNPCs(NPCID.CultistTablet);
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             if (Main.netMode != 1)

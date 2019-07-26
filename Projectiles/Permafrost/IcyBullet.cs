@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Permafrost
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Icy Bullet");
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Permafrost
                 Main.dust[index2].noGravity = true;
             }
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             target.AddBuff(BuffID.Frostburn, 300);

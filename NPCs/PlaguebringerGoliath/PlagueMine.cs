@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		{
 			DisplayName.SetDefault("Plague Mine");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             return true;
         }
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = 100;

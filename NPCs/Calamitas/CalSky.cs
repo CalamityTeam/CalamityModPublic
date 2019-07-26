@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Calamitas
 				intensity -= 0.01f;
 			}
 		}
-		
+
 		private float GetIntensity()
 		{
 			if (this.UpdateCalIndex())
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			return 0f;
 		}
-		
+
 		public override Color OnTileColor(Color inColor)
 		{
 			float intensity = this.GetIntensity();

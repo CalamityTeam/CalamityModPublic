@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Hammer");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 160;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f);
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.rotation += 0.5f;
 			return;
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(250, 250, 250, 50);

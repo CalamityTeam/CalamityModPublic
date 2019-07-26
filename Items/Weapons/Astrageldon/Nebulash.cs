@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Astrageldon
             item.shootSpeed = 24f;
 			item.shoot = mod.ProjectileType("Nebulash");
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	float ai3 = (Main.rand.NextFloat() - 0.5f) * 0.7853982f; //0.5

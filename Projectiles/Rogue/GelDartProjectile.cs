@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Dart");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (Main.rand.Next(2) == 0)
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
         		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("GelDart"));
         	}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 	    {
 			target.AddBuff(BuffID.Slimed, 120);

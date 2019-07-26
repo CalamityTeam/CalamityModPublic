@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 6;
 			item.shootSpeed = 12f;
 		}
-		
+
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			if (target.life <= 0)
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons
 				}
 			}
 		}
-		
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(4) == 0)
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons
 	            int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 244);
 	        }
 	    }
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

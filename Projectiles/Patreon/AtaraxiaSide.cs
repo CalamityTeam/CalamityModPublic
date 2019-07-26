@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Patreon
 			DisplayName.SetDefault("Also Not Exoblade");
             Main.projFrames[projectile.type] = NumAnimationFrames;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Patreon
             if (projectile.frame >= NumAnimationFrames)
                 projectile.frame = 0;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.ShadowFlame, 180);

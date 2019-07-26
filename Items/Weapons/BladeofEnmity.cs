@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			target.AddBuff(mod.BuffType("BrimstoneFlames"), 600);

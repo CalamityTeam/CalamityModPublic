@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Mortar");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Ranged
 					}
 				}
 			}
-			projectile.active = false;	
+			projectile.active = false;
         }
     }
 }

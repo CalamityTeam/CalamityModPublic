@@ -11,12 +11,12 @@ namespace CalamityMod.Projectiles.Melee
     public class GalacticaComet : ModProjectile
     {
     	private int noTileHitCounter = 120;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Comet");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 34;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 600;
             projectile.ignoreWater = true;
         }
-        
+
         public override void AI()
 		{
         	int randomToSubtract = Main.rand.Next(1, 4);

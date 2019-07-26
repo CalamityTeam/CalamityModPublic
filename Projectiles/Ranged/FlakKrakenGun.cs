@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Flak Kraken");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 140;

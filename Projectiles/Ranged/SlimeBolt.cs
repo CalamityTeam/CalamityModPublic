@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 20, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 	    {
 			target.AddBuff(BuffID.Slimed, 180);

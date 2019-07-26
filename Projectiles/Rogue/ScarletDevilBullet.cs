@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Gungnir Bullet");
 		}
-		
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
         }
-		
+
 		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(250, 250, 250);

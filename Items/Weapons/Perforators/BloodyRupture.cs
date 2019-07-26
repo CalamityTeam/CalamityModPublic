@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Perforators
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(5) == 0)
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
 	        }
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	if (target.life <= 0)

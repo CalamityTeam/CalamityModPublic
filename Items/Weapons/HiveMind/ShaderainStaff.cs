@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 	        item.shoot = mod.ProjectileType("ShadeNimbus");
 	        item.shootSpeed = 16f;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			float num72 = item.shootSpeed;
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 			Main.projectile[num154].ai[1] = (float)Main.mouseY + Main.screenPosition.Y;
 	    	return false;
 		}
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

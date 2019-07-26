@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Blighted Eye");
 			Main.npcFrameCount[npc.type] = 2;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 2;
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("BlightedEyeBanner");
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
@@ -58,12 +58,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.OverworldNightMonster.Chance * 0.075f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Weak, 120, true);
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 0)

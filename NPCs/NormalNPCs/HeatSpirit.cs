@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Heat Spirit");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 0.5f;
@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("HeatSpiritBanner");
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !Main.hardMode)
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.Underworld.Chance * 0.065f;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
 			if (npc.velocity.X < 0f)
@@ -68,18 +68,18 @@ namespace CalamityMod.NPCs.NormalNPCs
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.5f, 0f, 0.05f);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.OnFire, 120, true);
 			player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(4) == 0)

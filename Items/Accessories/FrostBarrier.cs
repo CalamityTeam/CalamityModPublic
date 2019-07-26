@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("You will freeze enemies near you when you are struck\n" +
 			                   "You are immune to the chilled debuff");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 4;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 3;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);

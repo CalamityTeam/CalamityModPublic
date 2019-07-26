@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Ballista Great Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -27,13 +27,13 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 12;
         	target.AddBuff(mod.BuffType("ArmorCrunch"), 360);
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

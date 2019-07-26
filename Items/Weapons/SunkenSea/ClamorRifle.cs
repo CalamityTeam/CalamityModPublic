@@ -36,12 +36,12 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			item.shootSpeed = 15f;
 			item.useAmmo = 97;
 		}
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-5, 0);
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ClamorRifleProj"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);

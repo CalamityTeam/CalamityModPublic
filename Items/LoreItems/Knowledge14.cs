@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "I do not believe killing it will lessen the corruption here.\n" +
 				"Place in your inventory for all of your projectiles to inflict cursed flames when in the corruption.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 3;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

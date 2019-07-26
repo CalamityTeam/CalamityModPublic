@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Cryogen
 		{
 			DisplayName.SetDefault("Cryogen's Shield");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.HitSound = SoundID.NPCHit5;
 			npc.DeathSound = SoundID.NPCDeath7;
 		}
-		
+
 		public override void AI()
 		{
 			npc.alpha -= 3;
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
 			npc.damage *= 2;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)

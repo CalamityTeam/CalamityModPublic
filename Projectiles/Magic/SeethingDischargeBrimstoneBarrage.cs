@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Brimstone");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 18;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             return new Color(250, 50, 50, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

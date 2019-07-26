@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class ApoctosisArray : ModItem
 	{
@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 8f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
+
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-25, 0);
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	        float manaAmount = ((float)player.statMana * 0.01f);
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons
 	        Main.projectile[projectile].scale = (manaAmount * 0.375f);
 	    	return false;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

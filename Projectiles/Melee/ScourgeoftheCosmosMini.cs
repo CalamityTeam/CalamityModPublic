@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Cosmic Scourge Mini");
             Main.projFrames[projectile.type] = 2;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;

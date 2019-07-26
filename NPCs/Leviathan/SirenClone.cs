@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Leviathan
 			DisplayName.SetDefault("Siren Clone");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -78,18 +78,18 @@ namespace CalamityMod.NPCs.Leviathan
 				}
 			}
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = 3000;
 			npc.damage = 0;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

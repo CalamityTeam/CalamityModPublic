@@ -15,13 +15,13 @@ namespace CalamityMod.NPCs.SlimeGod
     public class SlimeGodSplit : ModNPC
 	{
         private float bossLife;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ebonian Slime God");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
             npc.lifeMax = CalamityWorld.revenge ? 2750 : 2000;
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 music = MusicID.Boss1;
             bossBag = mod.ItemType("SlimeGodBag");
         }
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
@@ -564,7 +564,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);

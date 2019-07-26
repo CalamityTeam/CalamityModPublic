@@ -20,12 +20,12 @@ namespace CalamityMod.Projectiles.Permafrost
             projectile.coldDamage = true;
 			projectile.penetrate = 1;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Icicle");
 		}
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             target.AddBuff(BuffID.Frostburn, 300);

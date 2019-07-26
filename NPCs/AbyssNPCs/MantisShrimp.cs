@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			DisplayName.SetDefault("Mantis Shrimp");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 200;

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class HeavenlyGale : ModItem
 	{
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons
 	        item.useAmmo = 40;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

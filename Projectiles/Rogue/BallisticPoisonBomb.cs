@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Poison Bomb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;

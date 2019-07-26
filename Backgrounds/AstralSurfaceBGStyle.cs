@@ -20,7 +20,7 @@ namespace CalamityMod.Backgrounds
         {
             return mod.GetBackgroundSlot("Backgrounds/AstralSurfaceMiddle");
         }
-        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) 
+        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
             scale *= 0.75f;
             return mod.GetBackgroundSlot("Backgrounds/AstralSurfaceClose");

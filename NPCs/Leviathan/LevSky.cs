@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Leviathan
 				intensity -= 0.01f;
 			}
 		}
-		
+
 		private float GetIntensity()
 		{
 			if (this.UpdateLIndex())
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 			return 0f;
 		}
-		
+
 		public override Color OnTileColor(Color inColor)
 		{
 			float intensity = this.GetIntensity();

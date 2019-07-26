@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons
             target.AddBuff(mod.BuffType("Plague"), 300);
             for (int i = 0; i < 3; i++)
             {
-                int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(), 
+                int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
                     player.beeDamage(item.damage / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bee].penetrate = 1;
 				Main.projectile[bee].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;

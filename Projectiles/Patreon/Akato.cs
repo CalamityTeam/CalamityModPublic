@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Patreon
             Main.projFrames[projectile.type] = 6;
             Main.projPet[projectile.type] = true;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.netImportant = true;
@@ -55,8 +55,8 @@ namespace CalamityMod.Projectiles.Patreon
             num19 -= 60f;
             float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             float num21 = 18f;
-            if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f && 
-                projectile.position.Y + (float)projectile.height <= Main.player[projectile.owner].position.Y + (float)Main.player[projectile.owner].height && 
+            if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f &&
+                projectile.position.Y + (float)projectile.height <= Main.player[projectile.owner].position.Y + (float)Main.player[projectile.owner].height &&
                 !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.ai[0] = 0f;

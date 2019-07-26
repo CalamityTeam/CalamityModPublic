@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		{
 			DisplayName.SetDefault("Sea Serpent");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 40;
@@ -46,12 +46,12 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			banner = mod.NPCType("SeaSerpent1");
 			bannerItem = mod.ItemType("SeaSerpentBanner");
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight(npc.Center, ((255 - npc.alpha) * 0f) / 255f, ((255 - npc.alpha) * 0.30f) / 255f, ((255 - npc.alpha) * 0.30f) / 255f);
@@ -278,7 +278,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             for (int k = 0; k < 3; k++)

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Lazhar : ModItem
 	{
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 15f;
 	        item.shoot = mod.ProjectileType("SolarBeam2");
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	float SpeedX = speedX + (float) Main.rand.Next(-15, 16) * 0.05f;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons
 		    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	return false;
 		}
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 		{
 			DisplayName.SetDefault("Lacerator");
 		}
-    	
+
         public override void SetDefaults()
         {
         	projectile.CloneDefaults(ProjectileID.TheEyeOfCthulhu);

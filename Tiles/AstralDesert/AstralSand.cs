@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
             dustType = 108;
 			drop = mod.ItemType("AstralSand");
-            
+
             AddMapEntry(new Color(149, 156, 155));
 
             TileID.Sets.TouchDamageSands[Type] = 15;

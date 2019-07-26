@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items;
 using CalamityMod.Projectiles;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class BladedgeGreatbow : ModItem
 	{
@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Weapons
 			}
 			return false;
 		}
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

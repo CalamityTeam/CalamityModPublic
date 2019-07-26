@@ -18,7 +18,7 @@ namespace CalamityMod.Items.LoreItems
 			Tooltip.SetDefault("Take care to not disturb the deep waters of this world.\n" +
                 "You may awaken something more terrifying than death itself.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 7;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Blood");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class AirSpinner : ModItem
 	{
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = false;
 	        item.shoot = mod.ProjectileType("AirSpinnerProjectile");
 	    }
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

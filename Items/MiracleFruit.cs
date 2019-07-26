@@ -18,7 +18,7 @@ namespace CalamityMod.Items
 			Tooltip.SetDefault("Permanently increases maximum life by 25\n" +
 			                   "Can only be used if the max amount of life fruit has been consumed");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items
 			item.UseSound = SoundID.Item4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -55,7 +55,7 @@ namespace CalamityMod.Items
 			}
 			return true;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

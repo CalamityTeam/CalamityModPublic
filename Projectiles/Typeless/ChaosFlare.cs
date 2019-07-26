@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Flare");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Typeless
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);

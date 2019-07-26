@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Sun");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

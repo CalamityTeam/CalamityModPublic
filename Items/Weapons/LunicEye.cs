@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class LunicEye : ModItem
 	{
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("LunicBeam");
 			item.shootSpeed = 13f;
 		}
-		
+
 		public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-15, 0);
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons
 			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

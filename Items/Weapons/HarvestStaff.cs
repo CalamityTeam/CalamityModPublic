@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons
 			item.useTime = 23;
 			item.useAnimation = 23;
 			item.useStyle = 5;
-			item.noMelee = true; 
+			item.noMelee = true;
 			item.knockBack = 5;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;

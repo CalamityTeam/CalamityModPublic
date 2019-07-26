@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Crabulon
 			DisplayName.SetDefault("Crab Shroom");
             Main.npcFrameCount[npc.type] = 4;
         }
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -53,35 +53,35 @@ namespace CalamityMod.NPCs.Crabulon
 			float speed = revenge ? 1.5f : 1f;
 			Player player = Main.player[npc.target];
 			npc.velocity.Y = npc.velocity.Y + 0.02f;
-			if (npc.velocity.Y > speed) 
+			if (npc.velocity.Y > speed)
 			{
 				npc.velocity.Y = speed;
 			}
 			npc.TargetClosest(true);
-			if (npc.position.X + (float)npc.width < player.position.X) 
+			if (npc.position.X + (float)npc.width < player.position.X)
 			{
-				if (npc.velocity.X < 0f) 
+				if (npc.velocity.X < 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
 				npc.velocity.X = npc.velocity.X + 0.1f;
-			} 
-			else if (npc.position.X > player.position.X + (float)player.width) 
+			}
+			else if (npc.position.X > player.position.X + (float)player.width)
 			{
-				if (npc.velocity.X > 0f) 
+				if (npc.velocity.X > 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
 				npc.velocity.X = npc.velocity.X - 0.1f;
 			}
-			if (npc.velocity.X > 5f || npc.velocity.X < -5f) 
+			if (npc.velocity.X > 5f || npc.velocity.X < -5f)
 			{
 				npc.velocity.X = npc.velocity.X * 0.97f;
 			}
 			npc.rotation = npc.velocity.X * 0.1f;
 			return;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

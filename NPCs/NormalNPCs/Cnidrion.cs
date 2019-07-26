@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Cnidrion");
 			Main.npcFrameCount[npc.type] = 10;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 3f;
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("CnidrionBanner");
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.DesertCave.Chance * 0.0175f;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.1f;
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -65,32 +65,32 @@ namespace CalamityMod.NPCs.NormalNPCs
 			float num823 = 1f;
 			npc.TargetClosest(true);
 			bool flag51 = false;
-			if ((double)npc.life < (double)npc.lifeMax * 0.33) 
+			if ((double)npc.life < (double)npc.lifeMax * 0.33)
 			{
 				num823 = 2f;
 			}
-			if ((double)npc.life < (double)npc.lifeMax * 0.1) 
+			if ((double)npc.life < (double)npc.lifeMax * 0.1)
 			{
 				num823 = 4f;
 			}
 			if (npc.ai[0] == 0f)
 			{
 				npc.ai[1] += 1f;
-				if ((double)npc.life < (double)npc.lifeMax * 0.33) 
+				if ((double)npc.life < (double)npc.lifeMax * 0.33)
 				{
 					npc.ai[1] += 1f;
 				}
-				if ((double)npc.life < (double)npc.lifeMax * 0.1) 
+				if ((double)npc.life < (double)npc.lifeMax * 0.1)
 				{
 					npc.ai[1] += 1f;
 				}
-				if (npc.ai[1] >= 300f && Main.netMode != 1) 
+				if (npc.ai[1] >= 300f && Main.netMode != 1)
 				{
 					npc.ai[1] = 0f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.1) 
+					if ((double)npc.life < (double)npc.lifeMax * 0.1)
 					{
 						npc.ai[0] = (float)Main.rand.Next(3, 5);
-					} 
+					}
 					else
 					{
 						npc.ai[0] = (float)Main.rand.Next(1, 3);
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				flag51 = true;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] % 15f == 0f) 
+				if (npc.ai[1] % 15f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
 					vector18.X += (float)(10 * npc.direction);
@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num830 *= 1f + (float)Main.rand.Next(-50, 51) * 0.01f;
 					int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 6 : 9), 0f, Main.myPlayer, 0f, 0f);
 				}
-				if (npc.ai[1] >= 120f) 
+				if (npc.ai[1] >= 120f)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				flag51 = true;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] > 60f && npc.ai[1] < 240f && npc.ai[1] % 8f == 0f) 
+				if (npc.ai[1] > 60f && npc.ai[1] < 240f && npc.ai[1] % 8f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
 					vector18.X += (float)(10 * npc.direction);
@@ -142,17 +142,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num830 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
 					int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 7 : 10), 0f, Main.myPlayer, 0f, 0f);
 				}
-				if (npc.ai[1] >= 300f) 
+				if (npc.ai[1] >= 300f)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
 				}
-			} 
+			}
 			else if (npc.ai[0] == 3f)
 			{
 				num823 = 4f;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] % 30f == 0f) 
+				if (npc.ai[1] % 30f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
 					vector18.X += (float)(10 * npc.direction);
@@ -167,17 +167,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num845 *= 1f + (float)Main.rand.Next(-20, 21) * 0.001f;
 					int num848 = Projectile.NewProjectile(vector18.X, vector18.Y, num844, num845, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 9 : 12), 0f, Main.myPlayer, 0f, 0f);
 				}
-				if (npc.ai[1] >= 120f) 
+				if (npc.ai[1] >= 120f)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
 				}
-			} 
+			}
 			else if (npc.ai[0] == 4f)
 			{
 				num823 = 4f;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] % 10f == 0f) 
+				if (npc.ai[1] % 10f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
 					vector18.X += (float)(10 * npc.direction);
@@ -192,31 +192,31 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num830 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
 					int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 11 : 15), 0f, Main.myPlayer, 0f, 0f);
 				}
-				if (npc.ai[1] >= 240f) 
+				if (npc.ai[1] >= 240f)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
 				}
 			}
-			if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f) 
+			if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f)
 			{
 				flag51 = true;
 			}
-			if (flag51) 
+			if (flag51)
 			{
 				npc.velocity.X = npc.velocity.X * 0.9f;
-				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1) 
+				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 				{
 					npc.velocity.X = 0f;
 				}
-			} 
+			}
 			else
 			{
-				if (npc.direction > 0) 
+				if (npc.direction > 0)
 				{
 					npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
 				}
-				if (npc.direction < 0) 
+				if (npc.direction < 0)
 				{
 					npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
 				}
@@ -225,49 +225,49 @@ namespace CalamityMod.NPCs.NormalNPCs
 			int num855 = 20;
 			Vector2 position2 = new Vector2(npc.Center.X - (float)(num854 / 2), npc.position.Y + (float)npc.height - (float)num855);
 			bool flag52 = false;
-			if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y + (float)Main.player[npc.target].height - 16f) 
+			if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y + (float)Main.player[npc.target].height - 16f)
 			{
 				flag52 = true;
 			}
-			if (flag52) 
+			if (flag52)
 			{
 				npc.velocity.Y = npc.velocity.Y + 0.5f;
-			} 
+			}
 			else if (Collision.SolidCollision(position2, num854, num855))
 			{
-				if (npc.velocity.Y > 0f) 
+				if (npc.velocity.Y > 0f)
 				{
 					npc.velocity.Y = 0f;
 				}
-				if ((double)npc.velocity.Y > -0.2) 
+				if ((double)npc.velocity.Y > -0.2)
 				{
 					npc.velocity.Y = npc.velocity.Y - 0.025f;
-				} 
+				}
 				else
 				{
 					npc.velocity.Y = npc.velocity.Y - 0.2f;
 				}
-				if (npc.velocity.Y < -4f) 
+				if (npc.velocity.Y < -4f)
 				{
 					npc.velocity.Y = -4f;
 				}
-			} 
+			}
 			else
 			{
-				if (npc.velocity.Y < 0f) 
+				if (npc.velocity.Y < 0f)
 				{
 					npc.velocity.Y = 0f;
 				}
-				if ((double)npc.velocity.Y < 0.1) 
+				if ((double)npc.velocity.Y < 0.1)
 				{
 					npc.velocity.Y = npc.velocity.Y + 0.025f;
-				} 
+				}
 				else
 				{
 					npc.velocity.Y = npc.velocity.Y + 0.5f;
 				}
 			}
-			if (npc.velocity.Y > 10f) 
+			if (npc.velocity.Y > 10f)
 			{
 				npc.velocity.Y = 10f;
 				return;
@@ -297,7 +297,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				npc.ai[2] = 0f;
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -312,7 +312,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(1, 4));

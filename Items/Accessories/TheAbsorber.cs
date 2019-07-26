@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
 				"5% increased damage reduction\n" +
 				"Enemy attacks will have part of their damage absorbed and used to heal you");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 6;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 10;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
 			modPlayer.absorber = true;
 			player.statManaMax2 += 20;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

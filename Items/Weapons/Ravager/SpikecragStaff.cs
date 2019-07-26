@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ravager
 	        item.UseSound = SoundID.Item78;
 			item.shoot = mod.ProjectileType("Spikecrag");
 	    }
-	    
+
 	    public override bool AltFunctionUse(Player player)
         {
             return true;

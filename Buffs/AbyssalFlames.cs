@@ -19,12 +19,12 @@ namespace CalamityMod.Buffs
 			longerExpertDebuff = false;
 			canBeCleared = false;
 		}
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).aFlames = true;
 		}
-		
+
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).aFlames = true;

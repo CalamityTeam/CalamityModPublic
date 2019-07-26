@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class CausticEdge : ModItem
 	{
@@ -32,18 +32,18 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.BladeofGrass);
 			recipe.AddIngredient(ItemID.LavaBucket);
 			recipe.AddIngredient(ItemID.Deathweed, 5);
-	        recipe.AddTile(TileID.DemonAltar);	
+	        recipe.AddTile(TileID.DemonAltar);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(5) == 0)
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 74);
 	        }
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(BuffID.Poisoned, 480);

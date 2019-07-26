@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Armor 
+namespace CalamityMod.Items.Armor
 {
 	[AutoloadEquip(EquipType.Legs)]
 	public class DemonshadeGreaves : ModItem
@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Armor
 			item.defense = 50; //15
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
-	
+
 	    public override void UpdateEquip(Player player)
 	    {
 	    	CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
     		modPlayer.shadowSpeed = true;
 	        player.moveSpeed += 1f;
 	    }
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

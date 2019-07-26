@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Knife");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 18;
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 20, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
-        
+
         public override void Kill(int timeLeft)
         {
             for (int num303 = 0; num303 < 3; num303++)

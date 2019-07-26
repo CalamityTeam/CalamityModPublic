@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return true;
 		}
-		
+
 		public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;

@@ -15,9 +15,9 @@ namespace CalamityMod.Tiles.AstralDesert
 
             dustType = mod.DustType("AstralBasic");
 			drop = mod.ItemType("AstralSandstone");
-            
+
             AddMapEntry(new Color(79, 61, 97));
-            
+
             TileID.Sets.Conversion.Sandstone[Type] = true;
         }
 

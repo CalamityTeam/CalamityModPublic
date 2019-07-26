@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Patreon
 			DisplayName.SetDefault("Geyser");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 158;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Patreon
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
         }
-        
+
         public override void AI()
         {
 			projectile.frameCounter++;

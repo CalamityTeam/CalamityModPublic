@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Stake");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = 323;
         }
-        
+
         public override void AI()
         {
             if (Main.rand.Next(5) == 0)
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
         		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.Stake);
         	}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 5;

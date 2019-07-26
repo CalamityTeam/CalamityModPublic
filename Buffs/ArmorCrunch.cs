@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs
             longerExpertDebuff = false;
             canBeCleared = false;
         }
-		
+
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).aCrunch = true;

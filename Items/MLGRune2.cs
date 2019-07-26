@@ -13,7 +13,7 @@ namespace CalamityMod.Items
 			Tooltip.SetDefault(@"Alien power pulses inside its layers
 Consuming it does something that cannot be reversed");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -26,7 +26,7 @@ Consuming it does something that cannot be reversed");
 			item.UseSound = SoundID.Item4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);

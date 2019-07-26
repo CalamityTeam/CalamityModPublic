@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "I sensed it watching you more intensely as you grew stronger.\n" +
 				"Place in your inventory for night vision at night.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 1;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

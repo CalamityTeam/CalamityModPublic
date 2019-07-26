@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		{
 			DisplayName.SetDefault("Cosmic Mine");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
@@ -177,7 +177,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             return true;
         }
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = 100;

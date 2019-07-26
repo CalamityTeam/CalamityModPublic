@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("Increased defense and damage reduction when submerged in liquid\n" +
 				"Increased movement speed when submerged in liquid");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 2;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 1;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))

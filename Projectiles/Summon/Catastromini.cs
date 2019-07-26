@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;

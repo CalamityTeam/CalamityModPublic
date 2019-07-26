@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 			DisplayName.SetDefault("Astral Laser");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

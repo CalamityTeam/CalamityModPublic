@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 	        item.shoot = mod.ProjectileType("AuraRain");
 	        item.shootSpeed = 8f;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 			float num72 = item.shootSpeed;

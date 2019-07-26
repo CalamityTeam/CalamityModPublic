@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			item.shoot = mod.ProjectileType("EutrophicSpark");
 			item.shootSpeed = 3f;
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(3) == 0)
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 206, 0f, 0f, 100, default(Color), 1f);
 	        }
 	    }
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	    	int num6 = Main.rand.Next(1, 2);

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Whirlpool");
 			Main.projFrames[projectile.type] = 3;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 60;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

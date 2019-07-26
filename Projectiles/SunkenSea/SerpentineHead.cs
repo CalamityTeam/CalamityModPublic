@@ -10,13 +10,13 @@ namespace CalamityMod.Projectiles.SunkenSea
 {
 	public class SerpentineHead : ModProjectile
 	{
-		
-		
+
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Serpentine");
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 14;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			projectile.scale = 1f + num1061 * 0.01f;
 			projectile.width = (projectile.height = (int)(10 * projectile.scale));
 			projectile.Center = projectile.position;
-			
+
 			projectile.ai[0] += 1f;
 			if (projectile.ai[0] >= 20f && projectile.ai[0] < 40f)
 			{
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.SunkenSea
                 projectile.velocity.Y = 16f;
             }
 		}
-		
+
 		public override void Kill(int timeLeft)
         {
         	Main.PlaySound(SoundID.Item10, projectile.position);

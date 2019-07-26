@@ -38,7 +38,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

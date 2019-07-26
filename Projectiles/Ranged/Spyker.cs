@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Spyker");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
         	projectile.alpha -= 10;
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}

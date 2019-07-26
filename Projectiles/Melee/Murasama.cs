@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Murasama");
 			Main.projFrames[projectile.type] = 28;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 148;
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
 			player.itemAnimation = 2;
 			player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(200, 0, 0, 0);

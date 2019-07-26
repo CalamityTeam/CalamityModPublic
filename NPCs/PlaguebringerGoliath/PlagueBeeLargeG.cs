@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			DisplayName.SetDefault("Plague Charger");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 65;
@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.buffImmune[mod.BuffType("HolyLight")] = true;
 			npc.buffImmune[mod.BuffType("Plague")] = true;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			bool revenge = CalamityWorld.revenge;
@@ -98,17 +98,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
 			return;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("Plague"), 180, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

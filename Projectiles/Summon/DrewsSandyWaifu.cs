@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
     public class DrewsSandyWaifu : ModProjectile
     {
     	public int dust = 3;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Oxy's Waifu");
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
 			Main.projPet[projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 42;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Edge");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
         {
         	Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

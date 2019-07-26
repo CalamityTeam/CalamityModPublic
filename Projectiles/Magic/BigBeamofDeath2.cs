@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Big Beam of Death");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;

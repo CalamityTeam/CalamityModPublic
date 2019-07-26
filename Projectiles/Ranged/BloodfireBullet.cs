@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Bloodfire Bullet");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;

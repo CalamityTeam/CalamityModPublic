@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Patreon
 			DisplayName.SetDefault("Plague Bee");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

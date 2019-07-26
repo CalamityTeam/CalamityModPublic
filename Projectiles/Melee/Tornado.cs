@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Tornado");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -32,24 +32,24 @@ namespace CalamityMod.Projectiles.Melee
         		(CalamityWorld.downedDoG ? 4 : 0) -
         		(CalamityWorld.downedYharon ? 3 : 0);
         }
-        
+
         public override void AI()
         {
 			float num1125 = 900f;
-			if (projectile.soundDelay == 0) 
+			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = -1;
 				Main.PlaySound(2, projectile.Center, 122);
 			}
 			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= num1125) 
+			if (projectile.ai[0] >= num1125)
 			{
 				projectile.Kill();
 			}
-			if (projectile.localAI[0] >= 30f) 
+			if (projectile.localAI[0] >= 30f)
 			{
 				projectile.damage = 0;
-				if (projectile.ai[0] < num1125 - 120f) 
+				if (projectile.ai[0] < num1125 - 120f)
 				{
 					float num1126 = projectile.ai[0] % 60f;
 					projectile.ai[0] = num1125 - 120f + num1126;
@@ -106,33 +106,33 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.width = (int)(value74.X * 0.65f);
 			projectile.height = (int)value74.Y;
 			projectile.Center = vector146;
-			if (projectile.owner == Main.myPlayer) 
+			if (projectile.owner == Main.myPlayer)
 			{
 				bool flag74 = false;
 				Vector2 center16 = Main.player[projectile.owner].Center;
 				Vector2 top = Main.player[projectile.owner].Top;
-				for (float num1131 = 0f; num1131 < 1f; num1131 += 0.05f) 
+				for (float num1131 = 0f; num1131 < 1f; num1131 += 0.05f)
 				{
 					Vector2 position2 = Vector2.Lerp(value72, value73, num1131);
-					if (Collision.CanHitLine(position2, 0, 0, center16, 0, 0) || Collision.CanHitLine(position2, 0, 0, top, 0, 0)) 
+					if (Collision.CanHitLine(position2, 0, 0, center16, 0, 0) || Collision.CanHitLine(position2, 0, 0, top, 0, 0))
 					{
 						flag74 = true;
 						break;
 					}
 				}
-				if (!flag74 && projectile.ai[0] < num1125 - 120f) 
+				if (!flag74 && projectile.ai[0] < num1125 - 120f)
 				{
 					float num1132 = projectile.ai[0] % 60f;
 					projectile.ai[0] = num1125 - 120f + num1132;
 					projectile.netUpdate = true;
 				}
 			}
-			if (projectile.ai[0] < num1125 - 120f) 
+			if (projectile.ai[0] < num1125 - 120f)
 			{
 				return;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	float num226 = 600f;

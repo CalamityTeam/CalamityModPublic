@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables
 		{
 			DisplayName.SetDefault("Cataclysm Trophy");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 30;

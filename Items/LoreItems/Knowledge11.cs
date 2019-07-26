@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "Most likely another abomination spawned from this inchoate mass of flesh.\n" +
 				"Allows you to teleport similar to the Rod of Discord while in the crimson. Place in your hotbar to use it.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.LoreItems
 			item.UseSound = SoundID.Item8;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneCrimson;

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Barracuda");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 22;

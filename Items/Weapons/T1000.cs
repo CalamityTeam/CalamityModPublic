@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class T1000 : ModItem
 	{
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 24f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("T1000"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);

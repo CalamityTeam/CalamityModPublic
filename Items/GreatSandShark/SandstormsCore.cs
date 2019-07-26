@@ -11,7 +11,7 @@ namespace CalamityMod.Items.GreatSandShark
 			DisplayName.SetDefault("Sandstorm's Core");
             Tooltip.SetDefault("Summons the Great Sand Shark");
         }
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -23,12 +23,12 @@ namespace CalamityMod.Items.GreatSandShark
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneDesert && !NPC.AnyNPCs(mod.NPCType("GreatSandShark"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("GreatSandShark"));

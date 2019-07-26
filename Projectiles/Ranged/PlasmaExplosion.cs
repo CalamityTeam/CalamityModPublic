@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 400;
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
 				num466 = num465 / num466;
 				num463 *= num466;
 				num464 *= num466;
-				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 
+				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height,
                     (projectile.ai[1] == 1f ? 173 : 221), 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num467].noGravity = true;
 				Main.dust[num467].position.X = projectile.Center.X;

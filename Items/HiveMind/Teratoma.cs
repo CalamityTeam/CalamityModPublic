@@ -16,7 +16,7 @@ namespace CalamityMod.Items.HiveMind
 			DisplayName.SetDefault("Teratoma");
 			Tooltip.SetDefault("Summons the Hive Mind");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.HiveMind
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneCorrupt && !NPC.AnyNPCs(mod.NPCType("HiveMind")) && !NPC.AnyNPCs(mod.NPCType("HiveMindP2"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             if (Main.netMode != 1)

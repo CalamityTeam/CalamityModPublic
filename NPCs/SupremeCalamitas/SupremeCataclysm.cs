@@ -15,13 +15,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 	public class SupremeCataclysm : ModNPC
 	{
 		private int distanceY = -375;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cataclysm");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
@@ -105,30 +105,30 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			num680 = num676 / num680;
 			num678 *= num680;
 			num679 *= num680;
-			if (npc.velocity.X < num678) 
+			if (npc.velocity.X < num678)
 			{
 				npc.velocity.X = npc.velocity.X + num677;
-				if (npc.velocity.X < 0f && num678 > 0f) 
+				if (npc.velocity.X < 0f && num678 > 0f)
 				{
 					npc.velocity.X = npc.velocity.X + num677;
 				}
-			} 
-			else if (npc.velocity.X > num678) 
+			}
+			else if (npc.velocity.X > num678)
 			{
 				npc.velocity.X = npc.velocity.X - num677;
-				if (npc.velocity.X > 0f && num678 < 0f) 
+				if (npc.velocity.X > 0f && num678 < 0f)
 				{
 					npc.velocity.X = npc.velocity.X - num677;
 				}
 			}
-			if (npc.velocity.Y < num679) 
+			if (npc.velocity.Y < num679)
 			{
 				npc.velocity.Y = npc.velocity.Y + num677;
-				if (npc.velocity.Y < 0f && num679 > 0f) 
+				if (npc.velocity.Y < 0f && num679 > 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y + num677;
 				}
-			} 
+			}
 			else if (npc.velocity.Y > num679)
 			{
 				npc.velocity.Y = npc.velocity.Y - num677;

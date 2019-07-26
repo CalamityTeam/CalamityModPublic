@@ -36,13 +36,13 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("OnyxSharkBomb");
 	        item.useAmmo = 771;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("OnyxSharkBomb"), damage, knockBack, player.whoAmI, 0f, 0f);
 	    	return false;
 		}
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

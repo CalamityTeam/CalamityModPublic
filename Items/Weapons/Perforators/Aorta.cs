@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 	        item.autoReuse = false;
 	        item.shoot = mod.ProjectileType("AortaProjectile");
 	    }
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

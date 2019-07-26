@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Enemy
     public class FlameBurstHostile : ModProjectile
     {
     	public float count = 0;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Burst");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;

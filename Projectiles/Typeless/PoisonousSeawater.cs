@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Seawater");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.dust[num469].velocity *= 0f;
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.Venom, 120);

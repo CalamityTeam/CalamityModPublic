@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 250;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.localNPCHitCooldown = 3;
 			projectile.melee = true;
         }
-        
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);

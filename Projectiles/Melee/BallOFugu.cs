@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Ball O Fugu");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;

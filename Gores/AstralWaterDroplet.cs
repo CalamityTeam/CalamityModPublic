@@ -30,11 +30,11 @@ namespace CalamityMod.Gores
             Color alpha = gore.GetAlpha(Lighting.GetColor((int)((double)gore.position.X + (double)Main.goreTexture[gore.type].Width * 0.5) / 16, (int)(((double)gore.position.Y + (double)num * 0.5) / 16.0)));
 
             Main.spriteBatch.Draw(
-                Main.goreTexture[gore.type], 
-                new Vector2(gore.position.X - Main.screenPosition.X + (float)(Main.goreTexture[gore.type].Width / 2), gore.position.Y - Main.screenPosition.Y + (float)(num / 2) - 2f), 
-                new Rectangle(0, num * (int)gore.frame, Main.goreTexture[gore.type].Width, num), 
-                alpha, gore.rotation, 
-                new Vector2((float)(Main.goreTexture[gore.type].Width / 2), (float)(num / 2)), 
+                Main.goreTexture[gore.type],
+                new Vector2(gore.position.X - Main.screenPosition.X + (float)(Main.goreTexture[gore.type].Width / 2), gore.position.Y - Main.screenPosition.Y + (float)(num / 2) - 2f),
+                new Rectangle(0, num * (int)gore.frame, Main.goreTexture[gore.type].Width, num),
+                alpha, gore.rotation,
+                new Vector2((float)(Main.goreTexture[gore.type].Width / 2), (float)(num / 2)),
                 gore.scale, SpriteEffects.None, 0f);
 
             return false;

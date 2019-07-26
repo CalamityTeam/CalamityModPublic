@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Nanoblack Blade");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

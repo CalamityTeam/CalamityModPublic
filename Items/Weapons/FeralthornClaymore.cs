@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 44);
 	        }
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			target.AddBuff(BuffID.Venom, 300);

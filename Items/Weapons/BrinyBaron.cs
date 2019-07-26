@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class BrinyBaron : ModItem
 	{
@@ -38,12 +38,12 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("NobodyKnows");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
-		
+
 		public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons
 			}
 			return base.CanUseItem(player);
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	if (player.altFunctionUse == 2)
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons
 	    		return false;
 	    	}
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(3) == 0)
@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 187, 0f, 0f, 100, new Color(53, Main.DiscoG, 255));
 	        }
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrinyTyphoonBubble"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI);

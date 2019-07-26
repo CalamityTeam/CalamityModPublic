@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 5;

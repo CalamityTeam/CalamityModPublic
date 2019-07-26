@@ -18,7 +18,7 @@ namespace CalamityMod.Items.AbyssItems
                 "Rain will start some time after this item is used\n" +
                 "If used when raining the rain will stop some time after this item is used");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -30,12 +30,12 @@ namespace CalamityMod.Items.AbyssItems
 			item.UseSound = SoundID.Item66;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !Main.slimeRain;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             if (!Main.raining)

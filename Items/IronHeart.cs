@@ -21,7 +21,7 @@ namespace CalamityMod.Items
                 "Using this while a boss is alive will permanently kill you.\n" +
                 "Cannot be activated if any boss has been killed.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

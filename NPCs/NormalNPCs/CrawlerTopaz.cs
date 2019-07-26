@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Topaz Crawler");
 			Main.npcFrameCount[npc.type] = 5;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 0.3f;
@@ -249,7 +249,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.Underground.Chance * 0.0425f;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Topaz, Main.rand.Next(2, 5));

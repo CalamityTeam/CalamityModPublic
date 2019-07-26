@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Nanoblack Reaper");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 56;
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
         }
-        
+
         public override void AI()
         {
             drawOffsetX = -11;

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("10% increased movement speed\n" +
 				"100% increased jump speed");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 5;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.moveSpeed += 0.1f;

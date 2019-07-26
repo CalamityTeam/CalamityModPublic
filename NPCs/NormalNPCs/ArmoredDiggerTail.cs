@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			DisplayName.SetDefault("Armored Digger");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 55;
@@ -42,12 +42,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = mod.NPCType("ArmoredDiggerHead");
 			bannerItem = mod.ItemType("ArmoredDiggerBanner");
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
         {
             if (npc.ai[3] > 0f)
@@ -361,7 +361,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

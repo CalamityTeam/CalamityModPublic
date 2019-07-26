@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Permafrost
 			projectile.penetrate = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frost Shard");

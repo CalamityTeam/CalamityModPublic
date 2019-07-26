@@ -19,13 +19,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Sand Tortoise");
 			Main.npcFrameCount[npc.type] = 8;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 2f;
 			npc.damage = 110;
 			npc.aiStyle = 39;
-			npc.width = 46; 
+			npc.width = 46;
 			npc.height = 32;
 			npc.defense = 34;
 			npc.scale = 1.5f;
@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("SandTortoiseBanner");
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.DesertCave.Chance * 0.05f;
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(10) == 0)

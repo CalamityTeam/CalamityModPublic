@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Flare");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

@@ -11,7 +11,7 @@ namespace CalamityMod.Items
  			DisplayName.SetDefault("Old Power Cell");
  			Tooltip.SetDefault("Summons the ancient golem when used in the Temple");
  		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
             bool canSummon = false;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items
             }
             return canSummon && !NPC.AnyNPCs(NPCID.Golem);
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, NPCID.Golem);

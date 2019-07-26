@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Spike");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class GleamingMagnolia : ModItem
 	{
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("GleamingBolt");
 	        item.shootSpeed = 14f;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

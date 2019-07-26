@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Daemon's Flame");
 			Main.projFrames[projectile.type] = 3;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 54;

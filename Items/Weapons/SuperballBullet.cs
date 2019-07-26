@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Superball Bullet");
 			Tooltip.SetDefault("Bounces at extreme speeds");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.damage = 6;

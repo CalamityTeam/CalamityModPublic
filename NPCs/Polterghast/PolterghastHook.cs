@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Polterghast
 			DisplayName.SetDefault("Polterghast Hook");
 			Main.npcFrameCount[npc.type] = 2;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -358,7 +358,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.rotation = (float)Math.Atan2((double)num777, (double)num776) - 1.57f;
             }
         }
-		
+
 		public override void FindFrame(int frameHeight)
 		{
             if (phase2)
@@ -408,22 +408,22 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 			}
 		}
-		
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			if (Main.npc[CalamityGlobalNPC.ghostBoss].active && !phase2) 
+			if (Main.npc[CalamityGlobalNPC.ghostBoss].active && !phase2)
 			{
 				Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
 				float bossCenterX = Main.npc[CalamityGlobalNPC.ghostBoss].Center.X - center.X;
 				float bossCenterY = Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y - center.Y;
 				float rotation2 = (float)Math.Atan2((double)bossCenterY, (double)bossCenterX) - 1.57f;
 				bool draw = true;
-				while (draw) 
+				while (draw)
 				{
 					int chainWidth = 20; //16 24
 					int chainHeight = 52; //32 16
 					float num10 = (float)Math.Sqrt((double)(bossCenterX * bossCenterX + bossCenterY * bossCenterY));
-					if (num10 < (float)chainHeight) 
+					if (num10 < (float)chainHeight)
 					{
 						chainWidth = (int)num10 - chainHeight + chainWidth;
 						draw = false;
@@ -436,37 +436,37 @@ namespace CalamityMod.NPCs.Polterghast
 					bossCenterX = Main.npc[CalamityGlobalNPC.ghostBoss].Center.X - center.X;
 					bossCenterY = Main.npc[CalamityGlobalNPC.ghostBoss].Center.Y - center.Y;
 					Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Polterghast/PolterghastChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y), 
-						new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Polterghast/PolterghastChain").Width, chainWidth)), color2, rotation2, 
+					Main.spriteBatch.Draw(mod.GetTexture("NPCs/Polterghast/PolterghastChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+						new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Polterghast/PolterghastChain").Width, chainWidth)), color2, rotation2,
 						new Vector2((float)mod.GetTexture("NPCs/Polterghast/PolterghastChain").Width * 0.5f, (float)mod.GetTexture("NPCs/Polterghast/PolterghastChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
 				}
 			}
 			return true;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
             if (CalamityWorld.revenge)
 			    player.AddBuff(mod.BuffType("Horror"), 180, true);
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.7f);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

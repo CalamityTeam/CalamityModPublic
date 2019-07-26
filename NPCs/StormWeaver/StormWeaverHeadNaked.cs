@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		{
 			DisplayName.SetDefault("Storm Weaver");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 180; //150
@@ -596,12 +596,12 @@ namespace CalamityMod.NPCs.StormWeaver
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -670,12 +670,12 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 			}
 		}
-		
+
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.SuperHealingPotion;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);

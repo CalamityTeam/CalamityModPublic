@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 3;
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
         	projectile.penetrate--;
@@ -73,25 +73,25 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.localAI[1] += 1f;
 			}
 			projectile.alpha -= 40;
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, 0, 0, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);

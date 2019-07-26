@@ -34,7 +34,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.shootSpeed = 15.5f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

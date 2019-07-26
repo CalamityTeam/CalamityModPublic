@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Permafrost
 			projectile.ignoreWater = true;
             projectile.tileCollide = false;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arctic Bear Paw");
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Permafrost
                 projectile.velocity *= 0.96f;
             }
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             target.AddBuff(BuffID.Frostburn, 480);

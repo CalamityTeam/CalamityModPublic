@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Yharim's Stimulants");
 			Tooltip.SetDefault("Gives decent buffs to ALL offensive and defensive stats");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

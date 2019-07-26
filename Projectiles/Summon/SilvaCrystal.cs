@@ -11,14 +11,14 @@ namespace CalamityMod.Projectiles.Summon
     public class SilvaCrystal : ModProjectile
     {
     	public int dust = 3;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Silva Crystal");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

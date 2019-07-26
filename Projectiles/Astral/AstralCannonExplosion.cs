@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Astral
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 150;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Astral
             projectile.penetrate = -1;
             projectile.timeLeft = 10;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("GodSlayerInferno"), 120);

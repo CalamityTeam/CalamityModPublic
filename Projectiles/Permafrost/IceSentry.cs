@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Permafrost
                         //if (!rememberTarget) Main.NewText("couldn't hit target");
                     }
                 }
-                
+
                 if (!rememberTarget)
                 {
                     //Main.NewText("forgetting target");

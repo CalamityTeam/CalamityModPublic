@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 	 		DisplayName.SetDefault("Zen Potion");
 	 		Tooltip.SetDefault("Reduces spawn rates...a lot...");
 	 	}
-	
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

@@ -109,7 +109,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 					if (head == -1 && Main.projectile[i].type == typeHead)
 					{
 						head = i;
-					} 
+					}
 					else if (tail == -1 && Main.projectile[i].type == typeTail)
 					{
 						tail = i;
@@ -126,7 +126,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 				if (num77 > 0f)
 				{
 					player.ChangeDir(1);
-				} 
+				}
 				else
 				{
 					player.ChangeDir(-1);
@@ -149,7 +149,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 				curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormTail"), damage, knockBack, owner, (float)prev);
 				Main.projectile[prev].localAI[1] = (float)curr;
 				Main.projectile[prev].netUpdate = true;
-			} 
+			}
 			else if (head != -1 && tail != -1)
 			{
 				int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, mod.ProjectileType("MechwormBody"), damage, knockBack, owner, Main.projectile[tail].ai[0]);

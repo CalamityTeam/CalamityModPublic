@@ -19,7 +19,7 @@ namespace CalamityMod.Items.SupremeCalamitas
                 "Your player is the CENTER of the arena so be sure to use this item in a good location\n" +
                 "Not consumable");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 40;
@@ -30,12 +30,12 @@ namespace CalamityMod.Items.SupremeCalamitas
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")) && CalamityWorld.downedBossAny;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			int surface = (int)Main.worldSurface;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Seafoam Bubble");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 28;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			projectile.localNPCHitCooldown = 30;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-		
+
 		public override void AI()
         {
 			projectile.ai[0] += 1f;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 				projectile.damage *= 2;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(SoundID.Item54, projectile.position);

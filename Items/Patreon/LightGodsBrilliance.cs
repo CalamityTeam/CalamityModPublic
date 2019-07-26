@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Patreon
 {
     public class LightGodsBrilliance : ModItem
     {
-		
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Light God's Brilliance");
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Patreon
             item.shootSpeed = 25f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int num6 = Main.rand.Next(2, 5);
@@ -54,10 +54,10 @@ namespace CalamityMod.Items.Patreon
 			{
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LightBall"), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
 			}
-			
+
 			return false;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

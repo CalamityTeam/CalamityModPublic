@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Enemy
 		{
 			DisplayName.SetDefault("Spike");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Enemy
 				projectile.velocity.Y = projectile.velocity.Y + 0.15f;
 			}
         }
-        
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
         	target.AddBuff(BuffID.Cursed, 60);

@@ -17,7 +17,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Moonlight");
 			Tooltip.SetDefault("Summons the moon");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -29,12 +29,12 @@ namespace CalamityMod.Items
 			item.UseSound = SoundID.Item60;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return Main.dayTime && !CalamityGlobalNPC.AnyBossNPCS();
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			Main.dayTime = false;

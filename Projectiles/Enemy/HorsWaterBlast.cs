@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Enemy
 		{
 			DisplayName.SetDefault("Water");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;

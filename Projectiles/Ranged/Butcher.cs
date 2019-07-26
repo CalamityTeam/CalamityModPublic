@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Butcher");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 66;

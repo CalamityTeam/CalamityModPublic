@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 4;
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
         	projectile.damage = (int)((double)projectile.damage * 1.25);
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             return false;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	if (target.type == NPCID.TargetDummy)

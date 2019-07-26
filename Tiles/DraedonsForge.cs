@@ -29,14 +29,14 @@ namespace CalamityMod.Tiles
 		{
 			Item.NewItem(i * 16, j * 16, 32, 16, mod.ItemType("DraedonsForge"));
 		}
-		
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
 		{
 			r = (float)Main.DiscoR / 255f;
 			g = (float)Main.DiscoG / 255f;
 			b = (float)Main.DiscoB / 255f;
 		}
-		
+
 		public override void AnimateTile(ref int frame, ref int frameCounter)
 		{
 			frameCounter++;

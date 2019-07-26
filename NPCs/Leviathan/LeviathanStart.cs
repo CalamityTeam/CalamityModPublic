@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Leviathan
 			DisplayName.SetDefault("???");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Leviathan
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SirenLure");
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.1f;
@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Leviathan
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			npc.TargetClosest(true);
@@ -58,14 +58,14 @@ namespace CalamityMod.NPCs.Leviathan
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || 
-                NPC.AnyNPCs(NPCID.DukeFishron) || 
-                NPC.AnyNPCs(mod.NPCType("LeviathanStart")) || 
-                NPC.AnyNPCs(mod.NPCType("Siren")) || 
-                NPC.AnyNPCs(mod.NPCType("Leviathan")) || 
+			if (spawnInfo.playerSafe ||
+                NPC.AnyNPCs(NPCID.DukeFishron) ||
+                NPC.AnyNPCs(mod.NPCType("LeviathanStart")) ||
+                NPC.AnyNPCs(mod.NPCType("Siren")) ||
+                NPC.AnyNPCs(mod.NPCType("Leviathan")) ||
                 spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
 			{
 				return 0f;
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 			return SpawnCondition.OceanMonster.Chance * 0.4f;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = 3000;

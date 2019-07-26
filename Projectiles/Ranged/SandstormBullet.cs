@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Sandstorm");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-        
+
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num469].velocity *= 0f;
             }
         }
-        
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             projectile.Damage();
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!target.boss)

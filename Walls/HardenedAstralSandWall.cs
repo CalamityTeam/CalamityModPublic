@@ -25,7 +25,7 @@ namespace CalamityMod.Walls
             drop = mod.ItemType("HardenedAstralSandWall");
 
             WallID.Sets.Conversion.HardenedSand[Type] = true;
-            
+
             AddMapEntry(new Color(10, 9, 21));
         }
 

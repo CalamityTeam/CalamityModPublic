@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Blast");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-        
+
         public override void AI()
 		{
 			if (projectile.soundDelay == 0)

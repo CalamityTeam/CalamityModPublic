@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Magic
     public class WhiteFlame2 : ModProjectile
     {
     	float homeTimer = 100;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flame");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(mod.BuffType("HolyLight"), 360);

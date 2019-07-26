@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Round");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
         }
-        
+
         public override void AI()
         {
         	projectile.localAI[0] += 1f;
@@ -38,12 +38,12 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("ArmorCrunch"), 120);
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	for (int k = 0; k < 5; k++)

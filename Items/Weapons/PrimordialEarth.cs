@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class PrimordialEarth : ModItem
 	{
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("SupremeDustProjectile");
 	        item.shootSpeed = 4f;
 	    }
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

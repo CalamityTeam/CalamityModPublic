@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
 			Tooltip.SetDefault("Pierces through tiles\n" +
                 "Spawns extra homing arrows as it travels");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.damage = 33;

@@ -25,12 +25,12 @@ namespace CalamityMod.Buffs
             if (modPlayer.sirenBoobsPrevious)
             {
                 modPlayer.sirenBoobsPower = true;
-                player.statDefense += 1 + 
+                player.statDefense += 1 +
                     (NPC.downedBoss3 ? 4 : 0) +
                     (Main.hardMode ? 5 : 0) +
                     (NPC.downedMoonlord ? 5 : 0);
                 player.detectCreature = true;
-                player.lifeRegen += 0 + 
+                player.lifeRegen += 0 +
                     (NPC.downedBoss3 ? 1 : 0) +
                     (NPC.downedMoonlord ? 1 : 0);
                 player.ignoreWater = NPC.downedBoss3;

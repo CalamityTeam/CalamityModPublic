@@ -19,7 +19,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
             	"Increases max life by 20, life regen by 1, and all damage by 3%\n" +
             	"Summons a brimstone elemental to fight for you");
 	 	}
-    	
+
         public override void SetDefaults()
         {
             item.width = 20;

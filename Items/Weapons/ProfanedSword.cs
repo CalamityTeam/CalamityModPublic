@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Brimblast"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
         }
-        
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.Next(4) == 0)
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons
                 Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
             }
         }
-        
+
         public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

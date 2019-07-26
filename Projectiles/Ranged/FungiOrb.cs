@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
         }
-        
+
         public override void AI()
         {
         	projectile.localAI[0] += 1f;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	int num251 = Main.rand.Next(2, 5);

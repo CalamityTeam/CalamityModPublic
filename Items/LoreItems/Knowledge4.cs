@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
                 "Your impending doom approaches...\n" +
 				"Place in your inventory for an increase to all stats during the lunar event.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 9;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

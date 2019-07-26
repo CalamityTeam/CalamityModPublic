@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Ataxia Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

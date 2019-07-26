@@ -12,11 +12,11 @@ namespace CalamityMod.Buffs
 			Main.buffNoTimeDisplay[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			
+
 			if (!modPlayer.allWaifus)
 			{
 				player.DelBuff(buffIndex);

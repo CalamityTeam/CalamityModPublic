@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Beaming Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 105);
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.immune[projectile.owner] = 7;

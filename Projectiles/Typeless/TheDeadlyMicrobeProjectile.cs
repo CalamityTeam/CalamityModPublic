@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Star");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;

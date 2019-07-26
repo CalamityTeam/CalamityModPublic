@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Fire");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;

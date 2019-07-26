@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Providence
 			DisplayName.SetDefault("A Profaned Guardian");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 1f;
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Providence
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.holyBossHealer = npc.whoAmI;
@@ -79,16 +79,16 @@ namespace CalamityMod.NPCs.Providence
             }
 			npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.holyBoss].dontTakeDamage;
 
-			if (Math.Sign(npc.velocity.X) != 0) 
+			if (Math.Sign(npc.velocity.X) != 0)
 			{
 				npc.spriteDirection = -Math.Sign(npc.velocity.X);
 			}
 			npc.spriteDirection = Math.Sign(npc.velocity.X);
 			int num1009 = (npc.ai[0] == 0f) ? 1 : 2;
 			int num1010 = (npc.ai[0] == 0f) ? 60 : 80;
-			for (int num1011 = 0; num1011 < 2; num1011++) 
+			for (int num1011 = 0; num1011 < 2; num1011++)
 			{
-				if (Main.rand.Next(3) < num1009) 
+				if (Main.rand.Next(3) < num1009)
 				{
 					int dustType = Main.rand.Next(2);
 					if (dustType == 0)
@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.Providence
 				float num784 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector96.X;
 				float num785 = Main.npc[CalamityGlobalNPC.holyBoss].Center.Y - vector96.Y;
 				float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-				if (num786 > 360f) 
+				if (num786 > 360f)
 				{
 					num786 = 8f / num786; //8f
 					num784 *= num786;
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.Providence
 					npc.velocity.Y = npc.velocity.Y * 1.05f; //1.05f
 					npc.velocity.X = npc.velocity.X * 1.05f; //1.05f
 				}
-				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(2000) == 0) || Main.rand.Next(1000) == 0)) 
+				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(2000) == 0) || Main.rand.Next(1000) == 0))
 				{
 					npc.TargetClosest(true);
 					vector96 = new Vector2(npc.Center.X, npc.Center.Y);
@@ -140,9 +140,9 @@ namespace CalamityMod.NPCs.Providence
 					return;
 				}
 			}
-			else 
+			else
 			{
-				if (expertMode) 
+				if (expertMode)
 				{
 					Vector2 value4 = player.Center - npc.Center;
 					value4.Normalize();
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.Providence
 				float num787 = Main.npc[CalamityGlobalNPC.holyBoss].Center.X - vector97.X;
 				float num788 = Main.npc[CalamityGlobalNPC.holyBoss].Center.Y - vector97.Y;
 				float num789 = (float)Math.Sqrt((double)(num787 * num787 + num788 * num788));
-				if (num789 > 700f || npc.justHit) 
+				if (num789 > 700f || npc.justHit)
 				{
 					npc.ai[0] = 0f;
 					return;
@@ -171,12 +171,12 @@ namespace CalamityMod.NPCs.Providence
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.OnFire, 600, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)

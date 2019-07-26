@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Burst");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 40;

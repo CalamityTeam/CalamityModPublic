@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Ranged
     public class VanquisherArrow : ModProjectile
     {
     	public int projCount = 18;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 90;
             projectile.extraUpdates = 1;
         }
-        
+
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             return new Color(255, 255, 255, 100);
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);

@@ -88,7 +88,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             {
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Drataliornus"), 0, 0f, player.whoAmI);
             }
-			
+
 			return false;
 		}
 

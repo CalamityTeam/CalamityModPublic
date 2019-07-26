@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Chicken");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 20;
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[num624].velocity *= 2f;
 			}
         }
-        
-        
+
+
     }
 }

@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Viruling");
 			Main.npcFrameCount[npc.type] = 5;
 		}
-		
+
 		public override void SetDefaults()
 		{
             npc.noGravity = true;
@@ -163,12 +163,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             return SpawnCondition.HardmodeJungle.Chance * 0.09f;
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
             player.AddBuff(mod.BuffType("Plague"), 300, true);
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -186,7 +186,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling3"), 1f);
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(1, 3));

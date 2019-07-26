@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.extraUpdates = 1;
 			aiType = ProjectileID.Bullet;
 		}
-		
+
 		public override void AI()
 		{
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return true;
 		}
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
     		float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800 : projectile.position.X - 800);

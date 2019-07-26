@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Boss
     public class BrimstoneShot : ModProjectile
     {
     	public int splitTimer = 60;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Laser");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 5;

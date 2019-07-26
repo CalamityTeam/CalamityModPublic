@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Typhon's Greed");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 110;

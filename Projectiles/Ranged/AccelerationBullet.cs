@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.extraUpdates = 1;
 			aiType = ProjectileID.Bullet;
 		}
-		
+
 		public override void AI()
 		{
 			projectile.velocity *= 1.01f;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return true;
 		}
-		
+
 		public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);

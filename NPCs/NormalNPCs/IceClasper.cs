@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Ice Clasper");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
             npc.npcSlots = 3f;
@@ -236,7 +236,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            return spawnInfo.player.ZoneSnow && 
+            return spawnInfo.player.ZoneSnow &&
             	!spawnInfo.player.ZoneTowerStardust &&
             	!spawnInfo.player.ZoneTowerSolar &&
             	!spawnInfo.player.ZoneTowerVortex &&
@@ -254,7 +254,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 player.AddBuff(mod.BuffType("GlacialState"), 30, true);
             }
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));

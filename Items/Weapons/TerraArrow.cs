@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Terra Arrow");
 			Tooltip.SetDefault("Travels incredibly quickly and explodes into more arrows when it hits a certain velocity");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.damage = 9;

@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Cosmic Scourge");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
         }
-        
+
         public override void AI()
         {
             if (projectile.ai[1] == 1f)
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity.Y = 16f;
             }
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

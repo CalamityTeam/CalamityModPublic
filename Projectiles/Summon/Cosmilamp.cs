@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -85,8 +85,8 @@ namespace CalamityMod.Projectiles.Summon
             int num3;
             for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
             {
-                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner && 
-                    Main.projectile[num534].type == mod.ProjectileType("Cosmilamp") && 
+                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
+                    Main.projectile[num534].type == mod.ProjectileType("Cosmilamp") &&
                     Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num534].position.X)

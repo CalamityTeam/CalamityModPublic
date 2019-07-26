@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Malachite");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
         	projectile.alpha -= 3;
-			if (projectile.alpha < 30) 
+			if (projectile.alpha < 30)
 			{
 				projectile.alpha = 30;
 			}

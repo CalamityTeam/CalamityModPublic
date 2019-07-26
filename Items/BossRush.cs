@@ -20,7 +20,7 @@ namespace CalamityMod.Items
                                 "Sealed away in the abyss, far from those that would seek to misuse it\n" +
 								"Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode");
         }
-		
+
 		public override void SetDefaults()
 		{
             item.rare = 1;

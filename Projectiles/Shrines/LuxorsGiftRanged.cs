@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Shrines
 		{
 			DisplayName.SetDefault("Gift");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Shrines
                 }
             }
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Healing
 		{
 			DisplayName.SetDefault("Heal");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Healing
             projectile.timeLeft = 420;
             projectile.extraUpdates = 3;
         }
-		
+
         public override void AI()
         {
         	projectile.velocity.X *= 0.95f;

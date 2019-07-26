@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Placeables
 			item.value = 500;
 			item.createTile = mod.TileType("ChaosCandle");
 		}
-		
+
 		public override void HoldItem(Player player)
 		{
 			player.GetModPlayer<CalamityPlayer>().chaosCandle = true;

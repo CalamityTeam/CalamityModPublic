@@ -36,7 +36,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.shootSpeed = 20f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 		    float SpeedX = speedX + (float) Main.rand.Next(-30, 31) * 0.05f;

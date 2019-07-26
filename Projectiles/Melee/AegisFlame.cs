@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Aegis Flame");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.Y = 16f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	if (projectile.owner == Main.myPlayer)
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
         		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("AegisBlast2"), (int)((double)damage * 0.75), knockback, Main.myPlayer);
         	}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate == 0)

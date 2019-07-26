@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class HolidayHalberd : ModItem
 	{
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("RedBall");
 			item.shootSpeed = 12f;
 		}
-		
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 			int dustType = 0;
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, dustType);
 	        }
 	    }
-		
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	if (Main.rand.Next(3) == 0)

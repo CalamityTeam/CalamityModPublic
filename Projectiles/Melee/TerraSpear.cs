@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Spear");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
             }
         }
-        
+
         public override void Kill(int timeLeft)
         {
 			Main.PlaySound(SoundID.Item10, projectile.position);

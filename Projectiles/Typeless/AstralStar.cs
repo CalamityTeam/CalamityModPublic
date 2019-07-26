@@ -11,12 +11,12 @@ namespace CalamityMod.Projectiles.Typeless
     public class AstralStar : ModProjectile
     {
     	private int noTileHitCounter = 120;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;

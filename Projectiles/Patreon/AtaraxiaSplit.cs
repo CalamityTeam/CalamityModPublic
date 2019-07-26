@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			DisplayName.SetDefault("Still Not Exoblade");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;

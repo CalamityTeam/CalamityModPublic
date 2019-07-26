@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Ravager
 	        item.shoot = mod.ProjectileType("BloodBlast");
 	        item.shootSpeed = 10f;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
             for (int x = 0; x < 10; x++)

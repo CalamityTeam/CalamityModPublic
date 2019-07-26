@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Brimstone Fireball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Boss
 				Main.dust[num469].velocity *= 0f;
 			}
 		}
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;

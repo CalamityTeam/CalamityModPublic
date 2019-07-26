@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Healing
 		{
 			DisplayName.SetDefault("Sienna");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "If this creature were allowed to combine every slime on the planet it would become nearly unstoppable.\n" +
 				"Place in your inventory to become slimed and able to slide around on tiles quickly, at the cost of reduced defense.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 4;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

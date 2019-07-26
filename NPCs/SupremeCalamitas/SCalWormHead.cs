@@ -23,12 +23,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         private float turnSpeed = 0.15f;
         private float passedVar = 0f;
         private bool TailSpawned = false;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sepulcher");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0; //150
@@ -437,7 +437,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

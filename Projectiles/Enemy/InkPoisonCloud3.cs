@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
 			DisplayName.SetDefault("Cloud");
             Main.projFrames[projectile.type] = 4;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

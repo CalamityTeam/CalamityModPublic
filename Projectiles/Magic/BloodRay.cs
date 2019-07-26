@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Blood Ray");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

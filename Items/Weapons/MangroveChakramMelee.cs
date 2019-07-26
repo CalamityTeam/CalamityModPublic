@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class MangroveChakramMelee : ModItem
 	{
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("MangroveChakramProjectileMelee");
 			item.shootSpeed = 15.5f;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

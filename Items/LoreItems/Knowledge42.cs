@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
 				"I would have soon had to eliminate it as a threat had it been given more time and creatures to feast upon.\n" +
 				"Place in your inventory to boost your true melee damage by 50%.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

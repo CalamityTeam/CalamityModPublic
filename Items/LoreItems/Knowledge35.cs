@@ -18,7 +18,7 @@ namespace CalamityMod.Items.LoreItems
 			Tooltip.SetDefault("I remember the serene waves and the clear breeze.\n" +
 				"The bitterness of my youth has long since subsided, but it is far too late. I must never repeat a mistake like this again.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

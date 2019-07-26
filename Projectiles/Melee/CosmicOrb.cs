@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
         	projectile.extraUpdates = 0;
@@ -31,19 +31,19 @@ namespace CalamityMod.Projectiles.Melee
 			Lighting.AddLight(projectile.Center, new Vector3(0.075f, 0.5f, 0.15f));
 			projectile.velocity *= 0.985f;
 			projectile.rotation += projectile.velocity.X * 0.2f;
-			if (projectile.velocity.X > 0f) 
+			if (projectile.velocity.X > 0f)
 			{
 				projectile.rotation += 0.08f;
-			} 
-			else 
+			}
+			else
 			{
 				projectile.rotation -= 0.08f;
 			}
 			projectile.ai[1] += 1f;
-			if (projectile.ai[1] > 30f) 
+			if (projectile.ai[1] > 30f)
 			{
 				projectile.alpha += 10;
-				if (projectile.alpha >= 255) 
+				if (projectile.alpha >= 255)
 				{
 					projectile.alpha = 255;
 					projectile.Kill();
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
 				}
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(SoundID.Item54, projectile.position);
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Melee
 				num3 = num191;
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(0, 255 - projectile.alpha, 0, 0);

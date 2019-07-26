@@ -44,12 +44,12 @@ namespace CalamityMod.Items.Weapons
         {
             return new Vector2(-5, 0);
         }
-	    
+
 	    public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	    	if (player.altFunctionUse == 2)
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons
 				return false;
 	    	}
 		}
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

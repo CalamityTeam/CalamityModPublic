@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Water Round");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.timeLeft = 600;
 			projectile.extraUpdates = 2;
 		}
-		
+
 		public override void AI()
         {
             if (projectile.localAI[0] < 5f)

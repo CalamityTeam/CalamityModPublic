@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Permafrost
 			projectile.extraUpdates = 1;
             projectile.coldDamage = true;
         }
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dark Ice");
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Permafrost
             int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 1.25f);
             Main.dust[index2].noGravity = true;
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             target.AddBuff(BuffID.Frostburn, 480);

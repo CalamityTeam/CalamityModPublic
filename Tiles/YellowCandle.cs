@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 34;
         }
-		
+
 		public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             frameCounter++;
@@ -32,7 +32,7 @@ namespace CalamityMod.Tiles
                 frameCounter = 0;
             }
         }
-		
+
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
 			Player player = Main.LocalPlayer;
@@ -56,14 +56,14 @@ namespace CalamityMod.Tiles
 				}
 			}
 		}
-		
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
 			r = 0.75f;
             g = 0.75f;
 			b = 0.35f;
         }
-		
+
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("YellowCandle"));

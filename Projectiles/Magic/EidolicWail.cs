@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Wail");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 36;

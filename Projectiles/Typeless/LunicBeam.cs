@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -199,19 +199,19 @@ namespace CalamityMod.Projectiles.Typeless
 				Main.dust[num157].velocity += projectile.velocity * 0.5f;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("MarkedforDeath"), 300);
         }
-        
+
         public override void Kill(int timeLeft)
         {
             int num47 = Utils.SelectRandom<int>(Main.rand, new int[]

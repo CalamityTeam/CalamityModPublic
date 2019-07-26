@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Fireball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);

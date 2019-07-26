@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
         }
-        
+
         public override void AI()
         {
         	projectile.velocity.Y += 0.1f;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

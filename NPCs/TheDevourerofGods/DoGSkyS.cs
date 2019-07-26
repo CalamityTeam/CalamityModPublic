@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				intensity -= 0.01f;
 			}
 		}
-		
+
 		private float GetIntensity()
 		{
 			if (this.UpdateDoGIndex())
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 			return 0.5f;
 		}
-		
+
 		public override Color OnTileColor(Color inColor)
 		{
 			float intensity = this.GetIntensity();

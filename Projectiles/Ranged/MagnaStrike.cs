@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Strike");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;

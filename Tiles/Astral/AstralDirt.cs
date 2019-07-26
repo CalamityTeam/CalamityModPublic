@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.Astral
 
             dustType = mod.DustType("AstralBasic");
 			drop = mod.ItemType("AstralDirt");
-            
+
             AddMapEntry(new Color(65, 56, 83));
 
             TileID.Sets.ChecksForMerge[Type] = true;

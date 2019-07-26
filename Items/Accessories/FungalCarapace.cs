@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Accessories
 			DisplayName.SetDefault("Fungal Carapace");
 			Tooltip.SetDefault("You emit a mushroom spore explosion when you are hit");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 2;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 5;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);

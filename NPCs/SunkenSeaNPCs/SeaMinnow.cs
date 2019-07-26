@@ -11,13 +11,13 @@ using CalamityMod.Projectiles;
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
 	public class SeaMinnow : ModNPC
-	{		
+	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sea Minnow");
             Main.npcFrameCount[npc.type] = 4;
         }
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 0.1f;
@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
             if (npc.wet)
             {
                 npc.TargetClosest(false);
-                if (Main.player[npc.target].wet && !Main.player[npc.target].dead && 
+                if (Main.player[npc.target].wet && !Main.player[npc.target].dead &&
                     (Main.player[npc.target].Center - npc.Center).Length() < 150f)
                 {
                     flag14 = true;

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Crabulon
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
 		}
-		
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(4) == 0)

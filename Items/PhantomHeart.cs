@@ -17,7 +17,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Phantom Heart");
 			Tooltip.SetDefault("Permanently increases maximum mana by 50");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items
 			item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -55,7 +55,7 @@ namespace CalamityMod.Items
 			}
 			return true;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

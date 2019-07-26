@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
 				"Each represent one of the Devourer’s largest spheres of influence.\n" +
 				"Dispatching them has most likely invoked its anger and marked you as a target for destruction.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

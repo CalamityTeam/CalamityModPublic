@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Magic
     public class WaterStream : ModProjectile
     {
     	public int addSprayTimer = 20;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stream");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

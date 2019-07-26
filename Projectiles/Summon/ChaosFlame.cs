@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Chaos Flame");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Summon
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.OnFire, 180);

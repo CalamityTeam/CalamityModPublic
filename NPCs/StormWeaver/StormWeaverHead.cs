@@ -25,12 +25,12 @@ namespace CalamityMod.NPCs.StormWeaver
         private bool tail = false;
         private const int minLength = 30;
         private const int maxLength = 31;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Storm Weaver");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 140; //150
@@ -580,18 +580,18 @@ namespace CalamityMod.NPCs.StormWeaver
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
 			damage = 0;
 			return false;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -627,7 +627,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 			}
 		}
-		
+
 		public override bool CheckDead()
 		{
 			for (int num957 = 0; num957 < 200; num957++)
@@ -643,12 +643,12 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 			return true;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);

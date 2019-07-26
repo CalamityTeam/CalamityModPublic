@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{    
+		{
 		    int num6 = Main.rand.Next(1, 3);
 		    for (int index = 0; index < num6; ++index)
 		    {
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons
 			}
 		    return false;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -13,7 +13,7 @@ using Terraria.Utilities;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Cosmilamp : ModItem
 	{
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons
 	        item.summon = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 			float num72 = item.shootSpeed;

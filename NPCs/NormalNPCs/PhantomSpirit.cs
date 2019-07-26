@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Phantom Spirit");
 			Main.npcFrameCount[npc.type] = 3;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("PhantomSpiritBanner");
 		}
-		
+
 		public override void AI()
 		{
 			npc.TargetClosest(true);
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			Main.dust[num822].noGravity = true;
 			return;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				player.AddBuff(mod.BuffType("MarkedforDeath"), 120);
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -87,12 +87,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override Color? GetAlpha(Color drawColor)
 		{
 			return new Color(200, 200, 200, 0);
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Phantoplasm"));

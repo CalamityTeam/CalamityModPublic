@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Patreon
 
             item.useStyle = 5;
             item.channel = true;
-            
+
             item.rare = 10;
             item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
             item.value = Item.buyPrice(2, 50, 0, 0);

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Lionfish");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 255;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
             int num982 = 25;
@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Rogue
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
@@ -216,10 +216,10 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num195].noGravity = true;
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.KingSlime || target.type == NPCID.WallofFlesh || target.type == NPCID.WallofFleshEye || 
+            if (target.type == NPCID.KingSlime || target.type == NPCID.WallofFlesh || target.type == NPCID.WallofFleshEye ||
                 target.type == NPCID.SkeletronHead || target.type == NPCID.SkeletronHand)
             {
                 target.buffImmune[BuffID.Venom] = false;

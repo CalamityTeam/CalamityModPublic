@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Flame");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.Y = 16f;
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate == 0)

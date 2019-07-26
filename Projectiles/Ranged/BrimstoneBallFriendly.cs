@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Ball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;

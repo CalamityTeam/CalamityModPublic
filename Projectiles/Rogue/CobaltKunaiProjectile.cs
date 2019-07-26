@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Kunai");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (Main.rand.Next(2) == 0)

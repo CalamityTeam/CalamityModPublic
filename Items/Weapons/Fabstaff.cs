@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Fabstaff : ModItem
 	{
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 6f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 18;
 		}
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

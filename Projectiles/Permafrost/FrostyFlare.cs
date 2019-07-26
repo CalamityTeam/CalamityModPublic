@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Permafrost
             projectile.timeLeft = 300;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Frosty Flare");

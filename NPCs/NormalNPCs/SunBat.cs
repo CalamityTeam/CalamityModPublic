@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Sun Bat");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.lavaImmune = true;
@@ -58,13 +58,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.Underground.Chance * 0.12f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.OnFire, 120, true);
 			player.AddBuff(mod.BuffType("HolyLight"), 120, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(3) == 0)

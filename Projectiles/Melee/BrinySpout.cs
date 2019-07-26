@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Briny Spout");
 			Main.projFrames[projectile.type] = 6;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 150;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 8;
         }
-        
+
         public override void AI()
         {
 			int num613 = 16;
@@ -115,12 +115,12 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.position.X = projectile.position.X + num624 * (float)(-(float)projectile.direction);
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(53, Main.DiscoG, 255, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

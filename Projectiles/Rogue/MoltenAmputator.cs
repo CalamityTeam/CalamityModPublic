@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Amputator");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 74;

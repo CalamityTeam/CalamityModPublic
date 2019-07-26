@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 120;
             projectile.aiStyle = 1;
         }
-        
+
         public override void AI()
         {
         	projectile.alpha -= 5;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Ranged
 				return;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);

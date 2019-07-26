@@ -42,14 +42,14 @@ namespace CalamityMod.Items.Weapons
         {
             return new Vector2(-5, 0);
         }
-	    
+
 	    public override bool ConsumeAmmo(Player player)
 	    {
 	    	if (Main.rand.Next(0, 100) < 95)
 	    		return false;
 	    	return true;
 	    }
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 		    float SpeedX = speedX + (float) Main.rand.Next(-5, 6) * 0.05f;
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons
 		    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 		    return false;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -11,13 +11,13 @@ namespace CalamityMod.Projectiles.Magic
     public class SHPB : ModProjectile
     {
     	public int explosionTimer = 120;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("SHPB");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale += 0.05f;
-				if ((double)projectile.scale > 1.2) 
+				if ((double)projectile.scale > 1.2)
 				{
 					projectile.localAI[0] = 1f;
 				}
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
 			else
 			{
 				projectile.scale -= 0.05f;
-				if ((double)projectile.scale < 0.8) 
+				if ((double)projectile.scale < 0.8)
 				{
 					projectile.localAI[0] = 0f;
 				}
@@ -94,12 +94,12 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, Main.DiscoG, 155, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

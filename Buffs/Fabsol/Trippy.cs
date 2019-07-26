@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Fabsol
 			Main.buffNoSave[Type] = false;
 			longerExpertDebuff = false;
         }
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).trippy = true;

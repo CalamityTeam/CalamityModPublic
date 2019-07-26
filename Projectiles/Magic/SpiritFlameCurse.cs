@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Flame");
 			Main.projFrames[projectile.type] = 8;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
 		{
 			DisplayName.SetDefault("Laser");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 5;
@@ -62,12 +62,12 @@ namespace CalamityMod.Projectiles.Enemy
 				}
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, 100, 255, 0);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));

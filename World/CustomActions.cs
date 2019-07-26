@@ -84,7 +84,7 @@ namespace CalamityMod.World
                         _weights[0] = weights[0];
                         continue;
                     }
-                    _weights[i] = _weights[i - 1] + weights[i]; 
+                    _weights[i] = _weights[i - 1] + weights[i];
                 }
             }
 

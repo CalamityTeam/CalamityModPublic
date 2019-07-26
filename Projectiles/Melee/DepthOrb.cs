@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);

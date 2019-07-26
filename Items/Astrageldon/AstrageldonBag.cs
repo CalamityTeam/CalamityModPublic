@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Astrageldon
  			DisplayName.SetDefault("Treasure Bag");
  			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
  		}
-		
+
 		public override void SetDefaults()
 		{
 			item.maxStack = 999;

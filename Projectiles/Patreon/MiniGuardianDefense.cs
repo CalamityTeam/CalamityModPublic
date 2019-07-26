@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Patreon
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.netImportant = true;

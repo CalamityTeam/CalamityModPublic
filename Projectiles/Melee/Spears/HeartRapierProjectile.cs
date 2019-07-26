@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 		{
 			DisplayName.SetDefault("Rapier");
 		}
-    	
+
         public override void SetDefaults()
         {
 			projectile.width = 44;  //The width of the .png file in pixels divided by 2.
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         		projectile.rotation -= 1.57f;
         	}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
         	if (target.type == NPCID.TargetDummy || !target.canGhostHeal)

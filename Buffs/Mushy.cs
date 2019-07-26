@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs
 			Main.buffNoSave[Type] = true;
 			longerExpertDebuff = true;
 		}
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).mushy = true;

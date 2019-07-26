@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Spear");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 62;

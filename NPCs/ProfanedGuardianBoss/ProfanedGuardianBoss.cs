@@ -17,13 +17,13 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		private int flareTimer = 0;
 		private int flareProjectiles = 1;
 		private int dustTimer = 3;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Profaned Guardian");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 20f;
@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.doughnutBoss = npc.whoAmI;
@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			{
 				npc.dontTakeDamage = false;
 			}
-			if (Math.Sign(npc.velocity.X) != 0) 
+			if (Math.Sign(npc.velocity.X) != 0)
 			{
 				npc.spriteDirection = -Math.Sign(npc.velocity.X);
 			}
@@ -178,9 +178,9 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			num1006 *= num1005;
 			int num1009 = (npc.ai[0] == 2f) ? 2 : 1;
 			int num1010 = (npc.ai[0] == 2f) ? 80 : 60;
-			for (int num1011 = 0; num1011 < 2; num1011++) 
+			for (int num1011 = 0; num1011 < 2; num1011++)
 			{
-				if (Main.rand.Next(3) < num1009) 
+				if (Main.rand.Next(3) < num1009)
 				{
 					int num1012 = Dust.NewDust(npc.Center - new Vector2((float)num1010), num1010 * 2, num1010 * 2, 244, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
 					Main.dust[num1012].noGravity = true;
@@ -254,7 +254,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				}
 			}
 			npc.damage = expertMode ? 200 : 100;
-			if (npc.ai[0] == 0f) 
+			if (npc.ai[0] == 0f)
 			{
 				npc.knockBackResist = 0f;
 				float scaleFactor6 = num998;
@@ -266,43 +266,43 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				vector126 = Vector2.Normalize(vector126) * scaleFactor6;
 				vector127 = Vector2.Normalize(vector127) * scaleFactor6;
 				bool flag64 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
-				if (npc.ai[3] >= 120f) 
+				if (npc.ai[3] >= 120f)
 				{
 					flag64 = true;
 				}
 				float num1014 = 8f;
 				flag64 = (flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014);
-				if (num1013 > num999 || !flag64) 
+				if (num1013 > num999 || !flag64)
 				{
 					npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;
 					npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / num1000;
-					if (!flag64) 
+					if (!flag64)
 					{
 						npc.ai[3] += 1f;
-						if (npc.ai[3] == 120f) 
+						if (npc.ai[3] == 120f)
 						{
 							npc.netUpdate = true;
 						}
-					} 
+					}
 					else
 					{
 						npc.ai[3] = 0f;
 					}
-				} 
-				else 
+				}
+				else
 				{
 					npc.ai[0] = 1f;
 					npc.ai[2] = vector126.X;
 					npc.ai[3] = vector126.Y;
 					npc.netUpdate = true;
 				}
-			} 
-			else if (npc.ai[0] == 1f) 
+			}
+			else if (npc.ai[0] == 1f)
 			{
 				npc.knockBackResist = 0f;
 				npc.velocity *= scaleFactor4;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= num1001) 
+				if (npc.ai[1] >= num1001)
 				{
 					npc.ai[0] = 2f;
 					npc.ai[1] = 0f;
@@ -312,8 +312,8 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					velocity *= scaleFactor5;
 					npc.velocity = velocity;
 				}
-			} 
-			else if (npc.ai[0] == 2f) 
+			}
+			else if (npc.ai[0] == 2f)
 			{
 				if (Main.netMode != 1)
 				{
@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				float num1016 = num1003;
 				npc.ai[1] += 1f;
 				bool flag65 = Vector2.Distance(npc.Center, Main.player[npc.target].Center) > num1004 && npc.Center.Y > Main.player[npc.target].Center.Y;
-				if ((npc.ai[1] >= num1016 && flag65) || npc.velocity.Length() < num1007) 
+				if ((npc.ai[1] >= num1016 && flag65) || npc.velocity.Length() < num1007)
 				{
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
@@ -345,24 +345,24 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					npc.netUpdate = true;
 					npc.ai[1] = 45f;
 					npc.ai[0] = 3f;
-				} 
-				else 
+				}
+				else
 				{
 					Vector2 center6 = npc.Center;
 					Vector2 center7 = Main.player[npc.target].Center;
 					Vector2 vec2 = center7 - center6;
 					vec2.Normalize();
-					if (vec2.HasNaNs()) 
+					if (vec2.HasNaNs())
 					{
 						vec2 = new Vector2((float)npc.direction, 0f);
 					}
 					npc.velocity = (npc.velocity * (num1005 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1005;
 				}
-			} 
-			else if (npc.ai[0] == 3f) 
+			}
+			else if (npc.ai[0] == 3f)
 			{
 				npc.ai[1] -= 1f;
-				if (npc.ai[1] <= 0f) 
+				if (npc.ai[1] <= 0f)
 				{
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
@@ -421,29 +421,29 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			name = "A Profaned Guardian";
 			potionType = ItemID.GreaterHealingPotion;
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ProfanedCore"));
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.OnFire, 600, true);
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

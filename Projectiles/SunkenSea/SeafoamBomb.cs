@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Seafoam Bomb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -24,14 +24,14 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.timeLeft = 240;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-		
+
 		public override void AI()
         {
 			projectile.rotation += projectile.velocity.X * 0.1f;
 			projectile.velocity.Y = projectile.velocity.Y + 0.15f;
 			projectile.velocity.X = projectile.velocity.X * 0.99f;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Flame");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 28;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 600;
             aiType = 228;
         }
-        
+
         public override void AI()
 		{
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;

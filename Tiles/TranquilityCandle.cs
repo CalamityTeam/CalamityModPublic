@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 20;
         }
-		
+
 		public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             frameCounter++;
@@ -33,7 +33,7 @@ namespace CalamityMod.Tiles
                 frameCounter = 0;
             }
         }
-		
+
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
@@ -41,21 +41,21 @@ namespace CalamityMod.Tiles
 			player.showItemIcon = true;
 			player.showItemIcon2 = mod.ItemType("TranquilityCandle");
 		}
-		
+
 		public override void NearbyEffects(int i, int j, bool closer)
 		{
 			Player player = Main.LocalPlayer;
 			if (!player.dead && player.active)
 				player.AddBuff(mod.BuffType("TranquilityCandle"), 20);
 		}
-		
+
 		public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
 			r = 0.55f;
             g = 0.055f;
 			b = 0.55f;
         }
-		
+
 		/*public override void RightClick(int i, int j)
 		{
 			Item.NewItem(i * 16, j * 16, 8, 8, mod.ItemType("TranquilityCandle"));

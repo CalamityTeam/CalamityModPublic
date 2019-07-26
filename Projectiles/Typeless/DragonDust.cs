@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Dust");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 46;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Typeless
 				num462++;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 0;

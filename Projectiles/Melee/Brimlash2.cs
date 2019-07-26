@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Brimlash");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;

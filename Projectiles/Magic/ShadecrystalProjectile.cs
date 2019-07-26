@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Crystal");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)

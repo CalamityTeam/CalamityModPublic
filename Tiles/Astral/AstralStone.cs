@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles.Astral
             TileID.Sets.Conversion.Stone[Type] = true;
             TileID.Sets.CanBeClearedDuringOreRunner[Type] = true;
         }
-        
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"));

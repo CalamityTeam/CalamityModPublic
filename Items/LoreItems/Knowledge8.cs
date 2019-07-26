@@ -18,7 +18,7 @@ namespace CalamityMod.Items.LoreItems
 			Tooltip.SetDefault("This bloody hell, spawned from a formless mass of flesh that fell from the stars eons ago.\n" +
                 "It is now home to many hideous creatures, spawned from the pumping blood and lurching organs deep within.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 2;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

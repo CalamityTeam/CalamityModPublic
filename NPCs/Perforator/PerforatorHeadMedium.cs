@@ -23,12 +23,12 @@ namespace CalamityMod.NPCs.Perforator
         private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 5 : 10;
         private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 6 : 11;
         private bool TailSpawned = false;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("The Perforator");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 35; //150
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.Perforator
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;
         }
-		
+
 		public override void AI()
 		{
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -434,26 +434,26 @@ namespace CalamityMod.NPCs.Perforator
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MediumPerf2"), 1f);
             }
 		}
-		
+
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			name = "The Medium Perforator";
 			potionType = ItemID.HealingPotion;
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodSample"), Main.rand.Next(3, 8));
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae, Main.rand.Next(2, 5));
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrimtaneBar, Main.rand.Next(2, 4));
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 1.15f);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("BurningBlood"), 240, true);

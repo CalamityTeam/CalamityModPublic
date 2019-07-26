@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("10% reduced movement speed\n" +
 				"Enemies take damage when they hit you");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 8;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 5;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);

@@ -13,12 +13,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 	public class ArmoredDiggerHead : ModNPC
 	{
 		bool TailSpawned = false;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Armored Digger");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 90;
@@ -411,13 +411,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             return false;
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Chilled, 240, true);
 			player.AddBuff(BuffID.Electrified, 180, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(40) == 0)

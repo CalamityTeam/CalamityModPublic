@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "Draedon obviously took several liberties with its design...I am not impressed.\n" +
 				"Place in your inventory to gain a boost to your armor penetration.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

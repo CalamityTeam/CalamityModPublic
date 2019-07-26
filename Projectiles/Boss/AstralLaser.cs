@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 			DisplayName.SetDefault("Astral Laser Volley");
             Main.projFrames[projectile.type] = 3;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;

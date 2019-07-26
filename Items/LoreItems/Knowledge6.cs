@@ -18,7 +18,7 @@ namespace CalamityMod.Items.LoreItems
 			Tooltip.SetDefault("Ah...this place.\n" +
                 "The scent of broken promises, pain, and eventual death is heavy in the air...");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

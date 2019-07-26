@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Tumbleweed");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 44;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            if ((projectile.velocity.X != projectile.velocity.X && (projectile.velocity.X < -3f || projectile.velocity.X > 3f)) || 
+            if ((projectile.velocity.X != projectile.velocity.X && (projectile.velocity.X < -3f || projectile.velocity.X > 3f)) ||
                 (projectile.velocity.Y != projectile.velocity.Y && (projectile.velocity.Y < -3f || projectile.velocity.Y > 3f)))
             {
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);

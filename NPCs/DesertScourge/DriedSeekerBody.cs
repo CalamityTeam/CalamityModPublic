@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.DesertScourge
 		{
 			DisplayName.SetDefault("Dried Seeker");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 8; //70
@@ -43,12 +43,12 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.netAlways = true;
 			npc.dontCountMe = true;
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			if (!Main.npc[(int)npc.ai[1]].active)
@@ -58,12 +58,12 @@ namespace CalamityMod.NPCs.DesertScourge
                 npc.active = false;
             }
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)

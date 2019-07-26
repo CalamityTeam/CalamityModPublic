@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Obliterator");
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 22;

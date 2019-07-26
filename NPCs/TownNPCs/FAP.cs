@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("That's west, " + Main.player[Main.myPlayer].name + ". You're fired again.");
                 dialogue.Add("Are you sure you're 21? ...alright, fine, but don't tell anyone I sold you this.");
             }
-            
+
             dialogue.Add("Drink something that turns you into a magical flying unicorn so you can be super gay.");
             dialogue.Add("Did anyone ever tell you that large assets cause back pain? Well, they were right.");
 
@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(mod.ItemType("Rum"));
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 7, 50, 0);
             nextSlot++;
-            
+
             shop.item[nextSlot].SetDefaults(mod.ItemType("Fireball"));
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 10, 0, 0);
             nextSlot++;

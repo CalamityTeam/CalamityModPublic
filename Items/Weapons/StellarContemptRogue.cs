@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
             item.value = Item.buyPrice(1, 20, 0, 0);
-            
+
             item.shoot = mod.ProjectileType("StellarContemptHammerRogue");
             item.shootSpeed = Speed;
         }

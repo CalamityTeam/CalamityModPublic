@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class ExsanguinationLance : ModItem
 	{
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("ExsanguinationLanceProjectile");
 			item.shootSpeed = 8f;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 	    {
 	        for (int i = 0; i < 1000; ++i)
@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons
 	        }
 	        return true;
 	    }
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

@@ -14,7 +14,7 @@ namespace CalamityMod.Items
 	    {
 		    DisplayName.SetDefault("Astral Hamaxe");
 	    }
-		
+
         public override void SetDefaults()
         {
             item.damage = 80;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items
             item.autoReuse = true;
             item.tileBoost += 3;
         }
-    
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.Next(2) == 0 ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"), 0.48f, 50, 78, -0.1f, 0.1f);

@@ -20,12 +20,12 @@ namespace CalamityMod.Buffs.Fabsol
 			longerExpertDebuff = false;
             canBeCleared = false;
         }
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).yellowCandle = true;
 		}
-		
+
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).yellowCandle = true;

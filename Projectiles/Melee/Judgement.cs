@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Melee
     public class Judgement : ModProjectile
     {
     	int whiteLightTimer = 5;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Judgement");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 	        item.shoot = mod.ProjectileType("AquamarineBolt");
 	        item.shootSpeed = 9f;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	    	int num6 = Main.rand.Next(2, 3);
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			}
 			return false;
 		}
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

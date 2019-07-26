@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "After they are afflicted they become an immortal vessel for an ancient demon of the underworld.\n" +
 				"Place in your inventory to gain increased defense and damage while in the dungeon.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 3;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

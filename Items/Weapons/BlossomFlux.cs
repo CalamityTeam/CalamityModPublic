@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class BlossomFlux : ModItem
 	{
@@ -40,12 +40,12 @@ namespace CalamityMod.Items.Weapons
 	        item.useAmmo = 40;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
-	    
+
 	    public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-	    
+
 	    public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons
 			}
 			return base.CanUseItem(player);
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	if (player.altFunctionUse == 2)

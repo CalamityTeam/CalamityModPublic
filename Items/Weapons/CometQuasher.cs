@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 8;
 			item.shootSpeed = 9f;
 		}
-		
+
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			if (target.type == NPCID.TargetDummy)
@@ -65,18 +65,18 @@ namespace CalamityMod.Items.Weapons
 	    	num78 *= num80;
 			num79 *= num80;
 			int num112 = 3;
-			for (int num113 = 0; num113 < num112; num113++) 
+			for (int num113 = 0; num113 < num112; num113++)
 			{
 				vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
 				vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
 				vector2.Y -= (float)(100 * num113);
 				num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;
 				num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-				if (num79 < 0f) 
+				if (num79 < 0f)
 				{
 					num79 *= -1f;
 				}
-				if (num79 < 20f) 
+				if (num79 < 20f)
 				{
 					num79 = 20f;
 				}
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons
 				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 			}
 		}
-		
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(3) == 0)
@@ -98,7 +98,7 @@ namespace CalamityMod.Items.Weapons
 	            Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 6);
 	        }
 	    }
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

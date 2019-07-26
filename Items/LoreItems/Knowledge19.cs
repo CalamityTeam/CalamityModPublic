@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "I am unsure if it has grown weaker over the decades of imprisonment.\n" +
 				"Place in your inventory to gain a frost dash that freezes enemies, at the cost of slightly reduced defense.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

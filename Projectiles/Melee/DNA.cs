@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("DNA");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 234, projectile.oldVelocity.X * 0.005f, projectile.oldVelocity.Y * 0.005f);
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (Main.myPlayer == projectile.owner && !CalamityPlayer.areThereAnyDamnBosses)

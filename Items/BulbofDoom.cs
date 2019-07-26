@@ -16,7 +16,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Portabulb");
 			Tooltip.SetDefault("Summons Plantera");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -28,12 +28,12 @@ namespace CalamityMod.Items
 			item.rare = 7;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneJungle && !NPC.AnyNPCs(NPCID.Plantera);
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, NPCID.Plantera);

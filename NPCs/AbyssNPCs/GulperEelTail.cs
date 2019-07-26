@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			DisplayName.SetDefault("Gulper Eel");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 65; //70
@@ -46,12 +46,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			banner = mod.NPCType("GulperEelHead");
 			bannerItem = mod.ItemType("GulperEelBanner");
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
             if (npc.ai[3] > 0f)
@@ -294,7 +294,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             for (int k = 0; k < 3; k++)

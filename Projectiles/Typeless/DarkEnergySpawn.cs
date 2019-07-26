@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Spawn");
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 6;
@@ -25,12 +25,12 @@ namespace CalamityMod.Projectiles.Typeless
 			projectile.tileCollide = false;
 			aiType = ProjectileID.Bullet;
 		}
-		
+
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
 			projectile.ai[1]++;
-			
+
 			if (projectile.ai[1] >= 0)
 			{
 				NPC.NewNPC((int)projectile.Center.X - 200, (int)projectile.Center.Y - 200, mod.NPCType("DarkEnergy"));

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.LoreItems
 			Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations...given the ability to control them.\n" +
 				"Place in your inventory to make small bees and weak hornets friendly.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 3;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

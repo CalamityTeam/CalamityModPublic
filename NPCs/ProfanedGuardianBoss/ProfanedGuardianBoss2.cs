@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			DisplayName.SetDefault("Profaned Guardian");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 3f;
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
@@ -100,16 +100,16 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			{
 				npc.timeLeft = 1800;
 			}
-			if (Math.Sign(npc.velocity.X) != 0) 
+			if (Math.Sign(npc.velocity.X) != 0)
 			{
 				npc.spriteDirection = -Math.Sign(npc.velocity.X);
 			}
 			npc.spriteDirection = Math.Sign(npc.velocity.X);
 			int num1009 = (npc.ai[0] == 0f) ? 1 : 2;
 			int num1010 = (npc.ai[0] == 0f) ? 60 : 80;
-			for (int num1011 = 0; num1011 < 2; num1011++) 
+			for (int num1011 = 0; num1011 < 2; num1011++)
 			{
-				if (Main.rand.Next(3) < num1009) 
+				if (Main.rand.Next(3) < num1009)
 				{
 					int dustType = Main.rand.Next(2);
 					if (dustType == 0)
@@ -126,19 +126,19 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					Main.dust[num1012].fadeIn = 1f;
 				}
 			}
-			if (!Main.npc[CalamityGlobalNPC.doughnutBoss].active) 
+			if (!Main.npc[CalamityGlobalNPC.doughnutBoss].active)
 			{
 				npc.active = false;
 				npc.netUpdate = true;
 				return;
 			}
-			if (npc.ai[0] == 0f) 
+			if (npc.ai[0] == 0f)
 			{
 				Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num784 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector96.X;
 				float num785 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector96.Y;
 				float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-				if (num786 > 90f) 
+				if (num786 > 90f)
 				{
 					num786 = 24f / num786; //8f
 					num784 *= num786;
@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					npc.velocity.Y = npc.velocity.Y * 1.15f; //1.05f
 					npc.velocity.X = npc.velocity.X * 1.15f; //1.05f
 				}
-				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(50) == 0) || Main.rand.Next(100) == 0)) 
+				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(50) == 0) || Main.rand.Next(100) == 0))
 				{
 					npc.TargetClosest(true);
 					vector96 = new Vector2(npc.Center.X, npc.Center.Y);
@@ -166,8 +166,8 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					npc.netUpdate = true;
 					return;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				Vector2 value4 = player.Center - npc.Center;
 				value4.Normalize();
@@ -177,13 +177,13 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				float num787 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector97.X;
 				float num788 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector97.Y;
 				float num789 = (float)Math.Sqrt((double)(num787 * num787 + num788 * num788));
-				if (num789 > 700f) 
+				if (num789 > 700f)
 				{
 					npc.ai[0] = 0f;
 					return;
 				}
 			}
-			if (Main.netMode != 1) 
+			if (Main.netMode != 1)
 			{
 				npc.localAI[0] += expertMode ? 2f : 1f;
 				if (npc.localAI[0] >= 420f)
@@ -211,30 +211,30 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				}
 			}
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			name = "A Profaned Guardian";
 			potionType = ItemID.GreaterHealingPotion;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.OnFire, 600, true);
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.7f);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

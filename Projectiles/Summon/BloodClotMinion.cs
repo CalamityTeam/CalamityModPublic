@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             Main.projFrames[projectile.type] = 4;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 36;

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 			DisplayName.SetDefault("Ink");
             Main.projFrames[projectile.type] = 5;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;

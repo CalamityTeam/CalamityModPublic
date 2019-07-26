@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Polterghast
                 "Summons Polterghast\n" +
                 "Not consumable");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.Polterghast
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneDungeon && !NPC.AnyNPCs(mod.NPCType("Polterghast")) && CalamityWorld.downedBossAny;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Polterghast"));

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Undine's Retribution");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -103,9 +103,9 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
                 }
             }
-			else 
+			else
 			{
-				if (projectile.timeLeft > 30) 
+				if (projectile.timeLeft > 30)
 				{
 					projectile.timeLeft = 30;
 				}

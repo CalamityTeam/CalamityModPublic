@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Scythe");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 38;
@@ -30,12 +30,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 3;
         }
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.6f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
 			if (projectile.timeLeft < 85)

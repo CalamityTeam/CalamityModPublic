@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Round");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Typeless
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

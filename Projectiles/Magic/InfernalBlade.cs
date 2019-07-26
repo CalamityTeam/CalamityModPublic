@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Blade");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -73,12 +73,12 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num489].noGravity = true;
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, 50, 50, 0);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	SpriteEffects spriteEffects = SpriteEffects.None;
@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Magic
         {
         	float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
     		Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-    
+
     		float num80 = xPos;
     		float speedX = (float)target.position.X - vector2.X;
     		float speedY = (float)target.position.Y - vector2.Y;

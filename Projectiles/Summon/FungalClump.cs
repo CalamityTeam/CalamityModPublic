@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 40;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Summon
         		Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f);
         	}
 		}
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (target.type == NPCID.TargetDummy || !target.canGhostHeal)

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 		{
 			DisplayName.SetDefault("Azathoth");
 		}
-    	
+
         public override void SetDefaults()
         {
         	projectile.CloneDefaults(ProjectileID.Kraken);
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 1;
         }
-        
+
         public override void AI()
         {
             if (Main.rand.Next(6) == 0)

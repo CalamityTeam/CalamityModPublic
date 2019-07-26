@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "Could have proven useful if Draedon didn't have an obsession with turning everything into a tool of destruction.\n" +
 				"Place in your inventory to gain a boost to your pick speed.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

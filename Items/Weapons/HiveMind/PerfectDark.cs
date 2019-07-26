@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 			DisplayName.SetDefault("Perfect Dark");
 			Tooltip.SetDefault("Fires a vile ball that sticks to tiles and explodes");
 		}
-	
+
 		public override void SetDefaults()
 		{
 			item.width = 50;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 			item.shoot = mod.ProjectileType("DarkBall");
 			item.shootSpeed = 5f;
 		}
-		
+
 		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

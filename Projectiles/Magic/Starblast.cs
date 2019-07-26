@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Star");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num194].velocity *= 0.1f;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

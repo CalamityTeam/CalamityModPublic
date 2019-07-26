@@ -41,7 +41,7 @@ namespace CalamityMod
 				new [] { "GhostBossText2", "Wails echo through the dilapidated dungeon halls..." },
 				new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
 
-				new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start     
+				new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start
                 new [] { "SupremeBossText4", "You seem so confident, even though you are painfully ignorant of what has yet to transpire." }, //75%
                 new [] { "SupremeBossText5", "Everything was going well until you came along." }, //75%
                 new [] { "SupremeBossText6", "Brothers, could you assist me for a moment? This ordeal is growing tiresome." }, //45%
@@ -58,7 +58,7 @@ namespace CalamityMod
                 new [] { "SupremeBossText26", "Well...I suppose this is the end..." }, //1% after 15 seconds
                 new [] { "SupremeBossText27", "Perhaps one of these times I'll change my mind..." }, //1% after first win
                 new [] { "SupremeBossText28", "You aren't hurting as much as I'd like...are you cheating?" }, //not taking enough damage
-                new [] { "SupremeBossText2", "Go to hell." }, //cheater 
+                new [] { "SupremeBossText2", "Go to hell." }, //cheater
                 new [] { "SupremeBossText10", "At long last I am free...for a time. I'll keep coming back, just like you. Until we meet again, farewell." }, //end after 20 seconds
                 new [] { "SupremeBossText11", "Do you enjoy going through hell?" }, //rebattle after killing once
                 new [] { "SupremeBossText12", "Don't get me wrong, I like pain too, but you're just ridiculous." }, //rebattle after killing four times

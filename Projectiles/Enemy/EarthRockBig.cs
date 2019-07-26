@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Enemy
 		{
 			DisplayName.SetDefault("Rock");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

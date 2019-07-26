@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Grenade Round");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;

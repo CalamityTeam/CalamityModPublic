@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 	 		DisplayName.SetDefault("Zerg Potion");
 	 		Tooltip.SetDefault("Boosts spawn rates...a lot...");
 	 	}
-	
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

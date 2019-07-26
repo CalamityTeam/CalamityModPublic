@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Cryon");
 			Main.npcFrameCount[npc.type] = 8;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -374,7 +374,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
             }
         }
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 0)

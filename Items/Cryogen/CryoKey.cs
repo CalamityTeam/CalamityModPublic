@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Cryogen
 			DisplayName.SetDefault("Cryo Key");
 			Tooltip.SetDefault("Summons Cryogen");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Cryogen
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneSnow && !NPC.AnyNPCs(mod.NPCType("Cryogen"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Cryogen"));

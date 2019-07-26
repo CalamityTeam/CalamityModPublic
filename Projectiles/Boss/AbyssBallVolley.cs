@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Abyss Ball Volley");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;

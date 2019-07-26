@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class FellerofEvergreens : ModItem
 	{
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
 	        item.UseSound = SoundID.Item1;
 	        item.autoReuse = true;
 	    }
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

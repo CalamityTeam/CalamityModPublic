@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 300;

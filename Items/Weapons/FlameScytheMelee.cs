@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class FlameScytheMelee : ModItem
 	{
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Flame Scythe");
 			Tooltip.SetDefault("Throws a scythe that explodes on enemy hits");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 50;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("FlameScytheProjectileMelee");
 			item.shootSpeed = 16f;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

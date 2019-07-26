@@ -26,13 +26,13 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			item.rare = 2;
 			item.UseSound = SoundID.Item1;
 		}
-		
+
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			type = mod.ProjectileType("SeashineSwordProj");
 			return base.Shoot(player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

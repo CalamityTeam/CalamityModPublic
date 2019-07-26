@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
     public class ChaosSpirit : ModProjectile
     {
     	public int dust = 3;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chaos Spirit");
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 40;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
 				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				int num501 = 50;
-				for (int num502 = 0; num502 < num501; num502++) 
+				for (int num502 = 0; num502 < num501; num502++)
 				{
 					int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 127, 0f, 0f, 0, default(Color), 1f);
 					Main.dust[num503].velocity *= 2f;
@@ -129,14 +129,14 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				else
 				{
-					for (int num512 = 0; num512 < 200; num512++) 
+					for (int num512 = 0; num512 < 200; num512++)
 					{
-						if (Main.npc[num512].CanBeChasedBy(projectile, false)) 
+						if (Main.npc[num512].CanBeChasedBy(projectile, false))
 						{
 							float num513 = Main.npc[num512].position.X + (float)(Main.npc[num512].width / 2);
 							float num514 = Main.npc[num512].position.Y + (float)(Main.npc[num512].height / 2);
 							float num515 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num513) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num514);
-							if (num515 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height)) 
+							if (num515 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num512].position, Main.npc[num512].width, Main.npc[num512].height))
 							{
 								num508 = num515;
 								num506 = num513;

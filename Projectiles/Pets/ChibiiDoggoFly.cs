@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Pets
 			while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
 			{
 				Microsoft.Xna.Framework.Color color26 = color25;
-				color26 = projectile.GetAlpha(color26);		
+				color26 = projectile.GetAlpha(color26);
 				goto IL_6899;
 				IL_6881:
 				num161 += num158;
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Pets
 				projectile.Center = Main.projectile[byUuid].Center;
 				projectile.rotation = Main.projectile[byUuid].rotation;
 				projectile.spriteDirection = Main.projectile[byUuid].spriteDirection;
-				
+
 				if(Main.projectile[byUuid].tileCollide)
 					projectile.hide = true;
 				else

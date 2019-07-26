@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Crabulon
 	        item.shoot = 590;
 	        item.shootSpeed = 1f;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	    	int i = Main.myPlayer;

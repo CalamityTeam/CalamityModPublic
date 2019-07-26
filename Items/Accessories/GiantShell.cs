@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
 			Tooltip.SetDefault("15% reduced movement speed\n" +
 				"Taking a hit will make you move very fast for a short time");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.defense = 6;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 1;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.moveSpeed -= 0.15f;

@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			DisplayName.SetDefault("Aquatic Urchin");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("AquaticUrchinBanner");
 		}
-		
+
 		public override void AI()
 		{
 			int num = 30;
@@ -324,7 +324,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.rotation += npc.velocity.X * 0.05f;
 			npc.spriteDirection = -npc.direction;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
             player.AddBuff(BuffID.Venom, 120, true);
@@ -347,7 +347,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UrchinStinger"), Main.rand.Next(15, 26));
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			DisplayName.SetDefault("Shockstorm Shuttle");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 3f;
@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("ShockstormShuttleBanner");
 		}
-		
+
 		public override void AI()
 		{
 			if (Main.netMode != 1)
@@ -540,7 +540,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				return;
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -555,7 +555,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !Main.hardMode)
@@ -564,12 +564,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.Sky.Chance * 0.1f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Electrified, 120, true);
 		}
-		
+
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));

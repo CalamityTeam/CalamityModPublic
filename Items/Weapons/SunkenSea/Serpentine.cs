@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 	        item.shoot = mod.ProjectileType("SerpentineHead");
 	        item.shootSpeed = 10f;
 	    }
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			int owner = player.whoAmI;
@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			if (num77 > 0f)
 			{
 				player.ChangeDir(1);
-			} 
+			}
 			else
 			{
 				player.ChangeDir(-1);
@@ -78,16 +78,16 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			//vector2.X = (float)Main.mouseX + Main.screenPosition.X;
 			//vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
 			int curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SerpentineHead"), damage, knockBack, owner);
-			
+
 			int prev = curr;
 			curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SerpentineBody"), damage, knockBack, owner, (float)prev);
 
 			prev = curr;
 			curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SerpentineBody"), damage, knockBack, owner, (float)prev);
-			
+
 			prev = curr;
 			curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SerpentineBody"), damage, knockBack, owner, (float)prev);
-			
+
 			prev = curr;
 			curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SerpentineTail"), damage, knockBack, owner, (float)prev);
 			Main.projectile[prev].localAI[1] = (float)curr;

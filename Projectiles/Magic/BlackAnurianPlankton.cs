@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Plankton");
             Main.projFrames[projectile.type] = 5;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;

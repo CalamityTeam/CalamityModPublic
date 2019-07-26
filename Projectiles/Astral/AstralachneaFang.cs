@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Astral
 		{
 			DisplayName.SetDefault("Fang");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 38;

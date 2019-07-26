@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			DisplayName.SetDefault("Sepulcher");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0; //70
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			if (!Main.npc[(int)npc.ai[1]].active)
@@ -108,12 +108,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             if (npc.life <= 0)

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Bubble");
 			Main.projFrames[projectile.type] = 3;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.timeLeft = 1;
         }
-        
+
         public override void AI()
         {
         	if (projectile.ai[1] > 0f)
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.Kill();
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 19);

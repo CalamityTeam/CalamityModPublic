@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 150;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.localNPCHitCooldown = 5;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
             projectile.localAI[0] += 1f;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 			}
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("HolyLight"), 180);

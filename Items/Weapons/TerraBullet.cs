@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Terra Bullet");
 			Tooltip.SetDefault("Explodes and splits into homing terra shards on death");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.damage = 9;

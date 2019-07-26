@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 20;
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Summon
 				}
 			}
 		}
-		
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

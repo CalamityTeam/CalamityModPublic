@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("RPG");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("MiniRocketExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

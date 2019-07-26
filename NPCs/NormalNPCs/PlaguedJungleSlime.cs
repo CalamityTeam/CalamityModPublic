@@ -13,13 +13,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 	public class PlaguedJungleSlime : ModNPC
 	{
 		public float spikeTimer = 60f;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pestilent Slime");
 			Main.npcFrameCount[npc.type] = 2;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 1;
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("PestilentSlimeBanner");
 		}
-		
+
 		public override void AI()
 		{
 			if (spikeTimer > 0f)
@@ -131,12 +131,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(1, 3));
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
             player.AddBuff(mod.BuffType("Plague"), 300, true);

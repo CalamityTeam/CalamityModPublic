@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
 				"What would have become of us had she not been defeated is a frightening concept to consider.\n" +
 				"Place in your inventory to imbue all projectiles with profaned flames, causing them to inflict extra damage.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

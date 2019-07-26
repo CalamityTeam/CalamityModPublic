@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Scavenger
 			Tooltip.SetDefault("A very old temple medallion\n" +
                 "Summons the Ravager");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Scavenger
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !NPC.AnyNPCs(mod.NPCType("ScavengerBody")) && player.ZoneOverworldHeight;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             if (Main.netMode != 1)

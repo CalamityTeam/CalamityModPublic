@@ -17,13 +17,13 @@ namespace CalamityMod.NPCs.SlimeGod
     public class SlimeGodRunSplit : ModNPC
 	{
         private float bossLife;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crimulan Slime God");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
             npc.lifeMax = CalamityWorld.revenge ? 2407 : 1750;
@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			aiType = -1;
 			bossBag = mod.ItemType("SlimeGodBag");
 		}
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
@@ -581,7 +581,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);

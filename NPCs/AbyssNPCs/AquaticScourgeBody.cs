@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			DisplayName.SetDefault("Aquatic Scourge");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 100; //70
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
             if ((double)npc.life <= (double)npc.lifeMax * 0.99)

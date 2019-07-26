@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
 	        item.shootSpeed = 1f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);

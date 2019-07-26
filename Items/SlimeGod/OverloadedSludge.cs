@@ -12,7 +12,7 @@ namespace CalamityMod.Items.SlimeGod
 			Tooltip.SetDefault("It looks corrupted\n" +
                 "Summons the Slime God");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -24,13 +24,13 @@ namespace CalamityMod.Items.SlimeGod
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
-			return !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGod")) && 
+			return !NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) && !NPC.AnyNPCs(mod.NPCType("SlimeGod")) &&
                 !NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) && !NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("SlimeGod"));

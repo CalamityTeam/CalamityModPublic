@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.HiveMind
 			DisplayName.SetDefault("The Hive Mind");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 5f;
@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.HiveMind
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			npc.TargetClosest(true);
@@ -82,14 +82,14 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				if (npc.timeLeft > 60)
 					npc.timeLeft = 60;
-				if (npc.localAI[3] < 120f) 
+				if (npc.localAI[3] < 120f)
 				{
 					float[] aiArray = npc.localAI;
 					int number = 3;
 					float num244 = aiArray[number];
 					aiArray[number] = num244 + 1f;
 				}
-				if (npc.localAI[3] > 60f) 
+				if (npc.localAI[3] > 60f)
 				{
 					npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.5f;
 					npc.noGravity = true;
@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.HiveMind
 				}
 				return;
 			}
-			if (npc.localAI[3] > 0f) 
+			if (npc.localAI[3] > 0f)
 			{
 				float[] aiArray = npc.localAI;
 				int number = 3;
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.HiveMind
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
-			if (Main.netMode != 1) 
+			if (Main.netMode != 1)
 			{
 				if (revenge)
 				{
@@ -123,10 +123,10 @@ namespace CalamityMod.NPCs.HiveMind
 						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("HiveBlob"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 					}
 				}
-				if (npc.localAI[0] == 0f) 
+				if (npc.localAI[0] == 0f)
 				{
 					npc.localAI[0] = 1f;
-					for (int num723 = 0; num723 < 5; num723++) 
+					for (int num723 = 0; num723 < 5; num723++)
 					{
 						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("HiveBlob"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 					}
@@ -272,13 +272,13 @@ namespace CalamityMod.NPCs.HiveMind
                 }
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
             npc.damage = (int)(npc.damage * 0.8f);
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             if (npc.life > 0)
@@ -329,12 +329,12 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			return npc.scale == 1f;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)

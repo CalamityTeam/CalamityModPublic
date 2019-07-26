@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class HellBurst : ModItem
 	{
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("FlameBeamTip");
 	        item.shootSpeed = 32f;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

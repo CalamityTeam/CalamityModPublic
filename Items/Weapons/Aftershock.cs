@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shootSpeed = 12f;
         }
-        
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("ArmorCrunch"), 120);
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Weapons
 			float speedY5 = num79 + (float)Main.rand.Next(-10, 11) * 0.02f;
 			Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("Aftershock"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
         }
-        
+
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.Next(5) == 0)

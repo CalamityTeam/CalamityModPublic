@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Blade");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
             	projectile.ai[1] = 0f;
             }
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

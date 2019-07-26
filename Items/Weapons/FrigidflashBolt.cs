@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class FrigidflashBolt : ModItem
 	{
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("FrigidflashBoltProjectile");
 	        item.shootSpeed = 6.5f;
 	    }
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

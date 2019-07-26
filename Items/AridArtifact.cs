@@ -19,7 +19,7 @@ namespace CalamityMod.Items
 	 		Tooltip.SetDefault("Summons a sandstorm\n" +
 	 		                   "The sandstorm will happen shortly after the item is used");
 	 	}
-	
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -32,18 +32,18 @@ namespace CalamityMod.Items
 			item.UseSound = SoundID.Item66;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !Sandstorm.Happening;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			typeof(Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
 			return true;
 		}
-		
+
 		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

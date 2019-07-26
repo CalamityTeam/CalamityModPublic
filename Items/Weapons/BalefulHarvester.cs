@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class BalefulHarvester : ModItem
 	{
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("BalefulHarvesterProjectile");
 			item.shootSpeed = 6f;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-		
+
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			target.AddBuff(BuffID.OnFire, 300);

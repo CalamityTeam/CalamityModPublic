@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                         //fire projectile
                         npc.ai[0] = 1f;
                         npc.ai[1] = npc.ai[2] = 0f;
-                        npc.frame.Y = 400; 
+                        npc.frame.Y = 400;
                         npc.frameCounter = 0;
                     }
                 }

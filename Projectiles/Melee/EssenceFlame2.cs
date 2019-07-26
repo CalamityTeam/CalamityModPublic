@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Flame");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.alpha = 255;
             projectile.extraUpdates = 3;
         }
-		
+
         public override void AI()
         {
         	projectile.alpha -= 5;
@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Blood Geyser");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
         }
-        
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
         	target.AddBuff(mod.BuffType("BurningBlood"), 120);

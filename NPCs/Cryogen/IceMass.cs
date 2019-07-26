@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Cryogen
 			DisplayName.SetDefault("Aurora Spirit");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 86;
@@ -49,12 +49,12 @@ namespace CalamityMod.NPCs.Cryogen
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.01f, 0.35f, 0.35f);
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Laser");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num448].velocity *= 0.2f;
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
         	if (projectile.owner == Main.myPlayer)

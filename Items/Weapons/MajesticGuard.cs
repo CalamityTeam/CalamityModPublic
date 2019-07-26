@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
 		}
-		
+
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			if (Main.rand.Next(5) == 0)
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons
 		    	player.HealEffect(3);
 			}
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

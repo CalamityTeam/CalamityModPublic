@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "These creatures did not belong in this world, it's best to be rid of them.\n" +
 				"Place in your inventory to gain invisibility at night.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

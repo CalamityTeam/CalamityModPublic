@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Celestus");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 94;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, (Main.DiscoR * 0.5f) / 255f, (Main.DiscoG * 0.5f) / 255f, (Main.DiscoB * 0.5f) / 255f);
@@ -107,12 +107,12 @@ namespace CalamityMod.Projectiles.Rogue
         	}
         	projectile.rotation += 1f;
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(250, 250, 250, 50);
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(mod.BuffType("ExoFreeze"), 30);

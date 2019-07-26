@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Fist");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

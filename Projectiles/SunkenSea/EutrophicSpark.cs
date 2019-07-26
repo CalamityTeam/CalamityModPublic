@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Eutrophic Spark");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 				projectile.velocity.Y = 16f;
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate == 0)

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Shattered Sun");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 56;
@@ -80,14 +80,14 @@ namespace CalamityMod.Projectiles.Rogue
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ShatteredExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 		}
-		
+
 		public override bool OnTileCollide(Vector2 oldVelocity)
         {
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ShatteredExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			return true;
 		}
-        
+
         public override void Kill(int timeLeft)
         {
         	for (int k = 0; k < 5; k++)

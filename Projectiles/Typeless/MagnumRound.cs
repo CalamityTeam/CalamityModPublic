@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Magnum Round");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Blast");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 5;
@@ -58,12 +58,12 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(100, 100, 255, 0);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
 	        	for (int k = 0; k < projectiles; k++)
 	            {
-	            	Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, mod.ProjectileType("ChargedBlast2"), 
+	            	Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, mod.ProjectileType("ChargedBlast2"),
 	            	(int)((double)projectile.damage * 0.85), (float)((int)((double)projectile.knockBack * 0.5)), Main.myPlayer, 0f, 0f);
 	            }
             }

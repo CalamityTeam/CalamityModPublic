@@ -14,7 +14,7 @@ namespace CalamityMod.Items.SunkenSea
 		public const int ShardProjectiles = 2;
         public const float ShardAngleSpread = 120;
         public int ShardCountdown = 0;
-		
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Amidias' Pendant");
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.SunkenSea
 							int damage = 0;
 							switch (Main.rand.Next(3))
 							{
-								case 0: type = mod.ProjectileType("PendantProjectile1"); 
+								case 0: type = mod.ProjectileType("PendantProjectile1");
 										damage = 15; break;
 								case 1: type = mod.ProjectileType("PendantProjectile2");
 										damage = 15; break;

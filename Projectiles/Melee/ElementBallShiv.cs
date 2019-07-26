@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Ball");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
         {
         	float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
     		Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-    
+
     		float num80 = xPos;
     		float speedX = (float)target.position.X - vector2.X;
     		float speedY = (float)target.position.Y - vector2.Y;

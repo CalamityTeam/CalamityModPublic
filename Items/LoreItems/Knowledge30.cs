@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "The destruction of this creature will not prevent the spread of the disease.\n" +
 				"Place in your inventory to gain increased jump speed in space.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 7;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

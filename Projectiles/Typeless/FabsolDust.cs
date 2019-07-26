@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Dust");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 70;

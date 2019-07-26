@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Infernado");
 			Main.projFrames[projectile.type] = 6;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 320;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 1;
         }
-        
+
         public override void AI()
         {
         	int num613 = 22;
@@ -115,12 +115,12 @@ namespace CalamityMod.Projectiles.Magic
 				return;
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, 255, 53, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

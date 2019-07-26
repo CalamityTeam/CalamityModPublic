@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Calamitas
 			DisplayName.SetDefault("Life Seeker");
 			Main.npcFrameCount[npc.type] = 2;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 35;
@@ -41,17 +41,17 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.buffImmune[24] = true;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("BrimstoneFlames"), 120, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

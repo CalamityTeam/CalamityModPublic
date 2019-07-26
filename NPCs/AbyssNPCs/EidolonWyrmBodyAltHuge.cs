@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			DisplayName.SetDefault("Eidolon Wyrm");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 100; //70
@@ -45,12 +45,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.dontTakeDamage = true;
             npc.chaseable = false;
         }
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
             npc.damage = 0;
@@ -294,7 +294,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             for (int k = 0; k < 3; k++)

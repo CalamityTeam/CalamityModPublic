@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class MarkedMagnum : ModItem
 	{
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 12f;
 	        item.shoot = mod.ProjectileType("MarkRound");
 	    }
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-5, 0);

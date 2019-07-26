@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 	 		DisplayName.SetDefault("Anechoic Coating");
 	 		Tooltip.SetDefault("Reduces creature's ability to detect you in the abyss");
 	 	}
-	
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

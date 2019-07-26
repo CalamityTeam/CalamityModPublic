@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Bubble");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.magic = true;
         }
-        
+
         public override void AI()
         {
         	projectile.velocity.X *= 0.975f;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				projectile.alpha -= 30;
 			}
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}
@@ -42,16 +42,16 @@ namespace CalamityMod.Projectiles.Magic
 			float num743 = projectile.velocity.ToRotation();
 			float num744 = v2.ToRotation();
 			double num745 = (double)(num744 - num743);
-			if (num745 > 3.1415926535897931) 
+			if (num745 > 3.1415926535897931)
 			{
 				num745 -= 6.2831853071795862;
 			}
-			if (num745 < -3.1415926535897931) 
+			if (num745 < -3.1415926535897931)
 			{
 				num745 += 6.2831853071795862;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
-			if (Main.myPlayer == projectile.owner && projectile.timeLeft > 60) 
+			if (Main.myPlayer == projectile.owner && projectile.timeLeft > 60)
 			{
 				projectile.timeLeft = 60;
 				return;

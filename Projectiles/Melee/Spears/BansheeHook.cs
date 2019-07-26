@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 		{
 			DisplayName.SetDefault("Banshee Hook");
 		}
-    	
+
         public override void SetDefaults()
         {
 			projectile.width = 40;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 					if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
 					{
 						projectile.localAI[0] = 1f;
-						Projectile.NewProjectile(projectile.Center.X + (projectile.velocity.X * 0.5f), projectile.Center.Y + (projectile.velocity.Y * 0.5f), 
+						Projectile.NewProjectile(projectile.Center.X + (projectile.velocity.X * 0.5f), projectile.Center.Y + (projectile.velocity.Y * 0.5f),
 						                         projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f, mod.ProjectileType("BansheeHookScythe"), (int)((double)projectile.damage * 1.75), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
 					}
 	        	}
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 				player.reuseDelay = 2;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 			arg_E055_0.Draw(texture2D31, arg_E055_2, sourceRectangle2, new Microsoft.Xna.Framework.Color(255, 255, 255, 127), projectile.rotation, origin8, projectile.scale, SpriteEffects.None, 0f);
         	return false;
         }
-        
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
         	float f2 = projectile.rotation - 0.7853982f * (float)Math.Sign(projectile.velocity.X) + ((projectile.spriteDirection == -1) ? 3.14159274f : 0f);
@@ -141,10 +141,10 @@ namespace CalamityMod.Projectiles.Melee.Spears
 			}
 			return false;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.owner == Main.myPlayer) 
+			if (projectile.owner == Main.myPlayer)
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BansheeHookBoom"), (int)((double)damage * 0.25), 10f, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 			}

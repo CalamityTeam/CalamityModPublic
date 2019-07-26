@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Astral
 			DisplayName.SetDefault("Astral Ring");
             Main.projFrames[projectile.type] = 3;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 72;

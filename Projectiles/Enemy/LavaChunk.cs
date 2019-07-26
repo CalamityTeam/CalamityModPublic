@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Enemy
 			DisplayName.SetDefault("Lava Chunk");
             Main.projFrames[projectile.type] = 6;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;

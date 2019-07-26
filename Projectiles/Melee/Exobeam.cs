@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Beam");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -55,21 +55,21 @@ namespace CalamityMod.Projectiles.Melee
                 }
             }
             projectile.alpha -= 40;
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}
-			if (projectile.ai[0] == 0f) 
+			if (projectile.ai[0] == 0f)
 			{
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] >= 90f) 
+				if (projectile.localAI[0] >= 90f)
 				{
 					projectile.localAI[0] = 0f;
 					projectile.ai[0] = 1f;
 					projectile.netUpdate = true;
 				}
-			} 
-			else if (projectile.ai[0] == 1f) 
+			}
+			else if (projectile.ai[0] == 1f)
 			{
 				projectile.localAI[0] += 1f;
 				if (projectile.localAI[0] >= 60f)
@@ -79,11 +79,11 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.ai[1] = (float)Player.FindClosest(projectile.position, projectile.width, projectile.height);
 					projectile.netUpdate = true;
 				}
-			} 
-			else if (projectile.ai[0] == 2f) 
+			}
+			else if (projectile.ai[0] == 2f)
 			{
 				Vector2 vector70 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
-				if (vector70.Length() < 30f) 
+				if (vector70.Length() < 30f)
 				{
 					projectile.Kill();
 					return;
@@ -91,39 +91,39 @@ namespace CalamityMod.Projectiles.Melee
 				vector70.Normalize();
 				vector70 *= 14f;
 				vector70 = Vector2.Lerp(projectile.velocity, vector70, 0.6f);
-				if (vector70.Y < 24f) 
+				if (vector70.Y < 24f)
 				{
 					vector70.Y = 24f;
 				}
 				float num804 = 0.4f;
-				if (projectile.velocity.X < vector70.X) 
+				if (projectile.velocity.X < vector70.X)
 				{
 					projectile.velocity.X = projectile.velocity.X + num804;
-					if (projectile.velocity.X < 0f && vector70.X > 0f) 
+					if (projectile.velocity.X < 0f && vector70.X > 0f)
 					{
 						projectile.velocity.X = projectile.velocity.X + num804;
 					}
-				} 
-				else if (projectile.velocity.X > vector70.X) 
+				}
+				else if (projectile.velocity.X > vector70.X)
 				{
 					projectile.velocity.X = projectile.velocity.X - num804;
-					if (projectile.velocity.X > 0f && vector70.X < 0f) 
+					if (projectile.velocity.X > 0f && vector70.X < 0f)
 					{
 						projectile.velocity.X = projectile.velocity.X - num804;
 					}
 				}
-				if (projectile.velocity.Y < vector70.Y) 
+				if (projectile.velocity.Y < vector70.Y)
 				{
 					projectile.velocity.Y = projectile.velocity.Y + num804;
-					if (projectile.velocity.Y < 0f && vector70.Y > 0f) 
+					if (projectile.velocity.Y < 0f && vector70.Y > 0f)
 					{
 						projectile.velocity.Y = projectile.velocity.Y + num804;
 					}
-				} 
-				else if (projectile.velocity.Y > vector70.Y) 
+				}
+				else if (projectile.velocity.Y > vector70.Y)
 				{
 					projectile.velocity.Y = projectile.velocity.Y - num804;
-					if (projectile.velocity.Y > 0f && vector70.Y < 0f) 
+					if (projectile.velocity.Y > 0f && vector70.Y < 0f)
 					{
 						projectile.velocity.Y = projectile.velocity.Y - num804;
 					}
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
@@ -144,19 +144,19 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(BuffID.OnFire, 120);
 			target.AddBuff(BuffID.Ichor, 120);
 		}
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(0, 255, 255, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("SandBlade");
 			item.shootSpeed = 5f;
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(3) == 0)

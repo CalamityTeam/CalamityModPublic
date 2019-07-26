@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 			item.shootSpeed = 12f;
 			item.useAmmo = 97;
 		}
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-15, 0);

@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			DisplayName.SetDefault("Dark Energy");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -148,13 +148,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				player.AddBuff(mod.BuffType("Horror"), 300, true);
 			}
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			if (npc.life <= 0)

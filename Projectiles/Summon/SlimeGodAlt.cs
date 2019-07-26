@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
     public class SlimeGodAlt : ModProjectile
     {
     	public float dust = 0f;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Slime God");
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
         }
-        
+
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
 		{
         	fallThrough = false;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
 				}
 			}
 		}
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate == 0)

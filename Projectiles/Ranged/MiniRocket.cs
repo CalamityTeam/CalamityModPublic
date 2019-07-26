@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Rocket");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Ranged
 				return;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

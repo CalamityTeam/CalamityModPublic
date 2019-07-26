@@ -22,7 +22,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "If a boss is defeated with this effect active it will drop 6 treasure bags, 5 in normal mode\n" +
                 "If any player dies while a boss is alive the boss will instantly despawn");
 		}
-		
+
 		public override void SetDefaults()
 		{
             item.rare = 11;

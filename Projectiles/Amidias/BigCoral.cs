@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Amidias
 		{
 			DisplayName.SetDefault("Big Coral");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 18;
@@ -24,13 +24,13 @@ namespace CalamityMod.Projectiles.Amidias
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
         }
-        
+
         public override void AI()
         {
 			projectile.velocity.X *= 0.999f;
 			projectile.velocity.Y = projectile.velocity.Y + 0.025f;
         }
-		
+
 		public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Amidias
 				Main.dust[num195].velocity *= 3f;
 			}
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (target.rarity != 2 && !target.boss)

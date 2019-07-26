@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			DisplayName.SetDefault("Cultist Assassin");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.lavaImmune = true;
@@ -44,12 +44,12 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("CultistAssassinBanner");
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			return (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity || spawnInfo.player.ZoneDungeon) && Main.hardMode ? 0.04f : 0f;
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				}
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (CalamityWorld.downedProvidence && Main.rand.Next(2) == 0)

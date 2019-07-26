@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Providence
 			DisplayName.SetDefault("A Profaned Guardian");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 1f;
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.HitSound = SoundID.NPCHit52;
 			npc.DeathSound = SoundID.NPCDeath55;
 		}
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Providence
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
         }
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.holyBossDefender = npc.whoAmI;
@@ -79,16 +79,16 @@ namespace CalamityMod.NPCs.Providence
             }
 			npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.holyBoss].dontTakeDamage;
 
-			if (Math.Sign(npc.velocity.X) != 0) 
+			if (Math.Sign(npc.velocity.X) != 0)
 			{
 				npc.spriteDirection = -Math.Sign(npc.velocity.X);
 			}
 			npc.spriteDirection = Math.Sign(npc.velocity.X);
 			int num1009 = (npc.ai[0] == 0f) ? 1 : 2;
 			int num1010 = (npc.ai[0] == 0f) ? 60 : 80;
-			for (int num1011 = 0; num1011 < 2; num1011++) 
+			for (int num1011 = 0; num1011 < 2; num1011++)
 			{
-				if (Main.rand.Next(3) < num1009) 
+				if (Main.rand.Next(3) < num1009)
 				{
 					int dustType = Main.rand.Next(2);
 					if (dustType == 0)
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.Providence
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)

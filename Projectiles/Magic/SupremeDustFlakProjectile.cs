@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Dust");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			projectile.rotation += 0.3f * (float)projectile.direction;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 6;

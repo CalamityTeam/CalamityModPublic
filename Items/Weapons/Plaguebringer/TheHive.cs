@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 			item.shootSpeed = 13f;
 			item.useAmmo = 771;
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	switch (Main.rand.Next(4))

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Astral Round");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return true;
 		}
-		
+
 		public override bool PreAI()
         {
 			for (int num136 = 0; num136 < 6; num136++)
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return false;
 		}
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(BuffID.Frostburn, 240);

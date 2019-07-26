@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Bubble");
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 28;

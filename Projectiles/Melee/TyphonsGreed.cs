@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Typhon's Greed");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;
@@ -57,25 +57,25 @@ namespace CalamityMod.Projectiles.Melee
             }
             Lighting.AddLight(projectile.Center, 0f, 0.1f, 0.7f);
 			int num959 = (int)projectile.ai[0];
-			if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead) 
+			if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
 			{
-				if (projectile.Distance(Main.player[num959].Center) > num954) 
+				if (projectile.Distance(Main.player[num959].Center) > num954)
 				{
 					Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-					if (vector102.HasNaNs()) 
+					if (vector102.HasNaNs())
 					{
 						vector102 = Vector2.UnitY;
 					}
 					projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
 				}
-			} 
-			else 
+			}
+			else
 			{
-				if (projectile.timeLeft > 30) 
+				if (projectile.timeLeft > 30)
 				{
 					projectile.timeLeft = 30;
 				}
-				if (projectile.ai[0] != -1f) 
+				if (projectile.ai[0] != -1f)
 				{
 					projectile.ai[0] = -1f;
 					projectile.netUpdate = true;

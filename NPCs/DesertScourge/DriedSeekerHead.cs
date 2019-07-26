@@ -17,12 +17,12 @@ namespace CalamityMod.NPCs.DesertScourge
 	public class DriedSeekerHead : ModNPC
 	{
 		bool TailSpawned = false;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dried Seeker");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 14; //150
@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.netAlways = true;
 		}
-		
+
 		public override void AI()
 		{
 			if (!TailSpawned)
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				}
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				}
 			}
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

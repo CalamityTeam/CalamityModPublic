@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Mark");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.timeLeft = 5;
         }
-        
+
         public override void AI()
         {
         	if (projectile.ai[1] > 0f)
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
 				return;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
@@ -108,26 +108,26 @@ namespace CalamityMod.Projectiles.Magic
 				int num231 = (int)(projectile.Center.Y / 16f);
 				int num232 = (int)(projectile.Center.X / 16f);
 				int num233 = 100;
-				if (num232 < 10) 
+				if (num232 < 10)
 				{
 					num232 = 10;
 				}
-				if (num232 > Main.maxTilesX - 10) 
+				if (num232 > Main.maxTilesX - 10)
 				{
 					num232 = Main.maxTilesX - 10;
 				}
-				if (num231 < 10) 
+				if (num231 < 10)
 				{
 					num231 = 10;
 				}
-				if (num231 > Main.maxTilesY - num233 - 10) 
+				if (num231 > Main.maxTilesY - num233 - 10)
 				{
 					num231 = Main.maxTilesY - num233 - 10;
 				}
-				for (int num234 = num231; num234 < num231 + num233; num234++) 
+				for (int num234 = num231; num234 < num231 + num233; num234++)
 				{
 					Tile tile = Main.tile[num232, num234];
-					if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0)) 
+					if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
 					{
 						num231 = num234;
 						break;

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Fire");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;

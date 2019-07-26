@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
                 "I wish you luck in dealing with the fallout.\n" +
 				"Place in your inventory to gain a boost to your item grab range.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 6;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

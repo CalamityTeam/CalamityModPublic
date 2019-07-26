@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
 				"However, that doesn't diminish the immense potential locked within it, released upon its death.\n" +
 				"Place in your inventory to gain an improved Gravity Globe that gives you an increase to all stats while upside down.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 10;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Astral
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 150;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Astral
             projectile.timeLeft = 10;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
             projectile.localAI[0] += 1f;
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Astral
 				}
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	for (int n = 0; n < 3; n++)

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Energy Bolt");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 				Main.dust[num155].velocity += projectile.velocity * 0.5f;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

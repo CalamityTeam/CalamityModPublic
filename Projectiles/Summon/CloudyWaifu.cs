@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
     public class CloudyWaifu : ModProjectile
     {
     	public int dust = 3;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cloudy Waifu");
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 58;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
 				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				int num501 = 50;
-				for (int num502 = 0; num502 < num501; num502++) 
+				for (int num502 = 0; num502 < num501; num502++)
 				{
 					int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 16, 0f, 0f, 0, default(Color), 1f);
 					Main.dust[num503].velocity *= 2f;

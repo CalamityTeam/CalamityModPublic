@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Bomb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -33,18 +33,18 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
         	projectile.alpha -= 2;
-			if (projectile.localAI[0] == 0f) 
+			if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale += 0.05f;
-				if ((double)projectile.scale > 1.2) 
+				if ((double)projectile.scale > 1.2)
 				{
 					projectile.localAI[0] = 1f;
 				}
-			} 
-			else 
+			}
+			else
 			{
 				projectile.scale -= 0.05f;
-				if ((double)projectile.scale < 0.8) 
+				if ((double)projectile.scale < 0.8)
 				{
 					projectile.localAI[0] = 0f;
 				}
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.ai[0] = 0f;
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(Main.DiscoR, 203, 103, projectile.alpha);

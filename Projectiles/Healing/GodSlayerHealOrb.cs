@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Healing
 		{
 			DisplayName.SetDefault("God Slayer Heal Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Healing
             projectile.timeLeft = 240;
             projectile.extraUpdates = 3;
         }
-		
+
         public override void AI()
         {
 			int num487 = (int)projectile.ai[0];

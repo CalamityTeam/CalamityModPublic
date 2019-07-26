@@ -17,13 +17,13 @@ namespace CalamityMod.NPCs.SlimeGod
 	public class SlimeGodRun : ModNPC
 	{
         private float bossLife;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Crimulan Slime God");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 60;
@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			aiType = -1;
 			bossBag = mod.ItemType("SlimeGodBag");
 		}
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
@@ -579,13 +579,13 @@ namespace CalamityMod.NPCs.SlimeGod
 				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Cursed, 90, true);

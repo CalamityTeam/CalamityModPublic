@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			DisplayName.SetDefault("Light Bead");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -31,9 +31,9 @@ namespace CalamityMod.Projectiles.Patreon
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f);
 			projectile.rotation += projectile.velocity.X * 0.2f;
 			projectile.velocity *= 0.985f;
-			
+
         }
-        
+
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 3; k++)

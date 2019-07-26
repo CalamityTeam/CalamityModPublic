@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons
 	    		return false;
 	    	return true;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

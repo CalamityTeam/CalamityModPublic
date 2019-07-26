@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Pitchfork");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -49,14 +49,14 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num308].velocity *= 0.1f;
 			}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 2; k++)

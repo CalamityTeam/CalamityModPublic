@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Magic
 			DisplayName.SetDefault("Magnetic Orb");
 			Main.projFrames[projectile.type] = 5;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 38;
@@ -32,30 +32,30 @@ namespace CalamityMod.Projectiles.Magic
         {
         	projectile.velocity.X *= 0.98f;
         	projectile.velocity.Y *= 0.98f;
-			if (projectile.velocity.X > 0f) 
+			if (projectile.velocity.X > 0f)
 			{
 				projectile.rotation += (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
-			} 
+			}
 			else
 			{
 				projectile.rotation -= (Math.Abs(projectile.velocity.Y) + Math.Abs(projectile.velocity.X)) * 0.001f;
 			}
 			projectile.frameCounter++;
-			if (projectile.frameCounter > 6) 
+			if (projectile.frameCounter > 6)
 			{
 				projectile.frameCounter = 0;
 				projectile.frame++;
-				if (projectile.frame > 4) 
+				if (projectile.frame > 4)
 				{
 					projectile.frame = 0;
 				}
 			}
-			if (Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y)) > 2.0) 
+			if (Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y)) > 2.0)
 			{
 				projectile.velocity *= 0.98f;
 			}
 			int num3;
-			for (int num433 = 0; num433 < 1000; num433 = num3 + 1) 
+			for (int num433 = 0; num433 < 1000; num433 = num3 + 1)
 			{
 				num3 = num433;
 			}
@@ -63,16 +63,16 @@ namespace CalamityMod.Projectiles.Magic
 			int num434 = 0;
 			float num435 = 400f;
 			bool flag14 = false;
-			for (int num436 = 0; num436 < 200; num436 = num3 + 1) 
+			for (int num436 = 0; num436 < 200; num436 = num3 + 1)
 			{
-				if (Main.npc[num436].CanBeChasedBy(projectile, false)) 
+				if (Main.npc[num436].CanBeChasedBy(projectile, false))
 				{
 					float num437 = Main.npc[num436].position.X + (float)(Main.npc[num436].width / 2);
 					float num438 = Main.npc[num436].position.Y + (float)(Main.npc[num436].height / 2);
 					float num439 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num437) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num438);
-					if (num439 < num435 && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num436].Center, 1, 1)) 
+					if (num439 < num435 && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num436].Center, 1, 1))
 					{
-						if (num434 < 20) 
+						if (num434 < 20)
 						{
 							array[num434] = num436;
 							num434++;
@@ -82,18 +82,18 @@ namespace CalamityMod.Projectiles.Magic
 				}
 				num3 = num436;
 			}
-			if (projectile.timeLeft < 30) 
+			if (projectile.timeLeft < 30)
 			{
 				flag14 = false;
 			}
-			if (flag14) 
+			if (flag14)
 			{
 				int num440 = Main.rand.Next(num434);
 				num440 = array[num440];
 				float num441 = Main.npc[num440].position.X + (float)(Main.npc[num440].width / 2);
 				float num442 = Main.npc[num440].position.Y + (float)(Main.npc[num440].height / 2);
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] > 4f) 
+				if (projectile.localAI[0] > 4f)
 				{
 					projectile.localAI[0] = 0f;
 					float num443 = 8f;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Magic
 				}
 			}
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	if (projectile.timeLeft < 30)
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

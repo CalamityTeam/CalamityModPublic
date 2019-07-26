@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Adamantite Throwing Axe");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 3;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void Kill(int timeLeft)
         {
         	if (Main.rand.Next(2) == 0)

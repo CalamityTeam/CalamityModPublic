@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Bumblefuck
 			DisplayName.SetDefault("Birb Pheromones");
 			Tooltip.SetDefault("Attracts the bumbling birb");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -28,12 +28,12 @@ namespace CalamityMod.Items.Bumblefuck
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneJungle && !NPC.AnyNPCs(mod.NPCType("Bumblefuck"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Bumblefuck"));

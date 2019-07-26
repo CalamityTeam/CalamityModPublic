@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Blood Orb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;

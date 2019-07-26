@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Magic
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 3;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 60;
@@ -43,17 +43,17 @@ namespace CalamityMod.Projectiles.Magic
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 34, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(0, 0, 200, 0);
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.immune[projectile.owner] = 5;
 		}
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width, projectile.height);

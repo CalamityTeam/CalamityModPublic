@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 
-namespace CalamityMod.Items.Armor 
+namespace CalamityMod.Items.Armor
 {
 	[AutoloadEquip(EquipType.Body)]
 	public class DemonshadeBreastplate : ModItem
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
 			item.defense = 50;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
-	
+
 	    public override void UpdateEquip(Player player)
 	    {
 	    	CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor
 			modPlayer.AllCritBoost(15);
 			player.meleeSpeed += 0.2f;
 	    }
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

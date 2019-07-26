@@ -12,7 +12,7 @@ namespace CalamityMod.Items.FabsolStuff
 			Tooltip.SetDefault("Boosts all damage stats by 8% but lowers defense by 20\n" +
 			                   "Increases immune time after being struck");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

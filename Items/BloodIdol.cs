@@ -17,7 +17,7 @@ namespace CalamityMod.Items
 	 		DisplayName.SetDefault("Blood Relic");
 	 		Tooltip.SetDefault("Summons a blood moon");
 	 	}
-	
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -30,12 +30,12 @@ namespace CalamityMod.Items
 			item.UseSound = SoundID.Item66;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !Main.bloodMoon && !Main.dayTime;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             Main.bloodMoon = true;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items
 			}
 			return true;
 		}
-		
+
 		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

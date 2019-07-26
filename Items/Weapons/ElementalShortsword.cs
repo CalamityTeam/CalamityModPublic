@@ -6,7 +6,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class ElementalShortsword : ModItem
 	{
@@ -50,11 +50,11 @@ namespace CalamityMod.Items.Weapons
 			recipe.AddIngredient(null, "TerraShiv");
 			recipe.AddIngredient(null, "GalacticaSingularity", 5);
 			recipe.AddIngredient(ItemID.LunarBar, 5);
-	        recipe.AddTile(TileID.LunarCraftingStation);	
+	        recipe.AddTile(TileID.LunarCraftingStation);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	
+
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(5) == 0)
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons
 				Main.dust[num250].noGravity = true;
 			}
 	    }
-	    
+
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
 	    	target.AddBuff(mod.BuffType("HolyLight"), 120);

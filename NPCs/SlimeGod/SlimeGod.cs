@@ -15,13 +15,13 @@ namespace CalamityMod.NPCs.SlimeGod
 	public class SlimeGod : ModNPC
 	{
         private float bossLife;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ebonian Slime God");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults() //dust is 173
 		{
 			npc.damage = 60;
@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.SlimeGod
             else
                 music = MusicID.Boss1;
         }
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
@@ -551,13 +551,13 @@ namespace CalamityMod.NPCs.SlimeGod
 				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Weak, 180, true);

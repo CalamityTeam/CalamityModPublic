@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Astrageldon
 			DisplayName.SetDefault("Astral Chunk");
             Tooltip.SetDefault("Summons Astrum Aureus");
         }
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Astrageldon
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !Main.dayTime && !NPC.AnyNPCs(mod.NPCType("Astrageldon"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             if (Main.netMode != 1)

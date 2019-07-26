@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Piggy");
 			Main.npcFrameCount[npc.type] = 5;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.chaseable = false;
@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			/*banner = npc.type;
 			bannerItem = mod.ItemType("PitbullBanner");*/
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)

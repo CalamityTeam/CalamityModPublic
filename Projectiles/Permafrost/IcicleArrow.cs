@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Permafrost
 			projectile.penetrate = 1;
 			projectile.extraUpdates = 1;
 		}
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Icicle Arrow");
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Permafrost
                 Main.dust[index2].noGravity = true;
             }
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
             target.AddBuff(BuffID.Frostburn, 300);

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Pets
         public bool yFlip = false; //used to suppress y velocity (pet fastfalls with an extra update per tick otherwise)
 		public float notlocalai1 = 0f;
 		//used for companion cube AI section; using the actual projectile.ai[1] seems to conflict with black cat AI and cause pet to freeze up sometimes
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Chibii Devourer");
@@ -62,12 +62,12 @@ namespace CalamityMod.Projectiles.Pets
 			int num158 = 2;
 			int num159 = 1;
 			float num160 = 0f;
-			
+
 			int num161 = num159;
 			while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
 			{
 				Microsoft.Xna.Framework.Color color26 = color25;
-				color26 = projectile.GetAlpha(color26);	
+				color26 = projectile.GetAlpha(color26);
 				goto IL_6899;
 				IL_6881:
 				num161 += num158;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Pets
 		public void PreventFastfall()
 		{
 			yFlip = !yFlip;
-					
+
 			if (yFlip && projectile.velocity.Y > 0)
 				projectile.position.Y -= projectile.velocity.Y;
 		}
@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Pets
 				for (int i = 0; i < 77; i++) //loop to make lots of dust
 				{
 					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 182, projectile.velocity.X * 0.7f, projectile.velocity.Y * 0.7f, 100, default(Color), 2.5f);
-					
+
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.5f;
 					Main.dust[dust].noLight = true;
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Pets
 			if (projectile.tileCollide)
             {
                 projectile.hide = false;
-				
+
 				//if (projectile.extraUpdates == 1)
 				PreventFastfall();
 
@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Pets
 			{
 				projectile.hide = true;
 				//projectile.extraUpdates = 1;
-				
+
 				if (player.ownedProjectileCounts[mod.ProjectileType("ChibiiDoggoFly")] <= 0)
 					Projectile.NewProjectile(projectile.position.X, projectile.position.Y, 0f, 0f, mod.ProjectileType("ChibiiDoggoFly"), 0, 0f, projectile.owner, (float) projectile.identity);
 			}

@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			DisplayName.SetDefault("Divine Retribution");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.scale = 0.9f;
             projectile.timeLeft = 420;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0; 
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void AI()
@@ -49,12 +49,12 @@ namespace CalamityMod.Projectiles.Patreon
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             }
             Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);
-			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead) 
+			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
 			{
-				if (projectile.Distance(Main.player[projectile.owner].Center) > num954) 
+				if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
 				{
 					Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-					if (vector102.HasNaNs()) 
+					if (vector102.HasNaNs())
 					{
 						vector102 = Vector2.UnitY;
 					}
@@ -95,9 +95,9 @@ namespace CalamityMod.Projectiles.Patreon
                     projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
                 }
             }
-			else 
+			else
 			{
-				if (projectile.timeLeft > 30) 
+				if (projectile.timeLeft > 30)
 				{
 					projectile.timeLeft = 30;
 				}

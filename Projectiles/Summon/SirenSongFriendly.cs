@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Song");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;

@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
 
             npc.stepSpeed = 0.75f;
-            
+
             if (npc.velocity.Y >= 0f)
             {
                 Collision.StepUp(ref npc.position, ref npc.velocity, npc.width, npc.height, ref npc.stepSpeed, ref npc.gfxOffY, 1, false, 1);
@@ -357,7 +357,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 target_counter = 0;
             }
-            
+
             if (target_counter > 180)
             {
                 idling = true;
@@ -399,7 +399,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
             return true;
         }
-        
+
         private void StartSwing()
         {
             swinging = true;

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("T1000");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 34;

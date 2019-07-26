@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Feather");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;

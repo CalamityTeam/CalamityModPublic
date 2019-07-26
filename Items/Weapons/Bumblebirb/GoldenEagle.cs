@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 			item.useAmmo = 97;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{    
+		{
 		    float SpeedX = speedX + 5f * 0.05f;
 	        float SpeedY = speedY + 5f * 0.05f;
 	        float SpeedX2 = speedX - 5f * 0.05f;

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 20f;
 	        item.shoot = 587;
 	    }
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			float num72 = item.shootSpeed;
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Weapons
 			Projectile.NewProjectile(position.X, position.Y - player.gravDir * 4f, num208, num209, 587, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(12) / 6f);
 	    	return false;
 		}
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

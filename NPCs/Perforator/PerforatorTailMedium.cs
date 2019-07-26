@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			DisplayName.SetDefault("The Perforator");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 15;
@@ -48,12 +48,12 @@ namespace CalamityMod.NPCs.Perforator
 			npc.netAlways = true;
 			npc.dontCountMe = true;
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			if (!Main.npc[(int)npc.ai[1]].active)
@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Perforator
 				}
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -88,17 +88,17 @@ namespace CalamityMod.NPCs.Perforator
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/MediumPerf4"), 1f);
             }
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);

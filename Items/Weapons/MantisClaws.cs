@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
 		}
-		
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
 	        if (Main.rand.Next(4) == 0)

@@ -11,12 +11,12 @@ namespace CalamityMod.Projectiles.Magic
     {
     	public int pulse = 49;
     	public float count = 0f;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.timeLeft = 1200;
         }
-        
+
         public override void AI()
         {
         	projectile.ai[1] += 1f;
@@ -133,7 +133,7 @@ namespace CalamityMod.Projectiles.Magic
 				int i;
 				if (projectile.owner == Main.myPlayer)
 				{
-					for (i = 0; i < 4; i++) 
+					for (i = 0; i < 4; i++)
 					{
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("GraniteEnergy"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

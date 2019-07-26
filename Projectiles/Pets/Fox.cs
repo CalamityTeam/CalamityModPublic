@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Pets
             Main.projFrames[projectile.type] = 11;
             Main.projPet[projectile.type] = true;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.netImportant = true;

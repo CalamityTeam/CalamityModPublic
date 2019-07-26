@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.SunkenSea
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;
 		}
-		
+
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).pearlAura = true;

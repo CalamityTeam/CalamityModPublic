@@ -21,7 +21,7 @@ namespace CalamityMod.Items.DifficultyItems
                 "Effect will only work if revengeance mode is active\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss");
 		}
-		
+
 		public override void SetDefaults()
 		{
             item.rare = 11;

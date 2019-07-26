@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Round");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -239,7 +239,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

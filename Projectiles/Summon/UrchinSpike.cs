@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Urchin Spike");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -25,12 +25,12 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 600;
             projectile.aiStyle = 1;
         }
-        
+
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.Poisoned, 180);

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
 				"Come now, face me.\n" +
 				"Place in your inventory to die instantly from every hit.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.LoreItems
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

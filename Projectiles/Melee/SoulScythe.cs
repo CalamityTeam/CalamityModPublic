@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Scythe");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 50;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             aiType = 274;
         }
-        
+
         public override void AI()
         {
         	if (projectile.localAI[0] == 0f)

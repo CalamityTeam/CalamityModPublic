@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Sunskater");
             Main.npcFrameCount[npc.type] = 4;
         }
-		
+
 		public override void SetDefaults()
 		{
             npc.noGravity = true;

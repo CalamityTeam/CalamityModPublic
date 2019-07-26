@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			DisplayName.SetDefault("Song");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Patreon
 				}
 			}
         }
-		
+
 		public override Color? GetAlpha(Color lightColor)
         {
             return new Color(255, 255, 255);

@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "Revengeance drop");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             item.rare = 5;
 			item.accessory = true;
 		}
-		
+
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);

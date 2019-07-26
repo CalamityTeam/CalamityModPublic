@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Rage");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 70;
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
         	}
 			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 		}
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	if (projectile.owner == Main.myPlayer)
@@ -50,14 +50,14 @@ namespace CalamityMod.Projectiles.Melee
         		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         	}
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);

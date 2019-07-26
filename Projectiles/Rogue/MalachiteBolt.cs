@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Malachite");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         	projectile.alpha -= 3;
-			if (projectile.alpha < 100) 
+			if (projectile.alpha < 100)
 			{
 				projectile.alpha = 100;
 			}
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
         	return new Color(Main.DiscoR, 203, 103, projectile.alpha);
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	if (projectile.penetrate <= 1)

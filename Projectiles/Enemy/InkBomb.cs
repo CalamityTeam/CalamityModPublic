@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Enemy
 		{
 			DisplayName.SetDefault("Ink Bomb");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;

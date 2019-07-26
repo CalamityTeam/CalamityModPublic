@@ -18,7 +18,7 @@ namespace CalamityMod.Items.DifficultyItems
 			Tooltip.SetDefault("Boosts spawn rate by 1.25 times\n" +
 			                   "Effects cannot be reversed");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

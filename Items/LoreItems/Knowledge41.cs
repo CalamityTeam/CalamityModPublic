@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
 				"It seems a waste to have had such a potent source of power ravage mindlessly through these empty halls.\n" +
 				"Place in your inventory to gain increased item grab range.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.consumable = false;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

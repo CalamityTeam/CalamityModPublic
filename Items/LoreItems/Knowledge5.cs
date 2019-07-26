@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "It's interesting how creatures can adapt given certain circumstances.\n" +
 				"Place in your inventory to gain the Mushy buff while underground or in the mushroom biome.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 2;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

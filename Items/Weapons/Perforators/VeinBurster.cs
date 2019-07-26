@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 			item.shoot = mod.ProjectileType("BloodBall");
 			item.shootSpeed = 5f;
 		}
-		
+
 		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

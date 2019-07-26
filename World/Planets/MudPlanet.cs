@@ -41,7 +41,7 @@ namespace CalamityMod.World.Planets
             {
                 blotchMod.Output(shape)
             }));
-            
+
             //Place layers
             WorldUtils.Gen(origin, new ModShapes.All(shape), Actions.Chain(new GenAction[]
             {
@@ -69,7 +69,7 @@ namespace CalamityMod.World.Planets
                 new Actions.Smooth(),
                 new Actions.SetFrames(true)
             }));
-            
+
             if (_random.NextBool())
             {
                 //Make a beehive in the planet.
@@ -83,7 +83,7 @@ namespace CalamityMod.World.Planets
                 {
                     int moveX = _random.Next(-(int)smallerRadius, (int)smallerRadius);
                     int moveY = _random.Next(-(int)smallerRadius, (int)smallerRadius);
-                    WorldUtils.Gen(origin, 
+                    WorldUtils.Gen(origin,
                         new Shapes.Circle(_random.Next(minSize, maxSize), _random.Next(minSize, maxSize)),
                         Actions.Chain(new GenAction[]
                         {
@@ -127,7 +127,7 @@ namespace CalamityMod.World.Planets
                         if (placed) placedSpawner = true;
                     }
                 }
-            } 
+            }
             else if (_random.Next(4) <= 2)
             {
                 //Create a small "cavern" inside of the planet. Filled with water and has a water chest (CUSTOM LOOT?)
@@ -171,7 +171,7 @@ namespace CalamityMod.World.Planets
                     new Actions.SetTile(TileID.MushroomGrass, true, true)
                 }));
             }
-            
+
             //Place breakable grass and trees
             WorldUtils.Gen(origin, new ModShapes.All(shape), Actions.Chain(new GenAction[]
             {

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Phantom");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.timeLeft = 120;
             projectile.magic = true;
         }
-        
+
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.2f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f);

@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class SubsumingVortex : ModItem
 	{
@@ -37,9 +37,9 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 9f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{    
+		{
 		    int num6 = 3;
 		    for (int index = 0; index < num6; ++index)
 		    {
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons
 		    }
 		    return false;
 		}
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

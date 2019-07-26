@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Shrines
 		{
 			DisplayName.SetDefault("Gift");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 18;

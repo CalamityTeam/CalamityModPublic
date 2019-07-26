@@ -125,7 +125,7 @@ namespace CalamityMod.UI
 			{
 				tick = 10000;
 			}
-			barPanel.Width.Set((GetPercentile() * barWidth), 0f); //set the bar's width to the given percentile.	
+			barPanel.Width.Set((GetPercentile() * barWidth), 0f); //set the bar's width to the given percentile.
 		}
 
 		protected override void DrawSelf(SpriteBatch spriteBatch)

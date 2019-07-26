@@ -20,7 +20,7 @@ namespace CalamityMod.Items.LoreItems
                 "gluttonous husk, constantly on a voracious search for its next meal.\n" +
 				"Place in your inventory for an increase to defense while in the desert or sunken sea.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 1;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

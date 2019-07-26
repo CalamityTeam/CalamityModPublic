@@ -284,7 +284,7 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime += 1;
 				player.lifeRegen += 1;
 			}
-			
+
 			// Last Debuffs
 
 			if (modPlayer.omegaBlueChestplate)

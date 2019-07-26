@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			DisplayName.SetDefault("Profaned Energy");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -36,23 +36,23 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("ProfanedEnergyBanner");
 		}
-		
+
 		public override void AI()
 		{
 			CalamityGlobalNPC.energyFlame = npc.whoAmI;
-			if (Main.netMode != 1) 
+			if (Main.netMode != 1)
 			{
-				if (npc.localAI[0] == 0f) 
+				if (npc.localAI[0] == 0f)
 				{
 					npc.localAI[0] = 1f;
-					for (int num723 = 0; num723 < 2; num723++) 
+					for (int num723 = 0; num723 < 2; num723++)
 					{
 						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("ProfanedEnergyLantern"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 					}
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || !NPC.downedMoonlord || NPC.AnyNPCs(npc.type))
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.OverworldHallow.Chance / 6f;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UnholyEssence"), Main.rand.Next(2, 5));

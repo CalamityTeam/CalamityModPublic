@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			DisplayName.SetDefault("Plague Homing Missile");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 90;
@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.buffImmune[mod.BuffType("HolyLight")] = true;
 			npc.buffImmune[mod.BuffType("Plague")] = true;
 		}
-		
+
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.015f, 0.1f, 0f);
@@ -193,12 +193,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		{
 			return false;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("Plague"), 180, true);
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Ranged
     public class Nuke : ModProjectile
     {
     	public int flarePowderTimer = 12;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nuke");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
 				return;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

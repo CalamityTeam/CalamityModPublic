@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Flame");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
 				}
         	}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("HolyLight"), 360);

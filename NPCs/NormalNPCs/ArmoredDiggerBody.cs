@@ -16,7 +16,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			DisplayName.SetDefault("Armored Digger");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 70;
@@ -42,12 +42,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = mod.NPCType("ArmoredDiggerHead");
 			bannerItem = mod.ItemType("ArmoredDiggerBanner");
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
         {
             if (npc.ai[3] > 0f)
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, 
+                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position,
                         Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         float speed = 7f;
@@ -403,7 +403,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

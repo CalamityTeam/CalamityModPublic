@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Astral
 			DisplayName.SetDefault("Hiveling");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 24;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Astral
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
         }
-        
+
         public override void AI()
         {
 			projectile.frameCounter++;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Astral
 				projectile.velocity.Y = (projectile.velocity.Y * 30f + num485) / 31f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	for (int k = 0; k < 3; k++)

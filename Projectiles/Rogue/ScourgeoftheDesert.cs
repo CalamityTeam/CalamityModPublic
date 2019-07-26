@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Scourge");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
-        
+
         public override void AI()
         {
         	projectile.velocity.X *= 1.025f;

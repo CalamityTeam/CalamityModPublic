@@ -14,12 +14,12 @@ namespace CalamityMod.NPCs.StormWeaver
 	public class StormWeaverBody : ModNPC
 	{
 		public int spawn = 0;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Storm Weaver");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 100; //70
@@ -67,12 +67,12 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
             npc.dontCountMe = true;
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
@@ -109,29 +109,29 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 			}
 		}
-		
+
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
 			return true;
 		}
-		
+
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
 			damage = 1;
 			return false;
 		}
-		
+
 		public override bool CheckActive()
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;
 		}
-		
+
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.penetrate == -1 && !projectile.minion)
@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
         }
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);

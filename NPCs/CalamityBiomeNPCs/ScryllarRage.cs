@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 		{
 			DisplayName.SetDefault("Scryllar");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -45,58 +45,58 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			banner = mod.NPCType("Scryllar");
 			bannerItem = mod.ItemType("ScryllarBanner");
 		}
-		
+
 		public override void AI()
 		{
 			npc.rotation = npc.velocity.X * 0.04f;
 			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
 			bool flag19 = false;
-			if (npc.justHit) 
+			if (npc.justHit)
 			{
 				npc.ai[2] = 0f;
 			}
-			if (npc.ai[2] >= 0f) 
+			if (npc.ai[2] >= 0f)
 			{
 				int num282 = 16;
 				bool flag21 = false;
 				bool flag22 = false;
-				if (npc.position.X > npc.ai[0] - (float)num282 && npc.position.X < npc.ai[0] + (float)num282) 
+				if (npc.position.X > npc.ai[0] - (float)num282 && npc.position.X < npc.ai[0] + (float)num282)
 				{
 					flag21 = true;
-				} 
+				}
 				else if ((npc.velocity.X < 0f && npc.direction > 0) || (npc.velocity.X > 0f && npc.direction < 0))
 				{
 					flag21 = true;
 				}
 				num282 += 24;
-				if (npc.position.Y > npc.ai[1] - (float)num282 && npc.position.Y < npc.ai[1] + (float)num282) 
+				if (npc.position.Y > npc.ai[1] - (float)num282 && npc.position.Y < npc.ai[1] + (float)num282)
 				{
 					flag22 = true;
 				}
-				if (flag21 && flag22) 
+				if (flag21 && flag22)
 				{
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= 30f && num282 == 16) 
+					if (npc.ai[2] >= 30f && num282 == 16)
 					{
 						flag19 = true;
 					}
-					if (npc.ai[2] >= 60f) 
+					if (npc.ai[2] >= 60f)
 					{
 						npc.ai[2] = -200f;
 						npc.direction *= -1;
 						npc.velocity.X = npc.velocity.X * -1f;
 						npc.collideX = false;
 					}
-				} 
-				else 
+				}
+				else
 				{
 					npc.ai[0] = npc.position.X;
 					npc.ai[1] = npc.position.Y;
 					npc.ai[2] = 0f;
 				}
 				npc.TargetClosest(true);
-			} 
-			else 
+			}
+			else
 			{
 				npc.TargetClosest(true);
 				npc.ai[2] += 2f;
@@ -105,28 +105,28 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			int num284 = (int)((npc.position.Y + (float)npc.height) / 16f);
 			bool flag23 = true;
 			int num285 = 3;
-			for (int num308 = num284; num308 < num284 + num285; num308++) 
+			for (int num308 = num284; num308 < num284 + num285; num308++)
 			{
-				if (Main.tile[num283, num308] == null) 
+				if (Main.tile[num283, num308] == null)
 				{
 					Main.tile[num283, num308] = new Tile();
 				}
-				if ((Main.tile[num283, num308].nactive() && Main.tileSolid[(int)Main.tile[num283, num308].type]) || Main.tile[num283, num308].liquid > 0) 
+				if ((Main.tile[num283, num308].nactive() && Main.tileSolid[(int)Main.tile[num283, num308].type]) || Main.tile[num283, num308].liquid > 0)
 				{
 					flag23 = false;
 					break;
 				}
 			}
-			if (Main.player[npc.target].npcTypeNoAggro[npc.type]) 
+			if (Main.player[npc.target].npcTypeNoAggro[npc.type])
 			{
 				bool flag25 = false;
-				for (int num309 = num284; num309 < num284 + num285 - 2; num309++) 
+				for (int num309 = num284; num309 < num284 + num285 - 2; num309++)
 				{
-					if (Main.tile[num283, num309] == null) 
+					if (Main.tile[num283, num309] == null)
 					{
 						Main.tile[num283, num309] = new Tile();
 					}
-					if ((Main.tile[num283, num309].nactive() && Main.tileSolid[(int)Main.tile[num283, num309].type]) || Main.tile[num283, num309].liquid > 0) 
+					if ((Main.tile[num283, num309].nactive() && Main.tileSolid[(int)Main.tile[num283, num309].type]) || Main.tile[num283, num309].liquid > 0)
 					{
 						flag25 = true;
 						break;
@@ -134,121 +134,121 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				}
 				npc.directionY = (!flag25).ToDirectionInt();
 			}
-			if (flag19) 
+			if (flag19)
 			{
 				flag23 = true;
 			}
-			if (flag23) 
+			if (flag23)
 			{
 				npc.velocity.Y = npc.velocity.Y + 0.1f;
-				if (npc.velocity.Y > 3f) 
+				if (npc.velocity.Y > 3f)
 				{
 					npc.velocity.Y = 3f;
 				}
-			} 
-			else 
+			}
+			else
 			{
-				if (npc.directionY < 0 && npc.velocity.Y > 0f) 
+				if (npc.directionY < 0 && npc.velocity.Y > 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y - 0.1f;
 				}
-				if (npc.velocity.Y < -4f) 
+				if (npc.velocity.Y < -4f)
 				{
 					npc.velocity.Y = -4f;
 				}
 			}
-			if (npc.collideX) 
+			if (npc.collideX)
 			{
 				npc.velocity.X = npc.oldVelocity.X * -0.4f;
-				if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 1f) 
+				if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 1f)
 				{
 					npc.velocity.X = 1f;
 				}
-				if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -1f) 
+				if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -1f)
 				{
 					npc.velocity.X = -1f;
 				}
 			}
-			if (npc.collideY) 
+			if (npc.collideY)
 			{
 				npc.velocity.Y = npc.oldVelocity.Y * -0.25f;
-				if (npc.velocity.Y > 0f && npc.velocity.Y < 1f) 
+				if (npc.velocity.Y > 0f && npc.velocity.Y < 1f)
 				{
 					npc.velocity.Y = 1f;
 				}
-				if (npc.velocity.Y < 0f && npc.velocity.Y > -1f) 
+				if (npc.velocity.Y < 0f && npc.velocity.Y > -1f)
 				{
 					npc.velocity.Y = -1f;
 				}
 			}
 			float num311 = 7f;
-			if (npc.direction == -1 && npc.velocity.X > -num311) 
+			if (npc.direction == -1 && npc.velocity.X > -num311)
 			{
 				npc.velocity.X = npc.velocity.X - 0.1f;
-				if (npc.velocity.X > num311) 
+				if (npc.velocity.X > num311)
 				{
 					npc.velocity.X = npc.velocity.X - 0.1f;
-				} 
-				else if (npc.velocity.X > 0f) 
+				}
+				else if (npc.velocity.X > 0f)
 				{
 					npc.velocity.X = npc.velocity.X + 0.05f;
 				}
-				if (npc.velocity.X < -num311) 
+				if (npc.velocity.X < -num311)
 				{
 					npc.velocity.X = -num311;
 				}
-			} 
-			else if (npc.direction == 1 && npc.velocity.X < num311) 
+			}
+			else if (npc.direction == 1 && npc.velocity.X < num311)
 			{
 				npc.velocity.X = npc.velocity.X + 0.1f;
-				if (npc.velocity.X < -num311) 
+				if (npc.velocity.X < -num311)
 				{
 					npc.velocity.X = npc.velocity.X + 0.1f;
-				} 
+				}
 				else if (npc.velocity.X < 0f)
 				{
 					npc.velocity.X = npc.velocity.X - 0.05f;
 				}
-				if (npc.velocity.X > num311) 
+				if (npc.velocity.X > num311)
 				{
 					npc.velocity.X = num311;
 				}
 			}
 			num311 = 1.5f;
-			if (npc.directionY == -1 && npc.velocity.Y > -num311) 
+			if (npc.directionY == -1 && npc.velocity.Y > -num311)
 			{
 				npc.velocity.Y = npc.velocity.Y - 0.04f;
-				if (npc.velocity.Y > num311) 
+				if (npc.velocity.Y > num311)
 				{
 					npc.velocity.Y = npc.velocity.Y - 0.05f;
-				} 
-				else if (npc.velocity.Y > 0f) 
+				}
+				else if (npc.velocity.Y > 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y + 0.03f;
 				}
-				if (npc.velocity.Y < -num311) 
+				if (npc.velocity.Y < -num311)
 				{
 					npc.velocity.Y = -num311;
 				}
-			} 
-			else if (npc.directionY == 1 && npc.velocity.Y < num311) 
+			}
+			else if (npc.directionY == 1 && npc.velocity.Y < num311)
 			{
 				npc.velocity.Y = npc.velocity.Y + 0.04f;
-				if (npc.velocity.Y < -num311) 
+				if (npc.velocity.Y < -num311)
 				{
 					npc.velocity.Y = npc.velocity.Y + 0.05f;
-				} 
-				else if (npc.velocity.Y < 0f) 
+				}
+				else if (npc.velocity.Y < 0f)
 				{
 					npc.velocity.Y = npc.velocity.Y - 0.03f;
 				}
-				if (npc.velocity.Y > num311) 
+				if (npc.velocity.Y > num311)
 				{
 					npc.velocity.Y = num311;
 				}
 			}
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -256,12 +256,12 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			return spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity ? 0.125f : 0f;
         }
-		
+
 		public override void NPCLoot()
 		{
 			if (CalamityWorld.downedProvidence && Main.rand.Next(2) == 0)
@@ -273,7 +273,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

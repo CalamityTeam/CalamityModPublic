@@ -19,7 +19,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Stormlion");
 			Main.npcFrameCount[npc.type] = 6;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 20;
@@ -36,7 +36,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("StormlionBanner");
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
 			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea)
@@ -60,12 +60,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 			return SpawnCondition.DesertCave.Chance * 0.2f;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Electrified, 90, true);
 		}
-		
+
 		public override void NPCLoot()
 		{
 			if (Main.rand.Next(2) == 0)

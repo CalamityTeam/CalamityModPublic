@@ -13,7 +13,7 @@ namespace CalamityMod.Items.AstrumDeus
                 "Summons Astrum Deus\n" +
 				"Not consumable");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.AstrumDeus
 			item.useStyle = 4;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !Main.dayTime && !NPC.AnyNPCs(mod.NPCType("AstrumDeusHead")) && !NPC.AnyNPCs(mod.NPCType("AstrumDeusHeadSpectral"));

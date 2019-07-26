@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.Providence
 			}
 			else if (npc.timeLeft < 3600)
 				npc.timeLeft = 3600;
-			
+
 			if (bossLife == 0f && npc.life > 0)
 				bossLife = (float)npc.lifeMax;
 

@@ -11,12 +11,12 @@ namespace CalamityMod.Projectiles.Ranged
     public class AstrealArrow : ModProjectile
     {
     	private int flameTimer = 180;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Astreal Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-        
+
         public override void AI()
         {
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Ranged
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.ShadowFlame, 360);

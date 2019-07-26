@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 	        item.shootSpeed = 10f;
 	        item.summon = true;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

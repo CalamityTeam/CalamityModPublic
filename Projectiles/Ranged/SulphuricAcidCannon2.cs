@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
 			DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[projectile.type] = 7;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;

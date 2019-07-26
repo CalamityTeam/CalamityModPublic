@@ -22,12 +22,12 @@ namespace CalamityMod.NPCs.DesertScourge
 		public int minLength = NPC.downedBoss3 ? 20 : 12;
 		public int maxLength = NPC.downedBoss3 ? 21 : 13;
 		bool TailSpawned = false;
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Desert Scourge");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 18; //150
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.netAlways = true;
 			npc.scale = 0.75f;
 		}
-		
+
 		public override void AI()
 		{
 			Player player = Main.player[npc.target];
@@ -433,12 +433,12 @@ namespace CalamityMod.NPCs.DesertScourge
 				}
 			}
 		}
-		
+
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Bleeding, 180, true);

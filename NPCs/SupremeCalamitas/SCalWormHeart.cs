@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			DisplayName.SetDefault("Brimstone Heart");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 0; //70
@@ -75,7 +75,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			return false;
 		}
-		
+
 		public override bool PreNPCLoot()
 		{
 			return false;

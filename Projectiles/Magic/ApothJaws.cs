@@ -48,8 +48,8 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.alpha = projectile.alpha + 6;
             else if (projectile.timeLeft < 210)
             {
-                projectile.velocity.X *= 0.9f; 
-                projectile.velocity.Y *= 0.9f; 
+                projectile.velocity.X *= 0.9f;
+                projectile.velocity.Y *= 0.9f;
             }
             else if (projectile.timeLeft < 240)
             {

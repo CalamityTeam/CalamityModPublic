@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Sunburst");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 250;

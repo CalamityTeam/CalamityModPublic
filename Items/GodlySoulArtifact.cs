@@ -16,7 +16,7 @@ namespace CalamityMod.Items
             Tooltip.SetDefault("Loyalty\n" +
                 "Boosts max minions by 8");
         }
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;

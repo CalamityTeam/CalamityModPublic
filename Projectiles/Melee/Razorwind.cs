@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Melee
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 3;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 40;
@@ -32,12 +32,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
         }
-        
+
         public override void AI()
         {
         	projectile.rotation += projectile.velocity.X * 0.1f;
 			projectile.alpha -= 5;
-			if (projectile.alpha < 50) 
+			if (projectile.alpha < 50)
 			{
 				projectile.alpha = 50;
 			}
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee
 				return;
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate == 0)
@@ -103,12 +103,12 @@ namespace CalamityMod.Projectiles.Melee
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
             }
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(53, Main.DiscoG, 255, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

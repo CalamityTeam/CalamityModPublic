@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Stinger");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;

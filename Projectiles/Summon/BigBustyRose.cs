@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
     public class BigBustyRose : ModProjectile
     {
     	public int dust = 3;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Big Busty Rose");
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 78;

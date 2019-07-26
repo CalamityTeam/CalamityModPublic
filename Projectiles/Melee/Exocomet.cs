@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Comet");
 			Main.projFrames[projectile.type] = 5;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -42,19 +42,19 @@ namespace CalamityMod.Projectiles.Melee
         	float num953 = 100f * projectile.ai[1]; //100
         	float scaleFactor12 = 20f * projectile.ai[1]; //5
 			float num954 = 40f;
-			if (projectile.timeLeft > 30 && projectile.alpha > 0) 
+			if (projectile.timeLeft > 30 && projectile.alpha > 0)
 			{
 				projectile.alpha -= 25;
 			}
-			if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height)) 
+			if (projectile.timeLeft > 30 && projectile.alpha < 128 && Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 			{
 				projectile.alpha = 128;
 			}
-			if (projectile.alpha < 0) 
+			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
 			}
-			if (projectile.alpha < 40) 
+			if (projectile.alpha < 40)
 			{
 				int num309 = Dust.NewDust(new Vector2(projectile.position.X - projectile.velocity.X * 4f + 2f, projectile.position.Y + 2f - projectile.velocity.Y * 4f), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, new Color(0, 255, 255), 0.5f);
 				Main.dust[num309].velocity *= -0.25f;
@@ -64,27 +64,27 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
 			Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.5f);
-			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead) 
+			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
 			{
-				if (projectile.Distance(Main.player[projectile.owner].Center) > num954) 
+				if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
 				{
 					Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-					if (vector102.HasNaNs()) 
+					if (vector102.HasNaNs())
 					{
 						vector102 = Vector2.UnitY;
 					}
 					projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
 				}
-			} 
-			else 
+			}
+			else
 			{
-				if (projectile.timeLeft > 30) 
+				if (projectile.timeLeft > 30)
 				{
 					projectile.timeLeft = 30;
 				}
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Melee
 			int num2 = projectile.owner;
 			Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("Exoheal"), 0, 0f, projectile.owner, (float)num2, num);
         }
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(0, 255, 255, projectile.alpha);

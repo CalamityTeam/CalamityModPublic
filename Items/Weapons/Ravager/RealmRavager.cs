@@ -36,12 +36,12 @@ namespace CalamityMod.Items.Weapons.Ravager
 	        item.shoot = mod.ProjectileType("RealmRavagerBullet");
 	        item.useAmmo = 97;
 	    }
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-10, 0);
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 	        for (int index = 0; index < 5; ++index)

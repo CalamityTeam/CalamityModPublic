@@ -17,7 +17,7 @@ namespace CalamityMod.Items.DevourerMunsters
                 "When used in certain areas of the world it will unleash them\n" +
                 "Not consumable");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -31,13 +31,13 @@ namespace CalamityMod.Items.DevourerMunsters
 			item.shoot = mod.ProjectileType("VoidSpawn");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return (player.ZoneSkyHeight || player.ZoneUnderworldHeight || player.ZoneDungeon) &&
 				(!NPC.AnyNPCs(mod.NPCType("StormWeaverHead")) && !NPC.AnyNPCs(mod.NPCType("StormWeaverHeadNaked")) && !NPC.AnyNPCs(mod.NPCType("CeaselessVoid")) && !NPC.AnyNPCs(mod.NPCType("CosmicWraith")));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			if (player.ZoneDungeon)

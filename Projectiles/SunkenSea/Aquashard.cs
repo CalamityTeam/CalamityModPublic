@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Aquashard");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -25,13 +25,13 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.timeLeft = 300;
 			projectile.aiStyle = 1;
         }
-		
+
 		public override void AI()
         {
 			projectile.velocity.X *= 0.9995f;
 			projectile.velocity.Y = projectile.velocity.Y + 0.01f;
         }
-		
+
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	int num251 = Main.rand.Next(2, 4);
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 				}
         	}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);

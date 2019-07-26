@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 				"Stat increases are slightly higher if the elementals are turned off");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 8));
 		}
-    	
+
         public override void SetDefaults()
         {
             item.width = 20;
@@ -114,96 +114,96 @@ namespace CalamityMod.Items.Accessories
                     player.ClearBuff(mod.BuffType("HotE"));
                 }
             }
-			if (player.velocity.Y == 0f && player.grappling[0] == -1) 
+			if (player.velocity.Y == 0f && player.grappling[0] == -1)
 			{
 				int num4 = (int)player.Center.X / 16;
 				int num5 = (int)(player.position.Y + (float)player.height - 1f) / 16;
-				if (Main.tile[num4, num5] == null) 
+				if (Main.tile[num4, num5] == null)
 				{
 					Main.tile[num4, num5] = new Tile();
 				}
-				if (!Main.tile[num4, num5].active() && Main.tile[num4, num5].liquid == 0 && Main.tile[num4, num5 + 1] != null && WorldGen.SolidTile(num4, num5 + 1)) 
+				if (!Main.tile[num4, num5].active() && Main.tile[num4, num5].liquid == 0 && Main.tile[num4, num5 + 1] != null && WorldGen.SolidTile(num4, num5 + 1))
 				{
 					Main.tile[num4, num5].frameY = 0;
 					Main.tile[num4, num5].slope(0);
 					Main.tile[num4, num5].halfBrick(false);
 					if (Main.tile[num4, num5 + 1].type == 0)
 					{
-						if (Main.rand.Next(1000) == 0) 
+						if (Main.rand.Next(1000) == 0)
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 227;
 							Main.tile[num4, num5].frameX = (short)(34 * Main.rand.Next(1, 13));
-							while (Main.tile[num4, num5].frameX == 144) 
+							while (Main.tile[num4, num5].frameX == 144)
 							{
 								Main.tile[num4, num5].frameX = (short)(34 * Main.rand.Next(1, 13));
 							}
 						}
-						if (Main.netMode == 1) 
+						if (Main.netMode == 1)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}
 					}
-					if (Main.tile[num4, num5 + 1].type == 2) 
+					if (Main.tile[num4, num5 + 1].type == 2)
 					{
-						if (Main.rand.Next(2) == 0) 
+						if (Main.rand.Next(2) == 0)
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 3;
 							Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 11));
-							while (Main.tile[num4, num5].frameX == 144) 
+							while (Main.tile[num4, num5].frameX == 144)
 							{
 								Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 11));
 							}
 						}
-						else 
+						else
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 73;
 							Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 21));
-							while (Main.tile[num4, num5].frameX == 144) 
+							while (Main.tile[num4, num5].frameX == 144)
 							{
 								Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 21));
 							}
 						}
-						if (Main.netMode == 1) 
+						if (Main.netMode == 1)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}
-					} 
-					else if (Main.tile[num4, num5 + 1].type == 109) 
+					}
+					else if (Main.tile[num4, num5 + 1].type == 109)
 					{
-						if (Main.rand.Next(2) == 0) 
+						if (Main.rand.Next(2) == 0)
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 110;
 							Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(4, 7));
-							while (Main.tile[num4, num5].frameX == 90) 
+							while (Main.tile[num4, num5].frameX == 90)
 							{
 								Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(4, 7));
 							}
-						} 
-						else 
+						}
+						else
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 113;
 							Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(2, 8));
-							while (Main.tile[num4, num5].frameX == 90) 
+							while (Main.tile[num4, num5].frameX == 90)
 							{
 								Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(2, 8));
 							}
 						}
-						if (Main.netMode == 1) 
+						if (Main.netMode == 1)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}
-					} 
-					else if (Main.tile[num4, num5 + 1].type == 60) 
+					}
+					else if (Main.tile[num4, num5 + 1].type == 60)
 					{
 						Main.tile[num4, num5].active(true);
 						Main.tile[num4, num5].type = 74;
 						Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(9, 17));
-						if (Main.netMode == 1) 
+						if (Main.netMode == 1)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}
@@ -211,7 +211,7 @@ namespace CalamityMod.Items.Accessories
 				}
 			}
 		}
-        
+
         public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

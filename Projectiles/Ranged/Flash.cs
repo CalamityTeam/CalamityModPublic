@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Flash");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 200;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
 				num462++;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(BuffID.Confused, 300);

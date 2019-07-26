@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("God Killer");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 22;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Typeless
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 89);
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Typeless
 				Main.dust[num624].velocity *= 2f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(mod.BuffType("GodSlayerInferno"), 180);

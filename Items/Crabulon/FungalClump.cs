@@ -13,7 +13,7 @@ using Terraria.Utilities;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Crabulon 
+namespace CalamityMod.Items.Crabulon
 {
 	public class FungalClump : ModItem
 	{
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Crabulon
 			Tooltip.SetDefault("Summons a fungal clump to fight for you\n" +
 	                   "The clump latches onto enemies and steals their life for you");
 		}
-		
+
 	    public override void SetDefaults()
 	    {
 	        item.width = 20;

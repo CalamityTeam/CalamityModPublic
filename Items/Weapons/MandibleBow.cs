@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using CalamityMod.Items;
 //using TerrariaOverhaul;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class MandibleBow : ModItem
 	{

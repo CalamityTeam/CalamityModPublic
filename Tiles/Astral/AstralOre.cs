@@ -26,16 +26,16 @@ namespace CalamityMod.Tiles.Astral
  			AddMapEntry(new Color(255, 153, 255), name);
 			mineResist = 5f;
 			soundType = 21;
-            
+
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;
         }
-		
+
 		public override bool CanKillTile(int i, int j, ref bool blockDamaged)
 		{
             return CalamityWorld.downedStarGod;
 		}
-		
+
 		public override bool CanExplode(int i, int j)
         {
             return CalamityWorld.downedStarGod;

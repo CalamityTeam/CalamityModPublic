@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Crabulon
 			DisplayName.SetDefault("Decapodita Sprout");
 			Tooltip.SetDefault("Summons Crabulon");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 28;
@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Crabulon
 			item.useStyle = 4;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return player.ZoneGlowshroom && !NPC.AnyNPCs(mod.NPCType("CrabulonIdle"));
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
             if (Main.netMode != 1)

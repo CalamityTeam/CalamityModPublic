@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Magic
     public class Ancient : ModProjectile
     {
     	public int addDustTimer = 0;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ancient");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 32;

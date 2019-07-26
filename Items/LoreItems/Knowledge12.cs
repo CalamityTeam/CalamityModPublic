@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "Seems likely, given the origins of this place.\n" +
 				"Deadly microbes spawn around you while this is placed in your inventory.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 2;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

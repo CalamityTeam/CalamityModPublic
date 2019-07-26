@@ -18,12 +18,12 @@ namespace CalamityMod.Buffs
 			Main.buffNoSave[Type] = true;
 			longerExpertDebuff = false;
 		}
-		
+
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.GetModPlayer<CalamityPlayer>(mod).bFlames = true;
 		}
-		
+
 		public override void Update(NPC npc, ref int buffIndex)
 		{
 			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).bFlames = true;

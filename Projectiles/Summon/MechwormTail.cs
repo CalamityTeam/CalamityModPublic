@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
 			DisplayName.SetDefault("Mechworm");
 			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
 				scaleFactor18 = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
 				scaleFactor17 = 16f;
 				Main.projectile[chase].localAI[0] = projectile.localAI[0] + 1f;
-			} 
+			}
 			else
 			{
 				projectile.Kill();
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.spriteDirection = ((vector134.X > 0f) ? 1 : -1);
 			return;
 		}
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];

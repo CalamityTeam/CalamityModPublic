@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Heal");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 300;
             projectile.extraUpdates = 3;
         }
-		
+
         public override void AI()
         {
 			int num487 = (int)projectile.ai[0];

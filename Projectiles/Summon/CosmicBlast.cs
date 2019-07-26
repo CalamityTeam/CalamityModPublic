@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 			DisplayName.SetDefault("Blast");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 18;

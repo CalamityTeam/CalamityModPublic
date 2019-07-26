@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Typeless
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
 			}
 			return true;
 		}
-		
+
 		public override bool PreAI()
         {
 			for (int num136 = 0; num136 < 3; num136++)

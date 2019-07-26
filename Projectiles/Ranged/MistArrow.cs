@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Arrow");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 300;
             aiType = 1;
         }
-        
+
         public override void AI()
         {
         	projectile.localAI[0] += 1f;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
     		target.AddBuff(BuffID.Frostburn, 240);

@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 		{
 			DisplayName.SetDefault("Despair Stone");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			banner = npc.type;
 			bannerItem = mod.ItemType("DespairStoneBanner");
 		}
-		
+
 		public override void AI()
 		{
 			int num = 30;
@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.rotation += npc.velocity.X * 0.05f;
 			npc.spriteDirection = -npc.direction;
 		}
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -338,12 +338,12 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				player.AddBuff(mod.BuffType("Horror"), 180, true);
 			}
 		}
-		
+
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
 			return spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity ? 0.25f : 0f;
         }
-		
+
 		public override void NPCLoot()
 		{
 			if (CalamityWorld.downedProvidence && Main.rand.Next(2) == 0)
@@ -355,7 +355,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

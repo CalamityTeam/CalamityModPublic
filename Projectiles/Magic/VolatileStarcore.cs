@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.PlaySound(SoundID.NPCDeath56, projectile.Center);
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
             }
-            
+
             // Dust only shows up after the first few frames
             if (projectile.localAI[0] >= 5f)
                 SpawnDust();

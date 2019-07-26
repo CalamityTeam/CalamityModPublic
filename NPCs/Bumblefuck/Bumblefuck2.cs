@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 			DisplayName.SetDefault("Bumblebirb");
 			Main.npcFrameCount[npc.type] = 10;
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 1f;
@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs.Bumblefuck
         {
             return false;
         }
-		
+
 		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += (double)(npc.velocity.Length() / 4f);
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 				}
 			}
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Providence
                 "Summons Providence\n" +
                 "Can only be used during daytime");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -31,12 +31,12 @@ namespace CalamityMod.Items.Providence
 			item.rare = 9;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return !NPC.AnyNPCs(mod.NPCType("Providence")) && Main.dayTime && (player.ZoneHoly || player.ZoneUnderworldHeight) && CalamityWorld.downedBossAny;
 		}
-		
+
 		public override bool UseItem(Player player)
 		{
 			NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("Providence"));

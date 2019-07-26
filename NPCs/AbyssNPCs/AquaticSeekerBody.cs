@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			DisplayName.SetDefault("Aquatic Seeker");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			npc.damage = 15; //70
@@ -50,12 +50,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			banner = mod.NPCType("AquaticSeekerHead");
 			bannerItem = mod.ItemType("AquaticSeekerBanner");
 		}
-		
+
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
 		{
 			return false;
 		}
-		
+
 		public override void AI()
 		{
             if (npc.ai[3] > 0f)
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			return false;
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
             for (int k = 0; k < 3; k++)

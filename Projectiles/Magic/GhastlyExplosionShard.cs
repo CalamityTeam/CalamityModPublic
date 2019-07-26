@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Explosion");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -30,17 +30,17 @@ namespace CalamityMod.Projectiles.Magic
 			int num332 = (int)projectile.ai[0];
 			projectile.ai[1] += 1f;
 			float num333 = (60f - projectile.ai[1]) / 60f;
-			if (projectile.ai[1] > 40f) 
+			if (projectile.ai[1] > 40f)
 			{
 				projectile.Kill();
 			}
 			projectile.velocity.Y = projectile.velocity.Y + 0.2f;
-			if (projectile.velocity.Y > 18f) 
+			if (projectile.velocity.Y > 18f)
 			{
 				projectile.velocity.Y = 18f;
 			}
 			projectile.velocity.X = projectile.velocity.X * 0.98f;
-			for (int num334 = 0; num334 < 2; num334 = num3 + 1) 
+			for (int num334 = 0; num334 < 2; num334 = num3 + 1)
 			{
 				int num335 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num332, projectile.velocity.X, projectile.velocity.Y, 50, default(Color), 1.1f);
 				Main.dust[num335].position = (Main.dust[num335].position + projectile.Center) / 2f;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
 				dust.scale *= num333;
 				num3 = num334;
 			}
-			for (int num336 = 0; num336 < 1; num336 = num3 + 1) 
+			for (int num336 = 0; num336 < 1; num336 = num3 + 1)
 			{
 				int num335 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num332, projectile.velocity.X, projectile.velocity.Y, 50, default(Color), 0.6f);
 				Main.dust[num335].position = (Main.dust[num335].position + projectile.Center * 5f) / 6f;

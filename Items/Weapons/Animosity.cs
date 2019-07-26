@@ -35,17 +35,17 @@ Right click to fire a burst of bullets");
 	        item.shootSpeed = 11f;
 	        item.useAmmo = 97;
 	    }
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-5, 0);
 		}
-	    
+
 	    public override bool AltFunctionUse(Player player)
 		{
 			return true;
 		}
-	    
+
 	    public override bool CanUseItem(Player player)
 		{
 			if (player.altFunctionUse == 2)
@@ -66,7 +66,7 @@ Right click to fire a burst of bullets");
 			}
 			return base.CanUseItem(player);
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	if (player.altFunctionUse == 2)
@@ -82,7 +82,7 @@ Right click to fire a burst of bullets");
 	    		return false;
 	    	}
 		}
-	    
+
 	    public override bool ConsumeAmmo(Player player)
 	    {
 	    	if (Main.rand.Next(0, 100) < 50)

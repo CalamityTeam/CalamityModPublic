@@ -15,7 +15,7 @@ namespace CalamityMod.Items.FabsolStuff
 			DisplayName.SetDefault("Odd Mushroom");
             Tooltip.SetDefault("Trippy");
         }
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 42;

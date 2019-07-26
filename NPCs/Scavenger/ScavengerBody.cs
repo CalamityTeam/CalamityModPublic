@@ -503,7 +503,7 @@ namespace CalamityMod.NPCs.Scavenger
 			Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerBodyGlow"), vector,
 				new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
 			Microsoft.Xna.Framework.Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-			Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72 
+			Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
 				new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Width, mod.GetTexture("NPCs/Scavenger/ScavengerLegRight").Height)),
 				color2, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
 			Main.spriteBatch.Draw(mod.GetTexture("NPCs/Scavenger/ScavengerLegLeft"), new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72

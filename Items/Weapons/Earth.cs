@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Earth : ModItem
 	{
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
-		
+
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 			float num72 = 25f;
@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons
 		    player.statLife += heal;
 		   	player.HealEffect(heal);
 		}
-	
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

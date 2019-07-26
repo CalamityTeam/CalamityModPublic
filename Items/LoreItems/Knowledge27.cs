@@ -19,7 +19,7 @@ namespace CalamityMod.Items.LoreItems
                 "These scourge creatures are the largest aquatic predators and very rarely do they frequent such shallow waters.\n" +
 				"Place in your inventory to gain immunity to the sulphurous waters and increase the stat gains from the Well Fed buff.");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.LoreItems
 			item.rare = 5;
 			item.consumable = false;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			return false;

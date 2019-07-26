@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			DisplayName.SetDefault("Melter");
 			Main.npcFrameCount[npc.type] = 4;
 		}
-		
+
 		public override void SetDefaults()
 		{
             npc.npcSlots = 0.5f;
@@ -56,12 +56,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             return SpawnCondition.HardmodeJungle.Chance * 0.09f;
         }
-		
+
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
             player.AddBuff(mod.BuffType("Plague"), 300, true);
         }
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 			}
 		}
-		
+
 		public override void NPCLoot()
 		{
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(1, 3));

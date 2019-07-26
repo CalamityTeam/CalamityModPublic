@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Melee
 			DisplayName.SetDefault("Ghastly Soul");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Melee
 			float num954 = 600f;
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
             Lighting.AddLight(projectile.Center, 0.5f, 0.2f, 0.9f);
-			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead) 
+			if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
 			{
-				if (projectile.Distance(Main.player[projectile.owner].Center) > num954) 
+				if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
 				{
 					Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-					if (vector102.HasNaNs()) 
+					if (vector102.HasNaNs())
 					{
 						vector102 = Vector2.UnitY;
 					}
@@ -98,9 +98,9 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
                 }
             }
-			else 
+			else
 			{
-				if (projectile.timeLeft > 30) 
+				if (projectile.timeLeft > 30)
 				{
 					projectile.timeLeft = 30;
 				}

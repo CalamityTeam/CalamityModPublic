@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Rain");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
         {
         	projectile.alpha = 50;
         }
-        
+
         public override void Kill(int timeLeft)
         {
             int num310 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + (float)projectile.height - 2f), 2, 2, 14, 0f, 0f, 0, default(Color), 1f);

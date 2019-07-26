@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			DisplayName.SetDefault("Shard");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 10;
@@ -24,18 +24,18 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
         	projectile.rotation += projectile.velocity.Y;
         	projectile.velocity.Y *= 1.05f;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.AddBuff(mod.BuffType("ArmorCrunch"), 60);
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	for (int i = 0; i <= 2; i++)

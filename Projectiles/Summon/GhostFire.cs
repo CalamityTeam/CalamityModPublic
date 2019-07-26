@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			DisplayName.SetDefault("Fire");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;

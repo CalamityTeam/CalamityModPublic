@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Magic
 		{
 			DisplayName.SetDefault("Fang");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 12;
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.aiStyle = 1;
             aiType = 355;
         }
-        
+
         public override void AI()
         {
             if (Main.rand.Next(2) == 0)
@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num302].velocity -= projectile.oldVelocity * 0.3f;
 			}
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 	    {
 	    	target.AddBuff(mod.BuffType("Plague"), 300);

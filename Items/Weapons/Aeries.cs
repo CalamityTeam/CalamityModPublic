@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class Aeries : ModItem
 	{
@@ -36,18 +36,18 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("ShockblastRound");
 	        item.useAmmo = 97;
 	    }
-	    
+
 	    public override Vector2? HoldoutOffset()
 		{
 			return new Vector2(-5, 0);
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ShockblastRound"), damage, knockBack, player.whoAmI, 0f, 0f);
 	    	return false;
 		}
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

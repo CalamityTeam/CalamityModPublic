@@ -17,7 +17,7 @@ namespace CalamityMod.Items
 			DisplayName.SetDefault("Comet Shard");
 			Tooltip.SetDefault("Permanently increases maximum mana by 50");
 		}
-		
+
 		public override void SetDefaults()
 		{
 			item.width = 20;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items
 			item.UseSound = SoundID.Item29;
 			item.consumable = true;
 		}
-		
+
 		public override bool CanUseItem(Player player)
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
@@ -54,7 +54,7 @@ namespace CalamityMod.Items
 			}
 			return true;
 		}
-		
+
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);

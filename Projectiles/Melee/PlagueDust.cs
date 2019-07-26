@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Dust");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 70;
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			projectile.rotation += 0.3f * (float)projectile.direction;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 	    {
         	target.immune[projectile.owner] = 5;

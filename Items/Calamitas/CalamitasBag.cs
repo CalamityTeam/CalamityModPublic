@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Calamitas
  			DisplayName.SetDefault("Treasure Bag");
  			Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
  		}
-		
+
 		public override void SetDefaults()
 		{
 			item.maxStack = 999;

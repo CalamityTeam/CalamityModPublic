@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles
 			soundType = 21;
 			Main.tileSpelunker[Type] = true;
 		}
-		
+
 		public override bool CanExplode(int i, int j)
 		{
 			return NPC.downedPlantBoss;

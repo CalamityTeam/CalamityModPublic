@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Pets
             Main.projFrames[projectile.type] = 8;
             Main.projPet[projectile.type] = true;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.netImportant = true;
@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Pets
             num19 -= 60f;
             float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             float num21 = 18f;
-			
+
 			//Limites de mouvement ici
-			
+
 			float num27 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             if (num27 > 1000f)
             {
@@ -70,9 +70,9 @@ namespace CalamityMod.Projectiles.Pets
 					Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0, -1f, 0, default(Color), 1f);
 				}
             }
-			
-            if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f && 
-                projectile.position.Y + (float)projectile.height <= Main.player[projectile.owner].position.Y + (float)Main.player[projectile.owner].height && 
+
+            if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f &&
+                projectile.position.Y + (float)projectile.height <= Main.player[projectile.owner].position.Y + (float)Main.player[projectile.owner].height &&
                 !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.ai[0] = 0f;
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Pets
                 num18 *= num20;
                 num19 *= num20;
             }
-			
+
 			//Les changements de velocité ici
             if (projectile.velocity.X < num18)
             {
@@ -145,14 +145,14 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.direction = 1;
             }
-			
+
 			//On gère le sprite et les frames ici
-			
+
 			Player projOwner = Main.player[projectile.owner];
-			
+
             projectile.spriteDirection = -projOwner.direction;
             projectile.rotation = projectile.velocity.X * 0.03f;
-			
+
 			projectile.frameCounter++;
 
             if (projOwner.statLife >= projOwner.statLifeMax2 / 4)

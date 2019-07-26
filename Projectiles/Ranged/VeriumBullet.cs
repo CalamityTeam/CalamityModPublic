@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Bullet");
 		}
-    	
+
 		public override void SetDefaults()
 		{
 			projectile.width = 8;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			return true;
 		}
-		
+
 		public override bool PreAI()
         {
 			projectile.localAI[1] += 1f;

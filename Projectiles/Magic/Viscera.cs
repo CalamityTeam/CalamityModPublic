@@ -10,12 +10,12 @@ namespace CalamityMod.Projectiles.Magic
     public class Viscera : ModProjectile
     {
     	public float healAmt = 1f;
-    	
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Viscera");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 4;
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 5;
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
         	healAmt *= 1.4f;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             return false;
         }
-        
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	if (target.type == NPCID.TargetDummy || !target.canGhostHeal)

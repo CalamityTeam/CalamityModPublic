@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items;
 
-namespace CalamityMod.Items.Weapons 
+namespace CalamityMod.Items.Weapons
 {
 	public class AsteroidStaff : ModItem
 	{
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 20f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-	    
+
 	    public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
 			float num72 = item.shootSpeed;
@@ -74,18 +74,18 @@ namespace CalamityMod.Items.Weapons
 	    	num78 *= num80;
 			num79 *= num80;
 			int num112 = 3;
-			for (int num113 = 0; num113 < num112; num113++) 
+			for (int num113 = 0; num113 < num112; num113++)
 			{
 				vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
 				vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
 				vector2.Y -= (float)(100 * num113);
 				num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;
 				num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-				if (num79 < 0f) 
+				if (num79 < 0f)
 				{
 					num79 *= -1f;
 				}
-				if (num79 < 20f) 
+				if (num79 < 20f)
 				{
 					num79 = 20f;
 				}

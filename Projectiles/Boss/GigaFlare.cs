@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Boss
 			DisplayName.SetDefault("Fireball");
 			Main.projFrames[projectile.type] = 4;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 30;
@@ -43,12 +43,12 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			Lighting.AddLight(projectile.Center, 1f, 0.7f, 0f);
 		}
-        
+
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, Main.DiscoG, 53, projectile.alpha);
         }
-        
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
         	Texture2D texture2D13 = Main.projectileTexture[projectile.type];

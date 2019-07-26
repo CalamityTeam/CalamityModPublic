@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Bee RPG");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
 			}
         }
-        
+
         public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)

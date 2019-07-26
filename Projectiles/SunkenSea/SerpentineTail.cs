@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 		{
 			DisplayName.SetDefault("Serpentine");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 14;
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 				scaleFactor18 = MathHelper.Clamp(Main.projectile[chase].scale, 0f, 50f);
 				scaleFactor17 = 16f;
 				Main.projectile[chase].localAI[0] = projectile.localAI[0] + 1f;
-			} 
+			}
 			else
 			{
 				for (int k = 0; k < 8; k++)

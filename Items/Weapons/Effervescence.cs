@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("UberBubble");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
-	    
+
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int randomBullets = 0; randomBullets <= 4; randomBullets++)
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons
 			}
 	    	return false;
 		}
-	
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

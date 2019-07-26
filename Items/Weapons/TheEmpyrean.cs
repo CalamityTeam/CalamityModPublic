@@ -36,14 +36,14 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 7.5f;
 			item.useAmmo = 23;
 		}
-	    
+
 	    public override bool ConsumeAmmo(Player player)
 	    {
 	    	if (Main.rand.Next(0, 100) < 70)
 	    		return false;
 	    	return true;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

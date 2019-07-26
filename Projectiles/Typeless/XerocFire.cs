@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Typeless
 		{
 			DisplayName.SetDefault("Fire");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 6;
@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Typeless
 				projectile.velocity.Y = 16f;
 			}
         }
-        
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             if (projectile.penetrate == 0)
