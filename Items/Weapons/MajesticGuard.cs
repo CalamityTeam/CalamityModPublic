@@ -41,6 +41,10 @@ namespace CalamityMod.Items.Weapons
 			{
 				target.defense -= 10;
 			}
+
+            // Healing effect does not trigger versus dummies
+            if (target.type == NPCID.TargetDummy)
+                return;
 			if (target.defense <= 0 && target.canGhostHeal)
 			{
 		    	player.statLife += 3;
