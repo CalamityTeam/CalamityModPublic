@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons.RareVariants
 {
@@ -14,9 +10,10 @@ namespace CalamityMod.Items.Weapons.RareVariants
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infinity");
-			Tooltip.SetDefault("Bad PC\n" +
-				"Fires a barrage of energy bolts that split and bounce\n" +
-				"Right click to fire a barrage of normal bullets");
+			Tooltip.SetDefault("Fires a barrage of energy bolts that split and bounce\n" +
+				"Right click to fire a barrage of normal bullets\n" +
+                "This gun has this name for a reason\n" +
+                "Use caution before you pull the trigger");
 		}
 
 	    public override void SetDefaults()
