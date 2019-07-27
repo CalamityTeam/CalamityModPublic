@@ -1,33 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class StormRuler : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class StormRuler : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ruler");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.light = 1f;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 10;
+			projectile.height = 10;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.penetrate = 1;
+			projectile.alpha = 255;
+			projectile.timeLeft = 600;
+		}
 
-        public override void AI()
-        {
-			Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, 0f, 0.25f, 0.25f);
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale -= 0.02f;
@@ -48,19 +51,21 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.localAI[0] = 0f;
 				}
 			}
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            if (Main.rand.Next(3) == 0)
-			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-           	}
-        }
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	if (projectile.owner == Main.myPlayer)
-        	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("StormMark"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	}
-        }
-    }
+		public override void Kill(int timeLeft)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("StormMark"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+	}
 }

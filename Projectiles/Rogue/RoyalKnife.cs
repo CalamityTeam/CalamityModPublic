@@ -8,28 +8,28 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class RoyalKnife : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class RoyalKnife : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Knife");
-		}
-
-        public override void SetDefaults()
-        {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 300;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void AI()
-        {
-        	projectile.ai[0] += 1f;
+		public override void SetDefaults()
+		{
+			projectile.width = 18;
+			projectile.height = 18;
+			projectile.friendly = true;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 300;
+			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+		}
+
+		public override void AI()
+		{
+			projectile.ai[0] += 1f;
 			if (projectile.ai[0] >= 240f)
 			{
 				projectile.alpha += 4;
@@ -40,11 +40,11 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 			}
-            else
-            {
-                projectile.rotation += 0.5f;
-            }
-        	float num472 = projectile.Center.X;
+			else
+			{
+				projectile.rotation += 0.5f;
+			}
+			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 800f;
 			bool flag17 = false;
@@ -77,31 +77,31 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
-            if (Main.rand.Next(6) == 0)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 20, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-        }
+			if (Main.rand.Next(6) == 0)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 20, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			}
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            for (int num303 = 0; num303 < 3; num303++)
+		public override void Kill(int timeLeft)
+		{
+			for (int num303 = 0; num303 < 3; num303++)
 			{
 				int num304 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 20, 0f, 0f, 100, default(Color), 0.8f);
 				Main.dust[num304].noGravity = true;
 				Main.dust[num304].velocity *= 1.2f;
 				Main.dust[num304].velocity -= projectile.oldVelocity * 0.3f;
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("HolyLight"), 600);
-        	if (target.type == NPCID.TargetDummy)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("HolyLight"), 600);
+			if (target.type == NPCID.TargetDummy)
 			{
 				return;
 			}
-        	float num = (float)damage * 0.015f;
+			float num = (float)damage * 0.015f;
 			if ((int)num == 0)
 			{
 				return;
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Rogue
 			Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
 			int num2 = projectile.owner;
 			Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("RoyalHeal"), 0, 0f, projectile.owner, (float)num2, num);
-        }
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

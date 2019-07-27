@@ -17,6 +17,8 @@ namespace CalamityMod.Projectiles.Pets
 		{
 			DisplayName.SetDefault("Chibii Devourer (Flying)");
 			Main.projPet[projectile.type] = true;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
@@ -31,8 +33,6 @@ namespace CalamityMod.Projectiles.Pets
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
             projectile.extraUpdates = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 12;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override bool PreDraw (SpriteBatch spriteBatch, Color lightColor)

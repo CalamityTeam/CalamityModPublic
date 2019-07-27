@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Rogue
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Malachite");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -30,8 +32,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 1;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void AI()

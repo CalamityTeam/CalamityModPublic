@@ -524,8 +524,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 
 		public override void NPCLoot()
 		{
-            // redo the rest of this drop code later
-            if (Main.rand.Next(10) == 0)
+			// redo the rest of this drop code later
+			if (Main.rand.Next(10) == 0)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneElementalTrophy"));
 			}
@@ -566,25 +566,25 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				}
 			}
 
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge6"), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge26"), true, !CalamityWorld.downedBrimstoneElemental);
+			DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
+			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge6"), true, !CalamityWorld.downedBrimstoneElemental);
+			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge26"), true, !CalamityWorld.downedBrimstoneElemental);
 
-            // if prime hasn't been killed and this is the first time killing brimmy, do the message
-            string key = "Mods.CalamityMod.SteelSkullBossText";
-            Color messageColor = Color.Crimson;
-            if (!NPC.downedMechBoss3 && !CalamityWorld.downedBrimstoneElemental)
-            {
-                if (Main.netMode == 0)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == 2)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+			// if prime hasn't been killed and this is the first time killing brimmy, do the message
+			string key = "Mods.CalamityMod.SteelSkullBossText";
+			Color messageColor = Color.Crimson;
+			if (!NPC.downedMechBoss3 && !CalamityWorld.downedBrimstoneElemental)
+			{
+				if (Main.netMode == 0)
+					Main.NewText(Language.GetTextValue(key), messageColor);
+				else if (Main.netMode == 2)
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+			}
 
-            // mark brimmy as dead
-            CalamityWorld.downedBrimstoneElemental = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
-        }
+			// mark brimmy as dead
+			CalamityWorld.downedBrimstoneElemental = true;
+			CalamityGlobalNPC.UpdateServerBoolean();
+		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

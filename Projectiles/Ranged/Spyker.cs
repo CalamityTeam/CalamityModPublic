@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spyker");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -28,8 +30,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 2;
             projectile.aiStyle = 93;
             aiType = 514;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void AI()

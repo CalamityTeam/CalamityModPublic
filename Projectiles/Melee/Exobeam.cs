@@ -8,53 +8,55 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Exobeam : ModProjectile
-    {
-        private int counter = 0;
+	public class Exobeam : ModProjectile
+	{
+		private int counter = 0;
 
-    	public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beam");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.alpha = 255;
-            projectile.timeLeft = 600;
-            projectile.light = 1f;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 16;
+			projectile.height = 16;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.penetrate = 1;
+			projectile.extraUpdates = 1;
+			projectile.alpha = 255;
+			projectile.timeLeft = 600;
+			projectile.light = 1f;
+		}
 
-        public override void AI()
-        {
-        	if (projectile.localAI[1] == 0f)
+		public override void AI()
+		{
+			if (projectile.localAI[1] == 0f)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);
 				projectile.localAI[1] += 1f;
 			}
-            counter++;
-            if (counter == 12)
-            {
-                counter = 0;
-                for (int l = 0; l < 12; l++)
-                {
-                    Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
-                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 107, 0f, 0f, 160, new Color(0, 255, 255), 1f);
-                    Main.dust[num9].scale = 1.1f;
-                    Main.dust[num9].noGravity = true;
-                    Main.dust[num9].position = projectile.Center + vector3;
-                    Main.dust[num9].velocity = projectile.velocity * 0.1f;
-                    Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-                }
-            }
-            projectile.alpha -= 40;
+			counter++;
+			if (counter == 12)
+			{
+				counter = 0;
+				for (int l = 0; l < 12; l++)
+				{
+					Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
+					vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
+					vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
+					int num9 = Dust.NewDust(projectile.Center, 0, 0, 107, 0f, 0f, 160, new Color(0, 255, 255), 1f);
+					Main.dust[num9].scale = 1.1f;
+					Main.dust[num9].noGravity = true;
+					Main.dust[num9].position = projectile.Center + vector3;
+					Main.dust[num9].velocity = projectile.velocity * 0.1f;
+					Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+				}
+			}
+			projectile.alpha -= 40;
 			if (projectile.alpha < 0)
 			{
 				projectile.alpha = 0;
@@ -130,10 +132,10 @@ namespace CalamityMod.Projectiles.Melee
 				}
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
 			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
 			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
 			target.AddBuff(mod.BuffType("GlacialState"), 120);
@@ -145,21 +147,20 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(BuffID.Ichor, 120);
 		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(0, 255, 255, projectile.alpha);
-        }
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(0, 255, 255, projectile.alpha);
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);
 			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = 200);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
@@ -178,6 +179,6 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num195].noGravity = true;
 			}
 			projectile.Damage();
-        }
-    }
+		}
+	}
 }

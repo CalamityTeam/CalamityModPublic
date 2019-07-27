@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Amidias
 				if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner && NPC.downedBoss3)
 				{
 					projectile.localAI[0] = 1f;
-					Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X * projectile.ai[0], projectile.Center.Y + projectile.velocity.Y * projectile.ai[0], projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f, mod.ProjectileType("AmidiasWhirlpool"), projectile.damage, projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f, mod.ProjectileType("AmidiasWhirlpool"), projectile.damage, projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
 				}
 			}
 			else

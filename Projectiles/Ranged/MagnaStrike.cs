@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Strike");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -25,8 +27,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
             projectile.ranged = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void AI()

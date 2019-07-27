@@ -16,6 +16,8 @@ namespace CalamityMod.Projectiles.Shrines
 		{
 			DisplayName.SetDefault("Gift");
 			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -33,8 +35,6 @@ namespace CalamityMod.Projectiles.Shrines
 			projectile.minion = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void AI()

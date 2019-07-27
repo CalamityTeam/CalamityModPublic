@@ -15,6 +15,8 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spear");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -27,8 +29,6 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 600;
 			aiType = 598;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void AI()

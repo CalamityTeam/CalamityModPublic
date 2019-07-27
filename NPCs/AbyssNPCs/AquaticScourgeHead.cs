@@ -584,72 +584,72 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-            potionType = ItemID.None;
+			potionType = mod.ItemType("SulphurousSand");
 		}
 
-        public override bool SpecialNPCLoot()
-        {
-            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
-                mod.NPCType("AquaticScourgeHead"),
-                mod.NPCType("AquaticScourgeBody"),
-                mod.NPCType("AquaticScourgeTail"));
-            npc.position = Main.npc[closestSegmentID].position;
+		public override bool SpecialNPCLoot()
+		{
+			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+				mod.NPCType("AquaticScourgeHead"),
+				mod.NPCType("AquaticScourgeBody"),
+				mod.NPCType("AquaticScourgeTail"));
+			npc.position = Main.npc[closestSegmentID].position;
 
-            DropHelper.DropBags(npc);
+			DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
-            // there is no Aquatic Scourge trophy yet
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge27"), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge35"), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
+			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
+			// there is no Aquatic Scourge trophy yet
+			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge27"), true, !CalamityWorld.downedAquaticScourge);
+			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge35"), true, !CalamityWorld.downedAquaticScourge);
+			DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItemCondition(npc, ItemID.SoulofSight, Main.hardMode, 20, 40);
-                DropHelper.DropItem(npc, mod.ItemType("VictoryShard"), 11, 20);
-                DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
-                DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
-                DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
+			{
+				// Materials
+				DropHelper.DropItemCondition(npc, ItemID.SoulofSight, Main.hardMode, 20, 40);
+				DropHelper.DropItem(npc, mod.ItemType("VictoryShard"), 11, 20);
+				DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
+				DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);
+				DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
-                // Weapons (Hardmode only)
-                DropHelper.DropItemCondition(npc, mod.ItemType("SubmarineShocker"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("Barinautical"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("Downpour"), Main.hardMode, 4, 1, 1);
-                DropHelper.DropItemCondition(npc, mod.ItemType("DeepseaStaff"), Main.hardMode, 4, 1, 1);
+				// Weapons (Hardmode only)
+				DropHelper.DropItemCondition(npc, mod.ItemType("SubmarineShocker"), Main.hardMode, 4, 1, 1);
+				DropHelper.DropItemCondition(npc, mod.ItemType("Barinautical"), Main.hardMode, 4, 1, 1);
+				DropHelper.DropItemCondition(npc, mod.ItemType("Downpour"), Main.hardMode, 4, 1, 1);
+				DropHelper.DropItemCondition(npc, mod.ItemType("DeepseaStaff"), Main.hardMode, 4, 1, 1);
 
-                // Equipment
-                DropHelper.DropItemCondition(npc, mod.ItemType("AquaticEmblem"), Main.hardMode);
-                DropHelper.DropItemChance(npc, mod.ItemType("AeroStone"), 9);
+				// Equipment
+				DropHelper.DropItemCondition(npc, mod.ItemType("AquaticEmblem"), Main.hardMode);
+				DropHelper.DropItemChance(npc, mod.ItemType("AeroStone"), 9);
 
-                // Vanity
-                // there is no Aquatic Scourge mask yet
+				// Vanity
+				// there is no Aquatic Scourge mask yet
 
-                // Fishing
-                DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 12);
-                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 12);
-                DropHelper.DropItemChance(npc, ItemID.TackleBox, 12);
-                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 9);
-                DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 9);
-                DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 9);
-                DropHelper.DropItemChance(npc, ItemID.Sextant, 9);
-                DropHelper.DropItemChance(npc, ItemID.AnglerHat, 4);
-                DropHelper.DropItemChance(npc, ItemID.AnglerVest, 4);
-                DropHelper.DropItemChance(npc, ItemID.AnglerPants, 4);
-                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.CratePotion, 4, 2, 3);
-                DropHelper.DropItemCondition(npc, ItemID.GoldenBugNet, NPC.downedBoss3, 15, 1, 1);
-            }
+				// Fishing
+				DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 12);
+				DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 12);
+				DropHelper.DropItemChance(npc, ItemID.TackleBox, 12);
+				DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 9);
+				DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 9);
+				DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 9);
+				DropHelper.DropItemChance(npc, ItemID.Sextant, 9);
+				DropHelper.DropItemChance(npc, ItemID.AnglerHat, 4);
+				DropHelper.DropItemChance(npc, ItemID.AnglerVest, 4);
+				DropHelper.DropItemChance(npc, ItemID.AnglerPants, 4);
+				DropHelper.DropItemChance(npc, ItemID.FishingPotion, 4, 2, 3);
+				DropHelper.DropItemChance(npc, ItemID.SonarPotion, 4, 2, 3);
+				DropHelper.DropItemChance(npc, ItemID.CratePotion, 4, 2, 3);
+				DropHelper.DropItemCondition(npc, ItemID.GoldenBugNet, NPC.downedBoss3, 15, 1, 1);
+			}
 
-            // Mark Aquatic Scourge as dead
-            CalamityWorld.downedAquaticScourge = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
-            return true;
-        }
+			// Mark Aquatic Scourge as dead
+			CalamityWorld.downedAquaticScourge = true;
+			CalamityGlobalNPC.UpdateServerBoolean();
+			return true;
+		}
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);

@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Shrines
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gift");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -26,8 +28,6 @@ namespace CalamityMod.Projectiles.Shrines
             projectile.timeLeft = 240;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void AI()

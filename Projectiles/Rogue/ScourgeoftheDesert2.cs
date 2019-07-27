@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Rogue
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Scourge");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -22,8 +24,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 6;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
         public override void AI()

@@ -15,6 +15,8 @@ namespace CalamityMod.Projectiles.Rogue
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Knife");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -26,8 +28,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 300;
             projectile.melee = true;
             projectile.extraUpdates = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void AI()

@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shroom");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -25,8 +27,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = false;
             projectile.timeLeft = 120;
             projectile.ranged = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void AI()

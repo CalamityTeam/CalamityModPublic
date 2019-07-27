@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,11 +17,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 6;
+            projectile.height = 6;
+			projectile.scale = 1.5f;
             projectile.friendly = true;
             projectile.alpha = 50;
-            projectile.scale = 1.2f;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.magic = true;
@@ -28,18 +29,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.15f, 0f, 0.15f);
 			projectile.rotation += projectile.velocity.X * 0.2f;
 			projectile.ai[1] += 1f;
 			if (Main.rand.Next(4) == 0)
 			{
 				int num300 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 70, 0f, 0f, 0, default(Color), 1f);
 				Main.dust[num300].noGravity = true;
-				Main.dust[num300].velocity *= 0.5f;
-				Main.dust[num300].scale *= 0.9f;
+				Main.dust[num300].velocity *= 0.2f;
+				Main.dust[num300].scale *= 0.8f;
 			}
-			projectile.velocity *= 0.985f;
-			if (projectile.ai[1] > 130f)
+			projectile.velocity *= 0.99f;
+			if (projectile.ai[1] > 90f)
 			{
 				projectile.scale -= 0.05f;
 				if ((double)projectile.scale <= 0.2)
@@ -47,6 +48,8 @@ namespace CalamityMod.Projectiles.Magic
 					projectile.scale = 0.2f;
 					projectile.Kill();
 				}
+				projectile.width = (int)(6f * projectile.scale);
+				projectile.height = (int)(6f * projectile.scale);
 			}
         }
 
@@ -62,5 +65,10 @@ namespace CalamityMod.Projectiles.Magic
         {
         	target.AddBuff(BuffID.Frostburn, 120);
         }
-    }
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, 0);
+		}
+	}
 }

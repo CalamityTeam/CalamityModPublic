@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Rogue
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Celestus");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -26,8 +28,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 30;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void AI()

@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Melee
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eradicator");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -28,13 +30,11 @@ namespace CalamityMod.Projectiles.Melee
             aiType = 52;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 3;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0.03f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
         	int[] array = new int[20];
 			int num428 = 0;
 			float num429 = 300f;
@@ -88,13 +88,13 @@ namespace CalamityMod.Projectiles.Melee
 			}
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 origin = new Vector2(31f, 29f);
 			spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/EradicatorMeleeProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);

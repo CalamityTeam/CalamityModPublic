@@ -114,8 +114,7 @@ namespace CalamityMod.World
 		public static bool downedSCal = false;
 		public static bool downedLORDE = false;
 		public static bool downedCLAM = false;
-
-        public static bool downedBetsy = false;
+		public static bool downedBetsy = false; //Betsy
 		#endregion
 
 		#endregion
@@ -170,8 +169,8 @@ namespace CalamityMod.World
 			downedCLAM = false;
 			downedBumble = false;
 			downedCrabulon = false;
-            downedBetsy = false;
-            downedBossAny = false;
+			downedBetsy = false;
+			downedBossAny = false;
 			spawnedHardBoss = false;
 			demonMode = false;
 			onionMode = false;
@@ -217,7 +216,7 @@ namespace CalamityMod.World
 			if (downedSCal) downed.Add("supremeCalamitas");
 			if (downedBumble) downed.Add("bumblebirb");
 			if (downedCrabulon) downed.Add("crabulon");
-            if (downedBetsy) downed.Add("betsy");
+			if (downedBetsy) downed.Add("betsy");
 			if (downedScavenger) downed.Add("scavenger");
 			if (downedBossAny) downed.Add("anyBoss");
 			if (demonMode) downed.Add("demonMode");
@@ -278,7 +277,7 @@ namespace CalamityMod.World
 			downedSCal = downed.Contains("supremeCalamitas");
 			downedBumble = downed.Contains("bumblebirb");
 			downedCrabulon = downed.Contains("crabulon");
-            downedBetsy = downed.Contains("betsy");
+			downedBetsy = downed.Contains("betsy");
 			downedScavenger = downed.Contains("scavenger");
 			downedBossAny = downed.Contains("anyBoss");
 			demonMode = downed.Contains("demonMode");
@@ -334,8 +333,8 @@ namespace CalamityMod.World
 				downedSentinel3 = flags2[6];
 				downedYharon = flags2[7];
 
-                // Explicitly discard the now-unused vanilla boss booleans
-                BitsByte flags3 = reader.ReadByte();
+				// Explicitly discard the now-unused vanilla boss booleans
+				BitsByte flags3 = reader.ReadByte();
 				downedSCal = flags3[0];
 				downedBumble = flags3[1];
 				downedCrabulon = flags3[2];
@@ -410,22 +409,22 @@ namespace CalamityMod.World
 			flags2[6] = downedSentinel3;
 			flags2[7] = downedYharon;
 
-            // Don't write meaningful values for the now-unused vanilla boss booleans
-            BitsByte flags3 = new BitsByte();
+			// Don't write meaningful values for the now-unused vanilla boss booleans
+			BitsByte flags3 = new BitsByte();
 			flags3[0] = downedSCal;
 			flags3[1] = downedBumble;
 			flags3[2] = downedCrabulon;
-            flags3[3] = downedBetsy;
+			flags3[3] = downedBetsy;
 			flags3[4] = downedScavenger;
 			flags3[5] = false;
 			flags3[6] = false;
-            flags3[7] = false;
+			flags3[7] = false;
 
-            BitsByte flags4 = new BitsByte();
+			BitsByte flags4 = new BitsByte();
 			flags4[0] = false;
 			flags4[1] = false;
 			flags4[2] = false;
-            flags4[3] = false;
+			flags4[3] = false;
 			flags4[4] = downedBossAny;
 			flags4[5] = demonMode;
 			flags4[6] = onionMode;
@@ -490,8 +489,8 @@ namespace CalamityMod.World
 			downedSentinel3 = flags2[6];
 			downedYharon = flags2[7];
 
-            // Explicitly discard the now-unused vanilla boss booleans
-            BitsByte flags3 = reader.ReadByte();
+			// Explicitly discard the now-unused vanilla boss booleans
+			BitsByte flags3 = reader.ReadByte();
 			downedSCal = flags3[0];
 			downedBumble = flags3[1];
 			downedCrabulon = flags3[2];

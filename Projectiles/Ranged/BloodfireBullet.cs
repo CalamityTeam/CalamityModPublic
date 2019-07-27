@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodfire Bullet");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -27,8 +29,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void AI()

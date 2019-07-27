@@ -7,27 +7,27 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DarkBall : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class DarkBall : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dark Ball");
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.scale = 0.9f;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 200;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 20;
+			projectile.height = 20;
+			projectile.scale = 0.9f;
+			projectile.friendly = true;
+			projectile.penetrate = -1;
+			projectile.timeLeft = 200;
+			projectile.melee = true;
+			projectile.tileCollide = false;
+		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			try
 			{
 				int num223 = (int)(projectile.position.X / 16f) - 1;
@@ -100,12 +100,11 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
 			}
 			projectile.rotation += projectile.velocity.X * 0.1f;
-			return;
-        }
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 21);
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 21);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 22;
@@ -125,11 +124,11 @@ namespace CalamityMod.Projectiles.Melee
 				num651 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 100, default(Color), 1.5f);
 				Main.dust[num651].velocity *= 3f;
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	projectile.Kill();
-        }
-    }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			projectile.Kill();
+		}
+	}
 }

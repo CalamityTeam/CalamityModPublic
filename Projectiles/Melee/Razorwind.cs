@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Melee
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Razorwind");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 3;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -109,11 +109,10 @@ namespace CalamityMod.Projectiles.Melee
         	return new Color(53, Main.DiscoG, 255, projectile.alpha);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
-    }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+	}
 }

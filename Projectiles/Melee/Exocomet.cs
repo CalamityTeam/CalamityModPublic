@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +14,8 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			DisplayName.SetDefault("Comet");
 			Main.projFrames[projectile.type] = 5;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -114,7 +117,13 @@ namespace CalamityMod.Projectiles.Melee
 			Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, mod.ProjectileType("Exoheal"), 0, 0f, projectile.owner, (float)num2, num);
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(0, 255, 255, projectile.alpha);
         }

@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ballista Great Arrow");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -24,8 +26,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 3;
             projectile.aiStyle = 1;
             aiType = 1;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

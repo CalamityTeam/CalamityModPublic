@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,25 +17,25 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void SetDefaults()
 		{
-			projectile.width = 20;
-			projectile.height = 20;
+			projectile.width = 30;
+			projectile.height = 30;
 			projectile.friendly = true;
 			projectile.melee = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void AI()
 		{
+			projectile.rotation += 0.5f;
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 4f)
 			{
-				for (int num468 = 0; num468 < 3; num468++)
-				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default(Color), 1f);
-					Main.dust[num469].noGravity = true;
-					Main.dust[num469].velocity *= 0f;
-				}
+				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default(Color), 1f);
+				Main.dust[num469].noGravity = true;
+				Main.dust[num469].velocity *= 0f;
 			}
 		}
 
@@ -60,9 +61,13 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			int debuffDuration = 300 - projectile.timeLeft;
 			if (projectile.timeLeft < 270)
-			{
 				target.AddBuff(mod.BuffType("GlacialState"), debuffDuration);
-			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
 		}
 	}
 }

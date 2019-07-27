@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Feather");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -23,8 +25,6 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.ranged = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void AI()

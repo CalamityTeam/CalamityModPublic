@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Melee
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hammer");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -26,8 +28,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 120;
             projectile.extraUpdates = 3;
             aiType = 301;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void AI()
@@ -36,13 +36,13 @@ namespace CalamityMod.Projectiles.Melee
         	projectile.velocity.Y *= 1.06f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+		public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.ai[0] += 0.1f;
             if (projectile.velocity.X != oldVelocity.X)

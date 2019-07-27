@@ -7,69 +7,49 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Flarefrost : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class Flarefrost : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flarefrost");
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 180;
-            projectile.melee = true;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 10;
+			projectile.height = 10;
+			projectile.friendly = true;
+			projectile.alpha = 255;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 180;
+			projectile.melee = true;
+		}
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.02f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
-        	for (int num92 = 0; num92 < 3; num92++)
+		public override void AI()
+		{
+			Vector2 value7 = new Vector2(5f, 10f);
+			Lighting.AddLight(projectile.Center, 0.25f, 0f, 0.25f);
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] == 48f)
 			{
-				float num93 = projectile.velocity.X / 3f * (float)num92;
-				float num94 = projectile.velocity.Y / 3f * (float)num92;
-				int num95 = 4;
-				int num96 = Dust.NewDust(new Vector2(projectile.position.X + (float)num95, projectile.position.Y + (float)num95), projectile.width - num95 * 2, projectile.height - num95 * 2, 67, 0f, 0f, 100, default(Color), 1.2f);
-				Main.dust[num96].noGravity = true;
-				Main.dust[num96].velocity *= 0.1f;
-				Main.dust[num96].velocity += projectile.velocity * 0.1f;
-				Dust expr_47FA_cp_0 = Main.dust[num96];
-				expr_47FA_cp_0.position.X = expr_47FA_cp_0.position.X - num93;
-				Dust expr_4815_cp_0 = Main.dust[num96];
-				expr_4815_cp_0.position.Y = expr_4815_cp_0.position.Y - num94;
+				projectile.localAI[0] = 0f;
 			}
-			if (Main.rand.Next(5) == 0)
+			else
 			{
-				int num97 = 4;
-				int num98 = Dust.NewDust(new Vector2(projectile.position.X + (float)num97, projectile.position.Y + (float)num97), projectile.width - num97 * 2, projectile.height - num97 * 2, 67, 0f, 0f, 100, default(Color), 0.6f);
-				Main.dust[num98].velocity *= 0.25f;
-				Main.dust[num98].velocity += projectile.velocity * 0.5f;
-			}
-			for (int num105 = 0; num105 < 3; num105++)
-			{
-				float num99 = projectile.velocity.X / 3f * (float)num105;
-				float num100 = projectile.velocity.Y / 3f * (float)num105;
-				int num101 = 4;
-				int num102 = Dust.NewDust(new Vector2(projectile.position.X + (float)num101, projectile.position.Y + (float)num101), projectile.width - num101 * 2, projectile.height - num101 * 2, 6, 0f, 0f, 100, default(Color), 1.2f);
-				Main.dust[num102].noGravity = true;
-				Main.dust[num102].velocity *= 0.1f;
-				Main.dust[num102].velocity += projectile.velocity * 0.1f;
-				Dust expr_47FA_cp_0 = Main.dust[num102];
-				expr_47FA_cp_0.position.X = expr_47FA_cp_0.position.X - num99;
-				Dust expr_4815_cp_0 = Main.dust[num102];
-				expr_4815_cp_0.position.Y = expr_4815_cp_0.position.Y - num100;
-			}
-			if (Main.rand.Next(5) == 0)
-			{
-				int num103 = 4;
-				int num104 = Dust.NewDust(new Vector2(projectile.position.X + (float)num103, projectile.position.Y + (float)num103), projectile.width - num103 * 2, projectile.height - num103 * 2, 6, 0f, 0f, 100, default(Color), 0.6f);
-				Main.dust[num104].velocity *= 0.25f;
-				Main.dust[num104].velocity += projectile.velocity * 0.5f;
+				for (int num41 = 0; num41 < 2; num41++)
+				{
+					int dustType = (num41 == 0 ? 67 : 174);
+					Vector2 value8 = Vector2.UnitX * -12f;
+					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7 - projectile.rotation.ToRotationVector2() * 10f;
+					int num42 = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default(Color), 1f);
+					Main.dust[num42].scale = (dustType == 67 ? 1.5f : 1f);
+					Main.dust[num42].noGravity = true;
+					Main.dust[num42].position = projectile.Center + value8;
+					Main.dust[num42].velocity = projectile.velocity;
+					int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default(Color), 0.8f);
+					Main.dust[num458].noGravity = true;
+					Main.dust[num458].velocity *= 0f;
+				}
 			}
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
@@ -104,22 +84,22 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
-        }
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
-            for (int k = 0; k < 2; k++)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
-        }
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+			for (int k = 0; k < 2; k++)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+			}
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.AddBuff(BuffID.OnFire, 300);
-        	target.AddBuff(BuffID.Frostburn, 300);
-        }
-    }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.OnFire, 300);
+			target.AddBuff(BuffID.Frostburn, 300);
+		}
+	}
 }

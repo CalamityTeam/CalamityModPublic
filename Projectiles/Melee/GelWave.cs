@@ -26,7 +26,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 2;
             projectile.alpha = 120;
             projectile.timeLeft = 200;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+		}
 
         public override void AI()
         {
@@ -35,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
 				projectile.localAI[0] += 1f;
 			}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.4f);
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             projectile.velocity.Y += projectile.ai[0];
             if (Main.rand.Next(2) == 0)
@@ -44,14 +46,18 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 200, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 3; k++)
             {

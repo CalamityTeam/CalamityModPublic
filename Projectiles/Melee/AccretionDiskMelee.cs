@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Melee
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Accretion Disk");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -28,8 +30,6 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.aiStyle = 3;
 			projectile.timeLeft = 400;
 			aiType = 52;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void AI()
@@ -114,10 +114,10 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(mod.BuffType("HolyLight"), 120);
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
-            return false;
-        }
-    }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
+	}
 }

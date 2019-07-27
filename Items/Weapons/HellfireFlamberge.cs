@@ -38,23 +38,23 @@ namespace CalamityMod.Items.Weapons
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	float SpeedA = speedX;
+			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+			float SpeedA = speedX;
 	   		float SpeedB = speedY;
-	        int num6 = Main.rand.Next(3, 5);
-	        for (int index = 0; index < num6; ++index)
+	        for (int index = 0; index < 3; ++index)
 	        {
 	      	 	float num7 = speedX;
 	            float num8 = speedY;
 	            float SpeedX = speedX + (float) Main.rand.Next(-40, 41) * 0.05f;
 	            float SpeedY = speedY + (float) Main.rand.Next(-40, 41) * 0.05f;
-	    		switch (Main.rand.Next(3))
+	    		switch (index)
 				{
 	    			case 0: type = mod.ProjectileType("ChaosFlameSmall"); break;
 	    			case 1: type = mod.ProjectileType("ChaosFlameMedium"); break;
 	    			case 2: type = mod.ProjectileType("ChaosFlameLarge"); break;
 	    			default: break;
 				}
-	            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+	            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 	    	}
 	    	return false;
 		}

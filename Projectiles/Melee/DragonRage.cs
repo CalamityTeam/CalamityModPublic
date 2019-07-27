@@ -8,59 +8,60 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class DragonRage : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class DragonRage : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rage");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 70;
-            projectile.height = 70;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 3;
-            projectile.timeLeft = 120;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 70;
+			projectile.height = 70;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.melee = true;
+			projectile.penetrate = 1;
+			projectile.extraUpdates = 3;
+			projectile.timeLeft = 120;
+		}
 
-        public override void AI()
-        {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        	if (projectile.localAI[0] == 0f)
+		public override void AI()
+		{
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			if (projectile.localAI[0] == 0f)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
 				projectile.localAI[0] += 1f;
 			}
-        	if (projectile.localAI[1] <= 60f)
-        	{
-        		projectile.localAI[1] += 1f;
-        		projectile.tileCollide = false;
-        	}
+			if (projectile.localAI[1] <= 60f)
+			{
+				projectile.localAI[1] += 1f;
+				projectile.tileCollide = false;
+			}
 			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	if (projectile.owner == Main.myPlayer)
-        	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	}
-        }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			}
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 100;
@@ -121,6 +122,6 @@ namespace CalamityMod.Projectiles.Melee
 				Gore expr_13D1F_cp_0 = Main.gore[num626];
 				expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
 			}
-        }
-    }
+		}
+	}
 }

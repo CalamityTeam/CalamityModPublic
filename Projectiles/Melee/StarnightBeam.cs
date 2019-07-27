@@ -8,40 +8,37 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class StarnightBeam : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class StarnightBeam : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Beam");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.aiStyle = 27;
-            projectile.friendly = true;
-            projectile.melee = true;
-            projectile.penetrate = 2;
-            projectile.timeLeft = 600;
-            aiType = 156;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 14;
+			projectile.height = 14;
+			projectile.aiStyle = 27;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.penetrate = 2;
+			projectile.timeLeft = 600;
+			aiType = 156;
+		}
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.2f) / 255f, 0f, ((255 - projectile.alpha) * 0.2f) / 255f);
-            if (Main.rand.Next(3) == 0)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 73, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
-        }
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, 0.2f, 0f, 0.2f);
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
 
 		public override void Kill(int timeLeft)
 		{
@@ -63,8 +60,8 @@ namespace CalamityMod.Projectiles.Melee
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
+		{
 			target.AddBuff(BuffID.Frostburn, 120);
-        }
-    }
+		}
+	}
 }

@@ -1088,73 +1088,73 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
-            potionType = ItemID.None;
+			potionType = mod.ItemType("CosmiliteBrick");
 		}
 
-        public override bool SpecialNPCLoot()
-        {
-            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
-                mod.NPCType("DevourerofGodsHeadS"),
-                mod.NPCType("DevourerofGodsBodyS"),
-                mod.NPCType("DevourerofGodsTailS"));
-            npc.position = Main.npc[closestSegmentID].position;
+		public override bool SpecialNPCLoot()
+		{
+			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+				mod.NPCType("DevourerofGodsHeadS"),
+				mod.NPCType("DevourerofGodsBodyS"),
+				mod.NPCType("DevourerofGodsTailS"));
+			npc.position = Main.npc[closestSegmentID].position;
 
-            DropHelper.DropBags(npc);
+			DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, mod.ItemType("SupremeHealingPotion"), 8, 14);
-            DropHelper.DropItemChance(npc, mod.ItemType("DevourerofGodsTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge42"), true, !CalamityWorld.downedDoG);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);
+			DropHelper.DropItem(npc, mod.ItemType("SupremeHealingPotion"), 8, 14);
+			DropHelper.DropItemChance(npc, mod.ItemType("DevourerofGodsTrophy"), 10);
+			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge42"), true, !CalamityWorld.downedDoG);
+			DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);
 
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
-            {
-                // Materials
-                DropHelper.DropItem(npc, mod.ItemType("CosmiliteBar"), 25, 35);
-                DropHelper.DropItem(npc, mod.ItemType("CosmiliteBrick"), 150, 250);
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
+			{
+				// Materials
+				DropHelper.DropItem(npc, mod.ItemType("CosmiliteBar"), 25, 35);
+				DropHelper.DropItem(npc, mod.ItemType("CosmiliteBrick"), 150, 250);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("Excelsus"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("EradicatorMelee"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("TheObliterator"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Deathwind"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Skullmasher"), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, mod.ItemType("Norfleet"), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, mod.ItemType("DeathhailStaff"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("StaffoftheMechworm"), 4);
-                DropHelper.DropItemChance(npc, mod.ItemType("Eradicator"), 4);
+				// Weapons
+				DropHelper.DropItemChance(npc, mod.ItemType("Excelsus"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("EradicatorMelee"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("TheObliterator"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("Deathwind"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("Skullmasher"), DropHelper.RareVariantDropRateInt);
+				DropHelper.DropItemChance(npc, mod.ItemType("Norfleet"), DropHelper.RareVariantDropRateInt);
+				DropHelper.DropItemChance(npc, mod.ItemType("DeathhailStaff"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("StaffoftheMechworm"), 4);
+				DropHelper.DropItemChance(npc, mod.ItemType("Eradicator"), 4);
 
-                // Vanity
-                DropHelper.DropItemChance(npc, mod.ItemType("DevourerofGodsMask"), 7);
-            }
+				// Vanity
+				DropHelper.DropItemChance(npc, mod.ItemType("DevourerofGodsMask"), 7);
+			}
 
-            // If DoG has not been killed yet, notify players that the holiday moons are buffed
-            if (!CalamityWorld.downedDoG)
-            {
-                string key = "Mods.CalamityMod.DoGBossText";
-                Color messageColor = Color.Cyan;
-                string key2 = "Mods.CalamityMod.DoGBossText2";
-                Color messageColor2 = Color.Orange;
+			// If DoG has not been killed yet, notify players that the holiday moons are buffed
+			if (!CalamityWorld.downedDoG)
+			{
+				string key = "Mods.CalamityMod.DoGBossText";
+				Color messageColor = Color.Cyan;
+				string key2 = "Mods.CalamityMod.DoGBossText2";
+				Color messageColor2 = Color.Orange;
 
-                if (Main.netMode == 0)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                    Main.NewText(Language.GetTextValue(key2), messageColor2);
-                }
-                else if (Main.netMode == 2)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                }
-            }
+				if (Main.netMode == 0)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+					Main.NewText(Language.GetTextValue(key2), messageColor2);
+				}
+				else if (Main.netMode == 2)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+				}
+			}
 
-            // Mark DoG as dead
-            CalamityWorld.downedDoG = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
-            return true;
-        }
+			// Mark DoG as dead
+			CalamityWorld.downedDoG = true;
+			CalamityGlobalNPC.UpdateServerBoolean();
+			return true;
+		}
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
 			{

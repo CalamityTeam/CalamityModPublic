@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Bloodfire Arrow");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -24,8 +26,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void AI()

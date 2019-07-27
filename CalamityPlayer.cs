@@ -6148,13 +6148,12 @@ namespace CalamityMod
 					case ProjectileID.HallowStar:
 						damage = (int)((double)damage * 0.7);
 						break;
-					case ProjectileID.SpectreWrath:
-						damage = (int)((double)damage * 0.7);
-						break;
 				}
 				if (proj.type == mod.ProjectileType("VeriumBullet"))
 					damage = (int)((double)damage * 0.8);
 			}
+			if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)
+				damage = (int)((double)damage * 0.7);
 			if (yharonLore)
 				damage = (int)((double)damage * 0.75);
 			#endregion
@@ -9221,93 +9220,59 @@ namespace CalamityMod
 		#endregion
 
 		#region Nurse Modifications
-		public override bool ModifyNurseHeal(NPC nurse, ref int health, ref bool removeDebuffs, ref string chatText)
-		{
-            // Change chat text to indicate increased prices in Rev+ if bosses are alive
-            if (CalamityWorld.revenge && areThereAnyDamnBosses)
-			{
-                int priceGougeChat = Main.rand.Next(6);
-                switch(priceGougeChat)
-                {
-                    default:
-                        break;
-                    case 0:
-                        chatText = "You know, I charge a premium for dangerous working conditions.";
-                        break;
-                    case 1:
-                        chatText = "Can you please get rid of that thing first? No?";
-                        break;
-                    case 2:
-                        chatText = "'Make it quick?' Miracles cost money around here!";
-                        break;
-                    case 3:
-                        chatText = "This won't cover my life insurance.";
-                        break;
-                    case 4:
-                        chatText = "I hate high stress conditions. This is NOT helping!";
-                        break;
-                    case 5:
-                        chatText = "... Seriously?";
-                        break;
-                }
-			}
-			return true;
-		}
-
 		public override void ModifyNursePrice(NPC nurse, int health, bool removeDebuffs, ref int price)
 		{
-            // In Rev+, nurse costs scale as the game progresses.
-            // Base:            300     3 silver
-            // EoC:             900     9 silver
-            // Skeletron:       1200    12 silver
-            // Hardmode:        2400    24 silver
-            // Any Mech Boss:   4000    40 silver
-            // Plantera/Cal:    6000    60 silver
-            // Golem:           9000    90 silver
-            // Fish/PBG/Rav:    12000   1 gold 20 silver
-            // Moon Lord:       20000   2 gold
-            // Providence:      32000   3 gold 20 silver
-            // DoG:             60000   6 gold
-            // Yharon:          90000   9 gold
-            if (CalamityWorld.revenge)
-            {
-                // start with a vanilla cost of zero instead of 3 silver
-                price -= Item.buyPrice(0, 0, 3, 0);
+			// In Rev+, nurse costs scale as the game progresses.
+			// Base:            300     3 silver
+			// EoC:             900     9 silver
+			// Skeletron:       1200    12 silver
+			// Hardmode:        2400    24 silver
+			// Any Mech Boss:   4000    40 silver
+			// Plantera/Cal:    6000    60 silver
+			// Golem:           9000    90 silver
+			// Fish/PBG/Rav:    12000   1 gold 20 silver
+			// Moon Lord:       20000   2 gold
+			// Providence:      32000   3 gold 20 silver
+			// DoG:             60000   6 gold
+			// Yharon:          90000   9 gold
 
-                if (CalamityWorld.downedYharon)
-                    price += Item.buyPrice(0, 9, 0, 0);
-                else if (CalamityWorld.downedDoG)
-                    price += Item.buyPrice(0, 6, 0, 0);
-                else if (CalamityWorld.downedProvidence)
-                    price += Item.buyPrice(0, 3, 20, 0);
-                else if (NPC.downedMoonlord)
-                    price += Item.buyPrice(0, 2, 0, 0);
-                else if (NPC.downedFishron || CalamityWorld.downedPlaguebringer || CalamityWorld.downedScavenger)
-                    price += Item.buyPrice(0, 1, 20, 0);
-                else if (NPC.downedGolemBoss)
-                    price += Item.buyPrice(0, 0, 90, 0);
-                else if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
-                    price += Item.buyPrice(0, 0, 60, 0);
-                else if (NPC.downedMechBossAny)
-                    price += Item.buyPrice(0, 0, 40, 0);
-                else if (Main.hardMode)
-                    price += Item.buyPrice(0, 0, 24, 0);
-                else if (NPC.downedBoss3)
-                    price += Item.buyPrice(0, 0, 12, 0);
-                else if (NPC.downedBoss1)
-                    price += Item.buyPrice(0, 0, 6, 0);
-                else
-                    price += Item.buyPrice(0, 0, 3, 0);
+			if (CalamityWorld.revenge)
+			{
+				// start with a vanilla cost of zero instead of 3 silver
+				price -= Item.buyPrice(0, 0, 3, 0);
 
-                // Multiply the price by 5 if a boss is alive. This includes debuff cost!
-                if (areThereAnyDamnBosses)
-                    price *= 5;
+				if (CalamityWorld.downedYharon)
+					price += Item.buyPrice(0, 9, 0, 0);
+				else if (CalamityWorld.downedDoG)
+					price += Item.buyPrice(0, 6, 0, 0);
+				else if (CalamityWorld.downedProvidence)
+					price += Item.buyPrice(0, 3, 20, 0);
+				else if (NPC.downedMoonlord)
+					price += Item.buyPrice(0, 2, 0, 0);
+				else if (NPC.downedFishron || CalamityWorld.downedPlaguebringer || CalamityWorld.downedScavenger)
+					price += Item.buyPrice(0, 1, 20, 0);
+				else if (NPC.downedGolemBoss)
+					price += Item.buyPrice(0, 0, 90, 0);
+				else if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+					price += Item.buyPrice(0, 0, 60, 0);
+				else if (NPC.downedMechBossAny)
+					price += Item.buyPrice(0, 0, 40, 0);
+				else if (Main.hardMode)
+					price += Item.buyPrice(0, 0, 24, 0);
+				else if (NPC.downedBoss3)
+					price += Item.buyPrice(0, 0, 12, 0);
+				else if (NPC.downedBoss1)
+					price += Item.buyPrice(0, 0, 6, 0);
+				else
+					price += Item.buyPrice(0, 0, 3, 0);
 
-                // Add cost based on the player's radiation. (varies from 0 to 1000)
-                // It costs 600,000 (60 gold) to remove a full radiation meter.
-                price += (int)(600D * radiation);
-            }
-        }
+				if (areThereAnyDamnBosses)
+					price *= 5;
+			}
+
+			// It costs 600,000 (60 gold) to remove a full radiation meter.
+			price += (int)(600D * radiation);
+		}
 
 		public override void PostNurseHeal(NPC nurse, int health, bool removeDebuffs, int price)
 		{

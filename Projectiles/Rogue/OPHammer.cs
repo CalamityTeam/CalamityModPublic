@@ -8,35 +8,35 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class OPHammer : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class OPHammer : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hammer");
-		}
-
-        public override void SetDefaults()
-        {
-            projectile.width = 62;
-            projectile.height = 62;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 2;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, 0.35f, 0.35f, 0f);
-        	if (projectile.soundDelay == 0)
+		public override void SetDefaults()
+		{
+			projectile.width = 62;
+			projectile.height = 62;
+			projectile.friendly = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = -1;
+			projectile.extraUpdates = 2;
+			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+		}
+
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, 0.35f, 0.35f, 0f);
+			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = 8;
 				Main.PlaySound(SoundID.Item7, projectile.position);
 			}
-        	if (projectile.ai[0] == 0f)
+			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
 				if (projectile.ai[1] >= 20f)
@@ -45,8 +45,8 @@ namespace CalamityMod.Projectiles.Rogue
 					projectile.ai[1] = 0f;
 					projectile.netUpdate = true;
 				}
-        	}
-        	else
+			}
+			else
 			{
 				projectile.tileCollide = false;
 				float num42 = 16f;
@@ -103,24 +103,24 @@ namespace CalamityMod.Projectiles.Rogue
 						projectile.Kill();
 					}
 				}
-        	}
-        	projectile.rotation += 0.5f;
-        }
+			}
+			projectile.rotation += 0.5f;
+		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(250, 250, 250, 50);
-        }
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(250, 250, 250, 50);
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
-        	if (projectile.owner == Main.myPlayer)
-        	{
-        		int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
+			if (projectile.owner == Main.myPlayer)
+			{
+				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
 			}
-        }
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

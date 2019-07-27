@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -18,38 +19,45 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetDefaults()
         {
             projectile.width = 20;
-            projectile.height = 40;
+            projectile.height = 20;
             projectile.aiStyle = 44;
-            projectile.alpha = 100;
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.alpha = 100;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             aiType = 228;
-        }
+		}
 
         public override void AI()
 		{
         	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.4f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.4f, 0f, 0f);
         	if (Main.rand.Next(4) == 0)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, 0f, 0f);
-            }
+				int num469 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, 0f, 0f);
+				Main.dust[num469].noGravity = true;
+				Main.dust[num469].velocity *= 0f;
+			}
         }
 
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, 0f, 0f);
-            }
+				int num469 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, 0f, 0f);
+				Main.dust[num469].noGravity = true;
+				Main.dust[num469].velocity *= 0f;
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 360);
         }
-    }
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, Main.DiscoG, 53, projectile.alpha);
+		}
+	}
 }

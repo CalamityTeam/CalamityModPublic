@@ -21,14 +21,14 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 88;
-            item.damage = 200;
+            item.damage = 175;
             item.melee = true;
             item.noMelee = true;
             item.useTurn = true;
             item.noUseGraphic = true;
-            item.useAnimation = 36;
+            item.useAnimation = 30;
             item.useStyle = 5;
-            item.useTime = 36;
+            item.useTime = 30;
             item.knockBack = 9.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

@@ -16,6 +16,8 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Comet");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -29,8 +31,6 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.penetrate = 1;
 			projectile.timeLeft = 600;
 			projectile.ignoreWater = true;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void AI()

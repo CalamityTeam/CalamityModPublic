@@ -584,29 +584,29 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 			}
 
-            DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge24"), !CalamityWorld.downedCalamitas);
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
+			DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
+			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge24"), !CalamityWorld.downedCalamitas);
+			DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
-            // Abyss awakens after killing Calamitas OR Plantera
-            string key = "Mods.CalamityMod.PlantBossText";
-            Color messageColor = Color.RoyalBlue;
+			// Abyss awakens after killing Calamitas OR Plantera
+			string key = "Mods.CalamityMod.PlantBossText";
+			Color messageColor = Color.RoyalBlue;
 
-            if (!CalamityWorld.downedCalamitas && !NPC.downedPlantBoss)
-            {
-                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+			if (!CalamityWorld.downedCalamitas && !NPC.downedPlantBoss)
+			{
+				if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
-                if (Main.netMode == 0)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == 2)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+				if (Main.netMode == 0)
+					Main.NewText(Language.GetTextValue(key), messageColor);
+				else if (Main.netMode == 2)
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+			}
 
-            // Mark Calamitas as dead
-            CalamityWorld.downedCalamitas = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
-        }
+			// Mark Calamitas as dead
+			CalamityWorld.downedCalamitas = true;
+			CalamityGlobalNPC.UpdateServerBoolean();
+		}
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{

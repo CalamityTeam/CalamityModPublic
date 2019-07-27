@@ -7,36 +7,48 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PlasmaBall : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class PlasmaBall : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ball");
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = true;
-            projectile.melee = true;
-            projectile.timeLeft = 600;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 12;
+			projectile.height = 12;
+			projectile.friendly = true;
+			projectile.penetrate = 1;
+			projectile.tileCollide = true;
+			projectile.melee = true;
+			projectile.timeLeft = 600;
+		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
+			Vector2 value7 = new Vector2(6f, 12f);
 			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
+			if (projectile.localAI[0] == 48f)
 			{
-				for (int num468 = 0; num468 < 5; num468++)
+				projectile.localAI[0] = 0f;
+			}
+			else
+			{
+				for (int num41 = 0; num41 < 2; num41++)
 				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default(Color), 1.5f);
-					Main.dust[num469].noGravity = true;
-					Main.dust[num469].velocity *= 0f;
+					Vector2 value8 = Vector2.UnitX * -15f;
+					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7 - projectile.rotation.ToRotationVector2() * 10f;
+					int num42 = Dust.NewDust(projectile.Center, 0, 0, 27, 0f, 0f, 160, default(Color), 1f);
+					Main.dust[num42].scale = 1f;
+					Main.dust[num42].noGravity = true;
+					Main.dust[num42].position = projectile.Center + value8;
+					Main.dust[num42].velocity = projectile.velocity;
 				}
 			}
+			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default(Color), 0.8f);
+			Main.dust[num458].noGravity = true;
+			Main.dust[num458].velocity *= 0f;
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 400f;
@@ -70,11 +82,11 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-    		target.AddBuff(BuffID.CursedInferno, 300);
-        }
-    }
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(BuffID.CursedInferno, 300);
+		}
+	}
 }

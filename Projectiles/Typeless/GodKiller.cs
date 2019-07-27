@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Typeless
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("God Killer");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -25,8 +27,6 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.alpha = 255;
             projectile.penetrate = 1;
             projectile.timeLeft = 180;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void AI()

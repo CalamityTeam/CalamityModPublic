@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,12 +13,14 @@ namespace CalamityMod.Projectiles.Melee
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blazing Phantom Blade");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
 		{
-			projectile.width = 36;
-			projectile.height = 66;
+			projectile.width = 50;
+			projectile.height = 50;
 			projectile.aiStyle = 18;
 			projectile.alpha = 100;
 			projectile.friendly = true;
@@ -31,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.6f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+			Lighting.AddLight(projectile.Center, 0.6f, 0f, 0f);
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 460f;
@@ -76,6 +79,12 @@ namespace CalamityMod.Projectiles.Melee
 				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
 			}
 			return new Color(255, 255, 255, 100);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

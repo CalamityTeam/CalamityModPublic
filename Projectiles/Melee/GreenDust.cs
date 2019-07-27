@@ -1,35 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class GreenDust : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class GreenDust : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dust");
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.melee = true;
-            projectile.timeLeft = 3600;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 32;
+			projectile.height = 32;
+			projectile.friendly = true;
+			projectile.alpha = 255;
+			projectile.penetrate = -1;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.melee = true;
+			projectile.timeLeft = 3600;
+		}
 
-        public override void AI()
-        {
-        	projectile.rotation += projectile.velocity.X * 0.02f;
+		public override void AI()
+		{
+			projectile.rotation += projectile.velocity.X * 0.02f;
 			if (projectile.velocity.X < 0f)
 			{
 				projectile.rotation -= Math.Abs(projectile.velocity.Y) * 0.02f;
@@ -42,9 +43,11 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.ai[0] += 1f;
 			if (projectile.ai[0] >= 60f)
 			{
+				if (projectile.timeLeft > 85)
+					projectile.timeLeft = 85;
 				if (projectile.alpha < 255)
 				{
-					projectile.alpha += 5;
+					projectile.alpha += 2;
 					if (projectile.alpha > 255)
 					{
 						projectile.alpha = 255;
@@ -63,6 +66,17 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.alpha = 80;
 				}
 			}
-        }
-    }
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.timeLeft < 85)
+			{
+				byte b2 = (byte)(projectile.timeLeft * 3);
+				byte a2 = (byte)(100f * ((float)b2 / 255f));
+				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+			}
+			return new Color(255, 255, 255, 100);
+		}
+	}
 }

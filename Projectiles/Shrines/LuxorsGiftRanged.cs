@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Shrines
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gift");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
         public override void SetDefaults()
@@ -24,8 +26,6 @@ namespace CalamityMod.Projectiles.Shrines
             projectile.penetrate = 1;
 			projectile.alpha = 255;
 			projectile.timeLeft = 180;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override Color? GetAlpha(Color lightColor)

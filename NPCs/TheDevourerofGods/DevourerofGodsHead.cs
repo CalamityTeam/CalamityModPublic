@@ -854,45 +854,22 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			potionType = ItemID.None;
 		}
 
-        // DoG phase 1 does not drop loot, but starts the sentinel phase of the fight.
-        public override void NPCLoot()
-        {
-            // Skip the sentinel phase entirely if DoG has already been killed
-            CalamityWorld.DoGSecondStageCountdown = CalamityWorld.downedDoG ? 600 : 21600;
+		// DoG phase 1 does not drop loot, but starts the sentinel phase of the fight.
+		public override void NPCLoot()
+		{
+			// Skip the sentinel phase entirely if DoG has already been killed
+			CalamityWorld.DoGSecondStageCountdown = CalamityWorld.downedDoG ? 600 : 21600;
 
-            if (Main.netMode == 2)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
-                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
-                netMessage.Send();
-            }
+			if (Main.netMode == 2)
+			{
+				var netMessage = mod.GetPacket();
+				netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+				netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+				netMessage.Send();
+			}
+		}
 
-            // Turn off active Rage and Adrenaline mode from all players (why?)
-            for (int playerIndex = 0; playerIndex < Main.player.Length; playerIndex++)
-            {
-                if (Main.player[playerIndex].active)
-                {
-                    Player player = Main.player[playerIndex];
-                    for (int l = 0; l < 22; l++)
-                    {
-                        int hasBuff = player.buffType[l];
-                        if (hasBuff == mod.BuffType("AdrenalineMode"))
-                        {
-                            player.DelBuff(l);
-                            l = -1;
-                        }
-                        if (hasBuff == mod.BuffType("RageMode"))
-                        {
-                            player.DelBuff(l);
-                            l = -1;
-                        }
-                    }
-                }
-            }
-        }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
 			{

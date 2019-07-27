@@ -25,6 +25,8 @@ namespace CalamityMod.Projectiles.Pets
 			DisplayName.SetDefault("Chibii Devourer");
 			Main.projFrames[projectile.type] = 11; //same as black cat
 			Main.projPet[projectile.type] = true;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
@@ -42,9 +44,6 @@ namespace CalamityMod.Projectiles.Pets
 			projectile.extraUpdates = 1;
 
 			trueType = projectile.type;
-
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override bool PreDraw (SpriteBatch spriteBatch, Color lightColor)

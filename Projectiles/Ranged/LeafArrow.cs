@@ -13,6 +13,8 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Arrow");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -25,9 +27,6 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.extraUpdates = 1;
 			projectile.timeLeft = 300;
 			projectile.ranged = true;
-			projectile.light = 0.1f;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void AI()
