@@ -1,35 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class VividOrb : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class VividOrb : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Orb");
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 14;
-            projectile.height = 14;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 60;
-            projectile.magic = true;
-            projectile.usesLocalNPCImmunity = true;
+		public override void SetDefaults()
+		{
+			projectile.width = 14;
+			projectile.height = 14;
+			projectile.friendly = true;
+			projectile.alpha = 255;
+			projectile.penetrate = -1;
+			projectile.timeLeft = 60;
+			projectile.magic = true;
+			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 6;
-        }
+		}
 
-        public override void AI()
-        {
-        	projectile.velocity.X *= 1.01f;
-        	projectile.velocity.Y *= 1.01f;
-            if (projectile.ai[0] == 0f)
+		public override void AI()
+		{
+			projectile.velocity.X *= 1.01f;
+			projectile.velocity.Y *= 1.01f;
+			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[0] = projectile.velocity.X;
 				projectile.ai[1] = projectile.velocity.Y;
@@ -85,6 +87,6 @@ namespace CalamityMod.Projectiles.Magic
 					}
 				}
 			}
-        }
-    }
+		}
+	}
 }
