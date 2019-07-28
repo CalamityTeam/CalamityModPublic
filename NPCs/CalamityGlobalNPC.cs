@@ -2672,16 +2672,16 @@ namespace CalamityMod.NPCs
 		#region Modify Hit By Projectile
 		public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if (npc.type == NPCID.TheDestroyerBody || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt"))
-			{
-				if (projectile.type == ProjectileID.RainFriendly || projectile.type == ProjectileID.BloodRain ||
-					projectile.type == mod.ProjectileType("Shaderain") || projectile.aiStyle == 4 ||
-					projectile.type == ProjectileID.CrystalPulse2 || projectile.type == ProjectileID.HallowStar ||
-					projectile.type == mod.ProjectileType("FossilShardThrown"))
-					damage = (int)((double)damage * 0.75);
-			}
+            if (npc.type == NPCID.TheDestroyerBody)
+            {
+                if (projectile.type == ProjectileID.RainFriendly || projectile.type == ProjectileID.BloodRain ||
+                    projectile.type == mod.ProjectileType("Shaderain") || projectile.aiStyle == 4 ||
+                    projectile.type == ProjectileID.CrystalPulse2 || projectile.type == ProjectileID.HallowStar ||
+                    projectile.type == mod.ProjectileType("FossilShardThrown"))
+                    damage = (int)((double)damage * 0.65);
+            }
 
-			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eGauntlet)
+            if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eGauntlet)
 			{
 				if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.Next(15) == 0)
 				{
