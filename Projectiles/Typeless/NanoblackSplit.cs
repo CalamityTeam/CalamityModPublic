@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Typeless
 {
-    public class NanoblackSplitRogue : ModProjectile
+    public class NanoblackSplit : ModProjectile
     {
         private static int SpriteWidth = 52;
         private static int Lifetime = 90;
@@ -23,14 +23,15 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nanoblack Blade");
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
             projectile.width = 32;
             projectile.height = 32;
             projectile.friendly = true;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = 4;
@@ -49,8 +50,14 @@ namespace CalamityMod.Projectiles.Rogue
             drawOriginOffsetX = 0;
 
             // On the very first frame, clear any invalid starting target variable and create some dust.
+            // Also grab the damage type based on ai[0].
             if (projectile.timeLeft == Lifetime)
             {
+                if (projectile.ai[0] > 0f)
+                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+                else
+                    projectile.melee = true;
+
                 projectile.ai[0] = 0f;
                 SpawnDust();
             }
@@ -166,6 +173,12 @@ namespace CalamityMod.Projectiles.Rogue
             return baseFactor + bonus;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+
         // Draws the energy blade's glowmask.
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -177,7 +190,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.spriteDirection == -1)
                 eff = SpriteEffects.FlipHorizontally;
             Vector2 origin = new Vector2(fWidthOverTwo, fHeightOverTwo);
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Rogue/NanoblackSplitRogueGlow"),
+            spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/NanoblackSplitGlow"),
                 projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation,
                 origin, projectile.scale, eff, 0f);
         }

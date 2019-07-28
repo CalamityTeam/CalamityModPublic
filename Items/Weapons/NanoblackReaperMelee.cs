@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,11 +37,18 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 			item.value = Item.buyPrice(5, 0, 0, 0);
 
-			item.shoot = mod.ProjectileType("NanoblackMainMelee");
+			item.shoot = mod.ProjectileType("NanoblackMain");
 			item.shootSpeed = Speed;
 		}
 
-		public override void AddRecipes()
+        // ai[0] = 0f so that the projectile is melee.
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, Main.myPlayer, 0f);
+            return false;
+        }
+
+        public override void AddRecipes()
 		{
 			ModRecipe r = new ModRecipe(mod);
 			r.SetResult(this);

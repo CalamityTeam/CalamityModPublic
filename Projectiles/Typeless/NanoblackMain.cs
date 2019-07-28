@@ -1,12 +1,14 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Typeless
 {
-    public class NanoblackMainMelee : ModProjectile
+    public class NanoblackMain : ModProjectile
     {
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
@@ -17,7 +19,9 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nanoblack Reaper");
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+        }
 
         public override void SetDefaults()
         {
@@ -41,8 +45,14 @@ namespace CalamityMod.Projectiles.Melee
             drawOriginOffsetX = 0;
 
             // Initialize the frame counter and random blade delay on the very first frame.
+            // Also grab the damage type based on ai[0].
             if (projectile.timeLeft == Lifetime)
             {
+                if (projectile.ai[0] > 0f)
+                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+                else
+                    projectile.melee = true;
+
                 projectile.ai[0] = 0f;
                 projectile.ai[1] = GetBladeDelay();
             }
@@ -131,6 +141,12 @@ namespace CalamityMod.Projectiles.Melee
 			return;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+
         private int GetBladeDelay()
         {
             return Main.rand.Next(MinBladeTimer, MaxBladeTimer + 1);
@@ -138,7 +154,7 @@ namespace CalamityMod.Projectiles.Melee
 
         private void SpawnEnergyBlade()
         {
-            int bladeID = mod.ProjectileType("NanoblackSplitMelee");
+            int bladeID = mod.ProjectileType("NanoblackSplit");
             int bladeDamage = NanoblackReaperMelee.BaseDamage / 5;
             float bladeKB = 3f;
             float spin = (projectile.direction <= 0) ? -1f : 1f;
@@ -148,7 +164,10 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 velocityOffset = Main.rand.NextFloat(-velocityMult, velocityMult) * projectile.velocity;
             Vector2 pos = projectile.Center + directOffset + velocityOffset;
             if (projectile.owner == Main.myPlayer)
-                Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
+            {
+                float damageType = projectile.melee ? 0f : 1f;
+                Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, damageType, spin);
+            }
         }
     }
 }
