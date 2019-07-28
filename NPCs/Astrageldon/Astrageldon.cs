@@ -27,11 +27,11 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.damage = 90;
 			npc.width = 400;
 			npc.height = 280;
-			npc.defense = 120;
-			npc.lifeMax = CalamityWorld.revenge ? 102000 : 80000;
+			npc.defense = 70;
+			npc.lifeMax = CalamityWorld.revenge ? 122000 : 96000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 158000;
+				npc.lifeMax = 187000;
 			}
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -64,12 +64,12 @@ namespace CalamityMod.NPCs.Astrageldon
 			bossBag = mod.ItemType("AstrageldonBag");
 			if (NPC.downedMoonlord && CalamityWorld.revenge)
 			{
-				npc.lifeMax = 400000;
+				npc.lifeMax = 440000;
 				npc.value = Item.buyPrice(0, 35, 0, 0);
 			}
 			if (CalamityWorld.bossRushActive)
 			{
-				npc.lifeMax = CalamityWorld.death ? 1400000 : 1200000;
+				npc.lifeMax = CalamityWorld.death ? 1600000 : 1400000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

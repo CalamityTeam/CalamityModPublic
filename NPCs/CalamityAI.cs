@@ -7,6 +7,7 @@ using Terraria.GameContent.Achievements;
 using Terraria.GameContent.Events;
 using Terraria.GameContent.Tile_Entities;
 using Terraria.GameContent.UI;*/
+using Terraria.ID;
 /*using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using CalamityMod.Tiles;
@@ -17,7 +18,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.NPCs
 {
-    public class CalamityAI
+	public class CalamityAI
 	{
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
@@ -158,7 +159,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] >= ((npc.life < npc.lifeMax / 4 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
 				{
 					// Increase defense
-					npc.defense = 120;
+					npc.defense = 70;
 
 					// Stop colliding with tiles
 					npc.noGravity = true;
