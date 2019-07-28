@@ -1,14 +1,14 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons;
-using CalamityMod.Projectiles;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Typeless
 {
-    public class GalaxySmasherHammerRogue : ModProjectile
+    public class GalaxySmasherHammer : ModProjectile
     {
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
@@ -17,6 +17,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galaxy Smasher");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -24,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 62;
             projectile.height = 62;
             projectile.friendly = true;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -41,6 +43,18 @@ namespace CalamityMod.Projectiles.Rogue
             drawOffsetX = -12;
             drawOriginOffsetY = -5;
             drawOriginOffsetX = 0;
+
+            // Set the damage type on the very first frame based on ai[0].
+            if (projectile.timeLeft == Lifetime)
+            {
+                if (projectile.ai[0] > 0f)
+                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+                else
+                    projectile.melee = true;
+
+                // Reset ai[0] so it can be used normally.
+                projectile.ai[0] = 0f;
+            }
 
             // Produces violet dust constantly while in flight. This lights the hammer.
             int numDust = 2;
@@ -75,7 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
                 projectile.tileCollide = false;
-                float returnSpeed = GalaxySmasherRogue.Speed;
+                float returnSpeed = GalaxySmasherMelee.Speed;
                 float acceleration = 3.2f;
                 Player owner = Main.player[projectile.owner];
 
@@ -128,6 +142,12 @@ namespace CalamityMod.Projectiles.Rogue
             return;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             // Some dust gets produced on impact.
@@ -163,7 +183,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             // Three death lasers (aka "Nebula Shots") swarm the target.
             int laserID = mod.ProjectileType("NebulaShot");
-            int laserDamage = (int)(0.2f * GalaxySmasherRogue.BaseDamage);
+            int laserDamage = (int)(0.2f * GalaxySmasherMelee.BaseDamage);
             float laserKB = 2.5f;
             int numLasers = 3;
             for(int i = 0; i < numLasers; ++i)
@@ -178,6 +198,7 @@ namespace CalamityMod.Projectiles.Rogue
                 // ai[0] = 1 means the laser is melee type.
                 if (projectile.owner == Main.myPlayer)
                 {
+                    float damageType = projectile.melee ? 1f : 2f;
                     int idx = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, 1f, 0f);
                     Main.projectile[idx].tileCollide = false;
                     Main.projectile[idx].timeLeft = 30;

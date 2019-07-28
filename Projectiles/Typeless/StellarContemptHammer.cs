@@ -5,28 +5,27 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons;
-using CalamityMod.Projectiles;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Typeless
 {
-    public class StellarContemptHammerRogue : ModProjectile
+    public class StellarContemptHammer : ModProjectile
     {
         private static float RotationIncrement = 0.22f;
         private static int Lifetime = 240;
         private static float ReboundTime = 26f;
-        private static int AfterimageDelay = 3;
 
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Contempt");
-		}
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+        }
 
         public override void SetDefaults()
         {
             projectile.width = 44;
             projectile.height = 44;
             projectile.friendly = true;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -39,6 +38,18 @@ namespace CalamityMod.Projectiles.Rogue
             drawOffsetX = -11;
             drawOriginOffsetY = -10;
             drawOriginOffsetX = 0;
+
+            // Set the damage type on the very first frame based on ai[0].
+            if (projectile.timeLeft == Lifetime)
+            {
+                if (projectile.ai[0] > 0f)
+                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+                else
+                    projectile.melee = true;
+
+                // Reset ai[0] so it can be used normally.
+                projectile.ai[0] = 0f;
+            }
 
             Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0.6f);
 
@@ -63,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
         	else
 			{
 				projectile.tileCollide = false;
-                float returnSpeed = StellarContemptRogue.Speed;
+                float returnSpeed = StellarContemptMelee.Speed;
 				float acceleration = 3.2f;
                 Player owner = Main.player[projectile.owner];
 
@@ -116,6 +127,12 @@ namespace CalamityMod.Projectiles.Rogue
 			return;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             // Some dust gets produced on impact.
@@ -146,7 +163,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.netUpdate = true;
 
             int numFlares = 2;
-            int flareDamage = (int)(0.3f * StellarContemptRogue.BaseDamage);
+            int flareDamage = (int)(0.3f * StellarContemptMelee.BaseDamage);
             float flareKB = 4f;
             for (int i = 0; i < numFlares; ++i)
             {
@@ -178,46 +195,12 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     int idx = Projectile.NewProjectile(startPoint, velocity, 645, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     Main.projectile[idx].magic = false;
-                    Main.projectile[idx].GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+                    if (projectile.melee)
+                        Main.projectile[idx].melee = true;
+                    else
+                        Main.projectile[idx].GetGlobalProjectile<CalamityGlobalProjectile>().rogue = true;
                 }
             }
-        }
-
-        private Color GetAfterimageColor(Color lightColor, float f)
-        {
-            Color c = new Color(0.7f, 0.3f, 0.6f);
-            c.MultiplyRGBA(lightColor);
-            float r = c.R * f / 255f;
-            float g = c.G * f / 255f;
-            float b = c.B * f / 255f;
-            float a = c.A * f / 255f;
-            return new Color(r, g, b, a);
-        }
-
-        // Has afterimages, like the Paladin's Hammer.
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            if (projectile.timeLeft >= Lifetime - AfterimageDelay)
-                return true;
-
-            int numImages = 4;
-            float fnumImages = (float)numImages;
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            float imageDist = 5.5f;
-
-            float rotation = projectile.rotation;
-            for (int i = 1; i <= numImages; ++i)
-            {
-                float fi = (float)i;
-                float ratio = fi / fnumImages;
-                rotation += 3f * RotationIncrement;
-                Vector2 increment = projectile.velocity * (-imageDist * ratio);
-                Vector2 afterimagePos = projectile.Center + increment;
-                float scale = (fnumImages - 0.8f * fi) / fnumImages;
-                Color c = GetAfterimageColor(lightColor, 1f - ratio);
-                spriteBatch.Draw(tex, afterimagePos - Main.screenPosition, null, c, rotation, tex.Size() * 0.5f, scale, SpriteEffects.None, 0f);
-            }
-            return true;
         }
     }
 }

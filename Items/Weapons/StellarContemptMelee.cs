@@ -1,7 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -36,8 +36,15 @@ namespace CalamityMod.Items.Weapons
             item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
             item.value = Item.buyPrice(1, 20, 0, 0);
 
-            item.shoot = mod.ProjectileType("StellarContemptHammerMelee");
+            item.shoot = mod.ProjectileType("StellarContemptHammer");
             item.shootSpeed = Speed;
+        }
+
+        // ai[0] = 0f so that the projectile is melee.
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f);
+            return false;
         }
 
         public override void AddRecipes()
