@@ -675,7 +675,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Mark Polterghast as dead
             CalamityWorld.downedPolterghast = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)

@@ -1150,11 +1150,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 			// Mark DoG as dead
 			CalamityWorld.downedDoG = true;
-			CalamityGlobalNPC.UpdateServerBoolean();
-			return true;
+            CalamityMod.UpdateServerBoolean();
+            return false;
 		}
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
 			{

@@ -33,10 +33,7 @@ namespace CalamityMod.Items
 		public override bool UseItem(Player player)
 		{
             CalamityGlobalNPC.DraedonMayhem = true;
-            if (Main.netMode == 2)
-            {
-                NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-            }
+            CalamityMod.UpdateServerBoolean();
             NPC.SpawnOnPlayer(player.whoAmI, NPCID.TheDestroyer);
             NPC.SpawnOnPlayer(player.whoAmI, NPCID.SkeletronPrime);
             NPC.SpawnOnPlayer(player.whoAmI, NPCID.Spazmatism);

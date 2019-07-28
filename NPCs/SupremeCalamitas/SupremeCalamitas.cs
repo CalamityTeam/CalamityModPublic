@@ -209,10 +209,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			if (Main.slimeRain)
 			{
 				Main.StopSlimeRain(true);
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
+				CalamityMod.UpdateServerBoolean();
 			}
 			if (Main.raining)
 				CalamityGlobalNPC.StopRain();
@@ -2060,7 +2057,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Mark Supreme Calamitas as dead
             CalamityWorld.downedSCal = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
         #endregion
 

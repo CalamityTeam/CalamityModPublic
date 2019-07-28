@@ -690,10 +690,7 @@ namespace CalamityMod.World
 			{
 				deactivateStupidFuckingBullshit = true;
 				bossRushActive = false;
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
+				CalamityMod.UpdateServerBoolean();
 			}
 			if (bossRushActive)
 			{
@@ -1421,10 +1418,7 @@ namespace CalamityMod.World
 		{
 			Main.time = 0.0;
 			Main.dayTime = day;
-			if (Main.netMode == 2)
-			{
-				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
+			CalamityMod.UpdateServerBoolean();
 		}
 		#endregion
 

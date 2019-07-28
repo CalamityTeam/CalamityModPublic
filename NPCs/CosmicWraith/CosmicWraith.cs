@@ -804,7 +804,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 
             // Mark Signus as dead
             CalamityWorld.downedSentinel3 = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

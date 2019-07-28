@@ -956,7 +956,7 @@ namespace CalamityMod.NPCs.Providence
 
             // Mark Providence as dead
             CalamityWorld.downedProvidence = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		private void SpawnLootBox()

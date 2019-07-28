@@ -709,7 +709,7 @@ namespace CalamityMod.NPCs.HiveMind
 
             // Mark The Hive Mind as dead
             CalamityWorld.downedHiveMind = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

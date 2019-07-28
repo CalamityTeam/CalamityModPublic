@@ -938,10 +938,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			Main.rainTime = (int)((float)Main.rainTime * num3);
 			Main.raining = true;
-			if (Main.netMode == 2)
-			{
-				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
+			CalamityMod.UpdateServerBoolean();
 		}
 
 		public override void BossLoot(ref string name, ref int potionType)
@@ -1007,7 +1004,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             // Mark Cryogen as dead
             CalamityWorld.downedCryogen = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

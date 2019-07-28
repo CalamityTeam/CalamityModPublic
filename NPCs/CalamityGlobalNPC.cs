@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs
 {
 	public class CalamityGlobalNPC : GlobalNPC
 	{
-		#region Instance Per Entity
+        #region Instance Per Entity
 		public override bool InstancePerEntity
 		{
 			get
@@ -2142,7 +2142,7 @@ namespace CalamityMod.NPCs
 					npc.type == mod.NPCType("ScavengerBody") || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
 				{
 					CalamityWorld.spawnedHardBoss = true;
-					UpdateServerBoolean();
+					CalamityMod.UpdateServerBoolean();
 				}
 			}
 
@@ -3774,22 +3774,6 @@ namespace CalamityMod.NPCs
 					return true;
 			}
 			return false;
-		}
-		#endregion
-
-		#region Stop Rain
-		public static void StopRain()
-		{
-			Main.raining = false;
-			UpdateServerBoolean();
-		}
-		#endregion
-
-		#region Update Server Boolean
-		public static void UpdateServerBoolean()
-		{
-			if (Main.netMode == 2)
-				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 		}
 		#endregion
 

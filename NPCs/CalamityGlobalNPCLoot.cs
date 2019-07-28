@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 
 						CalamityWorld.spawnAstralMeteor = true;
-						CalamityGlobalNPC.UpdateServerBoolean();
+						CalamityMod.UpdateServerBoolean();
 						WorldGenerationMethods.dropAstralMeteor();
 					}
 
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 
 						CalamityWorld.spawnAstralMeteor2 = true;
-						CalamityGlobalNPC.UpdateServerBoolean();
+						CalamityMod.UpdateServerBoolean();
 						WorldGenerationMethods.dropAstralMeteor();
 					}
 
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 
 						CalamityWorld.spawnAstralMeteor3 = true;
-						CalamityGlobalNPC.UpdateServerBoolean();
+						CalamityMod.UpdateServerBoolean();
 						WorldGenerationMethods.dropAstralMeteor();
 					}
 				}
@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs
 
 				// Mark Betsy as dead (Vanilla does not keep track of her)
 				CalamityWorld.downedBetsy = true;
-				CalamityGlobalNPC.UpdateServerBoolean();
+				CalamityMod.UpdateServerBoolean();
 			}
 
 			// Duke Fishron
@@ -515,9 +515,9 @@ namespace CalamityMod.NPCs
 				DespawnProj();
 				CalamityWorld.bossRushActive = false;
 
+				CalamityMod.UpdateServerBoolean();
 				if (Main.netMode == 2)
 				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 					var netMessage = mod.GetPacket();
 					netMessage.Write((byte)CalamityModMessageType.BossRushStage);
 					netMessage.Write(CalamityWorld.bossRushStage);
@@ -663,7 +663,7 @@ namespace CalamityMod.NPCs
 				if (!CalamityPlayer.areThereAnyDamnBosses)
 				{
 					CalamityGlobalNPC.DraedonMayhem = false;
-					CalamityGlobalNPC.UpdateServerBoolean();
+					CalamityMod.UpdateServerBoolean();
 				}
 			}
 
@@ -1401,7 +1401,7 @@ namespace CalamityMod.NPCs
 			if (npc.boss && !CalamityWorld.downedBossAny)
 			{
 				CalamityWorld.downedBossAny = true;
-				CalamityGlobalNPC.UpdateServerBoolean();
+				CalamityMod.UpdateServerBoolean();
 			}
 
             // Nightmare Fuel, Endothermic Energy and Darksun Fragments
@@ -1415,7 +1415,7 @@ namespace CalamityMod.NPCs
 
                 // Mark a buffed Mothron as killed (allowing access to Yharon P2)
 				CalamityWorld.downedBuffedMothron = true;
-				CalamityGlobalNPC.UpdateServerBoolean();
+				CalamityMod.UpdateServerBoolean();
 			}
 		}
 		#endregion

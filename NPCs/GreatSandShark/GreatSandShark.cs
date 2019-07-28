@@ -99,10 +99,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 				Main.raining = false;
 				Sandstorm.Happening = true;
 				Sandstorm.TimeLeft = (int)(3600f * (8f + Main.rand.NextFloat() * 16f));
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
+				CalamityMod.UpdateServerBoolean();
 			}
 			if (npc.soundDelay <= 0)
 			{

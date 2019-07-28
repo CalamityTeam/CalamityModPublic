@@ -633,7 +633,7 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Mark Siren & Levi as dead
             CalamityWorld.downedLeviathan = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

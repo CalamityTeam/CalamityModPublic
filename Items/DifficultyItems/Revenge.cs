@@ -76,11 +76,9 @@ namespace CalamityMod.Items.DifficultyItems
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
-			}
+
+                CalamityMod.UpdateServerBoolean();
+            }
 			else
 			{
 				CalamityWorld.revenge = false;
@@ -94,10 +92,7 @@ namespace CalamityMod.Items.DifficultyItems
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
-				if (Main.netMode == 2)
-				{
-					NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-				}
+				
 				if (CalamityWorld.death)
 				{
 					CalamityWorld.death = false;
@@ -110,10 +105,6 @@ namespace CalamityMod.Items.DifficultyItems
 					else if (Main.netMode == 2)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 					}
 				}
 				if (CalamityWorld.defiled)
@@ -129,12 +120,10 @@ namespace CalamityMod.Items.DifficultyItems
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
 				}
-			}
+
+                CalamityMod.UpdateServerBoolean();
+            }
 			return true;
 		}
 

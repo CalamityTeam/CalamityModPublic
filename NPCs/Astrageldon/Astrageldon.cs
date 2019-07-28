@@ -372,7 +372,7 @@ namespace CalamityMod.NPCs.Astrageldon
 
             // Mark Astrum Aureus as dead
             CalamityWorld.downedAstrageldon = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		public override void HitEffect(int hitDirection, double damage)

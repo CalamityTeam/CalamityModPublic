@@ -587,7 +587,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 
             // Mark Bumblebirb as dead
             CalamityWorld.downedBumble = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

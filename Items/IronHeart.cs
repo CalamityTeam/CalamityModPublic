@@ -83,11 +83,8 @@ namespace CalamityMod.Items
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 			}
-			if (Main.netMode == 2)
-			{
-				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
-			return true;
+            CalamityMod.UpdateServerBoolean();
+            return true;
 		}
 	}
 }

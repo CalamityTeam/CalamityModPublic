@@ -422,7 +422,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
             // Mark Giant Clam as dead
             CalamityWorld.downedCLAM = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 	}
 }

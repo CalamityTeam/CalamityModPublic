@@ -2227,10 +2227,26 @@ namespace CalamityMod
 					break;
 			}
 		}
-		#endregion
-	}
+        #endregion
 
-	public enum Season : byte
+        #region Stop Rain
+        public static void StopRain()
+        {
+            Main.raining = false;
+            UpdateServerBoolean();
+        }
+        #endregion
+
+        #region Update Server Boolean
+        public static void UpdateServerBoolean()
+        {
+            if (Main.netMode == 2)
+                NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+        }
+        #endregion
+    }
+
+    public enum Season : byte
 	{
 		Winter,
 		Spring,

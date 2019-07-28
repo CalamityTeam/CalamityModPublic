@@ -367,7 +367,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
             // Mark Ceaseless Void as dead
             CalamityWorld.downedSentinel1 = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
         }
 
 		public override void BossLoot(ref string name, ref int potionType)

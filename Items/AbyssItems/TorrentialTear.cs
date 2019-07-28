@@ -86,19 +86,11 @@ namespace CalamityMod.Items.AbyssItems
                 }
                 Main.rainTime = (int)((float)Main.rainTime * num3);
                 Main.raining = true;
-                if (Main.netMode == 2)
-                {
-                    NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                }
             }
             else
-            {
                 Main.raining = false;
-                if (Main.netMode == 2)
-                {
-                    NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-                }
-            }
+			
+			CalamityMod.UpdateServerBoolean();
 			return true;
 		}
 	}

@@ -583,8 +583,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 
 			// mark brimmy as dead
 			CalamityWorld.downedBrimstoneElemental = true;
-			CalamityGlobalNPC.UpdateServerBoolean();
-		}
+            CalamityMod.UpdateServerBoolean();
+        }
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

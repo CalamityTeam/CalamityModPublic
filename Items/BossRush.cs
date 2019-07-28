@@ -63,9 +63,10 @@ namespace CalamityMod.Items
                 CalamityWorld.bossRushStage = 0;
                 CalamityWorld.bossRushActive = false;
             }
+
+            CalamityMod.UpdateServerBoolean();
             if (Main.netMode == 2)
             {
-                NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.BossRushStage);
                 netMessage.Write(CalamityWorld.bossRushStage);

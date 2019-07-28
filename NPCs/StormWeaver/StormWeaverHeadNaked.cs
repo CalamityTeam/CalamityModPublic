@@ -547,10 +547,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 			Main.rainTime = (int)((float)Main.rainTime * num3);
 			Main.raining = true;
-			if (Main.netMode == 2)
-			{
-				NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
+			CalamityMod.UpdateServerBoolean();
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -701,7 +698,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
             // Mark Storm Weaver as dead
             CalamityWorld.downedSentinel2 = true;
-            CalamityGlobalNPC.UpdateServerBoolean();
+            CalamityMod.UpdateServerBoolean();
             return true;
         }
 

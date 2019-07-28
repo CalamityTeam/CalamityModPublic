@@ -539,7 +539,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			// Mark Desert Scourge as dead
 			CalamityWorld.downedDesertScourge = true;
-			CalamityGlobalNPC.UpdateServerBoolean();
+			CalamityMod.UpdateServerBoolean();
 			return true;
 		}
 		#endregion
