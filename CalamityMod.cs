@@ -830,7 +830,8 @@ namespace CalamityMod
 					ItemID.EldMelter,
 					ItemID.Flamethrower,
 					ItemID.MoonlordTurretStaff,
-					ItemID.WaspGun,
+                    ItemID.RainbowRod,
+                    ItemID.WaspGun,
 					ItemID.Keybrand,
 					ItemID.PulseBow,
 					ItemID.PaladinsHammer
@@ -860,8 +861,7 @@ namespace CalamityMod
 				{
 					ItemID.Muramasa,
 					ItemID.StakeLauncher,
-					ItemID.BookStaff,
-					ItemID.RainbowRod
+					ItemID.BookStaff
 				};
 
 				twentyDamageBuffList = new List<int>()
