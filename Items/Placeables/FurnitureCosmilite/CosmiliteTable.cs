@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-	public class CosmiliteTable: ModItem
+    public class CosmiliteTable: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

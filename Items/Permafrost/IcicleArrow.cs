@@ -1,12 +1,10 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Permafrost
 {
-	public class IcicleArrow : ModItem
+    public class IcicleArrow : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

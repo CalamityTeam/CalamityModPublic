@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +9,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
-	public class PrismTurtle : ModNPC
+    public class PrismTurtle : ModNPC
 	{
 		public bool hasBeenHit = false;
 

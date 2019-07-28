@@ -1,12 +1,11 @@
 ﻿using System;
-using Terraria;
 using Terraria.ModLoader;
 
 using CalamityMod.World;
 
 namespace CalamityMod
 {
-	internal class WeakReferenceSupport
+    internal class WeakReferenceSupport
 	{
 		public static void Setup()
 		{

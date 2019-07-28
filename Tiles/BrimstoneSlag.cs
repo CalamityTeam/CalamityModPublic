@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-	public class BrimstoneSlag : ModTile
+    public class BrimstoneSlag : ModTile
 	{
         private const short subsheetWidth = 288;
         private const short subsheetHeight = 396;

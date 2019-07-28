@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
-	public class SilvaCandle : ModItem
+    public class SilvaCandle : ModItem
 	{
 		public override void SetStaticDefaults()
         {

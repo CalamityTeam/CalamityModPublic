@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class SandWater : ModProjectile
+    public class SandWater : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

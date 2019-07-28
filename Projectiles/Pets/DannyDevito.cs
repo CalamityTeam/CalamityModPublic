@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.GameInput;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-	public class DannyDevito : ModProjectile
+    public class DannyDevito : ModProjectile
 	{
 		private int playerStill = 0;
 		private bool fly = false;

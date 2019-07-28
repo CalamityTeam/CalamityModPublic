@@ -1,13 +1,11 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-	public class ProfanedRock : ModTile
+    public class ProfanedRock : ModTile
 	{
 		public override void SetDefaults()
 		{

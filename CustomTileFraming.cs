@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Microsoft.Xna.Framework;
 
 using Terraria;
 using Terraria.ID;
@@ -13,7 +9,7 @@ using CalamityMod.Tiles;
 
 namespace CalamityMod
 {
-	public static class CustomTileFraming
+    public static class CustomTileFraming
 	{
 		private static int[][] PlantCheckAgainst;
 		private static Dictionary<ushort, ushort> VineToGrass;

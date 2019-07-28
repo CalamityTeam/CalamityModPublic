@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class TheAbsorber : ModItem
+    public class TheAbsorber : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

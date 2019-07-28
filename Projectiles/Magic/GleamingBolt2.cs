@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class GleamingBolt2 : ModProjectile
+    public class GleamingBolt2 : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

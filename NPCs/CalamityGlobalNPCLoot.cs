@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Localization;
@@ -8,7 +7,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.NPCs
 {
-	public class CalamityGlobalNPCLoot : GlobalNPC
+    public class CalamityGlobalNPCLoot : GlobalNPC
 	{
 		#region PreNPCLoot
 		public override bool PreNPCLoot(NPC npc)

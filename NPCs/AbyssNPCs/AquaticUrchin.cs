@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
-using CalamityMod;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
-	public class AquaticUrchin : ModNPC
+    public class AquaticUrchin : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

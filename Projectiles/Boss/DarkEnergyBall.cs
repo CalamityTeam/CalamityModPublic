@@ -1,14 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class DarkEnergyBall : ModProjectile
+    public class DarkEnergyBall : ModProjectile
 	{
 		private double timeElapsed = 0.0;
 		private double circleSize = 1.0;

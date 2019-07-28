@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-	public class Bear : ModProjectile
+    public class Bear : ModProjectile
 	{
 		public int chosenIdle = 0;
 		public int idleTimer = 0;

@@ -1,10 +1,8 @@
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-	public class AshenPlatform : ModItem
+    public class AshenPlatform : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

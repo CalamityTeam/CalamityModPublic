@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.Items;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
 	public class CeaselessVoid : ModNPC
 	{
 		private float bossLife;

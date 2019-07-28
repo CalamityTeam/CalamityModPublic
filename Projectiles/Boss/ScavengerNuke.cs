@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class ScavengerNuke : ModProjectile
+    public class ScavengerNuke : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

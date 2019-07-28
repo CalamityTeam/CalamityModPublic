@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class PlasmaRay : ModProjectile
+    public class PlasmaRay : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

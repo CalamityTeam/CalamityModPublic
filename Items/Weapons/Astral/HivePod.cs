@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Astral
 {
-	public class HivePod : ModItem
+    public class HivePod : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

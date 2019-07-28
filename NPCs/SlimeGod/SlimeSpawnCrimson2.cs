@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
-	public class SlimeSpawnCrimson2 : ModNPC
+    public class SlimeSpawnCrimson2 : ModNPC
 	{
 		public float spikeTimer = 60f;
 

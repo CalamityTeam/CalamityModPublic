@@ -1,10 +1,9 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-	public class CosmiliteSconce : ModItem
+    public class CosmiliteSconce : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

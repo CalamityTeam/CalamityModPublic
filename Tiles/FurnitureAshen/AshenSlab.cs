@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-	public class AshenSlab : ModTile
+    public class AshenSlab : ModTile
     {
         public override void SetDefaults()
         {

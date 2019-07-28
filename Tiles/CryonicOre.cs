@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Tiles
 {
-	public class CryonicOre : ModTile
+    public class CryonicOre : ModTile
 	{
 		public override void SetDefaults()
 		{

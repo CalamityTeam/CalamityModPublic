@@ -1,12 +1,10 @@
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-	public class RomajedaOrchid : ModItem
+    public class RomajedaOrchid : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

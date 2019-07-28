@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons
 {
-	public class MortarRound : ModItem
+    public class MortarRound : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

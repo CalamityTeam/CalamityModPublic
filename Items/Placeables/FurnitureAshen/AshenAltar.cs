@@ -1,12 +1,9 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-	public class AshenAltar : ModItem
+    public class AshenAltar : ModItem
 	{
 		public override void SetStaticDefaults()
         {

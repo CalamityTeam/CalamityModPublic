@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Weapons
 {
-	public class YharimsCrystal : ModItem
+    public class YharimsCrystal : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

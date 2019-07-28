@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class AcidBullet : ModProjectile
+    public class AcidBullet : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,22 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.NPCs;
 using CalamityMod.World;
-using CalamityMod.NPCs.TheDevourerofGods;
-using CalamityMod.Items.Armor;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Projectiles
 {
-	public class CalamityGlobalProjectile : GlobalProjectile
+    public class CalamityGlobalProjectile : GlobalProjectile
 	{
 		public override bool InstancePerEntity
 		{

@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
-	public class Hiveling : ModNPC
+    public class Hiveling : ModNPC
 	{
 		private static Texture2D glowmask;
 

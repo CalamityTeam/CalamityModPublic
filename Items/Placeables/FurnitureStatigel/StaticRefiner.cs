@@ -1,10 +1,8 @@
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
-	public class StaticRefiner : ModItem
+    public class StaticRefiner : ModItem
 	{
 		public override void SetStaticDefaults()
         {

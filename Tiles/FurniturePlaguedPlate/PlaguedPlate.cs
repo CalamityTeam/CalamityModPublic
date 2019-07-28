@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
-	public class PlaguedPlate : ModTile
+    public class PlaguedPlate : ModTile
 	{
 		public override void SetDefaults()
 		{

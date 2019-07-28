@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
-	public class ProfanedDresser: ModItem
+    public class ProfanedDresser: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

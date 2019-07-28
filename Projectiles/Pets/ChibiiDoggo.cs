@@ -1,18 +1,14 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
-using Terraria.Enums;
-using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.Localization;
 
 namespace CalamityMod.Projectiles.Pets
 {
-	public class ChibiiDoggo : ModProjectile
+    public class ChibiiDoggo : ModProjectile
 	{
 		public int trueType;
 		public bool previousCollide = false;

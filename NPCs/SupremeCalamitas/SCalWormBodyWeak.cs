@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-	public class SCalWormBodyWeak : ModNPC
+    public class SCalWormBodyWeak : ModNPC
 	{
         public double damageTaken = 0.0;
         public int invinceTime = 360;

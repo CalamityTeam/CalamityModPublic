@@ -1,11 +1,9 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
-	public class ProfanedCrystal : ModItem
+    public class ProfanedCrystal : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

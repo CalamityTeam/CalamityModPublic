@@ -1,11 +1,9 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class CryonicBrick : ModItem
+    public class CryonicBrick : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

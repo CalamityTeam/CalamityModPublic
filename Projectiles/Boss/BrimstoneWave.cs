@@ -1,15 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class BrimstoneWave : ModProjectile
+    public class BrimstoneWave : ModProjectile
 	{
 		private int x;
 

@@ -1,17 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.IO;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-	public abstract class CalamityDamageItem : ModItem
+    public abstract class CalamityDamageItem : ModItem
 	{
 		public virtual void SafeSetDefaults()
 		{

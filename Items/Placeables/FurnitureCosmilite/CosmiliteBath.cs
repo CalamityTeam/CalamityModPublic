@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {
-	public class CosmiliteBath : ModItem
+    public class CosmiliteBath : ModItem
 	{
 		public override void SetStaticDefaults()
         {

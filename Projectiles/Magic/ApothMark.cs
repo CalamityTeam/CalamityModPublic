@@ -1,16 +1,10 @@
-using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.Enums;
-using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class ApothMark : ModProjectile
+    public class ApothMark : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

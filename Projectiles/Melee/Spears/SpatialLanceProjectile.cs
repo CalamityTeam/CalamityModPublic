@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class SpatialLanceProjectile : ModProjectile
+    public class SpatialLanceProjectile : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

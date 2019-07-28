@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
-	public class BobbitWormSegment : ModNPC
+    public class BobbitWormSegment : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

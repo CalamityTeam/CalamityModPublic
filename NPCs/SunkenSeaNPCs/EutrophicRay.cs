@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
-	public class EutrophicRay : ModNPC
+    public class EutrophicRay : ModNPC
 	{
 		public bool hasBeenHit = false;
 

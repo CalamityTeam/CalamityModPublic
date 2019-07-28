@@ -1,11 +1,10 @@
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Scavenger
 {
-	public class RavagerBag : ModItem
+    public class RavagerBag : ModItem
 	{
 		public override int BossBagNPC => mod.NPCType("ScavengerBody");
 

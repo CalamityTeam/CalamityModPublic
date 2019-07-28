@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Items.FabsolStuff
 {
-	public class OddMushroom : ModItem
+    public class OddMushroom : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

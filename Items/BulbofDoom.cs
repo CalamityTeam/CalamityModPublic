@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-	public class BulbofDoom : ModItem
+    public class BulbofDoom : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,7 +1,5 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace CalamityMod.Items.Placeables.FurnitureCosmilite
 {

@@ -1,27 +1,20 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using Terraria.Graphics.Effects;
 using Terraria.GameContent.Generation;
-using Terraria.IO;
 using Terraria.Localization;
 using Terraria.GameContent.Events;
 using Terraria.ModLoader.IO;
-using CalamityMod.Tiles;
 using CalamityMod.NPCs;
-using CalamityMod.World;
-using CalamityMod.World.Planets;
 
 namespace CalamityMod.World
 {
-	public class CalamityWorld : ModWorld
+    public class CalamityWorld : ModWorld
 	{
 		#region Vars
 		//private const int ExpandWorldBy = 200;

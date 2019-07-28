@@ -2,11 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
-	public class SmoothVoidstone : ModTile
+    public class SmoothVoidstone : ModTile
 	{
 		public override void SetDefaults()
 		{

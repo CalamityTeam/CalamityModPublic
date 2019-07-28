@@ -1,11 +1,9 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
-	public class SmoothVoidstone : ModItem
+    public class SmoothVoidstone : ModItem
     {
 		public override void SetStaticDefaults()
 		{

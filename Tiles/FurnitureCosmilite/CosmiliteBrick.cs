@@ -2,13 +2,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
-using Terraria.ObjectData;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-	public class CosmiliteBrick : ModTile
+    public class CosmiliteBrick : ModTile
 	{
 		public override void SetDefaults()
 		{

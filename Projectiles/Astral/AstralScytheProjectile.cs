@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Astral
 {
-	public class AstralScytheProjectile : ModProjectile
+    public class AstralScytheProjectile : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

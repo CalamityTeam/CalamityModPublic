@@ -2,12 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Reflection;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Tiles.Astral
 {
-	public class AstralGrass : ModTile
+    public class AstralGrass : ModTile
 	{
 		public override void SetDefaults()
 		{

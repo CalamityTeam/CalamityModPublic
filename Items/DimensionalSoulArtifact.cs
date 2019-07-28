@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Items
 {
-	public class DimensionalSoulArtifact : ModItem
+    public class DimensionalSoulArtifact : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

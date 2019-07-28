@@ -5,13 +5,11 @@ using Terraria.Graphics.Shaders;
 using Terraria.GameContent.Achievements;
 using Microsoft.Xna.Framework;
 using System;
-using CalamityMod.Items;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Mounts
 {
-	class OnyxExcavator : ModMountData
+    class OnyxExcavator : ModMountData
 	{
 		public override void SetDefaults()
 		{

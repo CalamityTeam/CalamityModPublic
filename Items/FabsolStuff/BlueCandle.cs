@@ -1,11 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.FabsolStuff
 {
-	public class BlueCandle : ModItem
+    public class BlueCandle : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

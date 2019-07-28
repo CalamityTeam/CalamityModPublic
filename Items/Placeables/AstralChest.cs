@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class AstralChest : ModItem
+    public class AstralChest : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

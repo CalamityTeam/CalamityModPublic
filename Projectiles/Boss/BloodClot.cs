@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class BloodClot : ModProjectile
+    public class BloodClot : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

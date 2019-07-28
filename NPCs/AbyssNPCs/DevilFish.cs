@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
-	public class DevilFish : ModNPC
+    public class DevilFish : ModNPC
 	{
 		public bool hasBeenHit = false;
 		public bool brokenMask = false;

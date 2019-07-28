@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
-	public class AstrumDeusTailSpectral : ModNPC
+    public class AstrumDeusTailSpectral : ModNPC
 	{
 		private float speed = 10f; //10
 		private float turnSpeed = 0.2f; //0.15

@@ -1,13 +1,12 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class StarfleetMK2 : ModProjectile
+    public class StarfleetMK2 : ModProjectile
 	{
         public override void SetStaticDefaults()
         {

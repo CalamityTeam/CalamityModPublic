@@ -1,13 +1,11 @@
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Permafrost
 {
-	public class TridentIcicle : ModProjectile
+    public class TridentIcicle : ModProjectile
 	{
 		public override void SetDefaults()
 		{

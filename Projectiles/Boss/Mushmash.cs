@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.GameContent.Achievements;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class Mushmash : ModProjectile
+    public class Mushmash : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

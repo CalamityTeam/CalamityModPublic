@@ -2,20 +2,12 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using Terraria.Graphics.Effects;
-using Terraria.GameContent.Generation;
-using Terraria.IO;
-using Terraria.Localization;
-using Terraria.GameContent.Events;
-using Terraria.ModLoader.IO;
-using CalamityMod.Tiles;
 
 namespace CalamityMod.World
 {
-	public class SunkenSea : ModWorld
+    public class SunkenSea : ModWorld
 	{
 		private struct Hub
 		{

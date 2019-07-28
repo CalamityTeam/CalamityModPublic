@@ -2,12 +2,11 @@
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-	internal class CalamityRecipes
+    internal class CalamityRecipes
 	{
 		private static ModRecipe GetNewRecipe()
 		{

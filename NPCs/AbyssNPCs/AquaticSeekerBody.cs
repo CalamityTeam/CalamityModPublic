@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
-	public class AquaticSeekerBody : ModNPC
+    public class AquaticSeekerBody : ModNPC
 	{
         public float speed = 6f; //10
         public float turnSpeed = 0.1f; //0.15

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.CalPlayer
 {
-	public class CalamityPlayerLifeRegen
+    public class CalamityPlayerLifeRegen
 	{
 		#region Update Bad Life Regen
 		public static void CalamityUpdateBadLifeRegen(Player player, Mod mod)

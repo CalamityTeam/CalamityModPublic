@@ -1,11 +1,9 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class PerennialBrick : ModItem
+    public class PerennialBrick : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

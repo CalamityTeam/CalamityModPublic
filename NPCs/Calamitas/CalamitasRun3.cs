@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,16 +6,11 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
-using CalamityMod.NPCs.Calamitas;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Calamitas
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
 	public class CalamitasRun3 : ModNPC
 	{
 		private float bossLife;

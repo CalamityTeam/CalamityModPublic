@@ -3,12 +3,10 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System;
-using CalamityMod.Items;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Mounts
 {
-	class Fab : ModMountData
+    class Fab : ModMountData
 	{
 		public override void SetDefaults()
 		{

@@ -1,12 +1,10 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-	public class SuperDummy : ModNPC
+    public class SuperDummy : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

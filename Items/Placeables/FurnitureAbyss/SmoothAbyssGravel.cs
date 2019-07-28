@@ -1,10 +1,8 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
-	public class SmoothAbyssGravel : ModItem
+    public class SmoothAbyssGravel : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

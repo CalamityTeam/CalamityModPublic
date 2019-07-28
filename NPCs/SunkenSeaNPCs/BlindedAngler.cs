@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
-	public class BlindedAngler : ModNPC
+    public class BlindedAngler : ModNPC
 	{
 		public bool hasBeenHit = false;
 

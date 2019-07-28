@@ -1,13 +1,12 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class Drataliornus : ModProjectile
+    public class Drataliornus : ModProjectile
 	{
         public override void SetStaticDefaults()
         {

@@ -1,16 +1,12 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using System;
-using System.Reflection;
-using CalamityMod.Items;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Mounts
 {
-	class AngryDog : ModMountData
+    class AngryDog : ModMountData
 	{
 		public override void SetDefaults()
 		{

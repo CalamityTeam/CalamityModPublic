@@ -1,13 +1,9 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs
 {
-	public class DraconicSurgeBuff : ModBuff
+    public class DraconicSurgeBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{

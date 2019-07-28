@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items
 {
-	public class SkyfringePickaxe : ModItem
+    public class SkyfringePickaxe : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

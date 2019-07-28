@@ -3,13 +3,10 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using System;
-using System.Reflection;
-using CalamityMod.Items;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Mounts
 {
-	class Crysthamyr : ModMountData
+    class Crysthamyr : ModMountData
 	{
 		public override void SetDefaults()
 		{

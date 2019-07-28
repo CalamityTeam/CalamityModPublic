@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,7 +9,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class Flare : ModProjectile
+    public class Flare : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

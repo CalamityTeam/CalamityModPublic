@@ -1,15 +1,11 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
-using CalamityMod;
-using CalamityMod.Items;
 using CalamityMod.World;
 
 namespace CalamityMod
 {
-	public class DropHelper
+    public class DropHelper
 	{
 		#region Global Drop Chances
 		/// <summary>

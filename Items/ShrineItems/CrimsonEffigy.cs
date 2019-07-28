@@ -1,11 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.ShrineItems
 {
-	public class CrimsonEffigy: ModItem
+    public class CrimsonEffigy: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

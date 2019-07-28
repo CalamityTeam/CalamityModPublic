@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class BrimstoneFire : ModProjectile
+    public class BrimstoneFire : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

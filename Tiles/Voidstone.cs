@@ -1,13 +1,11 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles
 {
-	public class Voidstone : ModTile
+    public class Voidstone : ModTile
 	{
 		public override void SetDefaults()
 		{

@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Astrageldon
 {
-	public class Nebulash : ModItem
+    public class Nebulash : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

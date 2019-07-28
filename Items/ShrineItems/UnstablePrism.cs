@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.ShrineItems
 {
-	public class UnstablePrism : ModItem
+    public class UnstablePrism : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

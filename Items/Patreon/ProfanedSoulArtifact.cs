@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Items.Patreon
 {
-	public class ProfanedSoulArtifact : ModItem
+    public class ProfanedSoulArtifact : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

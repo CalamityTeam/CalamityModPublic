@@ -1,15 +1,13 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class Cyclone : ModProjectile
+    public class Cyclone : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

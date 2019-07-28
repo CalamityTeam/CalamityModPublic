@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Permafrost
 {
-	public class IcicleTrident : ModItem
+    public class IcicleTrident : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

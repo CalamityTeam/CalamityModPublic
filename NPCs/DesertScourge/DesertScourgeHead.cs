@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
 	public class DesertScourgeHead : ModNPC
 	{
         private bool flies = false;

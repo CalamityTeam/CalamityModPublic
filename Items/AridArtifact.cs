@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +6,7 @@ using Terraria.GameContent.Events;
 
 namespace CalamityMod.Items
 {
-	public class AridArtifact : ModItem
+    public class AridArtifact : ModItem
 	{
 		public override void SetStaticDefaults()
 	 	{

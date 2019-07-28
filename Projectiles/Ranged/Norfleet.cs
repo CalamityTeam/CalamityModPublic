@@ -1,13 +1,12 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class Norfleet : ModProjectile
+    public class Norfleet : ModProjectile
 	{
         public override void SetStaticDefaults()
         {

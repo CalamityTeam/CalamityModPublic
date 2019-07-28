@@ -1,9 +1,5 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using CalamityMod.Items;
 
 namespace CalamityMod.Buffs
 {

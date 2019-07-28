@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.ShrineItems
 {
-	public class FungalSymbiote : ModItem
+    public class FungalSymbiote : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

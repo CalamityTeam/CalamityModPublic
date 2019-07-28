@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
-	public class StatigelWorkbench : ModItem
+    public class StatigelWorkbench : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

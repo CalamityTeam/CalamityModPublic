@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Patreon
 {
-	public class ThePackMissile : ModProjectile
+    public class ThePackMissile : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

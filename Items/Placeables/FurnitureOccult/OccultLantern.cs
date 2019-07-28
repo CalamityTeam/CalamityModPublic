@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-	public class OccultLantern : ModItem
+    public class OccultLantern : ModItem
 	{
 		public override void SetStaticDefaults()
         {

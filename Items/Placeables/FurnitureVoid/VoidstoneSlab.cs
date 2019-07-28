@@ -1,11 +1,9 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Localization;
 
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
-	public class VoidstoneSlab : ModItem
+    public class VoidstoneSlab : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

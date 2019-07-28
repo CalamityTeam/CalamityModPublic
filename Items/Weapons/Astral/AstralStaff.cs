@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Astral
 {
-	public class AstralStaff : ModItem
+    public class AstralStaff : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

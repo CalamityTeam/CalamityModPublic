@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Astrageldon
 {
-	public class AstralJelly : ModItem
+    public class AstralJelly : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

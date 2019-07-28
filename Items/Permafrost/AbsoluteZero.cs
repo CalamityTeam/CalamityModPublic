@@ -1,4 +1,3 @@
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Permafrost
 {
-	public class AbsoluteZero : ModItem
+    public class AbsoluteZero : ModItem
 	{
         public override void SetStaticDefaults()
 		{

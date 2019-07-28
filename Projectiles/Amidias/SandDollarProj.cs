@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ID;
+﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Amidias
 {
-	public class SandDollarProj : ModProjectile
+    public class SandDollarProj : ModProjectile
 	{
 
 		public override void SetStaticDefaults()

@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons.GreatSandShark
 {
-	public class Sandstorm : ModItem
+    public class Sandstorm : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

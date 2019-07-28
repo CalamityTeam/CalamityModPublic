@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-	public class ScourgeoftheDesert : CalamityDamageItem
+    public class ScourgeoftheDesert : CalamityDamageItem
     {
 		public override void SetStaticDefaults()
 		{

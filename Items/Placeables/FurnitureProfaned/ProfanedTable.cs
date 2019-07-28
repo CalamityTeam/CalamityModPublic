@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
-	public class ProfanedTable: ModItem
+    public class ProfanedTable: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

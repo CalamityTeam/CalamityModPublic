@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class DraedonsForge : ModItem
+    public class DraedonsForge : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

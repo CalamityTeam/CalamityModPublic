@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-	public class ChaoticBrick : ModTile
+    public class ChaoticBrick : ModTile
 	{
 		public override void SetDefaults()
 		{

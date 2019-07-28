@@ -1,12 +1,10 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.FabsolStuff
 {
-	public class CaribbeanRum : ModItem
+    public class CaribbeanRum : ModItem
 	{
         public override void SetStaticDefaults()
 		{

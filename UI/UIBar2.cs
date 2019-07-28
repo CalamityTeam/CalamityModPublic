@@ -1,19 +1,15 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-	public class UIBar2 : UIState
+    public class UIBar2 : UIState
 	{
 		public UIElement backPanel, barPanel; //the 'panels' of each part of the UI.
 		public int barWidth = 150; //the exact width of the bar texture/panel.

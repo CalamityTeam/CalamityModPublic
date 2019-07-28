@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
-	public class AncientChair : ModItem
+    public class AncientChair : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

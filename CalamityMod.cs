@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI;
@@ -11,13 +9,7 @@ using Terraria.DataStructures;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Initializers;
-using Terraria.IO;
-using Terraria.Map;
-using Terraria.GameContent;
 using Terraria.ModLoader;
-using Terraria.Localization;
-using CalamityMod.NPCs;
 using CalamityMod.NPCs.TheDevourerofGods;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.PlaguebringerGoliath;
@@ -25,15 +17,13 @@ using CalamityMod.NPCs.Yharon;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.NPCs.Polterghast;
-using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.Skies;
 using CalamityMod.World;
 
 namespace CalamityMod
 {
-	public class CalamityMod : Mod
+    public class CalamityMod : Mod
 	{
 		//Hotkeys
 		public static ModHotKey NormalityRelocatorHotKey;

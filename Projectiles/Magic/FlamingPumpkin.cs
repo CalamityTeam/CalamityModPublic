@@ -1,12 +1,9 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class FlamingPumpkin : ModProjectile
+    public class FlamingPumpkin : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

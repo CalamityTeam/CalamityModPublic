@@ -1,24 +1,10 @@
-using System;
-using System.Reflection;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 using Terraria;
-using Terraria.UI.Chat;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.UI;
-using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using Terraria.Localization;
-using Terraria.GameContent.UI;
 
 namespace CalamityMod
 {
-	public class CalamityCollision
+    public class CalamityCollision
 	{
 		public static bool HotWetCollision(Vector2 Position, int Width, int Height)
 		{

@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles
 {
-	public class AstralBrick : ModTile
+    public class AstralBrick : ModTile
 	{
 		public override void SetDefaults()
 		{

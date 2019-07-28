@@ -1,13 +1,9 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-	public class FrostyFlare : CalamityDamageItem
+    public class FrostyFlare : CalamityDamageItem
     {
 		public override void SetStaticDefaults()
 		{

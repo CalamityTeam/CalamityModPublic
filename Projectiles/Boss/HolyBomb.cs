@@ -1,15 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class HolyBomb : ModProjectile
+    public class HolyBomb : ModProjectile
 	{
 		private int flareShootTimer = 120;
 

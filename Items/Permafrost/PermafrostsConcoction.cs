@@ -1,12 +1,9 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Permafrost
 {
-	public class PermafrostsConcoction : ModItem
+    public class PermafrostsConcoction : ModItem
 	{
         public override void SetStaticDefaults()
 		{

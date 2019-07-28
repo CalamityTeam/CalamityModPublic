@@ -1,10 +1,9 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
-	public class PlaguedPlateLamp : ModItem
+    public class PlaguedPlateLamp : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

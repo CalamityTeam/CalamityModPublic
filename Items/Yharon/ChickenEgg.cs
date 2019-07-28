@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Yharon
 {
-	public class ChickenEgg : ModItem
+    public class ChickenEgg : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

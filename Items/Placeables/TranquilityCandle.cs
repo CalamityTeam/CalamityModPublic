@@ -1,11 +1,10 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class TranquilityCandle: ModItem
+    public class TranquilityCandle: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

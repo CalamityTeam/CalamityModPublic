@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
-	public class StormWeaverTail : ModNPC
+    public class StormWeaverTail : ModNPC
 	{
 		private const float speed = 10f;
 		private const float turnSpeed = 0.3f;

@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
 {
-	public class TheReaper : CalamityDamageItem
+    public class TheReaper : CalamityDamageItem
     {
 		public override void SetStaticDefaults()
 		{

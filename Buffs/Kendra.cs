@@ -1,12 +1,9 @@
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod;
 
 namespace CalamityMod.Buffs
 {
-	public class Kendra : ModBuff
+    public class Kendra : ModBuff
 	{
 		public override void SetDefaults()
 		{

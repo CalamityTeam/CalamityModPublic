@@ -1,13 +1,9 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs.Fabsol
 {
-	public class CaribbeanRum : ModBuff
+    public class CaribbeanRum : ModBuff
 	{
 		public override void SetDefaults()
 		{

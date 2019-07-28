@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
-	public class VoidTable: ModItem
+    public class VoidTable: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

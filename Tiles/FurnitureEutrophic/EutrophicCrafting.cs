@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -9,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
-	class EutrophicCrafting : ModTile
+    class EutrophicCrafting : ModTile
 	{
 		public override void SetDefaults()
 		{

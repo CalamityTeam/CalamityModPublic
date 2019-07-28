@@ -1,10 +1,9 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class VoidstoneWall : ModItem
+    public class VoidstoneWall : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,13 +1,10 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
 using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs.Amidias
 {
-	public class SnapClamDebuff : ModBuff
+    public class SnapClamDebuff : ModBuff
 	{
 		public override void SetDefaults()
 		{

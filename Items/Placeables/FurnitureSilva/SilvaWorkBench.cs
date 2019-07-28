@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
-	public class SilvaWorkBench : ModItem
+    public class SilvaWorkBench : ModItem
 	{
 		public override void SetStaticDefaults()
         {

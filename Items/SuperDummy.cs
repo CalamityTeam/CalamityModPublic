@@ -1,11 +1,10 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-	public class SuperDummy : ModItem
+    public class SuperDummy : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

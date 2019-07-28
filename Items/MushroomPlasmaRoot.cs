@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Localization;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Items
 {
-	public class MushroomPlasmaRoot : ModItem
+    public class MushroomPlasmaRoot : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

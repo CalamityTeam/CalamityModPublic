@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.TheDevourerofGods
 {
-	public class CosmicWorm : ModItem
+    public class CosmicWorm : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

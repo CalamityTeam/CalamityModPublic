@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-	public class SausageMaker : ModProjectile
+    public class SausageMaker : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.Providence
 {
-	public class ProfanedCore : ModItem
+    public class ProfanedCore : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

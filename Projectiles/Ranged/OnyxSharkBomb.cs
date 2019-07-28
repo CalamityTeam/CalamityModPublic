@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class OnyxSharkBomb : ModProjectile
+    public class OnyxSharkBomb : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

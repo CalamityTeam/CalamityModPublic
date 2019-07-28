@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 using CalamityMod.NPCs;
 
 namespace CalamityMod.Items.Weapons.RareVariants
 {
-	public class GrandDad : ModItem
+    public class GrandDad : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

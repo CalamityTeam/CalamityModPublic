@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
 	public class HiveMindMask : ModItem
 	{
         public override void SetStaticDefaults()

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Providence
 {
-	public class ProvSpawnDefense : ModNPC
+    public class ProvSpawnDefense : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

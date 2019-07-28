@@ -1,16 +1,13 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
 using Terraria.ID;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs
 {
-	public class CalamityGlobalAI
+    public class CalamityGlobalAI
 	{
 		#region Queen Bee Lore AI Changes
 		public static void QueenBeeLoreEffect(NPC npc)

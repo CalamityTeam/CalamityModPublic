@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Localization;
-using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets

@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-	class ProfanedBasin : ModTile
+    class ProfanedBasin : ModTile
 	{
 		public override void SetDefaults()
 		{

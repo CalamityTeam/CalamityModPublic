@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
-	public class VoidCandle: ModItem
+    public class VoidCandle: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

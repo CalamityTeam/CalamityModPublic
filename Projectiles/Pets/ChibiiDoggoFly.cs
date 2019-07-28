@@ -1,17 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
-using Terraria.Enums;
-using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Pets
 {
-	public class ChibiiDoggoFly : ModProjectile
+    public class ChibiiDoggoFly : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

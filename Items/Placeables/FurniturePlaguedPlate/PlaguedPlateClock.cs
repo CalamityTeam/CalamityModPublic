@@ -1,10 +1,9 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
 {
-	public class PlaguedPlateClock : ModItem
+    public class PlaguedPlateClock : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

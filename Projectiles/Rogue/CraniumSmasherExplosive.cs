@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class CraniumSmasherExplosive : ModProjectile
+    public class CraniumSmasherExplosive : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

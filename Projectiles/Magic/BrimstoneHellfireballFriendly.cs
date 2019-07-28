@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class BrimstoneHellfireballFriendly : ModProjectile
+    public class BrimstoneHellfireballFriendly : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

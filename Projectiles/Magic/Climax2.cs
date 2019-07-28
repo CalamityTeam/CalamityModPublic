@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-	public class Climax2 : ModProjectile
+    public class Climax2 : ModProjectile
 	{
 		private double timeElapsed = 0.0;
 		private double circleSize = 1.0;

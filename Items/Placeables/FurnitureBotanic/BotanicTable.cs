@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureBotanic
 {
-	public class BotanicTable : ModItem
+    public class BotanicTable : ModItem
 	{
 		public override void SetStaticDefaults()
         {

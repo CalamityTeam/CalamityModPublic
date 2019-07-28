@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.GameContent.Shaders;
@@ -12,7 +10,7 @@ using Terraria.Graphics.Effects;
 
 namespace CalamityMod.Projectiles.Patreon
 {
-	public class DarkSparkBeam : ModProjectile
+    public class DarkSparkBeam : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

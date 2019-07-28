@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +19,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.NPCs.HiveMind
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
 	public class HiveMindP2 : ModNPC
 	{
 		//this block of values can be modified in SetDefaults() based on difficulty mode or something

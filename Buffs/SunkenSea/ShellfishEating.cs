@@ -1,13 +1,10 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
 using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs.SunkenSea
 {
-	public class ShellfishEating : ModBuff
+    public class ShellfishEating : ModBuff
 	{
 		public override void SetDefaults()
 		{

@@ -1,13 +1,9 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs.SunkenSea
 {
-	public class Clamity : ModBuff
+    public class Clamity : ModBuff
 	{
 		public override void SetDefaults()
 		{

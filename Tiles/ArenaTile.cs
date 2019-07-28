@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Tiles
 {
-	public class ArenaTile : ModTile
+    public class ArenaTile : ModTile
 	{
 		public override void SetDefaults()
 		{

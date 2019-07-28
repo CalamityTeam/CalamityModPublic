@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
-	public class OarfishTail : ModNPC
+    public class OarfishTail : ModNPC
 	{
         public float speed = 3f; //10
         public float turnSpeed = 0.05f; //0.15

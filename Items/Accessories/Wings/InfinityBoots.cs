@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-	[AutoloadEquip(EquipType.Wings, EquipType.Shoes)]
+    [AutoloadEquip(EquipType.Wings, EquipType.Shoes)]
 	public class InfinityBoots : ModItem
 	{
 		public override void SetStaticDefaults()

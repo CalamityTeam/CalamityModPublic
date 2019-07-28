@@ -1,14 +1,11 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.DesertScourge
 {
-	public class AeroStone : ModItem
+    public class AeroStone : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Amidias
 {
-	public class SmallCoral : ModProjectile
+    public class SmallCoral : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

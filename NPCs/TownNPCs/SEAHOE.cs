@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +7,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
-	[AutoloadHead]
+    [AutoloadHead]
 	public class SEAHOE : ModNPC
 	{
 		public override void SetStaticDefaults()

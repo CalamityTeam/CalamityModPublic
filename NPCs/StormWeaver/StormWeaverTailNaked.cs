@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
-	public class StormWeaverTailNaked : ModNPC
+    public class StormWeaverTailNaked : ModNPC
 	{
 		private int invinceTime = 180;
 		private const float speed = 13f;

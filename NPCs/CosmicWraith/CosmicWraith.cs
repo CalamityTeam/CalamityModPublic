@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CosmicWraith
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
 	public class CosmicWraith : ModNPC
 	{
 		private const int CosmicProjectiles = 3;

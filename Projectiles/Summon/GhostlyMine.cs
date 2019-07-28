@@ -1,13 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-	public class GhostlyMine : ModProjectile
+    public class GhostlyMine : ModProjectile
 	{
 		public bool start = true;
         public bool spawnDust = true;

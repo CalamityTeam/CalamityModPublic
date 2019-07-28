@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Typeless
 {

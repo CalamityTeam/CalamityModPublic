@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,14 +8,13 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 /*Possibly add in a final phase for AI 2 that is similar to Sif's final phase in Dark Souls*/
 
 namespace CalamityMod.NPCs.Yharon
 {
-	[AutoloadBossHead]
+    [AutoloadBossHead]
 	public class Yharon : ModNPC
 	{
 		private Rectangle safeBox = default(Rectangle);

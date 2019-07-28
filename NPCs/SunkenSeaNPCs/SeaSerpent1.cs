@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
-	public class SeaSerpent1 : ModNPC
+    public class SeaSerpent1 : ModNPC
 	{
         public bool flies = true;
         public const int maxLength = 9;

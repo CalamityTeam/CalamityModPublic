@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
-	public class EidolonWyrmBodyHuge : ModNPC
+    public class EidolonWyrmBodyHuge : ModNPC
 	{
         public float speed = 7.5f; //10
         public float turnSpeed = 0.15f; //0.15

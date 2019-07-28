@@ -1,16 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Shaders;
-using Terraria.GameContent.Achievements;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.SunkenSea
 {
-	class SeashineSwordProj : ModProjectile
+    class SeashineSwordProj : ModProjectile
 	{
 		public override void SetDefaults()
 		{

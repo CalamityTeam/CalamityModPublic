@@ -1,12 +1,10 @@
-using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.FabsolStuff
 {
-	public class Tequila : ModItem
+    public class Tequila : ModItem
 	{
         public override void SetStaticDefaults()
 		{

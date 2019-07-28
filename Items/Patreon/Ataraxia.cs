@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Patreon
 {
-	public class Ataraxia : ModItem
+    public class Ataraxia : ModItem
 	{
 		public static int BaseDamage = 5600;
 

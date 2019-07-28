@@ -1,13 +1,9 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs.Shrines
 {
-	public class CrimsonEffigyBuff : ModBuff
+    public class CrimsonEffigyBuff : ModBuff
 	{
 		public override void SetDefaults()
 		{

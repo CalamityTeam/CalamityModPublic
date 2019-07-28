@@ -1,10 +1,8 @@
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
-	public class EutrophicPlatform : ModItem
+    public class EutrophicPlatform : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

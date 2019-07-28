@@ -1,6 +1,5 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -14,7 +13,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.Tiles.Astral
 {
-	public class AstralChestLocked : ModTile
+    public class AstralChestLocked : ModTile
 	{
 		public override void SetDefaults()
 		{

@@ -1,9 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
-using System;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Mounts
 {

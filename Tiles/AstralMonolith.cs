@@ -2,11 +2,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles
 {
-	public class AstralMonolith : ModTile
+    public class AstralMonolith : ModTile
     {
         public override void SetDefaults()
         {

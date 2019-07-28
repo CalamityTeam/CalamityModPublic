@@ -1,16 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class InfernadoRevenge : ModProjectile
+    public class InfernadoRevenge : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

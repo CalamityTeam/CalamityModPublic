@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
 	public class SlimeGodMask : ModItem
 	{
         public override void SetStaticDefaults()

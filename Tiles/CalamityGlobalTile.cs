@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Tiles
 {
-	public class CalamityGlobalTile : GlobalTile
+    public class CalamityGlobalTile : GlobalTile
 	{
 		public static ushort[] PlantTypes = new ushort[]
 		{

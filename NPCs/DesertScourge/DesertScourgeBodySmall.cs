@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
-	public class DesertScourgeBodySmall : ModNPC
+    public class DesertScourgeBodySmall : ModNPC
 	{
 		public override void SetStaticDefaults()
 		{

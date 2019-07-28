@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items
 {
-	public class DarksunFragment : ModItem
+    public class DarksunFragment : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class ProvidenceCrystal : ModProjectile
+    public class ProvidenceCrystal : ModProjectile
 	{
 		private float speedX = -15f;
 		private float speedY = -3f;

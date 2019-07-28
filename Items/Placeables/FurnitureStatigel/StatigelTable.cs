@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureStatigel
 {
-	public class StatigelTable: ModItem
+    public class StatigelTable: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

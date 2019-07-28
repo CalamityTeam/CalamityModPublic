@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items
 {
-	public class BeetleJuice : ModItem
+    public class BeetleJuice : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

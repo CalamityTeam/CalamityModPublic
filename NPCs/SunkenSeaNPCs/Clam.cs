@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
-	public class Clam : ModNPC
+    public class Clam : ModNPC
 	{
 		private int hitAmount = 0;
 		private bool hasBeenHit = false;

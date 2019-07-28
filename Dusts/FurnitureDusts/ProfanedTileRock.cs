@@ -1,10 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Dusts.FurnitureDusts
 {
-	public class ProfanedTileRock : ModDust
+    public class ProfanedTileRock : ModDust
 	{
 		public override void OnSpawn(Dust dust)
 		{

@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureOccult
 {
-	public class OccultChest : ModItem
+    public class OccultChest : ModItem
 	{
 		public override void SetStaticDefaults()
         {

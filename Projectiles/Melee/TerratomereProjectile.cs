@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class TerratomereProjectile : ModProjectile
+    public class TerratomereProjectile : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

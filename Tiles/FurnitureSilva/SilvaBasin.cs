@@ -1,14 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
-	class SilvaBasin : ModTile
+    class SilvaBasin : ModTile
 	{
 		public override void SetDefaults()
 		{

@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureEutrophic
 {
-	public class EutrophicCandle : ModItem
+    public class EutrophicCandle : ModItem
 	{
 		public override void SetStaticDefaults()
         {

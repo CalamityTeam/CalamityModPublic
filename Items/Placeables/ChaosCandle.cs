@@ -1,11 +1,10 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
-	public class ChaosCandle: ModItem
+    public class ChaosCandle: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

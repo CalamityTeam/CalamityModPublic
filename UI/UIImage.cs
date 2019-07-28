@@ -1,19 +1,10 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-	public class UIImage : UIElement
+    public class UIImage : UIElement
 	{
 		public Texture2D texture = null;
 

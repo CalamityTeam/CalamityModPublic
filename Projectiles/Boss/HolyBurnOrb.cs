@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class HolyBurnOrb : ModProjectile
+    public class HolyBurnOrb : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

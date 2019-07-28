@@ -5,24 +5,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.GameContent;
-using Terraria.GameContent.Achievements;
-using Terraria.GameContent.Events;
-using Terraria.GameContent.Tile_Entities;
-using Terraria.GameContent.UI;
 using Terraria.ID;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
 using CalamityMod.Projectiles;
-using CalamityMod;
-using CalamityMod.Items;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs
 {
-	public class CalamityGlobalNPC : GlobalNPC
+    public class CalamityGlobalNPC : GlobalNPC
 	{
         #region Instance Per Entity
 		public override bool InstancePerEntity

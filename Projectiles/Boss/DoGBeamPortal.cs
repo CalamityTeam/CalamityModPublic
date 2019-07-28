@@ -1,15 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class DoGBeamPortal : ModProjectile
+    public class DoGBeamPortal : ModProjectile
 	{
 		private int beamTimer = 180;
 

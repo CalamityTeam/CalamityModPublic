@@ -1,21 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.GameContent;
-using Terraria.IO;
-using Terraria.ObjectData;
-using Terraria.Utilities;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons.DevourerofGods
 {
-	public class StaffoftheMechworm : ModItem
+    public class StaffoftheMechworm : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

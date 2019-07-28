@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
-	public class AshenLamp: ModItem
+    public class AshenLamp: ModItem
 	{
 		public override void SetStaticDefaults()
 		{

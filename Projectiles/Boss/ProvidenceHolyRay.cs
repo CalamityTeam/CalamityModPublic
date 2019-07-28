@@ -1,17 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Enums;
-using Terraria.Graphics.Effects;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class ProvidenceHolyRay : ModProjectile
+    public class ProvidenceHolyRay : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

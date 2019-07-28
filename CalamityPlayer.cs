@@ -8,21 +8,12 @@ using Terraria.Localization;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent;
-using Terraria.GameContent.UI;
 using Terraria.GameInput;
-using Terraria.Graphics.Capture;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using CalamityMod.NPCs;
-using CalamityMod.NPCs.TheDevourerofGods;
-using CalamityMod.NPCs.Calamitas;
-using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.Yharon;
-using CalamityMod.NPCs.Leviathan;
 using CalamityMod.Projectiles;
 using CalamityMod.Items;
-using CalamityMod.Items.Armor;
 using CalamityMod.UI;
 using CalamityMod.World;
 using CalamityMod.CalPlayer;
@@ -31,7 +22,7 @@ using Terraria.ModLoader.IO;
 
 namespace CalamityMod
 {
-	public class CalamityPlayer : ModPlayer
+    public class CalamityPlayer : ModPlayer
 	{
 		#region Variables
 

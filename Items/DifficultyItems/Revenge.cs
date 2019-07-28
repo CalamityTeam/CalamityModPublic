@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.DifficultyItems
 {
-	public class Revenge : ModItem
+    public class Revenge : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -92,7 +89,7 @@ namespace CalamityMod.Items.DifficultyItems
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
-				
+
 				if (CalamityWorld.death)
 				{
 					CalamityWorld.death = false;

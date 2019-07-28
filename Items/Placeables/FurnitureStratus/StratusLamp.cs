@@ -1,10 +1,8 @@
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
-	public class StratusLamp : ModItem
+    public class StratusLamp : ModItem
 	{
 		public override void SetStaticDefaults()
         {

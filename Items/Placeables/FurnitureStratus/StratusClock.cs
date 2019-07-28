@@ -1,10 +1,9 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
-	public class StratusClock : ModItem
+    public class StratusClock : ModItem
 	{
 		public override void SetStaticDefaults()
         {

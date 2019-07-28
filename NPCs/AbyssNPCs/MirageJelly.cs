@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
-	public class MirageJelly : ModNPC
+    public class MirageJelly : ModNPC
 	{
 		private bool teleporting = false;
 		private bool rephasing = false;

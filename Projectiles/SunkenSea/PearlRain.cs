@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.SunkenSea
 {
-	public class PearlRain : ModProjectile
+    public class PearlRain : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

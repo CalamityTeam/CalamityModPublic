@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
-	public class AbyssCandle : ModItem
+    public class AbyssCandle : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

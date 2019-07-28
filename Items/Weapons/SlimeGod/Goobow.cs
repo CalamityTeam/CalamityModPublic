@@ -1,16 +1,12 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons.SlimeGod
 {
-	public class Goobow : ModItem
+    public class Goobow : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,14 +1,12 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.Graphics.Capture;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-	public class StratusBricks : ModTile
+    public class StratusBricks : ModTile
     {
         public override void SetDefaults()
         {

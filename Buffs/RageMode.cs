@@ -1,14 +1,10 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 
 namespace CalamityMod.Buffs
 {
-	public class RageMode : ModBuff
+    public class RageMode : ModBuff
 	{
 		public static string RevTip = "150% damage boost. Can be boosted by other items up to 210%.";
 		public static string DeathTip = "300% damage boost. Can be boosted by other items up to 510%.";

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
 
 namespace CalamityMod.Items
 {
-	public class BloodIdol : ModItem
+    public class BloodIdol : ModItem
 	{
 		public override void SetStaticDefaults()
 	 	{

@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-	public class CalamityCustomThrowingDamagePlayer : ModPlayer
+    public class CalamityCustomThrowingDamagePlayer : ModPlayer
 	{
 		public static CalamityCustomThrowingDamagePlayer ModPlayer(Player player)
 		{

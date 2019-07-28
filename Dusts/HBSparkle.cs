@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Dusts {
-public class HBSparkle : ModDust
+namespace CalamityMod.Dusts
+{
+    public class HBSparkle : ModDust
 {
     public override void OnSpawn(Dust dust)
     {

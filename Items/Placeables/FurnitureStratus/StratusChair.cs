@@ -1,10 +1,8 @@
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
-	public class StratusChair : ModItem
+    public class StratusChair : ModItem
 	{
 		public override void SetStaticDefaults()
         {

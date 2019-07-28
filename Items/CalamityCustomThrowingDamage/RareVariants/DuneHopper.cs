@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
 {
-	public class DuneHopper : CalamityDamageItem
+    public class DuneHopper : CalamityDamageItem
     {
 		public override void SetStaticDefaults()
 		{

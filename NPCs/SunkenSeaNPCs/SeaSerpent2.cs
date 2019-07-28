@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
-	public class SeaSerpent2 : ModNPC
+    public class SeaSerpent2 : ModNPC
 	{
         public float speed = 6f;
         public float turnSpeed = 0.125f;

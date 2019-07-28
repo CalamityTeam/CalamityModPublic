@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.SupremeCalamitas
 {
-	public class EyeofExtinction : ModItem
+    public class EyeofExtinction : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class SandPoisonCloud : ModProjectile
+    public class SandPoisonCloud : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Localization;
-using Terraria.ID;
-using Terraria.DataStructures;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Items.LoreItems
 {
-	public class Knowledge36 : ModItem
+    public class Knowledge36 : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

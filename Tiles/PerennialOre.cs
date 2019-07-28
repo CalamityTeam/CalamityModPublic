@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-	public class PerennialOre : ModTile
+    public class PerennialOre : ModTile
 	{
 		public override void SetDefaults()
 		{

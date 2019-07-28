@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
 
 namespace CalamityMod.Items.Weapons
 {
-	public class AnarchyBlade : ModItem
+    public class AnarchyBlade : ModItem
 	{
 		private static int BaseDamage = 110;
 

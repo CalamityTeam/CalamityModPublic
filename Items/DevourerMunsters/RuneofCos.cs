@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.DevourerMunsters
 {
-	public class RuneofCos : ModItem
+    public class RuneofCos : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

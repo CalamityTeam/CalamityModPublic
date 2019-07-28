@@ -1,10 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Dusts.FurnitureDusts
 {
-	public class BloomTileLeaves : ModDust
+    public class BloomTileLeaves : ModDust
 	{
 		public override void OnSpawn(Dust dust)
 		{

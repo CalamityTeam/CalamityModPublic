@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons
 {
-	public class BrimlashBuster : ModItem
+    public class BrimlashBuster : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

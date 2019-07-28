@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 
 namespace CalamityMod.Items.DifficultyItems
 {
-	public class MLGRune : ModItem
+    public class MLGRune : ModItem
 	{
 		public override void SetStaticDefaults()
 		{

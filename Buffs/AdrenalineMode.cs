@@ -1,14 +1,10 @@
-﻿using System;
-using Terraria;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.NPCs;
 using CalamityMod.World;
 
 namespace CalamityMod.Buffs
 {
-	public class AdrenalineMode : ModBuff
+    public class AdrenalineMode : ModBuff
 	{
 		public static string RevTip = "250% damage boost. Can burnout down to 149.5%.";
 		public static string DeathTip = "700% damage boost. Can burnout down to 298%.";

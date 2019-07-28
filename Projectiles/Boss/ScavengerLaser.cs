@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +7,7 @@ using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
-	public class ScavengerLaser : ModProjectile
+    public class ScavengerLaser : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{

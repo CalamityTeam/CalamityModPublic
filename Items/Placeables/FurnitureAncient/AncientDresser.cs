@@ -1,9 +1,8 @@
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureAncient
 {
-	public class AncientDresser: ModItem
+    public class AncientDresser: ModItem
 	{
 		public override void SetStaticDefaults()
 		{
