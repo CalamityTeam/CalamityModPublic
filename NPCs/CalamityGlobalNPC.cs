@@ -2744,13 +2744,13 @@ namespace CalamityMod.NPCs
 					player.GetModPlayer<CalamityPlayer>(mod).bloodflareHeartTimer <= 0)
 				{
 					player.GetModPlayer<CalamityPlayer>(mod).bloodflareHeartTimer = 180;
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58, 1, false, 0, false, false);
+                    DropHelper.DropItem(npc, ItemID.Heart);
 				}
 				else if (!npc.SpawnedFromStatue && npc.damage > 0 && ((double)npc.life > (double)npc.lifeMax * 0.5) &&
 					player.GetModPlayer<CalamityPlayer>(mod).bloodflareManaTimer <= 0)
 				{
 					player.GetModPlayer<CalamityPlayer>(mod).bloodflareManaTimer = 180;
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 184, 1, false, 0, false, false);
+                    DropHelper.DropItem(npc, ItemID.Star);
 				}
 			}
 		}
@@ -2786,13 +2786,13 @@ namespace CalamityMod.NPCs
 					Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).bloodflareHeartTimer <= 0)
 				{
 					Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).bloodflareHeartTimer = 180;
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58, 1, false, 0, false, false);
+                    DropHelper.DropItem(npc, ItemID.Heart);
 				}
 				else if (!npc.SpawnedFromStatue && npc.damage > 0 && ((double)npc.life > (double)npc.lifeMax * 0.5) &&
 					Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).bloodflareManaTimer <= 0)
 				{
 					Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).bloodflareManaTimer = 180;
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 184, 1, false, 0, false, false);
+                    DropHelper.DropItem(npc, ItemID.Star);
 				}
 			}
 		}

@@ -2771,134 +2771,89 @@ namespace CalamityMod.NPCs.Yharon
 			Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), npc.GetAlpha(color9), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
 			return false;
 		}
-		#endregion
+        #endregion
 
-		#region Loot
-		public override void NPCLoot()
+        #region Loot
+        public override bool SpecialNPCLoot()
+        {
+            return !dropLoot;
+        }
+
+        public override void NPCLoot()
 		{
-			if (!dropLoot)
+            // If Yharon runs away in phase 1 and the Eclipse isn't buffed yet, notify players of the buffed Solar Eclipse
+            if (!startSecondAI && !CalamityWorld.buffedEclipse)
 			{
-				return;
+				CalamityWorld.buffedEclipse = true;
+                CalamityMod.UpdateServerBoolean();
+
+				string key = "Mods.CalamityMod.DargonBossText";
+				Color messageColor = Color.Orange;
+
+				if (Main.netMode == 0)
+					Main.NewText(Language.GetTextValue(key), messageColor);
+				else if (Main.netMode == 2)
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}
-			if (startSecondAI)
+
+            // Bags occur in either phase 1 or 2, as they don't contain phase 2 only drops
+            DropHelper.DropBags(npc);
+
+            // Phase 1 drops: Contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
 			{
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharonTrophy"));
-				}
-				if (Main.rand.Next(40) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VoidVortex"));
-				}
-				if (Main.rand.Next(100) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharimsCrystal"));
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BossRush"));
-				string key = "Mods.CalamityMod.AuricOreText";
-				Color messageColor = Color.Gold;
-				if (!CalamityWorld.downedYharon)
-				{
-					CalamityWorld.downedYharon = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("Knowledge44"), 1, true);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MagnumRounds"), 6);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrenadeRounds"), 3);
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ExplosiveShells"), 2);
-					WorldGenerationMethods.SpawnOre(mod.TileType("AuricOre"), 2E-05, .6f, .8f);
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("DragonRage"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("TheBurningSky"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("DragonsBreath"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("ChickenCannon"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("PhoenixFlameBarrage"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("AngryChickenStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("ProfanedTrident"), 4);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("YharonMask"), 7);
+                DropHelper.DropItemChance(npc, mod.ItemType("ForgottenDragonEgg"), 10);
 			}
-			else
-			{
-				if (!CalamityWorld.buffedEclipse)
-				{
-					CalamityWorld.buffedEclipse = true;
-					if (Main.netMode == 2)
-					{
-						NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-					}
-					string key = "Mods.CalamityMod.DargonBossText";
-					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-			}
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.expertMode)
-			{
-				if (startSecondAI)
-				{
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("HellcasterFragment"), Main.rand.Next(22, 29), true);
-				}
-				npc.DropBossBags();
-			}
-			else
-			{
-				if (startSecondAI)
-				{
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("HellcasterFragment"), Main.rand.Next(15, 23), true);
-				}
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ForgottenDragonEgg"));
-				}
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("YharonMask"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AngryChickenStaff"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PhoenixFlameBarrage"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DragonsBreath"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DragonRage"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ProfanedTrident"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheBurningSky"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ChickenCannon"));
-				}
-			}
-		}
+
+            // These drops only occur in Phase 2 (where you actually kill Yharon)
+            if (startSecondAI)
+            {
+                // Materials
+                int soulFragMin = Main.expertMode ? 22 : 15;
+                int soulFragMax = Main.expertMode ? 28 : 22;
+                DropHelper.DropItem(npc, mod.ItemType("HellcasterFragment"), true, soulFragMin, soulFragMax);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("VoidVortex"), DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, mod.ItemType("YharimsCrystal"), DropHelper.LegendaryDropRateInt);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("YharonTrophy"), 10);
+
+                // Other
+                DropHelper.DropItem(npc, mod.ItemType("BossRush"));
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge44"), true, !CalamityWorld.downedYharon);
+                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedYharon, 6, 3, 2);
+
+                // If Yharon has not been killed yet, notify players of Auric Ore
+                if (!CalamityWorld.downedYharon)
+                {
+                    WorldGenerationMethods.SpawnOre(mod.TileType("AuricOre"), 2E-05, .6f, .8f);
+
+                    string key = "Mods.CalamityMod.AuricOreText";
+                    Color messageColor = Color.Gold;
+                    if (Main.netMode == 0)
+                        Main.NewText(Language.GetTextValue(key), messageColor);
+                    else if (Main.netMode == 2)
+                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                }
+
+                // Mark Yharon as dead
+                CalamityWorld.downedYharon = true;
+                CalamityMod.UpdateServerBoolean();
+            }
+        }
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{
