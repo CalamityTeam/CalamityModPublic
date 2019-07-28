@@ -9236,7 +9236,7 @@ namespace CalamityMod
 			// DoG:             60000   6 gold
 			// Yharon:          90000   9 gold
 
-			if (CalamityWorld.revenge)
+			if (CalamityWorld.revenge && price > 0)
 			{
 				// start with a vanilla cost of zero instead of 3 silver
 				price -= Item.buyPrice(0, 0, 3, 0);
