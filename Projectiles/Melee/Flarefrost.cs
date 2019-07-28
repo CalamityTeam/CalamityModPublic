@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Flarefrost : ModProjectile
+	public class Flarefrost : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
-			float num474 = 400f;
+			float num474 = 600f;
 			bool flag17 = false;
 			for (int num475 = 0; num475 < 200; num475++)
 			{
@@ -72,7 +73,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			if (flag17)
 			{
-				float num483 = 11f;
+				float num483 = 14f;
 				Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num484 = num472 - vector35.X;
 				float num485 = num473 - vector35.Y;
