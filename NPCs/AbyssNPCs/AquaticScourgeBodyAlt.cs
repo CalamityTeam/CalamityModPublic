@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.damage = 100; //70
 			npc.width = 32; //36
 			npc.height = 32;
-			npc.defense = 60;
+			npc.defense = 25;
             npc.aiStyle = -1; //new
             aiType = -1; //new
 			npc.knockBackResist = 0f;
@@ -333,15 +333,19 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
         }
 
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if ((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged)
-            {
-                damage /= 2;
-            }
-        }
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (projectile.penetrate == -1 && !projectile.minion)
+			{
+				damage = (int)((double)damage * 0.2);
+			}
+			else if (projectile.penetrate > 1)
+			{
+				damage /= projectile.penetrate;
+			}
+		}
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
+		public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion)
             {

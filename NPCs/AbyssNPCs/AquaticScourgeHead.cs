@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.damage = 100;
 			npc.width = 100; //36
 			npc.height = 90; //20
-			npc.defense = 40;
+			npc.defense = 20;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
@@ -545,15 +545,19 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 		}
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if ((projectile.type == ProjectileID.HallowStar || projectile.type == ProjectileID.CrystalShard) && projectile.ranged)
-			{
-				damage /= 2;
-			}
-		}
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (projectile.penetrate == -1 && !projectile.minion)
+            {
+                damage = (int)((double)damage * 0.2);
+            }
+            else if (projectile.penetrate > 1)
+            {
+                damage /= projectile.penetrate;
+            }
+        }
 
-		public override bool? CanBeHitByProjectile(Projectile projectile)
+        public override bool? CanBeHitByProjectile(Projectile projectile)
 		{
 			if (projectile.minion)
 			{
@@ -586,6 +590,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
 				mod.NPCType("AquaticScourgeHead"),
 				mod.NPCType("AquaticScourgeBody"),
+                mod.NPCType("AquaticScourgeBodyAlt"),
 				mod.NPCType("AquaticScourgeTail"));
 			npc.position = Main.npc[closestSegmentID].position;
             return false;
