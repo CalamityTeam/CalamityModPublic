@@ -208,8 +208,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				Main.StopSlimeRain(true);
 				CalamityMod.UpdateServerBoolean();
 			}
-			if (Main.raining)
-				CalamityGlobalNPC.StopRain();
+            CalamityMod.StopRain();
 
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);

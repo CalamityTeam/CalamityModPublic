@@ -93,8 +93,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			if (playerRunAcceleration <= 1f)
 				playerRunAcceleration = 1f;
 
-			if (Main.raining)
-				CalamityGlobalNPC.StopRain();
+            CalamityMod.StopRain();
 
 			Vector2 vector = npc.Center;
 			bool flies = npc.ai[2] == 0f;

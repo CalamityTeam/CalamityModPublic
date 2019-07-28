@@ -2222,6 +2222,8 @@ namespace CalamityMod
         #region Stop Rain
         public static void StopRain()
         {
+            if (!Main.raining)
+                return;
             Main.raining = false;
             UpdateServerBoolean();
         }

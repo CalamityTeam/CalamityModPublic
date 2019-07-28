@@ -128,8 +128,7 @@ namespace CalamityMod.NPCs.Yharon
 			#region StartupOrSwitchToAI2
 			dropLoot = (double)npc.life <= (double)npc.lifeMax * 0.1;
 
-			if (Main.raining)
-				CalamityGlobalNPC.StopRain();
+            CalamityMod.StopRain();
 
 			if (startSecondAI)
 			{

@@ -105,8 +105,7 @@ namespace CalamityMod.NPCs.Polterghast
 			bool phase5 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.1 : 0.05); //starts moving incredibly fast
 			npc.TargetClosest(true);
 
-			if (Main.raining)
-				CalamityGlobalNPC.StopRain();
+            CalamityMod.StopRain();
 			if (npc.timeLeft < 1500)
 				npc.timeLeft = 1500;
 			if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f)

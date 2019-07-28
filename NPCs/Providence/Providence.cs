@@ -155,8 +155,7 @@ namespace CalamityMod.NPCs.Providence
 				normalAttackRate = ignoreGuardianAmt;
 			npc.chaseable = normalAttackRate && npc.ai[0] != 2f && npc.ai[0] != 5f && npc.ai[0] != 7f;
 
-			if (Main.raining)
-				CalamityGlobalNPC.StopRain();
+            CalamityMod.StopRain();
 
 			if (biomeType == 0)
 			{
