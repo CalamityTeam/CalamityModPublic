@@ -657,7 +657,11 @@ namespace CalamityMod.NPCs.StormWeaver
                 mod.NPCType("StormWeaverBodyNaked"),
                 mod.NPCType("StormWeaverTailNaked"));
             npc.position = Main.npc[closestSegmentID].position;
+            return false;
+        }
 
+        public override void NPCLoot()
+        {
             // Only drop items if fought alone
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
@@ -693,10 +697,9 @@ namespace CalamityMod.NPCs.StormWeaver
             // Mark Storm Weaver as dead
             CalamityWorld.downedSentinel2 = true;
             CalamityMod.UpdateServerBoolean();
-            return true;
         }
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 		}

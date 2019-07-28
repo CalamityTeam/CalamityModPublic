@@ -578,60 +578,63 @@ namespace CalamityMod.NPCs.AstrumDeus
 				mod.NPCType("AstrumDeusBodySpectral"),
 				mod.NPCType("AstrumDeusTailSpectral"));
 			npc.position = Main.npc[closestSegmentID].position;
-
-			DropHelper.DropBags(npc);
-
-			DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
-			DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusTrophy"), 10);
-			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge29"), !CalamityWorld.downedStarGod);
-			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge36"), !CalamityWorld.downedStarGod);
-			DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedStarGod, 4, 2, 1);
-
-			// Drop a large spray of all 4 lunar fragments
-			int minFragments = Main.expertMode ? 20 : 12;
-			int maxFragments = Main.expertMode ? 32 : 20;
-			DropHelper.DropItemSpray(npc, ItemID.FragmentSolar, minFragments, maxFragments);
-			DropHelper.DropItemSpray(npc, ItemID.FragmentVortex, minFragments, maxFragments);
-			DropHelper.DropItemSpray(npc, ItemID.FragmentNebula, minFragments, maxFragments);
-			DropHelper.DropItemSpray(npc, ItemID.FragmentStardust, minFragments, maxFragments);
-
-			// All other drops are contained in the bag, so they only drop directly on Normal
-			if (!Main.expertMode)
-			{
-				DropHelper.DropItemSpray(npc, mod.ItemType("Stardust"), 50, 80, 5);
-
-				// Weapons
-				DropHelper.DropItemChance(npc, mod.ItemType("Starfall"), 5);
-				DropHelper.DropItemChance(npc, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
-
-				// Equipment
-				float f = Main.rand.NextFloat();
-				bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
-				DropHelper.DropItemCondition(npc, mod.ItemType("AstralBulwark"), !replaceWithRare);
-				DropHelper.DropItemCondition(npc, mod.ItemType("HideofAstrumDeus"), replaceWithRare);
-
-				// Vanity
-				DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusMask"), 7);
-			}
-
-			// Notify players that Astral Ore can be mined if Deus has never been killed yet
-			if (!CalamityWorld.downedStarGod)
-			{
-				string key = "Mods.CalamityMod.AstralBossText";
-				Color messageColor = Color.Gold;
-				if (Main.netMode == 0)
-					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-			}
-
-			// Mark Astrum Deus as dead
-			CalamityWorld.downedStarGod = true;
-            CalamityMod.UpdateServerBoolean();
-            return true;
+            return false;
 		}
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
+        public override void NPCLoot()
+        {
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
+            DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge29"), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge36"), !CalamityWorld.downedStarGod);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedStarGod, 4, 2, 1);
+
+            // Drop a large spray of all 4 lunar fragments
+            int minFragments = Main.expertMode ? 20 : 12;
+            int maxFragments = Main.expertMode ? 32 : 20;
+            DropHelper.DropItemSpray(npc, ItemID.FragmentSolar, minFragments, maxFragments);
+            DropHelper.DropItemSpray(npc, ItemID.FragmentVortex, minFragments, maxFragments);
+            DropHelper.DropItemSpray(npc, ItemID.FragmentNebula, minFragments, maxFragments);
+            DropHelper.DropItemSpray(npc, ItemID.FragmentStardust, minFragments, maxFragments);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
+            {
+                DropHelper.DropItemSpray(npc, mod.ItemType("Stardust"), 50, 80, 5);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("Starfall"), 5);
+                DropHelper.DropItemChance(npc, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
+
+                // Equipment
+                float f = Main.rand.NextFloat();
+                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
+                DropHelper.DropItemCondition(npc, mod.ItemType("AstralBulwark"), !replaceWithRare);
+                DropHelper.DropItemCondition(npc, mod.ItemType("HideofAstrumDeus"), replaceWithRare);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusMask"), 7);
+            }
+
+            // Notify players that Astral Ore can be mined if Deus has never been killed yet
+            if (!CalamityWorld.downedStarGod)
+            {
+                string key = "Mods.CalamityMod.AstralBossText";
+                Color messageColor = Color.Gold;
+                if (Main.netMode == 0)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == 2)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+
+            // Mark Astrum Deus as dead
+            CalamityWorld.downedStarGod = true;
+            CalamityMod.UpdateServerBoolean();
+        }
+
+        public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(mod.BuffType("GodSlayerInferno"), 180, true);
 		}
