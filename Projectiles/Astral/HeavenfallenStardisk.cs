@@ -10,12 +10,13 @@ namespace CalamityMod.Projectiles.Astral
 {
 	public class HeavenfallenStardisk : ModProjectile
 	{
-
-		public bool explode = false;
+		private bool explode = false;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavenfallen Stardisk");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
 		public override void SetDefaults()
@@ -169,6 +170,12 @@ namespace CalamityMod.Projectiles.Astral
 					}
 				}
 			}
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
 		}
 	}
 }

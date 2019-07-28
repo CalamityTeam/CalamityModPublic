@@ -2689,7 +2689,7 @@ namespace CalamityMod.NPCs
 					projectile.type == mod.ProjectileType("Shaderain") || projectile.aiStyle == 4 ||
 					projectile.type == ProjectileID.CrystalPulse2 || projectile.type == ProjectileID.HallowStar ||
 					projectile.type == mod.ProjectileType("FossilShardThrown"))
-					damage = (int)((double)damage * 0.65);
+					damage = (int)((double)damage * 0.75);
 			}
 
 			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eGauntlet)

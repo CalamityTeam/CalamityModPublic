@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Amidias
 			projectile.width = 58;
 			projectile.height = 58;
 			projectile.friendly = true;
-			projectile.penetrate = 2;
+			projectile.penetrate = 1;
 			projectile.extraUpdates = 1;
 			projectile.alpha = 100;
 			projectile.tileCollide = false;

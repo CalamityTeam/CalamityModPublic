@@ -31,24 +31,23 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 98;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+			item.value = Item.buyPrice(0, 36, 0, 0);
+			item.rare = 5;
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-	    {
+		{
 			if (Main.rand.Next(5) == 0)
-			{
 				target.defense -= 10;
-			}
 
-            // Healing effect does not trigger versus dummies
-            if (target.type == NPCID.TargetDummy)
-                return;
+			// Healing effect does not trigger versus dummies
+			if (target.type == NPCID.TargetDummy)
+				return;
+
 			if (target.defense <= 0 && target.canGhostHeal)
 			{
-		    	player.statLife += 3;
-		    	player.HealEffect(3);
+				player.statLife += 3;
+				player.HealEffect(3);
 			}
 		}
 
@@ -57,15 +56,15 @@ namespace CalamityMod.Items.Weapons
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.AdamantiteSword);
 			recipe.AddIngredient(ItemID.SoulofMight, 15);
-	        recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	        recipe = new ModRecipe(mod);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+			recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ItemID.TitaniumSword);
 			recipe.AddIngredient(ItemID.SoulofMight, 15);
-	        recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

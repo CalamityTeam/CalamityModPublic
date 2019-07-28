@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Astral
 		{
 			DisplayName.SetDefault("Astral Crystal");
 			Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -50,16 +52,14 @@ namespace CalamityMod.Projectiles.Astral
 			{
 				projectile.frame = 0;
 			}
-			if ((double)Math.Abs(projectile.velocity.X) > 0.2)
-			{
-				projectile.spriteDirection = -projectile.direction;
-			}
 			if (projectile.velocity.X < 0f)
 			{
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+				projectile.spriteDirection = -1;
+				projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
 			}
 			else
 			{
+				projectile.spriteDirection = 1;
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 			}
 			Lighting.AddLight(projectile.Center, 0.3f, 0.5f, 0.1f);
@@ -68,10 +68,7 @@ namespace CalamityMod.Projectiles.Astral
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-			int y6 = num214 * projectile.frame;
-			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
 		}
 

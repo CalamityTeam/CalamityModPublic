@@ -13,100 +13,47 @@ namespace CalamityMod.Projectiles.Typeless
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flare");
-			Main.projFrames[projectile.type] = 5;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
-            projectile.friendly = true;
-            projectile.extraUpdates = 1;
-            projectile.penetrate = 1;
-        }
+			projectile.width = 30;
+			projectile.height = 30;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.extraUpdates = 1;
+			projectile.penetrate = 1;
+		}
 
         public override void AI()
         {
-        	projectile.frameCounter++;
-			if (projectile.frameCounter > 5)
+			if (projectile.velocity.X < 0f)
 			{
-			    projectile.frame++;
-			    projectile.frameCounter = 0;
+				projectile.spriteDirection = -1;
+				projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
 			}
-			if (projectile.frame > 4)
+			else
 			{
-			   projectile.frame = 0;
+				projectile.spriteDirection = 1;
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 			}
-			if (Math.Abs(projectile.velocity.X) >= 8f || Math.Abs(projectile.velocity.Y) >= 8f)
-			{
-				for (int num246 = 0; num246 < 2; num246++)
-				{
-					float num247 = 0f;
-					float num248 = 0f;
-					if (num246 == 1)
-					{
-						num247 = projectile.velocity.X * 0.5f;
-						num248 = projectile.velocity.Y * 0.5f;
-					}
-					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default(Color), 0.6f);
-					Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
-					Main.dust[num249].velocity *= 0.2f;
-					Main.dust[num249].noGravity = true;
-					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default(Color), 0.3f);
-					Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
-					Main.dust[num249].velocity *= 0.05f;
-				}
-			}
-			if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f)
-			{
-				projectile.velocity *= 1.1f;
-			}
-			else if (Main.rand.Next(2) == 0)
-			{
-				int num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 0.6f);
-				Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].noGravity = true;
-				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2)).RotatedBy((double)projectile.rotation, default(Vector2)) * 1.1f;
-				Main.rand.Next(2);
-				num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 0.6f);
-				Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
-				Main.dust[num252].noGravity = true;
-				Main.dust[num252].position = projectile.Center + new Vector2(0f, (float)(-(float)projectile.height / 2 - 6)).RotatedBy((double)projectile.rotation, default(Vector2)) * 1.1f;
-			}
-			projectile.ai[0] += 1f;
-			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-			if (projectile.ai[0] > 10f || projectile.ai[0] > 5f)
-			{
-				projectile.ai[0] = 10f;
-				if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
-				{
-					projectile.velocity.X = projectile.velocity.X * 0.97f;
-					if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
-					{
-						projectile.velocity.X = 0f;
-						projectile.netUpdate = true;
-					}
-				}
-				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
-			}
-        }
+			Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {
         	return new Color(255, Main.DiscoG, 53, projectile.alpha);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-			int y6 = num214 * projectile.frame;
-			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
-        }
+		}
 
-        public override void Kill(int timeLeft)
+		public override void Kill(int timeLeft)
         {
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

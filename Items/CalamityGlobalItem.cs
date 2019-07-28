@@ -56,6 +56,8 @@ namespace CalamityMod.Items
 
 			if (item.type == ItemID.PsychoKnife)
 				item.damage *= 4;
+			else if (item.type == ItemID.SpectreStaff)
+				item.damage *= 3;
 			else if (CalamityMod.doubleDamageBuffList.Contains(item.type))
 				item.damage *= 2;
 			else if (CalamityMod.sixtySixDamageBuffList.Contains(item.type))

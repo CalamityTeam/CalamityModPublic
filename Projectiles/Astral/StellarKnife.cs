@@ -8,28 +8,30 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Astral
 {
-    public class StellarKnife : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class StellarKnife : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stellar Knife");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 32;
-            projectile.height = 34;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 600;
+		public override void SetDefaults()
+		{
+			projectile.width = 32;
+			projectile.height = 34;
+			projectile.friendly = true;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 600;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			projectile.ai[1] += 0.75f;
-        	if (projectile.ai[1] <= 60f)
-        	{
+			if (projectile.ai[1] <= 60f)
+			{
 				projectile.rotation += 1f;
 				projectile.velocity.X *= 0.985f;
 				projectile.velocity.Y *= 0.985f;
@@ -37,7 +39,7 @@ namespace CalamityMod.Projectiles.Astral
 			else
 			{
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-				if(projectile.spriteDirection == -1)
+				if (projectile.spriteDirection == -1)
 				{
 					projectile.rotation -= 1.57f;
 				}
@@ -73,7 +75,6 @@ namespace CalamityMod.Projectiles.Astral
 					num485 *= num486;
 					projectile.velocity.X = (projectile.velocity.X * 10f + num484) / 11f;
 					projectile.velocity.Y = (projectile.velocity.Y * 10f + num485) / 11f;
-					return;
 				}
 				else
 				{
@@ -81,21 +82,20 @@ namespace CalamityMod.Projectiles.Astral
 					projectile.velocity.Y *= 0.92f;
 				}
 			}
-        }
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	for (int k = 0; k < 5; k++)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralBlue"), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
-        }
-    }
+		public override void Kill(int timeLeft)
+		{
+			for (int k = 0; k < 5; k++)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralBlue"), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+			}
+		}
+	}
 }

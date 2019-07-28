@@ -14,13 +14,13 @@ namespace CalamityMod.Items.Amidias
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Amidias' Trident");
-			Tooltip.SetDefault("Gains the power to shoot whirlpools after Skeletron has been defeated");
+			Tooltip.SetDefault("Shoots homing whirlpools");
 		}
 
 		public override void SetDefaults()
 		{
 			item.width = 44;
-			item.damage = 28;
+			item.damage = 12;
 			item.melee = true;
 			item.noMelee = true;
 			item.useTurn = true;

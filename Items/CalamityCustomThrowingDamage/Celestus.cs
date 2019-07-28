@@ -20,13 +20,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 20;
-            item.damage = 480;
+            item.damage = 960;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
-            item.useAnimation = 10;
+            item.useAnimation = 20;
             item.useStyle = 1;
-            item.useTime = 10;
+            item.useTime = 20;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item1;
             item.height = 20;

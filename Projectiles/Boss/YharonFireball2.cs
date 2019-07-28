@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -14,6 +15,8 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dragon Fireball");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -79,30 +82,6 @@ namespace CalamityMod.Projectiles.Boss
 				expr_733B.scale *= 0.7f;
 				expr_733B.velocity += projectile.velocity * 0.25f;
 			}
-			if (Main.rand.Next(12) == 0 && projectile.oldPos[9] != Vector2.Zero)
-			{
-				Dust expr_73D4 = Dust.NewDustDirect(projectile.oldPos[9], projectile.width, projectile.height, 55, 0f, 0f, 50, default(Color), 1f);
-				expr_73D4.scale *= 0.85f;
-				expr_73D4.velocity += projectile.velocity * 0.15f;
-				expr_73D4.color = Color.Purple;
-			}
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] == 36f)
-			{
-				projectile.localAI[0] = 0f;
-				for (int l = 0; l < 12; l++)
-				{
-					Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
-					vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
-					int num9 = Dust.NewDust(projectile.Center, 0, 0, 55, 0f, 0f, 160, default(Color), 1f);
-					Main.dust[num9].scale = 1.1f;
-					Main.dust[num9].noGravity = true;
-					Main.dust[num9].position = projectile.Center + vector3;
-					Main.dust[num9].velocity = projectile.velocity * 0.1f;
-					Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-				}
-			}
 		}
 
 		public override bool CanDamage()
@@ -117,6 +96,12 @@ namespace CalamityMod.Projectiles.Boss
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(255, Main.DiscoG, 53, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
 		}
 
 		public override void Kill(int timeLeft)

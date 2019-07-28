@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class NeptuneOrb : ModProjectile
     {
-    	private int addSprayTimer = 10;
+    	private int addSprayTimer = 20;
 
     	public override void SetStaticDefaults()
 		{
@@ -27,11 +27,12 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 1;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0f, 0f, 1f);
         	addSprayTimer--;
         	if (addSprayTimer <= 0)
         	{
@@ -39,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
         		{
         			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 15f, mod.ProjectileType("DepthOrb2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         		}
-        		addSprayTimer = 10;
+        		addSprayTimer = 20;
         	}
 			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default(Color), 2f);
 			Main.dust[num458].noGravity = true;

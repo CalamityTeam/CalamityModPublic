@@ -36,16 +36,14 @@ namespace CalamityMod.Projectiles.Patreon
 			float num953 = 25f * projectile.ai[1]; //100
 			float scaleFactor12 = 5f * projectile.ai[1]; //5
 			float num954 = 1000f;
-			if ((double)Math.Abs(projectile.velocity.X) > 0.2)
-			{
-				projectile.spriteDirection = -projectile.direction;
-			}
 			if (projectile.velocity.X < 0f)
 			{
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+				projectile.spriteDirection = -1;
+				projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
 			}
 			else
 			{
+				projectile.spriteDirection = 1;
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 			}
 			Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);

@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
-            projectile.timeLeft = 60;
+            projectile.timeLeft = 120;
         }
 
         public override void AI()
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
-			float num474 = 400f;
+			float num474 = 600f;
 			bool flag17 = false;
 			for (int num475 = 0; num475 < 200; num475++)
 			{
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			if (flag17)
 			{
-				float num483 = Main.rand.Next(35, 40);
+				float num483 = 36f;
 				Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num484 = num472 - vector35.X;
 				float num485 = num473 - vector35.Y;

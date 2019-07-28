@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Profaned Spear");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -77,6 +80,12 @@ namespace CalamityMod.Projectiles.Boss
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(250, 150, 0, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

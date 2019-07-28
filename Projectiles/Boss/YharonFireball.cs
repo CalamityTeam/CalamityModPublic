@@ -2,6 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +17,8 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Dragon Fireball");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 2;
 		}
 
 		public override void SetDefaults()
@@ -34,42 +37,44 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(speedX);
-			writer.Write(projectile.localAI[0]);
+			writer.Write(projectile.localAI[1]);
 			writer.Write(speedX2);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			speedX = reader.ReadSingle();
-			projectile.localAI[0] = reader.ReadSingle();
+			projectile.localAI[1] = reader.ReadSingle();
 			speedX2 = reader.ReadSingle();
-		}
-
-		public override bool PreAI()
-		{
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] == 36f)
-			{
-				projectile.localAI[0] = 0f;
-				for (int l = 0; l < 12; l++)
-				{
-					Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
-					vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
-					int num9 = Dust.NewDust(projectile.Center, 0, 0, 55, 0f, 0f, 160, default(Color), 1f);
-					Main.dust[num9].scale = 1.1f;
-					Main.dust[num9].noGravity = true;
-					Main.dust[num9].position = projectile.Center + vector3;
-					Main.dust[num9].velocity = projectile.velocity * 0.1f;
-					Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-				}
-			}
-			return true;
 		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(255, Main.DiscoG, 53, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int frameHeight = texture.Height / Main.projFrames[projectile.type];
+			int frameY = frameHeight * projectile.frame;
+			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight);
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			for (int i = 0; i < projectile.oldPos.Length; i++)
+			{
+				Vector2 drawPos = projectile.oldPos[i] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+				Color color2 = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
+				Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color2, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+			}
+
+			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY),
+				new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight)),
+				projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+
+			return false;
 		}
 
 		public override void Kill(int timeLeft)

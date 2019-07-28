@@ -14,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Astral Laser");
 			Main.projFrames[projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -63,6 +65,12 @@ namespace CalamityMod.Projectiles.Boss
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(255, 255, 255, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blade");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 

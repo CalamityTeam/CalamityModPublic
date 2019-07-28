@@ -817,7 +817,6 @@ namespace CalamityMod
 					ItemID.KOCannon,
 					ItemID.GolemFist,
 					ItemID.BreakerBlade,
-					ItemID.SpectreStaff,
 					ItemID.MonkStaffT2,
 					ItemID.ProximityMineLauncher,
 					ItemID.FireworksLauncher
@@ -849,7 +848,6 @@ namespace CalamityMod
 
 				thirtyThreeDamageBuffList = new List<int>()
 				{
-					ItemID.TerraBlade,
 					ItemID.CrystalVileShard,
 					ItemID.SoulDrain,
 					ItemID.ClingerStaff,
@@ -871,16 +869,18 @@ namespace CalamityMod
 				twentyFiveDamageBuffList = new List<int>()
 				{
 					ItemID.Muramasa,
-					ItemID.StakeLauncher
+					ItemID.StakeLauncher,
+					ItemID.BookStaff,
+					ItemID.RainbowRod
 				};
 
 				twentyDamageBuffList = new List<int>()
 				{
+					ItemID.TerraBlade,
 					ItemID.ChainGuillotines,
 					ItemID.FlowerofFrost,
 					ItemID.PoisonStaff,
-					ItemID.Gungnir,
-					ItemID.BookStaff
+					ItemID.Gungnir
 				};
 
 				weaponAutoreuseList = new List<int>()

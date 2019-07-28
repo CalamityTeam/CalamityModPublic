@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.frame = 0;
 			}
 			projectile.alpha += 1;
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.9f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+			Lighting.AddLight(projectile.Center, 0.9f, 0f, 0f);
 			if (projectile.velocity.X < 0f)
 			{
 				projectile.spriteDirection = -1;

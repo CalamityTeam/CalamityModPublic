@@ -30,23 +30,23 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 80;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("NeptuneOrb");
-			item.shootSpeed = 25f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.shootSpeed = 12f;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
 
 		public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(null, "AbyssBlade");
-	        recipe.AddIngredient(null, "CosmiliteBar", 5);
+	        recipe.AddIngredient(null, "RuinousSoul", 5);
 	        recipe.AddIngredient(null, "Phantoplasm", 5);
             recipe.AddIngredient(null, "DepthCells", 15);
             recipe.AddIngredient(null, "Lumenite", 15);
             recipe.AddIngredient(null, "Tenebris", 5);
-            recipe.AddTile(null, "DraedonsForge");
+            recipe.AddTile(TileID.LunarCraftingStation);
 	        recipe.SetResult(this);
 	        recipe.AddRecipe();
 	    }
