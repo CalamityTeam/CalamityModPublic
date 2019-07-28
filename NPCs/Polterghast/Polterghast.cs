@@ -632,61 +632,51 @@ namespace CalamityMod.NPCs.Polterghast
 			}
 		}
 
-		public override void NPCLoot()
-		{
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PolterghastTrophy"));
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RuinousSoul"), Main.rand.Next(5, 9));
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BansheeHook"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DaemonsFlame"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EtherealSubjugator"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FatesReveal"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GhastlyVisage"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GhoulishGouger"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TerrorBlade"));
-				}
-			}
-		}
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.SuperHealingPotion;
+        }
 
-		public override void BossLoot(ref string name, ref int potionType)
+        public override void NPCLoot()
 		{
-			potionType = ItemID.SuperHealingPotion;
-		}
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("PolterghastTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge41"), true, !CalamityWorld.downedPolterghast);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPolterghast, 6, 3, 2);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
+			{
+                // Materials
+                DropHelper.DropItem(npc, mod.ItemType("RuinousSoul"), 5, 8);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("TerrorBlade"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("BansheeHook"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("DaemonsFlame"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("FatesReveal"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("GhastlyVisage"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("EtherealSubjugator"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("GhoulishGouger"), 4);
+			}
+
+            // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
+            if (!CalamityWorld.downedPolterghast)
+            {
+                string key = "Mods.CalamityMod.GhostBossText";
+                Color messageColor = Color.RoyalBlue;
+
+                if (Main.netMode == 0)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == 2)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+
+            // Mark Polterghast as dead
+            CalamityWorld.downedPolterghast = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -7,7 +6,6 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Providence
@@ -898,57 +896,91 @@ namespace CalamityMod.NPCs.Providence
 		{
 			DropHelper.DropBags(npc);
 			DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge39"), true, !CalamityWorld.downedProvidence);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
 			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianWings"), Main.expertMode && biomeType != 2);
 			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianAegis"), Main.expertMode && biomeType == 2);
 
-			// Drops which are inside the bag on Expert+
-			if (!Main.expertMode)
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
 			{
-				DropHelper.DropItemChance(npc, mod.ItemType("HolyCollider"), 4);
-				DropHelper.DropItemChance(npc, mod.ItemType("SolarFlare"), 4);
-				DropHelper.DropItemChance(npc, mod.ItemType("TelluricGlare"), 4);
-				DropHelper.DropItemChance(npc, mod.ItemType("BlissfulBombardier"), 4);
-				DropHelper.DropItemChance(npc, mod.ItemType("PurgeGuzzler"), 4);
-				DropHelper.DropItemChance(npc, mod.ItemType("MoltenAmputator"), 4);
+                // Materials
+                DropHelper.DropItemSpray(npc, mod.ItemType("UnholyEssence"), 20, 30);
+                DropHelper.DropItemSpray(npc, mod.ItemType("DivineGeode"), 10, 15);
 
-				DropHelper.DropItemChance(npc, mod.ItemType("SamuraiBadge"), 40);
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("HolyCollider"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("SolarFlare"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("TelluricGlare"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("BlissfulBombardier"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("PurgeGuzzler"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("MoltenAmputator"), 4);
 
-				DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceMask"), 7);
+                // Equipment
+                DropHelper.DropItemChance(npc, mod.ItemType("SamuraiBadge"), 40);
 
-				DropHelper.DropItem(npc, mod.ItemType("UnholyEssence"), 20, 30);
-				DropHelper.DropItem(npc, mod.ItemType("DivineGeode"), 10, 15);
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("ProvidenceMask"), 7);
 
-				DropHelper.DropItem(npc, mod.ItemType("RuneofCos"));
+                // Other
+                DropHelper.DropItem(npc, mod.ItemType("RuneofCos"));
 			}
 
 			if (Main.netMode != 1)
 			{
 				SpawnLootBox();
 			}
-		}
+
+            // If Providence has not been killed, notify players of Uelibloom Ore
+            if (!CalamityWorld.downedProvidence)
+            {
+                string key2 = "Mods.CalamityMod.ProfanedBossText3";
+                Color messageColor2 = Color.Orange;
+                string key3 = "Mods.CalamityMod.TreeOreText";
+                Color messageColor3 = Color.LightGreen;
+
+                WorldGenerationMethods.SpawnOre(mod.TileType("UelibloomOre"), 15E-05, .4f, .8f);
+
+                if (Main.netMode == 0)
+                {
+                    Main.NewText(Language.GetTextValue(key2), messageColor2);
+                    Main.NewText(Language.GetTextValue(key3), messageColor3);
+                }
+                else if (Main.netMode == 2)
+                {
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
+                }
+            }
+
+            // Mark Providence as dead
+            CalamityWorld.downedProvidence = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		private void SpawnLootBox()
 		{
-			int num52 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-			int num53 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-			int num54 = npc.width / 2 / 16 + 1;
-			for (int num55 = num52 - num54; num55 <= num52 + num54; num55++)
+			int tileCenterX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+			int tileCenterY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+			int halfBox = npc.width / 2 / 16 + 1;
+			for (int x = tileCenterX - halfBox; x <= tileCenterX + halfBox; x++)
 			{
-				for (int num56 = num53 - num54; num56 <= num53 + num54; num56++)
+				for (int y = tileCenterY - halfBox; y <= tileCenterY + halfBox; y++)
 				{
-					if ((num55 == num52 - num54 || num55 == num52 + num54 || num56 == num53 - num54 || num56 == num53 + num54) && !Main.tile[num55, num56].active())
+					if ((x == tileCenterX - halfBox || x == tileCenterX + halfBox || y == tileCenterY - halfBox || y == tileCenterY + halfBox)
+                        && !Main.tile[x, y].active())
 					{
-						Main.tile[num55, num56].type = (ushort)mod.TileType("ProfanedRock");
-						Main.tile[num55, num56].active(true);
+						Main.tile[x, y].type = (ushort)mod.TileType("ProfanedRock");
+						Main.tile[x, y].active(true);
 					}
-					Main.tile[num55, num56].lava(false);
-					Main.tile[num55, num56].liquid = 0;
+					Main.tile[x, y].lava(false);
+					Main.tile[x, y].liquid = 0;
 
 					if (Main.netMode == 2)
-						NetMessage.SendTileSquare(-1, num55, num56, 1, TileChangeType.None);
+						NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
 					else
-						WorldGen.SquareTileFrame(num55, num56, true);
+						WorldGen.SquareTileFrame(x, y, true);
 				}
 			}
 		}

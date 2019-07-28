@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Perforator
@@ -287,68 +285,53 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 0)
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("PerforatorTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge13"), true, !CalamityWorld.downedPerforator);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPerforator, 2, 0, 0);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PerforatorTrophy"));
+                // Materials
+                DropHelper.DropItemSpray(npc, mod.ItemType("BloodSample"), 7, 14);
+                DropHelper.DropItemSpray(npc, ItemID.CrimtaneBar, 2, 5);
+                DropHelper.DropItemSpray(npc, ItemID.Vertebrae, 3, 9);
+                if (Main.hardMode)
+                    DropHelper.DropItemSpray(npc, ItemID.Ichor, 10, 20);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("VeinBurster"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("BloodyRupture"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("SausageMaker"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("Aorta"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("Eviscerator"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("BloodBath"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("BloodClotStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("ToothBall"), 4, 25, 50);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("PerforatorMask"), 7);
 			}
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PerforatorMask"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Aorta"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SausageMaker"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodyRupture"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodBath"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VeinBurster"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Eviscerator"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ToothBall"), Main.rand.Next(25, 51));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodClotStaff"));
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodSample"), Main.rand.Next(7, 15));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae, Main.rand.Next(3, 10));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrimtaneBar, Main.rand.Next(2, 6));
-				if (Main.hardMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ichor, Main.rand.Next(10, 21));
-				}
-			}
-		}
+
+            // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
+            if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
+            {
+                string key = "Mods.CalamityMod.SkyOreText";
+                Color messageColor = Color.Cyan;
+                WorldGenerationMethods.SpawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
+
+                if (Main.netMode == 0)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == 2)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+
+            // Mark The Perforator Hive as dead
+            CalamityWorld.downedPerforator = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

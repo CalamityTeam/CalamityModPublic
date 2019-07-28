@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
 
@@ -665,64 +665,52 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 0)
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("HiveMindTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge14"), true, !CalamityWorld.downedHiveMind);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HiveMindTrophy"));
+                // Materials
+                DropHelper.DropItemSpray(npc, mod.ItemType("TrueShadowScale"), 25, 30);
+                DropHelper.DropItemSpray(npc, ItemID.DemoniteBar, 7, 10);
+                DropHelper.DropItemSpray(npc, ItemID.RottenChunk, 9, 15);
+                if (Main.hardMode)
+                    DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("PerfectDark"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("LeechingDagger"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("Shadethrower"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("ShadowdropStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("ShaderainStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("DankStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("RotBall"), 4, 25, 50);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("HiveMindMask"), 7);
 			}
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HiveMindMask"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ShaderainStaff"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LeechingDagger"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ShadowdropStaff"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PerfectDark"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Shadethrower"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RotBall"), Main.rand.Next(25, 51));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DankStaff"));
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrueShadowScale"), Main.rand.Next(25, 31));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DemoniteBar, Main.rand.Next(7, 11));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.RottenChunk, Main.rand.Next(9, 16));
-				if (Main.hardMode)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CursedFlame, Main.rand.Next(10, 21));
-				}
-			}
-		}
+
+            // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore
+            if (!CalamityWorld.downedHiveMind && !CalamityWorld.downedPerforator)
+            {
+                string key = "Mods.CalamityMod.SkyOreText";
+                Color messageColor = Color.Cyan;
+                WorldGenerationMethods.SpawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
+
+                if (Main.netMode == 0)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == 2)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+
+            // Mark The Hive Mind as dead
+            CalamityWorld.downedHiveMind = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{

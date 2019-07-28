@@ -321,7 +321,69 @@ namespace CalamityMod.NPCs.SlimeGod
 			potionType = ItemID.HealingPotion;
 		}
 
-		public override void HitEffect(int hitDirection, double damage)
+        public override bool SpecialNPCLoot()
+        {
+            bool otherSlimeGodsAlive =
+                NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
+                NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
+                NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
+                NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
+            return otherSlimeGodsAlive;
+        }
+
+        public override void NPCLoot()
+        {
+            DropSlimeGodLoot(npc);
+        }
+
+        // This loot code is shared with every other Slime God component.
+        public static void DropSlimeGodLoot(NPC npc)
+        {
+            CalamityMod mod = CalamityMod.Instance;
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("SlimeGodTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge15"), true, !CalamityWorld.downedSlimeGod);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
+
+            // Purified Jam is once per player, but drops for all players.
+            CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod);
+            if (!mp.revJamDrop)
+            {
+                DropHelper.DropItemCondition(npc, mod.ItemType("PurifiedJam"), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);
+                mp.revJamDrop = true;
+            }
+
+            // Gel always drops directly, even on Expert
+            DropHelper.DropItemSpray(npc, ItemID.Gel, 180, 250);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
+            {
+                // Materials
+                DropHelper.DropItemSpray(npc, mod.ItemType("PurifiedGel"), 25, 40);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("OverloadedBlaster"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("AbyssalTome"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("EldritchTome"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("CorroslimeStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("CrimslimeStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("GelDart"), 4, 80, 100);
+
+                // Vanity
+                DropHelper.DropItemFromSetChance(npc, 7, mod.ItemType("SlimeGodMask"), mod.ItemType("SlimeGodMask2"));
+
+                // Other
+                DropHelper.DropItem(npc, mod.ItemType("StaticRefiner"));
+            }
+
+            // Mark the Slime God as dead
+            CalamityWorld.downedSlimeGod = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
+
+        public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 5; k++)
 			{

@@ -494,49 +494,35 @@ namespace CalamityMod.NPCs.Crabulon
 			return false;
 		}
 
-		public override void NPCLoot()
+        public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 0)
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("CrabulonTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge5"), true, !CalamityWorld.downedCrabulon);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrabulonTrophy"));
+                // Materials
+                DropHelper.DropItem(npc, ItemID.GlowingMushroom, 20, 30);
+                DropHelper.DropItem(npc, ItemID.MushroomGrassSeeds, 3, 6);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("MycelialClaws"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("Fungicide"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("HyphaeRod"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("Mycoroot"), 4);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("CrabulonMask"), 7);
 			}
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.GlowingMushroom, Main.rand.Next(20, 31));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MushroomGrassSeeds, Main.rand.Next(3, 7));
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrabulonMask"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HyphaeRod"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MycelialClaws"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Mycoroot"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Fungicide"));
-				}
-			}
-		}
+
+            // Mark Crabulon as dead
+            CalamityWorld.downedCrabulon = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

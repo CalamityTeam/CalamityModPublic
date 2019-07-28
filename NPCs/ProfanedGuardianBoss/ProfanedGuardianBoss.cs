@@ -430,8 +430,15 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 
 		public override void NPCLoot()
 		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ProfanedCore"));
-		}
+            // Profaned Guardians have no actual drops and no treasure bag
+            DropHelper.DropItem(npc, mod.ItemType("ProfanedCore"));
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge38"), true, !CalamityWorld.downedGuardians);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);
+
+            // Mark the Profaned Guardians as dead
+            CalamityWorld.downedGuardians = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{

@@ -951,78 +951,64 @@ namespace CalamityMod.NPCs.Cryogen
 
 		public override void NPCLoot()
 		{
-			int permadongo = NPC.FindFirstNPC(mod.NPCType("DILF"));
-			if (permadongo == -1 && Main.netMode != 1)
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("CryogenTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge19"), true, !CalamityWorld.downedCryogen);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCryogen, 4, 2, 1);
+
+            if (!Main.expertMode)
 			{
-				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("DILF"), 0, 0f, 0f, 0f, 0f, 255);
+                // Materials
+                DropHelper.DropItem(npc, ItemID.SoulofMight, 20, 40);
+                DropHelper.DropItem(npc, mod.ItemType("CryoBar"), 15, 25);
+                DropHelper.DropItemSpray(npc, mod.ItemType("EssenceofEleum"), 4, 8);
+                DropHelper.DropItem(npc, ItemID.FrostCore);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("Avalanche"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("GlacialCrusher"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("EffluviumBow"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("BittercoldStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("SnowstormStaff"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("Icebreaker"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("IceStar"), 4, 100, 150);
+
+                // Equipment
+                DropHelper.DropItemChance(npc, mod.ItemType("CryoStone"), 10);
+                DropHelper.DropItemChance(npc, mod.ItemType("Regenator"), DropHelper.RareVariantDropRateInt);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("CryogenMask"), 7);
+
+                // Other
+                DropHelper.DropItemChance(npc, ItemID.FrozenKey, 5);
 			}
-			if (Main.rand.Next(10) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryogenTrophy"));
-			}
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrozenKey);
-				}
-				if (Main.rand.Next(10) == 0)
-				{
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("CryoStone"), 1, true);
-				}
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryogenMask"));
-				}
-				if (Main.rand.Next(40) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Regenator"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BittercoldStaff"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EffluviumBow"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GlacialCrusher"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Icebreaker"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("IceStar"), Main.rand.Next(100, 151));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Avalanche"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SnowstormStaff"));
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SoulofMight, Main.rand.Next(20, 41));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CryoBar"), Main.rand.Next(15, 26));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"), Main.rand.Next(4, 9));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FrostCore);
-			}
-		}
+
+            // Spawn Permafrost if he isn't in the world
+            int permafrostNPC = NPC.FindFirstNPC(mod.NPCType("DILF"));
+            if (permafrostNPC == -1 && Main.netMode != 1)
+            {
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("DILF"), 0, 0f, 0f, 0f, 0f, 255);
+            }
+
+            // If Cryogen has not been killed, notify players about Cryonic Ore
+            if (!CalamityWorld.downedCryogen)
+            {
+                string key = "Mods.CalamityMod.IceOreText";
+                Color messageColor = Color.LightSkyBlue;
+                WorldGenerationMethods.SpawnOre(mod.TileType("CryonicOre"), 15E-05, .45f, .65f);
+
+                if (Main.netMode == 0)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == 2)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+
+            // Mark Cryogen as dead
+            CalamityWorld.downedCryogen = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{

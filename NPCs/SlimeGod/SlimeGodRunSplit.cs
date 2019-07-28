@@ -537,7 +537,22 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
 		}
 
-		public override bool CheckActive()
+        public override bool SpecialNPCLoot()
+        {
+            bool otherSlimeGodsAlive =
+                NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
+                NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
+                NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
+                NPC.AnyNPCs(mod.NPCType("SlimeGodRun"));
+            return otherSlimeGodsAlive;
+        }
+
+        public override void NPCLoot()
+        {
+            SlimeGodCore.DropSlimeGodLoot(npc);
+        }
+
+        public override bool CheckActive()
 		{
 			if (CalamityGlobalNPC.slimeGod != -1)
 			{

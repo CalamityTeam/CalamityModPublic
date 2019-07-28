@@ -325,30 +325,50 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void NPCLoot()
 		{
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            // Only drop items if fought alone
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("DarkPlasma"), Main.rand.Next(2, 4), true);
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CeaselessVoidTrophy"));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MirrorBlade"));
-				}
-				if (Main.rand.Next(5) == 0)
-				{
-					if (Main.rand.Next(8) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheEvolution"));
-					}
-					else
-					{
-						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("ArcanumoftheVoid"), 1, true);
-					}
-				}
-			}
-		}
+                // Materials
+                DropHelper.DropItem(npc, mod.ItemType("DarkPlasma"), true, 2, 3);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("MirrorBlade"), 3);
+
+                // Equipment
+                float f = Main.rand.NextFloat();
+                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting The Evolution
+                if (f < 0.2f) // 1/5 chance of getting Arcanum of the Void OR The Evolution replacing it
+                {
+                    DropHelper.DropItemCondition(npc, mod.ItemType("ArcanumoftheVoid"), !replaceWithRare);
+                    DropHelper.DropItemCondition(npc, mod.ItemType("TheEvolution"), replaceWithRare);
+                }
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("CeaselessVoidTrophy"), 10);
+
+                // Other
+                bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge40"), true, lastSentinelKilled);
+                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
+            }
+
+            // If DoG's fight is active, set the timer for the remaining two sentinels
+            else if (CalamityWorld.DoGSecondStageCountdown > 14460)
+            {
+                CalamityWorld.DoGSecondStageCountdown = 14460;
+                if (Main.netMode == 2)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                    netMessage.Send();
+                }
+            }
+
+            // Mark Ceaseless Void as dead
+            CalamityWorld.downedSentinel1 = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void BossLoot(ref string name, ref int potionType)
 		{

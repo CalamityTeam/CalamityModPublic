@@ -770,23 +770,42 @@ namespace CalamityMod.NPCs.CosmicWraith
 
 		public override void NPCLoot()
 		{
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
-			{
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("TwistingNether"), Main.rand.Next(2, 4), true);
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SignusTrophy"));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CosmicKunai"));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Cosmilamp"));
-				}
-			}
-		}
+            // Only drop items if fought alone
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            {
+                // Materials
+                DropHelper.DropItem(npc, mod.ItemType("TwistingNether"), true, 2, 3);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("Cosmilamp"), 3);
+                DropHelper.DropItemChance(npc, mod.ItemType("CosmicKunai"), 3);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("SignusTrophy"), 10);
+
+                // Other
+                bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge40"), true, lastSentinelKilled);
+                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel3, 5, 2, 1);
+            }
+
+            // If DoG's fight is active, set the timer precisely for DoG phase 2 to spawn
+            if (CalamityWorld.DoGSecondStageCountdown > 600)
+            {
+                CalamityWorld.DoGSecondStageCountdown = 600;
+                if (Main.netMode == 2)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                    netMessage.Send();
+                }
+            }
+
+            // Mark Signus as dead
+            CalamityWorld.downedSentinel3 = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

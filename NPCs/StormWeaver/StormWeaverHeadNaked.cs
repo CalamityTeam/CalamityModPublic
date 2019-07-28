@@ -654,30 +654,56 @@ namespace CalamityMod.NPCs.StormWeaver
 			return true;
 		}
 
-		public override void NPCLoot()
-		{
-			if (CalamityWorld.DoGSecondStageCountdown <= 0)
-			{
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("ArmoredShell"), Main.rand.Next(5, 9), true);
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WeaverTrophy"));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheStorm"));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormDragoon"));
-				}
-			}
-		}
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = ItemID.SuperHealingPotion;
+        }
 
-		public override void BossLoot(ref string name, ref int potionType)
+        public override bool SpecialNPCLoot()
 		{
-			potionType = ItemID.SuperHealingPotion;
-		}
+            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+                mod.NPCType("StormWeaverHeadNaked"),
+                mod.NPCType("StormWeaverBodyNaked"),
+                mod.NPCType("StormWeaverTailNaked"));
+            npc.position = Main.npc[closestSegmentID].position;
+
+            // Only drop items if fought alone
+            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            {
+                // Materials
+                DropHelper.DropItem(npc, mod.ItemType("ArmoredShell"), true, 5, 8);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("TheStorm"), 3);
+                DropHelper.DropItemChance(npc, mod.ItemType("StormDragoon"), 3);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("WeaverTrophy"), 10);
+
+                // Other
+                bool lastSentinelKilled = CalamityWorld.downedSentinel1 && !CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
+                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge40"), true, lastSentinelKilled);
+                DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel2, 5, 2, 1);
+            }
+
+            // If DoG's fight is active, set the timer for Signus' phase
+            if (CalamityWorld.DoGSecondStageCountdown > 7260)
+            {
+                CalamityWorld.DoGSecondStageCountdown = 7260;
+                if (Main.netMode == 2)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
+                    netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
+                    netMessage.Send();
+                }
+            }
+
+            // Mark Storm Weaver as dead
+            CalamityWorld.downedSentinel2 = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+            return true;
+        }
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

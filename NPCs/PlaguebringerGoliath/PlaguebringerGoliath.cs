@@ -1124,66 +1124,39 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 0)
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("PlaguebringerGoliathTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge32"), true, !CalamityWorld.downedPlaguebringer);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPlaguebringer, 4, 2, 1);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlaguebringerGoliathTrophy"));
+                // Materials
+                DropHelper.DropItemSpray(npc, mod.ItemType("PlagueCellCluster"), 10, 14);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("VirulentKatana"), 4); // Virulence
+                DropHelper.DropItemChance(npc, mod.ItemType("DiseasedPike"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("ThePlaguebringer"), 4); // Pandemic
+                DropHelper.DropItemChance(npc, mod.ItemType("Malevolence"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("PestilentDefiler"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("TheHive"), 4);
+                DropHelper.DropItemChance(npc, mod.ItemType("MepheticSprayer"), 4); // Blight Spewer
+                DropHelper.DropItemChance(npc, mod.ItemType("PlagueStaff"), 4);
+
+                // Equipment
+                DropHelper.DropItemChance(npc, mod.ItemType("BloomStone"), 10);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("PlaguebringerGoliathMask"), 7);
 			}
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(10, 15));
-				if (Main.rand.Next(10) == 0)
-				{
-					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("BloomStone"), 1, true);
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MepheticSprayer"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Malevolence"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VirulentKatana"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DiseasedPike"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PestilentDefiler"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ThePlaguebringer"));
-				}
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlaguebringerGoliathMask"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheHive"));
-				}
-				if (Main.rand.Next(4) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueStaff"));
-				}
-			}
-		}
+
+            // Mark PBG as dead
+            CalamityWorld.downedPlaguebringer = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{

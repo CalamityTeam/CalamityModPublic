@@ -397,41 +397,32 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override void NPCLoot()
 		{
-			int seahoe = NPC.FindFirstNPC(mod.NPCType("SEAHOE"));
-			if (seahoe == -1 && Main.netMode != 1 && CalamityWorld.downedDesertScourge)
-			{
-				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SEAHOE"), 0, 0f, 0f, 0f, 0f, 255);
-			}
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Navystone"), Main.rand.Next(25, 36));
-			if (Main.rand.Next(3) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GiantPearl"));
-			}
-			if (CalamityWorld.revenge && Main.rand.Next(2) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AmidiasPendant"));
-			}
-			if (Main.hardMode)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MolluskHusk"), Main.rand.Next(6, 12));
+            // Spawn Amidias if he isn't in the world
+            int amidiasNPC = NPC.FindFirstNPC(mod.NPCType("SEAHOE"));
+            if (amidiasNPC == -1 && Main.netMode != 1)
+            {
+                NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SEAHOE"), 0, 0f, 0f, 0f, 0f, 255);
+            }
 
-				int itemChoice = Main.rand.Next(4);
-				switch (itemChoice)
-				{
-					case 0:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Poseidon"));
-						break;
-					case 1:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ClamCrusher"));
-						break;
-					case 2:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ClamorRifle"));
-						break;
-					case 3:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ShellfishStaff"));
-						break;
-				}
-			}
-		}
+            // Materials
+            DropHelper.DropItem(npc, mod.ItemType("Navystone"), 25, 35);
+            DropHelper.DropItemCondition(npc, mod.ItemType("MolluskHusk"), Main.hardMode, 6, 11);
+
+            // Weapons
+            DropHelper.DropItemFromSetCondition(npc, Main.hardMode,
+                mod.ItemType("ClamCrusher"),
+                mod.ItemType("ClamorRifle"),
+                mod.ItemType("Poseidon"),
+                mod.ItemType("ShellfishStaff")
+            );
+
+            // Equipment
+            DropHelper.DropItemChance(npc, mod.ItemType("GiantPearl"), 3);
+            DropHelper.DropItemCondition(npc, mod.ItemType("AmidiasPendant"), CalamityWorld.revenge, 0.5f);
+
+            // Mark Giant Clam as dead
+            CalamityWorld.downedCLAM = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 	}
 }

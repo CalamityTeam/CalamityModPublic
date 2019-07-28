@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
@@ -579,97 +577,64 @@ namespace CalamityMod.NPCs.Leviathan
 			potionType = ItemID.GreaterHealingPotion;
 		}
 
-		public override void NPCLoot()
+        // Prevent The Leviathan from dropping loot if she dies first.
+        public override bool SpecialNPCLoot()
+        {
+            bool sirenAlive = NPC.AnyNPCs(mod.NPCType("Siren"));
+            if (sirenAlive)
+                npc.boss = false;
+            return sirenAlive;
+        }
+
+        public override void NPCLoot()
 		{
-			bool hardMode = Main.hardMode;
-			int bossAlive = mod.NPCType("Siren");
-			if (!NPC.AnyNPCs(bossAlive))
-			{
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LeviathanTrophy")); //done
-				}
-				if (CalamityWorld.armageddon)
-				{
-					for (int i = 0; i < 5; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				if (Main.expertMode)
-				{
-					npc.DropBossBags();
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedPearl")); //done
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HotlineFishingHook);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BottomlessBucket);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SuperAbsorbantSponge);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CratePotion, Main.rand.Next(5, 9));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishingPotion, Main.rand.Next(5, 9));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SonarPotion, Main.rand.Next(5, 9));
-					}
-					if (!hardMode)
-					{
-						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("IOU"), 1, true);
-					}
-					if (Main.rand.Next(7) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LeviathanMask")); //done
-					}
-					if (hardMode)
-					{
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Atlantis")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrackishFlask")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Leviatitan")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LureofEnthrallment")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SirensSong")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Greentide")); //done
-						}
-					}
-				}
-			}
-			else
-			{
-				npc.value = 0f;
-				npc.boss = false;
-			}
+            DropSirenLeviLoot(npc);
 		}
+
+        // This loot code is shared with Anahita.
+        public static void DropSirenLeviLoot(NPC npc)
+        {
+            CalamityMod mod = CalamityMod.Instance;
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("LeviathanTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge10"), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge28"), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedLeviathan, 4, 2, 1);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
+            {
+                // Weapons
+                DropHelper.DropItemCondition(npc, mod.ItemType("Greentide"), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, mod.ItemType("Leviatitan"), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, mod.ItemType("SirensSong"), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, mod.ItemType("Atlantis"), Main.hardMode, 4, 1, 1);
+                DropHelper.DropItemCondition(npc, mod.ItemType("BrackishFlask"), Main.hardMode, 4, 1, 1);
+
+                // Equipment
+                DropHelper.DropItemCondition(npc, mod.ItemType("LureofEnthrallment"), Main.hardMode, 4, 1, 1);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("LeviathanMask"), 7);
+
+                // Fishing
+                DropHelper.DropItem(npc, mod.ItemType("EnchantedPearl"));
+                DropHelper.DropItemChance(npc, ItemID.HotlineFishingHook, 10);
+                DropHelper.DropItemChance(npc, ItemID.BottomlessBucket, 10);
+                DropHelper.DropItemChance(npc, ItemID.SuperAbsorbantSponge, 10);
+                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 5, 5, 8);
+                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 5, 5, 8);
+                DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 5, 8);
+
+                // Other
+                DropHelper.DropItemCondition(npc, mod.ItemType("IOU"), !Main.hardMode);
+            }
+
+            // Mark Siren & Levi as dead
+            CalamityWorld.downedLeviathan = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{

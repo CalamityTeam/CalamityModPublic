@@ -566,7 +566,31 @@ namespace CalamityMod.NPCs.Bumblefuck
 			potionType = ItemID.SuperHealingPotion;
 		}
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        public override void NPCLoot()
+        {
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("BumblebirbTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge43"), true, !CalamityWorld.downedBumble);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
+            {
+                // Materials
+                DropHelper.DropItemSpray(npc, mod.ItemType("EffulgentFeather"), 6, 11);
+
+                // Weapons
+                DropHelper.DropItemFromSet(npc, mod.ItemType("GildedProboscis"), mod.ItemType("GoldenEagle"), mod.ItemType("RougeSlash"));
+                DropHelper.DropItemChance(npc, mod.ItemType("Swordsplosion"), DropHelper.RareVariantDropRateInt);
+            }
+
+            // Mark Bumblebirb as dead
+            CalamityWorld.downedBumble = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
+
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
 			npc.damage = (int)(npc.damage * 0.8f);
@@ -595,45 +619,6 @@ namespace CalamityMod.NPCs.Bumblefuck
 				{
 					randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
 					Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BumbleLeg"), 1f);
-				}
-			}
-		}
-
-		public override void NPCLoot()
-		{
-			if (Main.rand.Next(10) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BumblebirbTrophy"));
-			}
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				if (Main.rand.Next(40) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Swordsplosion"));
-				}
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EffulgentFeather"), Main.rand.Next(6, 12));
-				switch (Main.rand.Next(3))
-				{
-					case 0:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RougeSlash"));
-						break;
-					case 1:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GildedProboscis"));
-						break;
-					case 2:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GoldenEagle"));
-						break;
 				}
 			}
 		}

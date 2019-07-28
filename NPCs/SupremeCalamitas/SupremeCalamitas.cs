@@ -1991,191 +1991,120 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			#endregion
 		}
 
-		#region Loot
-		public override void NPCLoot()
+        #region Loot
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            potionType = mod.ItemType("OmegaHealingPotion");
+        }
+
+        // If SCal is killed too quickly, cancel all drops and chastise the player
+        public override bool SpecialNPCLoot()
+        {
+            if (lootTimer < 6000) //75 seconds for bullet hells + 25 seconds for normal phases
+            {
+                string key = "Mods.CalamityMod.SupremeBossText2";
+                Color messageColor = Color.Orange;
+                if (Main.netMode == 0)
+                {
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                }
+                else if (Main.netMode == 2)
+                {
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void NPCLoot()
 		{
-			if (lootTimer < 6000) //75 seconds for bullet hells + 25 seconds for normal phases
-			{
-				string key = "Mods.CalamityMod.SupremeBossText2";
-				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
-				{
-					Main.NewText(Language.GetTextValue(key), messageColor);
-				}
-				else if (Main.netMode == 2)
-				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-				}
-				return;
-			}
-			if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount == 0) //first time you kill her
-			{
-				if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount == 0)
-				{
-					string key = "Mods.CalamityMod.SupremeBossText16"; //die no times
-					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				else if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount == 1)
-				{
-					string key = "Mods.CalamityMod.SupremeBossText17"; //die one time
-					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				else if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount == 2)
-				{
-					string key = "Mods.CalamityMod.SupremeBossText18"; //die two times
-					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-				else if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount == 3)
-				{
-					string key = "Mods.CalamityMod.SupremeBossText19"; //die three times
-					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CheatTestThing"));
-				}
-				else //die however many times
-				{
-					string key = "Mods.CalamityMod.SupremeBossText10";
-					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-			}
-			else //all times after first kill
-			{
-				string key = "Mods.CalamityMod.SupremeBossText10";
-				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
-				{
-					Main.NewText(Language.GetTextValue(key), messageColor);
-				}
-				else if (Main.netMode == 2)
-				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-				}
-			}
-			if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount < 5)
-			{
+            DeathMessage();
+
+            // Incrase the player's SCal kill count
+            if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount < 5)
 				Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount++;
-			}
-			if (Main.expertMode)
-			{
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("CalamitousEssence"), Main.rand.Next(30, 41), true);
-				if (CalamityWorld.revenge)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Vehemenc"));
-				}
-				int itemChoice = Main.rand.Next(15);
-				if (itemChoice == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Animus")); //done
-				}
-				else if (itemChoice == 1)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Azathoth")); //done
-				}
-				else if (itemChoice == 2)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Contagion")); //done
-				}
-				else if (itemChoice == 3)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DraconicDestruction")); //done
-				}
-				else if (itemChoice == 4)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Earth")); //done
-				}
-				else if (itemChoice == 5)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Megafleet")); //done
-				}
-				else if (itemChoice == 6)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RedSun")); //done
-				}
-				else if (itemChoice == 7)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RoyalKnives")); //done
-				}
-				else if (itemChoice == 8)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RoyalKnivesMelee")); //done
-				}
-				else if (itemChoice == 9)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Svantechnical")); //done
-				}
-				else if (itemChoice == 10)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TriactisTruePaladinianMageHammerofMight")); //done
-				}
-				else if (itemChoice == 11)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TriactisTruePaladinianMageHammerofMightMelee")); //done
-				}
-				else if (itemChoice == 12)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CrystylCrusher")); //done
-				}
-				else if (itemChoice == 13)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperMelee")); //done
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("NanoblackReaperRogue")); //done
-				}
-			}
-			else
-			{
-				npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("CalamitousEssence"), Main.rand.Next(20, 31), true);
-			}
-		}
-		#endregion
 
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			potionType = mod.ItemType("OmegaHealingPotion");
-		}
+            // Materials
+            int essenceMin = Main.expertMode ? 30 : 20;
+            int essenceMax = Main.expertMode ? 40 : 30;
+            DropHelper.DropItem(npc, mod.ItemType("CalamitousEssence"), true, essenceMin, essenceMax);
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+            // Weapons
+            DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
+                mod.ItemType("Animus"),
+                mod.ItemType("Azathoth"),
+                mod.ItemType("Contagion"),
+                mod.ItemType("CrystylCrusher"),
+                mod.ItemType("DraconicDestruction"),
+                mod.ItemType("Earth"),
+                mod.ItemType("RoyalKnivesMelee"), // Illustrious Knives
+                mod.ItemType("RoyalKnives"),
+                mod.ItemType("NanoblackReaperMelee"),
+                mod.ItemType("NanoblackReaperRogue"),
+                mod.ItemType("RedSun"),
+                mod.ItemType("Svantechnical"),
+                mod.ItemType("TriactisTruePaladinianMageHammerofMightMelee"),
+                mod.ItemType("TriactisTruePaladinianMageHammerofMight"),
+                mod.ItemType("Megafleet") // Voidragon
+            );
+            DropHelper.DropItemCondition(npc, mod.ItemType("Vehemenc"), CalamityWorld.revenge);
+
+            // Vanity
+            DropHelper.DropItemCondition(npc, mod.ItemType("Levi"), CalamityWorld.death);
+
+            // Other
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge45"), true, !CalamityWorld.downedSCal);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSCal, 6, 3, 2);
+
+            // Mark Supreme Calamitas as dead
+            CalamityWorld.downedSCal = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
+        #endregion
+
+        private void DeathMessage()
+        {
+            Color messageColor = Color.Orange;
+            string key;
+
+            // If the player has never killed SCal before, comment on how many attempts it took
+            if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount == 0)
+            {
+                switch (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount)
+                {
+                    case 0:
+                        key = "Mods.CalamityMod.SupremeBossText16";
+                        break;
+                    case 1:
+                        key = "Mods.CalamityMod.SupremeBossText17";
+                        break;
+                    case 2:
+                        key = "Mods.CalamityMod.SupremeBossText18";
+                        break;
+                    case 3: // Three deaths exactly rewards Lul
+                        key = "Mods.CalamityMod.SupremeBossText19";
+                        DropHelper.DropItem(npc, mod.ItemType("CheatTestThing"));
+                        break;
+                    default: // Four or more deaths: Lul is permanently missed
+                        key = "Mods.CalamityMod.SupremeBossText10";
+                        break;
+                }
+            }
+            else
+            {
+                // If SCal has been killed before, instead comment on her respawning
+                key = "Mods.CalamityMod.SupremeBossText10";
+            }
+
+            if (Main.netMode == 0)
+                Main.NewText(Language.GetTextValue(key), messageColor);
+            else if (Main.netMode == 2)
+                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+        }
+
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.type == mod.ProjectileType("AngryChicken"))
 			{

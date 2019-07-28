@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
@@ -846,96 +841,19 @@ namespace CalamityMod.NPCs.Leviathan
 			potionType = ItemID.GreaterHealingPotion;
 		}
 
-		public override void NPCLoot()
+        // Prevent Anahita from dropping loot if she dies first.
+        public override bool SpecialNPCLoot()
+        {
+            bool leviAlive = NPC.AnyNPCs(mod.NPCType("Leviathan"));
+            if (leviAlive)
+                npc.boss = false;
+            return leviAlive;
+        }
+
+        // Run the same loot code as The Leviathan.
+        public override void NPCLoot()
 		{
-			bool hardMode = Main.hardMode;
-			int bossAlive = mod.NPCType("Leviathan");
-			if (!NPC.AnyNPCs(bossAlive))
-			{
-				if (Main.rand.Next(10) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LeviathanTrophy")); //done
-				}
-				if (CalamityWorld.armageddon)
-				{
-					for (int i = 0; i < 5; i++)
-					{
-						npc.DropBossBags();
-					}
-				}
-				if (Main.expertMode)
-				{
-					npc.DropBossBags();
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnchantedPearl")); //done
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HotlineFishingHook);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BottomlessBucket);
-					}
-					if (Main.rand.Next(10) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SuperAbsorbantSponge);
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CratePotion, Main.rand.Next(5, 9));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FishingPotion, Main.rand.Next(5, 9));
-					}
-					if (Main.rand.Next(5) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SonarPotion, Main.rand.Next(5, 9));
-					}
-					if (!hardMode)
-					{
-						npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("IOU"), 1, true);
-					}
-					if (Main.rand.Next(7) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LeviathanMask")); //done
-					}
-					if (hardMode)
-					{
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Atlantis")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrackishFlask")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Leviatitan")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("LureofEnthrallment")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SirensSong")); //done
-						}
-						if (Main.rand.Next(4) == 0)
-						{
-							Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Greentide")); //done
-						}
-					}
-				}
-			}
-			else
-			{
-				npc.value = 0f;
-				npc.boss = false;
-			}
+            Leviathan.DropSirenLeviLoot(npc);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

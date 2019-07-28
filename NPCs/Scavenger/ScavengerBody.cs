@@ -545,12 +545,6 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 		}
 
-		public override void BossLoot(ref string name, ref int potionType)
-		{
-			name = "Ravager";
-			potionType = ItemID.GreaterHealingPotion;
-		}
-
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
@@ -565,79 +559,54 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 		}
 
-		public override void NPCLoot()
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            name = "Ravager";
+            potionType = ItemID.GreaterHealingPotion;
+        }
+
+        public override void NPCLoot()
 		{
-			if (CalamityWorld.armageddon)
-			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
-			}
-			if (Main.rand.Next(10) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RavagerTrophy"));
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				if (CalamityWorld.downedProvidence)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"), Main.rand.Next(50, 61));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VerstaltiteBar"), Main.rand.Next(5, 11));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DraedonBar"), Main.rand.Next(5, 11));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CruptixBar"), Main.rand.Next(5, 11));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CoreofCinder"), Main.rand.Next(1, 4));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CoreofEleum"), Main.rand.Next(1, 4));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CoreofChaos"), Main.rand.Next(1, 4));
-					if (Main.rand.Next(2) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BarofLife"));
-					}
-					if (Main.rand.Next(3) == 0)
-					{
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CoreofCalamity"));
-					}
-				}
-				else
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VerstaltiteBar"), Main.rand.Next(1, 4));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DraedonBar"), Main.rand.Next(1, 4));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CruptixBar"), Main.rand.Next(1, 4));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CoreofCinder"), Main.rand.Next(1, 3));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CoreofEleum"), Main.rand.Next(1, 3));
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CoreofChaos"), Main.rand.Next(1, 3));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BloodPact"));
-				}
-				if (Main.rand.Next(3) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FleshTotem"));
-				}
-				switch (Main.rand.Next(5))
-				{
-					case 0:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Hematemesis"));
-						break;
-					case 1:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("RealmRavager"));
-						break;
-					case 2:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SpikecragStaff"));
-						break;
-					case 3:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UltimusCleaver"));
-						break;
-					case 4:
-						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CraniumSmasher"));
-						break;
-				}
-			}
-		}
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("RavagerTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge33"), true, !CalamityWorld.downedScavenger);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
+            {
+                // Materials
+                int barMin = CalamityWorld.downedProvidence ? 5 : 1;
+                int barMax = CalamityWorld.downedProvidence ? 10 : 3;
+                int coreMin = CalamityWorld.downedProvidence ? 1 : 1;
+                int coreMax = CalamityWorld.downedProvidence ? 3 : 2;
+                DropHelper.DropItemCondition(npc, mod.ItemType("Bloodstone"), CalamityWorld.downedProvidence, 50, 60);
+                DropHelper.DropItem(npc, mod.ItemType("VerstaltiteBar"), barMin, barMax);
+                DropHelper.DropItem(npc, mod.ItemType("DraedonBar"), barMin, barMax);
+                DropHelper.DropItem(npc, mod.ItemType("CruptixBar"), barMin, barMax);
+                DropHelper.DropItem(npc, mod.ItemType("CoreofCinder"), coreMin, coreMax);
+                DropHelper.DropItem(npc, mod.ItemType("CoreofEleum"), coreMin, coreMax);
+                DropHelper.DropItem(npc, mod.ItemType("CoreofChaos"), coreMin, coreMax);
+                DropHelper.DropItemCondition(npc, mod.ItemType("BarofLife"), CalamityWorld.downedProvidence, 2, 1, 1);
+                DropHelper.DropItemCondition(npc, mod.ItemType("CoreofCalamity"), CalamityWorld.downedProvidence, 3, 1, 1);
+
+                // Weapons
+                DropHelper.DropItemFromSet(npc,
+                    mod.ItemType("UltimusCleaver"),
+                    mod.ItemType("RealmRavager"),
+                    mod.ItemType("Hematemesis"),
+                    mod.ItemType("SpikecragStaff"),
+                    mod.ItemType("CraniumSmasher"));
+
+                // Equipment
+                DropHelper.DropItemChance(npc, mod.ItemType("BloodPact"), 3);
+                DropHelper.DropItemChance(npc, mod.ItemType("FleshTotem"), 3);
+            }
+
+            // Mark Ravager as dead
+            CalamityWorld.downedScavenger = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 	}
 }

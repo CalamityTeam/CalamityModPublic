@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Astrageldon
@@ -303,64 +302,78 @@ namespace CalamityMod.NPCs.Astrageldon
 
 		public override void NPCLoot()
 		{
-			if (CalamityWorld.armageddon)
+            DropHelper.DropBags(npc);
+
+            DropHelper.DropItemChance(npc, mod.ItemType("AstrageldonTrophy"), 10);
+            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge30"), true, !CalamityWorld.downedAstrageldon);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
 			{
-				for (int i = 0; i < 5; i++)
-				{
-					npc.DropBossBags();
-				}
+                // Materials
+                DropHelper.DropItemSpray(npc, mod.ItemType("Stardust"), 20, 30);
+                DropHelper.DropItemSpray(npc, ItemID.FallenStar, 25, 40);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, mod.ItemType("Nebulash"), 5);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, mod.ItemType("AureusMask"), 7);
+
+                // Other
+                DropHelper.DropItem(npc, mod.ItemType("AstralJelly"), 9, 12);
+                DropHelper.DropItemChance(npc, ItemID.HallowedKey, 5);
 			}
-			if (Main.rand.Next(10) == 0)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstrageldonTrophy"));
-			}
-			if (Main.expertMode)
-			{
-				npc.DropBossBags();
-			}
-			else
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstralJelly"), Main.rand.Next(9, 13));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(20, 31));
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.FallenStar, Main.rand.Next(25, 41));
-				if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.HallowedKey);
-				}
-				if (Main.rand.Next(7) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AureusMask"));
-				}
-				if (Main.rand.Next(5) == 0)
-				{
-					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Nebulash"));
-				}
-			}
-			if (NPC.downedMoonlord)
-			{
-				int amount = Main.rand.Next(6, 11);
-				if (Main.expertMode)
-				{
-					amount = (int)((float)amount * 1.5f);
-				}
-				for (int i = 0; i < amount; i++)
-				{
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3459, Main.rand.Next(1, 4), false, 0, false, false);
-				}
-				for (int i = 0; i < amount; i++)
-				{
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3458, Main.rand.Next(1, 4), false, 0, false, false);
-				}
-				for (int i = 0; i < amount; i++)
-				{
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3457, Main.rand.Next(1, 4), false, 0, false, false);
-				}
-				for (int i = 0; i < amount; i++)
-				{
-					Item.NewItem((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), 2, 2, 3456, Main.rand.Next(1, 4), false, 0, false, false);
-				}
-			}
-		}
+
+            // Drop a large spray of all 4 lunar fragments if ML has been defeated
+            if (NPC.downedMoonlord)
+            {
+                int minFragments = Main.expertMode ? 30 : 20;
+                int maxFragments = Main.expertMode ? 48 : 36;
+                DropHelper.DropItemSpray(npc, ItemID.FragmentSolar, minFragments, maxFragments);
+                DropHelper.DropItemSpray(npc, ItemID.FragmentVortex, minFragments, maxFragments);
+                DropHelper.DropItemSpray(npc, ItemID.FragmentNebula, minFragments, maxFragments);
+                DropHelper.DropItemSpray(npc, ItemID.FragmentStardust, minFragments, maxFragments);
+            }
+
+            // Drop an Astral Meteor if applicable
+            if (WorldGenerationMethods.checkAstralMeteor())
+            {
+                string key = "Mods.CalamityMod.AstralText";
+                Color messageColor = Color.Gold;
+
+                if (Main.netMode == 0)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == 2)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+
+                WorldGenerationMethods.dropAstralMeteor();
+            }
+
+            // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
+            if (!CalamityWorld.downedAstrageldon)
+            {
+                string key = "Mods.CalamityMod.AureusBossText";
+                string key2 = "Mods.CalamityMod.AureusBossText2";
+                Color messageColor = Color.Gold;
+
+                if (Main.netMode == 0)
+                {
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                    Main.NewText(Language.GetTextValue(key2), messageColor);
+                }
+                else if (Main.netMode == 2)
+                {
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor);
+                }
+            }
+
+            // Mark Astrum Aureus as dead
+            CalamityWorld.downedAstrageldon = true;
+            CalamityGlobalNPC.UpdateServerBoolean();
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
