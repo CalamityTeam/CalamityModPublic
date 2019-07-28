@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,29 +8,31 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class GhastlyBlast : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Blast");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 6;
-            projectile.extraUpdates = 1;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.magic = true;
-            projectile.usesLocalNPCImmunity = true;
+		public override void SetDefaults()
+		{
+			projectile.width = 32;
+			projectile.height = 32;
+			projectile.friendly = true;
+			projectile.alpha = 255;
+			projectile.penetrate = 6;
+			projectile.extraUpdates = 1;
+			projectile.tileCollide = false;
+			projectile.ignoreWater = true;
+			projectile.magic = true;
+			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 4;
-        }
+		}
 
-        public override void AI()
-        {
+		public override void AI()
+		{
 			float[] var_2_2DDF8_cp_0 = projectile.ai;
 			int var_2_2DDF8_cp_1 = 0;
 			float num73 = var_2_2DDF8_cp_0[var_2_2DDF8_cp_1];
@@ -178,10 +180,10 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					flag59 = false;
 				}
-                if (projectile.localAI[0] < 60f)
-                {
-                    projectile.localAI[0] += 1f;
-                }
+				if (projectile.localAI[0] < 60f)
+				{
+					projectile.localAI[0] += 1f;
+				}
 				if (flag59 && projectile.localAI[0] >= 60f)
 				{
 					float num1019 = 24f; //14
@@ -204,27 +206,23 @@ namespace CalamityMod.Projectiles.Magic
 			if (projectile.ai[0] >= 600f)
 			{
 				projectile.Kill();
-				return;
 			}
-        }
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-        	Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-			int y6 = num214 * projectile.frame;
-			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
-        }
+		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha);
-        }
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha);
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            projectile.position = projectile.Center;
+		public override void Kill(int timeLeft)
+		{
+			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = 238);
 			projectile.Center = projectile.position;
 			projectile.maxPenetrate = -1;
@@ -325,6 +323,6 @@ namespace CalamityMod.Projectiles.Magic
 					num3 = num111;
 				}
 			}
-        }
-    }
+		}
+	}
 }

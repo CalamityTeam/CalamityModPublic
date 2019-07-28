@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,36 +8,36 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class AstralStarMagic : ModProjectile
-    {
-    	public int noTileHitCounter = 120;
+	{
+		private int noTileHitCounter = 120;
 
-    	public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.alpha = 50;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 24;
+			projectile.height = 24;
+			projectile.friendly = true;
+			projectile.magic = true;
+			projectile.alpha = 50;
+			projectile.penetrate = 1;
+			projectile.tileCollide = false;
+		}
 
-        public override void AI()
-        {
-        	int randomToSubtract = Main.rand.Next(1, 3);
-        	noTileHitCounter -= randomToSubtract;
-        	if (noTileHitCounter == 0)
-        	{
-        		projectile.tileCollide = true;
-        	}
-        	if (projectile.soundDelay == 0)
+		public override void AI()
+		{
+			int randomToSubtract = Main.rand.Next(1, 3);
+			noTileHitCounter -= randomToSubtract;
+			if (noTileHitCounter == 0)
+			{
+				projectile.tileCollide = true;
+			}
+			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = 20 + Main.rand.Next(40);
 				if (Main.rand.Next(5) == 0)
@@ -82,22 +82,28 @@ namespace CalamityMod.Projectiles.Magic
 					Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
 				}
 			}
-        }
+		}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 100, 250, projectile.alpha);
-        }
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 100, 250, projectile.alpha);
+		}
 
-        public override void Kill(int timeLeft)
-        {
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 50;
 			projectile.height = 50;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
+			for (int num621 = 0; num621 < 5; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.2f);
 				Main.dust[num622].velocity *= 3f;
@@ -119,12 +125,6 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
-        }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
-            return false;
-        }
-    }
+		}
+	}
 }

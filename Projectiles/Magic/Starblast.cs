@@ -1,32 +1,35 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
     public class Starblast : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.alpha = 255;
-            projectile.penetrate = 1;
-            projectile.extraUpdates = 1;
-            projectile.timeLeft = 600;
-            projectile.magic = true;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 12;
+			projectile.height = 12;
+			projectile.friendly = true;
+			projectile.alpha = 255;
+			projectile.penetrate = 1;
+			projectile.extraUpdates = 1;
+			projectile.timeLeft = 600;
+			projectile.magic = true;
+		}
 
-        public override void AI()
-        {
-        	projectile.ai[0] += 1f;
+		public override void AI()
+		{
+			projectile.ai[0] += 1f;
 			if (projectile.ai[0] > 5f)
 			{
 				projectile.velocity.Y = projectile.velocity.Y + 0.1f;
@@ -59,22 +62,21 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num194].noGravity = true;
 				Main.dust[num194].velocity *= 0.1f;
 			}
-        }
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            for (int k = 0; k < 10; k++)
-            {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-            }
-        }
-    }
+		public override void Kill(int timeLeft)
+		{
+			for (int k = 0; k < 10; k++)
+			{
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 180, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+			}
+		}
+	}
 }

@@ -1,5 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,61 +8,63 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class SanguineFlare : ModProjectile
-    {
-    	private int x;
-    	private double speed = 10;
-        private float startSpeedY = 0f;
+	{
+		private int x;
+		private double speed = 10;
+		private float startSpeedY = 0f;
 
-        public override void SetStaticDefaults()
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flare");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.friendly = true;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 600;
-            projectile.alpha = 255;
-            projectile.magic = true;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 10;
+			projectile.height = 10;
+			projectile.friendly = true;
+			projectile.penetrate = 1;
+			projectile.tileCollide = false;
+			projectile.timeLeft = 600;
+			projectile.alpha = 255;
+			projectile.magic = true;
+		}
 
-        public override void AI()
-        {
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.velocity.X = projectile.velocity.X + (Main.player[projectile.owner].velocity.X * 0.5f);
-                startSpeedY = projectile.velocity.Y + (Main.player[projectile.owner].velocity.Y * 0.5f);
-                projectile.velocity.Y = startSpeedY;
-            }
-        	projectile.localAI[0] += 1f;
-        	if (projectile.localAI[0] >= 180f)
-        	{
-	        	x++;
-	        	speed += 0.1;
-	        	projectile.velocity.Y = startSpeedY + (float)(speed * Math.Sin(x/4));
-        	}
-        	projectile.rotation += projectile.velocity.Y * 0.02f;
-        	projectile.alpha -= 5;
-        	if (projectile.alpha < 30)
-        	{
-        		projectile.alpha = 30;
-        	}
-        }
+		public override void AI()
+		{
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.velocity.X = projectile.velocity.X + (Main.player[projectile.owner].velocity.X * 0.5f);
+				startSpeedY = projectile.velocity.Y + (Main.player[projectile.owner].velocity.Y * 0.5f);
+				projectile.velocity.Y = startSpeedY;
+			}
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] >= 180f)
+			{
+				x++;
+				speed += 0.1;
+				projectile.velocity.Y = startSpeedY + (float)(speed * Math.Sin(x / 4));
+			}
+			projectile.rotation += projectile.velocity.Y * 0.02f;
+			projectile.alpha -= 5;
+			if (projectile.alpha < 30)
+			{
+				projectile.alpha = 30;
+			}
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 10;
 			projectile.height = 10;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 3; num621++)
+			for (int num621 = 0; num621 < 3; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default(Color), 1.2f);
 				Main.dust[num622].velocity *= 3f;
@@ -79,18 +82,24 @@ namespace CalamityMod.Projectiles.Magic
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
 			{
 				return;
 			}
-        	Player player = Main.player[projectile.owner];
+			Player player = Main.player[projectile.owner];
 			player.statLife += 1;
-    		player.HealEffect(1);
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-        }
-    }
+			player.HealEffect(1);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+	}
 }

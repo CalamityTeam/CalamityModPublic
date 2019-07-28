@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,25 +7,27 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class Asteroid : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Asteroid");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.magic = true;
-            projectile.extraUpdates = 2;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 24;
+			projectile.height = 24;
+			projectile.friendly = true;
+			projectile.tileCollide = false;
+			projectile.magic = true;
+			projectile.extraUpdates = 2;
+		}
 
-        public override void AI()
-        {
-        	if (projectile.position.Y > Main.player[projectile.owner].position.Y - 300f)
+		public override void AI()
+		{
+			if (projectile.position.Y > Main.player[projectile.owner].position.Y - 300f)
 			{
 				projectile.tileCollide = true;
 			}
@@ -55,11 +58,11 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num190].fadeIn = 1f;
 				Main.dust[num190].noGravity = true;
 			}
-        }
+		}
 
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(SoundID.Item89, projectile.position);
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(SoundID.Item89, projectile.position);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = (int)(128f * projectile.scale);
@@ -107,11 +110,17 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num343].velocity *= 2.4f;
 				Main.dust[num343].scale += Main.rand.NextFloat();
 			}
-        }
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.immune[projectile.owner] = 2;
 		}
-    }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+	}
 }
