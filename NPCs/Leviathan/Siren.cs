@@ -841,19 +841,11 @@ namespace CalamityMod.NPCs.Leviathan
 			potionType = ItemID.GreaterHealingPotion;
 		}
 
-        // Prevent Anahita from dropping loot if she dies first.
-        public override bool SpecialNPCLoot()
-        {
-            bool leviAlive = NPC.AnyNPCs(mod.NPCType("Leviathan"));
-            if (leviAlive)
-                npc.boss = false;
-            return leviAlive;
-        }
-
-        // Run the same loot code as The Leviathan.
+        // Anahita runs the same loot code as the Leviathan, but only if she dies last.
         public override void NPCLoot()
 		{
-            Leviathan.DropSirenLeviLoot(npc);
+            if (!NPC.AnyNPCs(mod.NPCType("Leviathan")))
+                Leviathan.DropSirenLeviLoot(npc);
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
