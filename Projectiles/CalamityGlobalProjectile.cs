@@ -72,6 +72,11 @@ namespace CalamityMod.Projectiles
 				case ProjectileID.SolarWhipSword:
 					trueMelee = true;
 					break;
+				case ProjectileID.StarWrath:
+					projectile.penetrate = projectile.maxPenetrate = 1;
+					break;
+				default:
+					break;
 			}
 		}
 		#endregion
