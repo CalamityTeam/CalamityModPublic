@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 76;
-			item.damage = 95;
+			item.damage = 110;
 			item.melee = true;
 			item.useAnimation = 17;
 			item.useStyle = 1;
@@ -38,10 +38,10 @@ namespace CalamityMod.Items.Weapons
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "GalacticaSingularity", 5);
 			recipe.AddIngredient(ItemID.StarWrath);
-			recipe.AddIngredient(ItemID.Ectoplasm, 10);
 			recipe.AddIngredient(ItemID.SoulofMight, 20);
+			recipe.AddIngredient(null, "DivineGeode", 10);
+			recipe.AddIngredient(null, "GalacticaSingularity", 5);
 			recipe.AddIngredient(ItemID.LunarBar, 5);
 			recipe.AddIngredient(ItemID.DarkShard);
 			recipe.AddIngredient(ItemID.LightShard);
