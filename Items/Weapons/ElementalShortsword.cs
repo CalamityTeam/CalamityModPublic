@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons
 			item.useTime = 10;
 			item.width = 44;
 			item.height = 44;
-			item.damage = 140;
+			item.damage = 150;
 			item.melee = true;
 			item.knockBack = 8.5f;
 			item.UseSound = SoundID.Item1;
