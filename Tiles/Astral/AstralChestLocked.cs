@@ -38,6 +38,9 @@ namespace CalamityMod.Tiles.Astral
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Astral Chest");
 			AddMapEntry(new Color(174, 129, 92), name, MapChestName);
+			name = CreateMapEntryName(Name + "_Locked"); // With multiple map entries, you need unique translation keys.
+			name.SetDefault("Locked Astral Chest");
+			AddMapEntry(new Color(174, 129, 92), name, MapChestName);
 			dustType = mod.DustType("AstralBasic");
 			disableSmartCursor = true;
 			adjTiles = new int[] { TileID.Containers };
@@ -45,8 +48,19 @@ namespace CalamityMod.Tiles.Astral
 			chestDrop = mod.ItemType("AstralChest");
 		}
 
-		public override bool HasSmartInteract()
+		public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);
+
+		public override bool HasSmartInteract() => true;
+
+		public override bool IsLockedChest(int i, int j) => Main.tile[i, j].frameX / 36 == 1;
+
+		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
 		{
+			if (!CalamityWorld.downedAstrageldon)
+				return false;
+
+			dustType = this.dustType;
+
 			return true;
 		}
 
@@ -55,32 +69,17 @@ namespace CalamityMod.Tiles.Astral
 			int left = i;
 			int top = j;
 			Tile tile = Main.tile[i, j];
-			if (tile == null)
-			{
-				return name;
-			}
+
 			if (tile.frameX % 36 != 0)
-			{
 				left--;
-			}
 			if (tile.frameY != 0)
-			{
 				top--;
-			}
+
 			int chest = Chest.FindChest(left, top);
-			string newName = name;
-			if (Chest.isLocked(left, top))
-			{
-				newName = "Locked " + newName;
-			}
-			if (chest == -1 || Main.chest[chest].name == "")
-			{
-				return newName;
-			}
+			if (Main.chest[chest].name == "")
+				return name;
 			else
-			{
-				return newName + ": " + Main.chest[chest].name;
-			}
+				return name + ": " + Main.chest[chest].name;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)
@@ -99,16 +98,14 @@ namespace CalamityMod.Tiles.Astral
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
 			Main.mouseRightRelease = false;
+
 			int left = i;
 			int top = j;
 			if (tile.frameX % 36 != 0)
-			{
 				left--;
-			}
 			if (tile.frameY != 0)
-			{
 				top--;
-			}
+
 			if (player.sign >= 0)
 			{
 				Main.PlaySound(SoundID.MenuClose);
@@ -116,18 +113,22 @@ namespace CalamityMod.Tiles.Astral
 				Main.editSign = false;
 				Main.npcChatText = "";
 			}
+
 			if (Main.editChest)
 			{
 				Main.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
+
 			if (player.editedChestName)
 			{
 				NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
 				player.editedChestName = false;
 			}
-			if (Main.netMode == 1 && Main.tile[left, top].frameX < 72)
+
+			bool isLocked = IsLockedChest(left, top);
+			if (Main.netMode == 1 && !isLocked)
 			{
 				if (left == player.chestX && top == player.chestY && player.chest >= 0)
 				{
@@ -143,19 +144,12 @@ namespace CalamityMod.Tiles.Astral
 			}
 			else
 			{
-				if (Chest.isLocked(left, top))
+				if (isLocked)
 				{
-					if (!CalamityWorld.downedAstrageldon)
-					{
-						return;
-					}
 					if (Chest.Unlock(left, top))
 					{
-						AchievementsHelper.NotifyProgressionEvent(AchievementHelperID.Events.UnlockedBiomeChest);
-						if (Main.netMode == NetmodeID.MultiplayerClient)
-						{
-							NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, left, top);
-						}
+						if (Main.netMode == 1)
+							NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, (float)left, (float)top);
 					}
 				}
 				else
@@ -173,10 +167,6 @@ namespace CalamityMod.Tiles.Astral
 						{
 							player.chest = chest;
 							Main.playerInventory = true;
-							if (PlayerInput.GrappleAndInteractAreShared)
-							{
-								PlayerInput.Triggers.JustPressed.Grapple = false;
-							}
 							Main.recBigList = false;
 							player.chestX = left;
 							player.chestY = top;
@@ -192,16 +182,14 @@ namespace CalamityMod.Tiles.Astral
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
+
 			int left = i;
 			int top = j;
 			if (tile.frameX % 36 != 0)
-			{
 				left--;
-			}
 			if (tile.frameY != 0)
-			{
 				top--;
-			}
+
 			int chest = Chest.FindChest(left, top);
 			player.showItemIcon2 = -1;
 			if (chest < 0)
@@ -213,10 +201,11 @@ namespace CalamityMod.Tiles.Astral
 				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Astral Chest";
 				if (player.showItemIconText == "Astral Chest")
 				{
-					player.showItemIcon2 = mod.ItemType("AstralChestLocked");
+					player.showItemIcon2 = mod.ItemType("AstralChest");
 					player.showItemIconText = "";
 				}
 			}
+
 			player.noThrow = 2;
 			player.showItemIcon = true;
 		}
@@ -225,6 +214,7 @@ namespace CalamityMod.Tiles.Astral
 		{
 			MouseOver(i, j);
 			Player player = Main.LocalPlayer;
+
 			if (player.showItemIconText == "")
 			{
 				player.showItemIcon = false;
