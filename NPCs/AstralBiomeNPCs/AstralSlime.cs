@@ -64,5 +64,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
             return 0f;
         }
+
+        public override void NPCLoot()
+        {
+            int oreMin = Main.expertMode ? 11 : 8;
+            int oreMax = Main.expertMode ? 16 : 12;
+            DropHelper.DropItemCondition(npc, mod.ItemType("AstralOre"), CalamityWorld.downedStarGod, oreMin, oreMax);
+        }
     }
 }
