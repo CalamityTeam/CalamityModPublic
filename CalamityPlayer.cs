@@ -9277,30 +9277,30 @@ namespace CalamityMod
 
             ProvideStealthStatBonuses();
 
-            // If the player is using an item and is on their first frame of doing so, a stealth strike is available,
-            // and the stealth strike wasn't consumed manually in the item's own code, then consume it automatically.
+            // If the player is using an item that deals damage and is on their first frame of doing so,
+            // consume stealth if a stealth strike wasn't triggered manually by item code.
 
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
-            // so that placing blocks doesn't call down lasers from the sky and such.
-            if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax && StealthStrikeAvailable())
-                ConsumeStealthStrike();
+            // so non-rogue weapons can't call lasers down from the sky and such.
+            if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax && player.HeldItem.damage > 0)
+                ConsumeStealthByAttacking();
         }
 
         private void ProvideStealthStatBonuses()
         {
-            CalamityCustomThrowingDamagePlayer c = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
+            CalamityCustomThrowingDamagePlayer roguePlayer = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
 
             // At full stealth, you get 100% of the max possible bonus. Partial stealth only gives you 75% of the partial bonus you have.
             if (rogueStealth >= rogueStealthMax)
-                c.throwingDamage += rogueStealth * 1.0f;
+                roguePlayer.throwingDamage += rogueStealth * 1.0f;
             else
-                c.throwingDamage += rogueStealth * 0.75f;
+                roguePlayer.throwingDamage += rogueStealth * 0.75f;
 
             // Crit increases massively based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
             if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
-                c.throwingCrit = 100;
+                roguePlayer.throwingCrit = 100;
             else
-                c.throwingCrit += (int)(rogueStealth * 30f);
+                roguePlayer.throwingCrit += (int)(rogueStealth * 30f);
 
             // Stealth increases movement speed and significantly decreases aggro.
             player.moveSpeed += rogueStealth * 0.05f;
@@ -9309,6 +9309,10 @@ namespace CalamityMod
 
         private float UpdateStealthGenStats()
         {
+            // If you are actively using an item, you cannot gain stealth even while moving.
+            if (player.itemAnimation > 0)
+                return 0f;
+
             // Penumbra Potion provides 10% stealth regen while moving, 20% at night and 30% during an eclipse
             if (penumbra)
             {
@@ -9319,6 +9323,13 @@ namespace CalamityMod
                 else
                     stealthGenMoving += 0.1f;
             }
+
+            //
+            // Other code which affects stealth generation goes here.
+            // Increase stealthGenStandstill (default 1.0) to increase basic "stand still" stealth generation.
+            // Incrase stealthGenMoving (default 0.0) to increase stealth generation while moving.
+            // Increase stealthGenMultiplier (default 1.0) to provide a global % boost to all stealth generation.
+            //
 
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
@@ -9341,10 +9352,10 @@ namespace CalamityMod
             // Stuff that happens on stealth strike goes here. Call this from item code.
             //
 
-            ConsumeStealthStrike();
+            ConsumeStealthByAttacking();
         }
 
-        private void ConsumeStealthStrike()
+        private void ConsumeStealthByAttacking()
         {
             stealthStrikeThisFrame = true;
 
