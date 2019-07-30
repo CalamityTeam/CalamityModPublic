@@ -257,7 +257,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 						double deltaAngle = spread / 8f;
 						double offsetAngle;
 						int projectileShot = mod.ProjectileType("PearlBurst");
-						int damage = Main.expertMode ? 50 : 75;
+						int damage = Main.expertMode ? 28 : 35;
 						float speed = 5f;
 						Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 						float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 						if (Main.netMode != 1)
 						{
 							Main.PlaySound(SoundID.Item68, npc.position);
-							int damage = Main.expertMode ? 30 : 50;
+							int damage = Main.expertMode ? 28 : 35;
 							float shotSpacing = 750f;
 							for (int i = 0; i < 11; i++)
 							{
