@@ -36,7 +36,7 @@ namespace CalamityMod.World
 					int y = WorldGen.genRand.Next((int)Main.worldSurface, MaxY);
 					if (Main.wallDungeon[Main.tile[x, y].wall] && !Main.tile[x, y].active())
 					{
-						chest = AddChestWithDefaultLoot(x, y, (ushort)ChestTypes[i % ChestTypes.Length], 1, 2);
+						chest = AddChestWithDefaultLoot(x, y, (ushort)ChestTypes[i % ChestTypes.Length], 1, 1);
 					}
 				}
 				if (chest != null)
