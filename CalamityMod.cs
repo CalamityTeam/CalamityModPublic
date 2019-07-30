@@ -806,8 +806,7 @@ namespace CalamityMod
 					ItemID.Anchor,
 					ItemID.KOCannon,
 					ItemID.GolemFist,
-                    ItemID.RainbowRod,
-                    ItemID.BreakerBlade,
+					ItemID.BreakerBlade,
 					ItemID.MonkStaffT2,
 					ItemID.ProximityMineLauncher,
 					ItemID.FireworksLauncher
