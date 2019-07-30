@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Potions
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Penumbra Potion");
-			Tooltip.SetDefault("Rogue stealth always builds during nighttime and twice as fast during a solar eclipse, even while moving");
+			Tooltip.SetDefault("Rogue stealth regenerates 10% faster, 20% faster at night and 30% faster during an eclipse");
 		}
 
 		public override void SetDefaults()

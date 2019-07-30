@@ -8,7 +8,8 @@ namespace CalamityMod.Buffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Penumbra");
-			Description.SetDefault("Rogue stealth builds during nighttime and eclipse while moving");
+			Description.SetDefault("Stealth regenerates at 10% speed while moving\n" +
+                "The boost increases to 20% at night and 30% during an eclipse");
 			Main.debuff[Type] = false;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;
