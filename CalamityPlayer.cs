@@ -52,8 +52,6 @@ namespace CalamityMod
 		public int packetTimer = 0;
 		public int bloodflareHeartTimer = 180;
 		public int bloodflareManaTimer = 180;
-		public float rogueStealth = 0f;
-		public float rogueStealthMax = 0f;
 		public float modStealth = 1f;
 		public float aquaticBoost = 1f;
 		public float shieldInvinc = 5f;
@@ -83,8 +81,18 @@ namespace CalamityMod
 		public int exactRogueLevel = 0;
 		public int gainLevelCooldown = 120;
 
-		//Mount
-		public bool onyxExcavator = false;
+        //Rogue Stealth
+        public float rogueStealth = 0f;
+        public float rogueStealthMax = 0f;
+        public float stealthGenStandstill = 1f;
+        public float stealthGenMoving = 0f;
+        public float stealthGenMultiplier = 1f;
+        private bool stealthStrikeThisFrame = false;
+        public bool stealthStrikeHalfCost = false;
+        public bool stealthStrikeAlwaysCrits = false;
+
+        //Mount
+        public bool onyxExcavator = false;
 		public bool angryDog = false;
 		public bool fab = false;
 		public bool crysthamyr = false;
@@ -756,7 +764,7 @@ namespace CalamityMod
 				}
 			}
 
-			rogueStealthMax = 0f;
+            ResetRogueStealth();
 
 			dashMod = 0;
 			alcoholPoisonLevel = 0;
@@ -2271,13 +2279,6 @@ namespace CalamityMod
 		}
 		#endregion
 
-		#region RogueStealthStrike
-		public bool StealthStrikeAvailable()
-		{
-			return rogueStealth >= rogueStealthMax && rogueStealthMax > 0f;
-		}
-		#endregion
-
 		#region PostUpdate
 
 		#region PostUpdateBuffs
@@ -3518,53 +3519,10 @@ namespace CalamityMod
 					}
 				}
 			}
-			#endregion
+            #endregion
 
-			#region StandingStillEffects
-			if (rogueStealthMax > 0f)
-			{
-				if (rogueStealth >= rogueStealthMax) //full stealth does more damage
-				{
-					if (playRogueStealthSound)
-					{
-						playRogueStealthSound = false;
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/RogueStealth"), (int)player.position.X, (int)player.position.Y);
-					}
-					//The first projectile thrown will inherit this damage, not the crit. Crit is calculated on enemy hits and is not tied to the projectile
-					//The moment you use any item/weapon the crit multiplier from stealth will decrease, meaning you will never get the optimal boost
-					//To remedy this, make stealth increase crit by a larger amount so that it means more
-					//If not you risk the crit boost feeling negligible
-					CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += rogueStealth * 1f; //100% max damage boost, 160% with Auric
-				}
-				else
-				{
-					playRogueStealthSound = true;
-					CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += rogueStealth * 0.75f; //0% to 75% damage boost, 120% with Auric
-				}
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += (int)(rogueStealth * 30f); //0% to 30% crit boost, 48% with Auric
-				player.moveSpeed += rogueStealth * 0.05f;
-				player.aggro -= (int)((rogueStealth / rogueStealthMax) * 900f);
-				if (player.itemAnimation > 0)
-				{
-					if (rogueStealth > 0f)
-					{
-						rogueStealth -= rogueStealthMax * 0.006f;
-						if (rogueStealth < 0f)
-							rogueStealth = 0f;
-					}
-				}
-				else if ((((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1) || (penumbra && (!Main.dayTime || Main.eclipse))) && !player.mount.Active)
-				{
-					if (rogueStealth < rogueStealthMax)
-					{
-						rogueStealth += rogueStealthMax * (Main.eclipse ? 0.012f : 0.006f); //180 ticks, 3 seconds to reach full stealth
-						if (rogueStealth > rogueStealthMax)
-							rogueStealth = rogueStealthMax;
-					}
-				}
-			}
-			else
-				rogueStealth = 0f;
+            #region StandingStillEffects
+            UpdateRogueStealth();
 
 			if (trinketOfChi)
 			{
@@ -9280,10 +9238,129 @@ namespace CalamityMod
 			player.thrownCrit += boost;
 			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += boost;
 		}
-		#endregion
+        #endregion
 
-		#region Packet Stuff
-		private void ExactLevelPacket(bool server, int levelType)
+        #region Rogue Stealth
+        private void ResetRogueStealth()
+        {
+            rogueStealth = 0f;
+            rogueStealthMax = 0f;
+            stealthGenStandstill = 1f;
+            stealthGenMoving = 0f;
+            stealthGenMultiplier = 1f;
+            stealthStrikeThisFrame = false;
+            stealthStrikeHalfCost = false;
+            stealthStrikeAlwaysCrits = false;
+        }
+
+        private void UpdateRogueStealth()
+        {
+            if (rogueStealthMax <= 0f)
+                return;
+
+            // Sound plays upon hitting full stealth, not upon having stealth strike available (this can occur at lower than 100% stealth)
+            if (playRogueStealthSound && rogueStealth >= rogueStealthMax)
+            {
+                playRogueStealthSound = false;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/RogueStealth"), (int)player.position.X, (int)player.position.Y);
+            }
+
+            // If the player isn't at full stealth, reset the sound so it'll play again when they hit full stealth.
+            else
+                playRogueStealthSound = true;
+
+            // Calculate stealth generation and gain stealth accordingly
+            float currentStealthGen = UpdateStealthGenStats();
+            rogueStealth += rogueStealthMax * 0.006f * currentStealthGen;
+            if (rogueStealth > rogueStealthMax)
+                rogueStealth = rogueStealthMax;
+
+            ProvideStealthStatBonuses();
+
+            // If the player is using an item and is on their first frame of doing so, a stealth strike is available,
+            // and the stealth strike wasn't consumed manually in the item's own code, then consume it automatically.
+
+            // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
+            // so that placing blocks doesn't call down lasers from the sky and such.
+            if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax && StealthStrikeAvailable())
+                ConsumeStealthStrike();
+        }
+
+        private void ProvideStealthStatBonuses()
+        {
+            CalamityCustomThrowingDamagePlayer c = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
+
+            // At full stealth, you get 100% of the max possible bonus. Partial stealth only gives you 75% of the partial bonus you have.
+            if (rogueStealth >= rogueStealthMax)
+                c.throwingDamage += rogueStealth * 1.0f;
+            else
+                c.throwingDamage += rogueStealth * 0.75f;
+
+            // Crit increases massively based on your stealth value. With certain gear, it's locked at 100% for stealth strikes.
+            if (stealthStrikeAlwaysCrits && StealthStrikeAvailable())
+                c.throwingCrit = 100;
+            else
+                c.throwingCrit += (int)(rogueStealth * 30f);
+
+            // Stealth increases movement speed and significantly decreases aggro.
+            player.moveSpeed += rogueStealth * 0.05f;
+            player.aggro -= (int)((rogueStealth / rogueStealthMax) * 900f);
+        }
+
+        private float UpdateStealthGenStats()
+        {
+            // Penumbra Potion provides 10% stealth regen while moving, 20% at night and 30% during an eclipse
+            if (penumbra)
+            {
+                if (Main.eclipse)
+                    stealthGenMoving += 0.3f;
+                else if (!Main.dayTime)
+                    stealthGenMoving += 0.2f;
+                else
+                    stealthGenMoving += 0.1f;
+            }
+
+            // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
+            bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
+            if (standstill)
+                return stealthGenStandstill * stealthGenMultiplier;
+            else
+                return stealthGenMoving * stealthGenMultiplier;
+        }
+
+        public bool StealthStrikeAvailable()
+        {
+            if (rogueStealthMax <= 0f)
+                return false;
+            return rogueStealth >= rogueStealthMax * (stealthStrikeHalfCost ? 0.5f : 1f);
+        }
+
+        public void StealthStrike()
+        {
+            //
+            // Stuff that happens on stealth strike goes here. Call this from item code.
+            //
+
+            ConsumeStealthStrike();
+        }
+
+        private void ConsumeStealthStrike()
+        {
+            stealthStrikeThisFrame = true;
+
+            if (stealthStrikeHalfCost)
+            {
+                rogueStealth -= 0.5f * rogueStealthMax;
+                if (rogueStealth <= 0f)
+                    rogueStealth = 0f;
+            }
+            else
+                rogueStealth = 0f;
+        }
+        #endregion
+
+        #region Packet Stuff
+        private void ExactLevelPacket(bool server, int levelType)
 		{
 			ModPacket packet = mod.GetPacket(256);
 			switch (levelType)
@@ -10400,6 +10477,6 @@ namespace CalamityMod
 			}
 			return meleeSpeedBonus;
 		}
-		#endregion
-	}
+        #endregion
+    }
 }
