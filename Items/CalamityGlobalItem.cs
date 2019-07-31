@@ -335,7 +335,7 @@ namespace CalamityMod.Items
 						player.HealEffect((boostedHeart ? -5 : -10), true);
 					}
 				}
-				if (boostedHeart)
+				else if (boostedHeart)
 				{
 					player.statLife += 5;
 					if (Main.myPlayer == player.whoAmI)
