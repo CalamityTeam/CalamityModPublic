@@ -562,19 +562,19 @@ namespace CalamityMod.NPCs
 					npc.lifeMax = 60000;
 					break;
 				case NPCID.SkeletronPrime:
-					npc.lifeMax = 780000;
+					npc.lifeMax = 980000;
 					break;
 				case NPCID.PrimeCannon:
-					npc.lifeMax = 350000;
+					npc.lifeMax = 450000;
 					break;
 				case NPCID.PrimeVice:
-					npc.lifeMax = 440000;
+					npc.lifeMax = 540000;
 					break;
 				case NPCID.PrimeSaw:
 					npc.lifeMax = 450000;
 					break;
 				case NPCID.PrimeLaser:
-					npc.lifeMax = 280000;
+					npc.lifeMax = 380000;
 					break;
 				case NPCID.Golem:
 					npc.lifeMax = 450000;
@@ -610,10 +610,10 @@ namespace CalamityMod.NPCs
 					npc.lifeMax = 50000;
 					break;
 				case NPCID.Spazmatism:
-					npc.lifeMax = 1000000;
+					npc.lifeMax = 1300000;
 					break;
 				case NPCID.Retinazer:
-					npc.lifeMax = 700000;
+					npc.lifeMax = 900000;
 					break;
 				case NPCID.WallofFlesh:
 					npc.lifeMax = 2400000;
@@ -1524,7 +1524,7 @@ namespace CalamityMod.NPCs
 			else if (Main.eclipse && CalamityWorld.buffedEclipse && !npc.boss && !npc.friendly && !npc.dontTakeDamage)
 				cooldownSlot = 1;
 
-			if (npc.type == NPCID.BrainofCthulhu && npc.alpha > 0)
+			if (npc.type == NPCID.BrainofCthulhu)
 				return npc.ai[0] < 0f;
 
 			return true;
