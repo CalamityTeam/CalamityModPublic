@@ -5193,16 +5193,16 @@ namespace CalamityMod.NPCs
 
 			if (move)
 			{
-				npc.ai[0] += 3f;
+				npc.ai[0] += 2f;
 				if (CalamityWorld.death)
-					npc.ai[0] += 2f;
+					npc.ai[0] += 1f;
 			}
 
 			if (npc.velocity.Y == 0f)
 			{
 				if (!move)
 				{
-					npc.ai[0] += 4f;
+					npc.ai[0] += 8f;
 					if (CalamityWorld.death)
 						npc.ai[0] += 4f;
 				}
