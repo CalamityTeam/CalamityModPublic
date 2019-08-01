@@ -1679,6 +1679,11 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
+					case NPCID.TheDestroyer:
+					case NPCID.TheDestroyerBody:
+					case NPCID.TheDestroyerTail:
+						return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged, mod);
+						break;
 					case NPCID.Mothron:
 						if (CalamityWorld.buffedEclipse)
 							return CalamityGlobalAI.BuffedMothronAI(npc);
@@ -2148,8 +2153,6 @@ namespace CalamityMod.NPCs
 						CalamityGlobalAI.RevengeanceMoonLordCoreAI(npc);
 						break;
 					case NPCID.MoonLordHand:
-						CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
-						break;
 					case NPCID.MoonLordHead:
 						CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
 						break;
@@ -2187,9 +2190,6 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.Spazmatism:
 						CalamityGlobalAI.RevengeanceSpazmatismAI(npc, configBossRushBoost, mod, enraged);
-						break;
-					case NPCID.TheDestroyerBody:
-						CalamityGlobalAI.RevengeanceDestroyerAI(npc, configBossRushBoost, mod, enraged);
 						break;
 					case NPCID.WallofFlesh:
 						CalamityGlobalAI.RevengeanceWallofFleshAI(npc, configBossRushBoost, enraged);
@@ -2674,12 +2674,11 @@ namespace CalamityMod.NPCs
 		{
             if (npc.type == NPCID.TheDestroyerBody)
             {
-                if (projectile.type == ProjectileID.RainFriendly || projectile.type == ProjectileID.BloodRain ||
-                    projectile.type == mod.ProjectileType("Shaderain") || projectile.aiStyle == 4 ||
-                    projectile.type == ProjectileID.CrystalPulse2 || projectile.type == ProjectileID.HallowStar ||
-                    projectile.type == mod.ProjectileType("FossilShardThrown"))
-                    damage = (int)((double)damage * 0.65);
-            }
+				if (projectile.penetrate == -1 && !projectile.minion)
+					damage = (int)((double)damage * 0.2);
+				else if (projectile.penetrate > 1)
+					damage /= projectile.penetrate;
+			}
 
             if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eGauntlet)
 			{

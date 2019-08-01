@@ -2078,6 +2078,479 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
+		#region Buffed Destroyer AI
+		public static bool BuffedDestroyerAI(NPC npc, bool enraged, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+
+			// Enrage variable if player is flying upside down
+			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+			// Phases based on life percentage
+			bool phase2 = lifeRatio <= 0.66f;
+			bool phase3 = lifeRatio <= 0.33f;
+
+			// Set worm variable for worms
+			if (npc.ai[3] > 0f)
+				npc.realLife = (int)npc.ai[3];
+
+			// Get a target
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+				npc.TargetClosest(true);
+
+			// Dust on spawn and alpha effects
+			if (npc.type >= NPCID.TheDestroyer && npc.type <= NPCID.TheDestroyerTail)
+			{
+				npc.velocity.Length();
+
+				if (npc.type == NPCID.TheDestroyer || (npc.type != NPCID.TheDestroyer && Main.npc[(int)npc.ai[1]].alpha < 128))
+				{
+					if (npc.alpha != 0)
+					{
+						for (int i = 0; i < 2; i++)
+						{
+							int num = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default(Color), 2f);
+							Main.dust[num].noGravity = true;
+							Main.dust[num].noLight = true;
+						}
+					}
+					npc.alpha -= 42;
+					if (npc.alpha < 0)
+						npc.alpha = 0;
+				}
+			}
+
+			// Check if other segments are still alive, if not, die
+			if (npc.type > NPCID.TheDestroyer)
+			{
+				bool flag = false;
+				if (npc.ai[1] <= 0f)
+					flag = true;
+				else if (Main.npc[(int)npc.ai[1]].life <= 0)
+					flag = true;
+
+				if (flag)
+				{
+					npc.life = 0;
+					npc.HitEffect(0, 10.0);
+					npc.checkDead();
+				}
+			}
+
+			if (npc.type == NPCID.TheDestroyerBody)
+			{
+				// Gain more defense as health lowers with a max of 30, lose defense if probe has been launched
+				if (npc.ai[2] == 0f)
+				{
+					int defenseUp = (int)(30f * (1f - lifeRatio));
+					npc.defense = npc.defDefense + defenseUp;
+				}
+				else
+					npc.defense = npc.defDefense - 10;
+
+				// Enrage, fire more homing lasers
+				if (targetFloatingUp)
+				{
+					if (calamityGlobalNPC.newAI[2] < 480f)
+						calamityGlobalNPC.newAI[2] += 1f;
+				}
+				else
+				{
+					if (calamityGlobalNPC.newAI[2] > 0f)
+						calamityGlobalNPC.newAI[2] -= 1f;
+				}
+			}
+
+			if (Main.netMode != 1)
+			{
+				// Spawn segments from head
+				if (npc.ai[0] == 0f && npc.type == NPCID.TheDestroyer)
+				{
+					npc.ai[3] = (float)npc.whoAmI;
+					npc.realLife = npc.whoAmI;
+					int num2 = npc.whoAmI;
+
+					int num3 = 100;
+					for (int j = 0; j <= num3; j++)
+					{
+						int num4 = NPCID.TheDestroyerBody;
+						if (j == num3)
+							num4 = NPCID.TheDestroyerTail;
+
+						int num5 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)npc.height), num4, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+						Main.npc[num5].ai[3] = (float)npc.whoAmI;
+						Main.npc[num5].realLife = npc.whoAmI;
+						Main.npc[num5].ai[1] = (float)num2;
+						Main.npc[num2].ai[0] = (float)num5;
+						NetMessage.SendData(23, -1, -1, null, num5, 0f, 0f, 0f, 0, 0, 0);
+						num2 = num5;
+					}
+				}
+
+				// Fire lasers
+				if (npc.type == NPCID.TheDestroyerBody)
+				{
+					// Laser rate of fire
+					int shootTime = 1 + (int)Math.Ceiling((((enraged || configBossRushBoost) ? 7D : 3D) * (double)lifeRatio));
+					if (CalamityWorld.bossRushActive)
+						shootTime += 1;
+					if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						shootTime += 1;
+
+					calamityGlobalNPC.newAI[0] += (float)Main.rand.Next(shootTime);
+					if (calamityGlobalNPC.newAI[0] >= (float)Main.rand.Next(1400, 26000))
+					{
+						calamityGlobalNPC.newAI[0] = 0f;
+						npc.TargetClosest(true);
+						if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+						{
+							// Base laser speed on player movement speed
+							float laserSpeedBoost = Math.Abs(Main.player[npc.target].velocity.X);
+							if (Math.Abs(Main.player[npc.target].velocity.X) < Math.Abs(Main.player[npc.target].velocity.Y))
+								laserSpeedBoost = Math.Abs(Main.player[npc.target].velocity.Y);
+
+							// Put limits on laser speed
+							float projectileSpeed = 2f + laserSpeedBoost;
+							if (projectileSpeed < 7f)
+								projectileSpeed = 7f;
+							if (projectileSpeed > 10f)
+								projectileSpeed = 10f;
+
+							// Increase laser speed as health drops
+							if (phase2 || CalamityWorld.bossRushActive)
+								projectileSpeed += CalamityWorld.death ? 0.33f : 0.25f;
+							if (phase3 || CalamityWorld.bossRushActive)
+								projectileSpeed += CalamityWorld.death ? 0.33f : 0.25f;
+
+							// Set projectile damage and type, set projectile to saucer scrap if probe has been launched
+							int damage = 30;
+							int projectileType = ProjectileID.DeathLaser;
+							if (npc.ai[2] == 0f)
+							{
+								if (phase3 || calamityGlobalNPC.newAI[2] > 0f)
+								{
+									damage += 3;
+									projectileType = mod.ProjectileType("DestroyerHomingLaser");
+								}
+								else if (phase2)
+								{
+									damage -= 3;
+									projectileType = ProjectileID.FrostBeam;
+								}
+							}
+							else
+							{
+								damage -= 3;
+								projectileType = ProjectileID.SaucerScrap;
+							}
+
+							// Get target vector
+							Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+							float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
+							float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y;
+							float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
+							num8 = projectileSpeed / num8;
+							num6 *= num8;
+							num7 *= num8;
+							vector.X += num6 * 5f;
+							vector.Y += num7 * 5f;
+
+							// Shoot projectile and set timeLeft if not a homing laser so lasers don't last for too long
+							int proj = Projectile.NewProjectile(vector.X, vector.Y, num6, num7, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+							if (projectileType != mod.ProjectileType("DestroyerHomingLaser"))
+								Main.projectile[proj].timeLeft = 300;
+
+							npc.netUpdate = true;
+						}
+					}
+				}
+			}
+
+			int num12 = (int)(npc.position.X / 16f) - 1;
+			int num13 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
+			int num14 = (int)(npc.position.Y / 16f) - 1;
+			int num15 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+
+			if (num12 < 0)
+				num12 = 0;
+			if (num13 > Main.maxTilesX)
+				num13 = Main.maxTilesX;
+			if (num14 < 0)
+				num14 = 0;
+			if (num15 > Main.maxTilesY)
+				num15 = Main.maxTilesY;
+
+			// Fly or not
+			bool flag2 = false;
+			if (!flag2)
+			{
+				for (int k = num12; k < num13; k++)
+				{
+					for (int l = num14; l < num15; l++)
+					{
+						if (Main.tile[k, l] != null && ((Main.tile[k, l].nactive() && (Main.tileSolid[(int)Main.tile[k, l].type] || (Main.tileSolidTop[(int)Main.tile[k, l].type] && Main.tile[k, l].frameY == 0))) || Main.tile[k, l].liquid > 64))
+						{
+							Vector2 vector2;
+							vector2.X = (float)(k * 16);
+							vector2.Y = (float)(l * 16);
+							if (npc.position.X + (float)npc.width > vector2.X && npc.position.X < vector2.X + 16f && npc.position.Y + (float)npc.height > vector2.Y && npc.position.Y < vector2.Y + 16f)
+							{
+								flag2 = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+
+			// Start flying if target is not within a certain distance
+			if (!flag2)
+			{
+				if (npc.type != NPCID.TheDestroyerBody || npc.ai[2] != 1f)
+					Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.3f, 0.1f, 0.05f);
+
+				npc.localAI[1] = 1f;
+
+				if (npc.type == NPCID.TheDestroyer)
+				{
+					Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+					int num16 = targetFloatingUp ? 50 : 1000;
+					int height = 2000 - (int)((targetFloatingUp ? 800f : 600f) * (1f - lifeRatio));
+					bool flag3 = true;
+
+					if (npc.position.Y > Main.player[npc.target].position.Y)
+					{
+						for (int m = 0; m < 255; m++)
+						{
+							if (Main.player[m].active)
+							{
+								Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - num16, (int)Main.player[m].position.Y - num16, num16 * 2, height);
+								if (rectangle.Intersects(rectangle2))
+								{
+									flag3 = false;
+									break;
+								}
+							}
+						}
+						if (flag3)
+							flag2 = true;
+					}
+				}
+			}
+			else
+				npc.localAI[1] = 0f;
+
+			// Despawn
+			float fallSpeed = 16f;
+			if (Main.dayTime || Main.player[npc.target].dead)
+			{
+				flag2 = false;
+				npc.velocity.Y = npc.velocity.Y + 1f;
+
+				if ((double)npc.position.Y > Main.worldSurface * 16.0)
+				{
+					npc.velocity.Y = npc.velocity.Y + 1f;
+					fallSpeed = 32f;
+				}
+
+				if ((double)npc.position.Y > Main.rockLayer * 16.0)
+				{
+					for (int n = 0; n < 200; n++)
+					{
+						if (Main.npc[n].aiStyle == npc.aiStyle)
+							Main.npc[n].active = false;
+					}
+				}
+			}
+			fallSpeed += 4f * (1f - lifeRatio);
+
+			// Speed and movement
+			float speed = 0.1f + ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio));
+			float turnSpeed = 0.15f + ((targetFloatingUp ? 0.3f : 0.15f) * (1f - lifeRatio));
+			Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+			float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
+			float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+			num20 = (float)((int)(num20 / 16f) * 16);
+			num21 = (float)((int)(num21 / 16f) * 16);
+			vector3.X = (float)((int)(vector3.X / 16f) * 16);
+			vector3.Y = (float)((int)(vector3.Y / 16f) * 16);
+			num20 -= vector3.X;
+			num21 -= vector3.Y;
+			float num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
+			if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
+			{
+				try
+				{
+					vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+					num20 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector3.X;
+					num21 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector3.Y;
+				}
+				catch
+				{
+				}
+				npc.rotation = (float)Math.Atan2((double)num21, (double)num20) + 1.57f;
+				num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
+				int num23 = (int)(44f * npc.scale);
+				num22 = (num22 - (float)num23) / num22;
+				num20 *= num22;
+				num21 *= num22;
+				npc.velocity = Vector2.Zero;
+				npc.position.X = npc.position.X + num20;
+				npc.position.Y = npc.position.Y + num21;
+				return false;
+			}
+
+			if (!flag2)
+			{
+				npc.TargetClosest(true);
+				npc.velocity.Y = npc.velocity.Y + 0.15f;
+
+				if (npc.velocity.Y > fallSpeed)
+					npc.velocity.Y = fallSpeed;
+
+				if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.4)
+				{
+					if (npc.velocity.X < 0f)
+						npc.velocity.X = npc.velocity.X - speed * 1.1f;
+					else
+						npc.velocity.X = npc.velocity.X + speed * 1.1f;
+				}
+				else if (npc.velocity.Y == fallSpeed)
+				{
+					if (npc.velocity.X < num20)
+						npc.velocity.X = npc.velocity.X + speed;
+					else if (npc.velocity.X > num20)
+						npc.velocity.X = npc.velocity.X - speed;
+				}
+				else if (npc.velocity.Y > 4f)
+				{
+					if (npc.velocity.X < 0f)
+						npc.velocity.X = npc.velocity.X + speed * 0.9f;
+					else
+						npc.velocity.X = npc.velocity.X - speed * 0.9f;
+				}
+			}
+			else
+			{
+				if (npc.soundDelay == 0)
+				{
+					float num24 = num22 / 40f;
+					if (num24 < 10f)
+						num24 = 10f;
+					if (num24 > 20f)
+						num24 = 20f;
+
+					npc.soundDelay = (int)num24;
+					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+				}
+
+				num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
+				float num25 = Math.Abs(num20);
+				float num26 = Math.Abs(num21);
+				float num27 = fallSpeed / num22;
+				num20 *= num27;
+				num21 *= num27;
+
+				if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
+				{
+					if (npc.velocity.X < num20)
+						npc.velocity.X = npc.velocity.X + turnSpeed;
+					else if (npc.velocity.X > num20)
+						npc.velocity.X = npc.velocity.X - turnSpeed;
+					if (npc.velocity.Y < num21)
+						npc.velocity.Y = npc.velocity.Y + turnSpeed;
+					else if (npc.velocity.Y > num21)
+						npc.velocity.Y = npc.velocity.Y - turnSpeed;
+				}
+
+				if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
+				{
+					if (npc.velocity.X < num20)
+						npc.velocity.X = npc.velocity.X + speed;
+					else if (npc.velocity.X > num20)
+						npc.velocity.X = npc.velocity.X - speed;
+					if (npc.velocity.Y < num21)
+						npc.velocity.Y = npc.velocity.Y + speed;
+					else if (npc.velocity.Y > num21)
+						npc.velocity.Y = npc.velocity.Y - speed;
+
+					if ((double)Math.Abs(num21) < (double)fallSpeed * 0.2 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
+					{
+						if (npc.velocity.Y > 0f)
+							npc.velocity.Y = npc.velocity.Y + speed * 2f;
+						else
+							npc.velocity.Y = npc.velocity.Y - speed * 2f;
+					}
+					if ((double)Math.Abs(num20) < (double)fallSpeed * 0.2 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
+					{
+						if (npc.velocity.X > 0f)
+							npc.velocity.X = npc.velocity.X + speed * 2f;
+						else
+							npc.velocity.X = npc.velocity.X - speed * 2f;
+					}
+				}
+				else if (num25 > num26)
+				{
+					if (npc.velocity.X < num20)
+						npc.velocity.X = npc.velocity.X + speed * 1.1f;
+					else if (npc.velocity.X > num20)
+						npc.velocity.X = npc.velocity.X - speed * 1.1f;
+
+					if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
+					{
+						if (npc.velocity.Y > 0f)
+							npc.velocity.Y = npc.velocity.Y + speed;
+						else
+							npc.velocity.Y = npc.velocity.Y - speed;
+					}
+				}
+				else
+				{
+					if (npc.velocity.Y < num21)
+						npc.velocity.Y = npc.velocity.Y + speed * 1.1f;
+					else if (npc.velocity.Y > num21)
+						npc.velocity.Y = npc.velocity.Y - speed * 1.1f;
+
+					if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
+					{
+						if (npc.velocity.X > 0f)
+							npc.velocity.X = npc.velocity.X + speed;
+						else
+							npc.velocity.X = npc.velocity.X - speed;
+					}
+				}
+			}
+
+			npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+
+			if (npc.type == NPCID.TheDestroyer)
+			{
+				if (flag2)
+				{
+					if (npc.localAI[0] != 1f)
+						npc.netUpdate = true;
+
+					npc.localAI[0] = 1f;
+				}
+				else
+				{
+					if (npc.localAI[0] != 0f)
+						npc.netUpdate = true;
+
+					npc.localAI[0] = 0f;
+				}
+
+				if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+					npc.netUpdate = true;
+			}
+			return false;
+		}
+		#endregion
+
 		#region Buffed Mothron AI
 		public static bool BuffedMothronAI(NPC npc)
 		{
@@ -4675,103 +5148,6 @@ namespace CalamityMod.NPCs
 					{
 						npc.velocity.X *= 1.005f;
 						npc.velocity.Y *= 1.005f;
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region Revengeance Destroyer AI
-		public static void RevengeanceDestroyerAI(NPC npc, bool configBossRushBoost, Mod mod, bool enraged)
-		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
-
-			// Enrage variable if player is flying upside down
-			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
-
-			// Gain more defense as health lowers, max of 20
-			int defenseUp = (int)(20f * (1f - (float)npc.life / (float)npc.lifeMax));
-			npc.defense = npc.defDefense + defenseUp;
-
-			// Enrage, fire more homing lasers
-			if (targetFloatingUp)
-			{
-				if (calamityGlobalNPC.newAI[2] < 480f)
-					calamityGlobalNPC.newAI[2] += 1f;
-			}
-			else
-			{
-				if (calamityGlobalNPC.newAI[2] > 0f)
-					calamityGlobalNPC.newAI[2] -= 1f;
-			}
-
-			// Disable normal laser code
-			npc.localAI[0] = 0f;
-
-			// Laser rate of fire
-			int shootTime = ((enraged || configBossRushBoost) ? 8 : 4);
-			if (CalamityWorld.bossRushActive)
-				shootTime += 1;
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
-				shootTime += 1;
-
-			// Fire lasers
-			if (Main.netMode != 1)
-			{
-				calamityGlobalNPC.newAI[0] += (float)Main.rand.Next(shootTime);
-				if (calamityGlobalNPC.newAI[0] >= (float)Main.rand.Next(1400, 26000))
-				{
-					calamityGlobalNPC.newAI[0] = 0f;
-					npc.TargetClosest(true);
-					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-					{
-						// Base laser speed on player movement speed
-						float laserSpeedBoost = System.Math.Abs(Main.player[npc.target].velocity.X);
-						if (System.Math.Abs(Main.player[npc.target].velocity.X) < System.Math.Abs(Main.player[npc.target].velocity.Y))
-							laserSpeedBoost = System.Math.Abs(Main.player[npc.target].velocity.Y);
-
-						// Put limits on laser speed
-						float speed = 2f + laserSpeedBoost;
-						if (speed < 7f)
-							speed = 7f;
-						if (speed > 10f)
-							speed = 10f;
-
-						// Increase laser speed as health drops
-						if ((double)npc.life <= (double)npc.lifeMax * 0.7)
-							speed += 0.25f;
-						if ((double)npc.life <= (double)npc.lifeMax * 0.4 || CalamityWorld.bossRushActive)
-							speed += CalamityWorld.death ? 0.33f : 0.25f;
-						if ((double)npc.life <= (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-							speed += CalamityWorld.death ? 0.33f : 0.25f;
-
-						int damage = 28;
-						int projectileType = ProjectileID.DeathLaser;
-						int value = (CalamityWorld.bossRushActive ? 3 : 4);
-
-						// Chance to fire either a homing laser or frost beam
-						if (Main.rand.Next(value) == 0 || enraged || configBossRushBoost)
-						{
-							int secondValue = (calamityGlobalNPC.newAI[2] > 0f ? 3 : 5);
-							projectileType = (Main.rand.Next(secondValue) == 0 ? mod.ProjectileType("DestroyerHomingLaser") : ProjectileID.FrostBeam);
-							damage = 31;
-						}
-
-						Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-						float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X;
-						float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y;
-						float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
-						num8 = speed / num8;
-						num6 *= num8;
-						num7 *= num8;
-						vector.X += num6 * 5f;
-						vector.Y += num7 * 5f;
-						int proj = Projectile.NewProjectile(vector.X, vector.Y, num6, num7, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-
-						if (projectileType != mod.ProjectileType("DestroyerHomingLaser"))
-							Main.projectile[proj].timeLeft = 300;
-
-						npc.netUpdate = true;
 					}
 				}
 			}
