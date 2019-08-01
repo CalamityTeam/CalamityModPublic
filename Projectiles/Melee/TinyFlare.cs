@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TinyFlare : ModProjectile
+	public class TinyFlare : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -21,8 +21,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.melee = true;
 			projectile.alpha = 255;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 240;
-			projectile.light = 0.5f;
+			projectile.timeLeft = 180;
 			projectile.tileCollide = false;
 			projectile.extraUpdates = 1;
 		}
@@ -41,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
 			bool flag17 = false;
 			for (int num475 = 0; num475 < 200; num475++)
 			{
-				if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
+				if (Main.npc[num475].CanBeChasedBy(projectile, false))
 				{
 					float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
 					float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);

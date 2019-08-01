@@ -1865,21 +1865,53 @@ namespace CalamityMod.Items
 
 			grabRange += itemGrabRangeBoost;
 		}
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
-		/// </summary>
-		/// <param name="player">The player using the item.</param>
-		/// <param name="dustType">The type of dust to use.</param>
-		/// <param name="chancePerFrame">The chance per frame to spawn the dust (0f-1f)</param>
-		/// <param name="minDistance">The minimum distance between the player and the dust</param>
-		/// <param name="maxDistance">The maximum distance between the player and the dust</param>
-		/// <param name="minRandRot">The minimum random rotation offset for the dust</param>
-		/// <param name="maxRandRot">The maximum random rotation offset for the dust</param>
-		/// <param name="minSpeed">The minimum speed that the dust should travel</param>
-		/// <param name="maxSpeed">The maximum speed that the dust should travel</param>
-		public static Dust MeleeDustHelper(Player player, int dustType, float chancePerFrame, float minDistance, float maxDistance, float minRandRot = -0.2f, float maxRandRot = 0.2f, float minSpeed = 0.9f, float maxSpeed = 1.1f)
+        #region The Horseman's Blade
+        public static void HorsemansBladeOnHit(Player player, int targetIdx, int damage, float knockback)
+        {
+            int x = Main.rand.Next(100, 300);
+            int y = Main.rand.Next(100, 300);
+
+            // Pick a random side: left or right
+            if (Main.rand.Next(2) == 0)
+                x -= Main.LogicCheckScreenWidth / 2 + x;
+            else
+                x += Main.LogicCheckScreenWidth / 2 - x;
+
+            // Pick a random side: top or bottom
+            if (Main.rand.Next(2) == 0)
+                y -= Main.LogicCheckScreenHeight / 2 + y;
+            else
+                y += Main.LogicCheckScreenHeight / 2 - y;
+
+            x += (int)player.position.X;
+            y += (int)player.position.Y;
+            float speed = 8f;
+            Vector2 vector = new Vector2((float)x, (float)y);
+            float dx = Main.npc[targetIdx].position.X - vector.X;
+            float dy = Main.npc[targetIdx].position.Y - vector.Y;
+            float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+            dist = speed / dist;
+            dx *= dist;
+            dy *= dist;
+            Projectile.NewProjectile(x, y, dx, dy, ProjectileID.FlamingJack, damage, knockback, player.whoAmI, targetIdx, 0f);
+        }
+        #endregion
+
+        /// <summary>
+        /// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
+        /// </summary>
+        /// <param name="player">The player using the item.</param>
+        /// <param name="dustType">The type of dust to use.</param>
+        /// <param name="chancePerFrame">The chance per frame to spawn the dust (0f-1f)</param>
+        /// <param name="minDistance">The minimum distance between the player and the dust</param>
+        /// <param name="maxDistance">The maximum distance between the player and the dust</param>
+        /// <param name="minRandRot">The minimum random rotation offset for the dust</param>
+        /// <param name="maxRandRot">The maximum random rotation offset for the dust</param>
+        /// <param name="minSpeed">The minimum speed that the dust should travel</param>
+        /// <param name="maxSpeed">The maximum speed that the dust should travel</param>
+        public static Dust MeleeDustHelper(Player player, int dustType, float chancePerFrame, float minDistance, float maxDistance, float minRandRot = -0.2f, float maxRandRot = 0.2f, float minSpeed = 0.9f, float maxSpeed = 1.1f)
 		{
 			if (Main.rand.NextFloat(1f) < chancePerFrame)
 			{

@@ -1,20 +1,23 @@
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons
 {
-    public class BalefulHarvester : ModItem
+	public class BalefulHarvester : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Baleful Harvester");
-			Tooltip.SetDefault("Fires skulls that split into homing fire orbs on death");
+			Tooltip.SetDefault("Shoots skulls that split into homing fire orbs on enemy hits\n" +
+				"Summons flaming pumpkins on enemy hits");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 110;
+			item.damage = 130;
 			item.width = 66;
 			item.height = 66;
 			item.melee = true;
@@ -22,11 +25,11 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 1;
 			item.useTime = 22;
 			item.useTurn = true;
-			item.knockBack = 8f;
+            item.knockBack = 8f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-            item.value = Item.buyPrice(0, 60, 0, 0);
-            item.rare = 7;
+			item.value = Item.buyPrice(0, 95, 0, 0);
+			item.rare = 9;
 			item.shoot = mod.ProjectileType("BalefulHarvesterProjectile");
 			item.shootSpeed = 6f;
 		}
@@ -34,17 +37,17 @@ namespace CalamityMod.Items.Weapons
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Pumpkin, 30);
+			recipe.AddIngredient(ItemID.TheHorsemansBlade);
 			recipe.AddIngredient(ItemID.BookofSkulls);
-	        recipe.AddIngredient(ItemID.SpookyWood, 200);
-	        recipe.AddIngredient(ItemID.TheHorsemansBlade);
-	        recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
+			recipe.AddIngredient(ItemID.FragmentSolar, 20);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-	    {
+		{
+            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback);
 			target.AddBuff(BuffID.OnFire, 300);
 		}
 	}
