@@ -1546,7 +1546,7 @@ namespace CalamityMod.Items
 					// Betsy
 					case ItemID.BossBagBetsy:
 						float vesuviusChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
-						DropHelper.DropItemCondition(player, mod.ItemType("Vesuvius"), CalamityWorld.revenge);
+						DropHelper.DropItemCondition(player, mod.ItemType("Vesuvius"), CalamityWorld.revenge, vesuviusChance);
 						break;
 
 					// Moon Lord
