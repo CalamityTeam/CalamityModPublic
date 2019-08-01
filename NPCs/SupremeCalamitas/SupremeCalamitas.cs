@@ -2025,22 +2025,25 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DropHelper.DropItem(npc, mod.ItemType("CalamitousEssence"), true, essenceMin, essenceMax);
 
             // Weapons
+            // All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
             DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
-                mod.ItemType("Animus"),
-                mod.ItemType("Azathoth"),
-                mod.ItemType("Contagion"),
-                mod.ItemType("CrystylCrusher"),
-                mod.ItemType("DraconicDestruction"),
-                mod.ItemType("Earth"),
-                mod.ItemType("RoyalKnivesMelee"), // Illustrious Knives
-                mod.ItemType("RoyalKnives"),
-                mod.ItemType("NanoblackReaperMelee"),
-                mod.ItemType("NanoblackReaperRogue"),
-                mod.ItemType("RedSun"),
-                mod.ItemType("Svantechnical"),
-                mod.ItemType("TriactisTruePaladinianMageHammerofMightMelee"),
-                mod.ItemType("TriactisTruePaladinianMageHammerofMight"),
-                mod.ItemType("Megafleet") // Voidragon
+                mod.ItemType("Animus"), mod.ItemType("Animus"),
+                mod.ItemType("Azathoth"), mod.ItemType("Azathoth"),
+                mod.ItemType("Contagion"), mod.ItemType("Contagion"),
+                mod.ItemType("CrystylCrusher"), mod.ItemType("CrystylCrusher"),
+                mod.ItemType("DraconicDestruction"), mod.ItemType("DraconicDestruction"),
+                mod.ItemType("Earth"), mod.ItemType("Earth"),
+                mod.ItemType("Fabstaff"), mod.ItemType("Fabstaff"),
+                mod.ItemType("RoyalKnivesMelee"), mod.ItemType("RoyalKnives"), // Illustrious Knives
+                mod.ItemType("NanoblackReaperMelee"), mod.ItemType("NanoblackReaperRogue"),
+                mod.ItemType("RedSun"), mod.ItemType("RedSun"),
+                mod.ItemType("ScarletDevil"), mod.ItemType("ScarletDevil"),
+                mod.ItemType("SomaPrime"), mod.ItemType("SomaPrime"),
+                mod.ItemType("BlushieStaff"), mod.ItemType("BlushieStaff"), // Staff of Blushie
+                mod.ItemType("Svantechnical"), mod.ItemType("Svantechnical"),
+                mod.ItemType("Judgement"), mod.ItemType("Judgement"), // The Dance of Light
+                mod.ItemType("TriactisTruePaladinianMageHammerofMightMelee"), mod.ItemType("TriactisTruePaladinianMageHammerofMight"),
+                mod.ItemType("Megafleet"), mod.ItemType("Megafleet") // Voidragon
             );
             DropHelper.DropItemCondition(npc, mod.ItemType("Vehemenc"), CalamityWorld.revenge);
 
