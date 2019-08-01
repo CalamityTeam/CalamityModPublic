@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				float num474 = (float)(500.0 * (1.0 - lifeRatio));
 				if (!player.ZoneDungeon)
 				{
-					num474 *= 1.5f;
+					num474 *= 1.25f;
 				}
 				npc.ai[0] += 1f;
 				if (npc.ai[0] == 60f)
@@ -242,10 +242,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				}
 			}
 			float num823 = 7.5f;
-			float num824 = 0.1f;
+			float num824 = 0.08f;
 			if (!player.ZoneDungeon)
 			{
-				num823 = 15f;
+				num823 = 25f;
 			}
 			Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 			float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
