@@ -314,12 +314,12 @@ namespace CalamityMod.NPCs.StormWeaver
 					break;
 				}
 			}
-			num188 = revenge ? 17f : 16f;
-			num189 = revenge ? 0.5f : 0.45f;
-			if (!Main.player[npc.target].ZoneSkyHeight)
+			num188 = revenge ? 14f : 13f;
+			num189 = revenge ? 0.44f : 0.4f;
+			if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
-				num188 = 36f; //24
-				num189 = 0.8f; //0.6
+				num188 *= 2f;
+				num189 *= 2f;
 			}
 			float num48 = num188 * 1.3f;
 			float num49 = num188 * 0.7f;
