@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons
 			item.useTime = 25;
 			item.width = 58;
 			item.height = 58;
-			item.damage = 75;
+			item.damage = 90;
 			item.melee = true;
 			item.knockBack = 8.25f;
 			item.UseSound = SoundID.Item1;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			player.statLife -= 3;
+			player.statLife -= 5;
 			if (player.lifeRegen > 0)
 			{
 				player.lifeRegen = 0;
@@ -82,7 +82,7 @@ namespace CalamityMod.Items.Weapons
 			if (!player.immune)
 			{
 				player.immune = true;
-				player.immuneTime = 10;
+				player.immuneTime = 5;
 			}
 		}
 	}
