@@ -516,46 +516,17 @@ namespace CalamityMod
 		{
 			return DropItemFromSetChance(npc, false, chance, itemIDs);
 		}
+        #endregion
 
-		/// <summary>
-		/// At a chance, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-		/// </summary>
-		/// <param name="npc">The NPC which should drop the item.</param>
-		/// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-		/// <param name="oneInXChance">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-		/// <returns>Whether an item was dropped.</returns>
-		public static bool DropItemFromSetChance(NPC npc, bool dropPerPlayer, int oneInXChance, params int[] itemIDs)
-		{
-			// If you fail the roll to get the drop, stop immediately.
-			if (Main.rand.Next(oneInXChance) != 0)
-				return false;
-
-			return DropItemFromSet(npc, dropPerPlayer, itemIDs);
-		}
-
-		/// <summary>
-		/// At a chance, chooses an item from an array and drops it from the given NPC.
-		/// </summary>
-		/// <param name="npc">The NPC which should drop the item.</param>
-		/// <param name="oneInXChance">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-		/// <returns>Whether an item was dropped.</returns>
-		public static bool DropItemFromSetChance(NPC npc, int oneInXChance, params int[] itemIDs)
-		{
-			return DropItemFromSetChance(npc, false, oneInXChance, itemIDs);
-		}
-		#endregion
-
-		#region NPC Item Set Drops Conditional
-		/// <summary>
-		/// With a condition, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-		/// </summary>
-		/// <param name="npc">The NPC which should drop the item.</param>
-		/// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-		/// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-		public static bool DropItemFromSetCondition(NPC npc, bool dropPerPlayer, bool condition, params int[] itemIDs)
+        #region NPC Item Set Drops Conditional
+        /// <summary>
+        /// With a condition, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
+        /// </summary>
+        /// <param name="npc">The NPC which should drop the item.</param>
+        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
+        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
+        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
+        public static bool DropItemFromSetCondition(NPC npc, bool dropPerPlayer, bool condition, params int[] itemIDs)
 		{
 			return condition ? DropItemFromSet(npc, dropPerPlayer, itemIDs) : false;
 		}
@@ -594,31 +565,6 @@ namespace CalamityMod
 		public static bool DropItemFromSetCondition(NPC npc, bool condition, float chance, params int[] itemIDs)
 		{
 			return condition ? DropItemFromSetChance(npc, false, chance, itemIDs) : false;
-		}
-
-		/// <summary>
-		/// With a condition, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-		/// </summary>
-		/// <param name="npc">The NPC which should drop the item.</param>
-		/// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-		/// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-		/// <param name="oneInXChance">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-		public static bool DropItemFromSetCondition(NPC npc, bool dropPerPlayer, bool condition, int oneInXChance, params int[] itemIDs)
-		{
-			return condition ? DropItemFromSetChance(npc, dropPerPlayer, oneInXChance, itemIDs) : false;
-		}
-
-		/// <summary>
-		/// With a condition, chooses an item from an array and drops it from the given NPC.
-		/// </summary>
-		/// <param name="npc">The NPC which should drop the item.</param>
-		/// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-		/// <param name="oneInXChance">The chance that the item will drop is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-		public static bool DropItemFromSetCondition(NPC npc, bool condition, int oneInXChance, params int[] itemIDs)
-		{
-			return condition ? DropItemFromSetChance(npc, false, oneInXChance, itemIDs) : false;
 		}
 		#endregion
 
@@ -769,22 +715,6 @@ namespace CalamityMod
 
 			return DropItemFromSet(p, itemIDs);
 		}
-
-		/// <summary>
-		/// At a chance, chooses an item from an array and spawns it for the given player.
-		/// </summary>
-		/// <param name="p">The player which should receive the item.</param>
-		/// <param name="oneInXChance">The chance that the items will spawn is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be spawned.</param>
-		/// <returns>Whether an item was spawned.</returns>
-		public static bool DropItemFromSetChance(Player p, int oneInXChance, params int[] itemIDs)
-		{
-			// If you fail the roll to get the drop, stop immediately.
-			if (Main.rand.Next(oneInXChance) != 0)
-				return false;
-
-			return DropItemFromSet(p, itemIDs);
-		}
 		#endregion
 
 		#region Player Item Set Spawns Conditional
@@ -811,19 +741,6 @@ namespace CalamityMod
 		public static bool DropItemFromSetCondition(Player p, bool condition, float chance, params int[] itemIDs)
 		{
 			return condition ? DropItemFromSetChance(p, chance, itemIDs) : false;
-		}
-
-		/// <summary>
-		/// With a condition and at a chance, chooses an item from an array and spawns it for the given player.
-		/// </summary>
-		/// <param name="p">The player which should receive the item.</param>
-		/// <param name="condition">Any arbitrary Boolean condition to gate this spawn. If false, nothing is spawned.</param>
-		/// <param name="oneInXChance">The chance that the items will spawn is 1 in this number. For example, 5 gives a 1 in 5 chance.</param>
-		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be spawned.</param>
-		/// <returns>Whether an item was spawned.</returns>
-		public static bool DropItemFromSetCondition(Player p, bool condition, int oneInXChance, params int[] itemIDs)
-		{
-			return condition ? DropItemFromSetChance(p, oneInXChance, itemIDs) : false;
 		}
 		#endregion
 	}
