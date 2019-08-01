@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,50 +14,58 @@ namespace CalamityMod.Items.Weapons
 				"It's a bullet hose");
 		}
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 3;
-	        item.ranged = true;
-	        item.width = 60;
-	        item.height = 28;
-	        item.useTime = 1;
-	        item.useAnimation = 3;
-	        item.useStyle = 5;
-	        item.noMelee = true;
-	        item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
-	        item.UseSound = SoundID.Item11;
-	        item.autoReuse = true;
-	        item.shoot = 10;
-	        item.shootSpeed = 18f;
-	        item.useAmmo = 97;
-	    }
-
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void SetDefaults()
 		{
-		    float SpeedX = speedX + (float) Main.rand.Next(-15, 16) * 0.05f;
-		    float SpeedY = speedY + (float) Main.rand.Next(-15, 16) * 0.05f;
-		    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-		    return false;
+			item.damage = 3;
+			item.ranged = true;
+			item.width = 60;
+			item.height = 28;
+            item.useTime = 2;
+            item.useAnimation = 2;
+			item.useStyle = 5;
+			item.noMelee = true;
+			item.knockBack = 1.5f;
+			item.value = Item.buyPrice(0, 80, 0, 0);
+			item.rare = 8;
+			item.UseSound = SoundID.Item11;
+			item.autoReuse = true;
+			item.shoot = 10;
+			item.shootSpeed = 18f;
+			item.useAmmo = 97;
 		}
 
-	    public override bool ConsumeAmmo(Player player)
-	    {
-	    	if (Main.rand.Next(0, 100) < 33)
-	    		return false;
-	    	return true;
-	    }
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-14, -1);
+        }
 
-	    public override void AddRecipes()
-	    {
-	        ModRecipe recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(ItemID.IronBar, 10);
-            recipe.anyIronBar = true;
-            recipe.AddIngredient(null, "CoreofEleum", 7);
-	        recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	    }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+            for (int i = 0; i < 2; ++i)
+            {
+                float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            }
+            return false;
+		}
+
+		public override bool ConsumeAmmo(Player player)
+		{
+			if (Main.rand.Next(0, 100) < 33)
+				return false;
+			return true;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.IronBar, 10);
+			recipe.anyIronBar = true;
+			recipe.AddIngredient(null, "CoreofEleum", 7);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

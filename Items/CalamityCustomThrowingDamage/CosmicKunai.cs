@@ -14,11 +14,11 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SafeSetDefaults()
 		{
 			item.width = 26;
-			item.damage = 75;
+			item.damage = 150;
 			item.noMelee = true;
 			item.noUseGraphic = true;
-			item.useTime = 1;
-			item.useAnimation = 5;
+			item.useTime = 2;
+			item.useAnimation = 10;
 			item.useStyle = 1;
 			item.knockBack = 5f;
 			item.UseSound = SoundID.Item109;
@@ -31,6 +31,12 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.rare = 9;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			return false;
 		}
 	}
 }
