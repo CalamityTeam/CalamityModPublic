@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Cryogen
 			DropHelper.DropItemChance(player, mod.ItemType("IceStar"), 3, 150, 200);
 
 			// Equipment
-			DropHelper.DropItem(player, mod.ItemType("SoulfofCryogen"));
+			DropHelper.DropItem(player, mod.ItemType("SoulofCryogen"));
 			DropHelper.DropItemCondition(player, mod.ItemType("FrostFlare"), CalamityWorld.revenge);
 			DropHelper.DropItemChance(player, mod.ItemType("CryoStone"), 10);
 			DropHelper.DropItemChance(player, mod.ItemType("Regenator"), DropHelper.RareVariantDropRateInt);
