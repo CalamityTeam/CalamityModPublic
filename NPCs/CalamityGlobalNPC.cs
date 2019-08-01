@@ -889,18 +889,18 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.BrainofCthulhu)
 			{
 				if (CalamityWorld.death)
-					npc.lifeMax = (int)((double)npc.lifeMax * 2.3);
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.9);
 				else
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
 
 				npc.npcSlots = 12f;
 			}
 			else if (npc.type == NPCID.Creeper)
 			{
 				if (CalamityWorld.death)
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
-				else
 					npc.lifeMax = (int)((double)npc.lifeMax * 1.2);
+				else
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.1);
 			}
 			else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
 			{
@@ -1679,6 +1679,9 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
+					case NPCID.QueenBee:
+						return CalamityGlobalAI.BuffedQueenBeeAI(npc, enraged, mod);
+						break;
 					case NPCID.TheDestroyer:
 					case NPCID.TheDestroyerBody:
 					case NPCID.TheDestroyerTail:
@@ -2205,9 +2208,6 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.DungeonGuardian:
 						CalamityGlobalAI.RevengeanceSkeletronAI(npc, configBossRushBoost, enraged);
-						break;
-					case NPCID.QueenBee:
-						CalamityGlobalAI.RevengeanceQueenBeeAI(npc, mod, enraged);
 						break;
 					case NPCID.BrainofCthulhu:
 						CalamityGlobalAI.RevengeanceBrainofCthulhuAI(npc);
