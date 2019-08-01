@@ -5,26 +5,26 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EldritchTentacle : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+	public class EldritchTentacle : ModProjectile
+	{
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tentacle");
 		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 40;
-            projectile.height = 40;
-            projectile.friendly = true;
-            projectile.penetrate = 2;
-            projectile.MaxUpdates = 3;
-            projectile.magic = true;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 40;
+			projectile.height = 40;
+			projectile.friendly = true;
+			projectile.penetrate = 2;
+			projectile.MaxUpdates = 3;
+			projectile.magic = true;
+		}
 
-        public override void AI()
-        {
-        	if (projectile.velocity.X != projectile.velocity.X)
+		public override void AI()
+		{
+			if (projectile.velocity.X != projectile.velocity.X)
 			{
 				if (Math.Abs(projectile.velocity.X) < 1f)
 				{
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
 					projectile.Kill();
 				}
 			}
-        	Vector2 center10 = projectile.Center;
+			Vector2 center10 = projectile.Center;
 			projectile.scale = 1f - projectile.localAI[0];
 			projectile.width = (int)(20f * projectile.scale);
 			projectile.height = projectile.width;
@@ -88,11 +88,6 @@ namespace CalamityMod.Projectiles.Magic
 					num897++;
 				}
 			}
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-        }
-    }
+		}
+	}
 }
