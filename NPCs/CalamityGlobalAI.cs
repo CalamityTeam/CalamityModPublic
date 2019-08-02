@@ -2079,7 +2079,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Buffed Queen Bee AI
-		public static bool BuffedQueenBeeAI(NPC npc, bool enraged, Mod mod)
+		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
 
@@ -2093,6 +2093,10 @@ namespace CalamityMod.NPCs
 
 				num = num593;
 			}
+
+			bool enrage = false;
+			if (!Main.player[npc.target].ZoneJungle || (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0 || Main.player[npc.target].position.Y > (float)((Main.maxTilesY - 200) * 16))
+				enrage = true;
 
 			// Boost defense and damage as health decreases
 			int statBoost = (int)(20f * (1f - (float)npc.life / (float)npc.lifeMax));
@@ -2129,11 +2133,20 @@ namespace CalamityMod.NPCs
 					int phase;
 					do
 					{
-						phase = Main.rand.Next(3);
-						if (phase == 1)
-							phase = 2;
-						else if (phase == 2)
-							phase = 3;
+						if (enrage)
+						{
+							phase = Main.rand.Next(2);
+							if (phase == 1)
+								phase = 3;
+						}
+						else
+						{
+							phase = Main.rand.Next(3);
+							if (phase == 1)
+								phase = 2;
+							else if (phase == 2)
+								phase = 3;
+						}
 					}
 					while ((float)phase == num595);
 					npc.ai[0] = (float)phase;
@@ -2477,22 +2490,17 @@ namespace CalamityMod.NPCs
 				// Stinger fire counter
 				npc.ai[1] += 1f;
 				bool shoot = false;
-				if ((double)npc.life < (double)npc.lifeMax * 0.1)
+				if ((double)npc.life < (double)npc.lifeMax * 0.33)
 				{
 					if (npc.ai[1] % 15f == 14f)
 						shoot = true;
 				}
-				else if (npc.life < npc.lifeMax / 3)
+				else if (npc.life < (double)npc.lifeMax * 0.66)
 				{
 					if (npc.ai[1] % 25f == 24f)
 						shoot = true;
 				}
-				else if (npc.life < npc.lifeMax / 2)
-				{
-					if (npc.ai[1] % 30f == 29f)
-						shoot = true;
-				}
-				else if (npc.ai[1] % 35f == 34f)
+				else if (npc.ai[1] % 30f == 29f)
 					shoot = true;
 
 				// Fire stingers
@@ -2501,8 +2509,8 @@ namespace CalamityMod.NPCs
 					Main.PlaySound(SoundID.Item17, npc.position);
 					if (Main.netMode != 1)
 					{
-						float num624 = 10f;
-						if ((double)npc.life < (double)npc.lifeMax * 0.1)
+						float num624 = 12f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.33)
 							num624 += 3f;
 						if (CalamityWorld.death)
 							num624 += 1f;

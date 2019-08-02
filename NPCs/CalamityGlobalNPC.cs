@@ -1680,7 +1680,7 @@ namespace CalamityMod.NPCs
 				switch (npc.type)
 				{
 					case NPCID.QueenBee:
-						return CalamityGlobalAI.BuffedQueenBeeAI(npc, enraged, mod);
+						return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
 						break;
 					case NPCID.TheDestroyer:
 					case NPCID.TheDestroyerBody:
