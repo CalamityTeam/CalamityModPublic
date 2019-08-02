@@ -119,7 +119,6 @@ namespace CalamityMod.Items.Weapons
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Terratomere");
             recipe.AddIngredient(null, "AnarchyBlade");
-            recipe.AddIngredient(null, "BalefulHarvester");
             recipe.AddIngredient(null, "FlarefrostBlade");
             recipe.AddIngredient(null, "PhoenixBlade");
             recipe.AddIngredient(null, "StellarStriker");
