@@ -3544,38 +3544,38 @@ namespace CalamityMod
 				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += (int)(rogueStealth * 30f); //0% to 30% crit boost, 48% with Auric
 				player.moveSpeed += rogueStealth * 0.05f;
 				player.aggro -= (int)((rogueStealth / rogueStealthMax) * 900f);
-                if (player.itemAnimation > 0)
-                {
-                    if (rogueStealth > 0f)
-                    {
-                        rogueStealth -= rogueStealthMax * 0.006f;
-                        if (rogueStealth < 0f)
-                            rogueStealth = 0f;
-                    }
-                }
-                else
-                {
-                    float stealthGenRate = 0f;
-                    bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
-                    if (standstill)
-                        stealthGenRate += 1f;
-                    else if(penumbra)
-                    {
-                        if (Main.eclipse)
-                            stealthGenRate += 0.3f;
-                        else if (!Main.dayTime)
-                            stealthGenRate += 0.2f;
-                        else
-                            stealthGenRate += 0.1f;
-                    }
+				if (player.itemAnimation > 0)
+				{
+					if (rogueStealth > 0f)
+					{
+						rogueStealth -= rogueStealthMax * 0.006f;
+						if (rogueStealth < 0f)
+							rogueStealth = 0f;
+					}
+				}
+				else
+				{
+					float stealthGenRate = 0f;
+					bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
+					if (standstill)
+						stealthGenRate += 1f;
+					else if (penumbra)
+					{
+						if (Main.eclipse)
+							stealthGenRate += 0.3f;
+						else if (!Main.dayTime)
+							stealthGenRate += 0.2f;
+						else
+							stealthGenRate += 0.1f;
+					}
 
-                    if (rogueStealth < rogueStealthMax)
-                    {
-                        rogueStealth += rogueStealthMax * 0.006f * stealthGenRate; //180 ticks, 3 seconds to reach full stealth
-                        if (rogueStealth > rogueStealthMax)
-                            rogueStealth = rogueStealthMax;
-                    }
-                }
+					if (rogueStealth < rogueStealthMax)
+					{
+						rogueStealth += rogueStealthMax * 0.006f * stealthGenRate; //180 ticks, 3 seconds to reach full stealth
+						if (rogueStealth > rogueStealthMax)
+							rogueStealth = rogueStealthMax;
+					}
+				}
 			}
 			else
 				rogueStealth = 0f;
@@ -5993,16 +5993,19 @@ namespace CalamityMod
 			double damageMult = 1.0;
 			if (isSummon)
 			{
-				if ((player.inventory[player.selectedItem].summon &&
-					!player.inventory[player.selectedItem].melee &&
-					!player.inventory[player.selectedItem].ranged &&
-					!player.inventory[player.selectedItem].magic &&
-					!player.inventory[player.selectedItem].GetGlobalItem<CalamityGlobalItem>(mod).rogue) ||
-					player.inventory[player.selectedItem].hammer > 0 ||
-					player.inventory[player.selectedItem].pick > 0 ||
-					player.inventory[player.selectedItem].axe > 0)
+				if (player.inventory[player.selectedItem].type > 0)
 				{
-					damageMult += 0.1;
+					if ((player.inventory[player.selectedItem].summon &&
+						!player.inventory[player.selectedItem].melee &&
+						!player.inventory[player.selectedItem].ranged &&
+						!player.inventory[player.selectedItem].magic &&
+						!player.inventory[player.selectedItem].GetGlobalItem<CalamityGlobalItem>(mod).rogue) ||
+						player.inventory[player.selectedItem].hammer > 0 ||
+						player.inventory[player.selectedItem].pick > 0 ||
+						player.inventory[player.selectedItem].axe > 0)
+					{
+						damageMult += 0.1;
+					}
 				}
 			}
 			if (screwdriver)
@@ -6128,7 +6131,9 @@ namespace CalamityMod
 			#region MultiplicativeReductions
 			if (isSummon)
 			{
-				if (!player.inventory[player.selectedItem].summon &&
+				if (player.inventory[player.selectedItem].type > 0)
+				{
+					if (!player.inventory[player.selectedItem].summon &&
 					(player.inventory[player.selectedItem].melee ||
 					player.inventory[player.selectedItem].ranged ||
 					player.inventory[player.selectedItem].magic ||
@@ -6136,8 +6141,9 @@ namespace CalamityMod
 					player.inventory[player.selectedItem].hammer == 0 &&
 					player.inventory[player.selectedItem].pick == 0 &&
 					player.inventory[player.selectedItem].axe == 0)
-				{
-					damage = (int)((double)damage * 0.75);
+					{
+						damage = (int)((double)damage * 0.75);
+					}
 				}
 			}
 			if (proj.ranged)
