@@ -1012,6 +1012,8 @@ namespace CalamityMod
 					NPCID.PrimeSaw,
 					NPCID.PrimeVice,
 					NPCID.TheDestroyer,
+					NPCID.TheDestroyerBody,
+					NPCID.TheDestroyerTail,
 					NPCID.Arapaima,
 					NPCID.BlackRecluse,
 					NPCID.WallCreeper,
