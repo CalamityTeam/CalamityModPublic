@@ -499,7 +499,6 @@ namespace CalamityMod.NPCs.DesertScourge
                 }
 
                 // Equipment
-                DropHelper.DropItem(npc, mod.ItemType("OceanCrest"));
                 DropHelper.DropItemChance(npc, mod.ItemType("AeroStone"), 10);
                 DropHelper.DropItemChance(npc, mod.ItemType("DeepDiver"), DropHelper.RareVariantDropRateInt);
 
