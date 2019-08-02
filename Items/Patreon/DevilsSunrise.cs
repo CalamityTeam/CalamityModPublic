@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Patreon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Devil's Sunrise");
-			Tooltip.SetDefault("Balls? Smalls");
+			Tooltip.SetDefault("Balls? Smalls.");
 		}
 
 		public override void SetDefaults()
