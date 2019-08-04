@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Patreon
 {
     public class Nadir : ModItem
     {
-        public static int BaseDamage = 1700;
+        public static int BaseDamage = 1100;
         public static float ShootSpeed = 12f;
 
         public override void SetStaticDefaults()
