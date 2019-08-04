@@ -3,8 +3,8 @@ using Terraria.ID;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-    public class CosmicKunai : CalamityDamageItem
-    {
+	public class CosmicKunai : CalamityDamageItem
+	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cosmic Kunai");
@@ -24,9 +24,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.UseSound = SoundID.Item109;
 			item.autoReuse = true;
 			item.height = 48;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.rare = 10;
-            item.shoot = mod.ProjectileType("CosmicKunai");
+			item.value = Item.buyPrice(1, 40, 0, 0);
+			item.rare = 10;
+			item.shoot = mod.ProjectileType("CosmicKunai");
 			item.shootSpeed = 28f;
 			item.rare = 9;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;

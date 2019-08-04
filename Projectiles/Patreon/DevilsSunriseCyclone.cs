@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.tileCollide = false;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 15;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
 		}
 
 		public override void AI()
@@ -216,7 +215,7 @@ namespace CalamityMod.Projectiles.Patreon
 				Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
 				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default(Vector2)) + projectile.Center;
 				Vector2 vector7 = vector6 - projectile.Center;
-				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 66, vector7.X * 1.5f, vector7.Y * 1.5f, 100, new Color(red, greenAndBlue, greenAndBlue), 1f);
+				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 66, vector7.X, vector7.Y, 100, new Color(red, greenAndBlue, greenAndBlue), 1f);
 				Main.dust[num228].noGravity = true;
 				Main.dust[num228].noLight = true;
 				Main.dust[num228].velocity = vector7;

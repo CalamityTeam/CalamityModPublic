@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons
 {
-    public class P90 : ModItem
+	public class P90 : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons
 			item.ranged = true;
 			item.width = 60;
 			item.height = 28;
-            item.useTime = 2;
-            item.useAnimation = 2;
+			item.useTime = 2;
+			item.useAnimation = 2;
 			item.useStyle = 5;
 			item.noMelee = true;
 			item.knockBack = 1.5f;
@@ -34,20 +34,20 @@ namespace CalamityMod.Items.Weapons
 			item.useAmmo = 97;
 		}
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-14, -1);
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override Vector2? HoldoutOffset()
 		{
-            for (int i = 0; i < 2; ++i)
-            {
-                float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            }
-            return false;
+			return new Vector2(-14, -1);
+		}
+
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			for (int i = 0; i < 2; ++i)
+			{
+				float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
+				float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			}
+			return false;
 		}
 
 		public override bool ConsumeAmmo(Player player)

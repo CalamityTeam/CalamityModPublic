@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num8 = speed / num8;
                         num6 *= num8;
                         num7 *= num8;
-                        int num9 = 32;
+                        int num9 = 30;
                         int num10 = 450;
                         vector.X += num6 * 5f;
                         vector.Y += num7 * 5f;

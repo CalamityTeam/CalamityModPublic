@@ -535,18 +535,18 @@ namespace CalamityMod.NPCs.SlimeGod
             potionType = ItemID.HealingPotion;
         }
 
-        // If the un-split Ebonian Slime God gets one-shotted last, it should drop the boss loot
-        public override void NPCLoot()
-        {
+		// If the un-split Ebonian Slime God gets one-shotted last, it should drop the boss loot
+		public override void NPCLoot()
+		{
             bool otherSlimeGodsAlive =
                 NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
+				NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
+				NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
-            if (!otherSlimeGodsAlive)
-                SlimeGodCore.DropSlimeGodLoot(npc);
-        }
+			if (!otherSlimeGodsAlive)
+				SlimeGodCore.DropSlimeGodLoot(npc);
+		}
 
         public override bool CheckActive()
         {

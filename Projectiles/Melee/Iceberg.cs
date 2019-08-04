@@ -28,13 +28,9 @@ namespace CalamityMod.Projectiles.Melee
 		public override void AI()
 		{
 			projectile.rotation += 0.5f;
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num469].noGravity = true;
-				Main.dust[num469].velocity *= 0f;
-			}
+			int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default(Color), 1f);
+			Main.dust[dust].noGravity = true;
+			Main.dust[dust].velocity *= 0f;
 		}
 
 		public override void Kill(int timeLeft)

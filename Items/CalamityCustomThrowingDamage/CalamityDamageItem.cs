@@ -33,9 +33,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			crit = (item.crit + CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit);
 		}
 
-        // Not needed because the weapon is now internally thrown instead of ranged
-        /*
-        public override void GetWeaponKnockback(Player player, ref float knockback)
+		// Not needed because the weapon is now internally thrown instead of ranged
+		/*
+		public override void GetWeaponKnockback(Player player, ref float knockback)
 		{
 			if (player.shroomiteStealth)
 			{
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 				knockback /= 1f + (1f - player.stealth) * 0.5f;
 			}
 		}
-        */
+		*/
 
 		public override void ModifyTooltips(List<TooltipLine> tooltips)
 		{

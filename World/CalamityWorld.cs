@@ -1019,8 +1019,32 @@ namespace CalamityMod.World
 					!Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss &&
 					Main.player[closestPlayer].townNPCs < 3f)
 				{
-					if ((Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg && Main.rand.Next(2000) == 0) ||
-						(Main.rand.Next(100000) == 0 && !Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zen))
+					double spawnRate = 100000D;
+
+					if (death)
+						spawnRate *= 0.75D;
+					else if (revenge)
+						spawnRate *= 0.85D;
+
+					if (demonMode)
+						spawnRate *= 0.75D;
+
+					if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg && Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).chaosCandle)
+						spawnRate *= 0.005D;
+					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg)
+						spawnRate *= 0.01D;
+					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).chaosCandle)
+						spawnRate *= 0.02D;
+
+					if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zen && Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).tranquilityCandle)
+						spawnRate *= 75D;
+					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zen)
+						spawnRate *= 50D;
+					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).tranquilityCandle)
+						spawnRate *= 25D;
+
+					int chance = (int)spawnRate;
+					if (Main.rand.Next(chance) == 0)
 					{
 						if (!NPC.AnyNPCs(mod.NPCType("ArmoredDiggerHead")) && Main.netMode != 1)
 							NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ArmoredDiggerHead"));

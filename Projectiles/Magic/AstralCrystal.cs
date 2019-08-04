@@ -40,6 +40,7 @@ namespace CalamityMod.Projectiles.Magic
 				Dust d = Dust.NewDustPerfect(projectile.Center, blue ? mod.DustType("AstralBlue") : mod.DustType("AstralOrange"), velocity);
 				d.customData = 0.025f;
 			}
+
 			//chunks
 			for (int i = 0; i < Main.rand.Next(5, 9); i++)
 			{

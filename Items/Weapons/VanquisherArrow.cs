@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -31,7 +32,14 @@ namespace CalamityMod.Items.Weapons
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "CosmiliteBar");
-			recipe.AddTile(null, "DraedonsForge");
+			recipe.AddIngredient(null, "NightmareFuel");
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this, 250);
+			recipe.AddRecipe();
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "CosmiliteBar");
+			recipe.AddIngredient(null, "EndothermicEnergy");
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this, 250);
 			recipe.AddRecipe();
 		}

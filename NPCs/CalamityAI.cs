@@ -2,18 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-/*using Terraria.GameContent;
-using Terraria.GameContent.Achievements;
-using Terraria.GameContent.Events;
-using Terraria.GameContent.Tile_Entities;
-using Terraria.GameContent.UI;*/
 using Terraria.ID;
-/*using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using CalamityMod.Tiles;
-using CalamityMod.Projectiles;
-using CalamityMod;
-using CalamityMod.Items;*/
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs

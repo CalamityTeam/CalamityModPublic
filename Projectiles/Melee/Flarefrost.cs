@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					int dustType = (num41 == 0 ? 67 : 174);
 					Vector2 value8 = Vector2.UnitX * -12f;
-					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7 - projectile.rotation.ToRotationVector2() * 10f;
+					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7;
 					int num42 = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default(Color), 1f);
 					Main.dust[num42].scale = (dustType == 67 ? 1.5f : 1f);
 					Main.dust[num42].noGravity = true;

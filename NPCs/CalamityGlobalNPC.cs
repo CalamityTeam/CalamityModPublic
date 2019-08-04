@@ -1681,12 +1681,10 @@ namespace CalamityMod.NPCs
 				{
 					case NPCID.QueenBee:
 						return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
-						break;
 					case NPCID.TheDestroyer:
 					case NPCID.TheDestroyerBody:
 					case NPCID.TheDestroyerTail:
 						return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged, mod);
-						break;
 					case NPCID.Mothron:
 						if (CalamityWorld.buffedEclipse)
 							return CalamityGlobalAI.BuffedMothronAI(npc);
@@ -2861,26 +2859,44 @@ namespace CalamityMod.NPCs
 							}
 						}
 						break;
+
 					case NPCID.Demon:
 					case NPCID.VoodooDemon:
 						npc.ai[0] += 1f;
 						break;
+
 					case NPCID.CursedHammer:
 					case NPCID.EnchantedSword:
+					case NPCID.CrimsonAxe:
+						if ((double)npc.life <= (double)npc.lifeMax * 0.5)
+							npc.justHit = false;
+						break;
+
 					case NPCID.Clinger:
 					case NPCID.Gastropod:
 					case NPCID.GiantTortoise:
 					case NPCID.IceTortoise:
 					case NPCID.BlackRecluse:
 					case NPCID.BlackRecluseWall:
-					case NPCID.CrimsonAxe:
-					case NPCID.Paladin:
-						npc.justHit = false;
+						if ((double)npc.life <= (double)npc.lifeMax * 0.25)
+							npc.justHit = false;
 						break;
+
+					case NPCID.Paladin:
+						if ((double)npc.life <= (double)npc.lifeMax * 0.15)
+							npc.justHit = false;
+						break;
+
 					case NPCID.Clown:
 						if (Main.netMode != 1 && !Main.player[npc.target].dead)
 							npc.ai[2] += 29f;
 						break;
+				}
+
+				if (npc.type == mod.NPCType("SandTortoise") || npc.type == mod.NPCType("PlaguedTortoise"))
+				{
+					if ((double)npc.life <= (double)npc.lifeMax * 0.25)
+						npc.justHit = false;
 				}
 			}
 		}
@@ -2920,18 +2936,19 @@ namespace CalamityMod.NPCs
 				maxSpawns = (int)((float)maxSpawns * 1.1f);
 			}
 
-			if (CalamityWorld.revenge)
-				spawnRate = (int)((double)spawnRate * 0.85);
-			if (CalamityWorld.death)
-				spawnRate = (int)((double)spawnRate * 0.75);
-			if (CalamityWorld.demonMode)
-				spawnRate = (int)((double)spawnRate * 0.75);
-
 			if (player.GetModPlayer<CalamityPlayer>(mod).clamity)
 			{
 				spawnRate = (int)((double)spawnRate * 0.02);
 				maxSpawns = (int)((float)maxSpawns * 1.5f);
 			}
+
+			if (CalamityWorld.death)
+				spawnRate = (int)((double)spawnRate * 0.75);
+			else if (CalamityWorld.revenge)
+				spawnRate = (int)((double)spawnRate * 0.85);
+
+			if (CalamityWorld.demonMode)
+				spawnRate = (int)((double)spawnRate * 0.75);
 
 			if (player.GetModPlayer<CalamityPlayer>(mod).zerg && player.GetModPlayer<CalamityPlayer>(mod).chaosCandle)
 			{

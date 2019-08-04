@@ -318,17 +318,17 @@ namespace CalamityMod.NPCs.SlimeGod
 			potionType = ItemID.HealingPotion;
 		}
 
-        public override void NPCLoot()
-        {
+		public override void NPCLoot()
+		{
             bool otherSlimeGodsAlive =
-                NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
-                NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
+				NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
+				NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
-            if(!otherSlimeGodsAlive)
-                DropSlimeGodLoot(npc);
-        }
+			if (!otherSlimeGodsAlive)
+				DropSlimeGodLoot(npc);
+		}
 
         // This loot code is shared with every other Slime God component.
         public static void DropSlimeGodLoot(NPC npc)

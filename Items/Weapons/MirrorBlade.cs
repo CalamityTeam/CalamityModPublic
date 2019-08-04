@@ -6,6 +6,8 @@ namespace CalamityMod.Items.Weapons
 {
     public class MirrorBlade : ModItem
 	{
+		private int baseDamage = 295;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mirror Blade");
@@ -17,20 +19,19 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 52;
-			item.damage = 236;
+			item.damage = baseDamage;
 			item.melee = true;
-			item.mana = 4;
-			item.useAnimation = 9;
-			item.useTime = 9;
+			item.useAnimation = 12;
+			item.useTime = 12;
 			item.useTurn = true;
 			item.useStyle = 1;
-			item.knockBack = 8f;
+			item.knockBack = 7f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 62;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shootSpeed = 16f;
+            item.shootSpeed = 9f;
 	        item.shoot = mod.ProjectileType("MirrorBlast");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
@@ -43,14 +44,14 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	int conDamage = target.damage + 236;
-	    	if (conDamage < 236)
+	    	int conDamage = target.damage + baseDamage;
+	    	if (conDamage < baseDamage)
 	    	{
-	    		conDamage = 236;
+	    		conDamage = baseDamage;
 	    	}
-            if (conDamage > 600)
+            if (conDamage > 750)
             {
-                conDamage = 600;
+                conDamage = 750;
             }
             item.damage = conDamage;
 		}

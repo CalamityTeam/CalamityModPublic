@@ -5,7 +5,7 @@ using CalamityMod.World;
 
 namespace CalamityMod
 {
-    public class DropHelper
+	public class DropHelper
 	{
 		#region Global Drop Chances
 		/// <summary>
@@ -516,17 +516,17 @@ namespace CalamityMod
 		{
 			return DropItemFromSetChance(npc, false, chance, itemIDs);
 		}
-        #endregion
+		#endregion
 
-        #region NPC Item Set Drops Conditional
-        /// <summary>
-        /// With a condition, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
-        /// </summary>
-        /// <param name="npc">The NPC which should drop the item.</param>
-        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
-        /// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
-        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
-        public static bool DropItemFromSetCondition(NPC npc, bool dropPerPlayer, bool condition, params int[] itemIDs)
+		#region NPC Item Set Drops Conditional
+		/// <summary>
+		/// With a condition, chooses an item from an array and drops it from the given NPC. Optionally spawns one copy of this drop per player.
+		/// </summary>
+		/// <param name="npc">The NPC which should drop the item.</param>
+		/// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
+		/// <param name="condition">Any arbitrary Boolean condition to gate this drop. If false, nothing is dropped.</param>
+		/// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
+		public static bool DropItemFromSetCondition(NPC npc, bool dropPerPlayer, bool condition, params int[] itemIDs)
 		{
 			return condition ? DropItemFromSet(npc, dropPerPlayer, itemIDs) : false;
 		}

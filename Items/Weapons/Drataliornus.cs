@@ -105,12 +105,12 @@ Right click to fire two devastating barrages of five empowered fireballs.
             recipe.AddIngredient(null, "DragonsBreath", 2);
             recipe.AddIngredient(null, "ChickenCannon", 2);
             recipe.AddIngredient(null, "AngryChickenStaff", 2);
-            recipe.AddIngredient(null, "YharimsGift", 8);
-            recipe.AddIngredient(null, "AuricOre", 80);
-            recipe.AddIngredient(null, "EffulgentFeather", 160);
-            recipe.AddIngredient(null, "DarksunFragment", 80);
-            recipe.AddIngredient(null, "NightmareFuel", 80);
-            recipe.AddIngredient(null, "EndothermicEnergy", 80);
+            recipe.AddIngredient(null, "YharimsGift", 3);
+            recipe.AddIngredient(null, "AuricOre", 40);
+            recipe.AddIngredient(null, "EffulgentFeather", 60);
+            recipe.AddIngredient(null, "DarksunFragment", 30);
+            recipe.AddIngredient(null, "NightmareFuel", 30);
+            recipe.AddIngredient(null, "EndothermicEnergy", 30);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);
             recipe.AddRecipe();

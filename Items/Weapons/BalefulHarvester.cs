@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.damage = 130;
+			item.damage = 160;
 			item.width = 66;
 			item.height = 66;
 			item.melee = true;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons
 			item.useStyle = 1;
 			item.useTime = 22;
 			item.useTurn = true;
-            item.knockBack = 8f;
+			item.knockBack = 8f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.value = Item.buyPrice(0, 95, 0, 0);
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-            CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback);
+			CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback);
 			target.AddBuff(BuffID.OnFire, 300);
 		}
 	}

@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles
 			}
 		}
 
-        //Class Types
-        public bool rogue = false;
+		//Class Types
+		public bool rogue = false;
 		public bool trueMelee = false;
 
 		//Force Class Types
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles
 		private bool setDamageValues = true;
 		public float spawnedPlayerMinionDamageValue = 1f;
 		public int spawnedPlayerMinionProjectileDamageValue = 0;
-        public int defDamage = 0;
+		public int defDamage = 0;
 
 		//Counters and Timers
 		private int counter = 0;

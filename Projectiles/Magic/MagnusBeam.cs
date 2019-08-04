@@ -242,6 +242,8 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.Center = projectile.position;
 			projectile.maxPenetrate = -1;
 			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
 			projectile.Damage();
 			int num3;
 			for (int num53 = 0; num53 < 40; num53 = num3 + 1)

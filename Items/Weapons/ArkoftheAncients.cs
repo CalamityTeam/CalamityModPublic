@@ -119,21 +119,23 @@ namespace CalamityMod.Items.Weapons
 		{
 			if (Main.rand.Next(5) == 0)
 			{
-				int num249 = Main.rand.Next(3);
-				if (num249 == 0)
+				int dustType = 15;
+				switch (Main.rand.Next(3))
 				{
-					num249 = 15;
+					case 0:
+						dustType = 15;
+						break;
+					case 1:
+						dustType = 57;
+						break;
+					case 2:
+						dustType = 58;
+						break;
+					default:
+						break;
 				}
-				else if (num249 == 1)
-				{
-					num249 = 57;
-				}
-				else
-				{
-					num249 = 58;
-				}
-				int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, num249, (float)(player.direction * 2), 0f, 150, default(Color), 1.3f);
-				Main.dust[num250].velocity *= 0.2f;
+				int dust = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, dustType, (float)(player.direction * 2), 0f, 150, default(Color), 1.3f);
+				Main.dust[dust].velocity *= 0.2f;
 			}
 		}
 

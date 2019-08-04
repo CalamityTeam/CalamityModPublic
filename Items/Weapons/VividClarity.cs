@@ -99,8 +99,8 @@ namespace CalamityMod.Items.Weapons
 	        recipe.AddIngredient(null, "HellwingStaff");
 	        recipe.AddIngredient(null, "PhantasmalFury");
 	        recipe.AddIngredient(null, "ShadowboltStaff");
-	        recipe.AddIngredient(null, "HeliumFlash");
-	        recipe.AddIngredient(null, "NightmareFuel", 5);
+			recipe.AddIngredient(null, "HeliumFlash");
+			recipe.AddIngredient(null, "NightmareFuel", 5);
         	recipe.AddIngredient(null, "EndothermicEnergy", 5);
 	        recipe.AddIngredient(null, "CosmiliteBar", 5);
             recipe.AddIngredient(null, "DarksunFragment", 5);

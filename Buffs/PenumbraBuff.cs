@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs
 		{
 			DisplayName.SetDefault("Penumbra");
 			Description.SetDefault("Stealth regenerates at 10% speed while moving\n" +
-                "The boost increases to 20% at night and 30% during an eclipse");
+				"The boost increases to 20% at night and 30% during an eclipse");
 			Main.debuff[Type] = false;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;

@@ -62,7 +62,14 @@ namespace CalamityMod.Items.Weapons
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(null, "CosmiliteBar", 12);
-			recipe.AddTile(null, "DraedonsForge");
+			recipe.AddIngredient(null, "NightmareFuel", 6);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(null, "CosmiliteBar", 12);
+			recipe.AddIngredient(null, "EndothermicEnergy", 6);
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

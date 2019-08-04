@@ -43,16 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				projectile.alpha = 0;
 			}
-			if (projectile.velocity.X < 0f)
-			{
-				projectile.spriteDirection = -1;
-				projectile.rotation = (float)Math.Atan2(-projectile.velocity.Y, projectile.velocity.X);
-			}
-			else
-			{
-				projectile.spriteDirection = 1;
-				projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
-			}
+
 			int num123 = (int)Player.FindClosest(projectile.Center, 1, 1);
 			projectile.ai[1] += 1f;
 			if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
@@ -65,10 +56,23 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.Normalize();
 				projectile.velocity *= scaleFactor2;
 			}
+
 			if (projectile.velocity.Length() < 18f)
 			{
 				projectile.velocity *= 1.02f;
 			}
+
+			if (projectile.velocity.X < 0f)
+			{
+				projectile.spriteDirection = -1;
+				projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+			}
+			else
+			{
+				projectile.spriteDirection = 1;
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+			}
+
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.localAI[0] = 1f;

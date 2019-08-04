@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
 		public override void SetDefaults()
 		{
 			item.width = 88;
-			item.damage = 250;
+			item.damage = 350;
 			item.melee = true;
 			item.useAnimation = 18;
 			item.useTime = 18;

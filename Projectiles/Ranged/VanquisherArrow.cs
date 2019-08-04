@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
         	{
         		if (projectile.owner == Main.myPlayer)
         		{
-        			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, mod.ProjectileType("VanquisherArrow2"), (int)((double)projectile.damage * 0.7), projectile.knockBack, projectile.owner, 0f, 0f);
+        			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, mod.ProjectileType("VanquisherArrow2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         		}
         		projCount = 18;
         	}
