@@ -521,7 +521,7 @@ namespace CalamityMod.NPCs.SlimeGod
             bool otherSlimeGodsAlive =
                 NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
-				NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
+				NPC.CountNPCS(mod.NPCType("SlimeGodSplit")) > 1 || // the other ebonian split is alive
 				NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
 			if (!otherSlimeGodsAlive)

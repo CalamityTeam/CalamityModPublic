@@ -568,7 +568,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
-				NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
 				NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
 			if (!otherSlimeGodsAlive)
 				SlimeGodCore.DropSlimeGodLoot(npc);

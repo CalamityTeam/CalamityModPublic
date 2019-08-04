@@ -540,7 +540,6 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
             bool otherSlimeGodsAlive =
                 NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
-				NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
 				NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));

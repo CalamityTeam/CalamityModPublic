@@ -538,7 +538,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
 				NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
-				NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
+				NPC.CountNPCS(mod.NPCType("SlimeGodRunSplit")) > 1; // the other crimulan split is alive
 			if (!otherSlimeGodsAlive)
 				SlimeGodCore.DropSlimeGodLoot(npc);
 		}

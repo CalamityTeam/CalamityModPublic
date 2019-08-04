@@ -321,7 +321,6 @@ namespace CalamityMod.NPCs.SlimeGod
 		public override void NPCLoot()
 		{
             bool otherSlimeGodsAlive =
-				NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
 				NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
