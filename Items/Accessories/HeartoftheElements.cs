@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
 			DisplayName.SetDefault("Heart of the Elements");
 			Tooltip.SetDefault("The heart of the world\n" +
             	"Increases max life by 20, life regen by 1, and all damage by 8%\n" +
-            	"Increases movement speed by 10% and jump speed by 200%\n" +
+            	"Increases movement speed by 10% and jump speed by 100%\n" +
             	"Increases damage reduction by 5%\n" +
             	"Increases max mana by 50 and reduces mana usage by 5%\n" +
             	"You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Accessories
                 player.lifeRegen += 1;
                 player.statLifeMax2 += 20;
                 player.moveSpeed += 0.1f;
-                player.jumpSpeedBoost += 2.0f;
+                player.jumpSpeedBoost += 1.0f;
                 player.endurance += 0.05f;
                 player.statManaMax2 += 50;
                 player.manaCost *= 0.95f;
@@ -97,7 +97,7 @@ namespace CalamityMod.Items.Accessories
                 player.lifeRegen += 2;
                 player.statLifeMax2 += 25;
                 player.moveSpeed += 0.12f;
-                player.jumpSpeedBoost += 2.2f;
+                player.jumpSpeedBoost += 1.1f;
                 player.endurance += 0.06f;
                 player.statManaMax2 += 60;
                 player.manaCost *= 0.93f;

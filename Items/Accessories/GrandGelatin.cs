@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			DisplayName.SetDefault("Grand Gelatin");
 			Tooltip.SetDefault("10% increased movement speed\n" +
-				"100% increased jump speed\n" +
+				"200% increased jump speed\n" +
 				"+20 max life and mana\n" +
 				"Standing still boosts life and mana regen");
 		}
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.moveSpeed += 0.1f;
-        	player.jumpSpeedBoost += 1.0f;
+        	player.jumpSpeedBoost += 2.0f;
         	player.statLifeMax2 += 20;
         	player.statManaMax2 += 20;
 			if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)

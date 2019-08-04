@@ -11,7 +11,7 @@ namespace CalamityMod.Items.DesertScourge
 		{
 			DisplayName.SetDefault("Aero Stone");
 			Tooltip.SetDefault("One of the ancient relics\n" +
-				"Increases movement speed by 10%, jump speed by 200%, and all damage by 3%");
+				"Increases movement speed by 10%, jump speed by 100%, and all damage by 3%");
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 8));
 		}
 
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.DesertScourge
 			CalamityCustomThrowingDamagePlayer modPlayer = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
 			Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0f, 0.425f, 0.425f);
 			player.moveSpeed += 0.1f;
-			player.jumpSpeedBoost += (player.autoJump ? 0.4f : 2.0f);
+			player.jumpSpeedBoost += (player.autoJump ? 0.4f : 1.0f);
 			player.allDamage += 0.03f;
 		}
 	}

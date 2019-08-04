@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			DisplayName.SetDefault("Vital Jelly");
 			Tooltip.SetDefault("10% increased movement speed\n" +
-				"100% increased jump speed");
+				"200% increased jump speed");
 		}
 
 		public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Accessories
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
 			player.moveSpeed += 0.1f;
-        	player.jumpSpeedBoost += 1.0f;
+        	player.jumpSpeedBoost += 2.0f;
 		}
 	}
 }
