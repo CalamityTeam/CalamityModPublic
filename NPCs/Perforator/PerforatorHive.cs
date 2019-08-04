@@ -313,6 +313,7 @@ namespace CalamityMod.NPCs.Perforator
 
                 // Vanity
                 DropHelper.DropItemChance(npc, mod.ItemType("PerforatorMask"), 7);
+                DropHelper.DropItemChance(npc, mod.ItemType("BloodyVein"), 10);
 			}
 
             // If neither The Hive Mind nor The Perforator Hive have been killed yet, notify players of Aerialite Ore

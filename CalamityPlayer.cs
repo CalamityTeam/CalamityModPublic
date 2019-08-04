@@ -98,6 +98,7 @@ namespace CalamityMod
 		public bool crysthamyr = false;
 
 		//Pet
+		public bool perfmini = false;
 		public bool akato = false;
 		public bool leviPet = false;
 		public bool sirenPet = false;
@@ -769,6 +770,7 @@ namespace CalamityMod
 			dashMod = 0;
 			alcoholPoisonLevel = 0;
 
+			perfmini = false;
 			akato = false;
 			leviPet = false;
 			sirenPet = false;
