@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Patreon
 			item.autoReuse = true;
 
 			item.useStyle = 5;
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle");
 			item.noMelee = true;
 
 			item.value = Item.buyPrice(1, 80, 0, 0);

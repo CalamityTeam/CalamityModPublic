@@ -142,8 +142,7 @@ namespace CalamityMod.Projectiles.Patreon
 		public override void Kill(int timeLeft)
 		{
 			int height = 150;
-
-			Main.PlaySound(SoundID.Item62, projectile.position);
+            Main.PlaySound(SoundID.NPCDeath43, projectile.Center);
 
 			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = height);

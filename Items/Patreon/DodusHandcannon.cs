@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Patreon
             item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
 
-			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Hydra");
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
 
 	        item.shootSpeed = 24f;
 	        item.shoot = ProjectileID.BulletHighVelocity;
