@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Weapons
             r.AddIngredient(ItemID.LunarBar, 10);
             r.AddIngredient(ItemID.FragmentSolar, 10);
             r.AddIngredient(ItemID.FragmentNebula, 10);
+			r.AddTile(TileID.LunarCraftingStation);
             r.AddRecipe();
         }
     }
