@@ -56,7 +56,8 @@ namespace CalamityMod.Items.Scavenger
 				mod.ItemType("SpikecragStaff"),
 				mod.ItemType("CraniumSmasher"));
 
-			// Equipment
+            // Equipment
+            DropHelper.DropItemFromSetChance(player, 0.05f, mod.ItemType("CorpusAvertorMelee"), mod.ItemType("CorpusAvertor"));
 			DropHelper.DropItemChance(player, mod.ItemType("BloodPact"), 0.5f);
 			DropHelper.DropItemChance(player, mod.ItemType("FleshTotem"), 0.5f);
 			DropHelper.DropItemCondition(player, mod.ItemType("BloodflareCore"), CalamityWorld.downedProvidence);
