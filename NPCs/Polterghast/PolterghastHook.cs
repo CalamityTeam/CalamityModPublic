@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.localAI[0] -= 6f;
                 speedBoost1 = true;
             }
-            else { despawnTimer = 300; }
+            else { despawnTimer++; }
             if ((double)Main.npc[CalamityGlobalNPC.ghostBoss].life <= (double)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax * 0.75)
             {
                 if (!phase2)

@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
             else
 			{
-				despawnTimer = 600;
+				despawnTimer++;
 			}
             if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {

@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.Polterghast
             CalamityMod.StopRain();
 			if (npc.timeLeft < 1500)
 				npc.timeLeft = 1500;
-			if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f)
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > (despawnBoost ? 1500f : 6000f))
 				npc.active = false;
 
 			if (npc.localAI[0] == 0f && Main.netMode != 1)
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.Polterghast
 			}
 			else
 			{
-				despawnTimer = 600;
+				despawnTimer++;
 			}
 
 			if (phase2)
