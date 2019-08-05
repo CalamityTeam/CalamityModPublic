@@ -170,7 +170,7 @@ namespace CalamityMod
 		public static bool DropRevBagAccessories(Player p)
 		{
 			CalamityMod mod = CalamityMod.Instance;
-			return DropItemFromSetCondition(p, CalamityWorld.revenge, 20, mod.ItemType("StressPills"), mod.ItemType("Laudanum"), mod.ItemType("HeartofDarkness"));
+			return DropItemFromSetCondition(p, CalamityWorld.revenge, 0.05f, mod.ItemType("StressPills"), mod.ItemType("Laudanum"), mod.ItemType("HeartofDarkness"));
 		}
 
 		/// <summary>
