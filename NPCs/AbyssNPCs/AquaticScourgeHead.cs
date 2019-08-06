@@ -623,7 +623,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 DropHelper.DropItemCondition(npc, mod.ItemType("DeepseaStaff"), Main.hardMode, 4, 1, 1);
 
                 // Equipment
-                DropHelper.DropItemCondition(npc, mod.ItemType("AquaticEmblem"), Main.hardMode);
                 DropHelper.DropItemChance(npc, mod.ItemType("AeroStone"), 9);
 
                 // Vanity
