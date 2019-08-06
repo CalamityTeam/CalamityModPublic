@@ -6,6 +6,8 @@ namespace CalamityMod.Items.Weapons
 {
     public class VenusianTrident : ModItem
     {
+        public static int BaseDamage = 450;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Venusian Trident");
@@ -15,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 225;
+            item.damage = BaseDamage;
             item.magic = true;
             item.mana = 20;
             item.width = 48;

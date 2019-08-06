@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -53,18 +54,24 @@ namespace CalamityMod.Projectiles.Magic
         {
         	if (projectile.owner == Main.myPlayer)
         	{
-	        	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("VenusianExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-	        	int num251 = Main.rand.Next(4, 10);
-				for (int num252 = 0; num252 < num251; num252++)
+                int explosionDamage = VenusianTrident.BaseDamage;
+                float explosionKB = 6f;
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("VenusianExplosion"), explosionDamage, explosionKB, projectile.owner, 0f, 0f);
+
+                int cinderDamage = (int)(VenusianTrident.BaseDamage * 0.75f);
+                float cinderKB = 0f;
+                Vector2 cinderPos = projectile.oldPosition + 0.5f * projectile.Size;
+                int numCinders = Main.rand.Next(7, 10);
+				for (int i = 0; i < numCinders; i++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
+					Vector2 cinderVel = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (cinderVel.X == 0f && cinderVel.Y == 0f)
 					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						cinderVel = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("VenusianFlame"), (int)((double)projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
+					cinderVel.Normalize();
+					cinderVel *= (float)Main.rand.Next(70, 101) * 0.1f;
+					Projectile.NewProjectile(cinderPos, cinderVel, mod.ProjectileType("VenusianFlame"), cinderDamage, cinderKB, projectile.owner, 0f, 0f);
 				}
         	}
         }

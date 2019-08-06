@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Flame");
+			DisplayName.SetDefault("Venusian Cinder");
 		}
 
         public override void SetDefaults()
@@ -17,10 +17,11 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 6;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.magic = true;
+            projectile.penetrate = 3;
             projectile.timeLeft = 120;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 8;
+			projectile.localNPCHitCooldown = 10;
 		}
 
         public override void AI()
