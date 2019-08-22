@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             projectile.width = 24;
             projectile.height = 24;
-            projectile.timeLeft = 6;
+            projectile.timeLeft = 8;
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Typeless
             Player player = Main.player[projectile.owner];
             bool hentai = player.GetModPlayer<CalamityPlayer>().omegaBlueHentai;
             if (player.active && player.GetModPlayer<CalamityPlayer>().omegaBlueSet)
-                projectile.timeLeft = 3;
+                projectile.timeLeft = 8;
 
             //tentacle head movement (homing)
             Vector2 playerVel = player.position - player.oldPosition;
