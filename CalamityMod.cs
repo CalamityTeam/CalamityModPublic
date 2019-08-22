@@ -348,7 +348,32 @@ namespace CalamityMod
 					"Eragon3942",
 					"TheBlackHand",
 					"william",
-					"Samuel Foreman"
+					"Samuel Foreman",
+					"Christopher Pham",
+					"DemoN K!ng",
+					"Malik Ciaramella",
+					"Ryan Baker-Ortiz",
+					"Aleksanders Denisovs",
+					"TheSilverGhost",
+					"Lucazii",
+					"Shay",
+					"Prism",
+					"BobIsNotMyRealName",
+					"Guwahavel",
+					"Azura",
+					"Joshua Miranda",
+					"Doveda",
+					"William Chang",
+					"Arche",
+					"DevilSunrise",
+					"Yanmei",
+					"Chaos",
+					"Ryan Tucker",
+					"Fish Repairs",
+					"Melvin Brouwers",
+					"Vroomy Has -3,000 IQ",
+					"The Goliath",
+					"DaPyRo"
 				};
 
 				rangedProjectileExceptionList = new List<int>()
@@ -574,10 +599,12 @@ namespace CalamityMod
 					BuffID.WitheredWeapon,
 					BuffID.OgreSpit,
 					BuffID.BetsysCurse,
+					calamity.BuffType("Shadowflame"),
 					calamity.BuffType("BrimstoneFlames"),
 					calamity.BuffType("BurningBlood"),
 					calamity.BuffType("GlacialState"),
 					calamity.BuffType("GodSlayerInferno"),
+					calamity.BuffType("AstralInfectionDebuff"),
 					calamity.BuffType("HolyLight"),
 					calamity.BuffType("Irradiated"),
 					calamity.BuffType("Plague"),
@@ -1223,7 +1250,9 @@ namespace CalamityMod
 					calamity.ProjectileType("YharonFireball"),
 					calamity.ProjectileType("YharonFireball2"),
 					calamity.ProjectileType("PearlBurst"),
-					calamity.ProjectileType("PearlRain")
+					calamity.ProjectileType("PearlRain"),
+					calamity.ProjectileType("Shadowflamethrower"),
+					calamity.ProjectileType("Shadowflame")
 				};
 
 				trapProjectileList = new List<int>()

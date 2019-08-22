@@ -17,7 +17,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 18;
-            item.damage = 650;
+            item.damage = 1100;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;

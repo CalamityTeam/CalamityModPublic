@@ -52,15 +52,7 @@ namespace CalamityMod.Projectiles.Typeless
             // On the very first frame, clear any invalid starting target variable and create some dust.
             // Also grab the damage type based on ai[0].
             if (projectile.timeLeft == Lifetime)
-            {
-                if (projectile.ai[0] > 0f)
-                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-                else
-                    projectile.melee = true;
-
-                projectile.ai[0] = 0f;
                 SpawnDust();
-            }
 
             // Spin in the specified starting direction and slow down spin over time
             // Loses 1.66% of current speed every frame

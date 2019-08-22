@@ -100,6 +100,7 @@ namespace CalamityMod.NPCs
 				// First kill text (this is not a loot function)
 				if (!Main.hardMode)
 				{
+					DropHelper.DropItem(npc, mod.ItemType("IbarakiBox"));
 					string key2 = "Mods.CalamityMod.UglyBossText";
 					Color messageColor2 = Color.Aquamarine;
 					if (Main.netMode == 0)
@@ -107,6 +108,8 @@ namespace CalamityMod.NPCs
 					else if (Main.netMode == 2)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
 				}
+				else
+					DropHelper.DropItemChance(npc, mod.ItemType("IbarakiBox"), 10);
 
 				// Drop astral meteors
 				if (WorldGenerationMethods.checkAstralMeteor())
@@ -173,6 +176,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.SkeletronPrime)
 			{
 				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge23"), true, !NPC.downedMechBoss3);
+				DropHelper.DropItemCondition(npc, mod.ItemType("GoldBurdenBreaker"), true, (npc.ai[1] == 2f && rev));
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
 
 				// If neither Prime nor Brimmy have been killed, show this text (not a loot function)
@@ -1165,7 +1169,7 @@ namespace CalamityMod.NPCs
 					DropHelper.DropItemChance(npc, mod.ItemType("SeaShell"), expert ? 2 : 3);
 					break;
 				case NPCID.GreekSkeleton:
-					int gladiatorDropRate = expert ? 5 : 7;
+					int gladiatorDropRate = expert ? 15 : 20;
 					DropHelper.DropItemChance(npc, ItemID.GladiatorHelmet, gladiatorDropRate);
 					DropHelper.DropItemChance(npc, ItemID.GladiatorBreastplate, gladiatorDropRate);
 					DropHelper.DropItemChance(npc, ItemID.GladiatorLeggings, gladiatorDropRate);
@@ -1333,7 +1337,7 @@ namespace CalamityMod.NPCs
 					DropHelper.DropItem(npc, mod.ItemType("EssenceofEleum"), 1, 2);
 					break;
 				case NPCID.Plantera:
-					DropHelper.DropItem(npc, mod.ItemType("LivingShard"), 6, 9);
+					DropHelper.DropItem(npc, mod.ItemType("LivingShard"), !expert, 6, 9);
 					break;
 				case NPCID.NebulaBrain:
 				case NPCID.NebulaSoldier:

@@ -24,26 +24,27 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Variables
-		//Damage reduction
+		// Damage reduction
 		private float protection = 0f;
 		private float defProtection = 0f;
 
-		//NewAI
+		// NewAI
 		private const int maxAIMod = 4;
 		public float[] newAI = new float[maxAIMod];
 
-		//Town NPC Patreon
+		// Town NPC Patreon
 		private bool setNewName = true;
 
-		//Draedons Remote
+		// Draedons Remote
 		public static bool DraedonMayhem = false;
 
-		//Lunatic Cultist Rev+ attack
+		// Lunatic Cultist Rev+ attack
 		public int CultProjectiles = 2;
 		public float CultAngleSpread = 170f;
 		public int CultCountdown = 0;
 
-		//Debuffs
+		// Debuffs
+		public bool timeSlow = false;
 		public bool wCleave = false;
 		public bool bBlood = false;
 		public bool dFlames = false;
@@ -58,6 +59,7 @@ namespace CalamityMod.NPCs
 		public bool pShred = false;
 		public bool cDepth = false;
 		public bool gsInferno = false;
+		public bool astralInfection = false;
 		public bool aFlames = false;
 		public bool eFreeze = false;
 		public bool wDeath = false;
@@ -69,7 +71,7 @@ namespace CalamityMod.NPCs
 		public bool shellfishVore = false;
 		public bool clamDebuff = false;
 
-		//whoAmI Variables
+		// whoAmI Variables
 		public static int bobbitWormBottom = -1;
 		public static int hiveMind = -1;
 		public static int perfHive = -1;
@@ -78,6 +80,10 @@ namespace CalamityMod.NPCs
 		public static int slimeGod = -1;
 		public static int laserEye = -1;
 		public static int fireEye = -1;
+		public static int primeLaser = -1;
+		public static int primeCannon = -1;
+		public static int primeVice = -1;
+		public static int primeSaw = -1;
 		public static int brimstoneElemental = -1;
 		public static int cataclysm = -1;
 		public static int catastrophe = -1;
@@ -121,6 +127,14 @@ namespace CalamityMod.NPCs
 				laserEye = -1;
 			if (fireEye >= 0 && !Main.npc[fireEye].active)
 				fireEye = -1;
+			if (primeLaser >= 0 && !Main.npc[primeLaser].active)
+				primeLaser = -1;
+			if (primeCannon >= 0 && !Main.npc[primeCannon].active)
+				primeCannon = -1;
+			if (primeVice >= 0 && !Main.npc[primeVice].active)
+				primeVice = -1;
+			if (primeSaw >= 0 && !Main.npc[primeSaw].active)
+				primeSaw = -1;
 			if (brimstoneElemental >= 0 && !Main.npc[brimstoneElemental].active)
 				brimstoneElemental = -1;
 			if (cataclysm >= 0 && !Main.npc[cataclysm].active)
@@ -166,6 +180,7 @@ namespace CalamityMod.NPCs
 			if (SCalWorm >= 0 && !Main.npc[SCalWorm].active)
 				SCalWorm = -1;
 
+			timeSlow = false;
 			wCleave = false;
 			bBlood = false;
 			dFlames = false;
@@ -180,6 +195,7 @@ namespace CalamityMod.NPCs
 			pShred = false;
 			cDepth = false;
 			gsInferno = false;
+			astralInfection = false;
 			aFlames = false;
 			eFreeze = false;
 			wDeath = false;
@@ -374,6 +390,16 @@ namespace CalamityMod.NPCs
 				if (damage < 50)
 					damage = 50;
 			}
+			if (astralInfection)
+			{
+				if (npc.lifeRegen > 0)
+					npc.lifeRegen = 0;
+
+				npc.lifeRegen -= 75;
+
+				if (damage < 15)
+					damage = 15;
+			}
 			if (aFlames)
 			{
 				if (npc.lifeRegen > 0)
@@ -479,6 +505,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.buffImmune[mod.BuffType("GlacialState")] = true;
 					npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+					npc.buffImmune[mod.BuffType("TimeSlow")] = true;
 				}
 				if (npc.type == NPCID.TheDestroyer ||
 					npc.type == NPCID.TheDestroyerBody ||
@@ -710,15 +737,11 @@ namespace CalamityMod.NPCs
 			if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
 			{
 				if (CalamityWorld.death)
-				{
 					npc.lifeMax = (int)((double)npc.lifeMax * 2.7);
-					npc.scale *= 1.25f;
-				}
 				else
-				{
 					npc.lifeMax = (int)((double)npc.lifeMax * 1.8);
-					npc.scale *= 1.2f;
-				}
+
+				npc.scale = 1.5f;
 				npc.npcSlots = 10f;
 			}
 			else if (npc.type == NPCID.Probe)
@@ -734,15 +757,21 @@ namespace CalamityMod.NPCs
 					npc.scale *= 1.2f;
 				}
 			}
-			else if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
+			else if (npc.type == NPCID.SkeletronPrime)
 			{
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)((double)npc.lifeMax * 2.9);
 				else
 					npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
 
-				if (npc.type == NPCID.SkeletronPrime)
-					npc.npcSlots = 12f;
+				npc.npcSlots = 12f;
+			}
+			else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
+			{
+				if (CalamityWorld.death)
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.45);
+				else
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
 			}
 			else if (npc.type == NPCID.Retinazer)
 			{
@@ -941,13 +970,11 @@ namespace CalamityMod.NPCs
 				if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
 				{
 					if (CalamityWorld.death)
-					{
 						npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
-						npc.scale *= 1.2f;
-					}
 					else
 						npc.lifeMax = (int)((double)npc.lifeMax * 1.25);
 
+					npc.scale = 1.5f;
 					npc.npcSlots = 10f;
 				}
 				else if (npc.type == NPCID.Probe)
@@ -958,15 +985,19 @@ namespace CalamityMod.NPCs
 						npc.scale *= 1.2f;
 					}
 				}
-				else if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
+				else if (npc.type == NPCID.SkeletronPrime)
 				{
 					if (CalamityWorld.death)
 						npc.lifeMax = (int)((double)npc.lifeMax * 1.5);
 					else
 						npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
 
-					if (npc.type == NPCID.SkeletronPrime)
-						npc.npcSlots = 12f;
+					npc.npcSlots = 12f;
+				}
+				else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
+				{
+					if (CalamityWorld.death)
+						npc.lifeMax = (int)((double)npc.lifeMax * 1.1);
 				}
 				else if (npc.type == NPCID.Retinazer)
 				{
@@ -1563,6 +1594,7 @@ namespace CalamityMod.NPCs
 					(pFlames ? 4 : 0) -
 					(wDeath ? 50 : 0) -
 					(gsInferno ? 20 : 0) -
+					(astralInfection ? 8 : 0) -
 					(aFlames ? 10 : 0) -
 					(wCleave ? 15 : 0);
 
@@ -1679,32 +1711,53 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
+					case NPCID.EyeofCthulhu:
+						return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged);
+
 					case NPCID.QueenBee:
 						return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
+
 					case NPCID.TheDestroyer:
 					case NPCID.TheDestroyerBody:
 					case NPCID.TheDestroyerTail:
 						return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged, mod);
-					case NPCID.Mothron:
-						if (CalamityWorld.buffedEclipse)
-							return CalamityGlobalAI.BuffedMothronAI(npc);
-						break;
+
+					case NPCID.Retinazer:
+						return CalamityGlobalAI.BuffedRetinazerAI(npc, enraged, mod);
+					case NPCID.Spazmatism:
+						return CalamityGlobalAI.BuffedSpazmatismAI(npc, enraged, mod);
+
+					case NPCID.SkeletronPrime:
+						return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged, mod);
+					case NPCID.PrimeLaser:
+						return CalamityGlobalAI.BuffedPrimeLaserAI(npc, mod);
+					case NPCID.PrimeCannon:
+						return CalamityGlobalAI.BuffedPrimeCannonAI(npc, mod);
+					case NPCID.PrimeVice:
+						return CalamityGlobalAI.BuffedPrimeViceAI(npc, mod);
+					case NPCID.PrimeSaw:
+						return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod);
+
 					case NPCID.Pumpking:
 						if (CalamityWorld.downedDoG)
 							return CalamityGlobalAI.BuffedPumpkingAI(npc);
 						break;
+
 					case NPCID.PumpkingBlade:
 						if (CalamityWorld.downedDoG)
 							return CalamityGlobalAI.BuffedPumpkingBladeAI(npc);
 						break;
+
 					case NPCID.IceQueen:
 						if (CalamityWorld.downedDoG)
 							return CalamityGlobalAI.BuffedIceQueenAI(npc);
 						break;
-					case NPCID.EyeofCthulhu:
-						if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
-							return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged);
+
+					case NPCID.Mothron:
+						if (CalamityWorld.buffedEclipse)
+							return CalamityGlobalAI.BuffedMothronAI(npc);
 						break;
+
 					default:
 						break;
 				}
@@ -1722,7 +1775,7 @@ namespace CalamityMod.NPCs
 				switch (npc.type)
 				{
 					case NPCID.Guide:
-						switch (Main.rand.Next(36)) //34 guide names
+						switch (Main.rand.Next(36)) // 34 guide names
 						{
 							case 0:
 								npc.GivenName = "Lapp";
@@ -1735,7 +1788,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case NPCID.Wizard:
-						switch (Main.rand.Next(24)) //23 wizard names
+						switch (Main.rand.Next(24)) // 23 wizard names
 						{
 							case 0:
 								npc.GivenName = "Mage One-Trick";
@@ -1745,7 +1798,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case NPCID.Steampunker:
-						switch (Main.rand.Next(22)) //21 steampunker names
+						switch (Main.rand.Next(22)) // 21 steampunker names
 						{
 							case 0:
 								npc.GivenName = "Vorbis";
@@ -1755,7 +1808,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case NPCID.Stylist:
-						switch (Main.rand.Next(21)) //20 stylist names
+						switch (Main.rand.Next(21)) // 20 stylist names
 						{
 							case 0:
 								npc.GivenName = "Amber";
@@ -1765,10 +1818,20 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case NPCID.WitchDoctor:
-						switch (Main.rand.Next(11)) //10 witch doctor names
+						switch (Main.rand.Next(11)) // 10 witch doctor names
 						{
 							case 0:
 								npc.GivenName = "Sok'ar";
+								break;
+							default:
+								break;
+						}
+						break;
+					case NPCID.TaxCollector:
+						switch (Main.rand.Next(21)) // 20 tax collector names
+						{
+							case 0:
+								npc.GivenName = "Emmett";
 								break;
 							default:
 								break;
@@ -2177,21 +2240,6 @@ namespace CalamityMod.NPCs
 					case NPCID.PlanterasTentacle:
 						CalamityGlobalAI.RevengeancePlanterasTentacleAI(npc, mod);
 						break;
-					case NPCID.SkeletronPrime:
-						CalamityGlobalAI.RevengeanceSkeletronPrimeAI(npc, configBossRushBoost, mod, enraged);
-						break;
-					case NPCID.PrimeLaser:
-						CalamityGlobalAI.RevengeancePrimeLaserAI(npc);
-						break;
-					case NPCID.PrimeCannon:
-						CalamityGlobalAI.RevengeancePrimeCannonAI(npc, configBossRushBoost, enraged);
-						break;
-					case NPCID.Retinazer:
-						CalamityGlobalAI.RevengeanceRetinazerAI(npc, configBossRushBoost, mod, enraged);
-						break;
-					case NPCID.Spazmatism:
-						CalamityGlobalAI.RevengeanceSpazmatismAI(npc, configBossRushBoost, mod, enraged);
-						break;
 					case NPCID.WallofFlesh:
 						CalamityGlobalAI.RevengeanceWallofFleshAI(npc, configBossRushBoost, enraged);
 						break;
@@ -2241,10 +2289,18 @@ namespace CalamityMod.NPCs
 				npc.velocity.X *= 0.95f;
 				npc.velocity.Y *= 0.95f;
 			}
-			if (silvaStun && !CalamityWorld.bossRushActive)
+			if (!CalamityWorld.bossRushActive)
 			{
-				npc.velocity.X = 0f;
-				npc.velocity.Y = 0f;
+				if (silvaStun)
+				{
+					npc.velocity.X = 0f;
+					npc.velocity.Y = 0f;
+				}
+				else if (timeSlow)
+				{
+					npc.velocity.X *= 0.85f;
+					npc.velocity.Y *= 0.85f;
+				}
 			}
 		}
 		#endregion
@@ -2672,7 +2728,7 @@ namespace CalamityMod.NPCs
 		{
             if (npc.type == NPCID.TheDestroyerBody)
             {
-				if (projectile.penetrate == -1 && !projectile.minion)
+				if ((projectile.penetrate == -1 && !projectile.minion) || projectile.type == mod.ProjectileType("KelvinCatalyst") || projectile.type == mod.ProjectileType("KelvinCatalystStar"))
 					damage = (int)((double)damage * 0.2);
 				else if (projectile.penetrate > 1)
 					damage /= projectile.penetrate;
@@ -3010,6 +3066,15 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Drawing
+		public override void FindFrame(NPC npc, int frameHeight)
+		{
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				if (npc.type == NPCID.SkeletronPrime)
+					npc.frameCounter = 0.0;
+			}
+		}
+
 		public override void DrawEffects(NPC npc, ref Color drawColor)
 		{
 			if (bBlood)
@@ -3123,6 +3188,23 @@ namespace CalamityMod.NPCs
 				}
 				Lighting.AddLight(npc.position, 0.1f, 0f, 0.135f);
 			}
+			if (astralInfection)
+			{
+				if (Main.rand.Next(5) < 4)
+				{
+					int dustType = (Main.rand.Next(2) == 0 ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
+					int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default(Color), 1f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].velocity *= 1.2f;
+					Main.dust[dust].velocity.Y -= 0.15f;
+					Main.dust[dust].color = new Color(255, 255, 255, 0);
+					if (Main.rand.Next(4) == 0)
+					{
+						Main.dust[dust].noGravity = false;
+						Main.dust[dust].scale *= 0.5f;
+					}
+				}
+			}
 			if (nightwither)
 			{
 				Rectangle hitbox = npc.Hitbox;
@@ -3182,6 +3264,8 @@ namespace CalamityMod.NPCs
 				drawColor = Color.Fuchsia;
 			if (pearlAura)
 				drawColor = Color.White;
+			if (timeSlow)
+				drawColor = Color.Aquamarine;
 		}
 
 		public override Color? GetAlpha(NPC npc, Color drawColor)
@@ -3197,6 +3281,12 @@ namespace CalamityMod.NPCs
 
 		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
 		{
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				if (npc.type == NPCID.SkeletronPrime)
+					return false;
+			}
+
 			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).trippy)
 			{
 				SpriteEffects spriteEffects = SpriteEffects.None;
@@ -3236,6 +3326,60 @@ namespace CalamityMod.NPCs
 				}
 			}
 			return true;
+		}
+
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+		{
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				// His afterimages I can't get to work, so fuck it
+				if (npc.type == NPCID.SkeletronPrime)
+				{
+					Texture2D texture2D3 = Main.npcTexture[npc.type];
+					int frameHeight = texture2D3.Height / Main.npcFrameCount[npc.type];
+
+					npc.frame.Y = (int)newAI[3];
+
+					// Floating phase
+					if (npc.ai[1] == 0f || npc.ai[1] == 4f)
+					{
+						newAI[2] += 1f;
+						if (newAI[2] >= 12f)
+						{
+							newAI[2] = 0f;
+							newAI[3] = newAI[3] + (float)frameHeight;
+
+							if (newAI[3] / (float)frameHeight >= 2f)
+								newAI[3] = 0f;
+						}
+					}
+
+					// Spinning probe spawn or fly over phase
+					else if (npc.ai[1] == 5f || npc.ai[1] == 6f)
+					{
+						newAI[2] = 0f;
+						newAI[3] = (float)frameHeight;
+					}
+
+					// Spinning phase
+					else
+					{
+						newAI[2] = 0f;
+						newAI[3] = (float)(frameHeight * 2);
+					}
+
+					npc.frame.Y = (int)newAI[3];
+
+					SpriteEffects spriteEffects = SpriteEffects.None;
+					if (npc.spriteDirection == 1)
+						spriteEffects = SpriteEffects.FlipHorizontally;
+
+					spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+
+					spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
+						npc.frame, new Microsoft.Xna.Framework.Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+				}
+			}
 		}
 		#endregion
 

@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Patreon
 	    {
 			item.width = 70;
 			item.height = 42;
-			item.damage = 200;
-			item.crit += 11;
+			item.damage = 450;
+			item.crit += 16;
 	        item.ranged = true;
 	        item.useTime = 30;
 	        item.useAnimation = 30;

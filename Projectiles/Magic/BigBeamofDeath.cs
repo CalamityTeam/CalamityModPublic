@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 80;
+			projectile.localNPCHitCooldown = 100;
             projectile.penetrate = -1;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 80;

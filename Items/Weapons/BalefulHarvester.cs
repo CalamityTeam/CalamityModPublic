@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback);
+			CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback, false);
 			target.AddBuff(BuffID.OnFire, 300);
 		}
 	}

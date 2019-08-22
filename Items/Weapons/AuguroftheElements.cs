@@ -15,14 +15,14 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 74;
+	        item.damage = 150;
 	        item.magic = true;
 	        item.mana = 6;
 	        item.width = 28;
 	        item.crit = 3;
 	        item.height = 30;
-	        item.useTime = 1;
-	        item.reuseDelay = 10;
+	        item.useTime = 2;
+	        item.reuseDelay = 5;
 	        item.useAnimation = 10;
 	        item.useStyle = 5;
 	        item.noMelee = true;

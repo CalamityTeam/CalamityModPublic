@@ -12,14 +12,15 @@ namespace CalamityMod.Projectiles.Typeless
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Flare");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+			Main.projFrames[projectile.type] = 3;
 		}
 
         public override void SetDefaults()
         {
-			projectile.width = 30;
-			projectile.height = 30;
+			projectile.width = 42;
+			projectile.height = 42;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.extraUpdates = 1;
@@ -28,23 +29,21 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-			if (projectile.velocity.X < 0f)
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 8)
 			{
-				projectile.spriteDirection = -1;
-				projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+				projectile.frame++;
+				projectile.frameCounter = 0;
 			}
-			else
+			if (projectile.frame > 2)
 			{
-				projectile.spriteDirection = 1;
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+				projectile.frame = 0;
 			}
+
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
 			Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);
 		}
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(255, Main.DiscoG, 53, projectile.alpha);
-        }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
@@ -57,8 +56,7 @@ namespace CalamityMod.Projectiles.Typeless
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 200;
-			projectile.height = 200;
+			projectile.width = (projectile.height = 200);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num621 = 0; num621 < 4; num621++)

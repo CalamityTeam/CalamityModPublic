@@ -210,9 +210,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
             CalamityMod.StopRain();
 
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			Player player = Main.player[npc.target];
+
 			if (!startText)
 			{
 				if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalKillCount == 4)
@@ -291,16 +291,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				spawnArena = true;
 				Vector2 vectorPlayer = new Vector2(player.position.X, player.position.Y);
-				if (CalamityWorld.bossRushActive)
-				{
-					safeBox.X = spawnX = spawnXReset = (int)(vectorPlayer.X - 1250f);
-					spawnX2 = spawnXReset2 = (int)(vectorPlayer.X + 1250f);
-					safeBox.Y = spawnY = spawnYReset = (int)(vectorPlayer.Y - 1250f);
-					safeBox.Width = 2500;
-					safeBox.Height = 2500;
-					spawnYAdd = 125;
-				}
-				else if (CalamityWorld.death)
+				if (CalamityWorld.death)
 				{
 					safeBox.X = spawnX = spawnXReset = (int)(vectorPlayer.X - 1000f);
 					spawnX2 = spawnXReset2 = (int)(vectorPlayer.X + 1000f);
@@ -311,12 +302,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 				else
 				{
-					safeBox.X = spawnX = spawnXReset = (int)(vectorPlayer.X - 1500f);
-					spawnX2 = spawnXReset2 = (int)(vectorPlayer.X + 1500f);
-					safeBox.Y = spawnY = spawnYReset = (int)(vectorPlayer.Y - 1500f);
-					safeBox.Width = 3000;
-					safeBox.Height = 3000;
-					spawnYAdd = 150;
+					safeBox.X = spawnX = spawnXReset = (int)(vectorPlayer.X - 1250f);
+					spawnX2 = spawnXReset2 = (int)(vectorPlayer.X + 1250f);
+					safeBox.Y = spawnY = spawnYReset = (int)(vectorPlayer.Y - 1250f);
+					safeBox.Width = 2500;
+					safeBox.Height = 2500;
+					spawnYAdd = 125;
 				}
 				if (Main.netMode != 1)
 				{
@@ -332,8 +323,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								Main.tile[num55, num56].type = (ushort)mod.TileType("ArenaTile");
 								Main.tile[num55, num56].active(true);
 							}
-							Main.tile[num55, num56].lava(false);
-							Main.tile[num55, num56].liquid = 0;
 							if (Main.netMode == 2)
 							{
 								NetMessage.SendTileSquare(-1, num55, num56, 1, TileChangeType.None);
@@ -447,14 +436,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 				if (Main.netMode != 1)
 				{
-					spawnY += 300;
-					if (CalamityWorld.bossRushActive)
+					spawnY += 250;
+					if (CalamityWorld.death)
 					{
 						spawnY -= 50;
-					}
-					else if (CalamityWorld.death)
-					{
-						spawnY -= 100;
 					}
 					for (int x = 0; x < 5; x++)
 					{
@@ -912,14 +897,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 					if (Main.netMode != 1)
 					{
-						spawnY += 300;
-						if (CalamityWorld.bossRushActive)
+						spawnY += 250;
+						if (CalamityWorld.death)
 						{
 							spawnY -= 50;
-						}
-						else if (CalamityWorld.death)
-						{
-							spawnY -= 100;
 						}
 						for (int x = 0; x < 5; x++)
 						{

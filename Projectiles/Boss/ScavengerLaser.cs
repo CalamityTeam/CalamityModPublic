@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,6 +14,8 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DisplayName.SetDefault("Homing Dart");
 			Main.projFrames[projectile.type] = 5;
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
 		public override void SetDefaults()
@@ -63,10 +66,10 @@ namespace CalamityMod.Projectiles.Boss
 				{
 					projectile.localAI[0] = 0f;
 					projectile.ai[0] = 1f;
-					projectile.ai[1] = -projectile.ai[1];
+					projectile.ai[1] = (float)Player.FindClosest(projectile.position, projectile.width, projectile.height);
 					projectile.netUpdate = true;
 				}
-				projectile.velocity.X = projectile.velocity.RotatedBy((double)projectile.ai[1], default(Vector2)).X;
+				projectile.velocity.X = projectile.velocity.RotatedBy(0.0, default(Vector2)).X;
 				projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -6f, 6f);
 				projectile.velocity.Y = projectile.velocity.Y - 0.08f;
 				if (projectile.velocity.Y > 0f)
@@ -80,15 +83,12 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			else if (projectile.ai[0] == 1f)
 			{
-				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] >= 90f)
+				if (Main.player[(int)projectile.ai[1]].Center.Y > projectile.Center.Y + 90f)
 				{
-					projectile.localAI[0] = 0f;
 					projectile.ai[0] = 2f;
-					projectile.ai[1] = (float)Player.FindClosest(projectile.position, projectile.width, projectile.height);
 					projectile.netUpdate = true;
 				}
-				projectile.velocity.X = projectile.velocity.RotatedBy((double)projectile.ai[1], default(Vector2)).X;
+				projectile.velocity.X = projectile.velocity.RotatedBy(0.0, default(Vector2)).X;
 				projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -6f, 6f);
 				projectile.velocity.Y = projectile.velocity.Y - 0.08f;
 				if (projectile.velocity.Y > 0f)
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
 				{
 					projectile.tileCollide = true;
 				}
-				float speed = revenge ? 9f : 6f;
+				float speed = revenge ? 9f : 7.5f;
 				Vector2 vector70 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
 				if (vector70.Length() < 30f)
 				{
@@ -169,7 +169,13 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return new Color(255, 50, 50, projectile.alpha);
+			return new Color(255, 0, 0, projectile.alpha);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
 		}
 
 		public override void Kill(int timeLeft)

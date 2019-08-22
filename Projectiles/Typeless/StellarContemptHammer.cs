@@ -39,18 +39,6 @@ namespace CalamityMod.Projectiles.Typeless
             drawOriginOffsetY = -10;
             drawOriginOffsetX = 0;
 
-            // Set the damage type on the very first frame based on ai[0].
-            if (projectile.timeLeft == Lifetime)
-            {
-                if (projectile.ai[0] > 0f)
-                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-                else
-                    projectile.melee = true;
-
-                // Reset ai[0] so it can be used normally.
-                projectile.ai[0] = 0f;
-            }
-
             Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0.6f);
 
             // The hammer makes sound while flying.
@@ -193,13 +181,12 @@ namespace CalamityMod.Projectiles.Typeless
                 float AI1 = (float)Main.rand.Next(3);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int idx = Projectile.NewProjectile(startPoint, velocity, 645, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
-                    Main.projectile[idx].magic = false;
+                    int proj = Projectile.NewProjectile(startPoint, velocity, 645, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
                     if (projectile.melee)
-                        Main.projectile[idx].melee = true;
-                    else
-                        Main.projectile[idx].GetGlobalProjectile<CalamityGlobalProjectile>().rogue = true;
-                }
+						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+					else
+						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+				}
             }
         }
     }

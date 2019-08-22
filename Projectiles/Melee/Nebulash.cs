@@ -213,8 +213,9 @@ namespace CalamityMod.Projectiles.Melee
 			return false;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
 			if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
 			{
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Nebudust"), damage, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);

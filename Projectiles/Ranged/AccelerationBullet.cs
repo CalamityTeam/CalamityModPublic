@@ -48,6 +48,13 @@ namespace CalamityMod.Projectiles.Ranged
         	}
 		}
 
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			return true;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);

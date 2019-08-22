@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Patreon
 {
     public class TheLastMourning : ModItem
 	{
-		public static int BaseDamage = 300;
+		public static int BaseDamage = 480;
 
 		public override void SetStaticDefaults()
 		{
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Patreon
 			num3 *= num5;
 			num4 *= num5;
 			Projectile.NewProjectile((float)num, (float)num2, num3, num4, mod.ProjectileType("MourningSkull"), (int)((float)item.damage * player.meleeDamage * 1.5f), knockback, player.whoAmI, (float)target.whoAmI, 0f);
-			CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback);
+			CalamityGlobalItem.HorsemansBladeOnHit(player, target.whoAmI, (int)(item.damage * player.meleeDamage * 1.5f), knockback, true);
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -29,5 +29,10 @@ namespace CalamityMod.Items.Weapons.Astral
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
         }
+
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+		}
 	}
 }

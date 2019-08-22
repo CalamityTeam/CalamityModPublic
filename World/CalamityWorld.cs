@@ -74,6 +74,7 @@ namespace CalamityMod.World
 		//Shrines
 		public static int[] SChestX = new int[10];
 		public static int[] SChestY = new int[10];
+		public static bool roxShrinePlaced = false;
 
 		#region Downed Bools
 		public static bool downedBossAny = false; //Any boss
@@ -565,6 +566,7 @@ namespace CalamityMod.World
 		public override void PreWorldGen()
 		{
 			numAbyssIslands = 0;
+			roxShrinePlaced = false;
 		}
 		#endregion
 
@@ -664,6 +666,12 @@ namespace CalamityMod.World
 				{
 					progress.Message = "The Abyss";
 					Abyss.PlaceAbyss();
+				}));
+
+				tasks.Insert(FinalIndex + 4, new PassLegacy("IWannaRock", delegate (GenerationProgress progress)
+				{
+					progress.Message = "I Wanna Rock";
+					WorldGenerationMethods.PlaceRoxShrine();
 				}));
 			}
 

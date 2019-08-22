@@ -360,7 +360,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 				if (npc.velocity.Y < -num1463)
 				{
 					npc.velocity.Y = -num1461;
-					return;
 				}
 			}
 			else if (npc.directionY == 1 && npc.velocity.Y < num1463)
@@ -377,7 +376,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 				if (npc.velocity.Y > num1463)
 				{
 					npc.velocity.Y = num1463;
-					return;
 				}
 			}
 		}

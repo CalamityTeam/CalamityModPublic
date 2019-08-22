@@ -271,15 +271,15 @@ namespace CalamityMod.NPCs.Cryogen
 						}
 					}
 				}
-				float num1164 = isChill ? 5f : 7f;
-				float num1165 = isChill ? 1.1f : 1.3f;
+				float num1164 = isChill ? 6f : 7.5f;
+				float num1165 = isChill ? 0.1f : 0.12f;
 				if (CalamityWorld.death)
 				{
-					num1164 = isChill ? 6f : 8f;
+					num1164 = isChill ? 6.5f : 8f;
 				}
 				if (CalamityWorld.bossRushActive)
 				{
-					num1164 = 13f;
+					num1164 = 15f;
 				}
 				Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num1166 = player.Center.X - vector133.X;
@@ -474,11 +474,11 @@ namespace CalamityMod.NPCs.Cryogen
 						}
 					}
 				}
-				float num1164 = isChill ? 5.5f : 7.5f;
-				float num1165 = isChill ? 1.2f : 1.4f;
+				float num1164 = isChill ? 6.5f : 8f;
+				float num1165 = isChill ? 0.1f : 0.12f;
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
-					num1164 = isChill ? 6.5f : 8.5f;
+					num1164 = isChill ? 7f : 8.5f;
 				}
 				Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num1166 = player.Center.X - vector133.X;

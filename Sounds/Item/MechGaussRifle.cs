@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Sounds.Item
 {
-	public class LargeGaussWeaponFire : ModSound
+	public class MechGaussRifle : ModSound
 	{
 		public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
 		{

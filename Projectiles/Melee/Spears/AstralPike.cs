@@ -73,6 +73,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
 			target.immune[projectile.owner] = 6;
 			if (crit)
 			{

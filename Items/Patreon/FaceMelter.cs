@@ -69,15 +69,15 @@ namespace CalamityMod.Items.Patreon
 				speedY = 0;
 				item.useTime = 20;
 				item.useAnimation = 20;
-                item.reuseDelay = 0;
+				item.reuseDelay = 0;
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("MelterAmp"), damage, knockBack, player.whoAmI);
 				return false;
 			}
 			else
 			{
-                item.useTime = 5;
-                item.useAnimation = 10;
-                float SpeedX = speedX;
+				item.useTime = 5;
+				item.useAnimation = 10;
+				float SpeedX = speedX;
 				float SpeedY = speedY;
 				int note = Main.rand.Next(0, 2);
 				if (note == 0)
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Patreon
 					SpeedY *= 1.5f;
 					type = mod.ProjectileType("MelterNote2");
 				}
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 				return false;
 			}
 		}

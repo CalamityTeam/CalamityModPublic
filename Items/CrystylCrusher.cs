@@ -15,11 +15,12 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.damage = 255;
+            item.damage = 500;
             item.melee = true;
+			item.crit += 25;
             item.width = 70;
             item.height = 70;
-            item.useTime = 1;
+            item.useTime = 2;
             item.useAnimation = 30;
             item.useTurn = true;
             item.pick = 5000;

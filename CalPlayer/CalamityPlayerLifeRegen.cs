@@ -17,6 +17,15 @@ namespace CalamityMod.CalPlayer
 
 			//Initial Debuffs
 
+			if (modPlayer.shadowflame)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				player.lifeRegen -= 30;
+			}
+
 			if (modPlayer.wDeath)
 			{
 				if (player.lifeRegen > 0)
@@ -43,6 +52,15 @@ namespace CalamityMod.CalPlayer
 
 				player.lifeRegenTime = 0;
 				player.lifeRegen -= 30;
+			}
+
+			if (modPlayer.astralInfection)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				player.lifeRegen -= 20;
 			}
 
 			if (modPlayer.ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && !modPlayer.aquaticScourgeLore)

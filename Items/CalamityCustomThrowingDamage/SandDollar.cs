@@ -35,14 +35,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
 		public override bool CanUseItem(Player player)
 		{
-			int MAX = item.stack;
 		    int launched = 0;
+
 		    foreach (Projectile projectile in Main.projectile)
-		    if (projectile.type == item.shoot && projectile.owner == item.owner && projectile.active)
-			{
-		        launched++;
-			}
-		    return (launched >= MAX) ? false : true;
+				if (projectile.type == item.shoot && projectile.owner == item.owner && projectile.active)
+					launched++;
+
+		    return launched < item.stack;
 		}
 	}
 }

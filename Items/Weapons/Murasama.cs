@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
 			item.value = Item.buyPrice(2, 50, 0, 0);
 			item.rare = 10;
 			item.shoot = mod.ProjectileType("Murasama");
-			item.shootSpeed = 15f;
+			item.shootSpeed = 24f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
 

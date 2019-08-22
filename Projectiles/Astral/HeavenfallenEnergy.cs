@@ -41,7 +41,11 @@ namespace CalamityMod.Projectiles.Astral
 				Main.dust[coolDust].velocity *= 0.1f;
 				Main.dust[coolDust].velocity += projectile.velocity * 0.5f;
 			}
+		}
 
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180);
 		}
 	}
 }

@@ -497,7 +497,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			player.AddBuff(mod.BuffType("GodSlayerInferno"), 120, true);
+			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180, true);
 		}
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

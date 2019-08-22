@@ -75,6 +75,11 @@ namespace CalamityMod.Projectiles.Magic
 			return false;
 		}
 
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+		}
+
 		public override void AI()
 		{
 			//FRAMING

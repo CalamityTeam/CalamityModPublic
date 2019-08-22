@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Astral Bulwark");
             Tooltip.SetDefault("Taking damage drops astral stars from the sky\n" +
-                               "Provides immunity to the god slayer inferno debuff");
+                               "Provides immunity to the astral infection debuff");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.aBulwark = true;
-            player.buffImmune[mod.BuffType("GodSlayerInferno")] = true;
+            player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;
 		}
 	}
 }

@@ -17,9 +17,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.width = 6;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 120;
+			projectile.magic = true;
+			projectile.penetrate = 3;
+			projectile.timeLeft = 120;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
 		}

@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons
 			item.ranged = true;
 			item.width = 84;
 			item.height = 30;
-			item.useTime = 1;
-			item.useAnimation = 5;
+			item.useTime = 2;
+			item.useAnimation = 10;
 			item.useStyle = 5;
 			item.noMelee = true;
 			item.knockBack = 2f;
@@ -42,9 +42,12 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;
-            float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			for (int i = 0; i < 2; i++)
+			{
+				float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;
+				float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			}
             return false;
         }
 

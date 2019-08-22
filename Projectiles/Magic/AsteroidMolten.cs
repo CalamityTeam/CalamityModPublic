@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void SetDefaults()
 		{
-			projectile.width = 24;
-			projectile.height = 24;
+			projectile.width = 30;
+			projectile.height = 30;
 			projectile.friendly = true;
 			projectile.tileCollide = false;
 			projectile.magic = true;
@@ -120,7 +120,31 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			//Changes the texture of the projectile
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			switch ((int)projectile.ai[0])
+			{
+				case 0:
+					break;
+				case 1:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten2");
+					break;
+				case 2:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten3");
+					break;
+				case 3:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten4");
+					break;
+				case 4:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten5");
+					break;
+				case 5:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMolten6");
+					break;
+				default:
+					break;
+			}
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, texture);
 			return false;
 		}
 	}

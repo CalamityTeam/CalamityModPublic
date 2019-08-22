@@ -31,6 +31,13 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 		}
 
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			return true;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);

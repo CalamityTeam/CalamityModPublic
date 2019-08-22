@@ -13,7 +13,8 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 810;
+			Main.tileSpelunker[Type] = true;
+			Main.tileValue[Type] = 810;
             dustType = 55;
 			drop = mod.ItemType("AuricOre");
 			ModTranslation name = CreateMapEntryName();
@@ -22,7 +23,6 @@ namespace CalamityMod.Tiles
 			mineResist = 10f;
 			minPick = 275;
 			soundType = 21;
-			Main.tileSpelunker[Type] = true;
 		}
 
 		public override bool CanExplode(int i, int j)

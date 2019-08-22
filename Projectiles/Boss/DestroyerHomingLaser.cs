@@ -52,11 +52,11 @@ namespace CalamityMod.Projectiles.Boss
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
 			}
 			projectile.localAI[1] += 1f;
-			if (projectile.localAI[1] >= 120f)
+			if (projectile.localAI[1] >= 180f)
 			{
 				int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
 				projectile.ai[0] += 1f;
-				if (projectile.ai[0] < 360f)
+				if (projectile.ai[0] < 270f)
 				{
 					float scaleFactor2 = projectile.velocity.Length();
 					Vector2 vector11 = Main.player[num103].Center - projectile.Center;

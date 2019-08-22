@@ -1482,7 +1482,7 @@ namespace CalamityMod.Items
 		#endregion
 
 		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
-		#region BossBagChanges
+		#region Boss Bag Changes
 		public override void OpenVanillaBag(string context, Player player, int arg)
 		{
 			if (context == "bossBag")
@@ -1583,8 +1583,6 @@ namespace CalamityMod.Items
 				return "Gladiator";
 			if (head.type == ItemID.ObsidianHelm && body.type == ItemID.ObsidianShirt && legs.type == ItemID.ObsidianPants)
 				return "Obsidian";
-			if (head.type == ItemID.PumpkinHelmet && body.type == ItemID.PumpkinBreastplate && legs.type == ItemID.PumpkinLeggings)
-				return "PumpMyAssFull";
 			return "";
 		}
 
@@ -1623,17 +1621,15 @@ namespace CalamityMod.Items
 			{
 				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 				modPlayer.rogueStealthMax = 1f;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
-				player.statDefense += 3;
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+				player.statDefense += 2;
 				player.fireWalk = true;
-				player.lavaMax += 300;
-				player.setBonus = "+3 defense\n" +
-							"10% increased rogue damage and critical strike chance\n" +
+				player.lavaMax += 180;
+				player.setBonus = "+2 defense\n" +
+							"5% increased rogue damage and critical strike chance\n" +
 							"Grants immunity to fire blocks and temporary immunity to lava";
 			}
-			else if (set == "PumpMyAssFull")
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
 		}
 		#endregion
 
@@ -1868,7 +1864,7 @@ namespace CalamityMod.Items
 		#endregion
 
 		#region The Horseman's Blade
-		public static void HorsemansBladeOnHit(Player player, int targetIdx, int damage, float knockback)
+		public static void HorsemansBladeOnHit(Player player, int targetIdx, int damage, float knockback, bool hasExtraUpdates)
 		{
 			int x = Main.rand.Next(100, 300);
 			int y = Main.rand.Next(100, 300);
@@ -1895,7 +1891,9 @@ namespace CalamityMod.Items
 			dist = speed / dist;
 			dx *= dist;
 			dy *= dist;
-			Projectile.NewProjectile(x, y, dx, dy, ProjectileID.FlamingJack, damage, knockback, player.whoAmI, targetIdx, 0f);
+			int projectile = Projectile.NewProjectile(x, y, dx, dy, ProjectileID.FlamingJack, damage, knockback, player.whoAmI, targetIdx, 0f);
+			if (hasExtraUpdates)
+				Main.projectile[projectile].extraUpdates += 1;
 		}
 		#endregion
 

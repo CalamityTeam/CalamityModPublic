@@ -98,6 +98,8 @@ namespace CalamityMod
 		public bool crysthamyr = false;
 
 		//Pet
+		public bool thirdSage = false;
+		public bool thirdSageH = true; // Third sage healing
 		public bool perfmini = false;
 		public bool akato = false;
 		public bool leviPet = false;
@@ -362,6 +364,7 @@ namespace CalamityMod
 		public bool molluskSet = false;
 
 		//Debuff
+		public bool shadowflame = false;
 		public bool wDeath = false;
 		public bool lethalLavaBurn = false;
 		public bool aCrunch = false;
@@ -371,6 +374,7 @@ namespace CalamityMod
 		public bool bFlames = false;
 		public bool aFlames = false;
 		public bool gsInferno = false;
+		public bool astralInfection = false;
 		public bool pFlames = false;
 		public bool hFlames = false;
 		public bool hInferno = false;
@@ -462,6 +466,7 @@ namespace CalamityMod
 		public bool amidiasBlessing = false;
 
 		//Minion
+		public bool resButterfly = false;
 		public bool glSword = false;
 		public bool mWorm = false;
 		public bool iClasper = false;
@@ -770,6 +775,9 @@ namespace CalamityMod
 			dashMod = 0;
 			alcoholPoisonLevel = 0;
 
+			thirdSage = false;
+			if (player.immuneTime == 0)
+				thirdSageH = false;
 			perfmini = false;
 			akato = false;
 			leviPet = false;
@@ -1000,6 +1008,7 @@ namespace CalamityMod
 
 			weakPetrification = false;
 
+			shadowflame = false;
 			wDeath = false;
 			lethalLavaBurn = false;
 			aCrunch = false;
@@ -1009,6 +1018,7 @@ namespace CalamityMod
 			bFlames = false;
 			aFlames = false;
 			gsInferno = false;
+			astralInfection = false;
 			pFlames = false;
 			hFlames = false;
 			hInferno = false;
@@ -1096,6 +1106,7 @@ namespace CalamityMod
 			pinkCandle = false;
 			yellowCandle = false;
 
+			resButterfly = false;
 			glSword = false;
 			mWorm = false;
 			iClasper = false;
@@ -1184,6 +1195,8 @@ namespace CalamityMod
 			bossRushImmunityFrameCurseTimer = 0;
 			aBulwarkRareMeleeBoostTimer = 0;
 			theBeeDamage = 0;
+
+			shadowflame = false;
 			wDeath = false;
 			lethalLavaBurn = false;
 			aCrunch = false;
@@ -1193,6 +1206,7 @@ namespace CalamityMod
 			bFlames = false;
 			aFlames = false;
 			gsInferno = false;
+			astralInfection = false;
 			pFlames = false;
 			hFlames = false;
 			hInferno = false;
@@ -2898,7 +2912,7 @@ namespace CalamityMod
 			{
 				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && ironBoots)
 				{
-					player.maxFallSpeed = 7f;
+					player.maxFallSpeed = 9f;
 				}
 				if (aeroSet && !player.wet)
 				{
@@ -4864,6 +4878,13 @@ namespace CalamityMod
 		}
 		#endregion
 
+		#region On Respawn
+		public override void OnRespawn(Player player)
+		{
+			thirdSageH = true;
+		}
+		#endregion
+
 		#region Use Time Mult
 		public override float UseTimeMultiplier(Item item)
 		{
@@ -4913,8 +4934,16 @@ namespace CalamityMod
 				if (item.melee || item.ranged || item.magic || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
 				{
 					double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600.0; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
-					if (useTimeBeeMultiplier > 0.35)
-						useTimeBeeMultiplier = 0.35;
+					if (item.type == mod.ItemType("ScarletDevil") && StealthStrikeAvailable())
+					{
+						if (useTimeBeeMultiplier > 0.1)
+							useTimeBeeMultiplier = 0.1;
+					}
+					else
+					{
+						if (useTimeBeeMultiplier > 0.35)
+							useTimeBeeMultiplier = 0.35;
+					}
 					theBeeDamage = (int)((double)item.damage * useTimeBeeMultiplier);
 				}
 			}
@@ -5777,7 +5806,7 @@ namespace CalamityMod
 				{
 					if (item.melee)
 					{
-						damageMult += (CalamityWorld.death ? (DHorHoD ? 8.9 : 8.0) : (DHorHoD ? 2.3 : 2.0));
+						damageMult += (CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0)); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
 					}
 				}
 				else if (rageMode)
@@ -5785,10 +5814,10 @@ namespace CalamityMod
 					if (item.melee)
 					{
 						double rageDamageBoost = 0.0 +
-							(rageBoostOne ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //3.6 or 1.65
-							(rageBoostTwo ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //4.2 or 1.8
-							(rageBoostThree ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0); //4.8 or 1.95
-						double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.3 : 2.0) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost;
+							(rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
+							(rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
+							(rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
+						double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
 						damageMult += rageDamage;
 					}
 				}
@@ -5796,7 +5825,7 @@ namespace CalamityMod
 				{
 					if (item.melee)
 					{
-						double damageMultAdr = (CalamityWorld.death ? 6.0 : 1.5) * (double)adrenalineDmgMult;
+						double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
 						damageMult += damageMultAdr;
 					}
 				}
@@ -6035,7 +6064,7 @@ namespace CalamityMod
 				{
 					if (hasClassType)
 					{
-						damageMult += (CalamityWorld.death ? (DHorHoD ? 8.9 : 8.0) : (DHorHoD ? 2.3 : 2.0));
+						damageMult += (CalamityWorld.death ? (DHorHoD ? 7.6 : 6.8) : (DHorHoD ? 2.3 : 2.0)); // Death Mode values: 8.9 and 8.0, rev: 2.3 and 2.0
 					}
 				}
 				else if (rageMode)
@@ -6043,10 +6072,10 @@ namespace CalamityMod
 					if (hasClassType)
 					{
 						double rageDamageBoost = 0.0 +
-							(rageBoostOne ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //3.6 or 1.65
-							(rageBoostTwo ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0) + //4.2 or 1.8
-							(rageBoostThree ? (CalamityWorld.death ? 0.6 : 0.15) : 0.0); //4.8 or 1.95
-						double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.3 : 2.0) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost;
+							(rageBoostOne ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
+							(rageBoostTwo ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0) + // Death Mode values: 0.6, rev: 0.15
+							(rageBoostThree ? (CalamityWorld.death ? 0.5 : 0.15) : 0.0); // Death Mode values: 0.6, rev: 0.15
+						double rageDamage = (CalamityWorld.death ? (DHorHoD ? 2.0 : 1.7) : (DHorHoD ? 0.65 : 0.5)) + rageDamageBoost; // Death Mode values: 2.3 and 2.0, rev: 0.65 and 0.5
 						damageMult += rageDamage;
 					}
 				}
@@ -6054,7 +6083,7 @@ namespace CalamityMod
 				{
 					if (hasClassType)
 					{
-						double damageMultAdr = (CalamityWorld.death ? 6.0 : 1.5) * (double)adrenalineDmgMult;
+						double damageMultAdr = (CalamityWorld.death ? 5.0 : 1.5) * (double)adrenalineDmgMult; // Death Mode values: 6, rev: 1.5
 						damageMult += damageMultAdr;
 					}
 				}
@@ -6513,7 +6542,11 @@ namespace CalamityMod
 		{
 			if (CalamityWorld.revenge)
 			{
-				if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeSaw)
+				if (npc.type == NPCID.ShadowFlameApparition || (npc.type == NPCID.ChaosBall && Main.hardMode))
+				{
+					player.AddBuff(mod.BuffType("Shadowflame"), 180);
+				}
+				else if (npc.type == NPCID.SkeletronPrime || npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeSaw)
 				{
 					player.AddBuff(BuffID.Bleeding, 300);
 				}
@@ -7256,23 +7289,6 @@ namespace CalamityMod
 			{
 				player.AddBuff(mod.BuffType("BurntOut"), 300, true);
 			}
-			if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")) && CalamityWorld.revenge)
-			{
-				if (damage < 100)
-				{
-					KillPlayer();
-					string key = "Mods.CalamityMod.SupremeBossText28";
-					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
-					{
-						Main.NewText(Language.GetTextValue(key), messageColor);
-					}
-					else if (Main.netMode == 2)
-					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					}
-				}
-			}
 			bool hardMode = Main.hardMode;
 			if (player.whoAmI == Main.myPlayer)
 			{
@@ -7340,7 +7356,7 @@ namespace CalamityMod
 					if (aBulwarkRare)
 					{
 						Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74);
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("GodSlayerBlaze"), 25, 5f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("GodSlayerBlaze"), 25, 5f, player.whoAmI, 0f, 1f);
 					}
 					int starAmt = aBulwarkRare ? 12 : 5;
 					for (int n = 0; n < starAmt; n++)
@@ -9051,6 +9067,22 @@ namespace CalamityMod
 					fullBright = true;
 				}
 			}
+			if (shadowflame)
+			{
+				if (Main.rand.Next(5) < 4 && drawInfo.shadow == 0f)
+				{
+					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 27, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default(Color), 1.95f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].velocity *= 0.75f;
+					Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
+					Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
+					if (Main.rand.Next(4) == 0)
+					{
+						Main.dust[dust].noGravity = false;
+						Main.dust[dust].scale *= 0.5f;
+					}
+				}
+			}
 			if (adrenalineMode)
 			{
 				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
@@ -9084,6 +9116,19 @@ namespace CalamityMod
 					g *= 0.01f;
 					b *= 0.01f;
 					fullBright = true;
+				}
+			}
+			if (astralInfection)
+			{
+				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
+				{
+					int dustType = (Main.rand.Next(2) == 0 ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
+					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, dustType, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default(Color), 0.7f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].velocity *= 1.2f;
+					Main.dust[dust].velocity.Y -= 0.5f;
+					Main.dust[dust].color = new Color(255, 255, 255, 0);
+					Main.playerDrawDust.Add(dust);
 				}
 			}
 			if (hFlames || hInferno)

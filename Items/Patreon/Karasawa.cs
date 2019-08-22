@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Patreon
 			r.AddIngredient(null, "GalacticaSingularity", 5);
 			r.AddIngredient(null, "BarofLife", 10);
 			r.AddIngredient(null, "CosmiliteBar", 15);
-			r.AddTile(TileID.LunarCraftingStation);
+			r.AddTile(null, "DraedonsForge");
 			r.SetResult(this);
 			r.AddRecipe();
 		}

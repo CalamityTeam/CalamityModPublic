@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Providence
             item.width = 36;
             item.height = 32;
             item.value = Item.buyPrice(0, 45, 0, 0);
-            item.expert = true;
-			item.rare = 9;
+			item.rare = 10;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 			item.accessory = true;
         }
 

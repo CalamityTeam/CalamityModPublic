@@ -13,7 +13,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 	public class DevourerofGodsTailS : ModNPC
 	{
 		private int beamPortal = 0;
-		private int invinceTime = 360;
+		private int invinceTime = 720;
 		private bool setAlpha = false;
 
 		public override void SetStaticDefaults()

@@ -26,7 +26,6 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.width = 62;
             projectile.height = 62;
             projectile.friendly = true;
-            projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -43,18 +42,6 @@ namespace CalamityMod.Projectiles.Typeless
             drawOffsetX = -12;
             drawOriginOffsetY = -5;
             drawOriginOffsetX = 0;
-
-            // Set the damage type on the very first frame based on ai[0].
-            if (projectile.timeLeft == Lifetime)
-            {
-                if (projectile.ai[0] > 0f)
-                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-                else
-                    projectile.melee = true;
-
-                // Reset ai[0] so it can be used normally.
-                projectile.ai[0] = 0f;
-            }
 
             // Produces violet dust constantly while in flight. This lights the hammer.
             int numDust = 2;
@@ -199,10 +186,14 @@ namespace CalamityMod.Projectiles.Typeless
                 if (projectile.owner == Main.myPlayer)
                 {
                     float damageType = projectile.melee ? 1f : 2f;
-                    int idx = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, 1f, 0f);
-                    Main.projectile[idx].tileCollide = false;
-                    Main.projectile[idx].timeLeft = 30;
-                }
+                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, 0f, 0f);
+                    Main.projectile[proj].tileCollide = false;
+                    Main.projectile[proj].timeLeft = 30;
+					if (projectile.melee)
+						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+					else
+						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+				}
             }
         }
     }

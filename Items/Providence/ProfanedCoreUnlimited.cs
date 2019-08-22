@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Providence
 			item.useTime = 45;
 			item.useStyle = 4;
 			item.consumable = false;
-			item.rare = 9;
+			item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
 

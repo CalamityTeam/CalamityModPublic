@@ -30,5 +30,10 @@ namespace CalamityMod.Items.Weapons.Astral
             item.shoot = mod.ProjectileType("AstralScytheProjectile");
 			item.shootSpeed = 5f;
 		}
+
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+		}
 	}
 }

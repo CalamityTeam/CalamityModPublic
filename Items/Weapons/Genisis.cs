@@ -41,13 +41,13 @@ namespace CalamityMod.Items.Weapons
 
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 	        int num6 = 3;
 	        float SpeedX = speedX + (float) Main.rand.Next(-20, 21) * 0.05f;
 		    float SpeedY = speedY + (float) Main.rand.Next(-20, 21) * 0.05f;
 	        for (int index = 0; index < num6; ++index)
 	        {
-	            int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, 440, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+	            int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX * 1.05f, SpeedY * 1.05f, 440, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
 	            Main.projectile[projectile].timeLeft = 120;
 	        }
 	        return false;

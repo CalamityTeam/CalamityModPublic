@@ -9,8 +9,8 @@ namespace CalamityMod.Items
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infernal Blood");
-			Tooltip.SetDefault("Permanently makes Rage Mode do 15% (60% in Death Mode) more damage\n" +
-                "Revengeance drop");
+			Tooltip.SetDefault("Permanently makes Rage Mode do 15% (50% in Death Mode) more damage\n" +
+				"Revengeance drop");
 		}
 
 		public override void SetDefaults()

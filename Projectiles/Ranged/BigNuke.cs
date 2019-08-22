@@ -80,7 +80,14 @@ namespace CalamityMod.Projectiles.Ranged
 			}
         }
 
-        public override void Kill(int timeLeft)
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			return true;
+		}
+
+		public override void Kill(int timeLeft)
         {
         	if (projectile.owner == Main.myPlayer)
         	{

@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.width = 56;
             projectile.height = 56;
             projectile.friendly = true;
-            projectile.melee = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
@@ -45,17 +44,8 @@ namespace CalamityMod.Projectiles.Typeless
             drawOriginOffsetX = 0;
 
             // Initialize the frame counter and random blade delay on the very first frame.
-            // Also grab the damage type based on ai[0].
             if (projectile.timeLeft == Lifetime)
-            {
-                if (projectile.ai[0] > 0f)
-                    projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-                else
-                    projectile.melee = true;
-
-                projectile.ai[0] = 0f;
                 projectile.ai[1] = GetBladeDelay();
-            }
 
             // Produces electricity and green firework sparks constantly while in flight.
             if (Main.rand.Next(3) == 0)
@@ -165,9 +155,12 @@ namespace CalamityMod.Projectiles.Typeless
             Vector2 pos = projectile.Center + directOffset + velocityOffset;
             if (projectile.owner == Main.myPlayer)
             {
-                float damageType = projectile.melee ? 0f : 1f;
-                Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, damageType, spin);
-            }
+                int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
+				if (projectile.melee)
+					Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				else
+					Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+			}
         }
     }
 }

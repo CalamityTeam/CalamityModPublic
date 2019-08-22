@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Daedalus Circlet");
+            DisplayName.SetDefault("Daedalus Mask");
             Tooltip.SetDefault("5% increased minion damage and +2 max minions");
         }
 

@@ -305,10 +305,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
-			if (CalamityWorld.downedAstrageldon)
-			{
-				player.AddBuff(mod.BuffType("GodSlayerInferno"), 150, true);
-			}
+			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
 		}
 	}
 }

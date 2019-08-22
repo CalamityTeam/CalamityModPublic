@@ -84,6 +84,11 @@ namespace CalamityMod.Projectiles.Magic
 			}
 		}
 
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+		}
+
 		public override Color? GetAlpha(Color lightColor)
 		{
 			return new Color(200, 100, 250, projectile.alpha);

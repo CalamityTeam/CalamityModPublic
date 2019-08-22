@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			{
 				npc.defense = 0;
 			}
-			if (!Main.raining && !CalamityWorld.bossRushActive)
+			if (!Main.raining && !CalamityWorld.bossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				RainStart();
 			}

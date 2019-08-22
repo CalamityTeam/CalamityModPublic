@@ -35,7 +35,14 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			return true;
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);

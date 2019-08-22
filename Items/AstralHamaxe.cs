@@ -42,7 +42,12 @@ namespace CalamityMod.Items
             }
         }
 
-        public override void AddRecipes()
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "AstralBar", 8);

@@ -19,9 +19,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.autoReuse = true;
-			item.useAnimation = 34;
+			item.useAnimation = 30;
 			item.useStyle = 1;
-			item.useTime = 34;
+			item.useTime = 30;
 			item.knockBack = 4f;
 			item.UseSound = SoundID.Item1;
 			item.height = 20;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 			recipe.AddIngredient(null, "FrostFlare", 2);
 			recipe.AddIngredient(ItemID.FrostCore, 2);
 			recipe.AddIngredient(null, "CryoStone");
-			recipe.AddTile(null, "DraedonsForge");
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

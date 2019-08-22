@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Weapons.RareVariants
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 88;
+	        item.damage = 70;
+			item.crit += 30;
 	        item.ranged = true;
 	        item.width = 66;
 	        item.height = 34;
@@ -43,11 +44,12 @@ namespace CalamityMod.Items.Weapons.RareVariants
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-			float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-			SpeedX += speedY + (float)Main.rand.Next(-85, 86) * 0.05f;
-			SpeedY += speedX + (float)Main.rand.Next(-85, 86) * 0.05f;
-			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, 242, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+			float rotation = MathHelper.ToRadians(6);
+			for (int i = 0; i < 2; i++)
+			{
+				Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, (i == 1 ? 0 : 2)));
+				Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, 242, damage, knockBack, player.whoAmI, 0f, 0f);
+			}
 			return false;
 		}
 

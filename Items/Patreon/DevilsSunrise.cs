@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Patreon
 {
     public class DevilsSunrise : ModItem
 	{
-		public static int BaseDamage = 500;
+		public static int BaseDamage = 360;
 
 		public override void SetStaticDefaults()
 		{
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Patreon
 			item.value = Item.buyPrice(1, 40, 0, 0);
 
 			item.shoot = mod.ProjectileType("DevilsSunrise");
-			item.shootSpeed = 15f;
+			item.shootSpeed = 24f;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

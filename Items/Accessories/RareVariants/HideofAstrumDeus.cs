@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Accessories.RareVariants
             DisplayName.SetDefault("Hide of Astrum Deus");
             Tooltip.SetDefault("Taking damage drops an immense amount of astral stars from the sky and boosts true melee damage by 200% for a time\n" +
 								"Boost duration is based on the amount of damage you took, the higher the damage the longer the boost\n" +
-								"Provides immunity to the god slayer inferno, cursed inferno, on fire, and frostburn debuffs\n" +
-								"Enemies take damage when they hit you and are inflicted with the god slayer inferno debuff");
+								"Provides immunity to the astral infection, cursed inferno, on fire, and frostburn debuffs\n" +
+								"Enemies take damage when they hit you and are inflicted with the astral infection debuff");
         }
 
         public override void SetDefaults()
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
 		{
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 			modPlayer.aBulwark = true;
-			player.buffImmune[mod.BuffType("GodSlayerInferno")] = true;
+			player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;
 			modPlayer.aBulwarkRare = true;
 			player.buffImmune[BuffID.CursedInferno] = true;
 			player.buffImmune[BuffID.OnFire] = true;

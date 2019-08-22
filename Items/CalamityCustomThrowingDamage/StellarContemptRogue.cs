@@ -2,9 +2,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
+using CalamityMod.Projectiles;
 
-namespace CalamityMod.Items.Weapons
+namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class StellarContemptRogue : CalamityDamageItem
     {
@@ -36,15 +36,16 @@ namespace CalamityMod.Items.Weapons
             item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
             item.value = Item.buyPrice(1, 20, 0, 0);
 
-            item.shoot = mod.ProjectileType("StellarContemptHammer");
+			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.shoot = mod.ProjectileType("StellarContemptHammer");
             item.shootSpeed = Speed;
         }
 
-        // ai[0] = 1f so that the projectile is rogue.
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 1f);
-            return false;
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+			Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+			return false;
         }
 
         public override void AddRecipes()
@@ -56,7 +57,7 @@ namespace CalamityMod.Items.Weapons
             r.AddIngredient(ItemID.FragmentSolar, 10);
             r.AddIngredient(ItemID.FragmentNebula, 10);
 			r.AddTile(TileID.LunarCraftingStation);
-            r.AddRecipe();
+			r.AddRecipe();
         }
     }
 }

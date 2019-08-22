@@ -17,8 +17,8 @@ namespace CalamityMod.NPCs.StormWeaver
 		private const float speed = 13f;
 		private const float turnSpeed = 0.35f;
 		private bool tail = false;
-		private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 20 : 30;
-		private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 21 : 31;
+		private int minLength = 40;
+		private int maxLength = 41;
 		private int invinceTime = 180;
 
 		public override void SetStaticDefaults()
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.damage = expertMode ? 360 : 180;
 				npc.dontTakeDamage = false;
 			}
-			if (!Main.raining && !CalamityWorld.bossRushActive)
+			if (!Main.raining && !CalamityWorld.bossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				RainStart();
 			}
@@ -594,6 +594,18 @@ namespace CalamityMod.NPCs.StormWeaver
 		public override bool CheckActive()
 		{
 			return false;
+		}
+
+		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (projectile.penetrate == -1 && !projectile.minion)
+			{
+				damage = (int)((double)damage * 0.2);
+			}
+			else if (projectile.penetrate > 1)
+			{
+				damage /= projectile.penetrate;
+			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

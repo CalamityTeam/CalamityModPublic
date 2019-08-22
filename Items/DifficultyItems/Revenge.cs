@@ -14,9 +14,9 @@ namespace CalamityMod.Items.DifficultyItems
 		{
 			DisplayName.SetDefault("Revengeance");
 			Tooltip.SetDefault("Activates revengeance mode, can only be used in expert mode.\n" +
-                "Activates rage, which is a new stat. When rage is maxed press V to activate rage mode.\n" +
+                "Activates rage. When rage is maxed press V to activate rage mode.\n" +
                 "You gain rage whenever you take damage.\n" +
-                "Activates adrenaline, which is a new stat. When adrenaline is maxed press B to activate adrenaline mode.\n" +
+                "Activates adrenaline. When adrenaline is maxed press B to activate adrenaline mode.\n" +
                 "You gain adrenaline whenever a boss is alive. Getting hit drops adrenaline back to 0.\n" +
                 "If you hit max adrenaline and don't use it within 3 seconds your adrenaline damage will drop gradually.\n" +
 				"All enemies drop 50% more cash and enemy spawn rates are boosted.\n" +

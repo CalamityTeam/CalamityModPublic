@@ -22,18 +22,11 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.height = 16;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
-			projectile.melee = true;
 			projectile.tileCollide = false;
 		}
 
 		public override void AI()
 		{
-			if (projectile.ai[1] == 1f)
-			{
-				projectile.melee = false;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			}
-
 			if (projectile.ai[0] < 90f)
 			{
 				projectile.ai[0] += 1f;
@@ -110,7 +103,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 32);
+			projectile.width = (projectile.height = 24);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			int num226 = 36;
@@ -121,7 +114,6 @@ namespace CalamityMod.Projectiles.Patreon
 				Vector2 vector7 = vector6 - projectile.Center;
 				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 67, vector7.X * 0.5f, vector7.Y * 0.5f, 100, default(Color), 0.75f);
 				Main.dust[num228].noGravity = true;
-				//Main.dust[num228].velocity = vector7;
 			}
 			projectile.Damage();
 		}

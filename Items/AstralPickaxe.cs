@@ -41,7 +41,12 @@ namespace CalamityMod.Items
             recipe.AddRecipe();
         }
 
-        public override void MeleeEffects(Player player, Rectangle hitbox)
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+		}
+
+		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.Next(2) == 0 ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"), 0.56f, 40, 65, -0.13f, 0.13f);
             if (d != null)

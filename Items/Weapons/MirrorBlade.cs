@@ -12,8 +12,7 @@ namespace CalamityMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Mirror Blade");
 			Tooltip.SetDefault("The amount of contact damage an enemy does is added to this weapons' damage\n" +
-                "You must hit an enemy with the blade to trigger this effect\n" +
-                "Consumes mana to fire mirror blasts");
+                "You must hit an enemy with the blade to trigger this effect");
 		}
 
 		public override void SetDefaults()

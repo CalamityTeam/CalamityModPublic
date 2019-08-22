@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Astral
 		public override void SetDefaults()
 		{
 			projectile.width = 50;
-			projectile.height = 40;
+			projectile.height = 50;
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Astral
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
 		}
 
 		public override void Kill(int timeLeft)

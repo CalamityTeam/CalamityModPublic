@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
+
+namespace CalamityMod.Tiles
+{
+	public class RoxTile : ModTile
+	{
+		public override void SetDefaults()
+		{
+			Main.tileFrameImportant[Type] = true;
+			Main.tileNoAttach[Type] = true;
+			Main.tileSpelunker[Type] = true;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+			TileObjectData.addTile(Type);
+			ModTranslation name = CreateMapEntryName();
+			name.SetDefault("Roxcalibur");
+			AddMapEntry(new Color(240, 77, 7), name);
+			disableSmartCursor = true;
+		}
+
+		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		{
+			Item.NewItem(i * 16, j * 16, 32, 16, mod.ItemType("Roxcalibur"));
+		}
+	}
+}

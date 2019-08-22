@@ -47,7 +47,8 @@ namespace CalamityMod.Projectiles.Astral
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	for (int n = 0; n < 3; n++)
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+			for (int n = 0; n < 3; n++)
 			{
 				float x = target.position.X + (float)Main.rand.Next(-400, 400);
 				float y = target.position.Y - (float)Main.rand.Next(500, 800);

@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,12 @@ namespace CalamityMod.Projectiles.Magic
             return false;
         }
 
-        public override void AI()
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 300);
+		}
+
+		public override void AI()
         {
             //KILL VELOCITY
             projectile.ai[0]++;

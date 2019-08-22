@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Patreon
 			if (target.type == NPCID.TargetDummy)
 				return;
 
-			float heal = (float)damage * 0.075f;
+			float heal = (float)damage * 0.05f;
 			if ((int)heal == 0)
 				return;
 			if (Main.player[Main.myPlayer].lifeSteal <= 0f)

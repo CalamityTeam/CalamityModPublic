@@ -421,21 +421,24 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							num182 += (float)Main.rand.Next(-80, 81);
 							num180 *= num183;
 							num182 *= num183;
-							int projectile = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, num180, num182, num185, num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							int projectile = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, num180, num182, num185, num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
 							Main.projectile[projectile].timeLeft = 300;
 							Main.projectile[projectile].tileCollide = false;
 						}
-						float spread = 45f * 0.0174f;
-						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-						double deltaAngle = spread / 8f;
+
+						int totalProjectiles = 12;
+						float spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
+						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
+						double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 						double offsetAngle;
-						int damage = expertMode ? 22 : 30;
+						float velocity = 6f;
+						int damage = (expertMode ? 22 : 30) + (provy ? 30 : 0);
 						int i;
 						for (i = 0; i < 6; i++)
 						{
-							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-							int projectile = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 6f), (float)(Math.Cos(offsetAngle) * 6f), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-							int projectile2 = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 6f), (float)(-Math.Cos(offsetAngle) * 6f), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), damage, 0f, Main.myPlayer, 1f, 0f);
+							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), damage, 0f, Main.myPlayer, 1f, 0f);
 						}
 					}
 				}

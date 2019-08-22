@@ -233,6 +233,11 @@ namespace CalamityMod.NPCs.Astrageldon
 			}
 		}
 
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+		}
+
 		public override bool CheckDead()
 		{
 			Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);

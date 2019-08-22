@@ -26,7 +26,9 @@ namespace CalamityMod.Projectiles.Patreon
             projectile.penetrate = -1;
             projectile.extraUpdates = 100;
             projectile.timeLeft = 600;
-        }
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 5;
+		}
 
         public override void AI()
         {
@@ -142,7 +144,8 @@ namespace CalamityMod.Projectiles.Patreon
 		public override void Kill(int timeLeft)
 		{
 			int height = 150;
-            Main.PlaySound(SoundID.NPCDeath43, projectile.Center);
+
+			Main.PlaySound(SoundID.NPCDeath43, projectile.Center);
 
 			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = height);

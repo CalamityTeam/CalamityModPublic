@@ -34,7 +34,14 @@ namespace CalamityMod.Projectiles.Ranged
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
         }
 
-        public override void Kill(int timeLeft)
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			return true;
+		}
+
+		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 2; k++)
             {

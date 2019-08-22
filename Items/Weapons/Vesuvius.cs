@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 62;
-			item.damage = 70;
+			item.damage = 75;
 			item.mana = 6;
 			item.magic = true;
 			item.useAnimation = 20;
@@ -71,7 +71,8 @@ namespace CalamityMod.Items.Weapons
 			    {
 			        float SpeedX = speedX + (float) Main.rand.Next(-30, 31) * 0.05f;
 			        float SpeedY = speedY + (float) Main.rand.Next(-30, 31) * 0.05f;
-			        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.5f + (float)Main.rand.NextDouble() * 0.9f);
+					float ai0 = (float)Main.rand.Next(6);
+			        Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f);
 			    }
 	    		return false;
 	    	}
@@ -120,7 +121,8 @@ namespace CalamityMod.Items.Weapons
 					num79 *= num80;
 					float num114 = num78;
 					float num115 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-					Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, type, damage, knockBack, player.whoAmI, 0f, 0.5f + (float)Main.rand.NextDouble() * 0.9f); //0.3
+					float ai0 = (float)Main.rand.Next(6);
+					Projectile.NewProjectile(vector2.X, vector2.Y, num114 * 0.75f, num115 * 0.75f, type, damage, knockBack, player.whoAmI, ai0, 0.5f + (float)Main.rand.NextDouble() * 0.9f); //0.3
 				}
 	    		return false;
 	    	}

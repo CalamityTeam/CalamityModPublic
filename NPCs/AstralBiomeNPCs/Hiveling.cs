@@ -120,5 +120,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 		{
 			return 0f;
 		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 60, true);
+		}
 	}
 }

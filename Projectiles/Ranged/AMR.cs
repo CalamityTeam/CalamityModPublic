@@ -29,7 +29,14 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			return true;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (crit)
             {

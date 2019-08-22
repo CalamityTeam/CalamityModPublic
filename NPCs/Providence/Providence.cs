@@ -93,6 +93,7 @@ namespace CalamityMod.NPCs.Providence
 			writer.Write(flightPath);
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.chaseable);
+			writer.Write(npc.canGhostHeal);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -107,6 +108,7 @@ namespace CalamityMod.NPCs.Providence
 			flightPath = reader.ReadInt32();
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.chaseable = reader.ReadBoolean();
+			npc.canGhostHeal = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -154,8 +156,9 @@ namespace CalamityMod.NPCs.Providence
 			if (guardianAmt > 0)
 				normalAttackRate = ignoreGuardianAmt;
 			npc.chaseable = normalAttackRate && npc.ai[0] != 2f && npc.ai[0] != 5f && npc.ai[0] != 7f;
+			npc.canGhostHeal = npc.chaseable;
 
-            CalamityMod.StopRain();
+			CalamityMod.StopRain();
 
 			if (biomeType == 0)
 			{
@@ -296,8 +299,8 @@ namespace CalamityMod.NPCs.Providence
 				}
 				if (firingLaser)
 				{
-					num854 *= (normalAttackRate ? 0.5f : 0.25f);
-					num853 *= (normalAttackRate ? 0.5f : 0.25f);
+					num854 *= normalAttackRate ? 0.5f : 0.25f;
+					num853 *= normalAttackRate ? 0.5f : 0.25f;
 				}
 
 				npc.velocity.X = npc.velocity.X + (float)flightPath * num853;
@@ -312,11 +315,11 @@ namespace CalamityMod.NPCs.Providence
 				if (num855 > (firingLaser ? 200f : 250f)) //200
 					npc.velocity.Y = npc.velocity.Y + 0.2f;
 
-				float speedVariance = (normalAttackRate ? 3f : 1.5f);
-				if (npc.velocity.Y > (firingLaser ? speedVariance : 6f)) //8
-					npc.velocity.Y = (firingLaser ? speedVariance : 6f);
-				if (npc.velocity.Y < (firingLaser ? -speedVariance : -6f)) //8
-					npc.velocity.Y = (firingLaser ? -speedVariance : -6f);
+				float speedVariance = normalAttackRate ? 3f : 1.5f;
+				if (npc.velocity.Y > (firingLaser ? speedVariance : 6f))
+					npc.velocity.Y = firingLaser ? speedVariance : 6f;
+				if (npc.velocity.Y < (firingLaser ? -speedVariance : -6f))
+					npc.velocity.Y = firingLaser ? -speedVariance : -6f;
 			}
 
 			if (npc.ai[0] == -1f)
@@ -898,8 +901,8 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge39"), true, !CalamityWorld.downedProvidence);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedProvidence, 5, 2, 1);
 
-			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianWings"), Main.expertMode && biomeType != 2);
-			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianAegis"), Main.expertMode && biomeType == 2);
+			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianWings"), biomeType != 2);
+			DropHelper.DropItemCondition(npc, mod.ItemType("ElysianAegis"), biomeType == 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)

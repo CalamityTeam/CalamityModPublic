@@ -6,8 +6,8 @@ namespace CalamityMod.Buffs
 {
     public class AdrenalineMode : ModBuff
 	{
-		public static string RevTip = "250% damage boost. Can burnout down to 149.5%.";
-		public static string DeathTip = "700% damage boost. Can burnout down to 298%.";
+		public static string RevTip = "150% damage boost. Can burnout down to 49.5%.";
+		public static string DeathTip = "500% damage boost. Can burnout down to 165%.";
 
 		public override void SetDefaults()
 		{

@@ -6,7 +6,6 @@ namespace CalamityMod.Items.Patreon
 {
     public class LightGodsBrilliance : ModItem
     {
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Light God's Brilliance");

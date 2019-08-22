@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Patreon
 {
     public class KelvinCatalyst : ModProjectile
     {
+		private int destroyerHits = 0;
+
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Kelvin Catalyst");
@@ -56,7 +58,7 @@ namespace CalamityMod.Projectiles.Patreon
         	if (projectile.ai[0] == 0f)
 			{
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] >= 75f)
+				if (projectile.localAI[0] >= 75f || destroyerHits > 2)
 				{
 					projectile.ai[0] = 1f;
 					projectile.localAI[0] = 0f;
@@ -137,6 +139,12 @@ namespace CalamityMod.Projectiles.Patreon
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+			if (target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail)
+				destroyerHits++;
+
+			if (destroyerHits > 5)
+				projectile.Kill();
+
 			target.AddBuff(BuffID.Frostburn, 240);
 			if (projectile.owner == Main.myPlayer)
         	{
@@ -148,8 +156,12 @@ namespace CalamityMod.Projectiles.Patreon
                 for (i = 0; i < 4; i++)
                 {
                     offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f), mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, (projectile.melee ? 0f : 1f));
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f), mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, (projectile.melee ? 0f : 1f));
+
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
+						mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 3, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
+						mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 3, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);

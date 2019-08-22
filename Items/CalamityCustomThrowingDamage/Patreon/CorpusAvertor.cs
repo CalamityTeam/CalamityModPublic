@@ -15,7 +15,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 		{
 			item.width = 18;
 			item.height = 32;
-			item.damage = 90;
+			item.damage = 140;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = 15;
@@ -26,6 +26,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 			item.autoReuse = true;
 			item.value = Item.buyPrice(0, 80, 0, 0);
 			item.rare = 8;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
 			item.shoot = mod.ProjectileType("CorpusAvertor");
 			item.shootSpeed = 5f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;

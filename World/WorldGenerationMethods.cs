@@ -148,6 +148,42 @@ namespace CalamityMod.World
 		}
 		#endregion
 
+		#region Place Rox Shrine
+		public static void PlaceRoxShrine()
+		{
+			Mod mod = ModLoader.GetMod("CalamityMod");
+			while (!CalamityWorld.roxShrinePlaced)
+			{
+				CalamityWorld.roxShrinePlaced = true;
+				for (int x = 0; x < Main.maxTilesX; x++)
+				{
+					for (int y = 0; y < Main.maxTilesY; y++)
+					{
+						if (Main.tile[x, y] != null && Main.tile[x, y].type == TileID.LargePiles)
+						{
+							if ((Main.tile[x, y].frameX == 18 && Main.tile[x, y].frameY == 0) || (Main.tile[x, y].frameX == 45 && Main.tile[x, y].frameY == 0))
+							{
+								if (WorldGen.genRand.Next(3) == 0)
+								{
+									for (int dx = -1; dx < 2; dx++)
+									{
+										for (int dy = -1; dy < 2; dy++)
+											Main.tile[x + dx, y + dy].active(false);
+									}
+
+									WorldGen.PlaceTile(x, y + 1, mod.TileType("RoxTile"));
+									return;
+								}
+								else
+									CalamityWorld.roxShrinePlaced = false;
+							}
+						}
+					}
+				}
+			}
+		}
+		#endregion
+
 		#region SafeTileFrame
 		public static void SafeSquareTileFrame(int i, int j, bool resetFrame = true)
 		{
@@ -2765,13 +2801,17 @@ namespace CalamityMod.World
 		#endregion
 
 		#region SpecialHut
-		public static void SpecialHut(ushort tile, ushort tile2, ushort wall, int hutType, int chestX, int chestY)
+		// Special Hut: Takes arguments of tile type 1, tile type 2, wall type, hut type (useful if you use this method to generate different huts), and location of the shrine (x and y)
+		public static void SpecialHut(ushort tile, ushort tile2, ushort wall, int hutType, int shrineLocationX, int shrineLocationY)
 		{
-			int m = WorldGen.genRand.Next(2, 4);
-			int num6 = WorldGen.genRand.Next(2, 4);
-			for (int n = chestX - m - 1; n <= chestX + m + 1; n++)
+			// Random variables for shrine size
+			int randomX = WorldGen.genRand.Next(2, 4);
+			int randomY = WorldGen.genRand.Next(2, 4);
+
+			// Replace tiles in shrine area with shrine tile type 1
+			for (int n = shrineLocationX - randomX - 1; n <= shrineLocationX + randomX + 1; n++)
 			{
-				for (int num8 = chestY - num6 - 1; num8 <= chestY + num6 + 1; num8++)
+				for (int num8 = shrineLocationY - randomY - 1; num8 <= shrineLocationY + randomY + 1; num8++)
 				{
 					Main.tile[n, num8].active(true);
 					Main.tile[n, num8].type = tile;
@@ -2779,32 +2819,34 @@ namespace CalamityMod.World
 					Main.tile[n, num8].lava(false);
 				}
 			}
-			for (int num9 = chestX - m; num9 <= chestX + m; num9++)
+
+			// Replace walls in shrine area with shrine wall type
+			for (int num9 = shrineLocationX - randomX; num9 <= shrineLocationX + randomX; num9++)
 			{
-				for (int num10 = chestY - num6; num10 <= chestY + num6; num10++)
+				for (int num10 = shrineLocationY - randomY; num10 <= shrineLocationY + randomY; num10++)
 				{
 					Main.tile[num9, num10].active(false);
 					Main.tile[num9, num10].wall = wall;
 				}
 			}
-			for (int num14 = chestX - m - 1; num14 <= chestX + m + 1; num14++)
+
+			// Remove tiles from the inner part of the shrine area
+			for (int num14 = shrineLocationX - randomX - 1; num14 <= shrineLocationX + randomX + 1; num14++)
 			{
-				for (int num15 = chestY + num6 - 2; num15 <= chestY + num6; num15++)
-				{
+				for (int num15 = shrineLocationY + randomY - 2; num15 <= shrineLocationY + randomY; num15++)
 					Main.tile[num14, num15].active(false);
-				}
 			}
-			for (int num16 = chestX - m - 1; num16 <= chestX + m + 1; num16++)
+			for (int num16 = shrineLocationX - randomX - 1; num16 <= shrineLocationX + randomX + 1; num16++)
 			{
-				for (int num17 = chestY + num6 - 2; num17 <= chestY + num6 - 1; num17++)
-				{
+				for (int num17 = shrineLocationY + randomY - 2; num17 <= shrineLocationY + randomY - 1; num17++)
 					Main.tile[num16, num17].active(false);
-				}
 			}
-			for (int num18 = chestX - m - 1; num18 <= chestX + m + 1; num18++)
+
+			// Replace tiles from bottom of shrine area with shrine tile type 2
+			for (int num18 = shrineLocationX - randomX - 1; num18 <= shrineLocationX + randomX + 1; num18++)
 			{
 				int num19 = 4;
-				int num20 = chestY + num6 + 2;
+				int num20 = shrineLocationY + randomY + 2;
 				while (!Main.tile[num18, num20].active() && num20 < Main.maxTilesY && num19 > 0)
 				{
 					Main.tile[num18, num20].active(true);
@@ -2813,30 +2855,36 @@ namespace CalamityMod.World
 					num19--;
 				}
 			}
-			m -= WorldGen.genRand.Next(1, 3);
-			int num21 = chestY - num6 - 2;
-			while (m > -1)
+
+			// Replace tiles from top of shrine with shrine tile type 1
+			randomX -= WorldGen.genRand.Next(1, 3);
+			int num21 = shrineLocationY - randomY - 2;
+			while (randomX > -1)
 			{
-				for (int num22 = chestX - m - 1; num22 <= chestX + m + 1; num22++)
+				for (int num22 = shrineLocationX - randomX - 1; num22 <= shrineLocationX + randomX + 1; num22++)
 				{
 					Main.tile[num22, num21].active(true);
 					Main.tile[num22, num21].type = tile;
 				}
-				m -= WorldGen.genRand.Next(1, 3);
+				randomX -= WorldGen.genRand.Next(1, 3);
 				num21--;
 			}
-			CalamityWorld.SChestX[hutType] = chestX;
-			CalamityWorld.SChestY[hutType] = chestY;
+
+			// Place shrine chest
+			CalamityWorld.SChestX[hutType] = shrineLocationX;
+			CalamityWorld.SChestY[hutType] = shrineLocationY;
 			SpecialChest(hutType);
 		}
 		#endregion
 
 		#region SpecialChest
+		// Special Chest: Used for placing shrine chests, takes argument of item choice which dictates what item will spawn in the first slot of this chest
 		public static void SpecialChest(int itemChoice)
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			int item = 0;
 			int chestType = 0;
+
 			switch (itemChoice) //0 to 9
 			{
 				case 0: item = mod.ItemType("TrinketofChi"); break;
@@ -2850,13 +2898,15 @@ namespace CalamityMod.World
 				case 8: item = mod.ItemType("Murasama"); chestType = 44; break;
 				case 9: item = mod.ItemType("BossRush"); chestType = 4; break;
 			}
+
+			// Destroy tiles in chest spawn location
 			for (int j = CalamityWorld.SChestX[itemChoice] - 1; j <= CalamityWorld.SChestX[itemChoice] + 1; j++)
 			{
 				for (int k = CalamityWorld.SChestY[itemChoice]; k <= CalamityWorld.SChestY[itemChoice] + 2; k++)
-				{
 					WorldGen.KillTile(j, k, false, false, false);
-				}
 			}
+
+			// Attempt to fix sloped tiles under the chest to prevent the chest from killing itself (literally)
 			for (int l = CalamityWorld.SChestX[itemChoice] - 1; l <= CalamityWorld.SChestX[itemChoice] + 1; l++)
 			{
 				for (int m = CalamityWorld.SChestY[itemChoice]; m <= CalamityWorld.SChestY[itemChoice] + 3; m++)
@@ -2868,6 +2918,8 @@ namespace CalamityMod.World
 					}
 				}
 			}
+
+			// Place the chest, finally
 			WorldGen.AddBuriedChest(CalamityWorld.SChestX[itemChoice], CalamityWorld.SChestY[itemChoice], item, false, chestType);
 		}
 		#endregion

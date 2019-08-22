@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.25f, 0.2f, 0f);
         	if (projectile.wet && !projectile.lavaWet)
         	{
         		projectile.Kill();
@@ -54,14 +54,14 @@ namespace CalamityMod.Projectiles.Magic
         {
         	if (projectile.owner == Main.myPlayer)
         	{
-                int explosionDamage = VenusianTrident.BaseDamage;
-                float explosionKB = 6f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("VenusianExplosion"), explosionDamage, explosionKB, projectile.owner, 0f, 0f);
+				int explosionDamage = VenusianTrident.BaseDamage;
+				float explosionKB = 6f;
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("VenusianExplosion"), explosionDamage, explosionKB, projectile.owner, 0f, 0f);
 
-                int cinderDamage = (int)(VenusianTrident.BaseDamage * 0.75f);
-                float cinderKB = 0f;
-                Vector2 cinderPos = projectile.oldPosition + 0.5f * projectile.Size;
-                int numCinders = Main.rand.Next(7, 10);
+				int cinderDamage = (int)(VenusianTrident.BaseDamage * 0.75f);
+				float cinderKB = 0f;
+				Vector2 cinderPos = projectile.oldPosition + 0.5f * projectile.Size;
+				int numCinders = Main.rand.Next(7, 10);
 				for (int i = 0; i < numCinders; i++)
 				{
 					Vector2 cinderVel = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Magic
 					cinderVel *= (float)Main.rand.Next(70, 101) * 0.1f;
 					Projectile.NewProjectile(cinderPos, cinderVel, mod.ProjectileType("VenusianFlame"), cinderDamage, cinderKB, projectile.owner, 0f, 0f);
 				}
-        	}
+			}
         }
     }
 }

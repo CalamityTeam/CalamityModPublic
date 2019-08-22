@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Shadethrower");
-			Tooltip.SetDefault("33% chance to not consume gel");
+			Tooltip.SetDefault("66% chance to not consume gel");
 		}
 
 	    public override void SetDefaults()
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.HiveMind
 
 	    public override bool ConsumeAmmo(Player player)
 	    {
-	    	if (Main.rand.Next(0, 100) < 33)
+	    	if (Main.rand.Next(0, 100) < 66)
 	    		return false;
 	    	return true;
 	    }

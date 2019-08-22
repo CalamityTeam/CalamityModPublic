@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.eTalisman = true;
             player.findTreasure = true;
-            if (!hideVisual)
-                player.manaFlower = true;
+			if (!hideVisual)
+				player.manaFlower = true;
 			player.magicCuffs = true;
 			player.manaMagnet = true;
 			player.statManaMax2 += 150;

@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(mod.BuffType("GodSlayerInferno"), 120);
+            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180);
         }
 
 		public override Color? GetAlpha(Color lightColor)

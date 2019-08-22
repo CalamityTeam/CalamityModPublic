@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Shockblast"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Shockblast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 			return true;
 		}
 
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
 			if (projectile.owner == Main.myPlayer)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Shockblast"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Shockblast"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 			}
 			if (target.type == NPCID.TargetDummy)
 			{

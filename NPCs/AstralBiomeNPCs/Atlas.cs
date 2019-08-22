@@ -606,7 +606,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             return 0f;
         }
 
-        public override void NPCLoot()
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180, true);
+		}
+
+		public override void NPCLoot()
         {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(6, 9));
             if (Main.expertMode)

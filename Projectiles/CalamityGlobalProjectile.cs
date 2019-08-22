@@ -90,7 +90,12 @@ namespace CalamityMod.Projectiles
 			if (NPC.downedMoonlord)
 			{
 				if (CalamityMod.dungeonProjectileBuffList.Contains(projectile.type))
-					projectile.damage = defDamage + 60;
+				{
+					if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
+						projectile.damage = defDamage;
+					else
+						projectile.damage = defDamage + 60;
+				}
 			}
 			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
 			{
@@ -1021,6 +1026,15 @@ namespace CalamityMod.Projectiles
 		{
 			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).trippy)
 				return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
+
+			if (projectile.type == ProjectileID.PinkLaser)
+			{
+				if (projectile.alpha < 200)
+					return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
+
+				return Color.Transparent;
+			}
+
 			return null;
 		}
 
@@ -1076,9 +1090,10 @@ namespace CalamityMod.Projectiles
 			return true;
 		}
 
-		public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter)
+		public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter, Texture2D texture = null)
 		{
-			Texture2D texture = Main.projectileTexture[projectile.type];
+			if (texture == null)
+				texture = Main.projectileTexture[projectile.type];
 			int frameHeight = texture.Height / Main.projFrames[projectile.type];
 			int frameY = frameHeight * projectile.frame;
 			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight);
