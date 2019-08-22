@@ -91,7 +91,8 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, mod.ItemType("MLGRune"), !expert); // Demon Trophy
 				DropHelper.DropItemCondition(npc, mod.ItemType("Meowthrower"), !expert, 5, 1, 1);
 				DropHelper.DropItemCondition(npc, mod.ItemType("RogueEmblem"), !expert, 8, 1, 1);
-				DropHelper.DropItemFromSetCondition(npc, !expert, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
+                DropHelper.DropItemChance(npc, mod.ItemType("IbarakiBox"), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
+                DropHelper.DropItemFromSetCondition(npc, !expert, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
 
 				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge7"), true, !Main.hardMode);
 				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge18"), true, !Main.hardMode);
@@ -100,7 +101,6 @@ namespace CalamityMod.NPCs
 				// First kill text (this is not a loot function)
 				if (!Main.hardMode)
 				{
-					DropHelper.DropItem(npc, mod.ItemType("IbarakiBox"));
 					string key2 = "Mods.CalamityMod.UglyBossText";
 					Color messageColor2 = Color.Aquamarine;
 					if (Main.netMode == 0)
@@ -108,8 +108,6 @@ namespace CalamityMod.NPCs
 					else if (Main.netMode == 2)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
 				}
-				else
-					DropHelper.DropItemChance(npc, mod.ItemType("IbarakiBox"), 10);
 
 				// Drop astral meteors
 				if (WorldGenerationMethods.checkAstralMeteor())
