@@ -327,22 +327,21 @@ namespace CalamityMod.World
 				downedSentinel3 = flags2[6];
 				downedYharon = flags2[7];
 
-				// Explicitly discard the now-unused vanilla boss booleans
 				BitsByte flags3 = reader.ReadByte();
 				downedSCal = flags3[0];
 				downedBumble = flags3[1];
 				downedCrabulon = flags3[2];
 				downedBetsy = flags3[3];
 				downedScavenger = flags3[4];
-				_ = flags3[5];
-				_ = flags3[6];
-				_ = flags3[7];
+				// _ = flags3[5];
+				// _ = flags3[6];
+				// _ = flags3[7];
 
 				BitsByte flags4 = reader.ReadByte();
-				_ = flags4[0];
-				_ = flags4[1];
-				_ = flags4[2];
-				_ = flags4[3];
+				// _ = flags4[0];
+				// _ = flags4[1];
+				// _ = flags4[2];
+				// _ = flags4[3];
 				downedBossAny = flags4[4];
 				demonMode = flags4[5];
 				onionMode = flags4[6];
@@ -483,22 +482,21 @@ namespace CalamityMod.World
 			downedSentinel3 = flags2[6];
 			downedYharon = flags2[7];
 
-			// Explicitly discard the now-unused vanilla boss booleans
 			BitsByte flags3 = reader.ReadByte();
 			downedSCal = flags3[0];
 			downedBumble = flags3[1];
 			downedCrabulon = flags3[2];
 			downedBetsy = flags3[3];
 			downedScavenger = flags3[4];
-			_ = flags3[5];
-			_ = flags3[6];
-			_ = flags3[7];
+			// _ = flags3[5];
+			// _ = flags3[6];
+			// _ = flags3[7];
 
 			BitsByte flags4 = reader.ReadByte();
-			_ = flags4[0];
-			_ = flags4[1];
-			_ = flags4[2];
-			_ = flags4[3];
+			// _ = flags4[0];
+			// _ = flags4[1];
+			// _ = flags4[2];
+			// _ = flags4[3];
 			downedBossAny = flags4[4];
 			demonMode = flags4[5];
 			onionMode = flags4[6];
