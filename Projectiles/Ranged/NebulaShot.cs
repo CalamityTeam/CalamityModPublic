@@ -34,16 +34,13 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.ai[1] = 1f;
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12);
 			}
+
+            // Force damage type based on AI variable (this is outdated code and the weapons themselves should set the force variables)
 			if (projectile.ai[0] == 1f)
-			{
-				projectile.ranged = false;
-				projectile.melee = true;
-			}
+                projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 			else if (projectile.ai[0] == 2f)
-			{
-				projectile.ranged = false;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			}
+                projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+
 			if (projectile.alpha > 0)
 			{
 				projectile.alpha -= 15;

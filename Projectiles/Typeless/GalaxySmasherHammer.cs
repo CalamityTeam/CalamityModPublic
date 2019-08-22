@@ -182,17 +182,13 @@ namespace CalamityMod.Projectiles.Typeless
                 float laserSpeed = Main.rand.NextFloat(15f, 18f);
                 Vector2 velocity = startDir * (-laserSpeed);
 
-                // ai[0] = 1 means the laser is melee type.
+                // NebulaShot projectile adjusts its own damage type based on ai[0]
                 if (projectile.owner == Main.myPlayer)
                 {
                     float damageType = projectile.melee ? 1f : 2f;
-                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, 0f, 0f);
+                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, damageType, 0f);
                     Main.projectile[proj].tileCollide = false;
                     Main.projectile[proj].timeLeft = 30;
-					if (projectile.melee)
-						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
-					else
-						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
 				}
             }
         }
