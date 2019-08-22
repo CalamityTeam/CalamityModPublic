@@ -1337,7 +1337,7 @@ namespace CalamityMod.NPCs
 					DropHelper.DropItem(npc, mod.ItemType("EssenceofEleum"), 1, 2);
 					break;
 				case NPCID.Plantera:
-					DropHelper.DropItem(npc, mod.ItemType("LivingShard"), !expert, 6, 9);
+					DropHelper.DropItemCondition(npc, mod.ItemType("LivingShard"), !expert, 6, 9);
 					break;
 				case NPCID.NebulaBrain:
 				case NPCID.NebulaSoldier:
