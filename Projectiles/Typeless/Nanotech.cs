@@ -76,7 +76,6 @@ namespace CalamityMod.Projectiles.Typeless
                 num485 *= num486;
                 projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                 projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-                return;
             }
         }
 
@@ -104,11 +103,6 @@ namespace CalamityMod.Projectiles.Typeless
 				dust20.scale = 0.7f;
 				num3 = num191;
 			}
-        }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-        	return new Color(0, 255 - projectile.alpha, 0, 0);
         }
     }
 }

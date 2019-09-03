@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
-				if (projectile.ai[1] >= 20f)
+				if (projectile.ai[1] >= 30f)
 				{
 					projectile.ai[0] = 1f;
 					projectile.ai[1] = 0f;

@@ -22,8 +22,8 @@ namespace CalamityMod.Items.Weapons
 			item.channel = true;
 			item.autoReuse = true;
 			item.melee = true;
-			item.useAnimation = 13;
-			item.useTime = 13;
+			item.useAnimation = 10;
+			item.useTime = 10;
 			item.useStyle = 5;
 			item.knockBack = 2.5f;
 			item.UseSound = SoundID.Item116;
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons
 		{
 	    	float ai3 = (Main.rand.NextFloat() - 0.75f) * 0.7853982f; //0.5
 	    	float ai3X = (Main.rand.NextFloat() - 0.25f) * 0.7853982f; //0.5
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0.0f, ai3);
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0.0f, ai3X);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0f, ai3);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0f, ai3X);
 	    	return false;
 		}
 	}

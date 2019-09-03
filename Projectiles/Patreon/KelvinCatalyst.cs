@@ -125,7 +125,11 @@ namespace CalamityMod.Projectiles.Patreon
 
 		public override bool OnTileCollide(Vector2 oldVelocity)
 		{
-			projectile.ai[0] += 0.1f;
+			projectile.ai[0] = 1f;
+			projectile.localAI[0] = 0f;
+			projectile.width = (projectile.height = 60);
+			projectile.tileCollide = false;
+			projectile.netUpdate = true;
 			if (projectile.velocity.X != oldVelocity.X)
 			{
 				projectile.velocity.X = -oldVelocity.X;
@@ -142,7 +146,7 @@ namespace CalamityMod.Projectiles.Patreon
 			if (target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail)
 				destroyerHits++;
 
-			if (destroyerHits > 5)
+			if (destroyerHits > 4)
 				projectile.Kill();
 
 			target.AddBuff(BuffID.Frostburn, 240);
@@ -158,10 +162,10 @@ namespace CalamityMod.Projectiles.Patreon
                     offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
-						mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 3, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+						mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
 
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 4f), (float)(-Math.Cos(offsetAngle) * 4f),
-						mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 3, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+						mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);

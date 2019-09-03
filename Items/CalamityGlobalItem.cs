@@ -120,28 +120,29 @@ namespace CalamityMod.Items
 			}
 			if (player.GetModPlayer<CalamityPlayer>(mod).luxorsGift)
 			{
+				// useTime 9 = 0.9 useTime 2 = 0.2
+				double damageMult = 1.0;
+				if (item.useTime < 10)
+					damageMult -= (double)(10 - item.useTime) / 10.0;
+
+				double newDamage = (double)damage * damageMult;
+
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (item.melee && item.type != mod.ItemType("Murasama"))
-					{
-						Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, mod.ProjectileType("LuxorsGiftMelee"), (int)((double)damage * 0.6), 0f, player.whoAmI, 0f, 0f);
-					}
+						Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, mod.ProjectileType("LuxorsGiftMelee"), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
+
 					else if (rogue)
-					{
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftRogue"), (int)((double)damage * 0.8), 0f, player.whoAmI, 0f, 0f);
-					}
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftRogue"), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
+
 					else if (item.ranged)
-					{
-						Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, mod.ProjectileType("LuxorsGiftRanged"), (int)((double)damage * 0.5), 0f, player.whoAmI, 0f, 0f);
-					}
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, mod.ProjectileType("LuxorsGiftRanged"), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
+
 					else if (item.magic)
-					{
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftMagic"), (int)((double)damage * 0.8), 0f, player.whoAmI, 0f, 0f);
-					}
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LuxorsGiftMagic"), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
+
 					else if (item.summon && player.ownedProjectileCounts[mod.ProjectileType("LuxorsGiftSummon")] < 1)
-					{
 						Projectile.NewProjectile(position.X, position.Y, 0f, 0f, mod.ProjectileType("LuxorsGiftSummon"), damage, 0f, player.whoAmI, 0f, 0f);
-					}
 				}
 			}
 			if (player.GetModPlayer<CalamityPlayer>(mod).eArtifact && item.ranged && !rogue)
@@ -1898,53 +1899,79 @@ namespace CalamityMod.Items
 		#endregion
 
 		#region Consume Additional Ammo
-		public static void ConsumeAdditionalAmmo(Player player, Item item, int ammoConsumed)
+		public static bool HasEnoughAmmo(Player player, Item item, int ammoConsumed)
 		{
-			Item itemAmmo = new Item();
 			bool flag = false;
 			bool canShoot = false;
-			bool dontConsumeAmmo = false;
+
 			for (int i = 54; i < 58; i++)
 			{
-				if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack > ammoConsumed)
+				if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack >= ammoConsumed)
 				{
-					itemAmmo = player.inventory[i];
 					canShoot = true;
 					flag = true;
 					break;
 				}
 			}
+
 			if (!flag)
 			{
 				for (int j = 0; j < 54; j++)
 				{
-					if (player.inventory[j].ammo == item.useAmmo && player.inventory[j].stack > ammoConsumed)
+					if (player.inventory[j].ammo == item.useAmmo && player.inventory[j].stack >= ammoConsumed)
 					{
-						itemAmmo = player.inventory[j];
 						canShoot = true;
 						break;
 					}
 				}
 			}
-			if (canShoot)
-			{
-				if (player.ammoBox && Main.rand.Next(5) == 0)
-					dontConsumeAmmo = true;
-				if (player.ammoPotion && Main.rand.Next(5) == 0)
-					dontConsumeAmmo = true;
-				if (player.ammoCost80 && Main.rand.Next(5) == 0)
-					dontConsumeAmmo = true;
-				if (player.ammoCost75 && Main.rand.Next(4) == 0)
-					dontConsumeAmmo = true;
+			return canShoot;
+		}
 
-				if (!dontConsumeAmmo && itemAmmo.consumable)
+		public static void ConsumeAdditionalAmmo(Player player, Item item, int ammoConsumed)
+		{
+			Item itemAmmo = new Item();
+			bool flag = false;
+			bool dontConsumeAmmo = false;
+
+			for (int i = 54; i < 58; i++)
+			{
+				if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack >= ammoConsumed)
 				{
-					itemAmmo.stack -= ammoConsumed;
-					if (itemAmmo.stack <= 0)
+					itemAmmo = player.inventory[i];
+					flag = true;
+					break;
+				}
+			}
+
+			if (!flag)
+			{
+				for (int j = 0; j < 54; j++)
+				{
+					if (player.inventory[j].ammo == item.useAmmo && player.inventory[j].stack >= ammoConsumed)
 					{
-						itemAmmo.active = false;
-						itemAmmo.TurnToAir();
+						itemAmmo = player.inventory[j];
+						break;
 					}
+				}
+			}
+
+			if (player.ammoBox && Main.rand.Next(5) == 0)
+				dontConsumeAmmo = true;
+			if (player.ammoPotion && Main.rand.Next(5) == 0)
+				dontConsumeAmmo = true;
+			if (player.ammoCost80 && Main.rand.Next(5) == 0)
+				dontConsumeAmmo = true;
+			if (player.ammoCost75 && Main.rand.Next(4) == 0)
+				dontConsumeAmmo = true;
+
+			if (!dontConsumeAmmo && itemAmmo.consumable)
+			{
+				itemAmmo.stack -= ammoConsumed;
+				if (itemAmmo.stack <= 0)
+				{
+					itemAmmo.active = false;
+					itemAmmo.TurnToAir();
 				}
 			}
 		}

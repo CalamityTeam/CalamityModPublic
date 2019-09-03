@@ -2172,7 +2172,7 @@ namespace CalamityMod
 			}
 			if (graxDefense)
 			{
-				meleeSpeedMult += 0.05f;
+				meleeSpeedMult += 0.1f;
 			}
 			if (sMeleeBoost)
 			{
@@ -3831,9 +3831,9 @@ namespace CalamityMod
 			}
 			if (graxDefense)
 			{
-				player.statDefense += 15;
-				player.endurance += 0.05f;
-				player.meleeDamage += 0.1f;
+				player.statDefense += 30;
+				player.endurance += 0.1f;
+				player.meleeDamage += 0.2f;
 			}
 			if (sMeleeBoost)
 			{
@@ -4214,7 +4214,7 @@ namespace CalamityMod
 			{
 				player.panic = true;
 				player.pStone = true;
-				player.armorPenetration += 25;
+				player.armorPenetration += 10;
 				if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 				{
 					Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 1.35f, 0.3f, 0.9f);
@@ -4222,7 +4222,7 @@ namespace CalamityMod
 			}
 			if (rampartOfDeities)
 			{
-				player.armorPenetration += 25;
+				player.armorPenetration += 10; // +10from deific amulet stacks with this
 				player.noKnockback = true;
 				if (player.statLife > (int)((double)player.statLifeMax2 * 0.25))
 				{
@@ -4934,7 +4934,7 @@ namespace CalamityMod
 				if (item.melee || item.ranged || item.magic || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
 				{
 					double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600.0; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
-					if (item.type == mod.ItemType("ScarletDevil") && StealthStrikeAvailable())
+					if (item.type == mod.ItemType("ScarletDevil"))
 					{
 						if (useTimeBeeMultiplier > 0.1)
 							useTimeBeeMultiplier = 0.1;
@@ -8611,13 +8611,14 @@ namespace CalamityMod
 					}
 				}
 			}
+
 			if (player.mount.Active && player.mount.Type == mod.MountType("Fab") && Math.Abs(player.velocity.X) > player.mount.DashSpeed - player.mount.RunSpeed / 2f)
 			{
 				Rectangle rect = player.getRect();
+
 				if (player.direction == 1)
-				{
 					rect.Offset(player.width - 1, 0);
-				}
+
 				rect.Width = 2;
 				rect.Inflate(6, 12);
 				float damage = 800f * player.minionDamage;
@@ -8626,13 +8627,14 @@ namespace CalamityMod
 				int playerImmuneTime = 6;
 				ModCollideWithNPCs(rect, damage, knockback, nPCImmuneTime, playerImmuneTime);
 			}
+
 			if (player.mount.Active && player.mount.Type == mod.MountType("AngryDog") && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
 			{
 				Rectangle rect2 = player.getRect();
+
 				if (player.direction == 1)
-				{
 					rect2.Offset(player.width - 1, 0);
-				}
+
 				rect2.Width = 2;
 				rect2.Inflate(6, 12);
 				float damage2 = 50f * player.minionDamage;
@@ -8641,13 +8643,14 @@ namespace CalamityMod
 				int playerImmuneTime2 = 6;
 				ModCollideWithNPCs(rect2, damage2, knockback2, nPCImmuneTime2, playerImmuneTime2);
 			}
+
 			if (player.mount.Active && player.mount.Type == mod.MountType("OnyxExcavator") && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
 			{
 				Rectangle rect2 = player.getRect();
+
 				if (player.direction == 1)
-				{
 					rect2.Offset(player.width - 1, 0);
-				}
+
 				rect2.Width = 2;
 				rect2.Inflate(6, 12);
 				float damage2 = 25f * player.minionDamage;

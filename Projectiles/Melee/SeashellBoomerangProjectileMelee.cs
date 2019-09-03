@@ -21,19 +21,5 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 240;
             aiType = 52;
         }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            projectile.ai[0] += 0.1f;
-            if (projectile.velocity.X != oldVelocity.X)
-            {
-                projectile.velocity.X = -oldVelocity.X;
-            }
-            if (projectile.velocity.Y != oldVelocity.Y)
-            {
-                projectile.velocity.Y = -oldVelocity.Y;
-            }
-            return false;
-        }
     }
 }

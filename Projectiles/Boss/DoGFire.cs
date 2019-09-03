@@ -14,103 +14,78 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 6;
+			projectile.width = 16;
+			projectile.height = 16;
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
+			projectile.alpha = 255;
 			projectile.penetrate = -1;
-			projectile.extraUpdates = 3;
+			projectile.timeLeft = 480;
+			projectile.scale = 1.25f;
 			cooldownSlot = 1;
 		}
 
 		public override void AI()
 		{
-			if (projectile.scale <= 1.5f)
+			if (projectile.localAI[0] == 0f)
 			{
-				projectile.scale *= 1.01f;
+				projectile.localAI[0] = 1f;
+				Main.PlaySound(SoundID.Item20, projectile.position);
 			}
-			if (projectile.ai[1] == 0f)
+
+			int dust = Dust.NewDust(new Vector2(projectile.position.X + projectile.velocity.X, projectile.position.Y + projectile.velocity.Y), projectile.width, projectile.height, 173, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 3f);
+			Main.dust[dust].noGravity = true;
+
+			projectile.rotation += 0.3f * (float)projectile.direction;
+
+			if (projectile.ai[1] == 1f)
 			{
-				if (projectile.timeLeft > 60)
-				{
-					projectile.timeLeft = 60;
-				}
-			}
-			else if (projectile.ai[1] == 1f)
-			{
-				if (projectile.timeLeft > 12)
-				{
-					projectile.timeLeft = 12;
-				}
-			}
-			else
-			{
-				if (projectile.timeLeft > 80)
-				{
-					projectile.timeLeft = 80;
-				}
-			}
-			if (projectile.ai[0] > 5f)
-			{
-				float num296 = 1f;
-				if (projectile.ai[0] == 6f)
-				{
-					num296 = 0.25f;
-				}
-				else if (projectile.ai[0] == 7f)
-				{
-					num296 = 0.5f;
-				}
-				else if (projectile.ai[0] == 8f)
-				{
-					num296 = 0.75f;
-				}
+				int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
+				Vector2 vector11 = Main.player[num103].Center - projectile.Center;
 				projectile.ai[0] += 1f;
-				int num297 = 173;
-				if (Main.rand.Next(2) == 0)
+				if (projectile.ai[0] >= 60f)
 				{
-					for (int num298 = 0; num298 < 1; num298++)
+					if (projectile.ai[0] < 300f)
 					{
-						int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-						if (Main.rand.Next(3) == 0)
-						{
-							Main.dust[num299].noGravity = true;
-							Main.dust[num299].scale *= 3f;
-							Dust expr_DBEF_cp_0 = Main.dust[num299];
-							expr_DBEF_cp_0.velocity.X = expr_DBEF_cp_0.velocity.X * 2f;
-							Dust expr_DC0F_cp_0 = Main.dust[num299];
-							expr_DC0F_cp_0.velocity.Y = expr_DC0F_cp_0.velocity.Y * 2f;
-						}
-						else
-						{
-							Main.dust[num299].scale *= 1.5f;
-						}
-						Dust expr_DC74_cp_0 = Main.dust[num299];
-						expr_DC74_cp_0.velocity.X = expr_DC74_cp_0.velocity.X * 1.2f;
-						Dust expr_DC94_cp_0 = Main.dust[num299];
-						expr_DC94_cp_0.velocity.Y = expr_DC94_cp_0.velocity.Y * 1.2f;
-						Main.dust[num299].scale *= num296;
-						Main.dust[num299].velocity += projectile.velocity;
-						if (!Main.dust[num299].noGravity)
-						{
-							Main.dust[num299].velocity *= 0.5f;
-						}
+						float scaleFactor2 = projectile.velocity.Length();
+						vector11.Normalize();
+						vector11 *= scaleFactor2;
+						projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
+						projectile.velocity.Normalize();
+						projectile.velocity *= scaleFactor2;
+					}
+					else if (projectile.velocity.Length() < 24f)
+					{
+						projectile.tileCollide = true;
+						projectile.velocity *= 1.02f;
 					}
 				}
 			}
-			else
-			{
-				projectile.ai[0] += 1f;
-			}
-			projectile.rotation += 0.3f * (float)projectile.direction;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
-			target.AddBuff(mod.BuffType("GodSlayerInferno"), 600);
-			target.AddBuff(BuffID.Frostburn, 600, true);
-			target.AddBuff(BuffID.Darkness, 600, true);
+			target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+			target.AddBuff(BuffID.Frostburn, 300, true);
+			target.AddBuff(BuffID.Darkness, 300, true);
+		}
+
+		public override void Kill(int timeLeft)
+		{
+			Main.PlaySound(SoundID.Item10, projectile.position);
+			int num3;
+			for (int num584 = 0; num584 < 20; num584 = num3 + 1)
+			{
+				int num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default(Color), 2.5f);
+				Main.dust[num585].noGravity = true;
+				Dust dust = Main.dust[num585];
+				dust.velocity *= 2f;
+				num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default(Color), 1.2f);
+				dust = Main.dust[num585];
+				dust.velocity *= 2f;
+				num3 = num584;
+			}
 		}
 	}
 }

@@ -123,9 +123,10 @@ namespace CalamityMod.NPCs.Providence
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
 			bool normalAttackRate = true;
-			bool ignoreGuardianAmt = (double)npc.life <= (double)npc.lifeMax * 0.15;
-			bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.75;
-			bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.5;
+			bool ignoreGuardianAmt = (double)npc.life < (double)npc.lifeMax * 0.15;
+			bool phase2 = (double)npc.life < (double)npc.lifeMax * 0.75;
+			bool phase3 = (double)npc.life < (double)npc.lifeMax * 0.5;
+			double attackRateMult = 1.0;
 
 			if (Vector2.Distance(player.Center, vector) > 2800f)
 			{
@@ -153,8 +154,29 @@ namespace CalamityMod.NPCs.Providence
 					healerAlive = true;
 				}
 			}
+
 			if (guardianAmt > 0)
+			{
 				normalAttackRate = ignoreGuardianAmt;
+				if (!normalAttackRate)
+				{
+					switch (guardianAmt)
+					{
+						case 1:
+							attackRateMult = 1.25;
+							break;
+						case 2:
+							attackRateMult = 1.5;
+							break;
+						case 3:
+							attackRateMult = 2.0;
+							break;
+						default:
+							break;
+					}
+				}
+			}
+
 			npc.chaseable = normalAttackRate && npc.ai[0] != 2f && npc.ai[0] != 5f && npc.ai[0] != 7f;
 			npc.canGhostHeal = npc.chaseable;
 
@@ -260,19 +282,19 @@ namespace CalamityMod.NPCs.Providence
 				if (flightPath == 0)
 				{
 					npc.TargetClosest(true);
-					if (npc.Center.X < player.Center.X)
+					if (vector.X < player.Center.X)
 						flightPath = 1;
 					else
 						flightPath = -1;
 				}
 
 				npc.TargetClosest(true);
-				int num851 = 800;
-				float num852 = Math.Abs(npc.Center.X - player.Center.X);
+				float num851 = 800f;
+				float num852 = Math.Abs(vector.X - player.Center.X);
 
-				if (npc.Center.X < player.Center.X && flightPath < 0 && num852 > (float)num851)
+				if (vector.X < player.Center.X && flightPath < 0 && num852 > num851)
 					flightPath = 0;
-				if (npc.Center.X > player.Center.X && flightPath > 0 && num852 > (float)num851)
+				if (vector.X > player.Center.X && flightPath > 0 && num852 > num851)
 					flightPath = 0;
 
 				float num853 = expertMode ? 1.1f : 1.05f;
@@ -310,9 +332,9 @@ namespace CalamityMod.NPCs.Providence
 					npc.velocity.X = -num854;
 
 				float num855 = player.position.Y - (npc.position.Y + (float)npc.height);
-				if (num855 < (firingLaser ? 150f : 200f)) //150
+				if (num855 < (firingLaser ? 150f : 200f)) // 150
 					npc.velocity.Y = npc.velocity.Y - 0.2f;
-				if (num855 > (firingLaser ? 200f : 250f)) //200
+				if (num855 > (firingLaser ? 200f : 250f)) // 200
 					npc.velocity.Y = npc.velocity.Y + 0.2f;
 
 				float speedVariance = normalAttackRate ? 3f : 1.5f;
@@ -331,26 +353,26 @@ namespace CalamityMod.NPCs.Providence
 				if (phaseChange > 14)
 					phaseChange = 0;
 
-				int phase = 0; //0 = blasts 1 = holy fire 2 = shell heal 3 = molten blobs 4 = holy bombs 5 = shell spears 6 = crystal 7 = laser
+				int phase = 0; // 0 = blasts 1 = holy fire 2 = shell heal 3 = molten blobs 4 = holy bombs 5 = shell spears 6 = crystal 7 = laser
 
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
 					switch (phaseChange)
 					{
-						case 0: phase = 4; break; //1575 or 1500
-						case 1: phase = 5; break; //1875 or 1800
-						case 2: phase = 0; break; //2175 or 2100
+						case 0: phase = 4; break; // 1575 or 1500
+						case 1: phase = 5; break; // 1875 or 1800
+						case 2: phase = 0; break; // 2175 or 2100
 						case 3: phase = phase2 ? 6 : 1; break;
-						case 4: phase = 2; break; //600
-						case 5: phase = 4; break; //900
-						case 6: phase = 1; break; //1200
-						case 7: phase = 5; break; //1500
+						case 4: phase = 2; break; // 600
+						case 5: phase = 4; break; // 900
+						case 6: phase = 1; break; // 1200
+						case 7: phase = 5; break; // 1500
 						case 8:
-							phase = phase3 ? 7 : 3; //1875 or 1800
+							phase = phase3 ? 7 : 3; // 1875 or 1800
 							if (phase3)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - npc.Center - new Vector2(0f, -22f);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
 								float num1219 = v3.Length() / 500f;
 								if (num1219 > 1f)
 									num1219 = 1f;
@@ -363,15 +385,15 @@ namespace CalamityMod.NPCs.Providence
 								npc.localAI[1] = num1219;
 							}
 							break;
-						case 9: phase = 3; break; //2175 or 2100
+						case 9: phase = 3; break; // 2175 or 2100
 						case 10: phase = phase2 ? 6 : 2; break;
-						case 11: phase = 4; break; //300
+						case 11: phase = 4; break; // 300
 						case 12:
-							phase = phase3 ? 7 : 4; //675 or 600
+							phase = phase3 ? 7 : 4; // 675 or 600
 							if (phase3)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - npc.Center - new Vector2(0f, -22f);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
 								float num1219 = v3.Length() / 500f;
 								if (num1219 > 1f)
 									num1219 = 1f;
@@ -384,8 +406,8 @@ namespace CalamityMod.NPCs.Providence
 								npc.localAI[1] = num1219;
 							}
 							break;
-						case 13: phase = 5; break; //975 or 900
-						case 14: phase = 0; break; //1275 or 1200
+						case 13: phase = 5; break; // 975 or 900
+						case 14: phase = 0; break; // 1275 or 1200
 						default: break;
 					}
 				}
@@ -393,13 +415,13 @@ namespace CalamityMod.NPCs.Providence
 				{
 					switch (phaseChange)
 					{
-						case 0: phase = 0; break; //3375 or 3300
+						case 0: phase = 0; break; // 3375 or 3300
 						case 1:
-							phase = phase3 ? 7 : 1; //3750 or 3600
+							phase = phase3 ? 7 : 1; // 3750 or 3600
 							if (phase3)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - npc.Center - new Vector2(0f, -22f);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
 								float num1219 = v3.Length() / 500f;
 								if (num1219 > 1f)
 									num1219 = 1f;
@@ -412,21 +434,21 @@ namespace CalamityMod.NPCs.Providence
 								npc.localAI[1] = num1219;
 							}
 							break;
-						case 2: phase = 3; break; //4050 or 3900
-						case 3: phase = 4; break; //4350 or 4200
-						case 4: phase = 5; break; //4650 or 4500
+						case 2: phase = 3; break; // 4050 or 3900
+						case 3: phase = 4; break; // 4350 or 4200
+						case 4: phase = 5; break; // 4650 or 4500
 						case 5: phase = phase2 ? 6 : 4; break;
-						case 6: phase = 3; break; //300
-						case 7: phase = 1; break; //600
-						case 8: phase = 0; break; //900
-						case 9: phase = 2; break; //1500
-						case 10: phase = 4; break; //1800
+						case 6: phase = 3; break; // 300
+						case 7: phase = 1; break; // 600
+						case 8: phase = 0; break; // 900
+						case 9: phase = 2; break; // 1500
+						case 10: phase = 4; break; // 1800
 						case 11:
 							phase = phase3 ? 7 : 0; //2175 or 2100
 							if (phase3)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - npc.Center - new Vector2(0f, -22f);
+								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
 								float num1219 = v3.Length() / 500f;
 								if (num1219 > 1f)
 									num1219 = 1f;
@@ -439,15 +461,15 @@ namespace CalamityMod.NPCs.Providence
 								npc.localAI[1] = num1219;
 							}
 							break;
-						case 12: phase = 3; break; //2475 or 2400
-						case 13: phase = 1; break; //2775 or 2700
-						case 14: phase = 5; break; //3075 or 3000
+						case 12: phase = 3; break; // 2475 or 2400
+						case 13: phase = 1; break; // 2775 or 2700
+						case 14: phase = 5; break; // 3075 or 3000
 						default: break;
 					}
 				}
 
 				npc.TargetClosest(true);
-				if (Math.Abs(npc.Center.X - player.Center.X) > 5600f)
+				if (Math.Abs(vector.X - player.Center.X) > 5600f)
 					phase = 0;
 
 				npc.ai[0] = (float)phase;
@@ -460,34 +482,31 @@ namespace CalamityMod.NPCs.Providence
 				npc.noGravity = true;
 				npc.noTileCollide = true;
 
-				float num852 = Math.Abs(npc.Center.X - player.Center.X);
+				float num852 = Math.Abs(vector.X - player.Center.X);
 				if ((num852 < 500f || npc.ai[3] < 0f) && npc.position.Y < player.position.Y)
 				{
 					npc.ai[3] += 1f;
-					int num856 = expertMode ? 25 : 26;
+					int num856 = expertMode ? 26 : 27;
 					if ((double)npc.life < (double)npc.lifeMax * 0.5)
-						num856 = expertMode ? 23 : 24;
-					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						num856 = expertMode ? 21 : 22;
-					if (!normalAttackRate)
-						num856 = expertMode ? 40 : 46;
+						num856 = expertMode ? 24 : 25;
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						num856 = expertMode ? 22 : 23;
+					num856 = (int)((double)num856 * attackRateMult);
 
-					num856++;
-					if (npc.ai[3] > (float)num856)
+					if (npc.ai[3] >= (float)num856)
 						npc.ai[3] = (float)(-(float)num856);
 
 					if (npc.ai[3] == 0f && Main.netMode != 1)
 					{
-						Vector2 vector112 = new Vector2(npc.Center.X, npc.Center.Y);
-						vector112.X += npc.velocity.X * 7f;
-						float num857 = player.position.X + (float)player.width * 0.5f - vector112.X;
-						float num858 = player.Center.Y - vector112.Y;
+						vector.X += npc.velocity.X * 7f;
+						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
+						float num858 = player.Center.Y - vector.Y;
 						float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
 						float num860 = expertMode ? 10.25f : 9f;
 						if ((double)npc.life < (double)npc.lifeMax * 0.5)
 							num860 = expertMode ? 11.5f : 10f;
-						if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if ((double)npc.life < (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							num860 = expertMode ? 12.75f : 11f;
 						if (revenge)
 							num860 *= 1.15f;
@@ -497,7 +516,7 @@ namespace CalamityMod.NPCs.Providence
 						num858 *= num859;
 
 						int holyDamage = expertMode ? 46 : 63;
-						Projectile.NewProjectile(vector112.X, vector112.Y, num857, num858, mod.ProjectileType("HolyBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(vector.X, vector.Y, num857, num858, mod.ProjectileType("HolyBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 				else if (npc.ai[3] < 0f)
@@ -506,7 +525,7 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 300f)
+					if (npc.ai[1] >= 300f)
 						npc.ai[0] = -1f;
 				}
 			}
@@ -518,25 +537,24 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[3] += 1f;
-					int num864 = expertMode ? 33 : 36;
+
+					int num864 = expertMode ? 36 : 39;
 					if ((double)npc.life < (double)npc.lifeMax * 0.5)
-						num864 = expertMode ? 30 : 33;
-					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-						num864 = expertMode ? 26 : 29;
-					if (!normalAttackRate)
-						num864 = expertMode ? 45 : 52;
-					num864 += 3;
+						num864 = expertMode ? 33 : 36;
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+						num864 = expertMode ? 29 : 32;
+					num864 = (int)((double)num864 * attackRateMult);
 
 					if (npc.ai[3] >= (float)num864)
 					{
 						npc.ai[3] = 0f;
-						Vector2 vector113 = new Vector2(npc.Center.X, npc.position.Y + (float)npc.height - 14f);
+						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
 						float num865 = npc.velocity.Y;
 						if (num865 < 0f)
 							num865 = 0f;
 						num865 += expertMode ? 4f : 3f;
 
-						int fireDamage = expertMode ? 40 : 59; //260 200
+						int fireDamage = expertMode ? 40 : 59;
 						Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, mod.ProjectileType("HolyFire"), fireDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -544,7 +562,7 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 300f)
+					if (npc.ai[1] >= 300f)
 						npc.ai[0] = -1f;
 				}
 			}
@@ -554,7 +572,7 @@ namespace CalamityMod.NPCs.Providence
 				npc.noTileCollide = true;
 				npc.TargetClosest(true);
 
-				Vector2 vector114 = new Vector2(npc.Center.X, npc.Center.Y - 20f);
+				Vector2 vector114 = new Vector2(vector.X, vector.Y + 20f);
 				float num866 = (float)Main.rand.Next(-1000, 1001);
 				float num867 = (float)Main.rand.Next(-1000, 1001);
 				float num868 = (float)Math.Sqrt((double)(num866 * num866 + num867 * num867));
@@ -564,19 +582,20 @@ namespace CalamityMod.NPCs.Providence
 				num868 = num869 / num868;
 				num866 *= num868;
 				num867 *= num868;
-				vector114.X += num866 * 4f;
-				vector114.Y += num867 * 4f;
+				vector114.X += num866 * 32f;
+				vector114.Y += num867 * 32f;
 
 				npc.ai[3] += 1f;
+
 				int num870 = expertMode ? 3 : 4;
-				if (!normalAttackRate)
-					num870 = expertMode ? 12 : 16;
+				num870 = (int)((double)num870 * attackRateMult);
+
 				if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 					num870 -= 2;
-				if ((double)npc.life <= (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+				if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 					num870 -= 2;
 
-				if (npc.ai[3] > (float)num870)
+				if (npc.ai[3] >= (float)num870)
 				{
 					npc.ai[3] = 0f;
 					if (Main.netMode != 1)
@@ -589,7 +608,7 @@ namespace CalamityMod.NPCs.Providence
 				}
 
 				npc.ai[1] += 1f;
-				if (npc.ai[1] > 450f && !text)
+				if (npc.ai[1] >= 450f && !text)
 				{
 					text = true;
 					string key = "Mods.CalamityMod.ProfanedBossText";
@@ -601,7 +620,7 @@ namespace CalamityMod.NPCs.Providence
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 
-				if (npc.ai[1] > 600f)
+				if (npc.ai[1] >= 600f)
 				{
 					if (Main.netMode != 2)
 					{
@@ -645,34 +664,32 @@ namespace CalamityMod.NPCs.Providence
 				npc.noGravity = true;
 				npc.noTileCollide = true;
 
-				float num852 = Math.Abs(npc.Center.X - player.Center.X);
+				float num852 = Math.Abs(vector.X - player.Center.X);
 				if ((num852 < 500f || npc.ai[3] < 0f) && npc.position.Y < player.position.Y)
 				{
 					npc.ai[3] += 1f;
-					int num856 = expertMode ? 10 : 11;
-					if ((double)npc.life < (double)npc.lifeMax * 0.5)
-						num856 = expertMode ? 9 : 10;
-					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-						num856 = expertMode ? 8 : 9;
-					if (!normalAttackRate)
-						num856 = expertMode ? 30 : 35;
-					num856++;
 
-					if (npc.ai[3] > (float)num856)
+					int num856 = expertMode ? 16 : 18;
+					if ((double)npc.life < (double)npc.lifeMax * 0.5)
+						num856 = expertMode ? 15 : 16;
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+						num856 = expertMode ? 14 : 15;
+					num856 = (int)((double)num856 * attackRateMult);
+
+					if (npc.ai[3] >= (float)num856)
 						npc.ai[3] = (float)(-(float)num856);
 
 					if (npc.ai[3] == 0f && Main.netMode != 1)
 					{
-						Vector2 vector112 = new Vector2(npc.Center.X, npc.Center.Y);
-						vector112.X += npc.velocity.X * 7f;
-						float num857 = player.position.X + (float)player.width * 0.5f - vector112.X;
-						float num858 = player.Center.Y - vector112.Y;
+						vector.X += npc.velocity.X * 7f;
+						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
+						float num858 = player.Center.Y - vector.Y;
 						float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
 						float num860 = expertMode ? 10.25f : 9f;
 						if ((double)npc.life < (double)npc.lifeMax * 0.5)
 							num860 = expertMode ? 11.5f : 10f;
-						if ((double)npc.life <= (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+						if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 							num860 = expertMode ? 12.75f : 11f;
 						if (revenge)
 							num860 *= 1.15f;
@@ -682,7 +699,7 @@ namespace CalamityMod.NPCs.Providence
 						num858 *= num859;
 
 						int holyDamage = expertMode ? 39 : 55; //280 210
-						Projectile.NewProjectile(vector112.X, vector112.Y, num857 * 0.1f, num858, mod.ProjectileType("MoltenBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(vector.X, vector.Y, num857 * 0.1f, num858, mod.ProjectileType("MoltenBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 				else if (npc.ai[3] < 0f)
@@ -691,7 +708,7 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 300f)
+					if (npc.ai[1] >= 300f)
 						npc.ai[0] = -1f;
 				}
 			}
@@ -703,39 +720,33 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[3] += 1f;
-					int num864 = expertMode ? 70 : 74;
+
+					int num864 = expertMode ? 73 : 77;
 					if ((double)npc.life < (double)npc.lifeMax * 0.5)
-						num864 = expertMode ? 64 : 70;
-					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						num864 = expertMode ? 56 : 64;
-					if (!normalAttackRate)
-						num864 = expertMode ? 148 : 156;
-					num864 += 3;
+						num864 = expertMode ? 67 : 73;
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						num864 = expertMode ? 59 : 67;
+					num864 = (int)((double)num864 * attackRateMult);
 
 					if (npc.ai[3] >= (float)num864)
 					{
 						npc.ai[3] = 0f;
-						Vector2 vector113 = new Vector2(npc.Center.X, npc.position.Y + (float)npc.height - 14f);
-						int i2 = (int)(vector113.X / 16f);
-						int j2 = (int)(vector113.Y / 16f);
+						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
 
-						if (!WorldGen.SolidTile(i2, j2))
-						{
-							float num865 = npc.velocity.Y;
-							if (num865 < 0f)
-								num865 = 0f;
-							num865 += expertMode ? 4f : 3f;
+						float num865 = npc.velocity.Y;
+						if (num865 < 0f)
+							num865 = 0f;
+						num865 += expertMode ? 4f : 3f;
 
-							int fireDamage = expertMode ? 44 : 60; //260 100
-							Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, mod.ProjectileType("HolyBomb"), fireDamage, 0f, Main.myPlayer, 0f, 0f);
-						}
+						int fireDamage = expertMode ? 44 : 60; //260 100
+						Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, mod.ProjectileType("HolyBomb"), fireDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 
 				if (Main.netMode != 1)
 				{
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 300f)
+					if (npc.ai[1] >= 300f)
 						npc.ai[0] = -1f;
 				}
 			}
@@ -751,10 +762,11 @@ namespace CalamityMod.NPCs.Providence
 					npc.ai[2] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
 					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
 						npc.ai[2] += 1f;
-					if ((double)npc.life <= (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 						npc.ai[2] += 1f;
 
-					if (npc.ai[2] > (normalAttackRate ? 24f : 60f))
+					double count = 24D * attackRateMult;
+					if (npc.ai[2] >= (float)count)
 					{
 						npc.ai[2] = 0f;
 						Vector2 vector93 = new Vector2(vector.X, vector.Y);
@@ -779,7 +791,7 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 300f)
+					if (npc.ai[1] >= 300f)
 						npc.ai[0] = -1f;
 				}
 			}
@@ -793,7 +805,7 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 60f)
+					if (npc.ai[1] >= 60f)
 					{
 						int damage = expertMode ? 52 : 70; //288 220
 						Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, mod.ProjectileType("ProvidenceCrystal"), damage, 0f, player.whoAmI, 0f, 0f);
@@ -816,7 +828,6 @@ namespace CalamityMod.NPCs.Providence
 
 					if (npc.ai[2] >= 60f)
 					{
-						Vector2 center20 = npc.Center;
 						int num1220 = 0;
 						if (npc.ai[2] >= 120f)
 							num1220 = 1;
@@ -829,9 +840,9 @@ namespace CalamityMod.NPCs.Providence
 							if (num1221 % 2 == 1)
 								num1223 = 2.8f;
 
-							Vector2 vector199 = center20 + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * value19 / 2f;
+							Vector2 vector199 = vector + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * value19 / 2f;
 							int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default(Color), 1f);
-							Main.dust[num1224].velocity = Vector2.Normalize(center20 - vector199) * 3.5f * (10f - (float)num1220 * 2f) / 10f;
+							Main.dust[num1224].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - (float)num1220 * 2f) / 10f;
 							Main.dust[num1224].noGravity = true;
 							Main.dust[num1224].scale = num1223;
 							num = num1221;
@@ -848,14 +859,14 @@ namespace CalamityMod.NPCs.Providence
 						if (Main.netMode != 1)
 						{
 							npc.TargetClosest(false);
-							Vector2 vector200 = player.Center - npc.Center;
+							Vector2 vector200 = player.Center - vector;
 							vector200.Normalize();
 							float num1225 = -1f;
 							if (vector200.X < 0f)
 								num1225 = 1f;
 
 							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default(Vector2));
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 16f, vector200.X, vector200.Y, mod.ProjectileType("ProvidenceHolyRay"), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / 450f, (float)npc.whoAmI);
+							Projectile.NewProjectile(vector.X, vector.Y - 16f, vector200.X, vector200.Y, mod.ProjectileType("ProvidenceHolyRay"), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / 450f, (float)npc.whoAmI);
 							npc.ai[3] = (vector200.ToRotation() + 9.424778f) * num1225; //3.14159265f
 							npc.netUpdate = true;
 						}
@@ -875,7 +886,7 @@ namespace CalamityMod.NPCs.Providence
 				}
 				else
 				{
-					npc.localAI[1] -= 0.07f; //15
+					npc.localAI[1] -= 0.07f; // 0.15f
 					if (npc.localAI[1] < 0f)
 						npc.localAI[1] = 0f;
 				}
@@ -883,7 +894,7 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != 1)
 				{
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 375f)
+					if (npc.ai[1] >= 375f)
 						npc.ai[0] = -1f;
 				}
 			}

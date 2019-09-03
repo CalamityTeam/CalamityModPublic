@@ -466,10 +466,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 							num1074 = 25;
 							num1075 = mod.ProjectileType("HiveBombGoliath");
 						}
-						if (CalamityWorld.death)
-						{
-							num1074 += 20;
-						}
 						int num1076 = Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[num1076].timeLeft = 300;
 					}

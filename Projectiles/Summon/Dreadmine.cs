@@ -214,7 +214,11 @@ namespace CalamityMod.Projectiles.Summon
                 Gore expr_13D1F_cp_0 = Main.gore[num626];
                 expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
             }
-            projectile.Damage();
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
         }
     }
 }

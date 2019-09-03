@@ -48,17 +48,14 @@ namespace CalamityMod.Projectiles.Magic
 				num745 += 6.2831853071795862;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
-			if (Main.myPlayer == projectile.owner && projectile.timeLeft > 60)
-			{
-				projectile.timeLeft = 60;
-				return;
-			}
+			if (Main.myPlayer == projectile.owner && projectile.timeLeft > 30)
+				projectile.timeLeft = 30;
         }
 
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 96);
-			int num190 = Main.rand.Next(3, 7);
+			int num190 = Main.rand.Next(4, 6);
 			for (int num191 = 0; num191 < num190; num191++)
 			{
 				int num192 = Dust.NewDust(projectile.Center, 0, 0, 171, 0f, 0f, 100, default(Color), 1.4f);

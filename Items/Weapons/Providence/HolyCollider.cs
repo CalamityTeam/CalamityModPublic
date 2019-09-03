@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +35,27 @@ namespace CalamityMod.Items.Weapons.Providence
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            float spread = 45f * 0.0174f;
+			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
+			for (int num621 = 0; num621 < 30; num621++)
+			{
+				int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default(Color), 2f);
+				Main.dust[num622].velocity *= 3f;
+				if (Main.rand.Next(2) == 0)
+				{
+					Main.dust[num622].scale = 0.5f;
+					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+				}
+			}
+			for (int num623 = 0; num623 < 50; num623++)
+			{
+				int num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default(Color), 3f);
+				Main.dust[num624].noGravity = true;
+				Main.dust[num624].velocity *= 5f;
+				num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default(Color), 2f);
+				Main.dust[num624].velocity *= 2f;
+			}
+
+			float spread = 45f * 0.0174f;
             double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;

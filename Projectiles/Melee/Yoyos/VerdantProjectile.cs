@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				float num435 = Main.npc[num434].position.X + (float)(Main.npc[num434].width / 2);
 				float num436 = Main.npc[num434].position.Y + (float)(Main.npc[num434].height / 2);
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] > 8f)
+				if (projectile.localAI[0] > 6f)
 				{
 					projectile.localAI[0] = 0f;
 					float num437 = 6f;

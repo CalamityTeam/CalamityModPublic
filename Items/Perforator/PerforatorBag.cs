@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Perforator
 
 			// Vanity
 			DropHelper.DropItemChance(player, mod.ItemType("PerforatorMask"), 7);
-            DropHelper.DropItemChance(player, mod.ItemType("BloodyVein"), 10);
-        }
+			DropHelper.DropItemChance(player, mod.ItemType("BloodyVein"), 10);
+		}
 	}
 }

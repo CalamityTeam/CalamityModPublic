@@ -36,42 +36,42 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.ai[0] += 1f;
 			int num39 = 0;
 			float spreadMult = 0.15f;
-			if (projectile.ai[0] >= 120f)
+			if (projectile.ai[0] >= 90f)
 			{
 				num39++;
 				spreadMult = 0.13f;
 			}
-			if (projectile.ai[0] >= 240f)
+			if (projectile.ai[0] >= 180f)
 			{
 				num39++;
 				spreadMult = 0.11f;
 			}
-			if (projectile.ai[0] >= 360f)
+			if (projectile.ai[0] >= 270f)
 			{
 				num39++;
 				spreadMult = 0.09f;
 			}
-			if (projectile.ai[0] >= 480f)
+			if (projectile.ai[0] >= 360f)
 			{
 				num39++;
 				spreadMult = 0.07f;
 			}
-			if (projectile.ai[0] >= 600f)
+			if (projectile.ai[0] >= 450f)
 			{
 				num39++;
 				spreadMult = 0.05f;
 			}
-			if (projectile.ai[0] >= 720f)
+			if (projectile.ai[0] >= 540f)
 			{
 				num39++;
 				spreadMult = 0.04f;
 			}
-			if (projectile.ai[0] >= 840f)
+			if (projectile.ai[0] >= 630f)
 			{
 				num39++;
 				spreadMult = 0.03f;
 			}
-			if (projectile.ai[0] >= 960f) //8
+			if (projectile.ai[0] >= 720f) //8
 			{
 				num39++;
 				spreadMult = 0.02f;

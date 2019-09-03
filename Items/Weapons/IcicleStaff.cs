@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 10;
+            item.damage = 12;
             item.magic = true;
             item.mana = 6;
             item.width = 44;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("WintersFury");
-            item.shootSpeed = 16f;
+            item.shootSpeed = 11f;
         }
 
         public override void AddRecipes()

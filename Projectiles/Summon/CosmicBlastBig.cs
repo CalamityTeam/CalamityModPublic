@@ -135,7 +135,11 @@ namespace CalamityMod.Projectiles.Summon
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
-            projectile.Damage();
+			projectile.penetrate = -1;
+			projectile.maxPenetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
         }
     }
 }

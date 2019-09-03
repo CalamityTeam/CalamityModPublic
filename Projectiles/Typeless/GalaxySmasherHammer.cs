@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.Typeless
                     int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, damageType, 0f);
                     Main.projectile[proj].tileCollide = false;
                     Main.projectile[proj].timeLeft = 30;
-				}
+                }
             }
         }
     }

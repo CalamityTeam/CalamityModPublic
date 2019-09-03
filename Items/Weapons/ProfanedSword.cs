@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Brimstone Sword");
-			Tooltip.SetDefault("Summons brimstone geysers on enemy hits\n" +
-				"Right click to throw like a javelin");
+			Tooltip.SetDefault("Summons brimstone geysers on hit\n" +
+				"Right click to throw like a javelin that explodes on hit");
 		}
 
         public override void SetDefaults()

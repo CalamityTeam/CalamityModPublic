@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Patreon
     public class MadAlchemistsCocktailGlove : ModItem
     {
 		private int FlaskType = 0;
-		private int BaseDamage = 400;
+		private int BaseDamage = 300;
 
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Patreon
 
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = BaseDamage;
             item.magic = true;
 			item.noUseGraphic = true;
             item.mana = 12;
@@ -56,7 +56,10 @@ namespace CalamityMod.Items.Patreon
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			if (player.altFunctionUse == 2)
+			{
 				type = mod.ProjectileType("MadAlchemistsCocktailAlt");
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * 1.5f * player.magicDamage), knockBack, player.whoAmI, 0f, 0f);
+			}
 			else
 			{
 				switch (FlaskType)
@@ -77,12 +80,12 @@ namespace CalamityMod.Items.Patreon
 						break;
 				}
 
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * player.magicDamage), knockBack, player.whoAmI, 0f, 0f);
+
 				FlaskType++;
 				if (FlaskType > 3)
 					FlaskType = 0;
 			}
-
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 
 			return false;
 		}

@@ -18,8 +18,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
 			projectile.magic = true;
+			projectile.ignoreWater = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 240;
+			projectile.extraUpdates = 1;
+            projectile.timeLeft = 180;
         }
 
         public override void AI()
@@ -36,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
-			float num474 = 400f;
+			float num474 = 500f;
 			bool flag17 = false;
 			for (int num475 = 0; num475 < 200; num475++)
 			{
@@ -56,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			if (flag17)
 			{
-				float num483 = 6f;
+				float num483 = 8f;
 				Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num484 = num472 - vector35.X;
 				float num485 = num473 - vector35.Y;

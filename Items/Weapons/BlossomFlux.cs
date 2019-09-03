@@ -62,14 +62,13 @@ namespace CalamityMod.Items.Weapons
 		{
 	    	if (player.altFunctionUse == 2)
 	    	{
-	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SporeBomb"), (int)((double)damage * 6f), (knockBack * 60f), player.whoAmI, 0.0f, 0.0f);
-	    		return false;
+	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("SporeBomb"), (int)((double)damage * 6.0), (knockBack * 60f), player.whoAmI, 0.0f, 0.0f);
 	    	}
 	    	else
 	    	{
 	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LeafArrow"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
 	    	}
+			return false;
 		}
 	}
 }

@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				float num435 = Main.npc[num434].position.X + (float)(Main.npc[num434].width / 2);
 				float num436 = Main.npc[num434].position.Y + (float)(Main.npc[num434].height / 2);
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] > 20f)
+				if (projectile.localAI[0] > 10f)
 				{
 					projectile.localAI[0] = 0f;
 					float num437 = 6f;
@@ -68,9 +68,11 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					num440 = num437 / num440;
 					num438 *= num440;
 					num439 *= num440;
+					num438 = num438 + (float)Main.rand.Next(-30, 31) * 0.05f;
+					num439 = num439 + (float)Main.rand.Next(-30, 31) * 0.05f;
 					if (projectile.owner == Main.myPlayer)
 					{
-						int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ProjectileID.SlimeGun, projectile.damage / 4, 0f, projectile.owner, 0f, 0f);
+						int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ProjectileID.SlimeGun, (int)((double)projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
 						Main.projectile[projectile2].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 					}
 				}

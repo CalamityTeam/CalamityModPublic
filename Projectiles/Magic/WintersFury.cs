@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 1;
+			projectile.extraUpdates = 1;
             projectile.timeLeft = 600;
         }
 

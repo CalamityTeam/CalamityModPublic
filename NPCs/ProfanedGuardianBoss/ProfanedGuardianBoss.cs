@@ -12,8 +12,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
     [AutoloadBossHead]
     public class ProfanedGuardianBoss : ModNPC
 	{
-		private int flareTimer = 0;
-		private int flareProjectiles = 1;
+		private int spearType = 0;
 		private int dustTimer = 3;
 
 		public override void SetStaticDefaults()
@@ -70,17 +69,15 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.Write(flareTimer);
+			writer.Write(spearType);
 			writer.Write(dustTimer);
-			writer.Write(flareProjectiles);
 			writer.Write(npc.dontTakeDamage);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			flareTimer = reader.ReadInt32();
+			spearType = reader.ReadInt32();
 			dustTimer = reader.ReadInt32();
-			flareProjectiles = reader.ReadInt32();
 			npc.dontTakeDamage = reader.ReadBoolean();
 		}
 
@@ -95,9 +92,10 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		public override void AI()
 		{
 			CalamityGlobalNPC.doughnutBoss = npc.whoAmI;
-			bool fireBalls = (double)npc.life <= (double)npc.lifeMax * 0.75;
-			bool powerBoost = (double)npc.life <= (double)npc.lifeMax * 0.5;
-			bool fireDust = (double)npc.life <= (double)npc.lifeMax * 0.25;
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
 			Player player = Main.player[npc.target];
 			Vector2 vector = npc.Center;
 			if (Main.netMode != 1 && npc.localAI[1] == 0f)
@@ -155,7 +153,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			float num998 = 8f;
 			float scaleFactor3 = 300f;
 			float num999 = 800f;
-			float num1000 = powerBoost ? 14f : 16f;
+			float num1000 = (lifeRatio < 0.75f ? 14f : 16f);
 			if (revenge)
 			{
 				num1000 *= 1.15f;
@@ -166,7 +164,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			float scaleFactor5 = 10f;
 			float num1003 = 30f;
 			float num1004 = 150f;
-			float num1005 = powerBoost ? 14f : 16f;
+			float num1005 = (lifeRatio < 0.75f ? 14f : 16f);
 			if (revenge)
 			{
 				num1005 *= 1.15f;
@@ -188,67 +186,68 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			}
 			if (Main.netMode != 1)
 			{
-				npc.localAI[0] += expertMode ? 2f : 1f;
-				if (npc.localAI[0] >= 300f)
+				npc.localAI[0] += 1f + (2f * (1f - lifeRatio));
+				if (npc.localAI[0] >= 240f)
 				{
 					npc.localAI[0] = 0f;
 					npc.TargetClosest(true);
-					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+
+					Main.PlaySound(SoundID.Item20, npc.position);
+
+					Vector2 center = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+					int totalProjectiles = 18;
+					float spread = MathHelper.ToRadians(20);
+					double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
+					double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
+					double offsetAngle = 0D;
+					float velocity = 5f;
+					int i = 0;
+					int damage = expertMode ? 33 : 48;
+					int projectileType = mod.ProjectileType("ProfanedSpear");
+
+					switch (spearType)
 					{
-						Main.PlaySound(SoundID.Item20, npc.position);
-						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-						float spread = 45f * 0.0174f;
-				    	double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-				    	double deltaAngle = spread / 8f;
-				    	double offsetAngle;
-				    	int damage = expertMode ? 33 : 48;
-				    	int projectileShot = mod.ProjectileType("ProfanedSpear");
-				    	int i;
-				    	for (i = 0; i < 8; i++)
-				    	{
-				   			offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-				        	Projectile.NewProjectile(value9.X, value9.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-				        	Projectile.NewProjectile(value9.X, value9.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-				    	}
+						case 0:
+							for (i = 0; i < 9; i++)
+							{
+								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+								Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+							}
+							break;
+						case 1:
+							totalProjectiles = 12;
+							spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
+							startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
+							deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
+							velocity = 5.5f;
+							for (i = 0; i < 6; i++)
+							{
+								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+								Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+							}
+							break;
+						case 2:
+							totalProjectiles = 8;
+							spread = MathHelper.ToRadians(45); // 30 degrees in radians = 0.523599
+							startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
+							deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
+							velocity = 6f;
+							for (i = 0; i < 4; i++)
+							{
+								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+								Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+							}
+							break;
+						default:
+							break;
 					}
-				}
-			}
-			if (fireBalls && flareTimer == 0)
-			{
-				flareTimer = 420;
-			}
-			if (flareTimer > 0)
-			{
-				flareTimer--;
-				if (flareTimer == 0)
-				{
-					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-					{
-						if (Main.netMode != 1)
-						{
-							Main.PlaySound(SoundID.Item20, npc.position);
-							Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-							float spread = 90f * 0.0174f;
-					    	double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-					    	double deltaAngle = spread / 8f;
-					    	double offsetAngle;
-					    	int damage = expertMode ? 34 : 50;
-					    	int j;
-					    	for (j = 0; j < flareProjectiles; j++)
-					    	{
-					    		int randomTime = Main.rand.Next(60, 120);
-					   			offsetAngle = (startAngle + deltaAngle * ( j + j * j ) / 2f ) + 32f * j;
-					   			int projectile = Projectile.NewProjectile(value9.X, value9.Y, 0f, 0f, mod.ProjectileType("GigaFlare"), damage, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
-					        	int projectile2 = Projectile.NewProjectile(value9.X, value9.Y, 0f, 0f, mod.ProjectileType("GigaFlare"), damage, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
-					        	Main.projectile[projectile].timeLeft = randomTime;
-					        	Main.projectile[projectile2].timeLeft = randomTime;
-					        	Main.projectile[projectile].velocity.X = (float)Main.rand.Next(-50, 51) * 0.125f;
-					        	Main.projectile[projectile].velocity.Y = (float)Main.rand.Next(-50, 51) * 0.125f;
-								Main.projectile[projectile2].velocity.X = (float)Main.rand.Next(-50, 51) * 0.125f;
-								Main.projectile[projectile2].velocity.Y = (float)Main.rand.Next(-50, 51) * 0.125f;
-					    	}
-						}
-					}
+
+					spearType++;
+					if (spearType > 2)
+						spearType = 0;
 				}
 			}
 			npc.damage = expertMode ? 200 : 100;
@@ -316,7 +315,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				if (Main.netMode != 1)
 				{
 					dustTimer--;
-					if (fireDust && dustTimer <= 0)
+					if (lifeRatio < 0.5f && dustTimer <= 0)
 					{
 						Main.PlaySound(SoundID.Item20, npc.position);
 						int damage = expertMode ? 38 : 56;

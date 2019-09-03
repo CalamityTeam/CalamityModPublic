@@ -42,14 +42,7 @@ namespace CalamityMod.Items.Weapons
 	        {
 	            float SpeedX = speedX + (float) Main.rand.Next(-25, 26) * 0.05f;
 	            float SpeedY = speedY + (float) Main.rand.Next(-25, 26) * 0.05f;
-	    		switch (Main.rand.Next(3))
-				{
-	    			case 0: type = mod.ProjectileType("TerraFireGreen2"); break;
-	    			case 1: type = mod.ProjectileType("TerraFireRed"); break;
-	    			case 2: type = mod.ProjectileType("TerraFireBlue"); break;
-	    			default: break;
-				}
-	            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 	    	}
 	    	return false;
 		}

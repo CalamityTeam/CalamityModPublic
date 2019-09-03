@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plague Charger");
-			Main.npcFrameCount[npc.type] = 6;
+			Main.npcFrameCount[npc.type] = 4;
 		}
 
 		public override void SetDefaults()
@@ -92,7 +92,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			num1259 *= num1260;
 			npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
-			return;
 		}
 
 		public override bool PreNPCLoot()

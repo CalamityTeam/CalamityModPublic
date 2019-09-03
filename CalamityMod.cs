@@ -174,7 +174,7 @@ namespace CalamityMod
 			Filters.Scene["CalamityMod:Leviathan"] = new Filter(new LevScreenShaderData("FilterMiniTower").UseColor(0f, 0f, 0.5f).UseOpacity(0.5f), EffectPriority.VeryHigh);
 			SkyManager.Instance["CalamityMod:Leviathan"] = new LevSky();
 
-			Filters.Scene["CalamityMod:Providence"] = new Filter(new ProvScreenShaderData("FilterMiniTower").UseColor(0.6f, 0.45f, 0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
+			Filters.Scene["CalamityMod:Providence"] = new Filter(new ProvScreenShaderData("FilterMiniTower").UseColor(0.45f, 0.4f, 0.2f).UseOpacity(0.5f), EffectPriority.VeryHigh);
 			SkyManager.Instance["CalamityMod:Providence"] = new ProvSky();
 
 			Filters.Scene["CalamityMod:SupremeCalamitas"] = new Filter(new SCalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.65f), EffectPriority.VeryHigh);
@@ -1252,7 +1252,10 @@ namespace CalamityMod
 					calamity.ProjectileType("PearlBurst"),
 					calamity.ProjectileType("PearlRain"),
 					calamity.ProjectileType("Shadowflamethrower"),
-					calamity.ProjectileType("Shadowflame")
+					calamity.ProjectileType("Shadowflame"),
+					calamity.ProjectileType("SporeGasPlantera"),
+					calamity.ProjectileType("SporeGasPlantera2"),
+					calamity.ProjectileType("SporeGasPlantera3")
 				};
 
 				trapProjectileList = new List<int>()

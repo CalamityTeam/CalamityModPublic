@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Boss
 				}
 				float speed = revenge ? 9f : 7.5f;
 				Vector2 vector70 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
-				if (vector70.Length() < 30f)
+				if (vector70.Length() < 20f)
 				{
 					projectile.Kill();
 					return;
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103, 1f, 0f);
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 144);
+			projectile.width = (projectile.height = 72);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num193 = 0; num193 < 2; num193++)

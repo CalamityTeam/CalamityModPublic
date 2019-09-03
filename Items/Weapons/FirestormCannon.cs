@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons
 		        {
 		            float SpeedX = speedX + (float) Main.rand.Next(-50, 51) * 0.05f;
 		            float SpeedY = speedY + (float) Main.rand.Next(-50, 51) * 0.05f;
-		            int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+		            int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 1.25), knockBack, player.whoAmI, 0.0f, 0.0f);
 		            Main.projectile[flare].penetrate = 1;
 		            Main.projectile[flare].timeLeft = 600;
 		        }

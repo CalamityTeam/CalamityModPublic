@@ -20,19 +20,13 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
-			projectile.alpha = 255;
 			projectile.penetrate = 1;
-			projectile.timeLeft = 300;
+			projectile.timeLeft = 240;
 		}
 
 		public override void AI()
 		{
 			bool expertMode = Main.expertMode;
-			projectile.alpha -= 2;
-			if (projectile.alpha < 0)
-			{
-				projectile.alpha = 0;
-			}
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
 			{
@@ -62,6 +56,11 @@ namespace CalamityMod.Projectiles.Boss
 				NetMessage.SendData(66, -1, -1, null, num487, (float)num492, 0f, 0f, 0, 0, 0);
 				projectile.Kill();
 			}
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(150, 255, 0, projectile.alpha);
 		}
 
 		public override void Kill(int timeLeft)

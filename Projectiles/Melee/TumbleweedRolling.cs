@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 7;
+            target.immune[projectile.owner] = 5;
         }
 
         public override void Kill(int timeLeft)

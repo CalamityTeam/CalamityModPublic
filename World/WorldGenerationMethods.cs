@@ -2815,6 +2815,7 @@ namespace CalamityMod.World
 				{
 					Main.tile[n, num8].active(true);
 					Main.tile[n, num8].type = tile;
+					Main.tile[n, num8].slope(0);
 					Main.tile[n, num8].liquid = 0;
 					Main.tile[n, num8].lava(false);
 				}
@@ -2851,6 +2852,7 @@ namespace CalamityMod.World
 				{
 					Main.tile[num18, num20].active(true);
 					Main.tile[num18, num20].type = tile2;
+					Main.tile[num18, num20].slope(0);
 					num20++;
 					num19--;
 				}

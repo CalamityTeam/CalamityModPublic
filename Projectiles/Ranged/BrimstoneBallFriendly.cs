@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 7;
+        	target.immune[projectile.owner] = 5;
         	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
         }
     }

@@ -29,25 +29,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.25f, 0.15f, 0f);
             if (Main.rand.Next(5) == 0)
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            projectile.ai[0] += 0.1f;
-            if (projectile.velocity.X != oldVelocity.X)
-            {
-                projectile.velocity.X = -oldVelocity.X;
-            }
-            if (projectile.velocity.Y != oldVelocity.Y)
-            {
-                projectile.velocity.Y = -oldVelocity.Y;
-            }
-            return false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

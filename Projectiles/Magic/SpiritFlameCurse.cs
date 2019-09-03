@@ -72,6 +72,10 @@ namespace CalamityMod.Projectiles.Magic
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
 			projectile.Damage();
         }
 

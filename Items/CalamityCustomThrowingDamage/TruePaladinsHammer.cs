@@ -8,7 +8,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("True Paladin's Hammer");
+            DisplayName.SetDefault("Fallen Paladin's Hammer");
 			Tooltip.SetDefault("Explodes on enemy hits");
 		}
 

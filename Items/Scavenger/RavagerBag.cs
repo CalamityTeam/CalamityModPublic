@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Scavenger
             DropHelper.DropItemFromSetChance(player, 0.05f, mod.ItemType("CorpusAvertorMelee"), mod.ItemType("CorpusAvertor"));
 
             // Equipment
-            DropHelper.DropItemChance(player, mod.ItemType("BloodPact"), 0.5f);
+			DropHelper.DropItemChance(player, mod.ItemType("BloodPact"), 0.5f);
 			DropHelper.DropItemChance(player, mod.ItemType("FleshTotem"), 0.5f);
 			DropHelper.DropItemCondition(player, mod.ItemType("BloodflareCore"), CalamityWorld.downedProvidence);
 			DropHelper.DropItemCondition(player, mod.ItemType("InfernalBlood"), CalamityWorld.revenge);

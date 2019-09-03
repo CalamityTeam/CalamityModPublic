@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 40;
+			item.damage = 36;
 			item.ranged = true;
 			item.noMelee = true;
 			item.width = 46;

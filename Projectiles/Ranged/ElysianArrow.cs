@@ -49,6 +49,11 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.height = 30;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
 			projectile.Damage();
 			for (int num621 = 0; num621 < 2; num621++)
 			{
@@ -117,7 +122,7 @@ namespace CalamityMod.Projectiles.Ranged
 			num16 *= num18;
 			if (projectile.owner == Main.myPlayer)
 			{
-				int num19 = Projectile.NewProjectile(x, y, num15, num16, mod.ProjectileType("SkyFlareFriendly"), projectile.damage / 2, 5f, projectile.owner, 0f, 0f);
+				int num19 = Projectile.NewProjectile(x, y, num15, num16, mod.ProjectileType("SkyFlareFriendly"), projectile.damage, 5f, projectile.owner, 0f, 0f);
 				Main.projectile[num19].ai[1] = projectile.position.Y;
 			}
         }

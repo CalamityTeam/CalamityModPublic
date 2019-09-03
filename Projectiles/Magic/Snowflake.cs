@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.tileCollide = false;
 			projectile.alpha = 70;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 300;
+			projectile.timeLeft = 600;
 			projectile.magic = true;
 			aiType = 491;
 		}

@@ -24,19 +24,24 @@ namespace CalamityMod.Items.Weapons
             item.useAnimation = 23;
 			item.useTurn = true;
             item.useStyle = 1;
-            item.knockBack = 5.5f;
+            item.knockBack = 6f;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shoot = 408;
-            item.shootSpeed = 11f;
+            item.shootSpeed = 6f;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+			for (int i = 0; i < 2; i++)
+			{
+				float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
+				float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
+				int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+			}
 			return false;
         }
 

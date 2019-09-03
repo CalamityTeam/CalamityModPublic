@@ -35,7 +35,8 @@ Fighting 'til the war's won");
             item.UseSound = SoundID.Item38;
             item.useStyle = 5;
 
-            item.value = Item.buyPrice(0, 3, 0, 0);
+			item.rare = 10;
+            item.value = Item.buyPrice(1, 40, 0, 0);
             item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
 
             item.shootSpeed = BulletSpeed;

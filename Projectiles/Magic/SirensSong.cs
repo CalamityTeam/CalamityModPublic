@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,23 +12,27 @@ namespace CalamityMod.Projectiles.Magic
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Song");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
         {
-            projectile.width = 26;
-            projectile.height = 26;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.friendly = true;
-            projectile.tileCollide = false;
             projectile.magic = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+			projectile.ignoreWater = true;
+            projectile.penetrate = 5;
+            projectile.timeLeft = 420;
         }
 
         public override void AI()
         {
-        	projectile.velocity.X *= 0.985f;
-        	projectile.velocity.Y *= 0.985f;
+			if (projectile.velocity.Length() > 4f)
+			{
+				projectile.velocity *= 0.985f;
+			}
         	if (projectile.localAI[0] == 0f)
 			{
 				projectile.scale += 0.02f;
@@ -50,11 +56,40 @@ namespace CalamityMod.Projectiles.Magic
 				Main.PlaySound(SoundID.Item26, projectile.position);
 			}
 			Lighting.AddLight(projectile.Center, 0f, 1.2f, 0f);
+			if (projectile.velocity.X > 0f)
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+			else
+				projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+		}
+
+		public override bool OnTileCollide(Vector2 oldVelocity)
+		{
+			if (projectile.velocity.X != oldVelocity.X)
+			{
+				projectile.velocity.X = -oldVelocity.X;
+			}
+			if (projectile.velocity.Y != oldVelocity.Y)
+			{
+				projectile.velocity.Y = -oldVelocity.Y;
+			}
+			return false;
 		}
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return new Color(255, 255, 255, 0);
+			if (projectile.timeLeft < 85)
+			{
+				byte b2 = (byte)(projectile.timeLeft * 3);
+				byte a2 = (byte)(50f * ((float)b2 / 255f));
+				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+			}
+			return new Color(255, 255, 255, 50);
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

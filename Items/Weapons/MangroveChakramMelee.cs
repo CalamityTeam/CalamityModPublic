@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons
 			item.damage = 84;
 			item.noMelee = true;
 			item.noUseGraphic = true;
+			item.autoReuse = true;
 			item.useAnimation = 14;
 			item.useStyle = 1;
 			item.useTime = 14;
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.shoot = mod.ProjectileType("MangroveChakramProjectileMelee");
-			item.shootSpeed = 15.5f;
+			item.shootSpeed = 16f;
 		}
 
 		public override void AddRecipes()

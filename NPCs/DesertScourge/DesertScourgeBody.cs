@@ -35,7 +35,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = 6; //new
             aiType = -1; //new
-            animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -118,8 +117,6 @@ namespace CalamityMod.NPCs.DesertScourge
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
-                        num942 += (float)Main.rand.Next(-5, 6) * 0.05f;
-                        num943 += (float)Main.rand.Next(-5, 6) * 0.05f;
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
                         if (Main.rand.Next(2) == 0)

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.width = 150;
 			npc.height = 92;
 			npc.scale = 0.8f;
-			npc.defense = 20;
+			npc.defense = 15;
 			npc.knockBackResist = 0f;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
@@ -77,11 +77,15 @@ namespace CalamityMod.NPCs.SlimeGod
                 hyperMode = true;
                 flag100 = false;
             }
-            if (!flag100)
+			if (!flag100)
 			{
-				npc.defense = revenge ? 45 : 30;
+				npc.defense = revenge ? 25 : 20;
 			}
-            if (Main.netMode != 1)
+			else
+			{
+				npc.defense = 15;
+			}
+			if (Main.netMode != 1)
             {
                 if (!flag100)
                 {

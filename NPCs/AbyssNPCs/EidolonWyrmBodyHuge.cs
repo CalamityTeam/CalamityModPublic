@@ -8,9 +8,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 {
     public class EidolonWyrmBodyHuge : ModNPC
 	{
-        public float speed = 7.5f; //10
-        public float turnSpeed = 0.15f; //0.15
-
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eidolon Wyrm");
@@ -94,32 +91,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     npc.alpha = 0;
                 }
             }
-            int num180 = (int)(npc.position.X / 16f) - 1;
-            int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
-            int num182 = (int)(npc.position.Y / 16f) - 1;
-            int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
-            if (num180 < 0)
-            {
-                num180 = 0;
-            }
-            if (num181 > Main.maxTilesX)
-            {
-                num181 = Main.maxTilesX;
-            }
-            if (num182 < 0)
-            {
-                num182 = 0;
-            }
-            if (num183 > Main.maxTilesY)
-            {
-                num183 = Main.maxTilesY;
-            }
             if (Main.player[npc.target].dead)
             {
                 npc.TargetClosest(false);
             }
-            float num188 = speed;
-            float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -157,109 +132,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 else if (num191 > 0f)
                 {
                     npc.spriteDirection = 1;
-                }
-            }
-            else
-            {
-                num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-                float num196 = System.Math.Abs(num191);
-                float num197 = System.Math.Abs(num192);
-                float num198 = num188 / num193;
-                num191 *= num198;
-                num192 *= num198;
-                if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
-                {
-                    if (npc.velocity.X < num191)
-                    {
-                        npc.velocity.X = npc.velocity.X + num189;
-                    }
-                    else
-                    {
-                        if (npc.velocity.X > num191)
-                        {
-                            npc.velocity.X = npc.velocity.X - num189;
-                        }
-                    }
-                    if (npc.velocity.Y < num192)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num189;
-                    }
-                    else
-                    {
-                        if (npc.velocity.Y > num192)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num189;
-                        }
-                    }
-                    if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
-                    {
-                        if (npc.velocity.Y > 0f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num189 * 2f;
-                        }
-                        else
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num189 * 2f;
-                        }
-                    }
-                    if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
-                    {
-                        if (npc.velocity.X > 0f)
-                        {
-                            npc.velocity.X = npc.velocity.X + num189 * 2f; //changed from 2
-                        }
-                        else
-                        {
-                            npc.velocity.X = npc.velocity.X - num189 * 2f; //changed from 2
-                        }
-                    }
-                }
-                else
-                {
-                    if (num196 > num197)
-                    {
-                        if (npc.velocity.X < num191)
-                        {
-                            npc.velocity.X = npc.velocity.X + num189 * 1.1f; //changed from 1.1
-                        }
-                        else if (npc.velocity.X > num191)
-                        {
-                            npc.velocity.X = npc.velocity.X - num189 * 1.1f; //changed from 1.1
-                        }
-                        if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
-                        {
-                            if (npc.velocity.Y > 0f)
-                            {
-                                npc.velocity.Y = npc.velocity.Y + num189;
-                            }
-                            else
-                            {
-                                npc.velocity.Y = npc.velocity.Y - num189;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (npc.velocity.Y < num192)
-                        {
-                            npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
-                        }
-                        else if (npc.velocity.Y > num192)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
-                        }
-                        if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
-                        {
-                            if (npc.velocity.X > 0f)
-                            {
-                                npc.velocity.X = npc.velocity.X + num189;
-                            }
-                            else
-                            {
-                                npc.velocity.X = npc.velocity.X - num189;
-                            }
-                        }
-                    }
                 }
             }
         }

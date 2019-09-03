@@ -16,7 +16,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		{
 			item.width = 56;
 			item.height = 56;
-			item.damage = 50;
+			item.damage = 60;
 			item.crit += 10;
 			item.noMelee = true;
 			item.noUseGraphic = true;

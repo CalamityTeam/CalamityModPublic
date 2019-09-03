@@ -124,10 +124,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.scale = projectile.Opacity / 2f * projectile.localAI[0];
             projectile.velocity = Vector2.Zero;
-            float[] var_2_2C8BA_cp_0 = projectile.localAI;
-            int var_2_2C8BA_cp_1 = 1;
-            float num73 = var_2_2C8BA_cp_0[var_2_2C8BA_cp_1];
-            var_2_2C8BA_cp_0[var_2_2C8BA_cp_1] = num73 + 1f;
+			projectile.localAI[1] += 1f;
             if (projectile.localAI[1] >= 60f)
             {
                 projectile.Kill();

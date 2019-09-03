@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Impaler");
-			Tooltip.SetDefault("Fires explosive and flaming stakes");
+			Tooltip.SetDefault("Fires explosive and flaming stakes\n" +
+				"Instantly kills vampires and vampire bats");
 		}
 
 	    public override void SetDefaults()
@@ -41,15 +42,15 @@ namespace CalamityMod.Items.Weapons
 
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	        float SpeedX = speedX + (float) Main.rand.Next(-5, 6) * 0.05f;
-	        float SpeedY = speedY + (float) Main.rand.Next(-5, 6) * 0.05f;
+	        float SpeedX = speedX + (float)Main.rand.Next(-2, 3) * 0.05f;
+	        float SpeedY = speedY + (float)Main.rand.Next(-2, 3) * 0.05f;
 	        if (Main.rand.Next(3) == 0)
 	        {
-	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ExplodingStake"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ExplodingStake"), damage, knockBack, player.whoAmI, 0f, 0f);
 	        }
 	        else
 	        {
-	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FlamingStake"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	        	Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FlamingStake"), damage, knockBack, player.whoAmI, 0f, 0f);
 	        }
 	    	return false;
 		}

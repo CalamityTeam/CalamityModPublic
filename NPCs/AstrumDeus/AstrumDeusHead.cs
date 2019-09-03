@@ -47,7 +47,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = 6; //new
 			aiType = -1; //new
-			animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.scale = 1.2f;
 			if (Main.expertMode)
@@ -341,203 +340,179 @@ namespace CalamityMod.NPCs.AstrumDeus
 			num191 -= vector18.X;
 			num192 -= vector18.Y;
 			float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-			if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
+			if (!flag94)
 			{
-				try
+				npc.TargetClosest(true);
+				npc.velocity.Y = npc.velocity.Y + 0.15f;
+				if (npc.velocity.Y > maxSpeed)
 				{
-					vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-					num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
-					num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
+					npc.velocity.Y = maxSpeed;
 				}
-				catch
+				if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)maxSpeed * 0.4)
 				{
+					if (npc.velocity.X < 0f)
+					{
+						npc.velocity.X = npc.velocity.X - num188 * 1.1f;
+					}
+					else
+					{
+						npc.velocity.X = npc.velocity.X + num188 * 1.1f;
+					}
 				}
-				npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
-				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-				int num194 = npc.width;
-				num193 = (num193 - (float)num194) / num193;
-				num191 *= num193;
-				num192 *= num193;
-				npc.velocity = Vector2.Zero;
-				npc.position.X = npc.position.X + num191;
-				npc.position.Y = npc.position.Y + num192;
+				else if (npc.velocity.Y == maxSpeed)
+				{
+					if (npc.velocity.X < num191)
+					{
+						npc.velocity.X = npc.velocity.X + num188;
+					}
+					else if (npc.velocity.X > num191)
+					{
+						npc.velocity.X = npc.velocity.X - num188;
+					}
+				}
+				else if (npc.velocity.Y > 4f)
+				{
+					if (npc.velocity.X < 0f)
+					{
+						npc.velocity.X = npc.velocity.X + num188 * 0.9f;
+					}
+					else
+					{
+						npc.velocity.X = npc.velocity.X - num188 * 0.9f;
+					}
+				}
 			}
 			else
 			{
-				if (!flag94)
+				if (!flies && npc.behindTiles && npc.soundDelay == 0)
 				{
-					npc.TargetClosest(true);
-					npc.velocity.Y = npc.velocity.Y + 0.15f;
-					if (npc.velocity.Y > maxSpeed)
+					float num195 = num193 / 40f;
+					if (num195 < 10f)
 					{
-						npc.velocity.Y = maxSpeed;
+						num195 = 10f;
 					}
-					if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)maxSpeed * 0.4)
+					if (num195 > 20f)
 					{
-						if (npc.velocity.X < 0f)
-						{
-							npc.velocity.X = npc.velocity.X - num188 * 1.1f;
-						}
-						else
-						{
-							npc.velocity.X = npc.velocity.X + num188 * 1.1f;
-						}
+						num195 = 20f;
 					}
-					else if (npc.velocity.Y == maxSpeed)
+					npc.soundDelay = (int)num195;
+					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+				}
+				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
+				float num196 = System.Math.Abs(num191);
+				float num197 = System.Math.Abs(num192);
+				float num198 = maxSpeed / num193;
+				num191 *= num198;
+				num192 *= num198;
+				if (((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f)) && ((npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f)))
+				{
+					if (npc.velocity.X < num191)
 					{
-						if (npc.velocity.X < num191)
-						{
-							npc.velocity.X = npc.velocity.X + num188;
-						}
-						else if (npc.velocity.X > num191)
+						npc.velocity.X = npc.velocity.X + num189;
+					}
+					else if (npc.velocity.X > num191)
+					{
+						npc.velocity.X = npc.velocity.X - num189;
+					}
+					if (npc.velocity.Y < num192)
+					{
+						npc.velocity.Y = npc.velocity.Y + num189;
+					}
+					else if (npc.velocity.Y > num192)
+					{
+						npc.velocity.Y = npc.velocity.Y - num189;
+					}
+				}
+				if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
+				{
+					if (npc.velocity.X < num191)
+					{
+						npc.velocity.X = npc.velocity.X + num188;
+					}
+					else
+					{
+						if (npc.velocity.X > num191)
 						{
 							npc.velocity.X = npc.velocity.X - num188;
 						}
 					}
-					else if (npc.velocity.Y > 4f)
+					if (npc.velocity.Y < num192)
 					{
-						if (npc.velocity.X < 0f)
+						npc.velocity.Y = npc.velocity.Y + num188;
+					}
+					else
+					{
+						if (npc.velocity.Y > num192)
 						{
-							npc.velocity.X = npc.velocity.X + num188 * 0.9f;
+							npc.velocity.Y = npc.velocity.Y - num188;
+						}
+					}
+					if ((double)System.Math.Abs(num192) < (double)maxSpeed * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+					{
+						if (npc.velocity.Y > 0f)
+						{
+							npc.velocity.Y = npc.velocity.Y + num188 * 2f;
 						}
 						else
 						{
-							npc.velocity.X = npc.velocity.X - num188 * 0.9f;
+							npc.velocity.Y = npc.velocity.Y - num188 * 2f;
+						}
+					}
+					if ((double)System.Math.Abs(num191) < (double)maxSpeed * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
+					{
+						if (npc.velocity.X > 0f)
+						{
+							npc.velocity.X = npc.velocity.X + num188 * 2f;
+						}
+						else
+						{
+							npc.velocity.X = npc.velocity.X - num188 * 2f;
 						}
 					}
 				}
 				else
 				{
-					if (!flies && npc.behindTiles && npc.soundDelay == 0)
-					{
-						float num195 = num193 / 40f;
-						if (num195 < 10f)
-						{
-							num195 = 10f;
-						}
-						if (num195 > 20f)
-						{
-							num195 = 20f;
-						}
-						npc.soundDelay = (int)num195;
-						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
-					}
-					num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-					float num196 = System.Math.Abs(num191);
-					float num197 = System.Math.Abs(num192);
-					float num198 = maxSpeed / num193;
-					num191 *= num198;
-					num192 *= num198;
-					if (((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f)) && ((npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f)))
+					if (num196 > num197)
 					{
 						if (npc.velocity.X < num191)
 						{
-							npc.velocity.X = npc.velocity.X + num189;
+							npc.velocity.X = npc.velocity.X + num188 * 1.1f;
 						}
 						else if (npc.velocity.X > num191)
 						{
-							npc.velocity.X = npc.velocity.X - num189;
+							npc.velocity.X = npc.velocity.X - num188 * 1.1f;
 						}
-						if (npc.velocity.Y < num192)
-						{
-							npc.velocity.Y = npc.velocity.Y + num189;
-						}
-						else if (npc.velocity.Y > num192)
-						{
-							npc.velocity.Y = npc.velocity.Y - num189;
-						}
-					}
-					if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
-					{
-						if (npc.velocity.X < num191)
-						{
-							npc.velocity.X = npc.velocity.X + num188;
-						}
-						else
-						{
-							if (npc.velocity.X > num191)
-							{
-								npc.velocity.X = npc.velocity.X - num188;
-							}
-						}
-						if (npc.velocity.Y < num192)
-						{
-							npc.velocity.Y = npc.velocity.Y + num188;
-						}
-						else
-						{
-							if (npc.velocity.Y > num192)
-							{
-								npc.velocity.Y = npc.velocity.Y - num188;
-							}
-						}
-						if ((double)System.Math.Abs(num192) < (double)maxSpeed * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+						if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)maxSpeed * 0.5)
 						{
 							if (npc.velocity.Y > 0f)
 							{
-								npc.velocity.Y = npc.velocity.Y + num188 * 2f;
+								npc.velocity.Y = npc.velocity.Y + num188;
 							}
 							else
 							{
-								npc.velocity.Y = npc.velocity.Y - num188 * 2f;
-							}
-						}
-						if ((double)System.Math.Abs(num191) < (double)maxSpeed * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
-						{
-							if (npc.velocity.X > 0f)
-							{
-								npc.velocity.X = npc.velocity.X + num188 * 2f;
-							}
-							else
-							{
-								npc.velocity.X = npc.velocity.X - num188 * 2f;
+								npc.velocity.Y = npc.velocity.Y - num188;
 							}
 						}
 					}
 					else
 					{
-						if (num196 > num197)
+						if (npc.velocity.Y < num192)
 						{
-							if (npc.velocity.X < num191)
-							{
-								npc.velocity.X = npc.velocity.X + num188 * 1.1f;
-							}
-							else if (npc.velocity.X > num191)
-							{
-								npc.velocity.X = npc.velocity.X - num188 * 1.1f;
-							}
-							if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)maxSpeed * 0.5)
-							{
-								if (npc.velocity.Y > 0f)
-								{
-									npc.velocity.Y = npc.velocity.Y + num188;
-								}
-								else
-								{
-									npc.velocity.Y = npc.velocity.Y - num188;
-								}
-							}
+							npc.velocity.Y = npc.velocity.Y + num188 * 1.1f;
 						}
-						else
+						else if (npc.velocity.Y > num192)
 						{
-							if (npc.velocity.Y < num192)
+							npc.velocity.Y = npc.velocity.Y - num188 * 1.1f;
+						}
+						if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)maxSpeed * 0.5)
+						{
+							if (npc.velocity.X > 0f)
 							{
-								npc.velocity.Y = npc.velocity.Y + num188 * 1.1f;
+								npc.velocity.X = npc.velocity.X + num188;
 							}
-							else if (npc.velocity.Y > num192)
+							else
 							{
-								npc.velocity.Y = npc.velocity.Y - num188 * 1.1f;
-							}
-							if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)maxSpeed * 0.5)
-							{
-								if (npc.velocity.X > 0f)
-								{
-									npc.velocity.X = npc.velocity.X + num188;
-								}
-								else
-								{
-									npc.velocity.X = npc.velocity.X - num188;
-								}
+								npc.velocity.X = npc.velocity.X - num188;
 							}
 						}
 					}
@@ -585,7 +560,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if (projectile.type == mod.ProjectileType("RainbowBoom") || projectile.type == mod.ProjectileType("PlagueBee") || ProjectileID.Sets.StardustDragon[projectile.type])
+			if (projectile.type == mod.ProjectileType("RainbowBoom") || ProjectileID.Sets.StardustDragon[projectile.type])
 			{
 				damage = (int)((double)damage * 0.1);
 			}

@@ -25,7 +25,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             npc.lifeMax = 100000; //192000
             npc.aiStyle = 6; //new
             aiType = -1; //new
-            animationType = 10; //new
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;

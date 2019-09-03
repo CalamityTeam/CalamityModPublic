@@ -22,5 +22,10 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
             projectile.ranged = true;
         }
-    }
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.immune[projectile.owner] = 5;
+		}
+	}
 }

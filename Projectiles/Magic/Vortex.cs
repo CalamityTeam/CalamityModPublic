@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Magic
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Vortex");
-			Main.projFrames[projectile.type] = 3;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -56,7 +55,6 @@ namespace CalamityMod.Projectiles.Magic
 					projectile.alpha = 50;
 				}
 				projectile.rotation += projectile.velocity.X * 0.1f;
-				projectile.frame = (int)(projectile.localAI[1] / 3f) % 3;
 				Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, ((float)Main.DiscoR / 200f), ((float)Main.DiscoG / 200f), ((float)Main.DiscoB / 200f));
 			}
 			int num716 = -1;

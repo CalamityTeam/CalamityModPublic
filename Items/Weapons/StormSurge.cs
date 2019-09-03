@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 3;
 			item.autoReuse = false;
 			item.shoot = mod.ProjectileType("StormSurge");
-			item.shootSpeed = 10f;
+			item.shootSpeed = 12f;
 		}
 
 	    public override void AddRecipes()

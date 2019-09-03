@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         	{
         		projectile.scale *= 1.01f;
         	}
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.25f, 0f, 0.1f);
 			if (projectile.timeLeft > 90)
 			{
 				projectile.timeLeft = 90;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 4;
+        	target.immune[projectile.owner] = 3;
         	target.AddBuff(BuffID.CursedInferno, 300);
         }
     }

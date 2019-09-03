@@ -133,7 +133,6 @@ namespace CalamityMod.NPCs.Providence
 					npc.velocity.Y = num785 * num786;
 					npc.ai[0] = 1f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else
@@ -152,7 +151,6 @@ namespace CalamityMod.NPCs.Providence
 				if (num789 > 700f || npc.justHit)
 				{
 					npc.ai[0] = 0f;
-					return;
 				}
 			}
 		}

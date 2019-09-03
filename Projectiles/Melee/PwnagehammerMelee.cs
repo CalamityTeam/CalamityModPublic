@@ -38,19 +38,5 @@ namespace CalamityMod.Projectiles.Melee
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
 		}
-
-		public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            projectile.ai[0] += 0.1f;
-            if (projectile.velocity.X != oldVelocity.X)
-            {
-                projectile.velocity.X = -oldVelocity.X;
-            }
-            if (projectile.velocity.Y != oldVelocity.Y)
-            {
-                projectile.velocity.Y = -oldVelocity.Y;
-            }
-            return false;
-        }
     }
 }

@@ -496,7 +496,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						}
 					}
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 6 : 9))
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 7 : 9))
 					{
 						bulletHellCounter = 0;
 						if (bulletHellCounter2 < 1200) //blasts from below
@@ -632,7 +632,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						passedVar += 1f;
 					}
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 12 : 15))
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 13 : 15))
 					{
 						bulletHellCounter = 0;
 						if (bulletHellCounter2 < 3000) //blasts from below
@@ -709,7 +709,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -10f * uDieLul, 0f, mod.ProjectileType("BrimstoneWave"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15 : 18))
+					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 16 : 18))
 					{
 						bulletHellCounter = 0;
 						if (bulletHellCounter2 < 3900) //blasts from above

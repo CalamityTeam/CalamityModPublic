@@ -55,8 +55,9 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			target.immune[projectile.owner] = 8;
+			target.immune[projectile.owner] = 6;
 			target.AddBuff(mod.BuffType("BrimstoneFlames"), 180);
+			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimlanceHellfireExplosion"), (int)((double)projectile.damage * 0.5), knockback, Main.myPlayer);
 		}
 	}
 }

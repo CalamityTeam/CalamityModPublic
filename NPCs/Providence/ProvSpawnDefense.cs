@@ -101,33 +101,6 @@ namespace CalamityMod.NPCs.Providence
 					Main.dust[num1012].fadeIn = 1f;
 				}
 			}
-            if (Main.netMode != 1)
-            {
-                npc.localAI[0] += expertMode ? 2f : 1f;
-                if (npc.localAI[0] >= 600f)
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-                    {
-                        Main.PlaySound(SoundID.Item20, npc.position);
-                        Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float spread = 45f * 0.0174f;
-                        double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                        double deltaAngle = spread / 8f;
-                        double offsetAngle;
-                        int damage = expertMode ? 40 : 59;
-                        int projectileShot = mod.ProjectileType("ProfanedSpear");
-                        int i;
-                        for (i = 0; i < 3; i++)
-                        {
-                            offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-                            Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                    }
-                }
-            }
             npc.TargetClosest(true);
             float num1372 = 9f;
             Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
@@ -158,7 +131,6 @@ namespace CalamityMod.NPCs.Providence
                 npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
                 npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
             }
-            return;
 		}
 
         public override bool CheckActive()

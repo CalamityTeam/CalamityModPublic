@@ -33,9 +33,9 @@ namespace CalamityMod.NPCs.Providence
 				{
 					x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.ProvIndex].Center);
 				}
-				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.4f;
+				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.25f;
 			}
-			return 0.7f; //0.5
+			return 0f; //0.5
 		}
 
 		public override Color OnTileColor(Color inColor)
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Providence
 			if (maxDepth >= 0 && minDepth < 0)
 			{
 				float intensity = this.GetIntensity();
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(250, 225, 200) * intensity);
+				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(255, 200, 100) * intensity);
 			}
 		}
 

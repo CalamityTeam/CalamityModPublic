@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.magic = true;
             projectile.tileCollide = false;
-            projectile.penetrate = 5;
+            projectile.penetrate = 6;
             projectile.extraUpdates = 6;
             projectile.timeLeft = 151;
             projectile.usesLocalNPCImmunity = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.6f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.6f, 0.5f, 0f);
         	addDustTimer++;
         	if (addDustTimer >= 30)
         	{
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
 		            for (int i = 0; i < numProj + 1; i++)
 		            {
 		                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-		                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Ancient2"), (int)((double)projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+		                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("Ancient2"), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
 		            }
 	            }
 	            addDustTimer = 0;

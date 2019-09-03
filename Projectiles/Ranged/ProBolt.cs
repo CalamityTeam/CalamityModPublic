@@ -66,5 +66,10 @@ namespace CalamityMod.Projectiles.Ranged
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 160, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f); //206 160 226
             }
         }
-    }
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.immune[projectile.owner] = 7;
+		}
+	}
 }

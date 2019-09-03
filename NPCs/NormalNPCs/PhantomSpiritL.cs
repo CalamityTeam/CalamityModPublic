@@ -66,13 +66,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             float num147 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector17.X;
             float num148 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector17.Y;
             float num149 = (float)Math.Sqrt((double)(num147 * num147 + num148 * num148));
-            num149 = 4f / num149;
-            num147 *= num149;
-            num148 *= num149;
-            vector17 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            num147 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector17.X;
-            num148 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector17.Y;
-            num149 = (float)Math.Sqrt((double)(num147 * num147 + num148 * num148));
             if (num149 > 800f)
             {
                 npc.ai[2] = 0f;

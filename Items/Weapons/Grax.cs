@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Weapons
 			item.width = 60;
 			item.damage = 450;
 			item.melee = true;
-			item.useAnimation = 25;
+			item.useAnimation = 20;
 			item.useStyle = 1;
-			item.useTime = 5;
+			item.useTime = 4;
 			item.useTurn = true;
 			item.axe = 50;
 			item.hammer = 200;
@@ -27,6 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
 			item.height = 60;
+            item.tileBoost += 5;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;

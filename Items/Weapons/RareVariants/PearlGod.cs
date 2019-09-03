@@ -44,9 +44,9 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			for (int index = 0; index < 2; ++index)
 			{
 				float speedMult = (float)(index + 1) * 0.15f;
-				Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, mod.ProjectileType("FrostsparkBullet"), (int)((double)damage * 0.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+				Projectile.NewProjectile(position.X, position.Y, speedX * speedMult, speedY * speedMult, mod.ProjectileType("FrostsparkBullet"), (int)((double)damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
 			}
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ShockblastRound"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ShockblastRound"), damage, knockBack, player.whoAmI, 0f, 0f);
 	    	return false;
 		}
 	}

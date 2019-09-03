@@ -84,7 +84,6 @@ namespace CalamityMod.NPCs
 						}
 
 						// Fire astral lasers while falling or walking
-
 						else if ((npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode) || npc.ai[0] == 2f)
 						{
 							float num179 = 18.5f;
@@ -118,7 +117,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Start up
-
 			if (npc.ai[0] == 0f)
 			{
 				// If hit or after two seconds start Idle phase
@@ -133,7 +131,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Idle
-
 			else if (npc.ai[0] == 1f)
 			{
 				// Decrease defense
@@ -162,7 +159,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Walk
-
 			else if (npc.ai[0] == 2f)
 			{
 				// Set walking speed
@@ -245,7 +241,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Jump
-
 			else if (npc.ai[0] == 3f)
 			{
 				npc.noTileCollide = false;
@@ -271,7 +266,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Stomp
-
 			else if (npc.ai[0] == 4f)
 			{
 				if (npc.velocity.Y == 0f)
@@ -334,7 +328,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Teleport
-
 			else if (npc.ai[0] == 5f)
 			{
 				// Slow down
@@ -390,7 +383,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Mid-teleport
-
 			else if (npc.ai[0] == 6f)
 			{
 				// Become immune
@@ -430,7 +422,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// End of teleport
-
 			else if (npc.ai[0] == 7f)
 			{
 				// Turn visible

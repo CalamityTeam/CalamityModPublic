@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles
 		public bool forceMagic = false;
 		public bool forceRogue = false;
 		public bool forceMinion = false;
+		public bool forceHostile = false;
 
 		//Damage Adjusters
 		private bool setDamageValues = true;
@@ -78,6 +79,57 @@ namespace CalamityMod.Projectiles
 				default:
 					break;
 			}
+		}
+		#endregion
+
+		#region PreAI
+		public override bool PreAI(Projectile projectile)
+		{
+			if (CalamityWorld.revenge)
+			{
+				if (projectile.type == ProjectileID.PoisonSeedPlantera)
+				{
+					projectile.frameCounter++;
+					if (projectile.frameCounter > 1)
+					{
+						projectile.frameCounter = 0;
+						projectile.frame++;
+
+						if (projectile.frame > 1)
+							projectile.frame = 0;
+					}
+
+					if (projectile.ai[1] == 0f)
+					{
+						projectile.ai[1] = 1f;
+						Main.PlaySound(SoundID.Item17, projectile.position);
+					}
+
+					if (projectile.alpha > 0)
+						projectile.alpha -= 30;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					projectile.ai[0] += 1f;
+					if (projectile.ai[0] >= 35f)
+					{
+						projectile.ai[0] = 35f;
+						projectile.velocity.Y = projectile.velocity.Y + 0.01f;
+					}
+
+					projectile.tileCollide = false;
+
+					if (projectile.timeLeft > 180)
+						projectile.timeLeft = 180;
+
+					projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+					if (projectile.velocity.Y > 16f)
+						projectile.velocity.Y = 16f;
+					return false;
+				}
+			}
+			return true;
 		}
 		#endregion
 
@@ -175,6 +227,16 @@ namespace CalamityMod.Projectiles
 				projectile.ranged = false;
 				projectile.magic = false;
 				projectile.minion = true;
+				rogue = false;
+			}
+			else if (forceHostile)
+			{
+				projectile.hostile = true;
+				projectile.friendly = false;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = false;
+				projectile.minion = false;
 				rogue = false;
 			}
 
@@ -537,7 +599,9 @@ namespace CalamityMod.Projectiles
 							{
 								newDamage = 40;
 							}
-							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), newDamage, 0f, projectile.owner, 0f, 0f);
+							int proj = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), newDamage, 0f, projectile.owner, 0f, 0f);
+							Main.projectile[proj].usesLocalNPCImmunity = true;
+							Main.projectile[proj].localNPCHitCooldown = 30;
 						}
 					}
 					else if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).ataxiaMage &&

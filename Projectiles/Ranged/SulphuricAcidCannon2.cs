@@ -64,10 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[0] == 0f)
             {
-                float[] var_2_2CA48_cp_0 = projectile.ai;
-                int var_2_2CA48_cp_1 = 1;
-                float num73 = var_2_2CA48_cp_0[var_2_2CA48_cp_1];
-                var_2_2CA48_cp_0[var_2_2CA48_cp_1] = num73 + 1f;
+				projectile.ai[1] += 1f;
                 if (projectile.ai[1] >= 6f)
                 {
                     int num982 = 20;

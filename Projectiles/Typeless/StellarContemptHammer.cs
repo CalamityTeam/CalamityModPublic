@@ -181,13 +181,13 @@ namespace CalamityMod.Projectiles.Typeless
                 float AI1 = (float)Main.rand.Next(3);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int idx = Projectile.NewProjectile(startPoint, velocity, 645, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
-                    CalamityGlobalProjectile cgp = Main.projectile[idx].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
+                    int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
+                    CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
                     if (projectile.melee)
                         cgp.forceMelee = true;
                     else
                         cgp.forceRogue = true;
-				}
+                }
             }
         }
     }

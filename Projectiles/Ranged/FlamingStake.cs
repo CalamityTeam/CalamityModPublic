@@ -54,5 +54,11 @@ namespace CalamityMod.Projectiles.Ranged
         	target.immune[projectile.owner] = 5;
         	target.AddBuff(BuffID.OnFire, 300);
         }
-    }
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
+				damage = target.lifeMax * 3;
+		}
+	}
 }

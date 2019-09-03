@@ -14,7 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 14;
-            item.damage = 25;
+            item.damage = 28;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = 1000;
             item.rare = 4;
             item.shoot = mod.ProjectileType("GelDartProjectile");
-            item.shootSpeed = 12f;
+            item.shootSpeed = 14f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 

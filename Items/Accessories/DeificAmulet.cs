@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			DisplayName.SetDefault("Deific Amulet");
 			Tooltip.SetDefault("Taking damage makes you move very fast for a short time\n" +
-							   "Increases armor penetration by 25 and immune time after being struck\n" +
+							   "Increases armor penetration by 10 and immune time after being struck\n" +
 							   "Provides light underwater and causes stars to fall when damaged\n" +
 							   "Reduces the cooldown of healing potions");
 		}

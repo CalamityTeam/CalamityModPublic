@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 
         public override void SetDefaults()
         {
-            item.width = 60;
+            item.width = 62;
             item.damage = 36;
             item.melee = true;
             item.useAnimation = 30;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             item.knockBack = 5.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 60;
+            item.height = 62;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.shoot = mod.ProjectileType("GelWave");

@@ -42,7 +42,12 @@ namespace CalamityMod.Items.Patreon
 			return new Vector2(-15, 10);
 		}
 
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool CanUseItem(Player player)
+		{
+			return CalamityGlobalItem.HasEnoughAmmo(player, item, 5);
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			for (int i = 0; i < 5; i++)
 	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0f, 0f);

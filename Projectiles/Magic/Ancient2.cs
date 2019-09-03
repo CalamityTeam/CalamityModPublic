@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.magic = true;
-            projectile.penetrate = 3;
+            projectile.penetrate = 4;
             projectile.extraUpdates = 12;
             projectile.timeLeft = 30;
             projectile.usesLocalNPCImmunity = true;
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.6f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.3f, 0.25f, 0f);
 			if (projectile.timeLeft > 30)
 			{
 				projectile.timeLeft = 30;

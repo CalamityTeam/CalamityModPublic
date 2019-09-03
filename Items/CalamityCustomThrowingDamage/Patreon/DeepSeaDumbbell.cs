@@ -74,7 +74,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 		{
 			if (player.altFunctionUse == 2)
 				return false;
-			return true;
+
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage), knockBack, player.whoAmI, 0f, 0f);
+			return false;
 		}
 	}
 }

@@ -19,18 +19,16 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = -1;
             projectile.extraUpdates = 3;
-            projectile.timeLeft = 45;
-        }
+            projectile.timeLeft = 90;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 9;
+		}
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.45f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
-			if (projectile.timeLeft > 45)
-			{
-				projectile.timeLeft = 45;
-			}
+        	Lighting.AddLight(projectile.Center, 0.15f, 0.45f, 0f);
 			if (projectile.ai[0] > 7f)
 			{
 				float num296 = 1f;
@@ -85,8 +83,12 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.CursedInferno, 300);
-        	target.AddBuff(mod.BuffType("Plague"), 120);
-        }
+			target.AddBuff(mod.BuffType("Plague"), 120);
+			target.AddBuff(BuffID.CursedInferno, 300);
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.AddBuff(BuffID.OnFire, 300);
+			target.AddBuff(mod.BuffType("GlacialState"), 120);
+			target.AddBuff(BuffID.Frostburn, 300);
+		}
     }
 }

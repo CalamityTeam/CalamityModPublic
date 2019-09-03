@@ -155,13 +155,13 @@ namespace CalamityMod.Projectiles.Typeless
             Vector2 pos = projectile.Center + directOffset + velocityOffset;
             if (projectile.owner == Main.myPlayer)
             {
-                int idx = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
-                CalamityGlobalProjectile cgp = Main.projectile[idx].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
+                int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
+                CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
                 if (projectile.melee)
                     cgp.forceMelee = true;
                 else
                     cgp.forceRogue = true;
-			}
+            }
         }
     }
 }

@@ -25,23 +25,23 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
         	if (projectile.wet && !projectile.lavaWet)
         	{
         		projectile.Kill();
         		if (projectile.owner == Main.myPlayer)
         		{
-	        		int num251 = Main.rand.Next(2, 3);
+	        		int num251 = Main.rand.Next(3, 5);
 					for (int num252 = 0; num252 < num251; num252++)
 					{
-						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						while (value15.X == 0f && value15.Y == 0f)
+						Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, -51));
+						while (value15.X == 0f)
 						{
-							value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+							value15.X = (float)Main.rand.Next(-100, 101);
 						}
 						value15.Normalize();
 						value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-						Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("BrimstoneHomer"), (int)((double)projectile.damage * 0.85), 0f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("BrimstoneHomer"), (int)((double)projectile.damage * 1.35), 0f, projectile.owner, 0f, 0f);
 					}
         		}
         	}
@@ -88,7 +88,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+			target.immune[projectile.owner] = 8;
+			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
         }
     }
 }

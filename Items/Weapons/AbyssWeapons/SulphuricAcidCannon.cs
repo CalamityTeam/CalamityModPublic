@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.rare = 10;
             item.UseSound = SoundID.Item95;
 	        item.shoot = mod.ProjectileType("SulphuricAcidCannon2");
-	        item.shootSpeed = 7f;
+	        item.shootSpeed = 16f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
 

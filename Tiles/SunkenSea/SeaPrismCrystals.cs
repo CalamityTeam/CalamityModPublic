@@ -47,14 +47,12 @@ namespace CalamityMod.Tiles.SunkenSea
 
 		public override bool CanPlace(int i, int j)
 		{
-			if (Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick())
+			if ((Main.tile[i, j + 1].slope() == 0 && !Main.tile[i, j + 1].halfBrick() && Main.tile[i, j + 1].active()) ||
+				(Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].halfBrick() && Main.tile[i, j - 1].active()) ||
+				(Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].halfBrick() && Main.tile[i + 1, j].active()) ||
+				(Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].halfBrick() && Main.tile[i - 1, j].active()))
 				return true;
-			if (Main.tile[i, j - 1].slope() == 0 && !Main.tile[i, j - 1].halfBrick())
-				return true;
-			if (Main.tile[i + 1, j].slope() == 0 && !Main.tile[i + 1, j].halfBrick())
-				return true;
-			if (Main.tile[i - 1, j].slope() == 0 && !Main.tile[i - 1, j].halfBrick())
-				return true;
+
 			return false;
 		}
 

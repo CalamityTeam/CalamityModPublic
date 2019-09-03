@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.width = 150;
 			npc.height = 92;
 			npc.scale = 1.1f;
-			npc.defense = 25;
+			npc.defense = 20;
             npc.lifeMax = CalamityWorld.revenge ? 4813 : 3500;
             if (CalamityWorld.death)
             {
@@ -94,7 +94,11 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             if (!flag100)
 			{
-				npc.defense = revenge ? 45 : 30;
+				npc.defense = revenge ? 30 : 25;
+			}
+			else
+			{
+				npc.defense = 20;
 			}
             if (Main.netMode != 1)
             {

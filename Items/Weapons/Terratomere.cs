@@ -51,21 +51,23 @@ namespace CalamityMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "XerocsGreatsword");
+			recipe.AddIngredient(null, "XerocsGreatsword");
             recipe.AddIngredient(null, "Floodtide");
             recipe.AddIngredient(null, "Hellkite");
             recipe.AddIngredient(null, "TemporalFloeSword");
             recipe.AddIngredient(ItemID.TerraBlade);
-            recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.AddIngredient(null, "AstralBar", 5);
+			recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "XerocsGreatsword");
+			recipe.AddIngredient(null, "XerocsGreatsword");
             recipe.AddIngredient(null, "Floodtide");
             recipe.AddIngredient(null, "Hellkite");
             recipe.AddIngredient(null, "TemporalFloeSword");
             recipe.AddIngredient(null, "TerraEdge");
-            recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.AddIngredient(null, "AstralBar", 5);
+			recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

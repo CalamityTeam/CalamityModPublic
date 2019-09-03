@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 
         public override void SetDefaults()
         {
-            item.damage = 36;
+            item.damage = 48;
             item.magic = true;
             item.mana = 7;
             item.width = 28;

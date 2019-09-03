@@ -46,26 +46,17 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft > 815)
 			{
 				if (projectile.ai[0] == 0f)
-				{
 					projectile.velocity.X = 1f;
-				}
 				else
-				{
 					projectile.velocity.X = -1f;
-				}
 			}
 			else
 			{
 				if (projectile.ai[0] == 0f)
-				{
 					projectile.velocity.X = 15f;
-				}
 				else
-				{
 					projectile.velocity.X = -15f;
-				}
 			}
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 1.5f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
 			projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
 			if (projectile.localAI[0] == 0f && projectile.timeLeft < 815)
 			{
@@ -85,9 +76,9 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			if (projectile.timeLeft > 815)
+			if (projectile.timeLeft > 883)
 			{
-				projectile.localAI[1] += 1f;
+				projectile.localAI[1] += 5f;
 				byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
 				byte a2 = (byte)(100f * ((float)b2 / 255f));
 				return new Color((int)b2, (int)b2, (int)b2, (int)a2);

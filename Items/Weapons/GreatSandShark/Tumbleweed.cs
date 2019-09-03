@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 110;
+	        item.damage = 125;
 	        item.melee = true;
 	        item.width = 30;
 	        item.height = 10;

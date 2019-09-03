@@ -322,14 +322,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
 			}
-			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+			if (CalamityWorld.downedCalamitas || NPC.downedPlantBoss)
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(3, 6));
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(8, 11));
 				if (Main.expertMode && Main.rand.Next(2) == 0)
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(2, 5));
 				}
+			}
+			if (NPC.downedPlantBoss)
+			{
+				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(3, 6));
 			}
 		}
 	}

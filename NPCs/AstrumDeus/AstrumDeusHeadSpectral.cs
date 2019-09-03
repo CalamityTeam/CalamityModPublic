@@ -13,7 +13,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 	public class AstrumDeusHeadSpectral : ModNPC
 	{
 		private bool colorChange = false;
-		private bool flies = true;
 		private const int minLength = 12;
 		private const int maxLength = 13;
 		private float speed = 10f;
@@ -130,12 +129,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.dontTakeDamage = colorChange;
 			npc.chaseable = !colorChange;
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			float speedLimit = CalamityWorld.revenge ? 9f : 7f;
-			float turnSpeedLimit = CalamityWorld.revenge ? 0.14f : 0.12f;
+			float speedLimit = CalamityWorld.revenge ? 7f : 6f;
+			float turnSpeedLimit = CalamityWorld.revenge ? 0.11f : 0.1f;
 			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
-				speedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15f : 12f);
-				turnSpeedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 0.2f : 0.16f);
+				speedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15f : 8f);
+				turnSpeedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 0.2f : 0.12f);
 			}
 			float speedBoost = speedLimit * (1f - (float)mainDeusHPRatio);
 			float turnSpeedBoost = turnSpeedLimit * (1f - (float)mainDeusHPRatio);
@@ -198,11 +197,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 					tailSpawned = true;
 				}
 			}
-			bool canFly = flies;
 			if (Main.player[npc.target].dead || Main.dayTime)
 			{
 				npc.TargetClosest(false);
-				canFly = true;
 				npc.velocity.Y = npc.velocity.Y - 3f;
 				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
@@ -218,26 +215,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 						}
 					}
 				}
-			}
-			int num180 = (int)(npc.position.X / 16f) - 1;
-			int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
-			int num182 = (int)(npc.position.Y / 16f) - 1;
-			int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
-			if (num180 < 0)
-			{
-				num180 = 0;
-			}
-			if (num181 > Main.maxTilesX)
-			{
-				num181 = Main.maxTilesX;
-			}
-			if (num182 < 0)
-			{
-				num182 = 0;
-			}
-			if (num183 > Main.maxTilesY)
-			{
-				num183 = Main.maxTilesY;
 			}
 			if (npc.velocity.X < 0f)
 			{
@@ -311,134 +288,101 @@ namespace CalamityMod.NPCs.AstrumDeus
 			num191 -= vector18.X;
 			num192 -= vector18.Y;
 			float num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-			if (npc.ai[1] > 0f && npc.ai[1] < (float)Main.npc.Length)
+			float num196 = System.Math.Abs(num191);
+			float num197 = System.Math.Abs(num192);
+			float num198 = num188 / num193;
+			num191 *= num198;
+			num192 *= num198;
+			if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
 			{
-				try
+				if (npc.velocity.X < num191)
 				{
-					vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-					num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
-					num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
+					npc.velocity.X = npc.velocity.X + num189;
 				}
-				catch
+				else
 				{
+					if (npc.velocity.X > num191)
+					{
+						npc.velocity.X = npc.velocity.X - num189;
+					}
 				}
-				npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
-				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-				int num194 = npc.width;
-				num193 = (num193 - (float)num194) / num193;
-				num191 *= num193;
-				num192 *= num193;
-				npc.velocity = Vector2.Zero;
-				npc.position.X = npc.position.X + num191;
-				npc.position.Y = npc.position.Y + num192;
-				if (num191 < 0f)
+				if (npc.velocity.Y < num192)
 				{
-					npc.spriteDirection = -1;
+					npc.velocity.Y = npc.velocity.Y + num189;
 				}
-				else if (num191 > 0f)
+				else
 				{
-					npc.spriteDirection = 1;
+					if (npc.velocity.Y > num192)
+					{
+						npc.velocity.Y = npc.velocity.Y - num189;
+					}
+				}
+				if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+				{
+					if (npc.velocity.Y > 0f)
+					{
+						npc.velocity.Y = npc.velocity.Y + num189 * 2f;
+					}
+					else
+					{
+						npc.velocity.Y = npc.velocity.Y - num189 * 2f;
+					}
+				}
+				if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
+				{
+					if (npc.velocity.X > 0f)
+					{
+						npc.velocity.X = npc.velocity.X + num189 * 2f; //changed from 2
+					}
+					else
+					{
+						npc.velocity.X = npc.velocity.X - num189 * 2f; //changed from 2
+					}
 				}
 			}
 			else
 			{
-				num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
-				float num196 = System.Math.Abs(num191);
-				float num197 = System.Math.Abs(num192);
-				float num198 = num188 / num193;
-				num191 *= num198;
-				num192 *= num198;
-				if ((npc.velocity.X > 0f && num191 > 0f) || (npc.velocity.X < 0f && num191 < 0f) || (npc.velocity.Y > 0f && num192 > 0f) || (npc.velocity.Y < 0f && num192 < 0f))
+				if (num196 > num197)
 				{
 					if (npc.velocity.X < num191)
 					{
-						npc.velocity.X = npc.velocity.X + num189;
+						npc.velocity.X = npc.velocity.X + num189 * 1.1f; //changed from 1.1
 					}
-					else
+					else if (npc.velocity.X > num191)
 					{
-						if (npc.velocity.X > num191)
-						{
-							npc.velocity.X = npc.velocity.X - num189;
-						}
+						npc.velocity.X = npc.velocity.X - num189 * 1.1f; //changed from 1.1
 					}
-					if (npc.velocity.Y < num192)
-					{
-						npc.velocity.Y = npc.velocity.Y + num189;
-					}
-					else
-					{
-						if (npc.velocity.Y > num192)
-						{
-							npc.velocity.Y = npc.velocity.Y - num189;
-						}
-					}
-					if ((double)System.Math.Abs(num192) < (double)num188 * 0.2 && ((npc.velocity.X > 0f && num191 < 0f) || (npc.velocity.X < 0f && num191 > 0f)))
+					if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
 					{
 						if (npc.velocity.Y > 0f)
 						{
-							npc.velocity.Y = npc.velocity.Y + num189 * 2f;
+							npc.velocity.Y = npc.velocity.Y + num189;
 						}
 						else
 						{
-							npc.velocity.Y = npc.velocity.Y - num189 * 2f;
-						}
-					}
-					if ((double)System.Math.Abs(num191) < (double)num188 * 0.2 && ((npc.velocity.Y > 0f && num192 < 0f) || (npc.velocity.Y < 0f && num192 > 0f)))
-					{
-						if (npc.velocity.X > 0f)
-						{
-							npc.velocity.X = npc.velocity.X + num189 * 2f; //changed from 2
-						}
-						else
-						{
-							npc.velocity.X = npc.velocity.X - num189 * 2f; //changed from 2
+							npc.velocity.Y = npc.velocity.Y - num189;
 						}
 					}
 				}
 				else
 				{
-					if (num196 > num197)
+					if (npc.velocity.Y < num192)
 					{
-						if (npc.velocity.X < num191)
-						{
-							npc.velocity.X = npc.velocity.X + num189 * 1.1f; //changed from 1.1
-						}
-						else if (npc.velocity.X > num191)
-						{
-							npc.velocity.X = npc.velocity.X - num189 * 1.1f; //changed from 1.1
-						}
-						if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
-						{
-							if (npc.velocity.Y > 0f)
-							{
-								npc.velocity.Y = npc.velocity.Y + num189;
-							}
-							else
-							{
-								npc.velocity.Y = npc.velocity.Y - num189;
-							}
-						}
+						npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
 					}
-					else
+					else if (npc.velocity.Y > num192)
 					{
-						if (npc.velocity.Y < num192)
+						npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
+					}
+					if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
+					{
+						if (npc.velocity.X > 0f)
 						{
-							npc.velocity.Y = npc.velocity.Y + num189 * 1.1f;
+							npc.velocity.X = npc.velocity.X + num189;
 						}
-						else if (npc.velocity.Y > num192)
+						else
 						{
-							npc.velocity.Y = npc.velocity.Y - num189 * 1.1f;
-						}
-						if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
-						{
-							if (npc.velocity.X > 0f)
-							{
-								npc.velocity.X = npc.velocity.X + num189;
-							}
-							else
-							{
-								npc.velocity.X = npc.velocity.X - num189;
-							}
+							npc.velocity.X = npc.velocity.X - num189;
 						}
 					}
 				}
@@ -505,7 +449,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if (projectile.type == mod.ProjectileType("RainbowBoom") || projectile.type == mod.ProjectileType("PlagueBee") || ProjectileID.Sets.StardustDragon[projectile.type])
+			if (projectile.type == mod.ProjectileType("RainbowBoom") || ProjectileID.Sets.StardustDragon[projectile.type])
 			{
 				damage = (int)((double)damage * 0.1);
 			}

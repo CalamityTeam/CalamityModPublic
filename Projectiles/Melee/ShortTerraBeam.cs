@@ -41,7 +41,12 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-        public override void Kill(int timeLeft)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.immune[projectile.owner] = 7;
+		}
+
+		public override void Kill(int timeLeft)
         {
 			Main.PlaySound(SoundID.Item10, projectile.position);
 			int num3;

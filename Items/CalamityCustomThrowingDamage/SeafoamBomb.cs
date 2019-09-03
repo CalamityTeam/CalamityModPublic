@@ -16,12 +16,12 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		{
 			item.width = 26;
 			item.height = 44;
-			item.damage = 18;
+			item.damage = 16;
 			item.noMelee = true;
 			item.noUseGraphic = true;
-			item.useAnimation = 18;
+			item.useAnimation = 22;
 			item.useStyle = 1;
-			item.useTime = 18;
+			item.useTime = 22;
 			item.knockBack = 8f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;

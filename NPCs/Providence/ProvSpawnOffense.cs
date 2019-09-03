@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Providence
 		public override void AI()
 		{
 			CalamityGlobalNPC.holyBossAttacker = npc.whoAmI;
-			bool fireDust = (double)npc.life <= (double)npc.lifeMax * 0.25;
+			bool fireDust = (double)npc.life <= (double)npc.lifeMax * 0.5;
 			bool expertMode = Main.expertMode;
 			Vector2 vectorCenter = npc.Center;
 			Player player = Main.player[npc.target];
@@ -110,33 +110,6 @@ namespace CalamityMod.NPCs.Providence
 					Main.dust[num1012].noGravity = true;
 					Main.dust[num1012].velocity *= 0.2f;
 					Main.dust[num1012].fadeIn = 1f;
-				}
-			}
-			if (Main.netMode != 1)
-			{
-				npc.localAI[0] += expertMode ? 2f : 1f;
-				if (npc.localAI[0] >= 600f)
-				{
-					npc.localAI[0] = 0f;
-					npc.TargetClosest(true);
-					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-					{
-						Main.PlaySound(SoundID.Item20, npc.position);
-						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-						float spread = 45f * 0.0174f;
-				    	double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-				    	double deltaAngle = spread / 8f;
-				    	double offsetAngle;
-				    	int damage = expertMode ? 40 : 59;
-				    	int projectileShot = mod.ProjectileType("ProfanedSpear");
-				    	int i;
-				    	for (i = 0; i < 8; i++)
-				    	{
-				   			offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-				        	Projectile.NewProjectile(value9.X, value9.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-				        	Projectile.NewProjectile(value9.X, value9.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-				    	}
-					}
 				}
 			}
 			npc.damage = expertMode ? 200 : 100;

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.damage = 79;
+            item.damage = 92;
             item.magic = true;
             item.mana = 8;
             item.width = 28;

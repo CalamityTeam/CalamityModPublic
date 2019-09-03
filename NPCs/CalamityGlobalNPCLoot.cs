@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs
 
 			if (CalamityWorld.revenge)
 			{
-				if (npc.type == NPCID.Probe)
+				if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu)
 					return false;
 			}
 
@@ -108,6 +108,11 @@ namespace CalamityMod.NPCs
 					else if (Main.netMode == 2)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
 				}
+
+                //
+                // MOVE THIS TO THE MODIFYHARDMODE WORLDGEN TASK. ASTRAL BIOME TAKES LONG ENOUGH
+                // THAT IT WILL CRASH THE MAIN SERVER THREAD IF RUN ON WEAK COMPUTERS!
+                //
 
 				// Drop astral meteors
 				if (WorldGenerationMethods.checkAstralMeteor())
@@ -1038,7 +1043,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if ((NPC.downedPlantBoss || CalamityWorld.downedCalamitas) && npc.type == NPCID.SandShark && !NPC.AnyNPCs(mod.NPCType("GreatSandShark")))
+			if (NPC.downedPlantBoss && npc.type == NPCID.SandShark && !NPC.AnyNPCs(mod.NPCType("GreatSandShark")))
 			{
 				CalamityMod.sharkKillCount++;
 				if (CalamityMod.sharkKillCount == 4)
@@ -1226,7 +1231,7 @@ namespace CalamityMod.NPCs
 					DropHelper.DropItemCondition(npc, mod.ItemType("SpearofDestiny"), spearOfDestiny, spearDropRate, 1, 1);
 					break;
 				case NPCID.Harpy:
-					int glazeDropRate = defiled ? 20 : expert ? 30 : 40;
+					int glazeDropRate = defiled ? 20 : expert ? 60 : 80;
 					DropHelper.DropItemCondition(npc, mod.ItemType("SkyGlaze"), NPC.downedBoss1, glazeDropRate, 1, 1);
 					break;
 				case NPCID.Antlion:
@@ -1335,8 +1340,8 @@ namespace CalamityMod.NPCs
 					DropHelper.DropItem(npc, mod.ItemType("EssenceofEleum"), 1, 2);
 					break;
 				case NPCID.Plantera:
-					DropHelper.DropItemCondition(npc, mod.ItemType("LivingShard"), !expert, 6, 9);
-					break;
+                    DropHelper.DropItemCondition(npc, mod.ItemType("LivingShard"), !expert, 6, 9);
+                    break;
 				case NPCID.NebulaBrain:
 				case NPCID.NebulaSoldier:
 				case NPCID.NebulaHeadcrab:

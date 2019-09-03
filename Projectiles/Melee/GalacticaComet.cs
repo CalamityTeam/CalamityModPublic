@@ -132,7 +132,11 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
-            projectile.Damage();
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

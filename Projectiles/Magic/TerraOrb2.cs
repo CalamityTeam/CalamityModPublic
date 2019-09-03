@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
 				float num435 = Main.npc[num434].position.X + (float)(Main.npc[num434].width / 2);
 				float num436 = Main.npc[num434].position.Y + (float)(Main.npc[num434].height / 2);
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] > 24f)
+				if (projectile.localAI[0] > 18f)
 				{
 					projectile.localAI[0] = 0f;
 					float num437 = 6f;
@@ -81,9 +81,13 @@ namespace CalamityMod.Projectiles.Magic
 					{
 						Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("TerraBolt2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					}
-					return;
 				}
 			}
         }
-    }
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.immune[projectile.owner] = 8;
+		}
+	}
 }

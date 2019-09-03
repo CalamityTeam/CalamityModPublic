@@ -760,18 +760,18 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.SkeletronPrime)
 			{
 				if (CalamityWorld.death)
-					npc.lifeMax = (int)((double)npc.lifeMax * 2.9);
+					npc.lifeMax = (int)((double)npc.lifeMax * 3.2);
 				else
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.6);
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.9);
 
 				npc.npcSlots = 12f;
 			}
 			else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
 			{
 				if (CalamityWorld.death)
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.45);
-				else
 					npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
+				else
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.05);
 			}
 			else if (npc.type == NPCID.Retinazer)
 			{
@@ -873,22 +873,12 @@ namespace CalamityMod.NPCs
 				if (npc.type == NPCID.WallofFlesh)
 					npc.npcSlots = 20f;
 			}
-			else if (npc.type == NPCID.TheHungryII)
+			else if (npc.type == NPCID.TheHungryII || npc.type == NPCID.LeechHead || npc.type == NPCID.LeechBody || npc.type == NPCID.LeechTail)
 			{
 				if (CalamityWorld.death)
-				{
-					npc.noTileCollide = true;
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.5);
-				}
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
 				else
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.25);
-			}
-			else if (npc.type == NPCID.LeechHead || npc.type == NPCID.LeechBody || npc.type == NPCID.LeechTail)
-			{
-				if (CalamityWorld.death)
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.5);
-				else
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.25);
+					npc.lifeMax = (int)((double)npc.lifeMax * 1.05);
 			}
 			else if (npc.type == NPCID.SkeletronHead)
 			{
@@ -902,9 +892,9 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.SkeletronHand)
 			{
 				if (CalamityWorld.death)
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
+					npc.lifeMax = (int)((double)npc.lifeMax * 0.9);
 				else
-					npc.lifeMax = (int)((double)npc.lifeMax * 1.3);
+					npc.lifeMax = (int)((double)npc.lifeMax * 0.75);
 			}
 			else if (npc.type == NPCID.QueenBee)
 			{
@@ -934,12 +924,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
 			{
 				if (npc.type == NPCID.EaterofWorldsHead)
-				{
 					npc.npcSlots = 10f;
-
-					if (CalamityWorld.death)
-						npc.reflectingProjectiles = true;
-				}
 
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)((double)npc.lifeMax * 1.4);
@@ -988,16 +973,16 @@ namespace CalamityMod.NPCs
 				else if (npc.type == NPCID.SkeletronPrime)
 				{
 					if (CalamityWorld.death)
-						npc.lifeMax = (int)((double)npc.lifeMax * 1.5);
+						npc.lifeMax = (int)((double)npc.lifeMax * 1.65);
 					else
-						npc.lifeMax = (int)((double)npc.lifeMax * 1.15);
+						npc.lifeMax = (int)((double)npc.lifeMax * 1.3);
 
 					npc.npcSlots = 12f;
 				}
 				else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
 				{
-					if (CalamityWorld.death)
-						npc.lifeMax = (int)((double)npc.lifeMax * 1.1);
+					if (!CalamityWorld.death)
+						npc.lifeMax = (int)((double)npc.lifeMax * 0.9);
 				}
 				else if (npc.type == NPCID.Retinazer)
 				{
@@ -1527,7 +1512,7 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		#region Can Be Hit By
+		/*#region Can Be Hit By
 		public override bool? CanBeHitByItem(NPC npc, Player player, Item item)
 		{
 			if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
@@ -1543,7 +1528,7 @@ namespace CalamityMod.NPCs
 
 			return null;
 		}
-		#endregion
+		#endregion*/
 
 		#region Can Hit Player
 		public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
@@ -1579,8 +1564,7 @@ namespace CalamityMod.NPCs
 		#region Strike NPC
 		public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-			if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail ||
-				npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+			if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
 			{
 				if (newAI[1] < 480f || newAI[2] > 0f)
 					damage *= 0.01;
@@ -1588,7 +1572,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == mod.NPCType("SCalWormBody") || npc.type == mod.NPCType("SCalWormHead") || npc.type == mod.NPCType("SCalWormBodyWeak") || npc.type == mod.NPCType("SCalWormTail") || npc.type == mod.NPCType("EidolonWyrmHeadHuge"))
 				damage *= 0.000001;
 
-			double yellowCandleDamageBoost = damage * 0.05; //get value before DR
+			double yellowCandleDamageBoost = damage * 0.05; // Get value before DR
 
 			int newDefense = npc.defense -
 					(pFlames ? 4 : 0) -
@@ -1655,24 +1639,16 @@ namespace CalamityMod.NPCs
 			SetPatreonTownNPCName(npc);
 
 			if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
+			{
 				npc.chaseable = !CalamityPlayer.areThereAnyDamnBosses;
+				npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;
+			}
 
 			if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail ||
 				npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
 			{
 				if (npc.buffImmune[mod.BuffType("Enraged")])
 					npc.buffImmune[mod.BuffType("Enraged")] = false;
-
-				if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
-				{
-					if (newAI[3] == 0f)
-					{
-						newAI[3] = 1f;
-						newAI[1] = 300f;
-					}
-				}
-				if (newAI[1] < 480f)
-					newAI[1] += 1f;
 			}
 
 			if (npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.Hornet || npc.type == NPCID.HornetFatty || npc.type == NPCID.HornetHoney ||
@@ -1711,11 +1687,29 @@ namespace CalamityMod.NPCs
 			{
 				switch (npc.type)
 				{
+					case NPCID.KingSlime:
+						return CalamityGlobalAI.BuffedKingSlimeAI(npc, mod);
+
 					case NPCID.EyeofCthulhu:
-						return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged);
+						return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged, mod);
+
+					case NPCID.EaterofWorldsHead:
+					case NPCID.EaterofWorldsBody:
+					case NPCID.EaterofWorldsTail:
+						return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod);
 
 					case NPCID.QueenBee:
 						return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
+
+					case NPCID.SkeletronHand:
+						return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged, mod);
+					case NPCID.SkeletronHead:
+						return CalamityGlobalAI.BuffedSkeletronAI(npc, enraged, mod);
+
+					case NPCID.WallofFlesh:
+						return CalamityGlobalAI.BuffedWallofFleshAI(npc, enraged, mod);
+					case NPCID.WallofFleshEye:
+						return CalamityGlobalAI.BuffedWallofFleshEyeAI(npc, enraged, mod);
 
 					case NPCID.TheDestroyer:
 					case NPCID.TheDestroyerBody:
@@ -1737,6 +1731,13 @@ namespace CalamityMod.NPCs
 						return CalamityGlobalAI.BuffedPrimeViceAI(npc, mod);
 					case NPCID.PrimeSaw:
 						return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod);
+
+					case NPCID.Plantera:
+						return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged, mod);
+					case NPCID.PlanterasHook:
+						return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod);
+					case NPCID.PlanterasTentacle:
+						return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod);
 
 					case NPCID.Pumpking:
 						if (CalamityWorld.downedDoG)
@@ -2234,39 +2235,14 @@ namespace CalamityMod.NPCs
 						if (!CalamityWorld.bossRushActive)
 							CalamityGlobalAI.RevengeanceGolemHeadAI(npc);
 						break;
-					case NPCID.Plantera:
-						CalamityGlobalAI.RevengeancePlanteraAI(npc, configBossRushBoost, mod, enraged);
-						break;
-					case NPCID.PlanterasTentacle:
-						CalamityGlobalAI.RevengeancePlanterasTentacleAI(npc, mod);
-						break;
-					case NPCID.WallofFlesh:
-						CalamityGlobalAI.RevengeanceWallofFleshAI(npc, configBossRushBoost, enraged);
-						break;
-					case NPCID.WallofFleshEye:
-						CalamityGlobalAI.RevengeanceWallofFleshEyeAI(npc, configBossRushBoost, mod, enraged);
-						break;
-					case NPCID.SkeletronHand:
-						CalamityGlobalAI.RevengeanceSkeletronHandAI(npc, configBossRushBoost, enraged);
-						break;
-					case NPCID.SkeletronHead:
-						CalamityGlobalAI.RevengeanceSkeletronAI(npc, configBossRushBoost, enraged);
-						break;
 					case NPCID.DungeonGuardian:
-						CalamityGlobalAI.RevengeanceSkeletronAI(npc, configBossRushBoost, enraged);
+						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
 						break;
 					case NPCID.BrainofCthulhu:
 						CalamityGlobalAI.RevengeanceBrainofCthulhuAI(npc);
 						break;
 					case NPCID.Creeper:
 						CalamityGlobalAI.RevengeanceCreeperAI(npc);
-						break;
-					case NPCID.EaterofWorldsHead:
-						if (!CalamityWorld.bossRushActive)
-							CalamityGlobalAI.RevengeanceEaterofWorldsAI(npc, mod);
-						break;
-					case NPCID.KingSlime:
-						CalamityGlobalAI.RevengeanceKingSlimeAI(npc);
 						break;
 					case NPCID.Lihzahrd:
 						CalamityGlobalAI.RevengeanceLihzahrdAI(npc);
@@ -2733,8 +2709,13 @@ namespace CalamityMod.NPCs
 				else if (projectile.penetrate > 1)
 					damage /= projectile.penetrate;
 			}
+			else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+			{
+				if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
+					damage = (int)((double)damage * 0.6);
+			}
 
-            if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eGauntlet)
+			if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).eGauntlet)
 			{
 				if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.Next(15) == 0)
 				{

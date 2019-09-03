@@ -13,13 +13,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		public override void SafeSetDefaults()
 		{
 			item.width = 18;
-			item.damage = 20;
+			item.damage = 24;
 			item.noMelee = true;
 			item.consumable = true;
 			item.noUseGraphic = true;
-			item.useAnimation = 13;
+			item.useAnimation = 11;
 			item.useStyle = 1;
-			item.useTime = 13;
+			item.useTime = 11;
 			item.knockBack = 2f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.value = 300;
 			item.rare = 3;
 			item.shoot = mod.ProjectileType("FeatherKnifeProjectile");
-			item.shootSpeed = 12f;
+			item.shootSpeed = 14f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 		}
 

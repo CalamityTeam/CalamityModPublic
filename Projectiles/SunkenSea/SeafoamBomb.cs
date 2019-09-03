@@ -66,6 +66,10 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.height = 128;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
 			projectile.Damage();
         }
     }

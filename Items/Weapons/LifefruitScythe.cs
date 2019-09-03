@@ -56,8 +56,8 @@ namespace CalamityMod.Items.Weapons
 			{
 				return;
 			}
-	    	player.statLife += 2;
-	    	player.HealEffect(2);
+	    	player.statLife += 5;
+	    	player.HealEffect(5);
 		}
 	}
 }
