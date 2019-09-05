@@ -683,11 +683,14 @@ namespace CalamityMod.World
 		}
 
         // An Astral Meteor always falls at the beginning of Hardmode.
-        public override void ModifyHardmodeTasks(List<GenPass> list)
+        public override void ModifyHardmodeTasks(List<GenPass> tasks)
         {
-            list.Add(new PassLegacy("AstralMeteor", delegate (GenerationProgress progress)
+            // Yes, this internal identifier is misspelled in vanilla.
+            int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcment");
+
+            // Insert the Astral biome generation right before the final hardmode announcement.
+            tasks.Insert(announceIndex, new PassLegacy("AstralMeteor", delegate (GenerationProgress progress)
             {
-                progress.Message = "Astral Meteor";
                 WorldGenerationMethods.PlaceAstralMeteor();
             }));
         }
