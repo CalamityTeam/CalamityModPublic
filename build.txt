@@ -6,4 +6,4 @@ buildIgnore = .vs\*, Properties\*, *.csproj, *.user, obj\*, bin\*, *.config, .gi
 hideCode = true
 hideResources = true
 includeSource = false
-includePDB = false
+includePDB = true
