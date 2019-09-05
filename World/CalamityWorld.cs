@@ -31,7 +31,7 @@ namespace CalamityMod.World
 
 		//Death Mode natural boss spawns
 		public static int bossSpawnCountdown = 0; //Death Mode natural boss spawn countdown
-		public static int bossType = 0; //Death Mmode natural boss spawn type
+		public static int bossType = 0; //Death Mode natural boss spawn type
 
 		//Modes
 		public static bool demonMode = false; //Spawn rate boost
@@ -63,9 +63,9 @@ namespace CalamityMod.World
 
 		//Astral
 		public static int astralTiles = 0;
-		public static bool spawnAstralMeteor = false;
-		public static bool spawnAstralMeteor2 = false;
-		public static bool spawnAstralMeteor3 = false;
+		public static bool spawnAstralMeteor = false; // Now unused
+		public static bool spawnAstralMeteor2 = false; // Now unused
+		public static bool spawnAstralMeteor3 = false; // Now unused
 
 		//Sunken Sea
 		public static int sunkenSeaTiles = 0;
@@ -349,11 +349,12 @@ namespace CalamityMod.World
 				onionMode = flags4[6];
 				revenge = flags4[7];
 
-				BitsByte flags5 = reader.ReadByte();
+                // Explicitly discard the now-unused astral meteor booleans
+                BitsByte flags5 = reader.ReadByte();
 				downedStarGod = flags5[0];
-				spawnAstralMeteor = flags5[1];
-				spawnAstralMeteor2 = flags5[2];
-				spawnAstralMeteor3 = flags5[3];
+				_ = flags5[1];
+				_ = flags5[2];
+				_ = flags5[3];
 				spawnedHardBoss = flags5[4];
 				downedPolterghast = flags5[5];
 				death = flags5[6];
@@ -425,11 +426,12 @@ namespace CalamityMod.World
 			flags4[6] = onionMode;
 			flags4[7] = revenge;
 
-			BitsByte flags5 = new BitsByte();
+            // Don't write meaningful values for the now-unused astral meteor booleans
+            BitsByte flags5 = new BitsByte();
 			flags5[0] = downedStarGod;
-			flags5[1] = spawnAstralMeteor;
-			flags5[2] = spawnAstralMeteor2;
-			flags5[3] = spawnAstralMeteor3;
+            flags5[1] = false;
+            flags5[2] = false;
+            flags5[3] = false;
 			flags5[4] = spawnedHardBoss;
 			flags5[5] = downedPolterghast;
 			flags5[6] = death;
@@ -505,11 +507,12 @@ namespace CalamityMod.World
 			onionMode = flags4[6];
 			revenge = flags4[7];
 
-			BitsByte flags5 = reader.ReadByte();
+            // Explicitly discard the now-unused astral meteor booleans
+            BitsByte flags5 = reader.ReadByte();
 			downedStarGod = flags5[0];
-			spawnAstralMeteor = flags5[1];
-			spawnAstralMeteor2 = flags5[2];
-			spawnAstralMeteor3 = flags5[3];
+			_ = flags5[1];
+			_ = flags5[2];
+			_ = flags5[3];
 			spawnedHardBoss = flags5[4];
 			downedPolterghast = flags5[5];
 			death = flags5[6];
@@ -677,12 +680,21 @@ namespace CalamityMod.World
 			}
 
 			tasks.Add(new PassLegacy("Planetoid Test", WorldGenerationMethods.Planetoids));
-
 		}
-		#endregion
 
-		#region PostUpdate
-		public override void PostUpdate()
+        // An Astral Meteor always falls at the beginning of Hardmode.
+        public override void ModifyHardmodeTasks(List<GenPass> list)
+        {
+            list.Add(new PassLegacy("AstralMeteor", delegate (GenerationProgress progress)
+            {
+                progress.Message = "Astral Meteor";
+                WorldGenerationMethods.PlaceAstralMeteor();
+            }));
+        }
+        #endregion
+
+        #region PostUpdate
+        public override void PostUpdate()
 		{
 			SunkenSeaLocation = new Rectangle(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom,
 						WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);

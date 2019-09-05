@@ -98,67 +98,16 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge18"), true, !Main.hardMode);
 				DropHelper.DropResidentEvilAmmo(npc, Main.hardMode, 3, 1, 0);
 
-				// First kill text (this is not a loot function)
-				if (!Main.hardMode)
-				{
-					string key2 = "Mods.CalamityMod.UglyBossText";
-					Color messageColor2 = Color.Aquamarine;
-					if (Main.netMode == 0)
-						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					else if (Main.netMode == 2)
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-				}
-
-                //
-                // MOVE THIS TO THE MODIFYHARDMODE WORLDGEN TASK. ASTRAL BIOME TAKES LONG ENOUGH
-                // THAT IT WILL CRASH THE MAIN SERVER THREAD IF RUN ON WEAK COMPUTERS!
-                //
-
-				// Drop astral meteors
-				if (WorldGenerationMethods.checkAstralMeteor())
-				{
-					string key = "Mods.CalamityMod.AstralText";
-					Color messageColor = Color.Gold;
-
-					// 1st meteor: Guaranteed on first kill
-					if (!CalamityWorld.spawnAstralMeteor)
-					{
-						if (Main.netMode == 0)
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						else if (Main.netMode == 2)
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-
-						CalamityWorld.spawnAstralMeteor = true;
-						CalamityMod.UpdateServerBoolean();
-						WorldGenerationMethods.dropAstralMeteor();
-					}
-
-					// 1/2 chance on each kill to get the 2nd meteor after having 1
-					else if (Main.rand.Next(2) == 0 && !CalamityWorld.spawnAstralMeteor2)
-					{
-						if (Main.netMode == 0)
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						else if (Main.netMode == 2)
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-
-						CalamityWorld.spawnAstralMeteor2 = true;
-						CalamityMod.UpdateServerBoolean();
-						WorldGenerationMethods.dropAstralMeteor();
-					}
-
-					// 1/4 chance on each kill to get the 3rd meteor after having 2
-					else if (Main.rand.Next(4) == 0 && !CalamityWorld.spawnAstralMeteor3)
-					{
-						if (Main.netMode == 0)
-							Main.NewText(Language.GetTextValue(key), messageColor);
-						else if (Main.netMode == 2)
-							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-
-						CalamityWorld.spawnAstralMeteor3 = true;
-						CalamityMod.UpdateServerBoolean();
-						WorldGenerationMethods.dropAstralMeteor();
-					}
-				}
+                // First kill text (this is not a loot function)
+                if (!Main.hardMode)
+                {
+                    string key2 = "Mods.CalamityMod.UglyBossText";
+                    Color messageColor2 = Color.Aquamarine;
+                    if (Main.netMode == 0)
+                        Main.NewText(Language.GetTextValue(key2), messageColor2);
+                    else if (Main.netMode == 2)
+                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+                }
 			}
 
 			// Retinazer OR Spazmatism (whichever is killed last)

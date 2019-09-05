@@ -3,6 +3,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using CalamityMod.World.Planets;
@@ -275,110 +276,119 @@ namespace CalamityMod.World
 		#endregion
 
 		#region AstralMeteor
-		public static bool checkAstralMeteor()
+		public static bool CanAstralMeteorSpawn()
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
-			int num = 0;
-			float num2 = (float)(Main.maxTilesX / 4200);
-			int num3 = (int)(200f * num2); //Small = 201 Medium = 305 Large = 401
-			for (int j = 5; j < Main.maxTilesX - 5; j++)
+			int astralOreCount = 0;
+			float worldSizeFactor = Main.maxTilesX / 4200f; // Small = 4200, Medium = 6400, Large = 8400
+			int astralOreAllowed = (int)(200f * worldSizeFactor); // Small = 201 Medium = 305 Large = 401
+			for (int x = 5; x < Main.maxTilesX - 5; x++)
 			{
-				int num4 = 5;
-				while ((double)num4 < Main.worldSurface)
+				int y = 5;
+				while (y < Main.worldSurface)
 				{
-					if (Main.tile[j, num4].active() && Main.tile[j, num4].type == mod.TileType("AstralOre"))
+					if (Main.tile[x, y].active() && Main.tile[x, y].type == mod.TileType("AstralOre"))
 					{
-						num++;
-						if (num > num3)
-						{
+						astralOreCount++;
+						if (astralOreCount > astralOreAllowed)
 							return false;
-						}
 					}
-					num4++;
+					y++;
 				}
 			}
 			return true;
 		}
 
-		public static bool checkAstralBiomeSpawn()
+		public static bool CanAstralBiomeSpawn()
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
-			int num = 0;
-			float num2 = (float)(Main.maxTilesX / 4200);
-			int num3 = (int)(400f * num2); //Small = 401 Medium = 605 Large = 801
-			for (int j = 5; j < Main.maxTilesX - 5; j++)
+			int astralTileCount = 0;
+			float worldSizeFactor = Main.maxTilesX / 4200f; // Small = 4200, Medium = 6400, Large = 8400
+			int astralTilesAllowed = (int)(400f * worldSizeFactor); // Small = 401 Medium = 605 Large = 801
+			for (int x = 5; x < Main.maxTilesX - 5; x++)
 			{
-				int num4 = 5;
-				while ((double)num4 < Main.worldSurface)
+				int y = 5;
+				while (y < Main.worldSurface)
 				{
-					if (Main.tile[j, num4].active() &&
-						(Main.tile[j, num4].type == mod.TileType("AstralSand") || Main.tile[j, num4].type == mod.TileType("AstralSandstone") ||
-						Main.tile[j, num4].type == mod.TileType("HardenedAstralSand") || Main.tile[j, num4].type == mod.TileType("AstralIce") ||
-						Main.tile[j, num4].type == mod.TileType("AstralDirt") || Main.tile[j, num4].type == mod.TileType("AstralStone") ||
-						Main.tile[j, num4].type == mod.TileType("AstralGrass")))
+					if (Main.tile[x, y].active() &&
+						(Main.tile[x, y].type == mod.TileType("AstralSand") || Main.tile[x, y].type == mod.TileType("AstralSandstone") ||
+						Main.tile[x, y].type == mod.TileType("HardenedAstralSand") || Main.tile[x, y].type == mod.TileType("AstralIce") ||
+						Main.tile[x, y].type == mod.TileType("AstralDirt") || Main.tile[x, y].type == mod.TileType("AstralStone") ||
+						Main.tile[x, y].type == mod.TileType("AstralGrass")))
 					{
-						num++;
-						if (num > num3)
-						{
+						astralTileCount++;
+						if (astralTileCount > astralTilesAllowed)
 							return false;
-						}
 					}
-					num4++;
+					y++;
 				}
 			}
 			return true;
 		}
 
-		public static void dropAstralMeteor()
+        public static void AstralMeteorThreadWrapper(object context)
+        {
+            PlaceAstralMeteor();
+        }
+
+		public static void PlaceAstralMeteor()
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			Mod ancientsAwakened = ModLoader.GetMod("AAMod");
-			bool flag = true;
-			if (Main.netMode == 1)
-			{
+
+            // This flag is also used to determine whether players are nearby.
+			bool meteorDropped = true;
+
+            // Clients in multiplayer don't drop meteors.
+            if (Main.netMode == 1)
 				return;
-			}
 			for (int i = 0; i < 255; i++)
 			{
 				if (Main.player[i].active)
 				{
-					flag = false;
+					meteorDropped = false;
 					break;
 				}
 			}
-			if (!checkAstralMeteor())
-			{
+
+            // Check whether there is already too much ore.
+            if (!CanAstralMeteorSpawn())
 				return;
-			}
-			float num5 = 600f;
-			while (!flag)
+
+			float solidTileRequirement = 600f;
+
+			while (!meteorDropped)
 			{
-				float num6 = (float)Main.maxTilesX * 0.08f;
+				float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
 				int xLimit = Main.maxTilesX / 2;
-				int num7 = (CalamityWorld.abyssSide ? Main.rand.Next(400, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 400));
-				while ((float)num7 > (float)Main.spawnTileX - num6 && (float)num7 < (float)Main.spawnTileX + num6)
+				int x = (CalamityWorld.abyssSide ? Main.rand.Next(400, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 400));
+				while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
 				{
-					num7 = (CalamityWorld.abyssSide ? Main.rand.Next(400, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 400));
+					x = (CalamityWorld.abyssSide ? Main.rand.Next(400, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 400));
 				}
 				//world surface = 920 large 740 medium 560 small
-				int k = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
-				while (k < Main.maxTilesY)
+				int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
+				while (y < Main.maxTilesY)
 				{
-					if (Main.tile[num7, k].active() && Main.tileSolid[(int)Main.tile[num7, k].type])
+					if (Main.tile[x, y].active() && Main.tileSolid[(int)Main.tile[x, y].type])
 					{
-						int num8 = 0;
-						int num9 = 15;
-						for (int l = num7 - num9; l < num7 + num9; l++)
+						int suitableTiles = 0;
+						int checkRadius = 15;
+						for (int l = x - checkRadius; l < x + checkRadius; l++)
 						{
-							for (int m = k - num9; m < k + num9; m++)
+							for (int m = y - checkRadius; m < y + checkRadius; m++)
 							{
 								if (WorldGen.SolidTile(l, m))
 								{
-									num8++;
-									if (Main.tile[l, m].type == 189 || Main.tile[l, m].type == 202)
+									suitableTiles++;
+
+                                    // Avoid floating islands: Clouds and Sunplate both harshly punish attempted meteor spawns
+									if (Main.tile[l, m].type == TileID.Cloud || Main.tile[l, m].type == TileID.Sunplate)
 									{
-										num8 -= 100;
+										suitableTiles -= 100;
 									}
+
+                                    // Prevent the Astral biome from overriding or interfering with an AA biome
 									else if (ancientsAwakened != null)
 									{
 										if (Main.tile[l, m].type == ancientsAwakened.TileType("InfernoGrass") || Main.tile[l, m].type == ancientsAwakened.TileType("Torchstone") ||
@@ -388,41 +398,53 @@ namespace CalamityMod.World
 											Main.tile[l, m].type == ancientsAwakened.TileType("Depthsandstone") || Main.tile[l, m].type == ancientsAwakened.TileType("Depthsandhardened") ||
 											Main.tile[l, m].type == ancientsAwakened.TileType("Depthice"))
 										{
-											num8 -= 100;
+											suitableTiles -= 100;
 										}
 									}
 								}
+
+                                // Liquid aversion makes meteors less likely to fall in lakes
 								else if (Main.tile[l, m].liquid > 0)
 								{
-									num8--;
+									suitableTiles--;
 								}
 							}
 						}
-						if ((float)num8 < num5)
+
+						if ((float)suitableTiles < solidTileRequirement)
 						{
-							num5 -= 0.5f;
+							solidTileRequirement -= 0.5f;
 							break;
 						}
-						flag = astralMeteor(num7, k);
-						if (flag)
+						meteorDropped = GenerateAstralMeteor(x, y);
+
+                        // If the meteor actually dropped, post the message stating as such.
+                        if (meteorDropped)
 						{
-							break;
+                            string key = "Mods.CalamityMod.AstralText";
+                            Color messageColor = Color.Gold;
+
+                            if (Main.netMode == 0)
+                                Main.NewText(Language.GetTextValue(key), messageColor);
+                            else if (Main.netMode == 2)
+                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                            break;
 						}
 						break;
 					}
 					else
 					{
-						k++;
+						y++;
 					}
 				}
-				if (num5 < 100f)
+				if (solidTileRequirement < 100f)
 				{
 					return;
 				}
 			}
 		}
 
-		public static bool astralMeteor(int i, int j)
+		public static bool GenerateAstralMeteor(int i, int j)
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			if (i < 50 || i > Main.maxTilesX - 50)
@@ -596,7 +618,7 @@ namespace CalamityMod.World
 			if (Main.netMode != 1)
 			{
 				NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
-				if (checkAstralBiomeSpawn())
+				if (CanAstralBiomeSpawn())
 					DoAstralConversion(new Point(i, j));
 			}
 			return true;

@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using System.Threading;
 
 namespace CalamityMod.NPCs.Astrageldon
 {
@@ -337,18 +338,7 @@ namespace CalamityMod.NPCs.Astrageldon
             }
 
             // Drop an Astral Meteor if applicable
-            if (WorldGenerationMethods.checkAstralMeteor())
-            {
-                string key = "Mods.CalamityMod.AstralText";
-                Color messageColor = Color.Gold;
-
-                if (Main.netMode == 0)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == 2)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-
-                WorldGenerationMethods.dropAstralMeteor();
-            }
+            ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
 
             // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
             if (!CalamityWorld.downedAstrageldon)
