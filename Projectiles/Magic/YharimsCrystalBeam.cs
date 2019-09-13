@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -66,46 +67,45 @@ namespace CalamityMod.Projectiles.Magic
 					{"Leviathan", 15},
 					{"Testdude", 16}
 				};
-				int someNumber;
-				if (LaserHue.TryGetValue(playerName, out someNumber))
-				{
-					switch (someNumber)
-					{
-						case 0:
-						case 1:
-							return 2f;
-						case 2:
-							return 0.83f;
-						case 3:
-							return 1.5f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-						case 4:
-							return 1.27f;
-						case 5:
-							return 0.65f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-						case 6:
-							return 0f;
-						case 7:
-						case 8:
-							return 1.7f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
-						case 9:
-							return 0.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
-						case 10:
-							return 1.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.18f;
-						case 11:
-							return 1.7f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.05f;
-						case 12:
-							return 0.83f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.03f;
-						case 13:
-							return 1.4f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.06f;
-						case 14:
-							return 0.31f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.13f;
-						case 15:
-							return 1.9f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-						case 16:
-							return Main.rand.NextFloat();
-					}
-				}
-			}
+                if (LaserHue.TryGetValue(playerName, out int someNumber))
+                {
+                    switch (someNumber)
+                    {
+                        case 0:
+                        case 1:
+                            return 2f;
+                        case 2:
+                            return 0.83f;
+                        case 3:
+                            return 1.5f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        case 4:
+                            return 1.27f;
+                        case 5:
+                            return 0.65f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        case 6:
+                            return 0f;
+                        case 7:
+                        case 8:
+                            return 1.7f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
+                        case 9:
+                            return 0.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
+                        case 10:
+                            return 1.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.18f;
+                        case 11:
+                            return 1.7f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.05f;
+                        case 12:
+                            return 0.83f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.03f;
+                        case 13:
+                            return 1.4f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.06f;
+                        case 14:
+                            return 0.31f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.13f;
+                        case 15:
+                            return 1.9f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        case 16:
+                            return Main.rand.NextFloat();
+                    }
+                }
+            }
 			return (float)((int)indexing) / 6f;
 		}
 

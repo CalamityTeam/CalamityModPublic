@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Patreon
 {

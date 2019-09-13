@@ -2,6 +2,7 @@
 using Terraria.ObjectData;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.SunkenSea
 {

@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Mounts
 {
