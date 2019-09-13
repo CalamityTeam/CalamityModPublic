@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
             player.meleeCrit += 5;
             player.magicCrit += 5;
             player.rangedCrit += 5;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+            player.GetCalamityPlayer().throwingCrit += 5;
             player.moveSpeed += 0.12f;
         }
 

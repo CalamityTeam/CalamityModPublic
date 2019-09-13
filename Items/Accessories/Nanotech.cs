@@ -32,9 +32,9 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.nanotech = true;
 			modPlayer.raiderTalisman = true;
-			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.15f;
+			player.GetCalamityPlayer().throwingDamage += 0.1f;
+            player.GetCalamityPlayer().throwingCrit += 5;
+            player.GetCalamityPlayer().throwingVelocity += 0.15f;
         }
 
         public override void AddRecipes()

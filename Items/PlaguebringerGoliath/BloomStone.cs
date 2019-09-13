@@ -29,7 +29,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
 			player.allDamage += 0.03f;
 			int bloomCounter = 0;

@@ -29,11 +29,7 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.width = 400;
 			npc.height = 280;
 			npc.defense = 70;
-			npc.lifeMax = CalamityWorld.revenge ? 122000 : 96000;
-			if (CalamityWorld.death)
-			{
-				npc.lifeMax = 187000;
-			}
+			npc.LifeMaxNERD(96000, NPC.downedMoonlord ? 440000 : 122000, 187000, 1400000, 1600000);
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;
@@ -65,15 +61,10 @@ namespace CalamityMod.NPCs.Astrageldon
 			bossBag = mod.ItemType("AstrageldonBag");
 			if (NPC.downedMoonlord && CalamityWorld.revenge)
 			{
-				npc.lifeMax = 440000;
 				npc.value = Item.buyPrice(0, 35, 0, 0);
 			}
-			if (CalamityWorld.bossRushActive)
-			{
-				npc.lifeMax = CalamityWorld.death ? 1600000 : 1400000;
-			}
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

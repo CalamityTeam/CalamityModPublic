@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityCustomThrowingDamagePlayer modPlayer = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             player.autoJump = true;
             player.jumpSpeedBoost += 0.4f;
             player.extraFall += 35;

@@ -52,14 +52,14 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
             }
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.09f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.09f;
+            player.GetCalamityPlayer().throwingDamage += 0.09f;
+            player.GetCalamityPlayer().throwingVelocity += 0.09f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.11f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 11;
+            player.GetCalamityPlayer().throwingDamage += 0.11f;
+            player.GetCalamityPlayer().throwingCrit += 11;
 			player.moveSpeed += 0.22f;
 			player.lavaMax += 240;
 			player.buffImmune[BuffID.OnFire] = true;

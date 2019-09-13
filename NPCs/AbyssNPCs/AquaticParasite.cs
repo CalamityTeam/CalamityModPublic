@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -21,11 +20,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 28;
 			npc.height = 28;
 			npc.defense = 5;
-			npc.lifeMax = 30;
-			if (CalamityWorld.bossRushActive)
-			{
-				npc.lifeMax = 30000;
-			}
+            npc.LifeMaxNERD(30, bossRush: 30000);
 			npc.aiStyle = -1;
 			aiType = -1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)

@@ -60,6 +60,7 @@ namespace CalamityMod
 		public static List<int> dungeonEnemyBuffList;
 		public static List<int> dungeonProjectileBuffList;
 		public static List<int> bossScaleList;
+        public static List<int> bossHPScaleList;
 		public static List<int> beeEnemyList;
 		public static List<int> beeProjectileList;
 		public static List<int> hardModeNerfList;
@@ -81,6 +82,7 @@ namespace CalamityMod
 		public static List<int> eventProjectileBuffList;
 		public static List<int> revengeanceEnemyBuffList;
 		public static List<int> revengeanceProjectileBuffList;
+        public static List<int> revengeanceLifeStealExceptionList;
 		public static List<int> trapProjectileList;
 		public static List<int> scopedWeaponList;
 		public static List<int> trueMeleeBoostExceptionList;
@@ -215,6 +217,7 @@ namespace CalamityMod
 			dungeonEnemyBuffList = null;
 			dungeonProjectileBuffList = null;
 			bossScaleList = null;
+            bossHPScaleList = null;
 			beeEnemyList = null;
 			beeProjectileList = null;
 			hardModeNerfList = null;
@@ -235,7 +238,8 @@ namespace CalamityMod
 			eventProjectileBuffList = null;
 			revengeanceEnemyBuffList = null;
 			revengeanceProjectileBuffList = null;
-			trapProjectileList = null;
+            revengeanceLifeStealExceptionList = null;
+            trapProjectileList = null;
 			scopedWeaponList = null;
 			trueMeleeBoostExceptionList = null;
 
@@ -525,7 +529,27 @@ namespace CalamityMod
 					NPCID.GolemHead
 				};
 
-				beeEnemyList = new List<int>()
+                bossHPScaleList = new List<int>()
+                {
+                    NPCID.EaterofWorldsHead,
+                    NPCID.EaterofWorldsBody,
+                    NPCID.EaterofWorldsTail,
+                    NPCID.SkeletronHand,
+                    NPCID.WallofFleshEye,
+                    NPCID.TheDestroyerBody,
+                    NPCID.TheDestroyerTail,
+                    NPCID.PrimeCannon,
+                    NPCID.PrimeLaser,
+                    NPCID.PrimeVice,
+                    NPCID.PrimeSaw,
+                    NPCID.GolemHead,
+                    NPCID.GolemFistRight,
+                    NPCID.GolemFistLeft,
+                    NPCID.MoonLordHead,
+                    NPCID.MoonLordHand
+                };
+
+                beeEnemyList = new List<int>()
 				{
 					NPCID.GiantMossHornet,
 					NPCID.BigMossHornet,
@@ -1258,7 +1282,36 @@ namespace CalamityMod
 					calamity.ProjectileType("SporeGasPlantera3")
 				};
 
-				trapProjectileList = new List<int>()
+                revengeanceLifeStealExceptionList = new List<int>()
+                {
+                    NPCID.Probe,
+                    NPCID.MoonLordFreeEye,
+                    NPCID.CultistDragonHead,
+                    NPCID.CultistDragonBody1,
+                    NPCID.CultistDragonBody2,
+                    NPCID.CultistDragonBody3,
+                    NPCID.CultistDragonBody4,
+                    NPCID.CultistDragonTail,
+                    NPCID.Sharkron,
+                    NPCID.Sharkron2,
+                    NPCID.PlanterasTentacle,
+                    NPCID.Spore,
+                    NPCID.TheHungryII,
+                    NPCID.LeechHead,
+                    NPCID.LeechBody,
+                    NPCID.LeechTail,
+                    NPCID.TheDestroyerBody,
+                    NPCID.TheDestroyerTail,
+                    NPCID.EaterofWorldsBody,
+                    NPCID.EaterofWorldsTail,
+                    NPCID.GolemHead,
+                    NPCID.GolemFistRight,
+                    NPCID.GolemFistLeft,
+                    NPCID.MoonLordCore
+                };
+
+
+                trapProjectileList = new List<int>()
 				{
 					ProjectileID.PoisonDartTrap,
 					ProjectileID.SpikyBallTrap,

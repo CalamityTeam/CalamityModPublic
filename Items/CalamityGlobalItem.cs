@@ -115,8 +115,8 @@ namespace CalamityMod.Items
 		{
 			if (rogue)
 			{
-				speedX *= CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity;
-				speedY *= CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity;
+				speedX *= player.GetCalamityPlayer().throwingVelocity;
+				speedY *= player.GetCalamityPlayer().throwingVelocity;
 			}
 			if (player.GetModPlayer<CalamityPlayer>(mod).luxorsGift)
 			{
@@ -1609,8 +1609,8 @@ namespace CalamityMod.Items
 			{
 				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 				modPlayer.rogueStealthMax = 1f;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.1f;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.1f;
+				player.GetCalamityPlayer().throwingDamage += 0.1f;
+				player.GetCalamityPlayer().throwingVelocity += 0.1f;
 				player.statDefense += 5;
 				player.setBonus = "+5 defense\n" +
 							"10% increased rogue damage and velocity\n" +
@@ -1622,8 +1622,8 @@ namespace CalamityMod.Items
 			{
 				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
 				modPlayer.rogueStealthMax = 1f;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+				player.GetCalamityPlayer().throwingDamage += 0.05f;
+				player.GetCalamityPlayer().throwingCrit += 5;
 				player.statDefense += 2;
 				player.fireWalk = true;
 				player.lavaMax += 180;
@@ -1641,7 +1641,7 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.SpectreHood)
 				player.magicDamage += 0.2f;
 			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
+				player.GetCalamityPlayer().throwingDamage += 0.05f;
 			else if (item.type == ItemID.ApprenticeHat)
 				player.minionDamage += 0.3f;
 			else if (item.type == ItemID.SquireGreatHelm)
@@ -1682,21 +1682,21 @@ namespace CalamityMod.Items
 
 			#region Body
 			if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+				player.GetCalamityPlayer().throwingCrit += 5;
 			else if (item.type == ItemID.PalladiumBreastplate)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
+				player.GetCalamityPlayer().throwingCrit += 2;
 			else if (item.type == ItemID.CobaltBreastplate)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
+				player.GetCalamityPlayer().throwingCrit += 3;
 			else if (item.type == ItemID.OrichalcumBreastplate)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 6;
+				player.GetCalamityPlayer().throwingCrit += 6;
 			else if (item.type == ItemID.TitaniumBreastplate)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
+				player.GetCalamityPlayer().throwingCrit += 3;
 			else if (item.type == ItemID.HallowedPlateMail)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
+				player.GetCalamityPlayer().throwingCrit += 7;
 			else if (item.type == ItemID.ChlorophytePlateMail)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
+				player.GetCalamityPlayer().throwingCrit += 7;
 			else if (item.type == ItemID.Gi)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+				player.GetCalamityPlayer().throwingCrit += 5;
 			else if (item.type == ItemID.ApprenticeRobe)
 				player.minionDamage -= 0.2f;
 			else if (item.type == ItemID.SquirePlating)
@@ -1726,17 +1726,17 @@ namespace CalamityMod.Items
 
 			#region Legs
 			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.05f;
+				player.GetCalamityPlayer().throwingVelocity += 0.05f;
 			else if (item.type == ItemID.PalladiumLeggings)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 1;
+				player.GetCalamityPlayer().throwingCrit += 1;
 			else if (item.type == ItemID.MythrilGreaves)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
+				player.GetCalamityPlayer().throwingCrit += 3;
 			else if (item.type == ItemID.AdamantiteLeggings)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 4;
+				player.GetCalamityPlayer().throwingCrit += 4;
 			else if (item.type == ItemID.TitaniumLeggings)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 3;
+				player.GetCalamityPlayer().throwingCrit += 3;
 			else if (item.type == ItemID.ChlorophyteGreaves)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
+				player.GetCalamityPlayer().throwingCrit += 8;
 			else if (item.type == ItemID.ApprenticeTrousers)
 			{
 				player.magicCrit -= 20;
@@ -1789,14 +1789,14 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
 				(item.type == ItemID.SunStone && Main.dayTime))
 			{
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
+				player.GetCalamityPlayer().throwingCrit += 2;
 			}
 			if (item.type == ItemID.DestroyerEmblem)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 8;
+				player.GetCalamityPlayer().throwingCrit += 8;
 			if (item.type == ItemID.EyeoftheGolem)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
+				player.GetCalamityPlayer().throwingCrit += 10;
 			if (item.type == ItemID.PutridScent)
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 5;
+				player.GetCalamityPlayer().throwingCrit += 5;
 
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
 			if (item.prefix == 62)
@@ -1814,7 +1814,7 @@ namespace CalamityMod.Items
 				player.meleeCrit -= 1;
 				player.rangedCrit -= 1;
 				player.magicCrit -= 1;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 1;
+				player.GetCalamityPlayer().throwingCrit += 1;
 			}
 
 			// Lucky only gives 2% crit
@@ -1823,7 +1823,7 @@ namespace CalamityMod.Items
 				player.meleeCrit -= 2;
 				player.rangedCrit -= 2;
 				player.magicCrit -= 2;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
+				player.GetCalamityPlayer().throwingCrit += 2;
 			}
 		}
 		#endregion
