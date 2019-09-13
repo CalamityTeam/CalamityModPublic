@@ -731,9 +731,9 @@ namespace CalamityMod.Projectiles
 							value15.Normalize();
 							value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
 							int newDamage = (int)((double)projectile.damage * 0.15);
-							if (newDamage > 20)
+							if (newDamage > 15)
 							{
-								newDamage = 20;
+								newDamage = 15;
 							}
 							int proj = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), newDamage, 0f, projectile.owner, 0f, 0f);
 							Main.projectile[proj].usesLocalNPCImmunity = true;

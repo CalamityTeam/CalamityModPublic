@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.penetrate = 1;
+			projectile.arrow = true;
+			projectile.penetrate = 1;
             projectile.extraUpdates = 1;
             projectile.ranged = true;
 		}

@@ -1813,11 +1813,11 @@ namespace CalamityMod.Items
 			// Precise only gives 1% crit and Lucky only gives 3% crit
 			if (item.prefix == 67 || item.prefix == 68)
 			{
-                player.meleeCrit -= 1;
+				player.meleeCrit -= 1;
 				player.rangedCrit -= 1;
 				player.magicCrit -= 1;
                 player.thrownCrit -= 1;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += (item.prefix == 68 ? 3 : 1);
+                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += (item.prefix == 68 ? 3 : 1);
 			}
 		}
 		#endregion

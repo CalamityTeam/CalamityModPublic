@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Ravager
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hematemesis");
-			Tooltip.SetDefault("Casts a barrage of blood geysers from below you");
+			Tooltip.SetDefault("Casts a barrage of blood geysers from below");
 			Item.staff[item.type] = true;
 		}
 
@@ -35,9 +35,10 @@ namespace CalamityMod.Items.Weapons.Ravager
 
 	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 	    {
-            for (int x = 0; x < 10; x++)
+			position = Main.MouseWorld;
+			for (int x = 0; x < 10; x++)
             {
-                Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-150, 150), player.position.Y + 600f, 0f, -10f, type, damage, knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(position.X + (float)Main.rand.Next(-150, 150), position.Y + 600f, 0f, -10f, type, damage, knockBack, Main.myPlayer, 0f, 0f);
             }
             return false;
 		}

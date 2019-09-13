@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.alpha = 255;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.extraUpdates = 1;
+			projectile.arrow = true;
+			projectile.extraUpdates = 1;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
 		}

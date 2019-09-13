@@ -390,6 +390,10 @@ namespace CalamityMod.NPCs.Scavenger
 						float speedX = ((enrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
 						npc.velocity.X = speedX * (float)npc.direction;
 						npc.velocity.Y = -15.2f;
+
+						if (npc.target >= 0 && CalamityWorld.revenge && Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+							npc.noTileCollide = true;
+
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;
 					}

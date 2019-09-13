@@ -14,8 +14,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 	public class DevourerofGodsHead : ModNPC
 	{
 		private bool tail = false;
-		private const int minLength = 100;
-		private const int maxLength = 101;
+		private const int minLength = 80;
+		private const int maxLength = 81;
 		private bool halfLife = false;
 		private bool halfLife2 = false;
 		private int spawnDoGCountdown = 0;
@@ -457,9 +457,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 				phaseSwitch += 1;
 
-				float fallSpeed = 16f + ((CalamityWorld.death ? 6f : 4f) * (1f - lifeRatio));
-				float speed = (CalamityWorld.death ? 0.22f : 0.2f) + (0.1f * (1f - lifeRatio));
-				float turnSpeed = (CalamityWorld.death ? 0.165f : 0.15f) + (0.15f * (1f - lifeRatio));
+				float fallSpeed = 16f + ((CalamityWorld.death ? 5f : 3.5f) * (1f - lifeRatio));
+				float speed = (CalamityWorld.death ? 0.2f : 0.18f) + (0.08f * (1f - lifeRatio));
+				float turnSpeed = (CalamityWorld.death ? 0.14f : 0.12f) + (0.12f * (1f - lifeRatio));
 
 				// Enrage
 				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
@@ -530,8 +530,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				if (!flies)
 				{
 					npc.TargetClosest(true);
-					npc.velocity.Y = npc.velocity.Y + turnSpeed;
 
+					npc.velocity.Y = npc.velocity.Y + turnSpeed;
 					if (npc.velocity.Y > fallSpeed)
 						npc.velocity.Y = fallSpeed;
 

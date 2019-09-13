@@ -183,8 +183,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							playerPosX = (int)player.Center.X / 16;
 							playerPosY = (int)player.Center.Y / 16;
 
-							int min = 12;
-							int max = 15;
+							int min = 16;
+							int max = 19;
 
 							if (Main.rand.Next(2) == 0)
 								playerPosX += Main.rand.Next(min, max);
@@ -196,14 +196,11 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							else
 								playerPosY -= Main.rand.Next(min, max);
 
-							if (!WorldGen.SolidTile(playerPosX, playerPosY) && Collision.CanHit(new Vector2((float)(playerPosX * 16), (float)(playerPosY * 16)), 1, 1, player.position, player.width, player.height))
-							{
+							if (!WorldGen.SolidTile(playerPosX, playerPosY))
 								break;
-							}
+
 							if (timer > 100)
-							{
 								return;
-							}
 						}
 						npc.ai[0] = 1f;
 						npc.ai[1] = (float)playerPosX;
@@ -214,7 +211,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.velocity *= 0.9f;
 				npc.dontTakeDamage = true;
 				npc.defense = provy ? 120 : 20;
 				npc.chaseable = false;

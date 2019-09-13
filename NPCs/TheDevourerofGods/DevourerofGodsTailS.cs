@@ -24,8 +24,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			npc.damage = 180;
 			npc.npcSlots = 5f;
-			npc.width = 100;
-			npc.height = 124;
+			npc.width = 80;
+			npc.height = 140;
 			npc.defense = 0;
 			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000;
 			if (CalamityWorld.death)
@@ -194,10 +194,42 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 		}
 
+		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 0;
-			return npc.alpha == 0;
+
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist) minDist = dist2;
+			if (dist3 < minDist) minDist = dist3;
+			if (dist4 < minDist) minDist = dist4;
+
+			return minDist <= 70f && npc.alpha == 0;
+		}
+
+		// Projectiles can only hit within certain distance
+		public override bool? CanBeHitByProjectile(Projectile projectile)
+		{
+			Rectangle projectileHitbox = projectile.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, projectileHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, projectileHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, projectileHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, projectileHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist) minDist = dist2;
+			if (dist3 < minDist) minDist = dist3;
+			if (dist4 < minDist) minDist = dist4;
+
+			return minDist <= 70f;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons
 			item.useTime = 16;
 			item.useTurn = true;
 			item.useStyle = 1;
-			item.knockBack = 5.5f;
+			item.knockBack = 6f;
 			item.UseSound = SoundID.Item60;
 			item.autoReuse = true;
 			item.height = 72;
@@ -35,9 +35,10 @@ namespace CalamityMod.Items.Weapons
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-            for (int x = 0; x < 3; x++)
+			position = Main.MouseWorld;
+			for (int x = 0; x < 3; x++)
             {
-                Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-30, 31), player.position.Y - 600f, 0f, 8f, type, damage, knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(position.X + (float)Main.rand.Next(-30, 31), position.Y - 600f, 0f, 8f, type, damage, knockBack, Main.myPlayer, 0f, 0f);
             }
             return false;
 		}

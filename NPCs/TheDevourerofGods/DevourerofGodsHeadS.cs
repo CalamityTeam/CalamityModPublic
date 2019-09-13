@@ -15,8 +15,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 	public class DevourerofGodsHeadS : ModNPC
 	{
 		private bool tail = false;
-		private const int minLength = 120;
-		private const int maxLength = 121;
+		private const int minLength = 100;
+		private const int maxLength = 101;
 		private bool halfLife = false;
 		private int laserShoot = 0;
 		private int phaseSwitch = 0;
@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			npc.damage = 300;
 			npc.npcSlots = 5f;
-			npc.width = 176;
-			npc.height = 176;
+			npc.width = 186;
+			npc.height = 186;
 			npc.defense = 0;
 			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000;
 			if (CalamityWorld.death)
@@ -363,7 +363,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					}
 				}
 			}
-			fallSpeed += (CalamityWorld.death ? 6f : 4f) * (1f - lifeRatio);
+			fallSpeed += (CalamityWorld.death ? 5f : 3.5f) * (1f - lifeRatio);
 
 			// Movement
 			int num180 = (int)(npc.position.X / 16f) - 1;
@@ -620,14 +620,14 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 				phaseSwitch += 1;
 
-				float turnSpeed = 0.3f + ((CalamityWorld.death ? 0.2f : 0.15f) * (1f - lifeRatio));
+				float turnSpeed = 0.18f + ((CalamityWorld.death ? 0.14f : 0.12f) * (1f - lifeRatio));
 				bool increaseSpeed = Vector2.Distance(Main.player[npc.target].Center, vector) > 3200f;
 
 				// Enrage
 				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
-					turnSpeed += 1.2f;
+					turnSpeed *= 6f;
 				else if (increaseSpeed)
-					turnSpeed += 0.7f;
+					turnSpeed *= 3f;
 
 				if (!flies)
 				{
@@ -727,8 +727,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 				else
 				{
-					double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((CalamityWorld.death ? 0.2f : 0.15f) * (1f - lifeRatio));
-					double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((CalamityWorld.death ? 0.4f : 0.3f) * (1f - lifeRatio));
+					double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((CalamityWorld.death ? 0.14f : 0.12f) * (1f - lifeRatio));
+					double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((CalamityWorld.death ? 0.3f : 0.25f) * (1f - lifeRatio));
 
 					num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
 					float num25 = Math.Abs(num191);
@@ -785,7 +785,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						else if (npc.velocity.X > num191)
 							npc.velocity.X = npc.velocity.X - turnSpeed * 1.1f;
 
-						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * maximumSpeed2) //0.5
+						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * maximumSpeed2)
 						{
 							if (npc.velocity.Y > 0f)
 								npc.velocity.Y = npc.velocity.Y + turnSpeed;
@@ -918,11 +918,61 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 		}
 
+		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
-			return npc.alpha == 0;
+
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist) minDist = dist2;
+			if (dist3 < minDist) minDist = dist3;
+			if (dist4 < minDist) minDist = dist4;
+
+			return minDist <= 80f && npc.alpha == 0;
 		}
+
+		// Projectiles can only hit within certain distance
+		public override bool? CanBeHitByProjectile(Projectile projectile)
+		{
+			Rectangle projectileHitbox = projectile.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, projectileHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, projectileHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, projectileHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, projectileHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist) minDist = dist2;
+			if (dist3 < minDist) minDist = dist3;
+			if (dist4 < minDist) minDist = dist4;
+
+			return minDist <= 80f;
+		}
+
+		// Melee hitboxes are fucked so I have no clue what to do here
+		/*public override bool? CanBeHitByItem(Player player, Item item)
+		{
+			Rectangle targetHitbox = target.Hitbox;
+
+			float dist1 = Vector2.Distance(npc.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(npc.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(npc.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(npc.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist) minDist = dist2;
+			if (dist3 < minDist) minDist = dist3;
+			if (dist4 < minDist) minDist = dist4;
+
+			return minDist <= 80f && npc.alpha == 0;
+		}*/
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{

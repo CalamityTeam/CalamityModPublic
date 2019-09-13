@@ -21,7 +21,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.penetrate = 1;
+			projectile.arrow = true;
+			projectile.penetrate = 1;
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
             aiType = 1;

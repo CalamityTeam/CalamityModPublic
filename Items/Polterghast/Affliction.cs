@@ -10,8 +10,7 @@ namespace CalamityMod.Items.Polterghast
 		{
 			DisplayName.SetDefault("Affliction");
 			Tooltip.SetDefault("Gives you and all other players on your team +1 life regen,\n" +
-							   "+5% max life, 5% damage reduction, 15 defense, and 10% increased damage\n" +
-							   "These effects are stronger on revengeance mode");
+							   "+10% max life, 7% damage reduction, 20 defense, and 12% increased damage");
 		}
 
 		public override void SetDefaults()

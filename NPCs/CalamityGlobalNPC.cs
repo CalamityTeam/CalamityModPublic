@@ -3591,6 +3591,12 @@ namespace CalamityMod.NPCs
 						nextSlot++;
 					}
 				}
+				if (NPC.downedQueenBee)
+				{
+					shop.item[nextSlot].SetDefaults(ItemID.Boomstick);
+					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
+					nextSlot++;
+				}
 			}
 			if (type == NPCID.Dryad)
 			{

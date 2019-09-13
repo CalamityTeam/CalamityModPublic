@@ -14,6 +14,7 @@ namespace CalamityMod.Buffs.StatBuffs
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;
 			longerExpertDebuff = false;
+			canBeCleared = false;
 		}
 	}
 }

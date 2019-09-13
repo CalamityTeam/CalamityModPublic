@@ -9782,7 +9782,7 @@ namespace CalamityMod.NPCs
 				{
 					if (Main.tile[x, y] != null)
 					{
-						if (Main.tile[x, y].active() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+						if (Main.tile[x, y].active() && !Main.tile[x, y].actuator() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
 							nearbyActiveTiles++;
 					}
 				}
@@ -9790,8 +9790,8 @@ namespace CalamityMod.NPCs
 
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = 1f;
-			if (nearbyActiveTiles < 1200)
-				tileEnrageMult += (float)(1200 - nearbyActiveTiles) * 0.001f; // Ranges from 1f to 2.2f
+			if (nearbyActiveTiles < 800)
+				tileEnrageMult += (float)(800 - nearbyActiveTiles) * 0.0015f; // Ranges from 1f to 2.2f
 
 			// Movement relative to the target and hook positions
 			Vector2 vector91 = new Vector2(num730, num731);
@@ -9873,7 +9873,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Slow down considerably if near player
-			if (!speedUp && nearbyActiveTiles > 400 && !insideTiles)
+			if (!speedUp && nearbyActiveTiles > 800 && !insideTiles)
 			{
 				if (npc.velocity.Length() > velocity)
 					npc.velocity *= 0.97f;
@@ -10043,17 +10043,17 @@ namespace CalamityMod.NPCs
 				{
 					int tentacleScale = 8 - tentacleCount; // 1 to 8
 
-					if (nearbyActiveTiles > 800)
+					if (nearbyActiveTiles > 600)
 						npc.localAI[3] += 0.5f + ((float)(tentacleScale - 1) * 0.5f);
 					else
-						npc.localAI[3] += (nearbyActiveTiles > 400 ? 1f : 5f) + (float)(tentacleScale - 1);
+						npc.localAI[3] += (nearbyActiveTiles > 300 ? 1f : 5f) + (float)(tentacleScale - 1);
 
 					if (npc.localAI[3] >= (CalamityWorld.death ? 330f : 360f))
 					{
 						Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
 
 						float num742 = 10f - ((float)tentacleScale * 0.5f); // 9.5f to 6f, slower projectiles are harder to avoid
-						if (nearbyActiveTiles <= 400)
+						if (nearbyActiveTiles < 300)
 							num742 = 10f;
 
 						float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
@@ -10069,7 +10069,7 @@ namespace CalamityMod.NPCs
 						int numProj = 2;
 
 						int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
-						if (nearbyActiveTiles <= 400)
+						if (nearbyActiveTiles < 300)
 							spread = (Main.rand.Next(2) == 0 ? 3 : 6) + (tentacleScale / 2);
 
 						float rotation = MathHelper.ToRadians(spread);
@@ -10106,7 +10106,7 @@ namespace CalamityMod.NPCs
 						int numProj = 4;
 
 						int spread = 30;
-						if (nearbyActiveTiles <= 400)
+						if (nearbyActiveTiles < 300)
 							spread = (Main.rand.Next(2) == 0 ? 30 : 45);
 
 						float rotation = MathHelper.ToRadians(spread);

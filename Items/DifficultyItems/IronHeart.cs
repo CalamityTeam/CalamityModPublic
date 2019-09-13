@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.DifficultyItems
 {

@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Patreon
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (target.type == NPCID.DukeFishron)
-				damage = (int)((double)damage * 2.5);
+				damage = (int)((double)damage * 2.0);
 		}
 
 		public override void Kill(int timeLeft)

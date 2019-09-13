@@ -2604,11 +2604,10 @@ namespace CalamityMod.CalPlayer
 			if (affliction || afflicted)
 			{
 				player.lifeRegen += 1;
-				player.endurance += CalamityWorld.revenge ? 0.07f : 0.05f;
-				player.statDefense += CalamityWorld.revenge ? 20 : 15;
-				float damageBoost = CalamityWorld.revenge ? 0.12f : 0.1f;
-				player.allDamage += damageBoost;
-				player.statLifeMax2 += CalamityWorld.revenge ? (player.statLifeMax / 5 / 20 * 10) : (player.statLifeMax / 5 / 20 * 5);
+				player.endurance += 0.07f;
+				player.statDefense += 20;
+				player.allDamage += 0.12f;
+                player.statLifeMax2 += player.statLifeMax / 5 / 20 * 10;
 			}
 			#endregion
 
@@ -8728,12 +8727,12 @@ namespace CalamityMod.CalPlayer
 		public static readonly PlayerLayer MiscEffects = new PlayerLayer("CalamityMod", "MiscEffects", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
 		{
 			if (drawInfo.shadow != 0f)
-			{
 				return;
-			}
+
 			Player drawPlayer = drawInfo.drawPlayer;
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			Item item = drawPlayer.inventory[drawPlayer.selectedItem];
+
 			if (!drawPlayer.frozen &&
 				((drawPlayer.itemAnimation > 0 && item.useStyle != 0) || (item.holdStyle > 0 && !drawPlayer.pulley)) &&
 				item.type > 0 &&
@@ -8743,35 +8742,29 @@ namespace CalamityMod.CalPlayer
 			{
 				Vector2 vector = drawPlayer.position + (drawPlayer.itemLocation - drawPlayer.position);
 				SpriteEffects effect = SpriteEffects.FlipHorizontally;
+
 				if (drawPlayer.gravDir == 1f)
 				{
 					if (drawPlayer.direction == 1)
-					{
 						effect = SpriteEffects.None;
-					}
 					else
-					{
 						effect = SpriteEffects.FlipHorizontally;
-					}
 				}
 				else
 				{
 					if (drawPlayer.direction == 1)
-					{
 						effect = SpriteEffects.FlipVertically;
-					}
 					else
-					{
 						effect = (SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically);
-					}
 				}
+
 				if (item.type == mod.ItemType("DeathhailStaff"))
 				{
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/DeathhailStaffGlow");
 					float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
 					int num105 = 0;
-					int num106 = 0;
 					Vector2 zero3 = new Vector2(0f, (float)Main.itemTexture[item.type].Height);
+
 					if (drawPlayer.gravDir == -1f)
 					{
 						if (drawPlayer.direction == -1)
@@ -8791,8 +8784,9 @@ namespace CalamityMod.CalPlayer
 						zero3 = new Vector2((float)Main.itemTexture[item.type].Width, (float)Main.itemTexture[item.type].Height);
 						num105 -= Main.itemTexture[item.type].Width;
 					}
+
 					DrawData data = new DrawData(texture,
-						new Vector2((float)((int)(vector.X - Main.screenPosition.X + zero3.X + (float)num105)), (float)((int)(vector.Y - Main.screenPosition.Y + (float)num106))),
+						new Vector2((float)((int)(vector.X - Main.screenPosition.X + zero3.X + (float)num105)), (float)((int)(vector.Y - Main.screenPosition.Y + 0f))),
 						new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
 						Color.White,
 						num104,
@@ -8802,18 +8796,19 @@ namespace CalamityMod.CalPlayer
 						0);
 					Main.playerDrawData.Add(data);
 				}
+
 				else if (item.type == mod.ItemType("Deathwind"))
 				{
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/DeathwindGlow");
 					Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
-					Vector2 vector14 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
+					Vector2 vector14 = vector13;
 					int num107 = (int)vector14.X - 10;
 					vector13.Y = vector14.Y;
+
 					Vector2 origin4 = new Vector2(-(float)num107, (float)(Main.itemTexture[item.type].Height / 2));
 					if (drawPlayer.direction == -1)
-					{
 						origin4 = new Vector2((float)(Main.itemTexture[item.type].Width + num107), (float)(Main.itemTexture[item.type].Height / 2));
-					}
+
 					DrawData data = new DrawData(texture,
 						new Vector2((float)((int)(vector.X - Main.screenPosition.X + vector13.X)), (float)((int)(vector.Y - Main.screenPosition.Y + vector13.Y))),
 						new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
@@ -8825,36 +8820,22 @@ namespace CalamityMod.CalPlayer
 						0);
 					Main.playerDrawData.Add(data);
 				}
+
 				else if (item.type == mod.ItemType("Excelsus"))
 				{
-					Vector2 zero2 = Vector2.Zero;
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/ExcelsusGlow");
-					if (drawPlayer.gravDir == -1f)
-					{
-						DrawData data = new DrawData(texture,
-							new Vector2((float)((int)(vector.X - Main.screenPosition.X)), (float)((int)(vector.Y - Main.screenPosition.Y))),
-							new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-							Color.White,
-							drawPlayer.itemRotation,
-							new Vector2((float)Main.itemTexture[item.type].Width * 0.5f - (float)Main.itemTexture[item.type].Width * 0.5f * (float)drawPlayer.direction, 0f) + zero2,
-							item.scale,
-							effect,
-							0);
-						Main.playerDrawData.Add(data);
-					}
-					else
-					{
-						DrawData data = new DrawData(texture,
-							new Vector2((float)((int)(vector.X - Main.screenPosition.X)), (float)((int)(vector.Y - Main.screenPosition.Y))),
-							new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
-							Color.White,
-							drawPlayer.itemRotation,
-							new Vector2((float)Main.itemTexture[item.type].Width * 0.5f - (float)Main.itemTexture[item.type].Width * 0.5f * (float)drawPlayer.direction, (float)Main.itemTexture[item.type].Height) + zero2,
-							item.scale,
-							effect,
-							0);
-						Main.playerDrawData.Add(data);
-					}
+					float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
+
+					DrawData data = new DrawData(texture,
+						new Vector2((float)((int)(vector.X - Main.screenPosition.X)), (float)((int)(vector.Y - Main.screenPosition.Y))),
+						new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, 0, Main.itemTexture[item.type].Width, Main.itemTexture[item.type].Height)),
+						Color.White,
+						drawPlayer.itemRotation,
+						new Vector2((float)Main.itemTexture[item.type].Width * 0.5f - (float)Main.itemTexture[item.type].Width * 0.5f * (float)drawPlayer.direction, yOffset) + Vector2.Zero,
+						item.scale,
+						effect,
+						0);
+					Main.playerDrawData.Add(data);
 				}
 			}
 		});

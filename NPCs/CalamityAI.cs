@@ -265,6 +265,10 @@ namespace CalamityMod.NPCs
 
 						npc.velocity.X = velocityX * (float)npc.direction;
 						npc.velocity.Y = -14.5f;
+
+						if (npc.target >= 0 && CalamityWorld.revenge && player.position.Y < npc.position.Y + (float)npc.height)
+							npc.noTileCollide = true;
+
 						npc.ai[0] = 4f;
 						npc.ai[1] = 0f;
 					}

@@ -613,8 +613,8 @@ namespace CalamityMod.NPCs.Cryogen
 								num1250 = (int)player.Center.X / 16;
 								num1251 = (int)player.Center.Y / 16;
 
-								int min = 14;
-								int max = 18;
+								int min = 18;
+								int max = 21;
 
 								if (Main.rand.Next(2) == 0)
 									num1250 += Main.rand.Next(min, max);
@@ -627,13 +627,10 @@ namespace CalamityMod.NPCs.Cryogen
 									num1251 -= Main.rand.Next(min, max);
 
 								if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height))
-								{
 									break;
-								}
+
 								if (num1249 > 100)
-								{
 									goto Block;
-								}
 							}
 							npc.ai[1] = 1f;
 							teleportLocationX = num1250;
@@ -645,7 +642,6 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else if (npc.ai[1] == 1f)
 				{
-					npc.velocity *= 0.9f;
 					npc.dontTakeDamage = true;
 					npc.chaseable = false;
 					npc.alpha += 25;

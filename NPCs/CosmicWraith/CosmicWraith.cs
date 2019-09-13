@@ -269,8 +269,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 							num1250 = (int)player.Center.X / 16;
 							num1251 = (int)player.Center.Y / 16;
 
-							int min = 12;
-							int max = 15;
+							int min = 20;
+							int max = 23;
 
 							if (Main.rand.Next(2) == 0)
 								num1250 += Main.rand.Next(min, max);
@@ -282,14 +282,11 @@ namespace CalamityMod.NPCs.CosmicWraith
 							else
 								num1251 -= Main.rand.Next(min, max);
 
-							if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height))
-							{
+							if (!WorldGen.SolidTile(num1250, num1251))
 								break;
-							}
+
 							if (num1249 > 100)
-							{
 								return;
-							}
 						}
 						npc.ai[0] = 1f;
 						npc.ai[1] = (float)num1250;
@@ -301,7 +298,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.velocity *= 0.9f;
 				npc.dontTakeDamage = true;
 				npc.chaseable = false;
 				npc.alpha += 25;
@@ -378,9 +374,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 						npc.ai[3] = 0f;
 					}
 					else
-					{
 						npc.ai[0] = 0f;
-					}
+
 					npc.netUpdate = true;
 				}
 			}
