@@ -17,17 +17,18 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			projectile.width = 10;
 			projectile.height = 10;
-			projectile.aiStyle = 0;
-			aiType = 55;
 			projectile.hostile = true;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 2;
-			projectile.tileCollide = true;
-			projectile.timeLeft = 1200;
+			projectile.tileCollide = false;
+			projectile.timeLeft = 300;
 		}
 
 		public override void AI()
 		{
+			if (projectile.position.Y > projectile.ai[1])
+				projectile.tileCollide = true;
+
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 		}
 

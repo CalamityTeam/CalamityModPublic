@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -60,6 +61,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			float num823 = 1f;
 			npc.TargetClosest(true);
 			bool flag51 = false;
+			int offsetX = 80;
 			if ((double)npc.life < (double)npc.lifeMax * 0.33)
 			{
 				num823 = 2f;
@@ -82,7 +84,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				if (npc.ai[1] >= 300f && Main.netMode != 1)
 				{
 					npc.ai[1] = 0f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.1)
+					if ((double)npc.life < (double)npc.lifeMax * 0.25)
 					{
 						npc.ai[0] = (float)Main.rand.Next(3, 5);
 					}
@@ -97,10 +99,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				flag51 = true;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] % 15f == 0f)
+				if (npc.ai[1] % 30f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
-					vector18.X += (float)(10 * npc.direction);
+					vector18.X += (float)(offsetX * npc.direction);
 					float num829 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector18.X;
 					float num830 = Main.player[npc.target].position.Y - vector18.Y;
 					float num831 = (float)Math.Sqrt((double)(num829 * num829 + num830 * num830));
@@ -108,9 +110,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num831 = num832 / num831;
 					num829 *= num831;
 					num830 *= num831;
-					num829 *= 1f + (float)Main.rand.Next(-50, 51) * 0.01f;
-					num830 *= 1f + (float)Main.rand.Next(-50, 51) * 0.01f;
-					int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 6 : 9), 0f, Main.myPlayer, 0f, 0f);
+					num829 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
+					num830 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
+					Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 8 : 11), 0f, Main.myPlayer, 0f, 0f);
 				}
 				if (npc.ai[1] >= 120f)
 				{
@@ -122,10 +124,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				flag51 = true;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] > 60f && npc.ai[1] < 240f && npc.ai[1] % 8f == 0f)
+				if (npc.ai[1] > 60f && npc.ai[1] < 240f && npc.ai[1] % 16f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
-					vector18.X += (float)(10 * npc.direction);
+					vector18.X += (float)(offsetX * npc.direction);
 					float num829 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector18.X;
 					float num830 = Main.player[npc.target].position.Y - vector18.Y;
 					float num831 = (float)Math.Sqrt((double)(num829 * num829 + num830 * num830));
@@ -133,9 +135,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num831 = num832 / num831;
 					num829 *= num831;
 					num830 *= num831;
-					num829 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
-					num830 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
-					int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 7 : 10), 0f, Main.myPlayer, 0f, 0f);
+					num829 *= 1f + (float)Main.rand.Next(-15, 16) * 0.01f;
+					num830 *= 1f + (float)Main.rand.Next(-15, 16) * 0.01f;
+					Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 9 : 12), 0f, Main.myPlayer, 0f, 0f);
 				}
 				if (npc.ai[1] >= 300f)
 				{
@@ -150,7 +152,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				if (npc.ai[1] % 30f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
-					vector18.X += (float)(10 * npc.direction);
+					vector18.X += (float)(offsetX * npc.direction);
 					float num844 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector18.X;
 					float num845 = Main.player[npc.target].position.Y - vector18.Y;
 					float num846 = (float)Math.Sqrt((double)(num844 * num844 + num845 * num845));
@@ -158,9 +160,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num846 = num847 / num846;
 					num844 *= num846;
 					num845 *= num846;
-					num844 *= 1f + (float)Main.rand.Next(-20, 21) * 0.001f;
-					num845 *= 1f + (float)Main.rand.Next(-20, 21) * 0.001f;
-					int num848 = Projectile.NewProjectile(vector18.X, vector18.Y, num844, num845, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 9 : 12), 0f, Main.myPlayer, 0f, 0f);
+					num844 *= 1f + (float)Main.rand.Next(-10, 11) * 0.001f;
+					num845 *= 1f + (float)Main.rand.Next(-10, 11) * 0.001f;
+					int num848 = Projectile.NewProjectile(vector18.X, vector18.Y, num844, num845, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 11 : 14), 0f, Main.myPlayer, 0f, 0f);
 				}
 				if (npc.ai[1] >= 120f)
 				{
@@ -172,10 +174,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				num823 = 4f;
 				npc.ai[1] += 1f;
-				if (npc.ai[1] % 10f == 0f)
+				if (npc.ai[1] % 20f == 0f)
 				{
 					Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
-					vector18.X += (float)(10 * npc.direction);
+					vector18.X += (float)(offsetX * npc.direction);
 					float num829 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector18.X;
 					float num830 = Main.player[npc.target].position.Y - vector18.Y;
 					float num831 = (float)Math.Sqrt((double)(num829 * num829 + num830 * num830));
@@ -183,9 +185,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 					num831 = num832 / num831;
 					num829 *= num831;
 					num830 *= num831;
-					num829 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-					num830 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-					int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 11 : 15), 0f, Main.myPlayer, 0f, 0f);
+					num829 *= 1f + (float)Main.rand.Next(-5, 6) * 0.01f;
+					num830 *= 1f + (float)Main.rand.Next(-5, 6) * 0.01f;
+					int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 13 : 17), 0f, Main.myPlayer, 0f, 0f);
 				}
 				if (npc.ai[1] >= 240f)
 				{
@@ -265,31 +267,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 			if (npc.velocity.Y > 10f)
 			{
 				npc.velocity.Y = 10f;
-				return;
-			}
-			float num116 = (float)Main.rand.Next(30, 900);
-			num116 *= (float)npc.life / (float)npc.lifeMax;
-			num116 += 30f;
-			if (Main.netMode != 1 && npc.ai[2] >= num116 && npc.velocity.Y == 0f && !player.dead && ((npc.direction > 0 && npc.Center.X < player.Center.X) || (npc.direction < 0 && npc.Center.X > player.Center.X)) && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
-			{
-				float num117 = 13f;
-				Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + 20f);
-				vector18.X += (float)(10 * npc.direction);
-				float num118 = player.position.X + (float)player.width * 0.5f - vector18.X;
-				float num119 = player.position.Y + (float)player.height * 0.5f - vector18.Y;
-				num118 += (float)Main.rand.Next(-40, 41);
-				num119 += (float)Main.rand.Next(-40, 41);
-				float num120 = (float)Math.Sqrt((double)(num118 * num118 + num119 * num119));
-				npc.netUpdate = true;
-				num120 = num117 / num120;
-				num118 *= num120;
-				num119 *= num120;
-				int num121 = expertMode ? 8 : 12;
-				int num122 = mod.ProjectileType("HorsWaterBlast");
-				vector18.X += num118 * 3f;
-				vector18.Y += num119 * 3f;
-				Projectile.NewProjectile(vector18.X, vector18.Y, num118, num119, num122, num121, 0f, Main.myPlayer, 0f, 0f);
-				npc.ai[2] = 0f;
 			}
 		}
 

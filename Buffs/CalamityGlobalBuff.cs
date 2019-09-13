@@ -11,7 +11,7 @@ namespace CalamityMod.Buffs
         {
             if (type == BuffID.Shine)
             {
-                player.GetModPlayer<CalamityPlayer>(mod).shine = true;
+                player.GetCalamityPlayer().shine = true;
             }
             else if (type == BuffID.IceBarrier)
             {

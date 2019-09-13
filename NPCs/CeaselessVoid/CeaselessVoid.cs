@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
@@ -344,7 +345,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
                 // Other
                 bool lastSentinelKilled = !CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge40"), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSentinels"), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel1, 5, 2, 1);
             }
 

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.hostile = true;
 			projectile.scale = 2f;
 			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
+			projectile.penetrate = -1;
 			projectile.alpha = 120;
 			aiType = 100;
 		}

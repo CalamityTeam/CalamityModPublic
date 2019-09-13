@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 /* states:
  * 0 = slow drift
@@ -667,7 +668,7 @@ namespace CalamityMod.NPCs.HiveMind
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("HiveMindTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge14"), true, !CalamityWorld.downedHiveMind);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeHiveMind"), true, !CalamityWorld.downedHiveMind);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

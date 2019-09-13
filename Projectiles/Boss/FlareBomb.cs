@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.frame = 0;
 			}
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 1.5f) / 255f, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 			float num953 = revenge ? 110f : 100f; //100
 			float scaleFactor12 = revenge ? 27f : 25f; //5
 			float num954 = 40f;
@@ -66,7 +66,6 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.frame = 0;
 			}
-			Lighting.AddLight(projectile.Center, 1f, 0.7f, 0f);
 			int num959 = (int)projectile.ai[0];
 			if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
 			{
@@ -109,10 +108,10 @@ namespace CalamityMod.Projectiles.Boss
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 50;
-			projectile.height = 50;
+			projectile.width = (projectile.height = 48);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.Damage();
 			for (int num621 = 0; num621 < 10; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);

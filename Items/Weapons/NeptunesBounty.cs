@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons
 		{
 			DisplayName.SetDefault("Neptune's Bounty");
             Tooltip.SetDefault("Hitting enemies will cause the crush depth debuff\n" +
-				"The lower the enemies' defense the more damage they take from this debuff");
+				"The lower the enemies' defense the more damage they take from this debuff\n" +
+				"Fires a trident that rains additional tridents as it travels");
         }
 
 		public override void SetDefaults()

@@ -51,11 +51,6 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
 			}
 			projectile.rotation += projectile.velocity.X * 0.1f;
-			if (projectile.ai[1] == 0f)
-			{
-				projectile.ai[1] = 1f;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
-			}
 			int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
 			Dust expr_8976_cp_0 = Main.dust[num199];
 			expr_8976_cp_0.position.X = expr_8976_cp_0.position.X - 2f;

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Pets

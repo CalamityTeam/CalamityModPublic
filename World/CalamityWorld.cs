@@ -11,14 +11,13 @@ using Terraria.Localization;
 using Terraria.GameContent.Events;
 using Terraria.ModLoader.IO;
 using CalamityMod.NPCs;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.World
 {
     public class CalamityWorld : ModWorld
 	{
 		#region Vars
-		//private const int ExpandWorldBy = 200;
-
 		public static int DoGSecondStageCountdown = 0;
 
 		private const int saveVersion = 0;
@@ -63,9 +62,6 @@ namespace CalamityMod.World
 
 		//Astral
 		public static int astralTiles = 0;
-		public static bool spawnAstralMeteor = false; // Now unused
-		public static bool spawnAstralMeteor2 = false; // Now unused
-		public static bool spawnAstralMeteor3 = false; // Now unused
 
 		//Sunken Sea
 		public static int sunkenSeaTiles = 0;
@@ -172,9 +168,6 @@ namespace CalamityMod.World
 			revenge = false;
 			downedStarGod = false;
 			downedAstrageldon = false;
-			spawnAstralMeteor = false;
-			spawnAstralMeteor2 = false;
-			spawnAstralMeteor3 = false;
 			downedPolterghast = false;
 			downedLORDE = false;
 			downedBuffedMothron = false;
@@ -219,9 +212,6 @@ namespace CalamityMod.World
 			if (revenge) downed.Add("revenge");
 			if (downedStarGod) downed.Add("starGod");
 			if (downedAstrageldon) downed.Add("astrageldon");
-			if (spawnAstralMeteor) downed.Add("astralMeteor");
-			if (spawnAstralMeteor2) downed.Add("astralMeteor2");
-			if (spawnAstralMeteor3) downed.Add("astralMeteor3");
 			if (spawnedHardBoss) downed.Add("hardBoss");
 			if (downedPolterghast) downed.Add("polterghast");
 			if (downedLORDE) downed.Add("lorde");
@@ -280,9 +270,6 @@ namespace CalamityMod.World
 			revenge = downed.Contains("revenge");
 			downedStarGod = downed.Contains("starGod");
 			downedAstrageldon = downed.Contains("astrageldon");
-			spawnAstralMeteor = downed.Contains("astralMeteor");
-			spawnAstralMeteor2 = downed.Contains("astralMeteor2");
-			spawnAstralMeteor3 = downed.Contains("astralMeteor3");
 			spawnedHardBoss = downed.Contains("hardBoss");
 			downedPolterghast = downed.Contains("polterghast");
 			downedLORDE = downed.Contains("lorde");
@@ -349,7 +336,7 @@ namespace CalamityMod.World
 				onionMode = flags4[6];
 				revenge = flags4[7];
 
-                // Explicitly discard the now-unused astral meteor booleans
+                // These 3 bits are currently unused, they used to be astral meteor drops
                 BitsByte flags5 = reader.ReadByte();
 				downedStarGod = flags5[0];
 				_ = flags5[1];
@@ -426,12 +413,12 @@ namespace CalamityMod.World
 			flags4[6] = onionMode;
 			flags4[7] = revenge;
 
-            // Don't write meaningful values for the now-unused astral meteor booleans
+            // These 3 bits are currently unused, they used to be astral meteor drops
             BitsByte flags5 = new BitsByte();
 			flags5[0] = downedStarGod;
-            flags5[1] = false;
-            flags5[2] = false;
-            flags5[3] = false;
+			flags5[1] = false;
+			flags5[2] = false;
+			flags5[3] = false;
 			flags5[4] = spawnedHardBoss;
 			flags5[5] = downedPolterghast;
 			flags5[6] = death;
@@ -507,7 +494,7 @@ namespace CalamityMod.World
 			onionMode = flags4[6];
 			revenge = flags4[7];
 
-            // Explicitly discard the now-unused astral meteor booleans
+            // These 3 bits are currently unused, they used to be astral meteor drops
             BitsByte flags5 = reader.ReadByte();
 			downedStarGod = flags5[0];
 			_ = flags5[1];
@@ -682,22 +669,22 @@ namespace CalamityMod.World
 			tasks.Add(new PassLegacy("Planetoid Test", WorldGenerationMethods.Planetoids));
 		}
 
-        // An Astral Meteor always falls at the beginning of Hardmode.
-        public override void ModifyHardmodeTasks(List<GenPass> tasks)
-        {
-            // Yes, this internal identifier is misspelled in vanilla.
-            int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcment");
+		// An Astral Meteor always falls at the beginning of Hardmode.
+		public override void ModifyHardmodeTasks(List<GenPass> tasks)
+		{
+			// Yes, this internal identifier is misspelled in vanilla.
+			int announceIndex = tasks.FindIndex(match => match.Name == "Hardmode Announcment");
 
-            // Insert the Astral biome generation right before the final hardmode announcement.
-            tasks.Insert(announceIndex, new PassLegacy("AstralMeteor", delegate (GenerationProgress progress)
-            {
-                WorldGenerationMethods.PlaceAstralMeteor();
-            }));
-        }
-        #endregion
+			// Insert the Astral biome generation right before the final hardmode announcement.
+			tasks.Insert(announceIndex, new PassLegacy("AstralMeteor", delegate (GenerationProgress progress)
+			{
+				WorldGenerationMethods.PlaceAstralMeteor();
+			}));
+		}
+		#endregion
 
-        #region PostUpdate
-        public override void PostUpdate()
+		#region PostUpdate
+		public override void PostUpdate()
 		{
 			SunkenSeaLocation = new Rectangle(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom,
 						WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);

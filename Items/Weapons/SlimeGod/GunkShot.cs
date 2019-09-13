@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 			item.UseSound = SoundID.Item36;
 			item.autoReuse = true;
 			item.shoot = 10;
-			item.shootSpeed = 3.5f;
+			item.shootSpeed = 5f;
 			item.useAmmo = 97;
 		}
 

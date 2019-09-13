@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
         	target.immune[projectile.owner] = 5;
         	if (projectile.owner == Main.myPlayer)
         	{
-        		int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+        		int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				Main.projectile[boom].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
 			}
         }
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
-				damage = target.lifeMax * 3;
+				damage += target.lifeMax * 3;
 		}
 	}
 }

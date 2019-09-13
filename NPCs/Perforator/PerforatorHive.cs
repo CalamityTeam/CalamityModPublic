@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Perforator
 {
@@ -152,7 +153,6 @@ namespace CalamityMod.NPCs.Perforator
 						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1f);
 						Main.dust[num624].velocity *= 2f;
 					}
-					npc.TargetClosest(true);
 					float num179 = 8f;
 					Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
@@ -188,9 +188,9 @@ namespace CalamityMod.NPCs.Perforator
 					npc.velocity.Y = npc.velocity.Y * 0.98f;
 				}
 				npc.velocity.Y = npc.velocity.Y - 0.1f;
-				if (npc.velocity.Y > 2f)
+				if (npc.velocity.Y > 3f)
 				{
-					npc.velocity.Y = 2f;
+					npc.velocity.Y = 3f;
 				}
 			}
 			else if (npc.position.Y < player.position.Y - 400f) //500
@@ -200,9 +200,9 @@ namespace CalamityMod.NPCs.Perforator
 					npc.velocity.Y = npc.velocity.Y * 0.98f;
 				}
 				npc.velocity.Y = npc.velocity.Y + 0.1f;
-				if (npc.velocity.Y < -2f)
+				if (npc.velocity.Y < -3f)
 				{
-					npc.velocity.Y = -2f;
+					npc.velocity.Y = -3f;
 				}
 			}
 			if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 80f)
@@ -288,7 +288,7 @@ namespace CalamityMod.NPCs.Perforator
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("PerforatorTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge13"), true, !CalamityWorld.downedPerforator);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgePerforators"), true, !CalamityWorld.downedPerforator);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPerforator, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

@@ -9,32 +9,26 @@ namespace CalamityMod.Projectiles.Melee
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Ball");
+			DisplayName.SetDefault("Shiv");
 		}
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 120;
-        }
+			projectile.aiStyle = 27;
+		}
 
         public override void AI()
         {
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				for (int num468 = 0; num468 < 3; num468++)
-				{
-					int num250 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
-					Main.dust[num250].noGravity = true;
-					Main.dust[num250].velocity *= 0f;
-				}
-			}
+			int num250 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
+			Main.dust[num250].noGravity = true;
+			Main.dust[num250].velocity *= 0f;
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 600f;
@@ -72,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            for (int k = 0; k < 7; k++)
+            for (int k = 0; k < 4; k++)
             {
             	int num = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
             	Main.dust[num].noGravity = true;
@@ -92,7 +86,7 @@ namespace CalamityMod.Projectiles.Melee
     		float random = (float)Main.rand.Next(1, 150);
     		if (projectile.owner == Main.myPlayer)
     		{
-	    		for (int i = 0; i <= 3; i++)
+	    		for (int i = 0; i < 4; i++)
 	    		{
 	    			speedX *= dir * random;
 	    			speedY *= dir * random;

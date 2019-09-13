@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Patreon
 
 		public override void SetDefaults()
 		{
-			item.damage = 60;
+			item.damage = 40;
 			item.mana = 10;
 			item.width = 46;
 			item.height = 46;

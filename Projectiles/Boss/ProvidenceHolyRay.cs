@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.Enums;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -42,47 +43,56 @@ namespace CalamityMod.Projectiles.Boss
 		public override void AI()
 		{
 			Vector2? vector78 = null;
+
 			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
 			{
 				projectile.velocity = -Vector2.UnitY;
 			}
+
 			if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == mod.NPCType("Providence"))
 			{
 				Vector2 value21 = new Vector2(27f, 59f);
-				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 16f);
+				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 32f);
 				Vector2 value22 = Utils.Vector2FromElipse(Main.npc[(int)projectile.ai[1]].localAI[0].ToRotationVector2(), value21 * Main.npc[(int)projectile.ai[1]].localAI[1]);
 				projectile.position = fireFrom + value22 - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
 			}
+
 			if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
 			{
 				projectile.velocity = -Vector2.UnitY;
 			}
+
 			float num801 = 1f;
 			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] >= 180f)
+			if (projectile.localAI[0] >= ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f))
 			{
 				projectile.Kill();
 				return;
 			}
-			projectile.scale = (float)Math.Sin((double)(projectile.localAI[0] * 3.14159274f / 180f)) * 10f * num801;
+
+			projectile.scale = (float)Math.Sin((double)(projectile.localAI[0] * 3.14159274f / ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f))) * 10f * num801;
 			if (projectile.scale > num801)
 			{
 				projectile.scale = num801;
 			}
+
 			float num804 = projectile.velocity.ToRotation();
 			num804 += projectile.ai[0];
 			projectile.rotation = num804 - 1.57079637f;
 			projectile.velocity = num804.ToRotationVector2();
+
 			float num805 = 3f; //3f
 			float num806 = (float)projectile.width;
+
 			Vector2 samplingPoint = projectile.Center;
 			if (vector78.HasValue)
 			{
 				samplingPoint = vector78.Value;
 			}
+
 			float[] array3 = new float[(int)num805];
 			Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 2400f, array3);
-			float num807 = 0f; //0f
+			float num807 = 0f;
 			int num3;
 			for (int num808 = 0; num808 < array3.Length; num808 = num3 + 1)
 			{
@@ -90,6 +100,13 @@ namespace CalamityMod.Projectiles.Boss
 				num3 = num808;
 			}
 			num807 /= num805;
+
+			// Fire laser through walls at max length if target cannot be seen
+			if (!Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1))
+			{
+				num807 = 2400f;
+			}
+
 			float amount = 0.5f; //0.5f
 			projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
 			Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
@@ -103,6 +120,7 @@ namespace CalamityMod.Projectiles.Boss
 				Main.dust[num812].scale = 1.7f;
 				num3 = num809;
 			}
+
 			if (Main.rand.Next(5) == 0)
 			{
 				Vector2 value29 = projectile.velocity.RotatedBy(1.5707963705062866, default(Vector2)) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
@@ -111,6 +129,7 @@ namespace CalamityMod.Projectiles.Boss
 				dust.velocity *= 0.5f;
 				Main.dust[num813].velocity.Y = -Math.Abs(Main.dust[num813].velocity.Y);
 			}
+
 			DelegateMethods.v3_1 = new Vector3(0.3f, 0.65f, 0.7f);
 			Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
 		}

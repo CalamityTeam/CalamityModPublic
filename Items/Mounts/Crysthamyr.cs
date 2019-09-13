@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Mounts
 			mountData.idleFrameStart = mountData.standingFrameStart;
 			mountData.idleFrameLoop = true;
 			mountData.swimFrameCount = mountData.inAirFrameCount;
-			mountData.swimFrameDelay = mountData.inAirFrameDelay;
+			mountData.swimFrameDelay = mountData.runningFrameDelay;
 			mountData.swimFrameStart = mountData.inAirFrameStart;
 			if (Main.netMode != 2)
 			{

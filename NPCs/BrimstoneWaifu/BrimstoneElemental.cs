@@ -6,6 +6,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.BrimstoneWaifu
 {
@@ -94,9 +96,9 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 		public override void AI()
 		{
 			CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 2f, 0f, 0f);
 			Player player = Main.player[npc.target];
 			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			bool brimTeleport = (double)npc.life <= (double)npc.lifeMax * 0.2;
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
@@ -168,7 +170,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					{
 						npc.localAI[1] += 1f;
 					}
-					if (npc.localAI[1] >= (float)(200 + Main.rand.Next(100)))
+					if (npc.localAI[1] >= 240f)
 					{
 						npc.localAI[1] = 0f;
 						npc.TargetClosest(true);
@@ -180,8 +182,20 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							timer++;
 							playerPosX = (int)player.Center.X / 16;
 							playerPosY = (int)player.Center.Y / 16;
-							playerPosX += Main.rand.Next(-50, 51);
-							playerPosY += Main.rand.Next(-50, 51);
+
+							int min = 12;
+							int max = 15;
+
+							if (Main.rand.Next(2) == 0)
+								playerPosX += Main.rand.Next(min, max);
+							else
+								playerPosX -= Main.rand.Next(min, max);
+
+							if (Main.rand.Next(2) == 0)
+								playerPosY += Main.rand.Next(min, max);
+							else
+								playerPosY -= Main.rand.Next(min, max);
+
 							if (!WorldGen.SolidTile(playerPosX, playerPosY) && Collision.CanHit(new Vector2((float)(playerPosX * 16), (float)(playerPosY * 16)), 1, 1, player.position, player.width, player.height))
 							{
 								break;
@@ -200,16 +214,18 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 			else if (npc.ai[0] == 1f)
 			{
+				npc.velocity *= 0.9f;
 				npc.dontTakeDamage = true;
 				npc.defense = provy ? 120 : 20;
 				npc.chaseable = false;
-				npc.alpha += (brimTeleport ? 5 : 4);
+				npc.alpha += 25;
 				if (npc.alpha >= 255)
 				{
 					if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("Brimling")) < 2 && revenge)
 					{
 						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Brimling"), 0, 0f, 0f, 0f, 0f, 255);
 					}
+					Main.PlaySound(SoundID.Item8, npc.Center);
 					npc.alpha = 255;
 					npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
 					npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
@@ -219,7 +235,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 			else if (npc.ai[0] == 2f)
 			{
-				npc.alpha -= (brimTeleport ? 5 : 4);
+				npc.alpha -= 25;
 				if (npc.alpha <= 0)
 				{
 					npc.dontTakeDamage = false;
@@ -248,7 +264,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-				Vector2 shootFromVectorX = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
+				Vector2 shootFromVectorX = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
 				npc.ai[1] += 1f;
 				bool shootProjectile = false;
 				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -283,7 +299,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				{
 					shootProjectile = true;
 				}
-				if (shootProjectile && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(shootFromVectorX, 1, 1, player.position, player.width, player.height))
+				if (shootProjectile && Collision.CanHit(shootFromVectorX, 1, 1, player.position, player.width, player.height))
 				{
 					if (Main.netMode != 1)
 					{
@@ -308,8 +324,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						{
 							projectileSpeed += 2f;
 						}
-						float relativeSpeedX = player.position.X + (float)player.width * 0.5f - shootFromVectorX.X + (float)Main.rand.Next(-80, 81);
-						float relativeSpeedY = player.position.Y + (float)player.height * 0.5f - shootFromVectorX.Y + (float)Main.rand.Next(-40, 41);
+						float relativeSpeedX = player.position.X + (float)player.width * 0.5f - shootFromVectorX.X;
+						float relativeSpeedY = player.position.Y + (float)player.height * 0.5f - shootFromVectorX.Y;
 						float totalRelativeSpeed = (float)Math.Sqrt((double)(relativeSpeedX * relativeSpeedX + relativeSpeedY * relativeSpeedY));
 						totalRelativeSpeed = projectileSpeed / totalRelativeSpeed;
 						relativeSpeedX *= totalRelativeSpeed;
@@ -327,21 +343,21 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
 					}
 					npc.velocity.Y = npc.velocity.Y - 0.1f;
-					if (npc.velocity.Y > 2f)
+					if (npc.velocity.Y > 3f)
 					{
-						npc.velocity.Y = 2f;
+						npc.velocity.Y = 3f;
 					}
 				}
-				else if (npc.position.Y < player.position.Y - 400f) //500
+				else if (npc.position.Y < player.position.Y - 350f) //500
 				{
 					if (npc.velocity.Y < 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
 					}
 					npc.velocity.Y = npc.velocity.Y + 0.1f;
-					if (npc.velocity.Y < -2f)
+					if (npc.velocity.Y < -3f)
 					{
-						npc.velocity.Y = -2f;
+						npc.velocity.Y = -3f;
 					}
 				}
 				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 150f) //100
@@ -458,11 +474,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 		}
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-		{
-			return npc.alpha == 0;
-		}
-
 		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			if (CalamityWorld.revenge)
@@ -570,8 +581,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 
 			DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
-			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge6"), true, !CalamityWorld.downedBrimstoneElemental);
-			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge26"), true, !CalamityWorld.downedBrimstoneElemental);
+			DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBrimstoneCrag"), true, !CalamityWorld.downedBrimstoneElemental);
+			DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBrimstoneElemental"), true, !CalamityWorld.downedBrimstoneElemental);
 
 			// if prime hasn't been killed and this is the first time killing brimmy, do the message
 			string key = "Mods.CalamityMod.SteelSkullBossText";

@@ -28,12 +28,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override void SetDefaults()
 		{
-			npc.damage = 250; //150
+			npc.damage = 250;
 			npc.npcSlots = 5f;
-			npc.width = 64; //324
-			npc.height = 76; //216
+			npc.width = 104;
+			npc.height = 104;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000; //1000000 960000
+			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 850000;
@@ -44,11 +44,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;
-			npc.scale = 1.4f;
-			if (Main.expertMode)
-			{
-				npc.scale = 1.5f;
-			}
 			npc.boss = true;
 			npc.value = Item.buyPrice(0, 75, 0, 0);
 			npc.alpha = 255;

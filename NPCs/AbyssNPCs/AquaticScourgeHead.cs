@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -29,8 +31,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			npc.npcSlots = 16f;
 			npc.damage = 100;
-			npc.width = 100; //36
-			npc.height = 90; //20
+			npc.width = 100;
+			npc.height = 90;
 			npc.defense = 20;
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -546,8 +548,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             // there is no Aquatic Scourge trophy yet
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge27"), true, !CalamityWorld.downedAquaticScourge);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge35"), true, !CalamityWorld.downedAquaticScourge);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAquaticScourge"), true, !CalamityWorld.downedAquaticScourge);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSulphurSea"), true, !CalamityWorld.downedAquaticScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAquaticScourge, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
 		{
             for (int x = 0; x < 3; x++)
             {
-                Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-100, 100), player.position.Y - 600f, 0f, 8f, type, damage, knockBack, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-30, 31), player.position.Y - 600f, 0f, 8f, type, damage, knockBack, Main.myPlayer, 0f, 0f);
             }
             return false;
 		}

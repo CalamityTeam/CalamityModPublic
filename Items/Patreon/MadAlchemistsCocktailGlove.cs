@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Patreon
     public class MadAlchemistsCocktailGlove : ModItem
     {
 		private int FlaskType = 0;
-		private int BaseDamage = 300;
+		private int BaseDamage = 200;
 
         public override void SetStaticDefaults()
         {

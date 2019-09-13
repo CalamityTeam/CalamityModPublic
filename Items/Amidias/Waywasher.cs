@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Amidias
 
 		public override void SetDefaults()
 		{
-			item.damage = 10;
+			item.damage = 20;
 			item.magic = true;
 			item.mana = 4;
 			item.width = 30;

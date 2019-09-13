@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Astral
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
             item.shoot = mod.ProjectileType("AstralPike");
-            item.shootSpeed = 9f;
+            item.shootSpeed = 13f;
         }
 
         public override void AddRecipes()

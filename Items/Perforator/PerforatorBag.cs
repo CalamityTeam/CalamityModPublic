@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.Perforator
 {

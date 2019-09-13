@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.height = 40;
 			projectile.hostile = true;
 			projectile.extraUpdates = 1;
-			projectile.penetrate = 1;
+			projectile.penetrate = -1;
 			projectile.ignoreWater = true;
 			projectile.timeLeft = 300;
 		}

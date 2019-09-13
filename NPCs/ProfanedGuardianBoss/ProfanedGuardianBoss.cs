@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.ProfanedGuardianBoss
 {
@@ -429,7 +430,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		{
             // Profaned Guardians have no actual drops and no treasure bag
             DropHelper.DropItem(npc, mod.ItemType("ProfanedCore"));
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge38"), true, !CalamityWorld.downedGuardians);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeProfanedGuardians"), true, !CalamityWorld.downedGuardians);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);
 
             // Mark the Profaned Guardians as dead

@@ -128,7 +128,6 @@ namespace CalamityMod.Projectiles.Typeless
             // Rotate the scythe as it flies.
             float spin = (projectile.direction <= 0) ? -1f : 1f;
         	projectile.rotation += spin * RotationIncrement;
-			return;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -155,13 +154,13 @@ namespace CalamityMod.Projectiles.Typeless
             Vector2 pos = projectile.Center + directOffset + velocityOffset;
             if (projectile.owner == Main.myPlayer)
             {
-                int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
-                CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
-                if (projectile.melee)
-                    cgp.forceMelee = true;
-                else
-                    cgp.forceRogue = true;
-            }
+				int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
+				CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
+				if (projectile.melee)
+					cgp.forceMelee = true;
+				else
+					cgp.forceRogue = true;
+			}
         }
     }
 }

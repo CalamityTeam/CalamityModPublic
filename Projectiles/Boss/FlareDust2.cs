@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.velocity *= 1.05f;
 				}
 			}
-			Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0f);
+			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)
@@ -75,10 +75,10 @@ namespace CalamityMod.Projectiles.Boss
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 400;
-			projectile.height = 400;
+			projectile.width = (projectile.height = 144);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.Damage();
 			for (int num621 = 0; num621 < 5; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 1f);

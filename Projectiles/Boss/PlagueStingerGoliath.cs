@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
@@ -16,17 +17,35 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			projectile.width = 10;
 			projectile.height = 10;
-			projectile.aiStyle = 1;
 			projectile.hostile = true;
 			projectile.penetrate = -1;
-			projectile.tileCollide = true;
+			projectile.tileCollide = false;
 			projectile.timeLeft = 300;
-			aiType = 270;
 		}
 
 		public override void AI()
 		{
-			projectile.velocity.X *= 1.01f;
+			if (projectile.position.Y > projectile.ai[1])
+				projectile.tileCollide = true;
+
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+			int num123 = (int)Player.FindClosest(projectile.Center, 1, 1);
+			projectile.ai[0] += 1f;
+			if (projectile.ai[0] < 110f && projectile.ai[0] > 30f)
+			{
+				float scaleFactor2 = projectile.velocity.Length();
+				Vector2 vector17 = Main.player[num123].Center - projectile.Center;
+				vector17.Normalize();
+				vector17 *= scaleFactor2;
+				projectile.velocity = (projectile.velocity * 24f + vector17) / 25f;
+				projectile.velocity.Normalize();
+				projectile.velocity *= scaleFactor2;
+			}
+			if (projectile.velocity.Length() < 18f)
+			{
+				projectile.velocity *= 1.02f;
+			}
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

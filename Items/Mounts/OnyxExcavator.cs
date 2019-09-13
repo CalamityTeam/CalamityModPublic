@@ -6,6 +6,7 @@ using Terraria.GameContent.Achievements;
 using Microsoft.Xna.Framework;
 using System;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Mounts
 {

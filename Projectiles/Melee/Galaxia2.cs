@@ -243,7 +243,7 @@ namespace CalamityMod.Projectiles.Melee
 			else if (solar)
 			{
 				player.AddBuff(BuffID.Titan, 600);
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 			}
 			else if (vortex)
 			{

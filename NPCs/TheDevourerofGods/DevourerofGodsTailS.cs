@@ -12,7 +12,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
     [AutoloadBossHead]
 	public class DevourerofGodsTailS : ModNPC
 	{
-		private int beamPortal = 0;
 		private int invinceTime = 720;
 		private bool setAlpha = false;
 
@@ -25,10 +24,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			npc.damage = 180;
 			npc.npcSlots = 5f;
-			npc.width = 80; //90
-			npc.height = 98; //90
+			npc.width = 100;
+			npc.height = 124;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000; //720000 672000
+			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 3060000;
@@ -40,9 +39,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.takenDamageMultiplier = 1.25f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
-			animationType = 10; //new
+			npc.aiStyle = -1;
+			aiType = -1;
+			animationType = 10;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;
@@ -68,7 +67,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(invinceTime);
-			writer.Write(beamPortal);
 			writer.Write(setAlpha);
 			writer.Write(npc.dontTakeDamage);
 		}
@@ -76,7 +74,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			invinceTime = reader.ReadInt32();
-			beamPortal = reader.ReadInt32();
 			setAlpha = reader.ReadBoolean();
 			npc.dontTakeDamage = reader.ReadBoolean();
 		}
@@ -137,40 +134,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
 			{
 				npc.active = false;
-			}
-			if (Main.netMode != 1)
-			{
-				beamPortal += 1;
-				if (beamPortal >= 1080)
-				{
-					beamPortal = 0;
-					npc.TargetClosest(true);
-					float projectileSpeed = 5f;
-					if (CalamityWorld.death)
-					{
-						projectileSpeed = 7f;
-					}
-					else if (CalamityWorld.revenge)
-					{
-						projectileSpeed = 6.5f;
-					}
-					else if (Main.expertMode)
-					{
-						projectileSpeed = 6f;
-					}
-					Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-					float playerPositionX = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - shootFromVector.X + (float)Main.rand.Next(-20, 21);
-					float playerPositionY = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - shootFromVector.Y + (float)Main.rand.Next(-20, 21);
-					float playerPosition = (float)Math.Sqrt((double)(playerPositionX * playerPositionX + playerPositionY * playerPositionY));
-					playerPosition = projectileSpeed / playerPosition;
-					playerPositionX *= playerPosition;
-					playerPositionY *= playerPosition;
-					int projectileType = mod.ProjectileType("DoGBeamPortal");
-					shootFromVector.X += playerPositionX * 3f;
-					shootFromVector.Y += playerPositionY * 3f;
-					Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerPositionX, playerPositionY, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
-					npc.netUpdate = true;
-				}
 			}
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
 			if (Main.npc[(int)npc.ai[1]].alpha < 128 && !setAlpha)

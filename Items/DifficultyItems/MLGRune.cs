@@ -30,6 +30,7 @@ namespace CalamityMod.Items.DifficultyItems
 		public override bool UseItem(Player player)
 		{
 			CalamityWorld.demonMode = true;
+			CalamityMod.UpdateServerBoolean();
 			return true;
 		}
 	}

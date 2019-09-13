@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.Localization;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Pets
 {

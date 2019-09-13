@@ -2,6 +2,7 @@
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -10,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draedon's Heart");
-            Tooltip.SetDefault("Gives 10% increased damage while you have the heart attack debuff\n" +
+            Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
                 "Increases your chance of getting the heart attack debuff\n" +
 				"Boosts your damage by 10% and max movement speed and acceleration by 5%\n" +
                 "Rage mode does more damage\n" +

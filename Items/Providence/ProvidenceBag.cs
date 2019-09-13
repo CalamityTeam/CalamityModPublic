@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.Providence
 {

@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items
 {
@@ -57,7 +58,6 @@ namespace CalamityMod.Items
 			DropHelper.DropItem(player, ItemID.SlimeCrown);
 
 			// Music box (if music mod installed)
-
 			Mod musicMod = ModLoader.GetMod("CalamityModMusic");
 			if (musicMod != null)
 				DropHelper.DropItem(player, musicMod.ItemType("CalamityMusicbox"));

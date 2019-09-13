@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -157,10 +158,10 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            int num16 = 500;
+            int num16 = 750;
             if (flag)
             {
-                num16 = 1000;
+                num16 = 2000;
             }
             if (Vector2.Distance(player.Center, projectile.Center) > (float)num16)
             {
@@ -174,7 +175,7 @@ namespace CalamityMod.Projectiles.Summon
                 vector4.Normalize();
                 if (num17 > 400f)
                 {
-                    float scaleFactor = 2f;
+                    float scaleFactor = 6f;
                     vector4 *= scaleFactor;
                     projectile.velocity = (projectile.velocity * 20f + vector4) / 21f;
                 }
@@ -184,7 +185,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num17 > 200f)
                 {
-                    float scaleFactor2 = 6f;
+                    float scaleFactor2 = 12f;
                     vector4 *= scaleFactor2;
                     projectile.velocity.X = (projectile.velocity.X * 40f + vector4.X) / 41f;
                     projectile.velocity.Y = (projectile.velocity.Y * 40f + vector4.Y) / 41f;
@@ -200,13 +201,13 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.ai[0] = 1f;
                 }
-                float num21 = 9f;
+                float num21 = 12f;
                 Vector2 center2 = projectile.Center;
                 Vector2 vector6 = (player.Center - center2 + new Vector2(0f, -60f)) + new Vector2(0f, 40f);
                 float num23 = vector6.Length();
-                if (num23 > 200f && num21 < 9f)
+                if (num23 > 200f && num21 < 12f)
                 {
-                    num21 = 9f;
+                    num21 = 12f;
                 }
                 if (num23 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 {

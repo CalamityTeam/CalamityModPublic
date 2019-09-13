@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.TheDevourerofGods
 {
@@ -33,12 +34,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override void SetDefaults()
 		{
-			npc.damage = 300; //150
+			npc.damage = 300;
 			npc.npcSlots = 5f;
-			npc.width = 100; //130
-			npc.height = 144; //150
+			npc.width = 176;
+			npc.height = 176;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000; //720000 672000
+			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 3060000;
@@ -859,7 +860,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
             DropHelper.DropItem(npc, mod.ItemType("SupremeHealingPotion"), 8, 14);
             DropHelper.DropItemChance(npc, mod.ItemType("DevourerofGodsTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge42"), true, !CalamityWorld.downedDoG);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeDevourerofGods"), true, !CalamityWorld.downedDoG);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

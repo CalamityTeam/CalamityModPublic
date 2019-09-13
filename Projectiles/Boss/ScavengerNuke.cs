@@ -78,7 +78,6 @@ namespace CalamityMod.Projectiles.Boss
 						vector102 = Vector2.UnitY;
 					}
 					projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
-					return;
 				}
 			}
 			else
@@ -91,7 +90,6 @@ namespace CalamityMod.Projectiles.Boss
 				{
 					projectile.ai[0] = -1f;
 					projectile.netUpdate = true;
-					return;
 				}
 			}
 		}
@@ -107,10 +105,10 @@ namespace CalamityMod.Projectiles.Boss
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 100;
-			projectile.height = 100;
+			projectile.width = (projectile.height = 160);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.Damage();
 			for (int num621 = 0; num621 < 30; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);

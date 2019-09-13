@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
@@ -9,37 +11,47 @@ namespace CalamityMod.Projectiles.Melee
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Orb");
+			DisplayName.SetDefault("Beam");
 		}
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.timeLeft = 30;
-            projectile.penetrate = 1;
-            projectile.melee = true;
-        }
+			projectile.width = 20;
+			projectile.height = 20;
+			projectile.aiStyle = 27;
+			projectile.friendly = true;
+			projectile.melee = true;
+			projectile.ignoreWater = true;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 30;
+		}
 
-        public override void AI()
-        {
-        	Lighting.AddLight(projectile.Center, 0f, 0f, 0.65f);
-			for (int num457 = 0; num457 < 5; num457++)
-			{
-				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default(Color), 1.2f);
-				Main.dust[num458].noGravity = true;
-				Main.dust[num458].velocity *= 0.5f;
-				Main.dust[num458].velocity += projectile.velocity * 0.1f;
-			}
-        }
+		public override void AI()
+		{
+			Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f);
+			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default(Color), 0.6f);
+			Main.dust[num458].noGravity = true;
+			Main.dust[num458].velocity *= 0.5f;
+			Main.dust[num458].velocity += projectile.velocity * 0.1f;
+		}
 
-        public override void Kill(int timeLeft)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D tex = Main.projectileTexture[projectile.type];
+			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(50, 50, 255, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
+			Main.PlaySound(SoundID.Item10, projectile.position);
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 60);
+			projectile.width = (projectile.height = 64);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int dust = 0; dust < 30; dust++)
@@ -62,6 +74,10 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num467].velocity.X = num463;
 				Main.dust[num467].velocity.Y = num464;
         	}
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
 			projectile.Damage();
         }
 

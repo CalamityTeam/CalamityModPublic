@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Bumblefuck
 {
@@ -68,97 +69,103 @@ namespace CalamityMod.NPCs.Bumblefuck
 
 		public override void AI()
 		{
+			// Variables
 			Player player = Main.player[npc.target];
 			bool revenge = CalamityWorld.revenge;
 			Vector2 vector = npc.Center;
-			int num1305 = revenge ? 6 : 4;
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+			// Phases
+			bool phase2 = lifeRatio < 0.5f;
+			bool phase3 = lifeRatio < 0.1f;
+
+			// Max spawn amount
+			int num1305 = revenge ? 4 : 3;
 			if (CalamityWorld.death)
-			{
-				num1305 = 8;
-			}
+				num1305 = 5;
+			if (phase2)
+				num1305 = 2;
+
+			// Don't collide with tiles, disable gravity
 			npc.noTileCollide = false;
 			npc.noGravity = true;
+
+			// Reset damage
 			npc.damage = npc.defDamage;
+
+			// Despawn
 			if (Vector2.Distance(player.Center, vector) > 5600f)
 			{
 				if (npc.timeLeft > 10)
-				{
 					npc.timeLeft = 10;
-				}
 			}
+
+			// Fly to target if target is too far away and not in idle or switch phase
 			Vector2 vector205 = player.Center - npc.Center;
-			if (npc.ai[0] > 1f && vector205.Length() > 5200f)
-			{
+			if (npc.ai[0] > 1f && vector205.Length() > 3600f)
 				npc.ai[0] = 1f;
-			}
+
+			// Phase switch
 			if (npc.ai[0] == 0f)
 			{
+				// Target
 				npc.TargetClosest(true);
+
 				if (npc.Center.X < player.Center.X - 2f)
-				{
 					npc.direction = 1;
-				}
 				if (npc.Center.X > player.Center.X + 2f)
-				{
 					npc.direction = -1;
-				}
+
+				// Direction and rotation
 				npc.spriteDirection = npc.direction;
 				npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
+
+				// Slow down if colliding with tiles
 				if (npc.collideX)
 				{
 					npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
-					if (npc.velocity.X > 26f) //4
-					{
-						npc.velocity.X = 26f; //4
-					}
-					if (npc.velocity.X < -26f) //4
-					{
-						npc.velocity.X = -26f; //4
-					}
+					if (npc.velocity.X > 4f)
+						npc.velocity.X = 4f;
+					if (npc.velocity.X < -4f)
+						npc.velocity.X = -4f;
 				}
 				if (npc.collideY)
 				{
 					npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
-					if (npc.velocity.Y > 26f) //4
-					{
-						npc.velocity.Y = 26f; //4
-					}
-					if (npc.velocity.Y < -26f) //4
-					{
-						npc.velocity.Y = -26f; //4
-					}
+					if (npc.velocity.Y > 4f)
+						npc.velocity.Y = 4f;
+					if (npc.velocity.Y < -4f)
+						npc.velocity.Y = -4f;
 				}
+
+				// Fly to target if target is too far away, otherwise get close to target and then slow down
 				Vector2 value51 = player.Center - npc.Center;
 				value51.Y -= 200f;
-				if (value51.Length() > 800f) //800 Charge to get closer and spawn birbs
+				if (value51.Length() > 2800f)
 				{
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 				}
-				else if (value51.Length() > 80f)
+				else if (value51.Length() > 240f)
 				{
-					float scaleFactor15 = 12f; //6
+					float scaleFactor15 = 12f;
 					float num1306 = 30f;
 					value51.Normalize();
 					value51 *= scaleFactor15;
 					npc.velocity = (npc.velocity * (num1306 - 1f) + value51) / num1306;
 				}
-				else if (npc.velocity.Length() > 18f) //8
-				{
+				else if (npc.velocity.Length() > 2f)
 					npc.velocity *= 0.95f;
-				}
-				else if (npc.velocity.Length() < 9f) //4
-				{
+				else if (npc.velocity.Length() < 1f)
 					npc.velocity *= 1.05f;
-				}
+
+				// Phase switch
 				npc.ai[1] += 1f;
-				if (npc.justHit)
-				{
-					npc.ai[1] += (float)Main.rand.Next(10, 30);
-				}
-				if (npc.ai[1] >= 180f && Main.netMode != 1)
+				if (npc.ai[1] >= 30f && Main.netMode != 1)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -167,67 +174,75 @@ namespace CalamityMod.NPCs.Bumblefuck
 					while (npc.ai[0] == 0f)
 					{
 						int damage = Main.expertMode ? 45 : 60; //180 120
-						int num1307 = Main.rand.Next(3);
+
+						int num1307 = (phase2 ? Main.rand.Next(2) + 1 : Main.rand.Next(3));
+						if (phase3)
+							num1307 = 1;
+
 						if (num1307 == 0 && Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
-						{
 							npc.ai[0] = 2f;
-						}
 						else if (num1307 == 1)
 						{
 							npc.ai[0] = 3f;
+							if (phase2)
+							{
+								Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 102);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-2, 3), -4f, mod.ProjectileType("RedLightningFeather"), damage, 0f, Main.myPlayer, 0f, 0f);
+							}
 						}
 						else if (NPC.CountNPCS(mod.NPCType("Bumblefuck2")) < num1305)
 						{
-							npc.ai[0] = 4f; //summon more birbs
+							npc.ai[0] = 4f;
 							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 102);
-							for (int num186 = 0; num186 < 6; num186++)
+							int featherAmt = phase2 ? 3 : 6;
+							for (int num186 = 0; num186 < featherAmt; num186++)
 							{
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-10, 10), (float)Main.rand.Next(-5, -2), mod.ProjectileType("RedLightningFeather"), damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-4, 5), -3f, mod.ProjectileType("RedLightningFeather"), damage, 0f, Main.myPlayer, 0f, 0f);
 							}
 						}
 					}
-					return;
 				}
 			}
 			else
 			{
-				if (npc.ai[0] == 1f) //move closer and spawn birbs
+				// Fly to target
+				if (npc.ai[0] == 1f)
 				{
 					npc.collideX = false;
 					npc.collideY = false;
 					npc.noTileCollide = true;
+
 					if (npc.target < 0 || !player.active || player.dead)
-					{
 						npc.TargetClosest(true);
-					}
+
 					if (npc.velocity.X < 0f)
-					{
 						npc.direction = -1;
-					}
 					else if (npc.velocity.X > 0f)
-					{
 						npc.direction = 1;
-					}
+
 					npc.spriteDirection = npc.direction;
 					npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.04f) / 10f;
+
 					Vector2 value52 = player.Center - npc.Center;
-					if (value52.Length() < 500f && !Collision.SolidCollision(npc.position, npc.width, npc.height)) //500
+					if (value52.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
 					{
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
 					}
-					float scaleFactor16 = 13f + value52.Length() / 100f; //7
+
+					float scaleFactor16 = 14f + value52.Length() / 100f; //7
 					float num1308 = 25f;
 					value52.Normalize();
 					value52 *= scaleFactor16;
 					npc.velocity = (npc.velocity * (num1308 - 1f) + value52) / num1308;
 					return;
 				}
+
+				// Fly towards target quickly
 				if (npc.ai[0] == 2f)
 				{
-					npc.damage = (int)((double)npc.defDamage * 0.9);
 					if (npc.target < 0 || !player.active || player.dead)
 					{
 						npc.TargetClosest(true);
@@ -236,149 +251,149 @@ namespace CalamityMod.NPCs.Bumblefuck
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
 					}
+
 					if (player.Center.X - 10f < npc.Center.X)
-					{
 						npc.direction = -1;
-					}
 					else if (player.Center.X + 10f > npc.Center.X)
-					{
 						npc.direction = 1;
-					}
+
 					npc.spriteDirection = npc.direction;
 					npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.05f) / 5f;
+
 					if (npc.collideX)
 					{
 						npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
-						if (npc.velocity.X > 27f) //4
-						{
-							npc.velocity.X = 27f; //4
-						}
-						if (npc.velocity.X < -27f) //4
-						{
-							npc.velocity.X = -27f; //4
-						}
+						if (npc.velocity.X > 4f)
+							npc.velocity.X = 4f;
+						if (npc.velocity.X < -4f)
+							npc.velocity.X = -4f;
 					}
 					if (npc.collideY)
 					{
 						npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
-						if (npc.velocity.Y > 27f) //4
-						{
-							npc.velocity.Y = 27f; //4
-						}
-						if (npc.velocity.Y < -27f) //4
-						{
-							npc.velocity.Y = -27f; //4
-						}
+						if (npc.velocity.Y > 4f)
+							npc.velocity.Y = 4f;
+						if (npc.velocity.Y < -4f)
+							npc.velocity.Y = -4f;
 					}
+
 					Vector2 value53 = player.Center - npc.Center;
 					value53.Y -= 20f;
 					npc.ai[2] += 0.0222222228f;
 					if (Main.expertMode)
-					{
 						npc.ai[2] += 0.0166666675f;
-					}
-					float scaleFactor17 = 12f + npc.ai[2] + value53.Length() / 120f; //4
+
+					float scaleFactor17 = 8f + npc.ai[2] + value53.Length() / 120f; //4
 					float num1309 = 20f;
 					value53.Normalize();
 					value53 *= scaleFactor17;
 					npc.velocity = (npc.velocity * (num1309 - 1f) + value53) / num1309;
+
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 180f || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
+					if (npc.ai[1] >= 120f || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
 					{
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
-						return;
 					}
 				}
 				else
 				{
+					// Variable for charging
+					float chargeDistance = 600f;
+					if (phase2)
+						chargeDistance -= 50f;
+					if (phase3)
+						chargeDistance -= 50f;
+
+					// Line up charge
 					if (npc.ai[0] == 3f)
 					{
 						npc.noTileCollide = true;
+
 						if (npc.velocity.X < 0f)
-						{
 							npc.direction = -1;
-						}
 						else
-						{
 							npc.direction = 1;
-						}
+
 						npc.spriteDirection = npc.direction;
 						npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.035f) / 5f;
+
 						Vector2 value54 = player.Center - npc.Center;
 						value54.Y -= 12f;
 						if (npc.Center.X > player.Center.X)
-						{
-							value54.X += 400f;
-						}
+							value54.X += chargeDistance;
 						else
-						{
-							value54.X -= 400f;
-						}
-						if (Math.Abs(npc.Center.X - player.Center.X) > 350f && Math.Abs(npc.Center.Y - player.Center.Y) < 20f)
+							value54.X -= chargeDistance;
+
+						if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance - 50f && Math.Abs(npc.Center.Y - player.Center.Y) < (phase3 ? 100f : 20f))
 						{
 							npc.ai[0] = 3.1f;
 							npc.ai[1] = 0f;
 						}
+
 						npc.ai[1] += 0.0333333351f;
-						float scaleFactor18 = 18f + npc.ai[1]; //8
+						float scaleFactor18 = 18f + npc.ai[1];
 						float num1310 = 4f;
 						value54.Normalize();
 						value54 *= scaleFactor18;
 						npc.velocity = (npc.velocity * (num1310 - 1f) + value54) / num1310;
 						return;
 					}
+
+					// Prepare to charge
 					if (npc.ai[0] == 3.1f)
 					{
 						npc.noTileCollide = true;
+
 						npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.035f) / 5f;
+
 						Vector2 vector206 = player.Center - npc.Center;
 						vector206.Y -= 12f;
-						float scaleFactor19 = 26f; //16
+						float scaleFactor19 = 32f; //16
 						float num1311 = 8f;
 						vector206.Normalize();
 						vector206 *= scaleFactor19;
 						npc.velocity = (npc.velocity * (num1311 - 1f) + vector206) / num1311;
+
 						if (npc.velocity.X < 0f)
-						{
 							npc.direction = -1;
-						}
 						else
-						{
 							npc.direction = 1;
-						}
+
 						npc.spriteDirection = npc.direction;
+
 						npc.ai[1] += 1f;
 						if (npc.ai[1] > 10f)
 						{
 							npc.velocity = vector206;
+
 							if (npc.velocity.X < 0f)
-							{
 								npc.direction = -1;
-							}
 							else
-							{
 								npc.direction = 1;
-							}
+
 							npc.ai[0] = 3.2f;
 							npc.ai[1] = 0f;
 							npc.ai[1] = (float)npc.direction;
-							return;
 						}
 					}
 					else
 					{
+						// Charge
 						if (npc.ai[0] == 3.2f)
 						{
 							npc.damage = (int)((double)npc.defDamage * 1.5);
+
 							npc.collideX = false;
 							npc.collideY = false;
 							npc.noTileCollide = true;
+
 							npc.ai[2] += 0.0333333351f;
-							npc.velocity.X = (18f + npc.ai[2]) * npc.ai[1]; //16
-							if ((npc.ai[1] > 0f && npc.Center.X > player.Center.X + 400f) || (npc.ai[1] < 0f && npc.Center.X < player.Center.X - 400f))
+							npc.velocity.X = (32f + npc.ai[2]) * npc.ai[1];
+
+							if ((npc.ai[1] > 0f && npc.Center.X > player.Center.X + (chargeDistance - 140f)) || (npc.ai[1] < 0f && npc.Center.X < player.Center.X - (chargeDistance - 140f)))
 							{
 								if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
 								{
@@ -387,7 +402,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 									npc.ai[2] = 0f;
 									npc.ai[3] = 0f;
 								}
-								else if (Math.Abs(npc.Center.X - player.Center.X) > 800f) //800
+								else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
 								{
 									npc.ai[0] = 1f;
 									npc.ai[1] = 0f;
@@ -395,32 +410,40 @@ namespace CalamityMod.NPCs.Bumblefuck
 									npc.ai[3] = 0f;
 								}
 							}
+
 							npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.035f) / 5f;
 							return;
 						}
+
+						// Find tile coordinates for birb spawn
 						if (npc.ai[0] == 4f)
 						{
 							npc.ai[0] = 0f;
+
 							npc.TargetClosest(true);
+
 							if (Main.netMode != 1)
 							{
 								npc.ai[1] = -1f;
 								npc.ai[2] = -1f;
+
 								for (int num1312 = 0; num1312 < 1000; num1312++)
 								{
 									int num1313 = (int)player.Center.X / 16;
 									int num1314 = (int)player.Center.Y / 16;
+
 									int num1315 = 30 + num1312 / 50;
 									int num1316 = 20 + num1312 / 75;
+
 									num1313 += Main.rand.Next(-num1315, num1315 + 1);
 									num1314 += Main.rand.Next(-num1316, num1316 + 1);
+
 									if (!WorldGen.SolidTile(num1313, num1314))
 									{
 										while (!WorldGen.SolidTile(num1313, num1314) && (double)num1314 < Main.worldSurface)
-										{
 											num1314++;
-										}
-										if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 5600f) //600
+
+										if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 3600f)
 										{
 											npc.ai[0] = 4.1f;
 											npc.ai[1] = (float)num1313;
@@ -430,90 +453,95 @@ namespace CalamityMod.NPCs.Bumblefuck
 									}
 								}
 							}
+
 							npc.netUpdate = true;
 							return;
 						}
+
+						// Move to birb spawn location
 						if (npc.ai[0] == 4.1f)
 						{
 							if (npc.velocity.X < -2f)
-							{
 								npc.direction = -1;
-							}
 							else if (npc.velocity.X > 2f)
-							{
 								npc.direction = 1;
-							}
+
 							npc.spriteDirection = npc.direction;
 							npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
+
 							npc.noTileCollide = true;
+
 							int num1317 = (int)npc.ai[1];
 							int num1318 = (int)npc.ai[2];
+
 							float x2 = (float)(num1317 * 16 + 8);
 							float y2 = (float)(num1318 * 16 - 20);
+
 							Vector2 vector207 = new Vector2(x2, y2);
 							vector207 -= npc.Center;
-							float num1319 = 6f + vector207.Length() / 150f;
-							if (num1319 > 10f)
-							{
-								num1319 = 10f;
-							}
-							float num1320 = 10f; //10
-							if (vector207.Length() < 100f) //10
-							{
+							float num1319 = 12f + vector207.Length() / 150f;
+							if (num1319 > 20f)
+								num1319 = 20f;
+
+							float num1320 = 10f;
+							if (vector207.Length() < 10f)
 								npc.ai[0] = 4.2f;
-							}
+
 							vector207.Normalize();
 							vector207 *= num1319;
 							npc.velocity = (npc.velocity * (num1320 - 1f) + vector207) / num1320;
 							return;
 						}
+
+						// Spawn birbs
 						if (npc.ai[0] == 4.2f)
 						{
 							npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
+
 							npc.noTileCollide = true;
+
 							int num1321 = (int)npc.ai[1];
 							int num1322 = (int)npc.ai[2];
+
 							float x3 = (float)(num1321 * 16 + 8);
 							float y3 = (float)(num1322 * 16 - 20);
+
 							Vector2 vector208 = new Vector2(x3, y3);
 							vector208 -= npc.Center;
-							float num1323 = 40f; //4
+
+							float num1323 = 4f; //4
 							float num1324 = 2f; //2
-							if (Main.netMode != 1 && vector208.Length() < 40f) //4
+
+							if (Main.netMode != 1 && vector208.Length() < 4f)
 							{
 								int num1325 = 10;
 								if (Main.expertMode)
-								{
 									num1325 = (int)((double)num1325 * 0.75);
-								}
+
 								npc.ai[3] += 1f;
 								if (npc.ai[3] == (float)num1325)
-								{
 									NPC.NewNPC(num1321 * 16 + 8, num1322 * 16, mod.NPCType("Bumblefuck2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-								}
 								else if (npc.ai[3] == (float)(num1325 * 2))
 								{
 									npc.ai[0] = 0f;
 									npc.ai[1] = 0f;
 									npc.ai[2] = 0f;
 									npc.ai[3] = 0f;
+
 									if (NPC.CountNPCS(mod.NPCType("Bumblefuck2")) < num1305 && Main.rand.Next(5) != 0)
-									{
 										npc.ai[0] = 4f;
-									}
 									else if (Collision.SolidCollision(npc.position, npc.width, npc.height))
-									{
 										npc.ai[0] = 1f;
-									}
 								}
 							}
+
 							if (vector208.Length() > num1323)
 							{
 								vector208.Normalize();
 								vector208 *= num1323;
 							}
+
 							npc.velocity = (npc.velocity * (num1324 - 1f) + vector208) / num1324;
-							return;
 						}
 					}
 				}
@@ -567,7 +595,7 @@ namespace CalamityMod.NPCs.Bumblefuck
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("BumblebirbTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge43"), true, !CalamityWorld.downedBumble);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBumblebirb"), true, !CalamityWorld.downedBumble);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

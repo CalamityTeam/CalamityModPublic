@@ -6,6 +6,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Polterghast
 {
@@ -638,7 +639,7 @@ namespace CalamityMod.NPCs.Polterghast
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("PolterghastTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge41"), true, !CalamityWorld.downedPolterghast);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgePolterghast"), true, !CalamityWorld.downedPolterghast);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPolterghast, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

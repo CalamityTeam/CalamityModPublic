@@ -20,12 +20,16 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.UI;
 using CalamityMod.Skies;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Localization;
+using CalamityMod.Utilities;
+using CalamityMod.MiscModSupport;
 
 namespace CalamityMod
 {
     public class CalamityMod : Mod
 	{
-		//Hotkeys
+		// Hotkeys
 		public static ModHotKey NormalityRelocatorHotKey;
 		public static ModHotKey AegisHotKey;
 		public static ModHotKey TarraHotKey;
@@ -36,12 +40,12 @@ namespace CalamityMod
 		public static ModHotKey BossBarToggleHotKey;
 		public static ModHotKey BossBarToggleSmallTextHotKey;
 
-		//Boss Spawners
+		// Boss Spawners
 		public static int ghostKillCount = 0;
 		public static int sharkKillCount = 0;
 		public static int astralKillCount = 0;
 
-		//Textures & Shaders
+		// Textures & Shaders
 		public static Texture2D heartOriginal2;
 		public static Texture2D heartOriginal;
 		public static Texture2D rainOriginal;
@@ -52,7 +56,7 @@ namespace CalamityMod
 		public static Texture2D AstralSky;
 		public static Effect CustomShader;
 
-		//Lists
+		// Lists
 		public static IList<string> donatorList;
 		public static List<int> rangedProjectileExceptionList;
 		public static List<int> projectileMinionList;
@@ -167,7 +171,7 @@ namespace CalamityMod
 			Filters.Scene["CalamityMod:CalamitasRun3"] = new Filter(new CalScreenShaderData("FilterMiniTower").UseColor(1.1f, 0.3f, 0.3f).UseOpacity(0.6f), EffectPriority.VeryHigh);
 			SkyManager.Instance["CalamityMod:CalamitasRun3"] = new CalSky();
 
-			Filters.Scene["CalamityMod:PlaguebringerGoliath"] = new Filter(new PbGScreenShaderData("FilterMiniTower").UseColor(0.2f, 0.6f, 0.2f).UseOpacity(0.65f), EffectPriority.VeryHigh);
+			Filters.Scene["CalamityMod:PlaguebringerGoliath"] = new Filter(new PbGScreenShaderData("FilterMiniTower").UseColor(0.2f, 0.6f, 0.2f).UseOpacity(0.35f), EffectPriority.VeryHigh);
 			SkyManager.Instance["CalamityMod:PlaguebringerGoliath"] = new PbGSky();
 
 			Filters.Scene["CalamityMod:Yharon"] = new Filter(new YScreenShaderData("FilterMiniTower").UseColor(1f, 0.4f, 0f).UseOpacity(0.75f), EffectPriority.VeryHigh);

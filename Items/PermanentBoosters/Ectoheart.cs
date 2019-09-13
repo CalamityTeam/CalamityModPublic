@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.PermanentBoosters
 {

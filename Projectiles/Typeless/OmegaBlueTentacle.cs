@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Typeless
 {

@@ -3,6 +3,8 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.TheDevourerofGods
 {

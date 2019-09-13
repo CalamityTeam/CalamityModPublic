@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStatigel
 			recipe.AddIngredient(null, "StatigelWall", 4);
 			recipe.SetResult(this);
 			recipe.AddTile(TileID.WorkBenches);
+			recipe.AddRecipe();
 		}
 	}
 }

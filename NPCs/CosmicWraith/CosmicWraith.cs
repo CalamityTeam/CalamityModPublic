@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.CosmicWraith
 {
@@ -255,7 +256,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				if (Main.netMode != 1)
 				{
 					npc.localAI[1] += 1f;
-					if (npc.localAI[1] >= 150f)
+					if (npc.localAI[1] >= 120f)
 					{
 						npc.localAI[1] = 0f;
 						npc.TargetClosest(true);
@@ -267,8 +268,20 @@ namespace CalamityMod.NPCs.CosmicWraith
 							num1249++;
 							num1250 = (int)player.Center.X / 16;
 							num1251 = (int)player.Center.Y / 16;
-							num1250 += Main.rand.Next(-15, 16);
-							num1251 += Main.rand.Next(-15, 16);
+
+							int min = 12;
+							int max = 15;
+
+							if (Main.rand.Next(2) == 0)
+								num1250 += Main.rand.Next(min, max);
+							else
+								num1250 -= Main.rand.Next(min, max);
+
+							if (Main.rand.Next(2) == 0)
+								num1251 += Main.rand.Next(min, max);
+							else
+								num1251 -= Main.rand.Next(min, max);
+
 							if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height))
 							{
 								break;
@@ -288,28 +301,15 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			else if (npc.ai[0] == 1f)
 			{
+				npc.velocity *= 0.9f;
 				npc.dontTakeDamage = true;
 				npc.chaseable = false;
-				npc.alpha += (cosmicTeleport ? 5 : 4);
+				npc.alpha += 25;
 				if (npc.alpha >= 255)
 				{
+					Main.PlaySound(SoundID.Item8, npc.Center);
 					npc.alpha = 255;
 					npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
-					float distanceX = player.position.X - npc.position.X;
-					if (player.velocity.X >= 0f)
-					{
-						if (npc.position.X < player.position.X)
-							npc.position.X += distanceX * 2f;
-					}
-					else
-					{
-						if (npc.position.X > player.position.X)
-							npc.position.X += distanceX * 2f;
-					}
-					if (Vector2.Distance(player.Center, vectorCenter) > 4800f)
-					{
-						npc.position.X = player.position.X;
-					}
 					npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
 					npc.ai[0] = 2f;
 					npc.netUpdate = true;
@@ -317,7 +317,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			else if (npc.ai[0] == 2f)
 			{
-				npc.alpha -= (cosmicTeleport ? 5 : 4);
+				npc.alpha -= 25;
 				if (npc.alpha <= lifeToAlpha)
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					npc.chaseable = true;
 					npc.ai[3] += 1f;
 					npc.alpha = lifeToAlpha;
-					if (npc.ai[3] >= 2f)
+					if (npc.ai[3] >= 3f)
 					{
 						npc.ai[0] = 3f;
 						npc.ai[1] = 0f;
@@ -390,7 +390,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
+				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
 				npc.ai[1] += 1f;
 				bool flag104 = false;
 				if (npc.life < npc.lifeMax / 4 || CalamityWorld.death || CalamityWorld.bossRushActive)
@@ -411,7 +411,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				{
 					flag104 = true;
 				}
-				if (flag104 && npc.position.Y + (float)npc.height < player.position.Y)
+				if (flag104)
 				{
 					if (Main.netMode != 1)
 					{
@@ -436,8 +436,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 						{
 							num1070 += 1f;
 						}
-						float num1071 = player.position.X + (float)player.width * 0.5f - vector121.X + (float)Main.rand.Next(-80, 81);
-						float num1072 = player.position.Y + (float)player.height * 0.5f - vector121.Y + (float)Main.rand.Next(-40, 41);
+						float num1071 = player.position.X + (float)player.width * 0.5f - vector121.X;
+						float num1072 = player.position.Y + (float)player.height * 0.5f - vector121.Y;
 						float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
 						num1073 = num1070 / num1073;
 						num1071 *= num1073;
@@ -447,16 +447,16 @@ namespace CalamityMod.NPCs.CosmicWraith
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
 					}
 				}
-				if (npc.position.Y > player.position.Y - 150f) //200
+				if (npc.position.Y > player.position.Y - 200f) //200
 				{
 					if (npc.velocity.Y > 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y * 0.975f;
 					}
 					npc.velocity.Y = npc.velocity.Y - 0.1f;
-					if (npc.velocity.Y > 3f)
+					if (npc.velocity.Y > 4f)
 					{
-						npc.velocity.Y = 3f;
+						npc.velocity.Y = 4f;
 					}
 				}
 				else if (npc.position.Y < player.position.Y - 400f) //500
@@ -466,9 +466,9 @@ namespace CalamityMod.NPCs.CosmicWraith
 						npc.velocity.Y = npc.velocity.Y * 0.975f;
 					}
 					npc.velocity.Y = npc.velocity.Y + 0.1f;
-					if (npc.velocity.Y < -3f)
+					if (npc.velocity.Y < -4f)
 					{
-						npc.velocity.Y = -3f;
+						npc.velocity.Y = -4f;
 					}
 				}
 				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 500f) //100
@@ -672,7 +672,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
-			return npc.alpha == lifeToAlpha;
+			return true;
 		}
 
 		public override void FindFrame(int frameHeight)
@@ -782,7 +782,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 
                 // Other
                 bool lastSentinelKilled = CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && !CalamityWorld.downedSentinel3;
-                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge40"), true, lastSentinelKilled);
+                DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSentinels"), true, lastSentinelKilled);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSentinel3, 5, 2, 1);
             }
 

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 			projectile.timeLeft = 600;
-			projectile.penetrate = 1;
+			projectile.penetrate = -1;
 			cooldownSlot = 1;
 		}
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.95f) / 255f, ((255 - projectile.alpha) * 1.15f) / 255f);
+			Lighting.AddLight(projectile.Center, 0f, 0.95f, 1.15f);
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
 			{

@@ -1,14 +1,15 @@
-using System;
-using System.Collections.Generic;
+using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles;
+using CalamityMod.Utilities;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ID;
-using CalamityMod.Projectiles;
-using CalamityMod.World;
-using CalamityMod.Buffs;
 
 namespace CalamityMod.NPCs
 {
@@ -18,6 +19,9 @@ namespace CalamityMod.NPCs
         // Damage reduction
         private float protection = 0f;
         private float defProtection = 0f;
+
+        // Iron Heart
+        private int ironHeartDamage = 0;
 
         // NewAI
         private const int maxAIMod = 4;
@@ -267,16 +271,16 @@ namespace CalamityMod.NPCs
             }
 
             bool inAbyss = ((npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) && ((double)(npc.position.Y / 16f) <= Main.maxTilesY - 250) && abyssPosX) || CalamityWorld.abyssTiles > 200;
-            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[mod.BuffType<CrushDepth>()];
+            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && inAbyss && !npc.buffImmune[mod.BuffType("CrushDepth")];
             if (hurtByAbyss)
             {
-                npc.AddBuff(mod.BuffType<CrushDepth>(), 2);
+                npc.AddBuff(mod.BuffType("CrushDepth"), 2);
                 npc.DeathSound = null;
                 npc.HitSound = null;
             }
 
             if (npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage && CalamityWorld.sulphurTiles > 30 &&
-                !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[mod.BuffType<CrushDepth>()])
+                !npc.buffImmune[BuffID.Poisoned] && !npc.buffImmune[mod.BuffType("CrushDepth")])
             {
                 if (npc.wet)
                 {
@@ -285,7 +289,7 @@ namespace CalamityMod.NPCs
 
                 if (Main.raining)
                 {
-                    npc.AddBuff(mod.BuffType<Irradiated>(), 2);
+                    npc.AddBuff(mod.BuffType("Irradiated"), 2);
                 }
             }
 
@@ -364,11 +368,11 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                npc.lifeRegen -= projectileCount * 25;
+                npc.lifeRegen -= projectileCount * 35;
 
-                if (damage < projectileCount * 5)
+                if (damage < projectileCount * 7)
                 {
-                    damage = projectileCount * 5;
+                    damage = projectileCount * 7;
                 }
             }
 
@@ -542,6 +546,11 @@ namespace CalamityMod.NPCs
 
             OtherStatChanges(npc);
 
+            if (CalamityWorld.ironHeart)
+            {
+                IronHeartChanges(npc);
+            }
+
             if (protection > 0f)
             {
                 defProtection = protection;
@@ -668,7 +677,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
             {
-                npc.lifeMax = (int)(npc.lifeMax * 30.0);
+                npc.lifeMax = (int)(npc.lifeMax * 5.0);
             }
             else if (npc.type == NPCID.Golem)
             {
@@ -905,7 +914,6 @@ namespace CalamityMod.NPCs
                     case NPCID.MoonLordCore:
                     case NPCID.MoonLordFreeEye:
                     case NPCID.CultistBoss:
-                    case NPCID.Mothron:
                     case NPCID.Crab:
                     case NPCID.SeaSnail:
                         protection = 0.05f;
@@ -984,6 +992,7 @@ namespace CalamityMod.NPCs
                     case NPCID.Crawdad2:
                     case NPCID.GiantShelly:
                     case NPCID.GiantShelly2:
+                    case NPCID.Mothron:
                         protection = 0.2f;
                         break;
 
@@ -1039,6 +1048,12 @@ namespace CalamityMod.NPCs
         #region Other Stat Changes
         private void OtherStatChanges(NPC npc)
         {
+            // Fix Sharkron hitboxes
+            if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
+            {
+                npc.width = npc.height = 36;
+            }
+
             if (npc.type == NPCID.CultistBoss)
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.25) : (int)(npc.lifeMax * (CalamityWorld.revenge ? 1.55 : 1.15));
@@ -1112,6 +1127,15 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+        // TODO: Change Iron Heart damage in here for Iron Heart mode
+        #region Iron Heart Changes
+        private void IronHeartChanges(NPC npc)
+        {
+            // Iron Heart damage variable will scale with npc.damage
+            ironHeartDamage = 0;
+        }
+        #endregion
+
         #region Scale Expert Multiplayer Stats
         public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
         {
@@ -1177,80 +1201,80 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.type == thorium.NPCType("TheGrandThunderBirdv2"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.5);
                     }
                     else if (npc.type == thorium.NPCType("QueenJelly"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.9) : (int)(npc.lifeMax * 1.35);
                     }
                     else if (npc.type == thorium.NPCType("Viscount"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.65) : (int)(npc.lifeMax * 1.25);
                     }
                     else if (npc.type == thorium.NPCType("GraniteEnergyStorm"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.25) : (int)(npc.lifeMax * 1.1);
                     }
                     else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.5) : (int)(npc.lifeMax * 1.2);
                     }
                     else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") ||
                         npc.type == thorium.NPCType("PyroCore"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.75) : (int)(npc.lifeMax * 1.3);
                     }
                     else if (npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("BoreanStriderPopped"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.0) : (int)(npc.lifeMax * 1.4);
                     }
                     else if (npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
                     }
                     else if (npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
                     }
                     else if (npc.type == thorium.NPCType("Abyssion") || npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.3) : (int)(npc.lifeMax * 1.5);
                     }
                     else if (npc.type == thorium.NPCType("SlagFury") || npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") ||
                         npc.type == thorium.NPCType("Aquaius") || npc.type == thorium.NPCType("Aquaius2"))
                     {
-                        npc.buffImmune[mod.BuffType<GlacialState>()] = true;
-                        npc.buffImmune[mod.BuffType<TemporalSadness>()] = true;
+                        npc.buffImmune[mod.BuffType("GlacialState")] = true;
+                        npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 
                         npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.75) : (int)(npc.lifeMax * 1.3);
                     }
@@ -1286,11 +1310,6 @@ namespace CalamityMod.NPCs
                 {
                     cooldownSlot = 1;
                 }
-            }
-
-            if (npc.type == NPCID.BrainofCthulhu)
-            {
-                return npc.ai[0] < 0f;
             }
 
             return true;
@@ -1448,21 +1467,6 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
             {
                 BossRushForceDespawnOtherNPCs(npc, mod);
-                switch (npc.type)
-                {
-                    case NPCID.KingSlime:
-                        return CalamityGlobalAI.BossRushKingSlimeAI(npc, enraged);
-                    case NPCID.BrainofCthulhu:
-                        return CalamityGlobalAI.BossRushBrainofCthulhuAI(npc, enraged, mod);
-                    case NPCID.EaterofWorldsHead:
-                        return CalamityGlobalAI.BossRushEaterofWorldsAI(npc, enraged, mod);
-                    case NPCID.QueenBee:
-                        return CalamityGlobalAI.BossRushQueenBeeAI(npc, enraged);
-                    case NPCID.DukeFishron:
-                        return CalamityGlobalAI.BossRushDukeFishronAI(npc, enraged, mod);
-                    default:
-                        break;
-                }
             }
 
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
@@ -1479,6 +1483,11 @@ namespace CalamityMod.NPCs
                     case NPCID.EaterofWorldsBody:
                     case NPCID.EaterofWorldsTail:
                         return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod);
+
+                    case NPCID.BrainofCthulhu:
+                        return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged, mod);
+                    case NPCID.Creeper:
+                        return CalamityGlobalAI.BuffedCreeperAI(npc, enraged, mod);
 
                     case NPCID.QueenBee:
                         return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
@@ -1520,6 +1529,9 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod);
                     case NPCID.PlanterasTentacle:
                         return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod);
+
+                    case NPCID.DukeFishron:
+                        return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged, mod);
 
                     case NPCID.Pumpking:
                         if (CalamityWorld.downedDoG)
@@ -2018,9 +2030,6 @@ namespace CalamityMod.NPCs
                     case NPCID.CultistBoss:
                         CalamityGlobalAI.RevengeanceCultistAI(npc, configBossRushBoost, mod, enraged);
                         break;
-                    case NPCID.DukeFishron:
-                        CalamityGlobalAI.RevengeanceDukeFishronAI(npc, mod);
-                        break;
                     case NPCID.GolemHeadFree:
                         if (!CalamityWorld.bossRushActive)
                         {
@@ -2037,12 +2046,6 @@ namespace CalamityMod.NPCs
                         break;
                     case NPCID.DungeonGuardian:
                         CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
-                        break;
-                    case NPCID.BrainofCthulhu:
-                        CalamityGlobalAI.RevengeanceBrainofCthulhuAI(npc);
-                        break;
-                    case NPCID.Creeper:
-                        CalamityGlobalAI.RevengeanceCreeperAI(npc);
                         break;
                     case NPCID.Lihzahrd:
                         CalamityGlobalAI.RevengeanceLihzahrdAI(npc);
@@ -2502,16 +2505,16 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TheDestroyerBody)
             {
-                if ((projectile.penetrate == -1 && !projectile.minion) || projectile.type == mod.ProjectileType("KelvinCatalyst") || projectile.type == mod.ProjectileType("KelvinCatalystStar"))
+                if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == mod.ProjectileType("KelvinCatalystStar"))
                 {
-                    damage = (int)(damage * 0.2);
+                    damage = (int)(damage * 0.5);
                 }
-                else if (projectile.penetrate > 1)
+                else if ((projectile.type == ProjectileID.HallowStar && projectile.ranged) || projectile.type == mod.ProjectileType("FossilShardThrown") || projectile.type == mod.ProjectileType("FrostShardFriendly"))
                 {
-                    damage /= projectile.penetrate;
+                    damage = (int)(damage * 0.75);
                 }
             }
-            else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+            else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail || npc.type == NPCID.Creeper)
             {
                 if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
                 {
@@ -3247,7 +3250,7 @@ namespace CalamityMod.NPCs
                         chat = "Could you be so kind as to, ah...check hell for me...? I left someone I kind of care about down there.";
                     }
 
-                    if (Main.rand.Next(20) == 0 && CalamityWorld.spawnAstralMeteor)
+                    if (Main.rand.Next(20) == 0 && Main.hardMode)
                     {
                         chat = "I have this sudden shiver up my spine, like a meteor just fell and thousands of innocent creatures turned into monsters from the stars.";
                     }
@@ -3293,7 +3296,7 @@ namespace CalamityMod.NPCs
                         chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
                     }
 
-                    if (Main.rand.Next(10) == 0 && CalamityWorld.spawnAstralMeteor)
+                    if (Main.rand.Next(10) == 0 && Main.hardMode)
                     {
                         chat = "Space just got way too close for comfort.";
                     }
@@ -3305,7 +3308,7 @@ namespace CalamityMod.NPCs
                         chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
                     }
 
-                    if (Main.rand.Next(10) == 0 && CalamityWorld.spawnAstralMeteor)
+                    if (Main.rand.Next(10) == 0 && Main.hardMode)
                     {
                         chat = "That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?";
                     }
@@ -3324,7 +3327,7 @@ namespace CalamityMod.NPCs
                         chat = Main.npc[fapsol2].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
                     }
 
-                    if (Main.rand.Next(15) == 0 && CalamityWorld.spawnAstralMeteor)
+                    if (Main.rand.Next(15) == 0 && Main.hardMode)
                     {
                         chat = "Please don't catch space lice. Or " + worldEvil + " lice. Or just lice in general.";
                     }
@@ -3613,12 +3616,17 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.GoldenKey, Main.hardMode, Item.buyPrice(0, 5));
             }
 
+            if (type == NPCID.Painter)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.PainterPaintballGun, price: Item.buyPrice(0, 15));
+            }
+
             if (type == NPCID.Steampunker)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralSolution"), Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && CalamityWorld.spawnAstralMeteor, Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralSolution"), Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)
@@ -3626,6 +3634,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("CryoKey"), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("CharredIdol"), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralChunk"), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));

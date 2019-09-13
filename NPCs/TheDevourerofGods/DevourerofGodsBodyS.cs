@@ -20,12 +20,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override void SetDefaults()
 		{
-			npc.damage = 220; //70
+			npc.damage = 220;
 			npc.npcSlots = 5f;
-			npc.width = 54; //34
-			npc.height = 54; //34
+			npc.width = 70;
+			npc.height = 70;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000; //720000 672000
+			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 3060000;
@@ -36,9 +36,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
-			animationType = 10; //new
+			npc.aiStyle = -1;
+			aiType = -1;
+			animationType = 10;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;

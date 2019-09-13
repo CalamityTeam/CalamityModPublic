@@ -112,7 +112,6 @@ namespace CalamityMod.Projectiles.Typeless
 
             // Rotate the hammer as it flies.
         	projectile.rotation += RotationIncrement;
-			return;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -181,13 +180,13 @@ namespace CalamityMod.Projectiles.Typeless
                 float AI1 = (float)Main.rand.Next(3);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
-                    CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
-                    if (projectile.melee)
-                        cgp.forceMelee = true;
-                    else
-                        cgp.forceRogue = true;
-                }
+					int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
+					CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
+					if (projectile.melee)
+						cgp.forceMelee = true;
+					else
+						cgp.forceRogue = true;
+				}
             }
         }
     }

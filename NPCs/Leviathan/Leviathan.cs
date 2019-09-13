@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -120,7 +121,7 @@ namespace CalamityMod.NPCs.Leviathan
 			bool flag6 = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
 			if (flag6 || !sirenAlive || CalamityWorld.death)
 			{
-				npc.defense = 80;
+				npc.defense = 60;
 			}
 			else
 			{
@@ -591,8 +592,8 @@ namespace CalamityMod.NPCs.Leviathan
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("LeviathanTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge10"), true, !CalamityWorld.downedLeviathan);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge28"), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeOcean"), true, !CalamityWorld.downedLeviathan);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeLeviathanandSiren"), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedLeviathan, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
