@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.height = 16;
 			projectile.friendly = true;
 			projectile.melee = true;
+			projectile.ignoreWater = true;
 			projectile.penetrate = 1;
 			projectile.extraUpdates = 1;
 			projectile.alpha = 255;

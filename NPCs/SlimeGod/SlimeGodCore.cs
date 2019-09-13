@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
@@ -336,7 +338,7 @@ namespace CalamityMod.NPCs.SlimeGod
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("SlimeGodTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge15"), true, !CalamityWorld.downedSlimeGod);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSlimeGod"), true, !CalamityWorld.downedSlimeGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
             // Purified Jam is once per player, but drops for all players.

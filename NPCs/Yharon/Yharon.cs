@@ -9,6 +9,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 /*Possibly add in a final phase for AI 2 that is similar to Sif's final phase in Dark Souls*/
 
@@ -783,7 +784,7 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30))
 				{
-					Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1)); //changed
+					Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(npc.direction * 2), 8f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1)); //changed
 					Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(-(float)npc.direction * 2), 8f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
 				}
 				npc.ai[2] += 1f;
@@ -2830,7 +2831,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 // Other
                 DropHelper.DropItem(npc, mod.ItemType("BossRush"));
-                DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge44"), true, !CalamityWorld.downedYharon);
+                DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeYharon"), true, !CalamityWorld.downedYharon);
                 DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedYharon, 6, 3, 2);
 
                 // If Yharon has not been killed yet, notify players of Auric Ore

@@ -7,6 +7,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Cryogen
 {
@@ -599,7 +600,7 @@ namespace CalamityMod.NPCs.Cryogen
 					if (Main.netMode != 1)
 					{
 						npc.localAI[2] += 1f;
-						if (npc.localAI[2] >= (float)(120 + Main.rand.Next(200)))
+						if (npc.localAI[2] >= 180f)
 						{
 							npc.localAI[2] = 0f;
 							npc.TargetClosest(true);
@@ -611,8 +612,20 @@ namespace CalamityMod.NPCs.Cryogen
 								num1249++;
 								num1250 = (int)player.Center.X / 16;
 								num1251 = (int)player.Center.Y / 16;
-								num1250 += Main.rand.Next(-50, 51);
-								num1251 += Main.rand.Next(-50, 51);
+
+								int min = 14;
+								int max = 18;
+
+								if (Main.rand.Next(2) == 0)
+									num1250 += Main.rand.Next(min, max);
+								else
+									num1250 -= Main.rand.Next(min, max);
+
+								if (Main.rand.Next(2) == 0)
+									num1251 += Main.rand.Next(min, max);
+								else
+									num1251 -= Main.rand.Next(min, max);
+
 								if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height))
 								{
 									break;
@@ -632,11 +645,13 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else if (npc.ai[1] == 1f)
 				{
+					npc.velocity *= 0.9f;
 					npc.dontTakeDamage = true;
 					npc.chaseable = false;
-					npc.alpha += 4;
+					npc.alpha += 25;
 					if (npc.alpha >= 255)
 					{
+						Main.PlaySound(SoundID.Item8, npc.Center);
 						npc.alpha = 255;
 						npc.position.X = (float)teleportLocationX * 16f - (float)(npc.width / 2);
 						npc.position.Y = (float)iceShard * 16f - (float)(npc.height / 2);
@@ -646,7 +661,7 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else if (npc.ai[1] == 2f)
 				{
-					npc.alpha -= 4;
+					npc.alpha -= 25;
 					if (npc.alpha <= 0)
 					{
 						npc.dontTakeDamage = false;
@@ -850,11 +865,6 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.damage = (int)(npc.damage * 0.8f);
 		}
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-		{
-			return npc.alpha == 0;
-		}
-
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
@@ -949,7 +959,7 @@ namespace CalamityMod.NPCs.Cryogen
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("CryogenTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge19"), true, !CalamityWorld.downedCryogen);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeCryogen"), true, !CalamityWorld.downedCryogen);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCryogen, 4, 2, 1);
 
             if (!Main.expertMode)

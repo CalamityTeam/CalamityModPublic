@@ -27,7 +27,6 @@ namespace CalamityMod.Items.SunkenSea
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             if (ShardCountdown == 0)
             {
                 ShardCountdown = 120;

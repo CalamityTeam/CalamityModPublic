@@ -210,6 +210,11 @@ namespace CalamityMod.NPCs.Astrageldon
 			return false;
 		}
 
+		public override Color? GetAlpha(Color drawColor)
+		{
+			return new Color(200, 200, 200, npc.alpha);
+		}
+
 		public override void FindFrame(int frameHeight)
 		{
 			npc.frameCounter += 0.15f;

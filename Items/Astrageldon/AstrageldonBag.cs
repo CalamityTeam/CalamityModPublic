@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.Astrageldon
 {

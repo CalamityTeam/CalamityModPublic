@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
@@ -448,7 +449,7 @@ namespace CalamityMod.NPCs.DesertScourge
 
             DropHelper.DropItem(npc, ItemID.LesserHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, mod.ItemType("DesertScourgeTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge"), true, !CalamityWorld.downedDesertScourge);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeDesertScourge"), true, !CalamityWorld.downedDesertScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

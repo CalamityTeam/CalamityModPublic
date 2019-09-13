@@ -26,7 +26,6 @@ namespace CalamityMod.Items.DesertScourge
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			CalamityCustomThrowingDamagePlayer modPlayer = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
 			Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0f, 0.425f, 0.425f);
 			player.moveSpeed += 0.1f;
 			player.jumpSpeedBoost += (player.autoJump ? 0.25f : 1.0f);

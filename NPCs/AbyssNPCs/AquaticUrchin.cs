@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -44,7 +45,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			int num = 30;
 			int num2 = 10;
-			bool flag = false;
 			bool flag2 = false;
 			bool flag3 = false;
 			if (npc.velocity.Y == 0f && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			if (npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
 			{
-				npc.velocity.Y = npc.velocity.Y - (npc.wet ? 24f : 8f);
+				npc.velocity.Y = npc.velocity.Y - (npc.wet ? 12f : 4f);
 				for (int k = 0; k < 5; k++)
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 33, 0f, -1f, 0, default(Color), 1f);
@@ -146,16 +146,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					npc.direction = 1;
 				}
 			}
-			float num7 = 6f;
-			float num8 = 0.07f;
-			if (!flag && (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
+			float num7 = (npc.wet ? 7f : 3f);
+			float num8 = (npc.wet ? 0.12f : 0.05f);
+			if (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0))
 			{
 				if (Math.Sign(npc.velocity.X) != npc.direction)
 				{
 					npc.velocity.X = npc.velocity.X * 0.92f;
 				}
-				num7 = 9f;
-				num8 = 0.4f;
 				if (npc.velocity.X < -num7 || npc.velocity.X > num7)
 				{
 					if (npc.velocity.Y == 0f)
@@ -290,28 +288,28 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					{
 						if (Main.tile[num15, num16 - 3].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 3].type])
 						{
-							npc.velocity.Y = (npc.wet ? -34f : -12.5f);
+							npc.velocity.Y = (npc.wet ? -16f : -7.5f);
 							npc.netUpdate = true;
 						}
 						else
 						{
-							npc.velocity.Y = (npc.wet ? -30f : -11.5f);
+							npc.velocity.Y = (npc.wet ? -14f : -6.5f);
 							npc.netUpdate = true;
 						}
 					}
 					else if (Main.tile[num15, num16 - 1].nactive() && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16 - 1].type])
 					{
-						npc.velocity.Y = (npc.wet ? -28f : -11f);
+						npc.velocity.Y = (npc.wet ? -13f : -6f);
 						npc.netUpdate = true;
 					}
 					else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].nactive() && !Main.tile[num15, num16].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16].type])
 					{
-						npc.velocity.Y = (npc.wet ? -24f : -9f);
+						npc.velocity.Y = (npc.wet ? -12f : -5f);
 						npc.netUpdate = true;
 					}
 					else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].type]) && (!Main.tile[num15, num16 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].type]) && (!Main.tile[num15 + npc.direction, num16 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].type]))
 					{
-						npc.velocity.Y = (npc.wet ? -32f : -12f);
+						npc.velocity.Y = (npc.wet ? -15f : -7f);
 						npc.netUpdate = true;
 					}
 				}

@@ -12,10 +12,17 @@ namespace CalamityMod.NPCs
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
 		{
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+			// Phases
+			bool phase2 = lifeRatio < 0.75f;
+			bool phase3 = lifeRatio < 0.5f;
+
 			// Variables
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			int shootBuff = (int)(2f * (1f - (float)npc.life / (float)npc.lifeMax));
+			int shootBuff = (int)(2f * (1f - lifeRatio));
 			float shootTimer = 1f + ((float)shootBuff);
 			bool dayTime = Main.dayTime;
 			Player player = Main.player[npc.target];
@@ -142,7 +149,7 @@ namespace CalamityMod.NPCs
 
 				// Stay vulnerable for a maximum of 1.5 or 2.5 seconds
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= ((npc.life < npc.lifeMax / 4 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
+				if (npc.ai[1] >= ((phase3 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
 				{
 					// Increase defense
 					npc.defense = 70;
@@ -162,11 +169,7 @@ namespace CalamityMod.NPCs
 			else if (npc.ai[0] == 2f)
 			{
 				// Set walking speed
-				float num823 = 4.5f;
-				if ((double)npc.life < (double)npc.lifeMax * 0.5)
-					num823 = 5.5f;
-				if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-					num823 = 7f;
+				float num823 = 5f + (3f * (1f - lifeRatio));
 
 				// Set walking direction
 				if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
@@ -257,7 +260,10 @@ namespace CalamityMod.NPCs
 					{
 						// Set jump velocity, reset and set AI to next phase (Stomp)
 						npc.TargetClosest(true);
-						npc.velocity.X = (float)(4 * npc.direction);
+
+						float velocityX = 6f + (6f * (1f - lifeRatio));
+
+						npc.velocity.X = velocityX * (float)npc.direction;
 						npc.velocity.Y = -14.5f;
 						npc.ai[0] = 4f;
 						npc.ai[1] = 0f;
@@ -275,9 +281,9 @@ namespace CalamityMod.NPCs
 
 					// Stomp and jump again, if stomped twice then reset and set AI to next phase (Teleport or Idle)
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= 2f)
+					if (npc.ai[2] >= 3f)
 					{
-						npc.ai[0] = ((npc.life < npc.lifeMax / 2 || revenge) ? 5f : 1f);
+						npc.ai[0] = ((phase2 || revenge) ? 5f : 1f);
 						npc.ai[2] = 0f;
 					}
 					else
@@ -297,10 +303,22 @@ namespace CalamityMod.NPCs
 				{
 					// Set velocities while falling, this happens before the stomp
 					npc.TargetClosest(true);
+
+					// Fall through
+					if (npc.target >= 0 && revenge && ((player.position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (player.position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f)))
+						npc.noTileCollide = true;
+					else
+						npc.noTileCollide = false;
+
 					if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
-						npc.velocity.Y = npc.velocity.Y + 0.6f;
+
+						if (player.position.Y > npc.position.Y + (float)npc.height)
+						{
+							float fallSpeed = 0.8f + (0.8f * (1f - lifeRatio));
+							npc.velocity.Y = npc.velocity.Y + fallSpeed;
+						}
 					}
 					else
 					{
@@ -309,16 +327,7 @@ namespace CalamityMod.NPCs
 						else if (npc.direction > 0)
 							npc.velocity.X = npc.velocity.X + 0.2f;
 
-						float num626 = 8f;
-						if (revenge)
-							num626 += 1f;
-						if (CalamityWorld.death || CalamityWorld.bossRushActive)
-							num626 += 2f;
-						if (npc.life < npc.lifeMax / 2 || CalamityWorld.bossRushActive)
-							num626 += 1f;
-						if (npc.life < npc.lifeMax / 10 || CalamityWorld.bossRushActive)
-							num626 += 1f;
-
+						float num626 = 9f + (6f * (1f - lifeRatio));
 						if (npc.velocity.X < -num626)
 							npc.velocity.X = -num626;
 						if (npc.velocity.X > num626)
@@ -442,6 +451,7 @@ namespace CalamityMod.NPCs
 					// Reset alpha and set AI to next phase (Idle)
 					npc.alpha = 0;
 					npc.ai[0] = 1f;
+					npc.ai[2] = 0f;
 					npc.netUpdate = true;
 				}
 

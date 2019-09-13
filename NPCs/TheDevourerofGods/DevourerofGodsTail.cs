@@ -19,10 +19,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			npc.damage = 150;
 			npc.npcSlots = 5f;
-			npc.width = 32; //42
-			npc.height = 50; //42
+			npc.width = 66;
+			npc.height = 66;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000; //1000000 960000
+			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 850000;
@@ -32,11 +32,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;
-			npc.scale = 1.4f;
-			if (Main.expertMode)
-			{
-				npc.scale = 1.5f;
-			}
 			npc.alpha = 255;
 			npc.behindTiles = true;
 			npc.noGravity = true;

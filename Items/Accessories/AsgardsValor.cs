@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,8 +15,8 @@ namespace CalamityMod.Items.Accessories
                 "Immune to most debuffs including Brimstone Flames, Holy Flames, and Glacial State\n" +
                 "10% damage reduction while submerged in liquid\n" +
                 "+20 max life\n" +
-                "Grants a holy dash which can be used to ram enemies\n" +
-                "Toggle visibility of this accessory to enable/disable the dash");
+				"Grants a holy dash which can be used to ram enemies\n" +
+				"Toggle visibility of this accessory to enable/disable the dash");
         }
 
         public override void SetDefaults()

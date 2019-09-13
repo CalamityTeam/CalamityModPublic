@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Projectiles
 {
@@ -18,11 +20,11 @@ namespace CalamityMod.Projectiles
 			}
 		}
 
-		//Class Types
+		// Class Types
 		public bool rogue = false;
 		public bool trueMelee = false;
 
-		//Force Class Types
+		// Force Class Types
 		public bool forceMelee = false;
 		public bool forceRanged = false;
 		public bool forceMagic = false;
@@ -30,13 +32,16 @@ namespace CalamityMod.Projectiles
 		public bool forceMinion = false;
 		public bool forceHostile = false;
 
-		//Damage Adjusters
+		// Damage Adjusters
 		private bool setDamageValues = true;
 		public float spawnedPlayerMinionDamageValue = 1f;
 		public int spawnedPlayerMinionProjectileDamageValue = 0;
 		public int defDamage = 0;
 
-		//Counters and Timers
+		// Iron Heart
+		public int ironHeartDamage = 0;
+
+		// Counters and Timers
 		private int counter = 0;
 		private int counter2 = 0;
 
@@ -119,13 +124,145 @@ namespace CalamityMod.Projectiles
 
 					projectile.tileCollide = false;
 
-					if (projectile.timeLeft > 180)
-						projectile.timeLeft = 180;
+					if (projectile.timeLeft > 300)
+						projectile.timeLeft = 300;
 
 					projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 
 					if (projectile.velocity.Y > 16f)
 						projectile.velocity.Y = 16f;
+					return false;
+				}
+				else if (projectile.type == ProjectileID.SharknadoBolt)
+				{
+					// Phase 1 sharknado
+					if (projectile.ai[1] < 0f)
+					{
+						float num623 = 0.209439516f;
+						float num624 = -2f;
+						float num625 = (float)(Math.Cos((double)(num623 * projectile.ai[0])) - 0.5) * num624;
+
+						projectile.velocity.Y = projectile.velocity.Y - num625;
+
+						projectile.ai[0] += 1f;
+
+						num625 = (float)(Math.Cos((double)(num623 * projectile.ai[0])) - 0.5) * num624;
+
+						projectile.velocity.Y = projectile.velocity.Y + num625;
+
+						projectile.localAI[0] += 1f;
+						if (projectile.localAI[0] > 10f)
+						{
+							projectile.alpha -= 5;
+							if (projectile.alpha < 100)
+								projectile.alpha = 100;
+
+							projectile.rotation += projectile.velocity.X * 0.1f;
+							projectile.frame = (int)(projectile.localAI[0] / 3f) % 3;
+						}
+						return false;
+					}
+				}
+
+				// Large cthulhunadoes
+				else if (projectile.type == ProjectileID.Cthulunado)
+				{
+					int num606 = 16;
+					int num607 = 16;
+					float num608 = 2f;
+					int num609 = 150;
+					int num610 = 42;
+
+					if (projectile.velocity.X != 0f)
+						projectile.direction = (projectile.spriteDirection = -Math.Sign(projectile.velocity.X));
+
+					int num3 = projectile.frameCounter;
+					projectile.frameCounter = num3 + 1;
+					if (projectile.frameCounter > 2)
+					{
+						num3 = projectile.frame;
+						projectile.frame = num3 + 1;
+						projectile.frameCounter = 0;
+					}
+					if (projectile.frame >= 6)
+						projectile.frame = 0;
+
+					if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
+					{
+						projectile.localAI[0] = 1f;
+						projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+						projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
+						projectile.scale = ((float)(num606 + num607) - projectile.ai[1]) * num608 / (float)(num607 + num606);
+						projectile.width = (int)((float)num609 * projectile.scale);
+						projectile.height = (int)((float)num610 * projectile.scale);
+						projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+						projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+						projectile.netUpdate = true;
+					}
+
+					if (projectile.ai[1] != -1f)
+					{
+						projectile.scale = ((float)(num606 + num607) - projectile.ai[1]) * num608 / (float)(num607 + num606);
+						projectile.width = (int)((float)num609 * projectile.scale);
+						projectile.height = (int)((float)num610 * projectile.scale);
+					}
+
+					if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+					{
+						projectile.alpha -= 30;
+						if (projectile.alpha < 60)
+							projectile.alpha = 60;
+
+						if (projectile.alpha < 100)
+							projectile.alpha = 100;
+					}
+					else
+					{
+						projectile.alpha += 30;
+						if (projectile.alpha > 150)
+							projectile.alpha = 150;
+					}
+
+					if (projectile.ai[0] > 0f)
+						projectile.ai[0] -= 1f;
+
+					if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
+					{
+						projectile.netUpdate = true;
+
+						Vector2 center = projectile.Center;
+						center.Y -= (float)num610 * projectile.scale / 2f;
+
+						float num611 = ((float)(num606 + num607) - projectile.ai[1] + 1f) * num608 / (float)(num607 + num606);
+						center.Y -= (float)num610 * num611 / 2f;
+						center.Y += 2f;
+
+						Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+
+						if ((int)projectile.ai[1] % 3 == 0 && projectile.ai[1] != 0f)
+						{
+							int num614 = NPC.NewNPC((int)center.X, (int)center.Y, NPCID.Sharkron2, 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[num614].velocity = projectile.velocity;
+							Main.npc[num614].scale = 1.5f;
+							Main.npc[num614].netUpdate = true;
+							Main.npc[num614].ai[2] = (float)projectile.width;
+							Main.npc[num614].ai[3] = -1.5f;
+						}
+					}
+
+					if (projectile.ai[0] <= 0f)
+					{
+						float num615 = 0.104719758f;
+						float num616 = ((float)projectile.width / 5f) * 2.5f;
+						float num617 = (float)(Math.Cos((double)(num615 * -(double)projectile.ai[0])) - 0.5) * num616;
+
+						projectile.position.X = projectile.position.X - num617 * (float)(-(float)projectile.direction);
+
+						projectile.ai[0] -= 1f;
+
+						num617 = (float)(Math.Cos((double)(num615 * -(double)projectile.ai[0])) - 0.5) * num616;
+						projectile.position.X = projectile.position.X + num617 * (float)(-(float)projectile.direction);
+					}
 					return false;
 				}
 			}
@@ -158,6 +295,12 @@ namespace CalamityMod.Projectiles
 			{
 				if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
 					projectile.damage = defDamage + 120;
+			}
+
+			// Iron Heart damage variable will scale with projectile.damage
+			if (CalamityWorld.ironHeart)
+			{
+				ironHeartDamage = 0;
 			}
 
 			if (projectile.modProjectile != null && projectile.modProjectile.mod.Name.Equals("CalamityMod"))
@@ -273,23 +416,16 @@ namespace CalamityMod.Projectiles
 				{
 					float spread = 180f * 0.0174f;
 					double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-					double deltaAngle = spread / 8f;
-					double offsetAngle;
-					int i;
-					for (i = 0; i < 1; i++)
+					if (projectile.owner == Main.myPlayer)
 					{
-						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-						if (projectile.owner == Main.myPlayer)
-						{
-							int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 8f), (float)(Math.Cos(offsetAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-							int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 8f), (float)(-Math.Cos(offsetAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-							Main.projectile[projectile1].ranged = false;
-							Main.projectile[projectile2].ranged = false;
-							Main.projectile[projectile1].timeLeft = 60;
-							Main.projectile[projectile2].timeLeft = 60;
-							Main.projectile[projectile1].noDropItem = true;
-							Main.projectile[projectile2].noDropItem = true;
-						}
+						int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(startAngle) * 8f), (float)(Math.Cos(startAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(startAngle) * 8f), (float)(-Math.Cos(startAngle) * 8f), projectile.type, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Main.projectile[projectile1].ranged = false;
+						Main.projectile[projectile2].ranged = false;
+						Main.projectile[projectile1].timeLeft = 60;
+						Main.projectile[projectile2].timeLeft = 60;
+						Main.projectile[projectile1].noDropItem = true;
+						Main.projectile[projectile2].noDropItem = true;
 					}
 				}
 			}
@@ -594,10 +730,10 @@ namespace CalamityMod.Projectiles
 							}
 							value15.Normalize();
 							value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-							int newDamage = (int)((double)projectile.damage * 0.25);
-							if (newDamage > 40)
+							int newDamage = (int)((double)projectile.damage * 0.15);
+							if (newDamage > 20)
 							{
-								newDamage = 40;
+								newDamage = 20;
 							}
 							int proj = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), newDamage, 0f, projectile.owner, 0f, 0f);
 							Main.projectile[proj].usesLocalNPCImmunity = true;

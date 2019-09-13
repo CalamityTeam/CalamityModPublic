@@ -330,7 +330,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			{
 				npc.localAI[0] = 0f;
 				npc.TargetClosest(true);
-				Vector2 vector119 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
+				Vector2 vector119 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(40 * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				Vector2 vector120 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num1058 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector120.X;
 				float num1059 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector120.Y;
@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					num1066 = 0.09f;
 					num1065 = 8f;
 				}
-				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(Main.rand.Next(20) * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
+				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(40 * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				Vector2 vector122 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
 				float num1068 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 300f - vector122.Y;
@@ -453,8 +453,8 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						{
 							num1070 += 2f;
 						}
-						float num1071 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector121.X + (float)Main.rand.Next(-80, 81);
-						float num1072 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector121.Y + (float)Main.rand.Next(-40, 41);
+						float num1071 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector121.X;
+						float num1072 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector121.Y;
 						float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
 						num1073 = num1070 / num1073;
 						num1071 *= num1073;
@@ -466,8 +466,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 							num1074 = 25;
 							num1075 = mod.ProjectileType("HiveBombGoliath");
 						}
-						int num1076 = Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
-						Main.projectile[num1076].timeLeft = 300;
+						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 				if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))

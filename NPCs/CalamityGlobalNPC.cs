@@ -8,6 +8,8 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs
 {
@@ -27,6 +29,9 @@ namespace CalamityMod.NPCs
 		// Damage reduction
 		private float protection = 0f;
 		private float defProtection = 0f;
+
+		// Iron Heart
+		private int ironHeartDamage = 0;
 
 		// NewAI
 		private const int maxAIMod = 4;
@@ -314,10 +319,10 @@ namespace CalamityMod.NPCs
 						amount++;
 					}
 				}
-				npc.lifeRegen -= amount * 25;
+				npc.lifeRegen -= amount * 35;
 
-				if (damage < amount * 5)
-					damage = amount * 5;
+				if (damage < amount * 7)
+					damage = amount * 7;
 			}
 			if (irradiated)
 			{
@@ -540,6 +545,9 @@ namespace CalamityMod.NPCs
 				RevengeanceStatChanges(npc, mod);
 
 			OtherStatChanges(npc);
+
+			if (CalamityWorld.ironHeart)
+				IronHeartChanges(npc);
 
 			if (protection > 0f)
 				defProtection = protection;
@@ -843,7 +851,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
 			{
-				npc.lifeMax = (int)((double)npc.lifeMax * 30.0);
+				npc.lifeMax = (int)((double)npc.lifeMax * 5.0);
 			}
 			else if (npc.type == NPCID.Golem)
 			{
@@ -1133,7 +1141,6 @@ namespace CalamityMod.NPCs
 					case NPCID.MoonLordCore:
 					case NPCID.MoonLordFreeEye:
 					case NPCID.CultistBoss:
-					case NPCID.Mothron:
 					case NPCID.Crab:
 					case NPCID.SeaSnail:
 						protection = 0.05f;
@@ -1209,6 +1216,7 @@ namespace CalamityMod.NPCs
 					case NPCID.Crawdad2:
 					case NPCID.GiantShelly:
 					case NPCID.GiantShelly2:
+					case NPCID.Mothron:
 						protection = 0.2f;
 						break;
 					case NPCID.PrimeSaw:
@@ -1256,7 +1264,12 @@ namespace CalamityMod.NPCs
 		#region Other Stat Changes
 		private void OtherStatChanges(NPC npc)
 		{
-			if (npc.type == NPCID.CultistBoss)
+			// Fix Sharkron hitboxes
+			if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
+				npc.width = (npc.height = 36);
+
+			// Buff Cultist
+			else if (npc.type == NPCID.CultistBoss)
 			{
 				if (CalamityWorld.death)
 					npc.lifeMax = (int)((double)npc.lifeMax * 2.25);
@@ -1333,6 +1346,15 @@ namespace CalamityMod.NPCs
 				double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 				npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			}
+		}
+		#endregion
+
+		// TODO: Change Iron Heart damage in here for Iron Heart mode
+		#region Iron Heart Changes
+		private void IronHeartChanges(NPC npc)
+		{
+			// Iron Heart damage variable will scale with npc.damage
+			ironHeartDamage = 0;
 		}
 		#endregion
 
@@ -1539,10 +1561,6 @@ namespace CalamityMod.NPCs
 				cooldownSlot = 1;
 			else if (Main.eclipse && CalamityWorld.buffedEclipse && !npc.boss && !npc.friendly && !npc.dontTakeDamage)
 				cooldownSlot = 1;
-
-			if (npc.type == NPCID.BrainofCthulhu)
-				return npc.ai[0] < 0f;
-
 			return true;
 		}
 		#endregion
@@ -1664,24 +1682,7 @@ namespace CalamityMod.NPCs
 			}
 
 			if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
-			{
 				BossRushForceDespawnOtherNPCs(npc, mod);
-				switch (npc.type)
-				{
-					case NPCID.KingSlime:
-						return CalamityGlobalAI.BossRushKingSlimeAI(npc, enraged);
-					case NPCID.BrainofCthulhu:
-						return CalamityGlobalAI.BossRushBrainofCthulhuAI(npc, enraged, mod);
-					case NPCID.EaterofWorldsHead:
-						return CalamityGlobalAI.BossRushEaterofWorldsAI(npc, enraged, mod);
-					case NPCID.QueenBee:
-						return CalamityGlobalAI.BossRushQueenBeeAI(npc, enraged);
-					case NPCID.DukeFishron:
-						return CalamityGlobalAI.BossRushDukeFishronAI(npc, enraged, mod);
-					default:
-						break;
-				}
-			}
 
 			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 			{
@@ -1697,6 +1698,11 @@ namespace CalamityMod.NPCs
 					case NPCID.EaterofWorldsBody:
 					case NPCID.EaterofWorldsTail:
 						return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod);
+
+					case NPCID.BrainofCthulhu:
+						return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged, mod);
+					case NPCID.Creeper:
+						return CalamityGlobalAI.BuffedCreeperAI(npc, enraged, mod);
 
 					case NPCID.QueenBee:
 						return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
@@ -1738,6 +1744,9 @@ namespace CalamityMod.NPCs
 						return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod);
 					case NPCID.PlanterasTentacle:
 						return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod);
+
+					case NPCID.DukeFishron:
+						return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged, mod);
 
 					case NPCID.Pumpking:
 						if (CalamityWorld.downedDoG)
@@ -2224,9 +2233,6 @@ namespace CalamityMod.NPCs
 					case NPCID.CultistBoss:
 						CalamityGlobalAI.RevengeanceCultistAI(npc, configBossRushBoost, mod, enraged);
 						break;
-					case NPCID.DukeFishron:
-						CalamityGlobalAI.RevengeanceDukeFishronAI(npc, mod);
-						break;
 					case NPCID.GolemHeadFree:
 						if (!CalamityWorld.bossRushActive)
 							CalamityGlobalAI.RevengeanceGolemHeadFreeAI(npc);
@@ -2237,12 +2243,6 @@ namespace CalamityMod.NPCs
 						break;
 					case NPCID.DungeonGuardian:
 						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
-						break;
-					case NPCID.BrainofCthulhu:
-						CalamityGlobalAI.RevengeanceBrainofCthulhuAI(npc);
-						break;
-					case NPCID.Creeper:
-						CalamityGlobalAI.RevengeanceCreeperAI(npc);
 						break;
 					case NPCID.Lihzahrd:
 						CalamityGlobalAI.RevengeanceLihzahrdAI(npc);
@@ -2704,12 +2704,13 @@ namespace CalamityMod.NPCs
 		{
             if (npc.type == NPCID.TheDestroyerBody)
             {
-				if ((projectile.penetrate == -1 && !projectile.minion) || projectile.type == mod.ProjectileType("KelvinCatalyst") || projectile.type == mod.ProjectileType("KelvinCatalystStar"))
-					damage = (int)((double)damage * 0.2);
-				else if (projectile.penetrate > 1)
-					damage /= projectile.penetrate;
+				if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == mod.ProjectileType("KelvinCatalystStar"))
+					damage = (int)((double)damage * 0.5);
+
+				if ((projectile.type == ProjectileID.HallowStar && projectile.ranged) || projectile.type == mod.ProjectileType("FossilShardThrown") || projectile.type == mod.ProjectileType("FrostShardFriendly"))
+					damage = (int)((double)damage * 0.75);
 			}
-			else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
+			else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail || npc.type == NPCID.Creeper)
 			{
 				if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
 					damage = (int)((double)damage * 0.6);
@@ -3372,7 +3373,7 @@ namespace CalamityMod.NPCs
 				case NPCID.Guide:
 					if (Main.rand.Next(20) == 0 && Main.hardMode)
 						chat = "Could you be so kind as to, ah...check hell for me...? I left someone I kind of care about down there.";
-					if (Main.rand.Next(20) == 0 && CalamityWorld.spawnAstralMeteor)
+					if (Main.rand.Next(20) == 0 && Main.hardMode)
 						chat = "I have this sudden shiver up my spine, like a meteor just fell and thousands of innocent creatures turned into monsters from the stars.";
 					if (Main.rand.Next(20) == 0 && NPC.downedMoonlord)
 						chat = "The dungeon seems even more restless than usual, watch out for the powerful abominations stirring up in there.";
@@ -3394,13 +3395,13 @@ namespace CalamityMod.NPCs
 					int permadong = NPC.FindFirstNPC(mod.NPCType("DILF"));
 					if (Main.rand.Next(10) == 0 && permadong != -1)
 						chat = "I'd let " + Main.npc[permadong].GivenName + " coldheart MY icicle.";
-					if (Main.rand.Next(10) == 0 && CalamityWorld.spawnAstralMeteor)
+					if (Main.rand.Next(10) == 0 && Main.hardMode)
 						chat = "Space just got way too close for comfort.";
 					break;
 				case NPCID.Dryad:
 					if (Main.rand.Next(5) == 0 && CalamityWorld.buffedEclipse && Main.eclipse)
 						chat = "There's a dark solar energy emanating from the moths that appear during this time. Ah, the moths as you progress further get more powerful...hmm...what power was Yharon holding back?";
-					if (Main.rand.Next(10) == 0 && CalamityWorld.spawnAstralMeteor)
+					if (Main.rand.Next(10) == 0 && Main.hardMode)
 						chat = "That starborne illness sits upon this land like a blister. Do even more vile forces of corruption exist in worlds beyond?";
 					break;
 				case NPCID.Stylist:
@@ -3410,7 +3411,7 @@ namespace CalamityMod.NPCs
 						chat = "Sometimes I catch " + Main.npc[fapsol2].GivenName + " sneaking up from behind me.";
 					if (Main.rand.Next(15) == 0 && fapsol2 != -1)
 						chat = Main.npc[fapsol2].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
-					if (Main.rand.Next(15) == 0 && CalamityWorld.spawnAstralMeteor)
+					if (Main.rand.Next(15) == 0 && Main.hardMode)
 						chat = "Please don't catch space lice. Or " + worldEvil + " lice. Or just lice in general.";
 					break;
 				case NPCID.GoblinTinkerer:
@@ -3758,6 +3759,12 @@ namespace CalamityMod.NPCs
 					nextSlot++;
 				}
 			}
+			if (type == NPCID.Painter)
+			{
+				shop.item[nextSlot].SetDefaults(ItemID.PainterPaintballGun);
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);
+				nextSlot++;
+			}
 			if (type == NPCID.Steampunker)
 			{
 				if (NPC.downedMechBoss1)
@@ -3778,7 +3785,7 @@ namespace CalamityMod.NPCs
 					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
 					nextSlot++;
 				}
-				if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral && CalamityWorld.spawnAstralMeteor)
+				if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral && Main.hardMode)
 				{
 					shop.item[nextSlot].SetDefaults(mod.ItemType("AstralSolution"));
 					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 0, 5, 0);
@@ -3805,6 +3812,9 @@ namespace CalamityMod.NPCs
 					shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
 					nextSlot++;
 				}
+				shop.item[nextSlot].SetDefaults(ItemID.MagicMissile);
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 5, 0, 0);
+				nextSlot++;
 				if (NPC.downedGolemBoss)
 				{
 					shop.item[nextSlot].SetDefaults(ItemID.SpectreStaff);

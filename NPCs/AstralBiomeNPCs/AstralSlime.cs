@@ -6,6 +6,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {

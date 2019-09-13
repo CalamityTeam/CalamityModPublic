@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.PlaguebringerGoliath
 {

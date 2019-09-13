@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 3;
             projectile.timeLeft /= 2;
             projectile.melee = true;
+			projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -55,18 +56,10 @@ namespace CalamityMod.Projectiles.Melee
 				Dust expr_4815_cp_0 = Main.dust[num102];
 				expr_4815_cp_0.position.Y = expr_4815_cp_0.position.Y - num100;
 			}
-			if (projectile.ai[1] >= 20f)
-			{
-				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
-			}
-			else
-			{
-				projectile.rotation += 0.3f * (float)projectile.direction;
-			}
-			if (projectile.velocity.Y > 16f)
-			{
-				projectile.velocity.Y = 16f;
-			}
+
+			projectile.ai[1] += 1f;
+			if (projectile.ai[1] >= 60f)
+				projectile.tileCollide = true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Melee
 							double num828 = Math.Sqrt((double)(num826 * num826 + num827 * num827));
 							if (num828 < (double)num814)
 							{
-								if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active() && Main.tile[num824, num825].type != (ushort)mod.TileType("AbyssGravel"))
+								if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active())
 								{
 									WorldGen.KillTile(num824, num825, false, false, false);
 									if (!Main.tile[num824, num825].active() && Main.netMode != 0)

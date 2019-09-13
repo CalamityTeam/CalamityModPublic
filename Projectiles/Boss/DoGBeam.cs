@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.frame = 0;
 			}
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0.45f) / 255f);
+			Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.3f);
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 			int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
 			projectile.ai[1] += 1f;

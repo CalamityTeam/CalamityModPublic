@@ -7,6 +7,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using CalamityMod.World.Planets;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.World
 {
@@ -326,21 +327,21 @@ namespace CalamityMod.World
 			return true;
 		}
 
-        public static void AstralMeteorThreadWrapper(object context)
-        {
-            PlaceAstralMeteor();
-        }
+		public static void AstralMeteorThreadWrapper(object context)
+		{
+			PlaceAstralMeteor();
+		}
 
 		public static void PlaceAstralMeteor()
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			Mod ancientsAwakened = ModLoader.GetMod("AAMod");
 
-            // This flag is also used to determine whether players are nearby.
+			// This flag is also used to determine whether players are nearby.
 			bool meteorDropped = true;
 
-            // Clients in multiplayer don't drop meteors.
-            if (Main.netMode == 1)
+			// Clients in multiplayer don't drop meteors.
+			if (Main.netMode == 1)
 				return;
 			for (int i = 0; i < 255; i++)
 			{
@@ -351,8 +352,8 @@ namespace CalamityMod.World
 				}
 			}
 
-            // Check whether there is already too much ore.
-            if (!CanAstralMeteorSpawn())
+			// Check whether there is already too much ore.
+			if (!CanAstralMeteorSpawn())
 				return;
 
 			float solidTileRequirement = 600f;
@@ -382,13 +383,13 @@ namespace CalamityMod.World
 								{
 									suitableTiles++;
 
-                                    // Avoid floating islands: Clouds and Sunplate both harshly punish attempted meteor spawns
+									// Avoid floating islands: Clouds and Sunplate both harshly punish attempted meteor spawns
 									if (Main.tile[l, m].type == TileID.Cloud || Main.tile[l, m].type == TileID.Sunplate)
 									{
 										suitableTiles -= 100;
 									}
 
-                                    // Prevent the Astral biome from overriding or interfering with an AA biome
+									// Prevent the Astral biome from overriding or interfering with an AA biome
 									else if (ancientsAwakened != null)
 									{
 										if (Main.tile[l, m].type == ancientsAwakened.TileType("InfernoGrass") || Main.tile[l, m].type == ancientsAwakened.TileType("Torchstone") ||
@@ -403,7 +404,7 @@ namespace CalamityMod.World
 									}
 								}
 
-                                // Liquid aversion makes meteors less likely to fall in lakes
+								// Liquid aversion makes meteors less likely to fall in lakes
 								else if (Main.tile[l, m].liquid > 0)
 								{
 									suitableTiles--;
@@ -418,17 +419,17 @@ namespace CalamityMod.World
 						}
 						meteorDropped = GenerateAstralMeteor(x, y);
 
-                        // If the meteor actually dropped, post the message stating as such.
-                        if (meteorDropped)
+						// If the meteor actually dropped, post the message stating as such.
+						if (meteorDropped)
 						{
-                            string key = "Mods.CalamityMod.AstralText";
-                            Color messageColor = Color.Gold;
+							string key = "Mods.CalamityMod.AstralText";
+							Color messageColor = Color.Gold;
 
-                            if (Main.netMode == 0)
-                                Main.NewText(Language.GetTextValue(key), messageColor);
-                            else if (Main.netMode == 2)
-                                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                            break;
+							if (Main.netMode == 0)
+								Main.NewText(Language.GetTextValue(key), messageColor);
+							else if (Main.netMode == 2)
+								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+							break;
 						}
 						break;
 					}

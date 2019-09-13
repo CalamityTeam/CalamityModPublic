@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			projectile.velocity.X *= 0.975f;
 			projectile.velocity.Y *= 0.975f;
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+			Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)

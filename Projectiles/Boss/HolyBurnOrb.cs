@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
 				int num492 = expertMode ? -150 : -100;
 				if (CalamityWorld.death)
 				{
-					num492 = -300;
+					num492 = -200;
 				}
 				Main.player[num487].HealEffect(num492, false);
 				Main.player[num487].statLife += num492;

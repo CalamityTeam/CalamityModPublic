@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs
 {

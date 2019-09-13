@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Crabulon
 {
@@ -240,15 +241,13 @@ namespace CalamityMod.NPCs.Crabulon
 				}
 				else
 				{
-					npc.direction = -Main.player[npc.target].direction;
+					float playerLocation = npc.Center.X - player.Center.X;
+					npc.direction = (playerLocation < 0 ? 1 : -1);
+
 					if (npc.direction > 0)
-					{
 						npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
-					}
 					if (npc.direction < 0)
-					{
 						npc.velocity.X = (npc.velocity.X * 20f - num823) / 21f;
-					}
 				}
 				int num854 = 80;
 				int num855 = 20;
@@ -497,7 +496,7 @@ namespace CalamityMod.NPCs.Crabulon
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("CrabulonTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge5"), true, !CalamityWorld.downedCrabulon);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeCrabulon"), true, !CalamityWorld.downedCrabulon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCrabulon, 2, 0, 0);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

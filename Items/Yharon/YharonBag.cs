@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.Yharon
 {
@@ -41,7 +42,7 @@ namespace CalamityMod.Items.Yharon
 			DropHelper.DropItemChance(player, mod.ItemType("DragonsBreath"), 3);
 			DropHelper.DropItemChance(player, mod.ItemType("ChickenCannon"), 3);
 			DropHelper.DropItemChance(player, mod.ItemType("PhoenixFlameBarrage"), 3);
-			DropHelper.DropItemChance(player, mod.ItemType("AngryChickenStaff"), 3);
+			DropHelper.DropItemChance(player, mod.ItemType("AngryChickenStaff"), 3); // Yharon Kindle Staff
 			DropHelper.DropItemChance(player, mod.ItemType("ProfanedTrident"), 3); // Infernal Spear
 
 			// Equipment

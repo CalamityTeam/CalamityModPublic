@@ -30,10 +30,10 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			projectile.velocity.X *= 1.01f;
 			projectile.velocity.Y *= 1.01f;
+
 			if (projectile.position.Y > projectile.ai[1])
-			{
 				projectile.tileCollide = true;
-			}
+
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
 			{
@@ -97,10 +97,10 @@ namespace CalamityMod.Projectiles.Boss
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 100;
-			projectile.height = 100;
+			projectile.width = (projectile.height = 64);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.Damage();
 			for (int num621 = 0; num621 < 8; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default(Color), 2f);

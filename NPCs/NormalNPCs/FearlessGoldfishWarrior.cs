@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -409,7 +410,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			if (spawnInfo.playerSafe || !Main.raining)
+			if (spawnInfo.playerSafe || !Main.raining || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
 			{
 				return 0f;
 			}

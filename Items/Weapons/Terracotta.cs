@@ -35,30 +35,15 @@ namespace CalamityMod.Items.Weapons
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			float spread = 180f * 0.0174f;
-			double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
-			double deltaAngle = spread / 8f;
-			double offsetAngle;
-			int i;
 			if (target.life <= 0)
 			{
-				for (i = 0; i < 1; i++)
-				{
-					float randomSpeedX = (float)Main.rand.Next(3);
-					float randomSpeedY = (float)Main.rand.Next(3, 5);
-					offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-					int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), 0, 0f, Main.myPlayer);
-					int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), 0, 0f, Main.myPlayer);
-					int projectile3 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("Terracotta"), 0, 0f, Main.myPlayer);
-					Main.projectile[projectile1].velocity.X = -randomSpeedX;
-					Main.projectile[projectile1].velocity.Y = -randomSpeedY;
-					Main.projectile[projectile2].velocity.X = randomSpeedX;
-					Main.projectile[projectile2].velocity.Y = -randomSpeedY;
-					Main.projectile[projectile3].velocity.X = 0f;
-					Main.projectile[projectile3].velocity.Y = -randomSpeedY;
-				}
+				float randomSpeedX = (float)Main.rand.Next(3);
+				float randomSpeedY = (float)Main.rand.Next(3, 5);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, mod.ProjectileType("Terracotta"), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, mod.ProjectileType("Terracotta"), 0, 0f, player.whoAmI);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, -randomSpeedY, mod.ProjectileType("Terracotta"), 0, 0f, player.whoAmI);
 			}
-			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("TerracottaExplosion"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+			Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("TerracottaExplosion"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI);
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)

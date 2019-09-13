@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
-			projectile.penetrate = 1;
+			projectile.penetrate = -1;
 			projectile.timeLeft = 1200;
 			cooldownSlot = 1;
 		}
@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.frame = 0;
 			}
+
 			if (projectile.velocity.X < 0f)
 			{
 				projectile.spriteDirection = -1;
@@ -51,14 +52,15 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.spriteDirection = 1;
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 			}
+
 			Lighting.AddLight(projectile.Center, 0.7f, 0f, 0f);
+
 			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 150f)
+			if (projectile.ai[0] >= 120f)
 			{
-				projectile.extraUpdates = 1;
 				int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
 				projectile.ai[1] += 1f;
-				if (projectile.ai[1] < 180f)
+				if (projectile.ai[1] < 120f)
 				{
 					float scaleFactor2 = projectile.velocity.Length();
 					Vector2 vector11 = Main.player[num103].Center - projectile.Center;
@@ -68,10 +70,14 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.velocity.Normalize();
 					projectile.velocity *= scaleFactor2;
 				}
-				else if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
+				else
 				{
-					projectile.velocity.X *= 1.01f;
-					projectile.velocity.Y *= 1.01f;
+					projectile.tileCollide = true;
+					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
+					{
+						projectile.velocity.X *= 1.01f;
+						projectile.velocity.Y *= 1.01f;
+					}
 				}
 			}
 		}

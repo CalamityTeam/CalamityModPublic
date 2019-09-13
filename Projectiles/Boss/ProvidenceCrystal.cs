@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystal : ModProjectile
 	{
-		private float speedX = -15f;
+		private float speedX = -21f;
 		private float speedY = -3f;
 
 		public override void SetStaticDefaults()
@@ -93,16 +93,14 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.netUpdate = true;
 				if (projectile.owner == Main.myPlayer)
 				{
-					int num31;
-					for (int num1083 = 0; num1083 < 10; num1083 = num31 + 1)
+					for (int num1083 = 0; num1083 < 14; num1083++)
 					{
 						float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, mod.ProjectileType("ProvidenceCrystalShard"), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
-						num31 = num1083;
-						speedX += 3f;
+						speedX += 3f; // -21, -18, -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15, 18, 21
 					}
 				}
-				speedX = -15f;
+				speedX = -21f;
 			}
 		}
 

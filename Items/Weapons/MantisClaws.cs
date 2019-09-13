@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, 0, knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, 0, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
         }
     }
 }

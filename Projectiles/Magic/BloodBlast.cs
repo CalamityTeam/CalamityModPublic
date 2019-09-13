@@ -27,8 +27,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
-        	for (int num92 = 0; num92 < 3; num92++)
+        	Lighting.AddLight(projectile.Center, 0.5f, 0f, 0f);
+        	for (int num92 = 0; num92 < 2; num92++)
 			{
 				float num93 = projectile.velocity.X / 3f * (float)num92;
 				float num94 = projectile.velocity.Y / 3f * (float)num92;

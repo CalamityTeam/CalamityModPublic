@@ -7,6 +7,8 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -2032,7 +2034,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DropHelper.DropItemCondition(npc, mod.ItemType("Levi"), CalamityWorld.death);
 
             // Other
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge45"), true, !CalamityWorld.downedSCal);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeCalamitas"), true, !CalamityWorld.downedSCal);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSCal, 6, 3, 2);
 
             // Mark Supreme Calamitas as dead

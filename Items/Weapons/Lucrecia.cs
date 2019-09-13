@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons
 			player.lifeRegenTime = 0;
 			if (Main.myPlayer == player.whoAmI)
 			{
-				player.HealEffect(-3, true);
+				player.HealEffect(-5, true);
 			}
 			if (player.statLife <= 0)
 			{

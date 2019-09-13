@@ -5,6 +5,7 @@ using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
@@ -109,7 +110,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().cryogenSoul)
 				dialogue.Add(Main.player[Main.myPlayer].name + "...just between us, I think I forgot my soul in the ice castle. If you see it, please do let me know.");
 
-			if (CalamityWorld.spawnAstralMeteor)
+			if (Main.hardMode)
 				dialogue.Add("It wouldn't be the first time something unknown and powerful dropped from the heavens...I would tread carefully if I were you...");
 
 			return dialogue[Main.rand.Next(dialogue.Count)];

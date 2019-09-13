@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Waters
 {
@@ -18,17 +19,17 @@ namespace CalamityMod.Waters
 
         public override int GetSplashDust()
         {
-            return 102;
+            return 101;
         }
 
         public override int GetDropletGore()
         {
-            return 711;
+            return 708;
         }
 
-        public override Color BiomeHairColor()
+		public override Color BiomeHairColor()
         {
-            return Color.Yellow;
+            return Color.Turquoise;
         }
     }
 }

@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.hostile = true;
 			projectile.tileCollide = false;
 			projectile.timeLeft = 600;
+			projectile.penetrate = -1;
 			cooldownSlot = 1;
 		}
 

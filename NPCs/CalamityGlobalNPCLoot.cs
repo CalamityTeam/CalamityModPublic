@@ -4,6 +4,8 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs
 {
@@ -39,7 +41,7 @@ namespace CalamityMod.NPCs
 
 			// Mechanical Bosses' combined lore item
 			bool mechLore = !NPC.downedMechBossAny && (lastTwinStanding || npc.type == NPCID.TheDestroyer || npc.type == NPCID.SkeletronPrime);
-			DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge20"), true, mechLore);
+			DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeMechs"), true, mechLore);
 
 			// King Slime
 			if (npc.type == NPCID.KingSlime)
@@ -56,24 +58,24 @@ namespace CalamityMod.NPCs
 			// Eye of Cthulhu
 			else if (npc.type == NPCID.EyeofCthulhu)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge3"), true, !NPC.downedBoss1);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeEyeofCthulhu"), true, !NPC.downedBoss1);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss1, 2, 0, 0);
 			}
 
 			// Eater of Worlds + Brain of Cthulhu (ignore non-boss segments of EoW)
 			else if ((npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)) || npc.type == NPCID.BrainofCthulhu)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge9"), true, !WorldGen.crimson && !NPC.downedBoss2);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge12"), true, !WorldGen.crimson && !NPC.downedBoss2);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge8"), true, WorldGen.crimson && !NPC.downedBoss2);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge11"), true, WorldGen.crimson && !NPC.downedBoss2);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeCorruption"), true, !WorldGen.crimson && !NPC.downedBoss2);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeEaterofWorlds"), true, !WorldGen.crimson && !NPC.downedBoss2);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeCrimson"), true, WorldGen.crimson && !NPC.downedBoss2);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBrainofCthulhu"), true, WorldGen.crimson && !NPC.downedBoss2);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss2, 2, 0, 0);
 			}
 
 			// Queen Bee
 			else if (npc.type == NPCID.QueenBee)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge16"), true, !NPC.downedQueenBee);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeQueenBee"), true, !NPC.downedQueenBee);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedQueenBee, 2, 0, 0);
 			}
 
@@ -81,7 +83,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.SkeletronHead)
 			{
 				DropHelper.DropItemCondition(npc, mod.ItemType("ClothiersWrath"), !expert, DropHelper.RareVariantDropRateInt, 1, 1);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge17"), true, !NPC.downedBoss3);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSkeletron"), true, !NPC.downedBoss3);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss3, 3, 1, 0);
 			}
 
@@ -91,43 +93,43 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, mod.ItemType("MLGRune"), !expert); // Demon Trophy
 				DropHelper.DropItemCondition(npc, mod.ItemType("Meowthrower"), !expert, 5, 1, 1);
 				DropHelper.DropItemCondition(npc, mod.ItemType("RogueEmblem"), !expert, 8, 1, 1);
-                DropHelper.DropItemChance(npc, mod.ItemType("IbarakiBox"), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
-                DropHelper.DropItemFromSetCondition(npc, !expert, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
+				DropHelper.DropItemChance(npc, mod.ItemType("IbarakiBox"), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
+				DropHelper.DropItemFromSetCondition(npc, !expert, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
 
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge7"), true, !Main.hardMode);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge18"), true, !Main.hardMode);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeUnderworld"), true, !Main.hardMode);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeWallofFlesh"), true, !Main.hardMode);
 				DropHelper.DropResidentEvilAmmo(npc, Main.hardMode, 3, 1, 0);
 
-                // First kill text (this is not a loot function)
-                if (!Main.hardMode)
-                {
-                    string key2 = "Mods.CalamityMod.UglyBossText";
-                    Color messageColor2 = Color.Aquamarine;
-                    if (Main.netMode == 0)
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
-                    else if (Main.netMode == 2)
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                }
+				// First kill text (this is not a loot function)
+				if (!Main.hardMode)
+				{
+					string key2 = "Mods.CalamityMod.UglyBossText";
+					Color messageColor2 = Color.Aquamarine;
+					if (Main.netMode == 0)
+						Main.NewText(Language.GetTextValue(key2), messageColor2);
+					else if (Main.netMode == 2)
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+				}
 			}
 
 			// Retinazer OR Spazmatism (whichever is killed last)
 			else if (lastTwinStanding)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge22"), true, !NPC.downedMechBoss2);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeTwins"), true, !NPC.downedMechBoss2);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
 			}
 
 			// The Destroyer
 			else if (npc.type == NPCID.TheDestroyer)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge21"), true, !NPC.downedMechBoss1);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeDestroyer"), true, !NPC.downedMechBoss1);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
 			}
 
 			// Skeletron Prime
 			else if (npc.type == NPCID.SkeletronPrime)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge23"), true, !NPC.downedMechBoss3);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSkeletronPrime"), true, !NPC.downedMechBoss3);
 				DropHelper.DropItemCondition(npc, mod.ItemType("GoldBurdenBreaker"), true, (npc.ai[1] == 2f && rev));
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
 
@@ -147,7 +149,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.Plantera)
 			{
 				DropHelper.DropItemCondition(npc, ItemID.JungleKey, !expert, 5, 1, 1);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge25"), true, !NPC.downedPlantBoss);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgePlantera"), true, !NPC.downedPlantBoss);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
 
 				// Spawn Perennial Ore if Plantera has never been killed
@@ -184,7 +186,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.Golem)
 			{
 				DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !NPC.downedGolemBoss);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge31"), true, !NPC.downedGolemBoss);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeGolem"), true, !NPC.downedGolemBoss);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
 
 				// If Golem has never been killed, send messages about PBG and Ravager
@@ -221,18 +223,18 @@ namespace CalamityMod.NPCs
 			// Duke Fishron
 			else if (npc.type == NPCID.DukeFishron)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge2"), true, !NPC.downedFishron);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeDukeFishron"), true, !NPC.downedFishron);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
 			}
 
 			// Lunatic Cultist
 			else if (npc.type == NPCID.CultistBoss)
 			{
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge4"), true, !NPC.downedAncientCultist);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeLunaticCultist"), true, !NPC.downedAncientCultist);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedAncientCultist, 4, 2, 1);
 
 				// Blood Moon lore item
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge34"), true, Main.bloodMoon);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeBloodMoon"), true, Main.bloodMoon);
 
 				// Deus text (this is not a loot function)
 				if (!NPC.downedAncientCultist)
@@ -253,7 +255,7 @@ namespace CalamityMod.NPCs
 				DropHelper.DropItemCondition(npc, mod.ItemType("MLGRune2"), true, !expert);
 				DropHelper.DropItemCondition(npc, mod.ItemType("GrandDad"), !expert, DropHelper.RareVariantDropRateInt, 1, 1);
 				DropHelper.DropItemCondition(npc, mod.ItemType("Infinity"), !expert, DropHelper.RareVariantDropRateInt, 1, 1);
-				DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge37"), true, !NPC.downedMoonlord);
+				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeMoonLord"), true, !NPC.downedMoonlord);
 				DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
 
 				string key = "Mods.CalamityMod.MoonBossText";
@@ -1289,8 +1291,8 @@ namespace CalamityMod.NPCs
 					DropHelper.DropItem(npc, mod.ItemType("EssenceofEleum"), 1, 2);
 					break;
 				case NPCID.Plantera:
-                    DropHelper.DropItemCondition(npc, mod.ItemType("LivingShard"), !expert, 6, 9);
-                    break;
+					DropHelper.DropItemCondition(npc, mod.ItemType("LivingShard"), !expert, 6, 9);
+					break;
 				case NPCID.NebulaBrain:
 				case NPCID.NebulaSoldier:
 				case NPCID.NebulaHeadcrab:

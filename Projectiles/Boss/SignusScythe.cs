@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.timeLeft = 600;
-			projectile.alpha = 255;
+			projectile.alpha = 100;
 			projectile.penetrate = -1;
 			cooldownSlot = 1;
 		}
@@ -95,14 +95,6 @@ namespace CalamityMod.Projectiles.Boss
 							projectile.velocity = Vector2.Normalize(value16) * 15f;
 						}
 					}
-				}
-			}
-			if (projectile.alpha > 0)
-			{
-				projectile.alpha -= 25;
-				if (projectile.alpha < 0)
-				{
-					projectile.alpha = 0;
 				}
 			}
 		}

@@ -36,24 +36,11 @@ namespace CalamityMod.Items.Weapons
 	    {
 			if (target.life <= 0)
 			{
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, damage, knockback, Main.myPlayer);
-				float spread = 180f * 0.0174f;
-				double startAngle = Math.Atan2(item.shootSpeed, item.shootSpeed) - spread / 2;
-				double deltaAngle = spread / 8f;
-				double offsetAngle;
-				int i;
-				for (i = 0; i < 1; i++ )
-				{
-					float randomSpeedX = (float)Main.rand.Next(5);
-					float randomSpeedY = (float)Main.rand.Next(3, 7);
-				   	offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-				   	int projectile1 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("PhoenixHeal"), item.damage, knockback, Main.myPlayer);
-				    int projectile2 = Projectile.NewProjectile(target.Center.X, target.Center.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), mod.ProjectileType("PhoenixHeal"), item.damage, knockback, Main.myPlayer);
-				    Main.projectile[projectile1].velocity.X = -randomSpeedX;
-				    Main.projectile[projectile1].velocity.Y = -randomSpeedY;
-				    Main.projectile[projectile2].velocity.X = randomSpeedX;
-				    Main.projectile[projectile2].velocity.Y = -randomSpeedY;
-				}
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				float randomSpeedX = (float)Main.rand.Next(5);
+				float randomSpeedY = (float)Main.rand.Next(3, 7);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, mod.ProjectileType("PhoenixHeal"), item.damage, knockback, player.whoAmI);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, mod.ProjectileType("PhoenixHeal"), item.damage, knockback, player.whoAmI);
 			}
 		}
 

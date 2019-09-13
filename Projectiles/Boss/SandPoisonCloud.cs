@@ -22,11 +22,13 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
-			projectile.timeLeft = 3600;
+			projectile.timeLeft = CalamityWorld.death ? 2100 : 1500;
 		}
 
 		public override void AI()
 		{
+			Lighting.AddLight(projectile.Center, 0.5f, 0.3f, 0f);
+
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 9)
 			{
@@ -37,9 +39,10 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.frame = 0;
 			}
+
 			projectile.velocity *= 0.99f;
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= (CalamityWorld.death ? 2100f : 1500f))
+
+			if (projectile.timeLeft < 180)
 			{
 				if (projectile.alpha < 255)
 				{
@@ -47,19 +50,16 @@ namespace CalamityMod.Projectiles.Boss
 					if (projectile.alpha > 255)
 					{
 						projectile.alpha = 255;
+						projectile.Kill();
 					}
 				}
-				else if (projectile.owner == Main.myPlayer)
-				{
-					projectile.Kill();
-				}
 			}
-			else if (projectile.alpha > 80)
+			else if (projectile.alpha > 30)
 			{
 				projectile.alpha -= 30;
-				if (projectile.alpha < 80)
+				if (projectile.alpha < 30)
 				{
-					projectile.alpha = 80;
+					projectile.alpha = 30;
 				}
 			}
 		}

@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -45,15 +46,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			if (npc.wet && npc.ai[1] == 1f)
 			{
 				flag15 = true;
-			}
-			else
-			{
-				npc.dontTakeDamage = false;
-			}
-			float num262 = 1f;
-			if (flag15)
-			{
-				num262 += 0.5f;
 			}
 			if (npc.direction == 0)
 			{
@@ -103,24 +95,19 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				}
 			}
 			bool flag16 = false;
-			if (!npc.friendly)
+			if (!Main.player[npc.target].dead)
 			{
-				npc.TargetClosest(false);
-				if (!Main.player[npc.target].dead)
-				{
-					flag16 = true;
-				}
+				flag16 = true;
 			}
 			if (flag16)
 			{
-				npc.localAI[2] = 1f;
 				npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
 				npc.velocity *= 0.975f;
-				float num263 = 3.2f;
+				float num263 = 2f;
 				if (npc.velocity.X > -num263 && npc.velocity.X < num263 && npc.velocity.Y > -num263 && npc.velocity.Y < num263)
 				{
 					npc.TargetClosest(true);
-					float num264 = 15f;
+					float num264 = 12f;
 					Vector2 vector31 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num265 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector31.X;
 					float num266 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector31.Y;
@@ -130,12 +117,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					num266 *= num267;
 					npc.velocity.X = num265;
 					npc.velocity.Y = num266;
-					return;
 				}
 			}
 			else
 			{
-				npc.localAI[2] = 0f;
 				npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.02f;
 				npc.rotation = npc.velocity.X * 0.4f;
 				if (npc.velocity.X < -1f || npc.velocity.X > 1f)
@@ -190,7 +175,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				if ((double)npc.velocity.Y > 1.2 || (double)npc.velocity.Y < -1.2)
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.99f;
-					return;
 				}
 			}
 		}

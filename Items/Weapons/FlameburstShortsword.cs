@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons
 	    {
 	    	if (target.life <= (target.lifeMax * 0.5f))
 	    	{
-	    		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
+	    		Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 	    	}
 		}
 	}

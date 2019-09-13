@@ -258,8 +258,8 @@ namespace CalamityMod.NPCs.Calamitas
 						num827 = num828 / num827;
 						num825 *= num827;
 						num826 *= num827;
-						vector82.X += num825 * 15f;
-						vector82.Y += num826 * 15f;
+						vector82.X += num825 * 12f;
+						vector82.Y += num826 * 12f;
 						Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, num830, num829 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -345,8 +345,8 @@ namespace CalamityMod.NPCs.Calamitas
 						num836 = num837 / num836;
 						num834 *= num836;
 						num835 *= num836;
-						vector83.X += num834 * 15f;
-						vector83.Y += num835 * 15f;
+						vector83.X += num834 * 12f;
+						vector83.Y += num835 * 12f;
 						Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					}
 				}

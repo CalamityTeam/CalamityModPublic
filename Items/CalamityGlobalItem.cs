@@ -9,6 +9,8 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
 using CalamityMod.World;
+using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items
 {
@@ -1430,7 +1432,7 @@ namespace CalamityMod.Items
 					{
 						if (line2.mod == "Terraria" && line2.Name == "PrefixAccCritChance")
 						{
-							line2.text = "+2% critical strike chance";
+							line2.text = "+3% critical strike chance";
 						}
 					}
 				}
@@ -1808,22 +1810,14 @@ namespace CalamityMod.Items
 			if (item.prefix == 65)
 				player.endurance += 0.01f;
 
-			// Precise only gives 1% crit
-			if (item.prefix == 67)
+			// Precise only gives 1% crit and Lucky only gives 3% crit
+			if (item.prefix == 67 || item.prefix == 68)
 			{
-				player.meleeCrit -= 1;
+                player.meleeCrit -= 1;
 				player.rangedCrit -= 1;
 				player.magicCrit -= 1;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 1;
-			}
-
-			// Lucky only gives 2% crit
-			if (item.prefix == 68)
-			{
-				player.meleeCrit -= 2;
-				player.rangedCrit -= 2;
-				player.magicCrit -= 2;
-				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
+                player.thrownCrit -= 1;
+				CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += (item.prefix == 68 ? 3 : 1);
 			}
 		}
 		#endregion

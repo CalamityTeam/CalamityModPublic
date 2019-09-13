@@ -1,5 +1,7 @@
 ﻿using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,7 +13,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("It is said that in the past, Prometheus descended from the heavens to grant man fire.\n" +
 				"If that were true, then it is surely the demons of hell that would have risen from below to do the same.\n" +
 				"Minions inflict shadowflame on enemy hits.");
-        }
+			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
+		}
 
         public override void SetDefaults()
         {

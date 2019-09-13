@@ -28,6 +28,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.noGravity = true;
 			npc.canGhostHeal = false;
+			npc.noTileCollide = true;
 			npc.buffImmune[189] = true;
 			npc.buffImmune[153] = true;
 			npc.buffImmune[70] = true;

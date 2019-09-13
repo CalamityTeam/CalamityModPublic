@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ravager
@@ -10,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Ravager
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ultimus Cleaver");
-			Tooltip.SetDefault("Launches damaging sparks when the player walks on the ground with this weapon out");
+			Tooltip.SetDefault("Launches damaging homing sparks");
 		}
 
 		public override void SetDefaults()
@@ -18,45 +19,86 @@ namespace CalamityMod.Items.Weapons.Ravager
 			item.damage = 300;
 			item.melee = true;
 			item.rare = 8;
-			item.width = 82;
-			item.height = 102;
+			item.width = 102;
+			item.height = 82;
 			item.useTime = 20;
 			item.useAnimation = 20;
-			item.useStyle = 5;
-			item.knockBack = 5f;
+			item.useStyle = 1;
+			item.knockBack = 8f;
 			item.value = Item.buyPrice(0, 80, 0, 0);
 			item.autoReuse = true;
-			item.shoot = mod.ProjectileType("UltimusCleaverDust");
-			item.shootSpeed = 10f;
+			item.UseSound = SoundID.Item1;
 		}
 
-		public override Vector2? HoldoutOffset()
+		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			return new Vector2(-10, -10);
-		}
-
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (Collision.SolidCollision(position, player.width, player.height) && player.velocity.X != 0)
+			if (player.whoAmI == Main.myPlayer)
 			{
-				for (int i = 0; i < 5; i++)
+				if ((player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1) ||
+					player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3) ||
+					player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5) ||
+					player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7) ||
+					player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9)))
 				{
-					float posX;
-					float velocityX;
-					if (player.direction == 1)
+					float num339 = 0f;
+					float num340 = 0f;
+					float num341 = 0f;
+					float num342 = 0f;
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9))
 					{
-						posX = (float)Main.rand.Next(10, 60);
-						velocityX = (float)Main.rand.Next(2, 10);
+						num339 = -7f;
 					}
-					else
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
 					{
-						posX = (float)Main.rand.Next(-60, -10);
-						velocityX = (float)Main.rand.Next(-10, -2);
+						num339 = -6f;
+						num340 = 2f;
 					}
-					Projectile.NewProjectile((player.Center.X + posX), (player.Center.Y + 20), velocityX, (float)Main.rand.Next(-7, -3), mod.ProjectileType("UltimusCleaverDust"), (int)((float)item.damage * 0.4f * player.meleeDamage), 0f, Main.myPlayer);
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5))
+					{
+						num339 = -4f;
+						num340 = 4f;
+					}
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3))
+					{
+						num339 = -2f;
+						num340 = 6f;
+					}
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1))
+					{
+						num340 = 7f;
+					}
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
+					{
+						num342 = 26f;
+					}
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3))
+					{
+						num342 -= 4f;
+						num341 -= 20f;
+					}
+					if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1))
+					{
+						num341 += 6f;
+					}
+					if (player.direction == -1)
+					{
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9))
+						{
+							num342 -= 8f;
+						}
+						if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7))
+						{
+							num342 -= 6f;
+						}
+					}
+					num339 *= 1.5f;
+					num340 *= 1.5f;
+					num342 *= (float)player.direction;
+					num341 *= player.gravDir;
+					Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341,
+						(float)player.direction * num340, num339 * player.gravDir, mod.ProjectileType("UltimusCleaverDust"), (int)((float)item.damage * 0.1f * player.meleeDamage), 0f, player.whoAmI, 0f, 0f);
 				}
 			}
-			return false;
 		}
 	}
 }

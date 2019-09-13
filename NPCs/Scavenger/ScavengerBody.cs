@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Scavenger
 {
@@ -97,9 +98,15 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
 			Lighting.AddLight((int)(npc.position.X - 100f) / 16, (int)(npc.position.Y - 20f) / 16, 0f, 0.51f, 2f);
 			Lighting.AddLight((int)(npc.position.X + 100f) / 16, (int)(npc.position.Y - 20f) / 16, 0f, 0.51f, 2f);
+
 			CalamityGlobalNPC.scavenger = npc.whoAmI;
+
 			if (npc.localAI[0] == 0f && Main.netMode != 1)
 			{
 				npc.localAI[0] = 1f;
@@ -109,79 +116,69 @@ namespace CalamityMod.NPCs.Scavenger
 				NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, mod.NPCType("ScavengerClawRight"), 0, 0f, 0f, 0f, 0f, 255);
 				NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, mod.NPCType("ScavengerHead"), 0, 0f, 0f, 0f, 0f, 255);
 			}
+
 			if (npc.target >= 0 && Main.player[npc.target].dead)
 			{
 				npc.TargetClosest(true);
 				if (Main.player[npc.target].dead)
-				{
 					npc.noTileCollide = true;
-				}
 			}
+
 			if (npc.alpha > 0)
 			{
 				npc.alpha -= 10;
 				if (npc.alpha < 0)
-				{
 					npc.alpha = 0;
-				}
+
 				npc.ai[1] = 0f;
 			}
+
 			bool leftLegActive = false;
 			bool rightLegActive = false;
 			bool headActive = false;
 			bool rightClawActive = false;
 			bool leftClawActive = false;
+
 			for (int num619 = 0; num619 < 200; num619++)
 			{
 				if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerHead"))
-				{
 					headActive = true;
-				}
 				if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerClawRight"))
-				{
 					rightClawActive = true;
-				}
 				if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerClawLeft"))
-				{
 					leftClawActive = true;
-				}
 				if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerLegRight"))
-				{
 					rightLegActive = true;
-				}
 				if (Main.npc[num619].active && Main.npc[num619].type == mod.NPCType("ScavengerLegLeft"))
-				{
 					leftLegActive = true;
-				}
 			}
+
 			bool enrage = false;
 			if (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) > npc.position.Y + (float)(npc.height / 2) + 10f)
-			{
 				enrage = true;
-			}
+
 			if (headActive || rightClawActive || leftClawActive || rightLegActive || leftLegActive)
-			{
 				npc.dontTakeDamage = true;
-			}
 			else
 			{
 				npc.dontTakeDamage = false;
 				if (Main.netMode != 2)
 				{
 					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-					{
 						Main.player[Main.myPlayer].AddBuff(mod.BuffType("WeakPetrification"), 2);
-					}
 				}
 			}
+
 			if (!headActive)
 			{
 				int rightDust = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 30f), 8, 8, 5, 0f, 0f, 100, default(Color), 2.5f);
 				Main.dust[rightDust].alpha += Main.rand.Next(100);
 				Main.dust[rightDust].velocity *= 0.2f;
+
 				Dust rightDustExpr = Main.dust[rightDust];
 				rightDustExpr.velocity.Y = rightDustExpr.velocity.Y - (3f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
+
 				if (Main.rand.Next(10) == 0)
 				{
 					rightDust = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 30f), 8, 8, 6, 0f, 0f, 0, default(Color), 1.5f);
@@ -193,6 +190,7 @@ namespace CalamityMod.NPCs.Scavenger
 						rightDustExpr2.velocity.Y = rightDustExpr2.velocity.Y - 4f;
 					}
 				}
+
 				if (Main.netMode != 1)
 				{
 					npc.localAI[1] += (enrage ? 6f : 1f);
@@ -219,14 +217,17 @@ namespace CalamityMod.NPCs.Scavenger
 					}
 				}
 			}
+
 			if (!rightClawActive)
 			{
 				int rightDust = Dust.NewDust(new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f), 8, 8, 5, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[rightDust].alpha += Main.rand.Next(100);
 				Main.dust[rightDust].velocity *= 0.2f;
+
 				Dust rightDustExpr = Main.dust[rightDust];
 				rightDustExpr.velocity.X = rightDustExpr.velocity.X + (3f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
+
 				if (Main.rand.Next(10) == 0)
 				{
 					rightDust = Dust.NewDust(new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f), 8, 8, 6, 0f, 0f, 0, default(Color), 2f);
@@ -238,6 +239,7 @@ namespace CalamityMod.NPCs.Scavenger
 						rightDustExpr2.velocity.X = rightDustExpr2.velocity.X + 4f;
 					}
 				}
+
 				if (Main.netMode != 1)
 				{
 					npc.localAI[2] += (enrage ? 2f : 1f);
@@ -251,14 +253,17 @@ namespace CalamityMod.NPCs.Scavenger
 					}
 				}
 			}
+
 			if (!leftClawActive)
 			{
 				int leftDust = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f), 8, 8, 5, 0f, 0f, 100, default(Color), 3f);
 				Main.dust[leftDust].alpha += Main.rand.Next(100);
 				Main.dust[leftDust].velocity *= 0.2f;
+
 				Dust leftDustExpr = Main.dust[leftDust];
 				leftDustExpr.velocity.X = leftDustExpr.velocity.X - (3f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[leftDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
+
 				if (Main.rand.Next(10) == 0)
 				{
 					leftDust = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f), 8, 8, 6, 0f, 0f, 0, default(Color), 2f);
@@ -270,6 +275,7 @@ namespace CalamityMod.NPCs.Scavenger
 						leftDustExpr2.velocity.X = leftDustExpr2.velocity.X - 4f;
 					}
 				}
+
 				if (Main.netMode != 1)
 				{
 					npc.localAI[3] += (enrage ? 2f : 1f);
@@ -283,14 +289,17 @@ namespace CalamityMod.NPCs.Scavenger
 					}
 				}
 			}
+
 			if (!rightLegActive)
 			{
 				int rightDust = Dust.NewDust(new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f), 8, 8, 5, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[rightDust].alpha += Main.rand.Next(100);
 				Main.dust[rightDust].velocity *= 0.2f;
+
 				Dust rightDustExpr = Main.dust[rightDust];
 				rightDustExpr.velocity.Y = rightDustExpr.velocity.Y + (0.5f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
+
 				if (Main.rand.Next(10) == 0)
 				{
 					rightDust = Dust.NewDust(new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f), 8, 8, 6, 0f, 0f, 0, default(Color), 1.5f);
@@ -302,6 +311,7 @@ namespace CalamityMod.NPCs.Scavenger
 						rightDustExpr2.velocity.Y = rightDustExpr2.velocity.Y + 1f;
 					}
 				}
+
 				if (Main.netMode != 1)
 				{
 					npc.ai[2] += 1f;
@@ -315,14 +325,17 @@ namespace CalamityMod.NPCs.Scavenger
 					}
 				}
 			}
+
 			if (!leftLegActive)
 			{
 				int leftDust = Dust.NewDust(new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f), 8, 8, 5, 0f, 0f, 100, default(Color), 2f);
 				Main.dust[leftDust].alpha += Main.rand.Next(100);
 				Main.dust[leftDust].velocity *= 0.2f;
+
 				Dust leftDustExpr = Main.dust[leftDust];
 				leftDustExpr.velocity.Y = leftDustExpr.velocity.Y + (0.5f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[leftDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
+
 				if (Main.rand.Next(10) == 0)
 				{
 					leftDust = Dust.NewDust(new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f), 8, 8, 6, 0f, 0f, 0, default(Color), 1.5f);
@@ -334,6 +347,7 @@ namespace CalamityMod.NPCs.Scavenger
 						leftDustExpr2.velocity.Y = leftDustExpr2.velocity.Y + 1f;
 					}
 				}
+
 				if (Main.netMode != 1)
 				{
 					npc.ai[3] += 1f;
@@ -347,37 +361,34 @@ namespace CalamityMod.NPCs.Scavenger
 					}
 				}
 			}
+
 			if (npc.ai[0] == 0f)
 			{
 				npc.noTileCollide = false;
+
 				if (npc.velocity.Y == 0f)
 				{
 					npc.velocity.X = npc.velocity.X * 0.8f;
+
 					npc.ai[1] += 1f;
 					if (npc.ai[1] > 0f)
 					{
 						if ((!rightClawActive && !leftClawActive) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						{
 							npc.ai[1] += 1f;
-						}
 						if (!headActive || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						{
 							npc.ai[1] += 1f;
-						}
 						if ((!rightLegActive && !leftLegActive) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						{
 							npc.ai[1] += 1f;
-						}
 					}
+
 					if (npc.ai[1] >= 300f)
-					{
 						npc.ai[1] = -20f;
-					}
 					else if (npc.ai[1] == -1f)
 					{
 						npc.TargetClosest(true);
-						int speedXMult = ((enrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8 : 4);
-						npc.velocity.X = (float)(speedXMult * npc.direction);
+
+						float speedX = ((enrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
+						npc.velocity.X = speedX * (float)npc.direction;
 						npc.velocity.Y = -15.2f;
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;
@@ -389,7 +400,9 @@ namespace CalamityMod.NPCs.Scavenger
 				if (npc.velocity.Y == 0f)
 				{
 					Main.PlaySound(SoundID.Item14, npc.position);
+
 					npc.ai[0] = 0f;
+
 					if (Main.netMode != 1)
 					{
 						if (NPC.CountNPCS(mod.NPCType("RockPillar")) < 2)
@@ -397,12 +410,14 @@ namespace CalamityMod.NPCs.Scavenger
 							NPC.NewNPC((int)npc.Center.X - 360, (int)npc.Center.Y - 10, mod.NPCType("RockPillar"), 0, 0f, 0f, 0f, 0f, 255);
 							NPC.NewNPC((int)npc.Center.X + 360, (int)npc.Center.Y - 10, mod.NPCType("RockPillar"), 0, 0f, 0f, 0f, 0f, 255);
 						}
+
 						if (NPC.CountNPCS(mod.NPCType("FlamePillar")) < 2)
 						{
 							NPC.NewNPC((int)Main.player[npc.target].Center.X - 180, (int)Main.player[npc.target].Center.Y - 10, mod.NPCType("FlamePillar"), 0, 0f, 0f, 0f, 0f, 255);
 							NPC.NewNPC((int)Main.player[npc.target].Center.X + 180, (int)Main.player[npc.target].Center.Y - 10, mod.NPCType("FlamePillar"), 0, 0f, 0f, 0f, 0f, 255);
 						}
 					}
+
 					for (int stompDustArea = (int)npc.position.X - 30; stompDustArea < (int)npc.position.X + npc.width + 60; stompDustArea += 30)
 					{
 						for (int stompDustAmount = 0; stompDustAmount < 6; stompDustAmount++)
@@ -410,6 +425,7 @@ namespace CalamityMod.NPCs.Scavenger
 							int stompDust = Dust.NewDust(new Vector2(npc.position.X - 30f, npc.position.Y + (float)npc.height), npc.width + 30, 4, 31, 0f, 0f, 100, default(Color), 1.5f);
 							Main.dust[stompDust].velocity *= 0.2f;
 						}
+
 						int stompGore = Gore.NewGore(new Vector2((float)(stompDustArea - 30), npc.position.Y + (float)npc.height - 12f), default(Vector2), Main.rand.Next(61, 64), 1f);
 						Main.gore[stompGore].velocity *= 0.4f;
 					}
@@ -417,61 +433,56 @@ namespace CalamityMod.NPCs.Scavenger
 				else
 				{
 					npc.TargetClosest(true);
+
+					// Fall through
+					if (npc.target >= 0 && CalamityWorld.revenge &&
+						((Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f)))
+						npc.noTileCollide = true;
+					else if (!Main.player[npc.target].dead)
+						npc.noTileCollide = false;
+
 					if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
-						npc.velocity.Y = npc.velocity.Y + 0.2f;
+
+						if (Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height)
+						{
+							float fallSpeed = 0.6f + (0.6f * (1f - lifeRatio));
+							npc.velocity.Y = npc.velocity.Y + fallSpeed;
+						}
 					}
 					else
 					{
 						if (npc.direction < 0)
-						{
 							npc.velocity.X = npc.velocity.X - 0.2f;
-						}
 						else if (npc.direction > 0)
-						{
 							npc.velocity.X = npc.velocity.X + 0.2f;
-						}
-						float velocityX = 3f;
+
+						float velocityX = 3f + (4f * (1f - lifeRatio));
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						{
 							velocityX += 3f;
-						}
 						if (!rightClawActive)
-						{
 							velocityX += 1f;
-						}
 						if (!leftClawActive)
-						{
 							velocityX += 1f;
-						}
 						if (!headActive)
-						{
 							velocityX += 1f;
-						}
 						if (!rightLegActive)
-						{
 							velocityX += 1f;
-						}
 						if (!leftLegActive)
-						{
 							velocityX += 1f;
-						}
+
 						if (npc.velocity.X < -velocityX)
-						{
 							npc.velocity.X = -velocityX;
-						}
 						if (npc.velocity.X > velocityX)
-						{
 							npc.velocity.X = velocityX;
-						}
 					}
 				}
 			}
+
 			if (npc.target <= 0 || npc.target == 255 || Main.player[npc.target].dead)
-			{
 				npc.TargetClosest(true);
-			}
+
 			int distanceFromTarget = 3000;
 			if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)distanceFromTarget)
 			{
@@ -568,7 +579,7 @@ namespace CalamityMod.NPCs.Scavenger
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("RavagerTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge33"), true, !CalamityWorld.downedScavenger);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeRavager"), true, !CalamityWorld.downedScavenger);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal

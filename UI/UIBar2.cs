@@ -7,6 +7,8 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 using Terraria.ModLoader;
 
+using CalamityMod.CalPlayer;
+
 namespace CalamityMod.UI
 {
     public class UIBar2 : UIState

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Abyss Blade");
 			Tooltip.SetDefault("Hitting enemies will cause the crush depth debuff\n" +
 				"The lower the enemies' defense the more damage they take from this debuff\n" +
-				"Fires short-range water orbs");
+				"Fires short-range tridents");
 		}
 
 		public override void SetDefaults()

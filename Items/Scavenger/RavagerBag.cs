@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.Scavenger
 {
@@ -55,9 +56,9 @@ namespace CalamityMod.Items.Scavenger
 				mod.ItemType("Hematemesis"),
 				mod.ItemType("SpikecragStaff"),
 				mod.ItemType("CraniumSmasher"));
-            DropHelper.DropItemFromSetChance(player, 0.05f, mod.ItemType("CorpusAvertorMelee"), mod.ItemType("CorpusAvertor"));
+			DropHelper.DropItemFromSetChance(player, 0.05f, mod.ItemType("CorpusAvertorMelee"), mod.ItemType("CorpusAvertor"));
 
-            // Equipment
+			// Equipment
 			DropHelper.DropItemChance(player, mod.ItemType("BloodPact"), 0.5f);
 			DropHelper.DropItemChance(player, mod.ItemType("FleshTotem"), 0.5f);
 			DropHelper.DropItemCondition(player, mod.ItemType("BloodflareCore"), CalamityWorld.downedProvidence);

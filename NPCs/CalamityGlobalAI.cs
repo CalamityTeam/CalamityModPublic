@@ -2496,9 +2496,9 @@ namespace CalamityMod.NPCs
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
 			bool phase2 = lifeRatio < 0.85f;
-			bool phase3 = lifeRatio < 0.7f;
-			bool phase4 = lifeRatio < 0.55f;
-			bool phase5 = lifeRatio < 0.4f;
+			bool phase3 = lifeRatio < 0.75f;
+			bool phase4 = lifeRatio < 0.65f;
+			bool phase5 = lifeRatio < 0.5f;
 
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
@@ -3578,7 +3578,7 @@ namespace CalamityMod.NPCs
 					calamityGlobalNPC.newAI[1] += 1f;
 
 					// Set velocity for when a new head spawns
-					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * num37;
+					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (num37 * 0.4f);
 				}
 
 				if (!flag2)
@@ -3751,6 +3751,634 @@ namespace CalamityMod.NPCs
 					if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
 						npc.netUpdate = true;
 				}
+			}
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
+			return false;
+		}
+		#endregion
+
+		#region Buffed Brain of Cthulhu AI
+		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod)
+		{
+			// whoAmI variable
+			NPC.crimsonBoss = npc.whoAmI;
+
+			// Spawn Creepers
+			if (Main.netMode != 1 && npc.localAI[0] == 0f)
+			{
+				npc.localAI[0] = 1f;
+				for (int num789 = 0; num789 < 20; num789++)
+				{
+					float num790 = npc.Center.X;
+					float num791 = npc.Center.Y;
+					num790 += (float)Main.rand.Next(-npc.width, npc.width);
+					num791 += (float)Main.rand.Next(-npc.height, npc.height);
+
+					int num792 = NPC.NewNPC((int)num790, (int)num791, NPCID.Creeper, 0, 0f, 0f, 0f, 0f, 255);
+					Main.npc[num792].velocity = new Vector2((float)Main.rand.Next(-30, 31) * 0.1f, (float)Main.rand.Next(-30, 31) * 0.1f);
+					Main.npc[num792].netUpdate = true;
+				}
+			}
+
+			// Despawn
+			if (Main.netMode != 1)
+			{
+				npc.TargetClosest(true);
+
+				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6000f)
+				{
+					npc.active = false;
+					npc.life = 0;
+
+					if (Main.netMode == 2)
+						NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+				}
+			}
+
+			// Phase 2
+			if (npc.ai[0] < 0f)
+			{
+				// Spawn gore
+				if (npc.localAI[2] == 0f)
+				{
+					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+
+					npc.localAI[2] = 1f;
+
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 392, 1f);
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 393, 1f);
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 394, 1f);
+					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 395, 1f);
+
+					for (int num794 = 0; num794 < 20; num794++)
+						Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+
+					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+				}
+
+				// Percent life remaining
+				float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+				// Phases based on HP
+				bool phase2 = lifeRatio < 0.85f;
+				bool phase3 = lifeRatio < 0.7f;
+				bool phase4 = lifeRatio < 0.5f;
+				bool phase5 = lifeRatio < 0.3f;
+				bool spinning = npc.ai[0] == -4f;
+
+				// Gain defense while spinning
+				npc.defense = npc.defDefense + (spinning ? 7 : 0);
+
+				// Take damage
+				npc.dontTakeDamage = false;
+
+				// Deal no damage while spinning
+				npc.damage = (spinning ? 0 : npc.defDamage);
+
+				// Move towards target
+				npc.TargetClosest(true);
+
+				// Target distance X
+				float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
+
+				// Charge
+				if (!spinning)
+				{
+					// Not charging
+					if (npc.ai[0] != -6f)
+					{
+						// Rubber band movement
+						Vector2 vector98 = new Vector2(npc.Center.X, npc.Center.Y);
+						float num795 = Main.player[npc.target].Center.X - vector98.X;
+						float num796 = Main.player[npc.target].Center.Y - vector98.Y;
+						float num797 = (float)Math.Sqrt((double)(num795 * num795 + num796 * num796));
+						float num798 = 8f + (2f * (1f - lifeRatio));
+
+						if (phase2 && !phase3)
+							num798 *= 0.9f;
+
+						num797 = num798 / num797;
+						num795 *= num797;
+						num796 *= num797;
+						npc.velocity.X = (npc.velocity.X * 50f + num795) / 51f;
+						npc.velocity.Y = (npc.velocity.Y * 50f + num796) / 51f;
+					}
+
+					// Charge, -6
+					else
+					{
+						npc.ai[1] += 1f;
+
+						// Teleport
+						if (npc.ai[1] >= 115f)
+						{
+							npc.knockBackResist = 0.45f - (0.45f * (1f - lifeRatio));
+
+							npc.ai[0] = -7f;
+							npc.ai[1] = 0f;
+							npc.localAI[1] = 120f;
+							npc.netUpdate = true;
+						}
+
+						// Charge sound and velocity
+						else if (npc.ai[1] == 10f)
+						{
+							// Sound
+							Main.PlaySound(36, (int)npc.position.X, (int)npc.position.Y, -1, 1f, 0f);
+
+							// Velocity
+							npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 14f;
+						}
+					}
+
+					// Rubber band movement, -5
+					if (npc.ai[0] == -5f)
+					{
+						// Spin or teleport
+						npc.ai[2] += 1f;
+						if (npc.ai[2] >= 180f)
+						{
+							bool spin = (phase4 ? Main.rand.Next(4) > 0 : Main.rand.NextBool());
+							if (phase5)
+								spin = true;
+
+							// Velocity and knockback
+							if (spin)
+							{
+								npc.knockBackResist = 0f;
+								npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 24f;
+							}
+							else
+								npc.knockBackResist = 0.45f - (0.45f * (1f - lifeRatio));
+
+							npc.ai[0] = (!spin ? -7f : -4f);
+							npc.ai[1] = (!spin ? 0f : (playerLocation < 0 ? 1f : -1f));
+							npc.ai[2] = 0f;
+							npc.ai[3] = (!spin ? 0f : (float)Main.rand.Next(61));
+							npc.localAI[1] = (!spin ? 120f : 0f);
+							npc.netUpdate = true;
+						}
+					}
+				}
+
+				// Circle around, -4
+				if (spinning)
+				{
+					// Charge sound
+					if (npc.ai[2] == 0f)
+						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+
+					// Velocity
+					int var = 120;
+					float velocity = 6.28318548f / ((float)var * 0.75f);
+					npc.velocity = npc.velocity.RotatedBy((double)(-(double)velocity * npc.ai[1]), default(Vector2));
+
+					npc.ai[2] += 1f;
+
+					float timer = 60f + npc.ai[3];
+
+					if (npc.ai[2] >= timer - 5f)
+					{
+						if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 400f) // 25 tile distance
+						{
+							npc.ai[2] -= 1f;
+							npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * -6f;
+						}
+					}
+
+					// Charge at target and spit blood, -6 is straight line movement, -5 is rubber band movement
+					if (npc.ai[2] >= timer)
+					{
+						// Complete stop
+						npc.velocity *= 0f;
+
+						// Blood spurt
+						if (phase5)
+						{
+							// Blood dust
+							for (int num621 = 0; num621 < 6; num621++)
+							{
+								int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1f);
+								Main.dust[num622].velocity *= 3f;
+								if (Main.rand.Next(2) == 0)
+								{
+									Main.dust[num622].scale = 0.25f;
+									Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+								}
+							}
+							for (int num623 = 0; num623 < 12; num623++)
+							{
+								int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1.5f);
+								Main.dust[num624].noGravity = true;
+								Main.dust[num624].velocity *= 5f;
+								num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1f);
+								Main.dust[num624].velocity *= 2f;
+							}
+
+							// Projectile speed and spread
+							float num179 = 8f;
+							Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+							float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+							float num181 = Math.Abs(num180) * 0.1f;
+							float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
+							float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+							num183 = num179 / num183;
+							num180 *= num183;
+							num182 *= num183;
+							value9.X += num180;
+							value9.Y += num182;
+
+							// Fire 10 projectiles in an arc
+							for (int num186 = 0; num186 < 5; num186++)
+							{
+								num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+								num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
+								num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								num183 = num179 / num183;
+								num180 += (float)Main.rand.Next(-120, 121);
+								num180 *= num183;
+								Projectile.NewProjectile(value9.X, value9.Y, num180, -5f, mod.ProjectileType("BloodGeyser"), 10, 0f, Main.myPlayer, 0f, 0f);
+							}
+						}
+
+						bool charge = (phase4 ? Main.rand.Next(4) > 0 : Main.rand.NextBool());
+						if (phase5)
+							charge = true;
+
+						// Adjust knockback
+						if (charge)
+							npc.knockBackResist = 0f;
+						else
+							npc.knockBackResist = 0.45f - (0.45f * (1f - lifeRatio));
+
+						npc.ai[0] = (charge ? -6f : -5f);
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+						npc.netUpdate = true;
+					}
+				}
+
+				// Pick teleport location
+				else if (npc.ai[0] == -1f || npc.ai[0] == -7f)
+				{
+					// Adjust knockback
+					if (npc.ai[0] == -1f)
+						npc.knockBackResist = 0.45f - (0.45f * (1f - lifeRatio));
+
+					if (Main.netMode != 1)
+					{
+						// Go to phase 3
+						if (phase3 && npc.ai[0] == -1f)
+						{
+							npc.ai[0] = -5f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+							npc.ai[3] = 0f;
+							npc.localAI[1] = 0f;
+							npc.alpha = 0;
+							npc.netUpdate = true;
+						}
+
+						npc.localAI[1] += 1f;
+
+						int random = 5 - (int)(5f * (1f - lifeRatio));
+						if (npc.justHit)
+							npc.localAI[1] -= (float)Main.rand.Next(random);
+
+						float num799 = ((phase2 && !phase3) ? 90f : 120f);
+						if (npc.localAI[1] >= num799)
+						{
+							npc.localAI[1] = 0f;
+							npc.TargetClosest(true);
+							int num800 = 0;
+							int num801;
+							int num802;
+							while (true)
+							{
+								num800++;
+								num801 = (int)Main.player[npc.target].Center.X / 16;
+								num802 = (int)Main.player[npc.target].Center.Y / 16;
+
+								int min = 9;
+								int max = ((phase2 && !phase3) ? 11 : 15);
+
+								if (phase3)
+								{
+									min = 17;
+									max = 20;
+								}
+
+								if (Main.rand.Next(2) == 0)
+									num801 += Main.rand.Next(min, max);
+								else
+									num801 -= Main.rand.Next(min, max);
+
+								if (Main.rand.Next(2) == 0)
+									num802 += Main.rand.Next(min, max);
+								else
+									num802 -= Main.rand.Next(min, max);
+
+								if (!WorldGen.SolidTile(num801, num802))
+									break;
+
+								if (num800 > 100)
+									goto Block_2784;
+							}
+							npc.ai[3] = 0f;
+							npc.ai[0] = (npc.ai[0] == -7f ? -8f : -2f);
+							npc.ai[1] = (float)num801;
+							npc.ai[2] = (float)num802;
+							npc.netUpdate = true;
+							npc.netSpam = 0;
+						Block_2784:;
+						}
+					}
+				}
+
+				// Teleport and turn invisible
+				else if (npc.ai[0] == -2f || npc.ai[0] == -8f)
+				{
+					npc.velocity *= 0.9f;
+
+					if (Main.netMode != 0)
+						npc.ai[3] += 15f;
+					else
+						npc.ai[3] += 25f;
+
+					if (npc.ai[3] >= 255f)
+					{
+						npc.ai[3] = 255f;
+						npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
+						npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
+						Main.PlaySound(SoundID.Item8, npc.Center);
+						npc.ai[0] = (npc.ai[0] == -8f ? -9f : -3f);
+						npc.netUpdate = true;
+						npc.netSpam = 0;
+					}
+
+					npc.alpha = (int)npc.ai[3];
+				}
+
+				// Become visible
+				else if (npc.ai[0] == -3f || npc.ai[0] == -9f)
+				{
+					if (Main.netMode != 0)
+						npc.ai[3] -= 15f;
+					else
+						npc.ai[3] -= 25f;
+
+					if (npc.ai[3] <= 0f)
+					{
+						bool spin = (phase4 ? (Main.rand.NextBool() && npc.ai[0] == -9f) : false);
+						if (phase5 && npc.ai[0] == -9f)
+							spin = true;
+
+						if (spin)
+						{
+							// Adjust knockback
+							npc.knockBackResist = 0f;
+
+							npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 24f;
+
+							npc.ai[0] = -4f;
+							npc.ai[1] = (playerLocation < 0 ? 1f : -1f);
+							npc.ai[2] = 0f;
+							npc.ai[3] = (float)Main.rand.Next(61);
+						}
+						else
+						{
+							npc.ai[3] = 0f;
+							npc.ai[2] = 0f;
+							npc.ai[1] = 0f;
+							npc.ai[0] = (npc.ai[0] == -9f ? -5f : -1f);
+						}
+						npc.netUpdate = true;
+						npc.netSpam = 0;
+					}
+
+					npc.alpha = (int)npc.ai[3];
+				}
+			}
+
+			// Phase 1
+			else
+			{
+				// Creeper count
+				int creeperCount = NPC.CountNPCS(NPCID.Creeper);
+				int creeperScale = 21 - creeperCount; // 1 to 20
+				bool phase2 = creeperCount <= 0;
+
+				// Move towards target
+				npc.TargetClosest(true);
+				Vector2 vector99 = new Vector2(npc.Center.X, npc.Center.Y);
+				float num803 = Main.player[npc.target].Center.X - vector99.X;
+				float num804 = Main.player[npc.target].Center.Y - vector99.Y;
+				float num805 = (float)Math.Sqrt((double)(num803 * num803 + num804 * num804));
+				float num806 = 1f + ((float)creeperScale * 0.05f);
+				if (num805 < num806)
+				{
+					npc.velocity.X = num803;
+					npc.velocity.Y = num804;
+				}
+				else
+				{
+					num805 = num806 / num805;
+					npc.velocity.X = num803 * num805;
+					npc.velocity.Y = num804 * num805;
+				}
+
+				// Pick a teleport location
+				if (npc.ai[0] == 0f)
+				{
+					if (Main.netMode != 1)
+					{
+						// Go to phase 2
+						if (phase2)
+						{
+							npc.ai[0] = -1f;
+							npc.localAI[1] = 0f;
+							npc.alpha = 0;
+							npc.netUpdate = true;
+						}
+
+						// Teleport location
+						npc.localAI[1] += 1f + ((float)creeperScale * 0.05f);
+						if (npc.localAI[1] >= 300f)
+						{
+							npc.localAI[1] = 0f;
+							npc.TargetClosest(true);
+							int num809 = 0;
+							int num810;
+							int num811;
+							while (true)
+							{
+								num809++;
+								num810 = (int)Main.player[npc.target].Center.X / 16;
+								num811 = (int)Main.player[npc.target].Center.Y / 16;
+
+								int min = 18;
+								int max = 26;
+
+								if (Main.rand.Next(2) == 0)
+									num810 += Main.rand.Next(min, max);
+								else
+									num810 -= Main.rand.Next(min, max);
+
+								if (Main.rand.Next(2) == 0)
+									num811 += Main.rand.Next(min, max);
+								else
+									num811 -= Main.rand.Next(min, max);
+
+								if (!WorldGen.SolidTile(num810, num811) && Collision.CanHit(new Vector2((float)(num810 * 16), (float)(num811 * 16)), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+								{
+									break;
+								}
+								if (num809 > 100)
+								{
+									goto Block_2801;
+								}
+							}
+							npc.ai[0] = 1f;
+							npc.ai[1] = (float)num810;
+							npc.ai[2] = (float)num811;
+							npc.netUpdate = true;
+						Block_2801:;
+						}
+					}
+				}
+
+				// Turn invisible and teleport
+				else if (npc.ai[0] == 1f)
+				{
+					npc.alpha += 5;
+					if (npc.alpha >= 255)
+					{
+						Main.PlaySound(SoundID.Item8, npc.Center);
+						npc.alpha = 255;
+						npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
+						npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
+						npc.ai[0] = 2f;
+					}
+				}
+
+				// Become visible
+				else if (npc.ai[0] == 2f)
+				{
+					npc.alpha -= 5;
+					if (npc.alpha <= 0)
+					{
+						npc.alpha = 0;
+						npc.ai[0] = 0f;
+					}
+				}
+			}
+
+			// Despawn
+			if (Main.player[npc.target].dead || (!Main.player[npc.target].ZoneCrimson && !Main.player[npc.target].ZoneCorrupt))
+			{
+				if (npc.localAI[3] < 120f)
+					npc.localAI[3] += 1f;
+
+				if (npc.localAI[3] > 60f)
+					npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.25f;
+
+				npc.ai[0] = 2f;
+				npc.alpha = 10;
+				return false;
+			}
+			if (npc.localAI[3] > 0f)
+				npc.localAI[3] -= 1f;
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
+			return false;
+		}
+
+		public static bool BuffedCreeperAI(NPC npc, bool enraged, Mod mod)
+		{
+			// Despawn if Brain is gone
+			if (NPC.crimsonBoss < 0)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return false;
+			}
+
+			// Creeper count, 0 to 20
+			int creeperCount = NPC.CountNPCS(NPCID.Creeper);
+			bool phase2 = creeperCount <= 10;
+
+			// Adjust knockback
+			if (phase2)
+				npc.knockBackResist = 0f;
+
+			// Stay near Brain
+			if (npc.ai[0] == 0f)
+			{
+				Vector2 vector100 = new Vector2(npc.Center.X, npc.Center.Y);
+				float num812 = Main.npc[NPC.crimsonBoss].Center.X - vector100.X;
+				float num813 = Main.npc[NPC.crimsonBoss].Center.Y - vector100.Y;
+				float num814 = (float)Math.Sqrt((double)(num812 * num812 + num813 * num813));
+				float velocity = CalamityWorld.death ? 10f : 9f;
+
+				// Max distance from Brain
+				if (num814 > 90f)
+				{
+					num814 = velocity / num814;
+					num812 *= num814;
+					num813 *= num814;
+					npc.velocity.X = (npc.velocity.X * 15f + num812) / 16f;
+					npc.velocity.Y = (npc.velocity.Y * 15f + num813) / 16f;
+					return false;
+				}
+
+				// Increase speed
+				if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < velocity)
+				{
+					npc.velocity.Y = npc.velocity.Y * 1.05f;
+					npc.velocity.X = npc.velocity.X * 1.05f;
+				}
+
+				// Charge at target
+				int creeperScale = 21 - creeperCount; // 1 to 20
+				npc.ai[1] += 0.5f + ((float)creeperScale * 0.25f);
+				if (Main.netMode != 1 && npc.ai[1] >= 240f)
+				{
+					npc.ai[1] = 0f;
+					npc.TargetClosest(true);
+					vector100 = new Vector2(npc.Center.X, npc.Center.Y);
+					num812 = Main.player[npc.target].Center.X - vector100.X;
+					num813 = Main.player[npc.target].Center.Y - vector100.Y;
+					num814 = (float)Math.Sqrt((double)(num812 * num812 + num813 * num813));
+					num814 = velocity / num814;
+					npc.velocity.X = num812 * num814;
+					npc.velocity.Y = num813 * num814;
+					npc.ai[0] = 1f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Charge
+			else
+			{
+				Vector2 value2 = Main.player[npc.target].Center - npc.Center;
+				value2.Normalize();
+				value2 *= 9f;
+				npc.velocity = (npc.velocity * 99f + value2) / 100f;
+
+				Vector2 vector101 = new Vector2(npc.Center.X, npc.Center.Y);
+				float num815 = Main.npc[NPC.crimsonBoss].Center.X - vector101.X;
+				float num816 = Main.npc[NPC.crimsonBoss].Center.Y - vector101.Y;
+				float num817 = (float)Math.Sqrt((double)(num815 * num815 + num816 * num816));
+
+				// Return to Brain
+				if (num817 > 700f || (npc.justHit && !phase2))
+					npc.ai[0] = 0f;
 			}
 
 			if (ModLoader.GetMod("FargowiltasSouls") != null)
@@ -4338,7 +4966,8 @@ namespace CalamityMod.NPCs
 					Main.npc[num155].netUpdate = true;
 				}
 
-				if (phase2 && calamityGlobalNPC.newAI[0] == 0f)
+				// Respawn hands
+				if (phase2 && calamityGlobalNPC.newAI[0] == 0f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
 				{
 					npc.TargetClosest(true);
 					calamityGlobalNPC.newAI[0] = 1f;
@@ -4359,11 +4988,14 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			// Distance from target
+			float distance = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
+
 			// Despawn
-			if (Main.player[npc.target].dead || Math.Abs(npc.position.X - Main.player[npc.target].position.X) > 2000f || Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000f)
+			if (Main.player[npc.target].dead || distance > 2000f)
 			{
 				npc.TargetClosest(true);
-				if (Main.player[npc.target].dead || Math.Abs(npc.position.X - Main.player[npc.target].position.X) > 2000f || Math.Abs(npc.position.Y - Main.player[npc.target].position.Y) > 2000f)
+				if (Main.player[npc.target].dead || distance > 2000f)
 					npc.ai[1] = 3f;
 			}
 
@@ -4400,10 +5032,9 @@ namespace CalamityMod.NPCs
 					// Fire magic bolt after teleport
 					if (Main.netMode != 1)
 					{
-						Vector2 vector = Main.player[npc.target].Center - npc.Center;
-						float num151 = 1.5f + (vector.Length() * 0.003f);
-						if (num151 > 3f)
-							num151 = 3f;
+						float num151 = 2f + (distance * 0.005f);
+						if (num151 > 5f)
+							num151 = 5f;
 
 						int num152 = 17;
 						int num153 = ProjectileID.Shadowflames;
@@ -4424,7 +5055,7 @@ namespace CalamityMod.NPCs
 					// Teleport dust
 					for (int m = 0; m < 60; m++)
 					{
-						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, 0f, 200, default(Color), 2f);
+						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default(Color), 3f);
 						Main.dust[num39].noGravity = true;
 						Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
 					}
@@ -4432,7 +5063,7 @@ namespace CalamityMod.NPCs
 
 				// Teleport after certain number of hits
 				if (npc.justHit)
-					npc.ai[3] += (CalamityWorld.death ? 1.5f : 1f) + ((phase2 && handsDead) ? 1f : 0f);
+					npc.ai[3] += ((CalamityWorld.death ? 1.5f : 1f) + ((phase2 && handsDead) ? 1f : 0f)) - (handsDead ? 0f : 0.5f);
 
 				// Dust to show teleport
 				int ai3 = (int)npc.ai[3]; // 0 to 30, and -60
@@ -4447,7 +5078,7 @@ namespace CalamityMod.NPCs
 				}
 				if (emitDust)
 				{
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, 0f, 200, default(Color), 1f);
+					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default(Color), 1.5f);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 2f;
 				}
@@ -4490,7 +5121,7 @@ namespace CalamityMod.NPCs
 								// Teleport dust
 								for (int m = 0; m < 60; m++)
 								{
-									int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, 0f, 200, default(Color), 2f);
+									int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default(Color), 3f);
 									Main.dust[num39].noGravity = true;
 									Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
 								}
@@ -4707,6 +5338,9 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
 			return false;
 		}
 
@@ -4920,6 +5554,9 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.ai[2] == 5f && ((npc.velocity.X > 0f && npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || (npc.velocity.X < 0f && npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))))
 				npc.ai[2] = 0f;
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
 			return false;
 		}
@@ -9021,6 +9658,7 @@ namespace CalamityMod.NPCs
 			bool surface = (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
 			int tentacleCount = NPC.CountNPCS(NPCID.PlanterasTentacle);
 			bool tentaclesDead = tentacleCount == 0;
+			bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > (phase3 ? 480f : 640f); // 30 or 40 tile distance
 
 			// Despawn
 			if (Main.player[npc.target].dead)
@@ -9032,8 +9670,7 @@ namespace CalamityMod.NPCs
 			// Despawn if too far from target
 			if (Main.netMode != 1)
 			{
-				int num728 = 6000;
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)num728)
+				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6000f)
 				{
 					npc.active = false;
 					npc.life = 0;
@@ -9076,30 +9713,48 @@ namespace CalamityMod.NPCs
 			num731 /= (float)num732;
 
 			// Velocity and acceleration
-			float velocity = 4f;
-			float acceleration = 0.04f;
-			if (phase2)
-			{
-				velocity = 7f;
-				acceleration = 0.07f;
-			}
+			float velocity = 6f;
+			float acceleration = 0.06f;
 			if (phase3)
-				velocity = 9f;
-
-			// Charge in closer if all tentacles are dead
-			bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 480f; // 30 tile distance
-			if (tentaclesDead && phase3)
 			{
-				if (speedUp)
+				velocity = 10f;
+				acceleration = 0.1f;
+				if (tentaclesDead)
 				{
-					velocity = 14f;
-					acceleration = 0.14f;
+					velocity = 12f;
+					acceleration = 0.12f;
 				}
-				else
+			}
+			else if (phase2)
+			{
+				velocity = 8f;
+				acceleration = 0.08f;
+			}
+
+			// Move faster if inside active tiles
+			int radius = 2; // 2 tile radius
+			int diameter = radius * 2;
+			int npcCenterX = (int)(npc.Center.X / 16f);
+			int npcCenterY = (int)(npc.Center.Y / 16f);
+			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
+			bool insideTiles = false;
+			for (int x = area.Left; x < area.Right; x++)
+			{
+				for (int y = area.Top; y < area.Bottom; y++)
 				{
-					velocity = 4f;
-					acceleration = 0.04f;
+					if (Main.tile[x, y] != null)
+					{
+						if (Main.tile[x, y].active() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+							insideTiles = true;
+					}
 				}
+			}
+
+			// Slow down if close to target and not inside tiles
+			if (!speedUp && !insideTiles)
+			{
+				velocity = 4f;
+				acceleration = 0.04f;
 			}
 
 			// Enrage if target is on the surface
@@ -9117,11 +9772,9 @@ namespace CalamityMod.NPCs
 			}
 
 			// Detect active tiles around Plantera
-			int radius = 20; // 20 tile radius
-			int diameter = radius * 2;
-			int npcCenterX = (int)(npc.Center.X / 16f);
-			int npcCenterY = (int)(npc.Center.Y / 16f);
-			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
+			radius = 20; // 20 tile radius
+			diameter = radius * 2;
+			area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
 			int nearbyActiveTiles = 0; // 0 to 1600
 			for (int x = area.Left; x < area.Right; x++)
 			{
@@ -9219,8 +9872,8 @@ namespace CalamityMod.NPCs
 					npc.velocity.Y = npc.velocity.Y - acceleration * 2f;
 			}
 
-			// Slow down considerably if near player in phase 3
-			if (tentaclesDead && phase3 && !speedUp)
+			// Slow down considerably if near player
+			if (!speedUp && nearbyActiveTiles > 400 && !insideTiles)
 			{
 				if (npc.velocity.Length() > velocity)
 					npc.velocity *= 0.97f;
@@ -9311,7 +9964,7 @@ namespace CalamityMod.NPCs
 							vector93.X += num743 * 3f;
 							vector93.Y += num744 * 3f;
 							int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-							if (projectileType != ProjectileID.ThornBall)
+							if (projectileType == ProjectileID.SeedPlantera)
 								Main.projectile[num748].timeLeft = 300;
 						}
 					}
@@ -9389,12 +10042,20 @@ namespace CalamityMod.NPCs
 				if (tentacleCount < 8)
 				{
 					int tentacleScale = 8 - tentacleCount; // 1 to 8
-					npc.localAI[3] += 1f + (float)(tentacleScale - 1);
+
+					if (nearbyActiveTiles > 800)
+						npc.localAI[3] += 0.5f + ((float)(tentacleScale - 1) * 0.5f);
+					else
+						npc.localAI[3] += (nearbyActiveTiles > 400 ? 1f : 5f) + (float)(tentacleScale - 1);
 
 					if (npc.localAI[3] >= (CalamityWorld.death ? 330f : 360f))
 					{
 						Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
-						float num742 = 10f - ((float)tentacleScale / 2f); // 9.5f to 6f, slower projectiles are harder to avoid
+
+						float num742 = 10f - ((float)tentacleScale * 0.5f); // 9.5f to 6f, slower projectiles are harder to avoid
+						if (nearbyActiveTiles <= 400)
+							num742 = 10f;
+
 						float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
 						float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
 						float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
@@ -9404,15 +10065,18 @@ namespace CalamityMod.NPCs
 						vector93.X += num743 * 3f;
 						vector93.Y += num744 * 3f;
 
-						int damage = 27;
+						int damage = 24;
 						int numProj = 2;
+
 						int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
+						if (nearbyActiveTiles <= 400)
+							spread = (Main.rand.Next(2) == 0 ? 3 : 6) + (tentacleScale / 2);
+
 						float rotation = MathHelper.ToRadians(spread);
 						for (int i = 0; i < numProj + 1; i++)
 						{
 							Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-							int proj = Projectile.NewProjectile(vector93.X, vector93.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
-							Main.projectile[proj].timeLeft = 300;
+							Projectile.NewProjectile(vector93.X, vector93.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 						npc.localAI[3] = 0f;
 					}
@@ -9438,9 +10102,14 @@ namespace CalamityMod.NPCs
 						vector93.X += num743 * 3f;
 						vector93.Y += num744 * 3f;
 
-						int damage = 25;
+						int damage = 26;
 						int numProj = 4;
-						float rotation = MathHelper.ToRadians(30);
+
+						int spread = 30;
+						if (nearbyActiveTiles <= 400)
+							spread = (Main.rand.Next(2) == 0 ? 30 : 45);
+
+						float rotation = MathHelper.ToRadians(spread);
 						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 						double startAngle = Math.Atan2(num743, num744) - rotation / 2;
 						double deltaAngle = rotation / (float)numProj;
@@ -9769,12 +10438,1052 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
+		#region Buffed Duke Fishron AI
+		public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+
+			// Variables
+			float num = 0.6f * Main.damageMultiplier;
+			bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.66;
+			bool phase3 = (double)npc.life <= (double)npc.lifeMax * ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.33 : 0.2);
+			bool phase2AI = npc.ai[0] > 4f;
+			bool phase3AI = npc.ai[0] > 9f;
+			bool charging = npc.ai[3] < 10f;
+
+			// Adjust stats
+			if (phase3AI)
+			{
+				npc.damage = (int)((float)npc.defDamage * 1.1f * num);
+				npc.defense = (int)((float)npc.defDefense * 0.75f);
+			}
+			else if (phase2AI)
+			{
+				npc.damage = (int)((float)npc.defDamage * 1.2f * num);
+				npc.defense = npc.defDefense;
+			}
+			else
+			{
+				npc.damage = npc.defDamage;
+				npc.defense = (int)((float)npc.defDefense * 1.2f);
+			}
+
+			int num2 = 30;
+			float num3 = 0.55f;
+			float scaleFactor = 8.5f;
+			if (phase3AI)
+			{
+				num3 = 0.7f;
+				scaleFactor = 12f;
+			}
+			else if (phase2AI & charging)
+			{
+				num3 = 0.6f;
+				scaleFactor = 10f;
+			}
+
+			int chargeTime = 28;
+			float chargeVelocity = 17f;
+			if (phase3AI)
+			{
+				chargeTime = 25;
+				chargeVelocity = 27f;
+			}
+			else if (charging & phase2AI)
+			{
+				chargeTime = 27;
+				chargeVelocity = 21f;
+			}
+
+			// Variables
+			int num6 = 80;
+			int num7 = 4;
+			float num8 = 0.3f;
+			float scaleFactor2 = 5f;
+			int num9 = 90;
+			int num10 = 180;
+			int num11 = 180;
+			int num12 = 30;
+			int num13 = 120;
+			int num14 = 4;
+			float scaleFactor3 = 6f;
+			float scaleFactor4 = 20f;
+			float num15 = 6.28318548f / (float)(num13 / 2);
+			int num16 = 75;
+			Vector2 vector = npc.Center;
+			Player player = Main.player[npc.target];
+
+			// Get target
+			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+			{
+				npc.TargetClosest(true);
+				player = Main.player[npc.target];
+				npc.netUpdate = true;
+			}
+
+			// Despawn
+			if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+			{
+				npc.velocity.Y = npc.velocity.Y - 0.4f;
+
+				if (npc.timeLeft > 10)
+					npc.timeLeft = 10;
+
+				if (npc.ai[0] > 4f)
+					npc.ai[0] = 5f;
+				else
+					npc.ai[0] = 0f;
+
+				npc.ai[2] = 0f;
+			}
+
+			// Enrage variable
+			bool enrage = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
+
+			// If the player isn't in the ocean biome or Fishron is transitioning between phases, become immune
+			if (!phase3AI)
+				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f || enrage;
+
+			// Enrage
+			if (enrage)
+			{
+				num2 = 20;
+				npc.damage = npc.defDamage * 2;
+				npc.defense = npc.defDefense * 2;
+				npc.ai[3] = 0f;
+				chargeVelocity += 8f;
+			}
+
+			// Spawn cthulhunadoes in phase 3
+			if (phase3AI)
+			{
+				calamityGlobalNPC.newAI[0] += 1f;
+				if (calamityGlobalNPC.newAI[0] >= 600f)
+				{
+					calamityGlobalNPC.newAI[0] = 0f;
+
+					if (Main.netMode != 1)
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+
+					npc.netUpdate = true;
+				}
+			}
+
+			// Set variables for spawn effects
+			if (npc.localAI[0] == 0f)
+			{
+				npc.localAI[0] = 1f;
+				npc.alpha = 255;
+				npc.rotation = 0f;
+				if (Main.netMode != 1)
+				{
+					npc.ai[0] = -1f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Rotation
+			float num17 = (float)Math.Atan2((double)(player.Center.Y - vector.Y), (double)(player.Center.X - vector.X));
+			if (npc.spriteDirection == 1)
+				num17 += 3.14159274f;
+			if (num17 < 0f)
+				num17 += 6.28318548f;
+			if (num17 > 6.28318548f)
+				num17 -= 6.28318548f;
+			if (npc.ai[0] == -1f)
+				num17 = 0f;
+			if (npc.ai[0] == 3f)
+				num17 = 0f;
+			if (npc.ai[0] == 4f)
+				num17 = 0f;
+			if (npc.ai[0] == 8f)
+				num17 = 0f;
+
+			float num18 = 0.04f;
+			if (npc.ai[0] == 1f || npc.ai[0] == 6f)
+				num18 = 0f;
+			if (npc.ai[0] == 7f)
+				num18 = 0f;
+			if (npc.ai[0] == 3f)
+				num18 = 0.01f;
+			if (npc.ai[0] == 4f)
+				num18 = 0.01f;
+			if (npc.ai[0] == 8f)
+				num18 = 0.01f;
+
+			if (npc.rotation < num17)
+			{
+				if ((double)(num17 - npc.rotation) > 3.1415926535897931)
+					npc.rotation -= num18;
+				else
+					npc.rotation += num18;
+			}
+			if (npc.rotation > num17)
+			{
+				if ((double)(npc.rotation - num17) > 3.1415926535897931)
+					npc.rotation += num18;
+				else
+					npc.rotation -= num18;
+			}
+
+			if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+				npc.rotation = num17;
+			if (npc.rotation < 0f)
+				npc.rotation += 6.28318548f;
+			if (npc.rotation > 6.28318548f)
+				npc.rotation -= 6.28318548f;
+			if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+				npc.rotation = num17;
+
+			// Alpha adjustments
+			if (npc.ai[0] != -1f && npc.ai[0] < 9f)
+			{
+				if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+					npc.alpha += 15;
+				else
+					npc.alpha -= 15;
+
+				if (npc.alpha < 0)
+					npc.alpha = 0;
+				if (npc.alpha > 150)
+					npc.alpha = 150;
+			}
+
+			// Spawn effects
+			if (npc.ai[0] == -1f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+
+				// Direction
+				int num19 = Math.Sign(player.Center.X - vector.X);
+				if (num19 != 0)
+				{
+					npc.direction = num19;
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Alpha
+				if (npc.ai[2] > 20f)
+				{
+					npc.velocity.Y = -2f;
+
+					npc.alpha -= 5;
+					if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+						npc.alpha += 15;
+					if (npc.alpha < 0)
+						npc.alpha = 0;
+					if (npc.alpha > 150)
+						npc.alpha = 150;
+				}
+
+				// Spawn dust and play sound
+				if (npc.ai[2] == (float)(num9 - 30))
+				{
+					int num20 = 36;
+					for (int i = 0; i < num20; i++)
+					{
+						Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default(Vector2)) + npc.Center;
+						Vector2 vector2 = expr_80F - npc.Center;
+						int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default(Color), 1.4f);
+						Main.dust[num21].noGravity = true;
+						Main.dust[num21].noLight = true;
+						Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
+					}
+
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num16)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Phase 1
+			else if (npc.ai[0] == 0f && !player.dead)
+			{
+				// Velocity
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+				Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
+				if (npc.velocity.X < vector3.X)
+				{
+					npc.velocity.X = npc.velocity.X + num3;
+					if (npc.velocity.X < 0f && vector3.X > 0f)
+						npc.velocity.X = npc.velocity.X + num3;
+				}
+				else if (npc.velocity.X > vector3.X)
+				{
+					npc.velocity.X = npc.velocity.X - num3;
+					if (npc.velocity.X > 0f && vector3.X < 0f)
+						npc.velocity.X = npc.velocity.X - num3;
+				}
+				if (npc.velocity.Y < vector3.Y)
+				{
+					npc.velocity.Y = npc.velocity.Y + num3;
+					if (npc.velocity.Y < 0f && vector3.Y > 0f)
+						npc.velocity.Y = npc.velocity.Y + num3;
+				}
+				else if (npc.velocity.Y > vector3.Y)
+				{
+					npc.velocity.Y = npc.velocity.Y - num3;
+					if (npc.velocity.Y > 0f && vector3.Y < 0f)
+						npc.velocity.Y = npc.velocity.Y - num3;
+				}
+
+				// Rotation and direction
+				int num22 = Math.Sign(player.Center.X - vector.X);
+				if (num22 != 0)
+				{
+					if (npc.ai[2] == 0f && num22 != npc.direction)
+						npc.rotation += 3.14159274f;
+
+					npc.direction = num22;
+
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += 3.14159274f;
+
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Phase switch
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num2)
+				{
+					int num23 = 0;
+					switch ((int)npc.ai[3])
+					{
+						case 0:
+						case 1:
+						case 2:
+						case 3:
+						case 4:
+						case 5:
+						case 6:
+						case 7:
+						case 8:
+						case 9:
+							num23 = 1;
+							break;
+						case 10:
+							npc.ai[3] = 1f;
+							num23 = 2;
+							break;
+						case 11:
+							npc.ai[3] = 0f;
+							num23 = 3;
+							break;
+					}
+
+					if (phase2)
+						num23 = 4;
+
+					// Set velocity for charge
+					if (num23 == 1)
+					{
+						npc.ai[0] = 1f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+
+						// Velocity
+						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+						// Direction
+						if (num22 != 0)
+						{
+							npc.direction = num22;
+
+							if (npc.spriteDirection == 1)
+								npc.rotation += 3.14159274f;
+
+							npc.spriteDirection = -npc.direction;
+						}
+					}
+
+					// Bubbles
+					else if (num23 == 2)
+					{
+						npc.ai[0] = 2f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					// Spawn sharknadoes
+					else if (num23 == 3)
+					{
+						npc.ai[0] = 3f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					// Go to phase 2
+					else if (num23 == 4)
+					{
+						npc.ai[0] = 4f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					npc.netUpdate = true;
+				}
+			}
+
+			// Charge
+			else if (npc.ai[0] == 1f)
+			{
+				// Accelerate
+				npc.velocity *= 1.01f;
+
+				// Spawn dust
+				int num24 = 7;
+				for (int j = 0; j < num24; j++)
+				{
+					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default(Vector2)) + vector;
+					Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default(Color), 1.4f);
+					Main.dust[num25].noGravity = true;
+					Main.dust[num25].noLight = true;
+					Main.dust[num25].velocity /= 4f;
+					Main.dust[num25].velocity -= npc.velocity;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)chargeTime)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] += 2f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Bubble belch
+			else if (npc.ai[0] == 2f)
+			{
+				// Velocity
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+				Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor2;
+				if (npc.velocity.X < vector5.X)
+				{
+					npc.velocity.X = npc.velocity.X + num8;
+					if (npc.velocity.X < 0f && vector5.X > 0f)
+						npc.velocity.X = npc.velocity.X + num8;
+				}
+				else if (npc.velocity.X > vector5.X)
+				{
+					npc.velocity.X = npc.velocity.X - num8;
+					if (npc.velocity.X > 0f && vector5.X < 0f)
+						npc.velocity.X = npc.velocity.X - num8;
+				}
+				if (npc.velocity.Y < vector5.Y)
+				{
+					npc.velocity.Y = npc.velocity.Y + num8;
+					if (npc.velocity.Y < 0f && vector5.Y > 0f)
+						npc.velocity.Y = npc.velocity.Y + num8;
+				}
+				else if (npc.velocity.Y > vector5.Y)
+				{
+					npc.velocity.Y = npc.velocity.Y - num8;
+					if (npc.velocity.Y > 0f && vector5.Y < 0f)
+						npc.velocity.Y = npc.velocity.Y - num8;
+				}
+
+				// Play sounds and spawn bubbles
+				if (npc.ai[2] == 0f)
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+				if (npc.ai[2] % (float)num7 == 0f)
+				{
+					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
+
+					if (Main.netMode != 1)
+					{
+						Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (float)(npc.width + 20) / 2f + vector;
+						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble, 0, 0f, 0f, 0f, 0f, 255);
+					}
+				}
+
+				// Direction
+				int num26 = Math.Sign(player.Center.X - vector.X);
+				if (num26 != 0)
+				{
+					npc.direction = num26;
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += 3.14159274f;
+					npc.spriteDirection = -npc.direction;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num6)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Sharknado spawn
+			else if (npc.ai[0] == 3f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound and spawn sharknadoes
+				if (npc.ai[2] == (float)(num9 - 30))
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
+
+				if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+				{
+					Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
+					bool normal = Main.rand.NextBool();
+					float velocityY = normal ? 8f : -4f;
+					float ai1 = normal ? 0f : -1f;
+
+					Projectile.NewProjectile(vector7.X, vector7.Y, (float)(npc.direction * 3), velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+					Projectile.NewProjectile(vector7.X, vector7.Y, (float)(-(float)npc.direction * 3), velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+
+					velocityY = normal ? -4f : 8f;
+					ai1 = normal ? -1f : 0f;
+					Projectile.NewProjectile(vector7.X, vector7.Y, 0f, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num9)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Transition to phase 2
+			else if (npc.ai[0] == 4f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Sound
+				if (npc.ai[2] == (float)(num10 - 60))
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num10)
+				{
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Phase 2
+			else if (npc.ai[0] == 5f && !player.dead)
+			{
+				// Velocity
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+				Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
+				if (npc.velocity.X < vector8.X)
+				{
+					npc.velocity.X = npc.velocity.X + num3;
+					if (npc.velocity.X < 0f && vector8.X > 0f)
+						npc.velocity.X = npc.velocity.X + num3;
+				}
+				else if (npc.velocity.X > vector8.X)
+				{
+					npc.velocity.X = npc.velocity.X - num3;
+					if (npc.velocity.X > 0f && vector8.X < 0f)
+						npc.velocity.X = npc.velocity.X - num3;
+				}
+				if (npc.velocity.Y < vector8.Y)
+				{
+					npc.velocity.Y = npc.velocity.Y + num3;
+					if (npc.velocity.Y < 0f && vector8.Y > 0f)
+						npc.velocity.Y = npc.velocity.Y + num3;
+				}
+				else if (npc.velocity.Y > vector8.Y)
+				{
+					npc.velocity.Y = npc.velocity.Y - num3;
+					if (npc.velocity.Y > 0f && vector8.Y < 0f)
+						npc.velocity.Y = npc.velocity.Y - num3;
+				}
+
+				// Direction and rotation
+				int num27 = Math.Sign(player.Center.X - vector.X);
+				if (num27 != 0)
+				{
+					if (npc.ai[2] == 0f && num27 != npc.direction)
+						npc.rotation += 3.14159274f;
+
+					npc.direction = num27;
+
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += 3.14159274f;
+
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Phase switch
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num2)
+				{
+					int num28 = 0;
+					switch ((int)npc.ai[3])
+					{
+						case 0:
+						case 1:
+						case 2:
+						case 3:
+						case 4:
+						case 5:
+							num28 = 1;
+							break;
+						case 6:
+							npc.ai[3] = 1f;
+							num28 = 2;
+							break;
+						case 7:
+							npc.ai[3] = 0f;
+							num28 = 3;
+							break;
+					}
+
+					if (phase3)
+						num28 = 4;
+
+					// Set velocity for charge
+					if (num28 == 1)
+					{
+						npc.ai[0] = 6f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+
+						// Velocity and rotation
+						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+						// Direction
+						if (num27 != 0)
+						{
+							npc.direction = num27;
+
+							if (npc.spriteDirection == 1)
+								npc.rotation += 3.14159274f;
+
+							npc.spriteDirection = -npc.direction;
+						}
+					}
+
+					// Set velocity for spin
+					else if (num28 == 2)
+					{
+						// Velocity and rotation
+						npc.velocity = Vector2.Normalize(player.Center - vector) * scaleFactor4;
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+						// Direction
+						if (num27 != 0)
+						{
+							npc.direction = num27;
+
+							if (npc.spriteDirection == 1)
+								npc.rotation += 3.14159274f;
+
+							npc.spriteDirection = -npc.direction;
+						}
+
+						npc.ai[0] = 7f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					// Spawn cthulhunado
+					else if (num28 == 3)
+					{
+						npc.ai[0] = 8f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					// Go to next phase
+					else if (num28 == 4)
+					{
+						npc.ai[0] = 9f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					npc.netUpdate = true;
+				}
+			}
+
+			// Charge
+			else if (npc.ai[0] == 6f)
+			{
+				// Accelerate
+				npc.velocity *= 1.01f;
+
+				// Spawn dust
+				int num29 = 7;
+				for (int k = 0; k < num29; k++)
+				{
+					Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * 3.1415926535897931 / (double)((float)num29), default(Vector2)) + vector;
+					Vector2 vector9 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default(Color), 1.4f);
+					Main.dust[num30].noGravity = true;
+					Main.dust[num30].noLight = true;
+					Main.dust[num30].velocity /= 4f;
+					Main.dust[num30].velocity -= npc.velocity;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)chargeTime)
+				{
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] += 2f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Bubble spin
+			else if (npc.ai[0] == 7f)
+			{
+				// Play sounds and spawn bubbles
+				if (npc.ai[2] == 0f)
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+				if (npc.ai[2] % (float)num14 == 0f)
+				{
+					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
+
+					if (Main.netMode != 1)
+					{
+						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
+						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble, 0, 0f, 0f, 0f, 0f, 255);
+						Main.npc[num31].target = npc.target;
+						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default(Vector2)) * scaleFactor3;
+						Main.npc[num31].netUpdate = true;
+						Main.npc[num31].ai[3] = (float)Main.rand.Next(80, 121) / 100f;
+
+						if (npc.ai[2] % (float)(num14 * 5) == 0f)
+						{
+							int npc2 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, NPCID.Sharkron2, 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[npc2].ai[1] = 89f;
+						}
+					}
+				}
+
+				// Velocity and rotation
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default(Vector2));
+				npc.rotation -= num15 * (float)npc.direction;
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num13)
+				{
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Spawn cthulhunado
+			else if (npc.ai[0] == 8f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound and spawn cthulhunado
+				if (npc.ai[2] == (float)(num9 - 30))
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+				if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+					Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num9)
+				{
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Transition to phase 3
+			else if (npc.ai[0] == 9f)
+			{
+				// Alpha adjustments
+				if (npc.ai[2] < (float)(num11 - 90))
+				{
+					if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+						npc.alpha += 15;
+					else
+						npc.alpha -= 15;
+
+					if (npc.alpha < 0)
+						npc.alpha = 0;
+					if (npc.alpha > 150)
+						npc.alpha = 150;
+				}
+				else if (npc.alpha < 255)
+				{
+					npc.alpha += 4;
+					if (npc.alpha > 255)
+						npc.alpha = 255;
+				}
+
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound
+				if (npc.ai[2] == (float)(num11 - 60))
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num11)
+				{
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Phase 3
+			else if (npc.ai[0] == 10f && !player.dead)
+			{
+				npc.dontTakeDamage = false;
+				npc.chaseable = false;
+
+				// Alpha
+				if (npc.alpha < 255)
+				{
+					npc.alpha += 25;
+					if (npc.alpha > 255)
+						npc.alpha = 255;
+				}
+
+				// Teleport location
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(360 * Math.Sign((vector - player.Center).X));
+
+				Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
+				npc.SimpleFlyMovement(desiredVelocity, num3);
+
+				// Rotation and direction
+				int num32 = Math.Sign(player.Center.X - vector.X);
+				if (num32 != 0)
+				{
+					if (npc.ai[2] == 0f && num32 != npc.direction)
+					{
+						npc.rotation += 3.14159274f;
+						for (int l = 0; l < npc.oldPos.Length; l++)
+							npc.oldPos[l] = Vector2.Zero;
+					}
+
+					npc.direction = num32;
+
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += 3.14159274f;
+
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Phase switch
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num2)
+				{
+					int num33 = 0;
+					switch ((int)npc.ai[3])
+					{
+						case 0:
+						case 2:
+						case 3:
+						case 5:
+						case 6:
+						case 7:
+							num33 = 1;
+							break;
+						case 1:
+						case 4:
+						case 8:
+							num33 = 2;
+							break;
+					}
+
+					// Set velocity for charge
+					if (num33 == 1)
+					{
+						npc.ai[0] = 11f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+
+						// Velocity and rotation
+						npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+						// Direction
+						if (num32 != 0)
+						{
+							npc.direction = num32;
+
+							if (npc.spriteDirection == 1)
+								npc.rotation += 3.14159274f;
+
+							npc.spriteDirection = -npc.direction;
+						}
+					}
+
+					// Pause
+					else if (num33 == 2)
+					{
+						npc.ai[0] = 12f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+					}
+
+					npc.netUpdate = true;
+				}
+			}
+
+			// Charge
+			else if (npc.ai[0] == 11f)
+			{
+				npc.dontTakeDamage = false;
+				npc.chaseable = true;
+
+				// Accelerate
+				npc.velocity *= 1.01f;
+
+				// Alpha
+				npc.alpha -= 25;
+				if (npc.alpha < 0)
+					npc.alpha = 0;
+
+				// Spawn dust
+				int num34 = 7;
+				for (int m = 0; m < num34; m++)
+				{
+					Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default(Vector2)) + vector;
+					Vector2 vector11 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default(Color), 1.4f);
+					Main.dust[num35].noGravity = true;
+					Main.dust[num35].noLight = true;
+					Main.dust[num35].velocity /= 4f;
+					Main.dust[num35].velocity -= npc.velocity;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)chargeTime)
+				{
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] += 1f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Pause before teleport
+			else if (npc.ai[0] == 12f)
+			{
+				npc.dontTakeDamage = true;
+				npc.chaseable = false;
+
+				// Alpha
+				if (npc.alpha < 255)
+				{
+					npc.alpha += 17;
+					if (npc.alpha > 255)
+						npc.alpha = 255;
+				}
+
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound
+				if (npc.ai[2] == (float)(num12 / 2))
+					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+				if (Main.netMode != 1 && npc.ai[2] == (float)(num12 / 2))
+				{
+					// Teleport location
+					if (npc.ai[1] == 0f)
+						npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+					// Rotation and direction
+					Vector2 center = player.Center + new Vector2(-npc.ai[1], -200f);
+					vector = (npc.Center = center);
+					int num36 = Math.Sign(player.Center.X - vector.X);
+					if (num36 != 0)
+					{
+						if (npc.ai[2] == 0f && num36 != npc.direction)
+						{
+							npc.rotation += 3.14159274f;
+							for (int n = 0; n < npc.oldPos.Length; n++)
+								npc.oldPos[n] = Vector2.Zero;
+						}
+
+						npc.direction = num36;
+
+						if (npc.spriteDirection != -npc.direction)
+							npc.rotation += 3.14159274f;
+
+						npc.spriteDirection = -npc.direction;
+					}
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num12)
+				{
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+
+					npc.ai[3] += 1f;
+					if (npc.ai[3] >= 9f)
+						npc.ai[3] = 0f;
+
+					npc.netUpdate = true;
+				}
+			}
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
+			return false;
+		}
+		#endregion
+
 		#region Buffed Mothron AI
 		public static bool BuffedMothronAI(NPC npc)
 		{
 			npc.noTileCollide = false;
 			npc.noGravity = true;
-			npc.knockBackResist = 0.2f * Main.expertKnockBack;
+			npc.knockBackResist = 0f;
 			npc.damage = npc.defDamage;
 
 			if (!Main.eclipse)
@@ -9783,13 +11492,13 @@ namespace CalamityMod.NPCs
 			{
 				npc.TargetClosest(true);
 				Vector2 vector235 = Main.player[npc.target].Center - npc.Center;
-				if (Main.player[npc.target].dead || vector235.Length() > 3000f)
+				if (Main.player[npc.target].dead || vector235.Length() > 4000f)
 					npc.ai[0] = -1f;
 			}
 			else
 			{
 				Vector2 vector236 = Main.player[npc.target].Center - npc.Center;
-				if (npc.ai[0] > 1f && vector236.Length() > 1000f)
+				if (npc.ai[0] > 1f && vector236.Length() > 3000f)
 					npc.ai[0] = 1f;
 			}
 
@@ -9818,33 +11527,33 @@ namespace CalamityMod.NPCs
 				{
 					npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
 
-					if (npc.velocity.X > 30f)
-						npc.velocity.X = 30f;
-					if (npc.velocity.X < -30f)
-						npc.velocity.X = -30f;
+					if (npc.velocity.X > 4f)
+						npc.velocity.X = 4f;
+					if (npc.velocity.X < -4f)
+						npc.velocity.X = -4f;
 				}
 				if (npc.collideY)
 				{
 					npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
 
-					if (npc.velocity.Y > 30f)
-						npc.velocity.Y = 30f;
-					if (npc.velocity.Y < -30f)
-						npc.velocity.Y = -30f;
+					if (npc.velocity.Y > 4f)
+						npc.velocity.Y = 4f;
+					if (npc.velocity.Y < -4f)
+						npc.velocity.Y = -4f;
 				}
 
 				Vector2 value38 = Main.player[npc.target].Center - npc.Center;
 				value38.Y -= 200f;
-				if (value38.Length() > 2000f)
+				if (value38.Length() > 3000f)
 				{
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 				}
-				else if (value38.Length() > 80f)
+				else if (value38.Length() > 240f)
 				{
-					float scaleFactor15 = 13f;
+					float scaleFactor15 = 15f;
 					float num1354 = 30f;
 					value38.Normalize();
 					value38 *= scaleFactor15;
@@ -9856,10 +11565,8 @@ namespace CalamityMod.NPCs
 					npc.velocity *= 1.05f;
 
 				npc.ai[1] += 1f;
-				if (npc.justHit)
-					npc.ai[1] += (float)Main.rand.Next(10, 30);
 
-				if (npc.ai[1] >= 180f && Main.netMode != 1)
+				if (npc.ai[1] >= 20f && Main.netMode != 1)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -9873,7 +11580,7 @@ namespace CalamityMod.NPCs
 							npc.ai[0] = 2f;
 						else if (num1355 == 1)
 							npc.ai[0] = 3f;
-						else if (num1355 == 2 && NPC.CountNPCS(478) + NPC.CountNPCS(479) < 3)
+						else if (num1355 == 2 && NPC.CountNPCS(478) + NPC.CountNPCS(479) < 2)
 							npc.ai[0] = 4f;
 					}
 				}
@@ -9885,7 +11592,6 @@ namespace CalamityMod.NPCs
 					npc.collideX = false;
 					npc.collideY = false;
 					npc.noTileCollide = true;
-					npc.knockBackResist = 0f;
 
 					if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
 						npc.TargetClosest(true);
@@ -9899,7 +11605,7 @@ namespace CalamityMod.NPCs
 					npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.02f) / 10f;
 
 					Vector2 value39 = Main.player[npc.target].Center - npc.Center;
-					if (value39.Length() < 300f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
+					if (value39.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
 					{
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
@@ -9907,7 +11613,7 @@ namespace CalamityMod.NPCs
 						npc.ai[3] = 0f;
 					}
 
-					float scaleFactor16 = 14f + value39.Length() / 100f;
+					float scaleFactor16 = 18f + value39.Length() / 100f;
 					float num1356 = 25f;
 					value39.Normalize();
 					value39 *= scaleFactor16;
@@ -9917,9 +11623,6 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[0] == 2f)
 				{
-					npc.damage = (int)((double)npc.defDamage * 0.75);
-					npc.knockBackResist = 0f;
-
 					if (npc.target < 0 || !Main.player[npc.target].active || Main.player[npc.target].dead)
 					{
 						npc.TargetClosest(true);
@@ -9941,19 +11644,19 @@ namespace CalamityMod.NPCs
 					{
 						npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
 
-						if (npc.velocity.X > 30f)
-							npc.velocity.X = 30f;
-						if (npc.velocity.X < -30f)
-							npc.velocity.X = -30f;
+						if (npc.velocity.X > 4f)
+							npc.velocity.X = 4f;
+						if (npc.velocity.X < -4f)
+							npc.velocity.X = -4f;
 					}
 					if (npc.collideY)
 					{
 						npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
 
-						if (npc.velocity.Y > 30f)
-							npc.velocity.Y = 30f;
-						if (npc.velocity.Y < -30f)
-							npc.velocity.Y = -30f;
+						if (npc.velocity.Y > 4f)
+							npc.velocity.Y = 4f;
+						if (npc.velocity.Y < -4f)
+							npc.velocity.Y = -4f;
 					}
 
 					Vector2 value40 = Main.player[npc.target].Center - npc.Center;
@@ -9963,14 +11666,14 @@ namespace CalamityMod.NPCs
 					if (Main.expertMode)
 						npc.ai[2] += 0.0166666675f;
 
-					float scaleFactor17 = 13f + npc.ai[2] + value40.Length() / 120f;
+					float scaleFactor17 = 12f + npc.ai[2] + value40.Length() / 120f;
 					float num1357 = 20f;
 					value40.Normalize();
 					value40 *= scaleFactor17;
 					npc.velocity = (npc.velocity * (num1357 - 1f) + value40) / num1357;
 
 					npc.ai[1] += 1f;
-					if (npc.ai[1] > 240f || !Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+					if (npc.ai[1] >= 120f || !Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
 					{
 						npc.ai[0] = 0f;
 						npc.ai[1] = 0f;
@@ -9982,7 +11685,6 @@ namespace CalamityMod.NPCs
 				{
 					if (npc.ai[0] == 3f)
 					{
-						npc.knockBackResist = 0f;
 						npc.noTileCollide = true;
 
 						if (npc.velocity.X < 0f)
@@ -9996,18 +11698,18 @@ namespace CalamityMod.NPCs
 						Vector2 value41 = Main.player[npc.target].Center - npc.Center;
 						value41.Y -= 12f;
 						if (npc.Center.X > Main.player[npc.target].Center.X)
-							value41.X += 400f;
+							value41.X += 600f;
 						else
-							value41.X -= 400f;
+							value41.X -= 600f;
 
-						if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) > 350f && Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) < 20f)
+						if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) > 550f && Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) < 20f)
 						{
 							npc.ai[0] = 3.1f;
 							npc.ai[1] = 0f;
 						}
 
 						npc.ai[1] += 0.0333333351f;
-						float scaleFactor18 = 20f + npc.ai[1];
+						float scaleFactor18 = 24f + npc.ai[1];
 						float num1358 = 4f;
 						value41.Normalize();
 						value41 *= scaleFactor18;
@@ -10017,13 +11719,12 @@ namespace CalamityMod.NPCs
 
 					if (npc.ai[0] == 3.1f)
 					{
-						npc.knockBackResist = 0f;
 						npc.noTileCollide = true;
 						npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.0175f) / 5f;
 
 						Vector2 vector237 = Main.player[npc.target].Center - npc.Center;
 						vector237.Y -= 12f;
-						float scaleFactor19 = 30f;
+						float scaleFactor19 = 32f;
 						float num1359 = 8f;
 						vector237.Normalize();
 						vector237 *= scaleFactor19;
@@ -10058,12 +11759,11 @@ namespace CalamityMod.NPCs
 							npc.damage = (int)((double)npc.defDamage * 1.5);
 							npc.collideX = false;
 							npc.collideY = false;
-							npc.knockBackResist = 0f;
 							npc.noTileCollide = true;
 							npc.ai[2] += 0.0333333351f;
-							npc.velocity.X = (20f + npc.ai[2]) * npc.ai[1];
+							npc.velocity.X = (32f + npc.ai[2]) * npc.ai[1];
 
-							if ((npc.ai[1] > 0f && npc.Center.X > Main.player[npc.target].Center.X + 260f) || (npc.ai[1] < 0f && npc.Center.X < Main.player[npc.target].Center.X - 260f))
+							if ((npc.ai[1] > 0f && npc.Center.X > Main.player[npc.target].Center.X + 460f) || (npc.ai[1] < 0f && npc.Center.X < Main.player[npc.target].Center.X - 460f))
 							{
 								if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
 								{
@@ -10072,7 +11772,7 @@ namespace CalamityMod.NPCs
 									npc.ai[2] = 0f;
 									npc.ai[3] = 0f;
 								}
-								else if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) > 1600f)
+								else if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) > 800f)
 								{
 									npc.ai[0] = 1f;
 									npc.ai[1] = 0f;
@@ -10110,7 +11810,7 @@ namespace CalamityMod.NPCs
 										while (!WorldGen.SolidTile(num1361, num1362) && (double)num1362 < Main.worldSurface)
 											num1362++;
 
-										if ((new Vector2((float)(num1361 * 16 + 8), (float)(num1362 * 16 + 8)) - Main.player[npc.target].Center).Length() < 2100f)
+										if ((new Vector2((float)(num1361 * 16 + 8), (float)(num1362 * 16 + 8)) - Main.player[npc.target].Center).Length() < 3600f)
 										{
 											npc.ai[0] = 4.1f;
 											npc.ai[1] = (float)num1361;
@@ -10142,10 +11842,10 @@ namespace CalamityMod.NPCs
 							float y2 = (float)(num1366 * 16 - 20);
 							Vector2 vector238 = new Vector2(x2, y2);
 							vector238 -= npc.Center;
-							float num1367 = 6f + vector238.Length() / 150f;
+							float num1367 = 12f + vector238.Length() / 150f;
 
-							if (num1367 > 10f)
-								num1367 = 10f;
+							if (num1367 > 20f)
+								num1367 = 20f;
 
 							if (vector238.Length() < 10f)
 								npc.ai[0] = 4.2f;
@@ -10160,7 +11860,6 @@ namespace CalamityMod.NPCs
 						if (npc.ai[0] == 4.2f)
 						{
 							npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.025f) / 10f;
-							npc.knockBackResist = 0f;
 							npc.noTileCollide = true;
 
 							int num1369 = (int)npc.ai[1];
@@ -10174,7 +11873,7 @@ namespace CalamityMod.NPCs
 
 							if (Main.netMode != 1 && vector239.Length() < 4f)
 							{
-								int num1373 = 70;
+								int num1373 = 20;
 								if (Main.expertMode)
 									num1373 = (int)((double)num1373 * 0.75);
 
@@ -10359,6 +12058,10 @@ namespace CalamityMod.NPCs
 					npc.timeLeft = 500;
 			}
 			npc.rotation = npc.velocity.X * -0.02f;
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
 			return false;
 		}
 
@@ -10533,6 +12236,10 @@ namespace CalamityMod.NPCs
 				if ((npc.velocity.X > 0f && npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || (npc.velocity.X < 0f && npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || num886 > 800f)
 					npc.ai[2] = 0f;
 			}
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
 			return false;
 		}
 		#endregion
@@ -10806,6 +12513,10 @@ namespace CalamityMod.NPCs
 				npc.ai[2] = 0f;
 				npc.ai[3] = 0f;
 			}
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
 			return false;
 		}
 		#endregion
@@ -11002,84 +12713,6 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		#region Revengeance Duke Fishron AI
-		public static void RevengeanceDukeFishronAI(NPC npc, Mod mod)
-		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
-
-			// Get the damage multiplier Fishron uses in vanilla
-			float num = 0.6f * Main.damageMultiplier;
-
-			// Check for phases
-			if (npc.ai[0] > 9f)
-			{
-				// Increase damage and defense
-				npc.damage = (int)((float)npc.defDamage * 1.1f * num);
-				npc.defense = 38;
-
-				// Fire cthulhunadoes
-				calamityGlobalNPC.newAI[0] += 1f;
-				if (calamityGlobalNPC.newAI[0] >= 600f)
-				{
-					calamityGlobalNPC.newAI[0] = 0f;
-
-					if (Main.netMode != 1)
-						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, 385, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
-
-					npc.netUpdate = true;
-				}
-			}
-			else if (npc.ai[0] > 4f)
-			{
-				// Increase damage and defense
-				npc.damage = (int)((float)npc.defDamage * 1.2f * num);
-				npc.defense = (int)((float)npc.defDefense * 1.1f);
-			}
-			else
-			{
-				// Normalize damage and defense
-				npc.damage = npc.defDamage;
-				npc.defense = npc.defDefense;
-			}
-
-			// If the player isn't in the ocean biome or Fishron is transitioning between phases, become immune
-			if (npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f || (Main.player[npc.target].position.Y < 800f ||
-				(double)Main.player[npc.target].position.Y > Main.worldSurface * 16.0 || (Main.player[npc.target].position.X > 6400f && Main.player[npc.target].position.X < (float)(Main.maxTilesX * 16 - 6400))))
-			{
-				npc.dontTakeDamage = true;
-			}
-			else if (npc.ai[0] <= 8f)
-				npc.dontTakeDamage = false;
-
-			// Increase velocity while charging
-			if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 11f)
-				npc.velocity *= 1.01f;
-
-			if (npc.ai[0] == 0f && !Main.player[npc.target].dead)
-			{
-				// Transition to phase 2 earlier
-				if ((double)npc.life <= (double)npc.lifeMax * 0.75)
-				{
-					npc.ai[0] = 4f;
-					npc.ai[1] = 0f;
-					npc.ai[2] = 0f;
-					npc.netUpdate = true;
-				}
-			}
-			else if (npc.ai[0] == 5f && !Main.player[npc.target].dead)
-			{
-				// Transition to phase 3 earlier
-				if ((double)npc.life <= (double)npc.lifeMax * ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.3 : 0.2))
-				{
-					npc.ai[0] = 9f;
-					npc.ai[1] = 0f;
-					npc.ai[2] = 0f;
-					npc.netUpdate = true;
-				}
-			}
-		}
-		#endregion
-
 		#region Revengeance Golem AI
 		public static void RevengeanceGolemHeadFreeAI(NPC npc)
 		{
@@ -11210,32 +12843,6 @@ namespace CalamityMod.NPCs
 						Main.projectile[num165].timeLeft = 300;
 					}
 				}
-			}
-		}
-		#endregion
-
-		#region Revengeance Brain of Cthulhu AI
-		public static void RevengeanceBrainofCthulhuAI(NPC npc)
-		{
-			if (npc.ai[0] < 0f)
-			{
-				// Increase knockback resistance and speed in phase 2
-				npc.knockBackResist = (CalamityWorld.death ? 0.04f : 0.06f) * Main.expertKnockBack;
-
-				npc.velocity.X *= (CalamityWorld.death ? 1.009f : 1.006f);
-				npc.velocity.Y *= (CalamityWorld.death ? 1.009f : 1.006f);
-			}
-		}
-
-		public static void RevengeanceCreeperAI(NPC npc)
-		{
-			if (npc.ai[0] != 0f)
-			{
-				// Increase charging speed
-				Vector2 value = Main.player[npc.target].Center - npc.Center;
-				value.Normalize();
-				value *= 9f;
-				npc.velocity = (npc.velocity * 99f + value) / 97.5f; //100
 			}
 		}
 		#endregion

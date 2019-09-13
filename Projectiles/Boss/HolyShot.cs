@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
-			projectile.alpha = 255;
+			projectile.alpha = 100;
 			projectile.timeLeft = 900;
 			cooldownSlot = 1;
 		}
@@ -59,16 +59,16 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.localAI[1] += 5f;
 				byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
-				byte a2 = (byte)(100f * ((float)b2 / 255f));
+				byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
 				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
 			}
 			if (projectile.timeLeft < 85)
 			{
 				byte b2 = (byte)(projectile.timeLeft * 3);
-				byte a2 = (byte)(100f * ((float)b2 / 255f));
+				byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
 				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
 			}
-			return new Color(255, 255, 255, 100);
+			return new Color(255, 255, 255, projectile.alpha);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

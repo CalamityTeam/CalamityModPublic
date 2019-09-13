@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
-			projectile.alpha = 255;
+			projectile.alpha = 100;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 485;
 		}
@@ -65,10 +65,6 @@ namespace CalamityMod.Projectiles.Boss
 				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 0.8f);
 				Main.dust[num469].noGravity = true;
 				Main.dust[num469].velocity *= 0f;
-				if (projectile.alpha > 0)
-				{
-					projectile.alpha -= 5;
-				}
 			}
 			if (projectile.ai[0] >= 120f)
 			{
@@ -98,13 +94,6 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			if (projectile.timeLeft > 400)
-			{
-				projectile.localAI[1] += 1f;
-				byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
-				byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
-				return new Color((int)b2, (int)b2, (int)b2, (int)a2);
-			}
 			return new Color(255, 255, 255, projectile.alpha);
 		}
 
@@ -117,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103, 1f, 0f);
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 188);
+			projectile.width = (projectile.height = 96);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num193 = 0; num193 < 2; num193++)

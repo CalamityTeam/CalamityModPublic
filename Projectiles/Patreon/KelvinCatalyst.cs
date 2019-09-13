@@ -10,8 +10,6 @@ namespace CalamityMod.Projectiles.Patreon
 {
     public class KelvinCatalyst : ModProjectile
     {
-		private int destroyerHits = 0;
-
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Kelvin Catalyst");
@@ -58,7 +56,7 @@ namespace CalamityMod.Projectiles.Patreon
         	if (projectile.ai[0] == 0f)
 			{
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] >= 75f || destroyerHits > 2)
+				if (projectile.localAI[0] >= 75f)
 				{
 					projectile.ai[0] = 1f;
 					projectile.localAI[0] = 0f;
@@ -143,12 +141,6 @@ namespace CalamityMod.Projectiles.Patreon
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (target.type == NPCID.TheDestroyer || target.type == NPCID.TheDestroyerBody || target.type == NPCID.TheDestroyerTail)
-				destroyerHits++;
-
-			if (destroyerHits > 4)
-				projectile.Kill();
-
 			target.AddBuff(BuffID.Frostburn, 240);
 			if (projectile.owner == Main.myPlayer)
         	{

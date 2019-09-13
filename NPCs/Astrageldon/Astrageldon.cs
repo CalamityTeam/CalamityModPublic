@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -6,7 +7,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
-using System.Threading;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.Astrageldon
 {
@@ -283,7 +284,7 @@ namespace CalamityMod.NPCs.Astrageldon
 
 			if (npc.ai[0] != 1) //draw only if not recharging
 			{
-				Vector2 center = new Vector2(npc.Center.X, npc.Center.Y - 30f); //30
+				Vector2 center = new Vector2(npc.Center.X, npc.Center.Y - 46f);
 				Vector2 vector = center - Main.screenPosition;
 				vector -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
 				vector += vector11 * 1f + new Vector2(0f, 0f + 4f + offsetY);
@@ -305,7 +306,7 @@ namespace CalamityMod.NPCs.Astrageldon
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("AstrageldonTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge30"), true, !CalamityWorld.downedAstrageldon);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAstrumAureus"), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
@@ -337,11 +338,11 @@ namespace CalamityMod.NPCs.Astrageldon
                 DropHelper.DropItemSpray(npc, ItemID.FragmentStardust, minFragments, maxFragments);
             }
 
-            // Drop an Astral Meteor if applicable
-            ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
+			// Drop an Astral Meteor if applicable
+			ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
 
-            // If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
-            if (!CalamityWorld.downedAstrageldon)
+			// If Astrum Aureus has not yet been killed, notify players of new Astral enemy drops
+			if (!CalamityWorld.downedAstrageldon)
             {
                 string key = "Mods.CalamityMod.AureusBossText";
                 string key2 = "Mods.CalamityMod.AureusBossText2";

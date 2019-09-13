@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -9,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Heart of Darkness");
-            Tooltip.SetDefault("Gives 10% increased damage while you have the heart attack debuff\n" +
+            Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
                 "Increases your chance of getting the heart attack debuff\n" +
                 "Rage mode does more damage\n" +
                 "You gain rage over time\n" +

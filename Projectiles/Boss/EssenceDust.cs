@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			projectile.velocity.X *= 0.985f;
 			projectile.velocity.Y *= 0.975f;
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.85f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
+			Lighting.AddLight(projectile.Center, 0.45f, 0f, 0.55f);
 			for (int num468 = 0; num468 < 5; num468++)
 			{
 				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 0.5f);
@@ -40,8 +40,7 @@ namespace CalamityMod.Projectiles.Boss
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 100;
-			projectile.height = 100;
+			projectile.width = (projectile.height = 96);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num621 = 0; num621 < 10; num621++)
@@ -62,6 +61,7 @@ namespace CalamityMod.Projectiles.Boss
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1f);
 				Main.dust[num624].velocity *= 2f;
 			}
+			projectile.Damage();
 		}
 	}
 }

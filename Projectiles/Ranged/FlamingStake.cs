@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
-				damage = target.lifeMax * 3;
+				damage += target.lifeMax * 3;
 		}
 	}
 }

@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
@@ -531,8 +532,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusTrophy"), 10);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge29"), !CalamityWorld.downedStarGod);
-            DropHelper.DropItemCondition(npc, mod.ItemType("Knowledge36"), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAstrumDeus"), !CalamityWorld.downedStarGod);
+            DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeAstralInfection"), !CalamityWorld.downedStarGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedStarGod, 4, 2, 1);
 
             // Drop a large spray of all 4 lunar fragments
@@ -553,10 +554,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemChance(npc, mod.ItemType("Quasar"), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
-                float f = Main.rand.NextFloat();
-                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
-                DropHelper.DropItemCondition(npc, mod.ItemType("AstralBulwark"), !replaceWithRare);
-                DropHelper.DropItemCondition(npc, mod.ItemType("HideofAstrumDeus"), replaceWithRare);
+                DropHelper.DropItemChance(npc, mod.ItemType("HideofAstrumDeus"), DropHelper.RareVariantDropRateInt);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, mod.ItemType("AstrumDeusMask"), 7);

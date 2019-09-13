@@ -33,7 +33,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool CanUseItem(Player player)
         {
-            if (CalamityWorld.downedBossAny)
+			if (CalamityWorld.downedBossAny)
             {
                 return false;
             }

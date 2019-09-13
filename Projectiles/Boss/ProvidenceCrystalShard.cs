@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -39,7 +40,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			if (projectile.timeLeft < 480)
+			if (projectile.timeLeft < 300)
 			{
 				projectile.tileCollide = true;
 			}
@@ -64,9 +65,10 @@ namespace CalamityMod.Projectiles.Boss
 			else
 			{
 				projectile.velocity.Y *= 1.06f;
-				if (projectile.velocity.Y > 3f)
+				float fallSpeed = CalamityWorld.revenge ? 3.5f : 3f;
+				if (projectile.velocity.Y > fallSpeed)
 				{
-					projectile.velocity.Y = 3f;
+					projectile.velocity.Y = fallSpeed;
 				}
 			}
 			if (projectile.velocity.Y > -0.5f && projectile.localAI[1] == 0f)
