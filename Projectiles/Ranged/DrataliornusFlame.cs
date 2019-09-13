@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
 
-            int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 1.5f + Main.rand.NextFloat());
+            int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f + Main.rand.NextFloat());
             Main.dust[d].noGravity = true;
 
             Lighting.AddLight(projectile.Center, 255f / 255f, 154f / 255f, 58f / 255f);
@@ -196,23 +196,23 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int num227 = 0; num227 < num226; num227++)
                 {
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * modifier;
-                    vector6 = vector6.RotatedBy(((num227 - (num226 / 2 - 1)) * 6.28318548f / num226), default(Vector2)) + projectile.Center;
+                    vector6 = vector6.RotatedBy(((num227 - (num226 / 2 - 1)) * 6.28318548f / num226), default) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 174, 0f, 0f, 45, default(Color), 2f);
+                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 174, 0f, 0f, 45, default, 2f);
                     Main.dust[num228].noGravity = true;
                     Main.dust[num228].velocity = vector7;
                 }
                 for (int num193 = 0; num193 < 4; num193++)
                 {
-                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 50, default(Color), 1.5f);
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 50, default, 1.5f);
 
-                    int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 50, default(Color), 1f);
+                    int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 50, default, 1f);
                     Main.dust[num195].noGravity = true;
                     Main.dust[num195].velocity *= 2f;
                 }
                 for (int num194 = 0; num194 < 12; num194++)
                 {
-                    int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 0, default(Color), 3f);
+                    int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 127, 0f, 0f, 0, default, 3f);
                     Main.dust[num195].noGravity = true;
                     Main.dust[num195].velocity *= 3f;
                 }

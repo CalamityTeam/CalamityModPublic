@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			}
 			else if (npc.ai[0] == -1f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					float num1041 = npc.ai[1];
 					int num1042;
@@ -347,10 +347,10 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				if (Collision.CanHit(vector119, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && flag103)
 				{
 					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 8);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int num1061;
-						if (Main.rand.Next(4) == 0)
+						if (Main.rand.NextBool(4))
 						{
 							num1061 = mod.NPCType("PlagueBeeLargeG");
 						}
@@ -446,7 +446,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				if (flag104 && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(vector121, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num1070 = 6f; //changed from 8
 						if (flag113)
@@ -461,7 +461,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						num1072 *= num1073;
 						int num1074 = 20; //projectile damage
 						int num1075 = mod.ProjectileType("PlagueStingerGoliathV2"); //projectile type
-						if (Main.rand.Next(15) == 0)
+						if (Main.rand.NextBool(15))
 						{
 							num1074 = 25;
 							num1075 = mod.ProjectileType("HiveBombGoliath");
@@ -572,7 +572,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -589,9 +589,9 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -599,10 +599,10 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

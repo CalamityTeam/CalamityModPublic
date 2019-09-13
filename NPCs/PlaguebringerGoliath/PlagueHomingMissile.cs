@@ -54,26 +54,26 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     num247 = npc.velocity.X * 0.5f;
                     num248 = npc.velocity.Y * 0.5f;
                 }
-                int num249 = Dust.NewDust(new Vector2(npc.position.X + 3f + num247, npc.position.Y + 3f + num248) - npc.velocity * 0.5f, npc.width - 8, npc.height - 8, 6, 0f, 0f, 100, default(Color), 0.5f);
+                int num249 = Dust.NewDust(new Vector2(npc.position.X + 3f + num247, npc.position.Y + 3f + num248) - npc.velocity * 0.5f, npc.width - 8, npc.height - 8, 6, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                 Main.dust[num249].velocity *= 0.2f;
                 Main.dust[num249].noGravity = true;
-                num249 = Dust.NewDust(new Vector2(npc.position.X + 3f + num247, npc.position.Y + 3f + num248) - npc.velocity * 0.5f, npc.width - 8, npc.height - 8, 31, 0f, 0f, 100, default(Color), 0.25f);
+                num249 = Dust.NewDust(new Vector2(npc.position.X + 3f + num247, npc.position.Y + 3f + num248) - npc.velocity * 0.5f, npc.width - 8, npc.height - 8, 31, 0f, 0f, 100, default, 0.25f);
                 Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num249].velocity *= 0.05f;
             }
-            else if (Main.rand.Next(4) == 0)
+            else if (Main.rand.NextBool(4))
             {
-                int num252 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default(Color), 0.5f);
+                int num252 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default, 0.5f);
                 Main.dust[num252].scale = 0.1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].fadeIn = 1.5f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2)).RotatedBy((double)npc.rotation, default(Vector2)) * 1.1f;
+                Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2)).RotatedBy((double)npc.rotation, default) * 1.1f;
                 Main.rand.Next(2);
-                num252 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 1f);
+                num252 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 1f);
                 Main.dust[num252].scale = 1f + (float)Main.rand.Next(5) * 0.1f;
                 Main.dust[num252].noGravity = true;
-                Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2 - 6)).RotatedBy((double)npc.rotation, default(Vector2)) * 1.1f;
+                Main.dust[num252].position = npc.Center + new Vector2(0f, (float)(-(float)npc.height / 2 - 6)).RotatedBy((double)npc.rotation, default) * 1.1f;
             }
             npc.rotation = npc.velocity.ToRotation() + 1.57079637f;
             if (npc.ai[2] < 90f)
@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         num762 += 6.2831853071795862;
                     }
-                    npc.velocity = npc.velocity.RotatedBy(num762 * 0.20000000298023224, default(Vector2));
+                    npc.velocity = npc.velocity.RotatedBy(num762 * 0.20000000298023224, default);
                 }
                 else
                 {
@@ -165,9 +165,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
             for (int num621 = 0; num621 < 15; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default(Color), 2f);
+                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
                     Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -176,10 +176,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             for (int num623 = 0; num623 < 30; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default(Color), 3f);
+                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default(Color), 2f);
+                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
                 Main.dust[num624].noGravity = true;
             }
@@ -200,13 +200,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 10; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

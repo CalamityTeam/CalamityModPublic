@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Amidias
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BigCoral"), (int)((double)damage * 2.0), knockBack * 2f, player.whoAmI, 0.0f, 0.0f);
 			}

@@ -454,9 +454,9 @@ namespace CalamityMod.CalPlayer
 						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
 						{
 							player.lifeRegenCount++;
-							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(30) == 0))
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30)))
 							{
-								int num5 = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default(Color), 1f);
+								int num5 = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default, 1f);
 								Main.dust[num5].noGravity = true;
 								Main.dust[num5].velocity *= 0.75f;
 								Main.dust[num5].fadeIn = 1.3f;
@@ -491,7 +491,7 @@ namespace CalamityMod.CalPlayer
 						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
 						{
 							player.lifeRegenCount++;
-							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(30) == 0))
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30)))
 							{
 								int num5 = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
 								Main.dust[num5].noGravity = true;
@@ -528,9 +528,9 @@ namespace CalamityMod.CalPlayer
 						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
 						{
 							player.lifeRegenCount++;
-							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(2) == 0))
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2)))
 							{
-								int num5 = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default(Color), 1f);
+								int num5 = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default, 1f);
 								Main.dust[num5].noGravity = true;
 								Main.dust[num5].velocity *= 0.75f;
 								Main.dust[num5].fadeIn = 1.3f;
@@ -569,9 +569,9 @@ namespace CalamityMod.CalPlayer
 						if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
 						{
 							player.lifeRegenCount++;
-							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.Next(2) == 0))
+							if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2)))
 							{
-								int num5 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default(Color), 1f);
+								int num5 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default, 1f);
 								Main.dust[num5].noGravity = true;
 								Main.dust[num5].velocity *= 0.75f;
 								Main.dust[num5].fadeIn = 1.3f;

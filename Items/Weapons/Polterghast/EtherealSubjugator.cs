@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             vector2.X = (float)Main.mouseX + Main.screenPosition.X;
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
             Vector2 spinningpoint = new Vector2(num78, num79);
-            spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default(Vector2));
+            spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
             Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, type, damage, num74, i, 0f, 0f);
             return false;
         }

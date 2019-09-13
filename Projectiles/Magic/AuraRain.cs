@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			Dust dust4 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f)];
+			Dust dust4 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f)];
 			dust4.velocity = Vector2.Zero;
 			dust4.position -= projectile.velocity / 5f;
 			dust4.noGravity = true;

@@ -58,11 +58,11 @@ namespace CalamityMod.Projectiles.Typeless
 							num247 = projectile.velocity.X * 0.5f;
 							num248 = projectile.velocity.Y * 0.5f;
 						}
-						int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 173, 0f, 0f, 100, default(Color), 1f);
+						int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 173, 0f, 0f, 100, default, 1f);
 						Main.dust[num249].scale *= 1f + (float)Main.rand.Next(5) * 0.1f;
 						Main.dust[num249].velocity *= 0.2f;
 						Main.dust[num249].noGravity = true;
-						num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 199, 0f, 0f, 100, default(Color), 0.1f);
+						num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 199, 0f, 0f, 100, default, 0.1f);
 						Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
 						Main.dust[num249].velocity *= 0.05f;
 					}
@@ -114,9 +114,9 @@ namespace CalamityMod.Projectiles.Typeless
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num621 = 0; num621 < 5; num621++)
 			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 199, 0f, 0f, 100, default(Color), 1.5f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 199, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num622].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -124,10 +124,10 @@ namespace CalamityMod.Projectiles.Typeless
 			}
 			for (int num623 = 0; num623 < 10; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 2f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1.5f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num624].velocity *= 2f;
 			}
         }

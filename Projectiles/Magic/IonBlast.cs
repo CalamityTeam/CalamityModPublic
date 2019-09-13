@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Magic
 			int num212 = Main.rand.Next(15, 30);
 			for (int num213 = 0; num213 < num212; num213++)
 			{
-				int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 130, 0f, 0f, 100, default(Color), 1f);
+				int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 130, 0f, 0f, 100, default, 1f);
 				Main.dust[num214].velocity *= 2f;
 				Main.dust[num214].noGravity = true;
 			}

@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Patreon
         public override void AI()
         {
             // Produces golden dust while in flight
-            int dustType = (Main.rand.Next(3) == 0) ? 244 : 246;
+            int dustType = (Main.rand.NextBool(3)) ? 244 : 246;
             float scale = 0.8f + Main.rand.NextFloat(0.6f);
             int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
             Main.dust[idx].noGravity = true;

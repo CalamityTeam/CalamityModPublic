@@ -39,7 +39,7 @@ namespace CalamityMod.Tiles
 					if (Main.tile[i, j + 1].type == mod.TileType("ViperVines"))
 					{
 						WorldGen.KillTile(i, j + 1, false, false, false);
-						if (!Main.tile[i, j + 1].active() && Main.netMode != 0)
+						if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
 						{
 							NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
 						}
@@ -82,7 +82,7 @@ namespace CalamityMod.Tiles
 							Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
 							WorldGen.SquareTileFrame(num53, num54 - 1, true);
-							if (Main.netMode == 2)
+							if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
 								NetMessage.SendTileSquare(-1, num53, num54 - 1, 3, TileChangeType.None);

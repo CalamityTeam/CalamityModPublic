@@ -35,13 +35,13 @@ namespace CalamityMod.Projectiles.Magic
 		public override void AI()
 		{
 			projectile.localAI[1] += 1f;
-			if (projectile.localAI[1] > 10f && Main.rand.Next(3) == 0)
+			if (projectile.localAI[1] > 10f && Main.rand.NextBool(3))
 			{
 				int num713 = 5;
 				for (int num714 = 0; num714 < num713; num714++)
 				{
 					Vector2 vector58 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width, (float)projectile.height) / 2f;
-					vector58 = vector58.RotatedBy((double)(num714 - (num713 / 2 - 1)) * 3.1415926535897931 / (double)((float)num713), default(Vector2)) + projectile.Center;
+					vector58 = vector58.RotatedBy((double)(num714 - (num713 / 2 - 1)) * 3.1415926535897931 / (double)((float)num713), default) + projectile.Center;
 					Vector2 value25 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
 					int num715 = Dust.NewDust(vector58 + value25, 0, 0, 66, value25.X * 2f, value25.Y * 2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.7f);
 					Main.dust[num715].noGravity = true;
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					num726 += 6.2831853071795862;
 				}
-				projectile.velocity = projectile.velocity.RotatedBy(num726 * 0.10000000149011612, default(Vector2));
+				projectile.velocity = projectile.velocity.RotatedBy(num726 * 0.10000000149011612, default);
 			}
 			float num727 = projectile.velocity.Length();
 			projectile.velocity.Normalize();

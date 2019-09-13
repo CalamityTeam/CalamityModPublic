@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Crabulon
 
 		public override bool UseItem(Player player)
 		{
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC((int)(player.position.X + (float)(Main.rand.Next(-50, 51))), (int)(player.position.Y - 50f), mod.NPCType("CrabulonIdle"), 0, 0f, 0f, 0f, 0f, 255);
                 Main.PlaySound(SoundID.Roar, player.position, 0);

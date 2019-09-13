@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 		{
 			projectile.velocity.X *= 1.01f;
 			projectile.velocity.Y *= 1.01f;
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 75, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					num440 = num437 / num440;
 					num438 *= num440;
 					num439 *= num440;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						if (projectile.owner == Main.myPlayer)
 						{

@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
 			}
 		}
 	}

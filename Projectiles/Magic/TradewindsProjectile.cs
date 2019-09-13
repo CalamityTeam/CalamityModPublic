@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
 		public override void AI()
 		{
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 64, 0f, 0f);
 			}

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 163, 0f, 0f);
 				Main.dust[dust].velocity *= 0f;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int num301 = 0; num301 < 15; num301++)
 			{
-				int num302 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 163, 0f, 0f, 100, default(Color), 1.2f);
+				int num302 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 163, 0f, 0f, 100, default, 1.2f);
 				Main.dust[num302].noGravity = true;
 				Main.dust[num302].velocity *= 1.2f;
 				Main.dust[num302].velocity -= projectile.oldVelocity * 0.3f;

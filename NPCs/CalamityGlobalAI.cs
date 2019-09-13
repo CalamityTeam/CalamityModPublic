@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs
 			if (npc.ai[3] == 0f && npc.life > 0)
 				npc.ai[3] = (float)npc.lifeMax;
 
-			if (npc.localAI[3] == 0f && Main.netMode != 1)
+			if (npc.localAI[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.ai[0] = -100f;
 				npc.localAI[3] = 1f;
@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs
 				npc.ai[0] = 0f;
 				npc.ai[1] = 5f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.TargetClosest(false);
 					Vector2 vector30 = Main.player[npc.target].Center - npc.Center;
@@ -250,7 +250,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[0] == 60f)
 					Gore.NewGore(npc.Center + new Vector2(-40f, (float)(-(float)npc.height / 2)), npc.velocity, 734, 1f);
 
-				if (npc.ai[0] >= 60f && Main.netMode != 1)
+				if (npc.ai[0] >= 60f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.Bottom = new Vector2(npc.localAI[1], npc.localAI[2]);
 					npc.ai[1] = 6f;
@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs
 					npc.netUpdate = true;
 				}
 
-				if (Main.netMode == 1 && npc.ai[0] >= 120f)
+				if (Main.netMode == NetmodeID.MultiplayerClient && npc.ai[0] >= 120f)
 				{
 					npc.ai[1] = 6f;
 					npc.ai[0] = 0f;
@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs
 				num234 = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
 				num234 = 0.5f + num234 * 0.5f;
 
-				if (npc.ai[0] >= 30f && Main.netMode != 1)
+				if (npc.ai[0] >= 30f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs
 					npc.TargetClosest(true);
 				}
 
-				if (Main.netMode == 1 && npc.ai[0] >= 60f)
+				if (Main.netMode == NetmodeID.MultiplayerClient && npc.ai[0] >= 60f)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
@@ -381,7 +381,7 @@ namespace CalamityMod.NPCs
 					npc.position.Y = npc.position.Y - (float)npc.height;
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num251 = (int)((double)npc.lifeMax * 0.05);
 					if ((float)(npc.life + num251) < npc.ai[3])
@@ -395,7 +395,7 @@ namespace CalamityMod.NPCs
 							int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
 
 							int num254 = 1;
-							if (Main.rand.Next(4) == 0)
+							if (Main.rand.NextBool(4))
 								num254 = 535;
 
 							int num255 = NPC.NewNPC(x, y, num254, 0, 0f, 0f, 0f, 0f, 255);
@@ -405,7 +405,7 @@ namespace CalamityMod.NPCs
 							Main.npc[num255].ai[0] = (float)(-1000 * Main.rand.Next(3));
 							Main.npc[num255].ai[1] = 0f;
 
-							if (Main.netMode == 2 && num255 < 200)
+							if (Main.netMode == NetmodeID.Server && num255 < 200)
 								NetMessage.SendData(23, -1, -1, null, num255, 0f, 0f, 0f, 0, 0, 0);
 
 							num = num253;
@@ -424,7 +424,7 @@ namespace CalamityMod.NPCs
 			NPC.crimsonBoss = npc.whoAmI;
 			npc.dontTakeDamage = false;
 
-			if (Main.netMode != 1 && npc.localAI[0] == 0f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] == 0f)
 			{
 				npc.localAI[0] = 1f;
 				int num;
@@ -456,7 +456,7 @@ namespace CalamityMod.NPCs
 					int num;
 					for (int num794 = 0; num794 < 20; num794 = num + 1)
 					{
-						Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+						Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 						num = num794;
 					}
 
@@ -467,7 +467,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.newAI[0] >= 60f)
 				{
 					calamityGlobalNPC.newAI[0] = 0f;
-					if (Main.netMode != 1 && NPC.CountNPCS(NPCID.Creeper) < 15)
+					if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.Creeper) < 15)
 					{
 						int creeper = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2) + npc.velocity.X), (int)(npc.position.Y + (float)(npc.height / 2) + npc.velocity.Y), 267, 0, 0f, 0f, 0f, 0f, 255);
 						Main.npc[creeper].netUpdate = true;
@@ -493,14 +493,14 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[0] == -1f)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[1] += 1f;
 						if (npc.justHit)
 							npc.localAI[1] -= (float)Main.rand.Next(5);
 
 						int num799 = 60 + Main.rand.Next(120);
-						if (Main.netMode != 0)
+						if (Main.netMode != NetmodeID.SinglePlayer)
 							num799 += Main.rand.Next(30, 90);
 
 						if (npc.localAI[1] >= (float)num799)
@@ -518,12 +518,12 @@ namespace CalamityMod.NPCs
 								num801 = (int)Main.player[npc.target].Center.X / 16;
 								num802 = (int)Main.player[npc.target].Center.Y / 16;
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num801 += Main.rand.Next(7, 13);
 								else
 									num801 -= Main.rand.Next(7, 13);
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num802 += Main.rand.Next(7, 13);
 								else
 									num802 -= Main.rand.Next(7, 13);
@@ -549,7 +549,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.velocity *= 0.9f;
 
-					if (Main.netMode != 0)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 						npc.ai[3] += 15f;
 					else
 						npc.ai[3] += 25f;
@@ -570,7 +570,7 @@ namespace CalamityMod.NPCs
 				}
 				else if (npc.ai[0] == -3f)
 				{
-					if (Main.netMode != 0)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 						npc.ai[3] -= 15f;
 					else
 						npc.ai[3] -= 25f;
@@ -609,7 +609,7 @@ namespace CalamityMod.NPCs
 
 				if (npc.ai[0] == 0f)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int num807 = 0;
 						int num;
@@ -724,7 +724,7 @@ namespace CalamityMod.NPCs
 					num349 *= num351;
 					num350 *= num351;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num418 = ((enraged || Config.BossRushXerocCurse) ? 18f : 12f);
 						int num419 = 12;
@@ -780,7 +780,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.ai[0] == -1f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					float num595 = npc.ai[1];
 					int num596;
@@ -975,7 +975,7 @@ namespace CalamityMod.NPCs
 				if (Collision.CanHit(vector76, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && flag38)
 				{
 					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int num615 = Main.rand.Next(210, 212);
 						int num616 = NPC.NewNPC((int)vector76.X, (int)vector76.Y, num615, 0, 0f, 0f, 0f, 0f, 255);
@@ -1053,7 +1053,7 @@ namespace CalamityMod.NPCs
 				if (flag39 && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(vector78, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
 					Main.PlaySound(SoundID.Item17, npc.position);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num624 = ((enraged || Config.BossRushXerocCurse) ? 24f : 16f);
 						float num625 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector78.X + (float)Main.rand.Next(-80, 81);
@@ -1175,7 +1175,7 @@ namespace CalamityMod.NPCs
 				{
 					calamityGlobalNPC.newAI[0] = 0f;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 						Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, 385, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 
 					npc.netUpdate = true;
@@ -1274,7 +1274,7 @@ namespace CalamityMod.NPCs
 				npc.localAI[0] = 1f;
 				npc.alpha = 255;
 				npc.rotation = 0f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[0] = -1f;
 					npc.netUpdate = true;
@@ -1375,9 +1375,9 @@ namespace CalamityMod.NPCs
 					int num20 = 36;
 					for (int i = 0; i < num20; i++)
 					{
-						Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default(Vector2)) + npc.Center;
+						Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default) + npc.Center;
 						Vector2 vector2 = expr_80F - npc.Center;
-						int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default(Color), 1.4f);
+						int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
 						Main.dust[num21].noGravity = true;
 						Main.dust[num21].noLight = true;
 						Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
@@ -1514,9 +1514,9 @@ namespace CalamityMod.NPCs
 				int num24 = 7;
 				for (int j = 0; j < num24; j++)
 				{
-					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default(Vector2)) + vector;
+					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default) + vector;
 					Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default(Color), 1.4f);
+					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
 					Main.dust[num25].noGravity = true;
 					Main.dust[num25].noLight = true;
 					Main.dust[num25].velocity /= 4f;
@@ -1570,7 +1570,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] % (float)num7 == 0f)
 				{
 					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (float)(npc.width + 20) / 2f + vector;
 						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, 371, 0, 0f, 0f, 0f, 0f, 255);
@@ -1605,7 +1605,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == (float)(num9 - 30))
 					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
 
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num9 - 30))
 				{
 					Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
 					Projectile.NewProjectile(vector7.X, vector7.Y, (float)(npc.direction * 2), 8f, 385, 0, 0f, Main.myPlayer, 0f, 0f);
@@ -1768,9 +1768,9 @@ namespace CalamityMod.NPCs
 				int num29 = 7;
 				for (int k = 0; k < num29; k++)
 				{
-					Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * 3.1415926535897931 / (double)((float)num29), default(Vector2)) + vector;
+					Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * 3.1415926535897931 / (double)((float)num29), default) + vector;
 					Vector2 vector9 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default(Color), 1.4f);
+					int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default, 1.4f);
 					Main.dust[num30].noGravity = true;
 					Main.dust[num30].noLight = true;
 					Main.dust[num30].velocity /= 4f;
@@ -1795,18 +1795,18 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] % (float)num14 == 0f)
 				{
 					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
 						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, 371, 0, 0f, 0f, 0f, 0f, 255);
 						Main.npc[num31].target = npc.target;
-						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default(Vector2)) * scaleFactor3;
+						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default) * scaleFactor3;
 						Main.npc[num31].netUpdate = true;
 						Main.npc[num31].ai[3] = (float)Main.rand.Next(80, 121) / 100f;
 					}
 				}
 
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default);
 				npc.rotation -= num15 * (float)npc.direction;
 
 				npc.ai[2] += 1f;
@@ -1826,7 +1826,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == (float)(num9 - 30))
 					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num9 - 30))
 					Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, 385, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 
 				npc.ai[2] += 1f;
@@ -1977,9 +1977,9 @@ namespace CalamityMod.NPCs
 				int num34 = 7;
 				for (int m = 0; m < num34; m++)
 				{
-					Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default(Vector2)) + vector;
+					Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default) + vector;
 					Vector2 vector11 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default(Color), 1.4f);
+					int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default, 1.4f);
 					Main.dust[num35].noGravity = true;
 					Main.dust[num35].noLight = true;
 					Main.dust[num35].velocity /= 4f;
@@ -2014,7 +2014,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == (float)(num12 / 2))
 					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num12 / 2))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num12 / 2))
 				{
 					if (npc.ai[1] == 0f)
 						npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
@@ -2061,7 +2061,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == 0f)
 					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default);
 				npc.rotation -= num15 * (float)npc.direction;
 
 				npc.ai[2] += 1f;
@@ -2098,10 +2098,10 @@ namespace CalamityMod.NPCs
 				Vector2 vector = npc.Center + new Vector2(-40f, (float)(-(float)npc.height / 2));
 				for (int num621 = 0; num621 < 20; num621++)
 				{
-					int num622 = Dust.NewDust(vector, npc.width, npc.height, 90, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(vector, npc.width, npc.height, 90, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 2f;
 					Main.dust[num622].noGravity = true;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -2116,7 +2116,7 @@ namespace CalamityMod.NPCs
 				npc.ai[3] = (float)npc.lifeMax;
 
 			// Spawn with attack delay
-			if (npc.localAI[3] == 0f && Main.netMode != 1)
+			if (npc.localAI[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.ai[0] = -100f;
 				npc.localAI[3] = 1f;
@@ -2145,7 +2145,7 @@ namespace CalamityMod.NPCs
 				npc.ai[0] = 0f;
 				npc.ai[1] = 5f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.TargetClosest(false);
 					Point point3 = npc.Center.ToTileCoordinates();
@@ -2246,7 +2246,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[0] == 60f)
 					Gore.NewGore(npc.Center + new Vector2(-40f, (float)(-(float)npc.height / 2)), npc.velocity, 734, 1f);
 
-				if (npc.ai[0] >= 60f && Main.netMode != 1)
+				if (npc.ai[0] >= 60f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.Bottom = new Vector2(npc.localAI[1], npc.localAI[2]);
 					npc.ai[1] = 6f;
@@ -2254,7 +2254,7 @@ namespace CalamityMod.NPCs
 					npc.netUpdate = true;
 				}
 
-				if (Main.netMode == 1 && npc.ai[0] >= 120f)
+				if (Main.netMode == NetmodeID.MultiplayerClient && npc.ai[0] >= 120f)
 				{
 					npc.ai[1] = 6f;
 					npc.ai[0] = 0f;
@@ -2283,7 +2283,7 @@ namespace CalamityMod.NPCs
 				num234 = MathHelper.Clamp(npc.ai[0] / 30f, 0f, 1f);
 				num234 = 0.5f + num234 * 0.5f;
 
-				if (npc.ai[0] >= 30f && Main.netMode != 1)
+				if (npc.ai[0] >= 30f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
@@ -2291,7 +2291,7 @@ namespace CalamityMod.NPCs
 					npc.TargetClosest(true);
 				}
 
-				if (Main.netMode == 1 && npc.ai[0] >= 60f)
+				if (Main.netMode == NetmodeID.MultiplayerClient && npc.ai[0] >= 60f)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[0] = 0f;
@@ -2406,7 +2406,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Slime spawning
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num251 = (int)((double)npc.lifeMax * 0.05);
 					if ((float)(npc.life + num251) < npc.ai[3])
@@ -2451,15 +2451,15 @@ namespace CalamityMod.NPCs
 									break;
 							}
 
-							if (Main.raining && Main.rand.Next(10) == 0)
+							if (Main.raining && Main.rand.NextBool(10))
 							{
 								npcType = NPCID.UmbrellaSlime;
 
-								if (Main.rand.Next(5) == 0)
+								if (Main.rand.NextBool(5))
 									npcType = NPCID.RainbowSlime;
 							}
 
-							if (Main.rand.Next(250) == 0)
+							if (Main.rand.NextBool(250))
 								npcType = NPCID.Pinky;
 
 							int num255 = NPC.NewNPC(x, y, npcType, 0, 0f, 0f, 0f, 0f, 255);
@@ -2469,7 +2469,7 @@ namespace CalamityMod.NPCs
 							Main.npc[num255].ai[0] = (float)(-1000 * Main.rand.Next(3));
 							Main.npc[num255].ai[1] = 0f;
 
-							if (Main.netMode == 2 && num255 < 200)
+							if (Main.netMode == NetmodeID.Server && num255 < 200)
 								NetMessage.SendData(23, -1, -1, null, num255, 0f, 0f, 0f, 0, 0, 0);
 
 							num = num253;
@@ -2552,9 +2552,9 @@ namespace CalamityMod.NPCs
 			if (npc.rotation > num8 - num9 && npc.rotation < num8 + num9)
 				npc.rotation = num8;
 
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
-				int num10 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
+				int num10 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
 				Dust var_9_825_cp_0_cp_0 = Main.dust[num10];
 				var_9_825_cp_0_cp_0.velocity.X = var_9_825_cp_0_cp_0.velocity.X * 0.5f;
 				Dust var_9_845_cp_0_cp_0 = Main.dust[num10];
@@ -2644,13 +2644,13 @@ namespace CalamityMod.NPCs
 							vector2.X += vector3.X * 10f;
 							vector2.Y += vector3.Y * 10f;
 
-							if (Main.netMode != 1 && NPC.CountNPCS(NPCID.ServantofCthulhu) < 12)
+							if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.ServantofCthulhu) < 12)
 							{
 								int num23 = NPC.NewNPC((int)vector2.X, (int)vector2.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
 								Main.npc[num23].velocity.X = vector3.X;
 								Main.npc[num23].velocity.Y = vector3.Y;
 
-								if (Main.netMode == 2 && num23 < 200)
+								if (Main.netMode == NetmodeID.Server && num23 < 200)
 									NetMessage.SendData(23, -1, -1, null, num23, 0f, 0f, 0f, 0, 0, 0);
 							}
 
@@ -2659,7 +2659,7 @@ namespace CalamityMod.NPCs
 							int num;
 							for (int m = 0; m < 10; m = num + 1)
 							{
-								Dust.NewDust(vector2, 20, 20, 5, vector3.X * 0.4f, vector3.Y * 0.4f, 0, default(Color), 1f);
+								Dust.NewDust(vector2, 20, 20, 5, vector3.X * 0.4f, vector3.Y * 0.4f, 0, default, 1f);
 								num = m;
 							}
 						}
@@ -2762,20 +2762,20 @@ namespace CalamityMod.NPCs
 					vector6.X += vector7.X * 10f;
 					vector6.Y += vector7.Y * 10f;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int num34 = NPC.NewNPC((int)vector6.X, (int)vector6.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
 						Main.npc[num34].velocity.X = vector7.X;
 						Main.npc[num34].velocity.Y = vector7.Y;
 
-						if (Main.netMode == 2 && num34 < 200)
+						if (Main.netMode == NetmodeID.Server && num34 < 200)
 							NetMessage.SendData(23, -1, -1, null, num34, 0f, 0f, 0f, 0, 0, 0);
 					}
 
 					int num;
 					for (int n = 0; n < 10; n = num + 1)
 					{
-						Dust.NewDust(vector6, 20, 20, 5, vector7.X * 0.4f, vector7.Y * 0.4f, 0, default(Color), 1f);
+						Dust.NewDust(vector6, 20, 20, 5, vector7.X * 0.4f, vector7.Y * 0.4f, 0, default, 1f);
 						num = n;
 					}
 				}
@@ -2802,14 +2802,14 @@ namespace CalamityMod.NPCs
 
 						for (int num36 = 0; num36 < 20; num36 = num + 1)
 						{
-							Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+							Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 							num = num36;
 						}
 
 						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 					}
 				}
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 				npc.velocity.X = npc.velocity.X * 0.98f;
 				npc.velocity.Y = npc.velocity.Y * 0.98f;
 
@@ -2951,7 +2951,7 @@ namespace CalamityMod.NPCs
 						{
 							npc.ai[1] = 0f;
 							npc.ai[3] = 0f;
-							if (Main.netMode != 1 && phase3)
+							if (Main.netMode != NetmodeID.MultiplayerClient && phase3)
 							{
 								npc.ai[1] = 3f;
 								npc.ai[3] += (float)Main.rand.Next(1, 4);
@@ -2979,7 +2979,7 @@ namespace CalamityMod.NPCs
 						if (npc.netSpam > 10)
 							npc.netSpam = 10;
 					}
-					else if (Main.netMode != 1)
+					else if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.TargetClosest(true);
 						float num48 = ((enraged || configBossRushBoost) ? 26f : 18f) + (CalamityWorld.death ? 5f : 3.5f) * (0.7f - lifeRatio);
@@ -3164,13 +3164,13 @@ namespace CalamityMod.NPCs
 						vector2.X += vector3.X * 10f;
 						vector2.Y += vector3.Y * 10f;
 
-						if (Main.netMode != 1 && NPC.CountNPCS(NPCID.ServantofCthulhu) < 4)
+						if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(NPCID.ServantofCthulhu) < 4)
 						{
 							int num23 = NPC.NewNPC((int)vector2.X, (int)vector2.Y, NPCID.ServantofCthulhu, 0, 0f, 0f, 0f, 0f, 255);
 							Main.npc[num23].velocity.X = vector3.X;
 							Main.npc[num23].velocity.Y = vector3.Y;
 
-							if (Main.netMode == 2 && num23 < 200)
+							if (Main.netMode == NetmodeID.Server && num23 < 200)
 								NetMessage.SendData(23, -1, -1, null, num23, 0f, 0f, 0f, 0, 0, 0);
 						}
 
@@ -3179,7 +3179,7 @@ namespace CalamityMod.NPCs
 						int num;
 						for (int m = 0; m < 10; m = num + 1)
 						{
-							Dust.NewDust(vector2, 20, 20, 5, vector3.X * 0.4f, vector3.Y * 0.4f, 0, default(Color), 1f);
+							Dust.NewDust(vector2, 20, 20, 5, vector3.X * 0.4f, vector3.Y * 0.4f, 0, default, 1f);
 							num = m;
 						}
 					}
@@ -3221,7 +3221,7 @@ namespace CalamityMod.NPCs
 
 				else if (npc.ai[1] == 6f)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.TargetClosest(true);
 						float num48 = ((enraged || configBossRushBoost) ? 26f : 18f) + (CalamityWorld.death ? 6f : 4f) * (0.4f - lifeRatio);
@@ -3308,12 +3308,12 @@ namespace CalamityMod.NPCs
 			bool phase5 = lifeRatio < 0.2f; // 13 or less parts left
 
 			// Fire projectiles
-			if (Main.netMode != 1 && !phase5)
+			if (Main.netMode != NetmodeID.MultiplayerClient && !phase5)
 			{
 				// Vile spit
 				if (npc.type == NPCID.EaterofWorldsBody)
 				{
-					if (Main.rand.Next(900) == 0 && phase2)
+					if (Main.rand.NextBool(900) && phase2)
 					{
 						npc.TargetClosest(true);
 						if (Collision.CanHitLine(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
@@ -3375,7 +3375,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Spawn segments
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if ((npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody) && npc.ai[0] == 0f)
 				{
@@ -3456,7 +3456,7 @@ namespace CalamityMod.NPCs
 					npc.whoAmI = whoAmI2;
 				}
 
-				if (!npc.active && Main.netMode == 2)
+				if (!npc.active && Main.netMode == NetmodeID.Server)
 					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 			}
 
@@ -3490,7 +3490,7 @@ namespace CalamityMod.NPCs
 							if (npc.position.X + (float)npc.width > vector.X && npc.position.X < vector.X + 16f && npc.position.Y + (float)npc.height > vector.Y && npc.position.Y < vector.Y + 16f)
 							{
 								flag2 = true;
-								if (Main.rand.Next(100) == 0 && Main.tile[num33, num34].nactive())
+								if (Main.rand.NextBool(100) && Main.tile[num33, num34].nactive())
 								{
 									WorldGen.KillTile(num33, num34, true, true, false);
 								}
@@ -3646,7 +3646,7 @@ namespace CalamityMod.NPCs
 
 						if (flag5)
 						{
-							if (Main.netMode != 1 && (double)(npc.position.Y / 16f) > (Main.rockLayer + (double)Main.maxTilesY) / 2.0)
+							if (Main.netMode != NetmodeID.MultiplayerClient && (double)(npc.position.Y / 16f) > (Main.rockLayer + (double)Main.maxTilesY) / 2.0)
 							{
 								npc.active = false;
 								int num59 = (int)npc.ai[0];
@@ -3657,13 +3657,13 @@ namespace CalamityMod.NPCs
 									Main.npc[num59].active = false;
 									npc.life = 0;
 
-									if (Main.netMode == 2)
+									if (Main.netMode == NetmodeID.Server)
 										NetMessage.SendData(23, -1, -1, null, num59, 0f, 0f, 0f, 0, 0, 0);
 
 									num59 = arg_2853_0;
 								}
 
-								if (Main.netMode == 2)
+								if (Main.netMode == NetmodeID.Server)
 									NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 							}
 							num39 = 0f;
@@ -3767,7 +3767,7 @@ namespace CalamityMod.NPCs
 			NPC.crimsonBoss = npc.whoAmI;
 
 			// Spawn Creepers
-			if (Main.netMode != 1 && npc.localAI[0] == 0f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] == 0f)
 			{
 				npc.localAI[0] = 1f;
 				for (int num789 = 0; num789 < 20; num789++)
@@ -3784,7 +3784,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.TargetClosest(true);
 
@@ -3793,7 +3793,7 @@ namespace CalamityMod.NPCs
 					npc.active = false;
 					npc.life = 0;
 
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 				}
 			}
@@ -3814,7 +3814,7 @@ namespace CalamityMod.NPCs
 					Gore.NewGore(npc.position, new Vector2((float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f), 395, 1f);
 
 					for (int num794 = 0; num794 < 20; num794++)
-						Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+						Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
 					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 				}
@@ -3934,7 +3934,7 @@ namespace CalamityMod.NPCs
 					// Velocity
 					int var = 120;
 					float velocity = 6.28318548f / ((float)var * 0.75f);
-					npc.velocity = npc.velocity.RotatedBy((double)(-(double)velocity * npc.ai[1]), default(Vector2));
+					npc.velocity = npc.velocity.RotatedBy((double)(-(double)velocity * npc.ai[1]), default);
 
 					npc.ai[2] += 1f;
 
@@ -3961,9 +3961,9 @@ namespace CalamityMod.NPCs
 							// Blood dust
 							for (int num621 = 0; num621 < 6; num621++)
 							{
-								int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1f);
+								int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
 								Main.dust[num622].velocity *= 3f;
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 								{
 									Main.dust[num622].scale = 0.25f;
 									Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -3971,10 +3971,10 @@ namespace CalamityMod.NPCs
 							}
 							for (int num623 = 0; num623 < 12; num623++)
 							{
-								int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1.5f);
+								int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
 								Main.dust[num624].noGravity = true;
 								Main.dust[num624].velocity *= 5f;
-								num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 1f);
+								num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
 								Main.dust[num624].velocity *= 2f;
 							}
 
@@ -4029,7 +4029,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[0] == -1f)
 						npc.knockBackResist = 0.45f - (0.45f * (1f - lifeRatio));
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						// Go to phase 3
 						if (phase3 && npc.ai[0] == -1f)
@@ -4072,12 +4072,12 @@ namespace CalamityMod.NPCs
 									max = 20;
 								}
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num801 += Main.rand.Next(min, max);
 								else
 									num801 -= Main.rand.Next(min, max);
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num802 += Main.rand.Next(min, max);
 								else
 									num802 -= Main.rand.Next(min, max);
@@ -4104,7 +4104,7 @@ namespace CalamityMod.NPCs
 				{
 					npc.velocity *= 0.9f;
 
-					if (Main.netMode != 0)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 						npc.ai[3] += 15f;
 					else
 						npc.ai[3] += 25f;
@@ -4126,7 +4126,7 @@ namespace CalamityMod.NPCs
 				// Become visible
 				else if (npc.ai[0] == -3f || npc.ai[0] == -9f)
 				{
-					if (Main.netMode != 0)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 						npc.ai[3] -= 15f;
 					else
 						npc.ai[3] -= 25f;
@@ -4194,7 +4194,7 @@ namespace CalamityMod.NPCs
 				// Pick a teleport location
 				if (npc.ai[0] == 0f)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						// Go to phase 2
 						if (phase2)
@@ -4223,12 +4223,12 @@ namespace CalamityMod.NPCs
 								int min = 18;
 								int max = 26;
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num810 += Main.rand.Next(min, max);
 								else
 									num810 -= Main.rand.Next(min, max);
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num811 += Main.rand.Next(min, max);
 								else
 									num811 -= Main.rand.Next(min, max);
@@ -4347,7 +4347,7 @@ namespace CalamityMod.NPCs
 				// Charge at target
 				int creeperScale = 21 - creeperCount; // 1 to 20
 				npc.ai[1] += 0.5f + ((float)creeperScale * 0.25f);
-				if (Main.netMode != 1 && npc.ai[1] >= 240f)
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= 240f)
 				{
 					npc.ai[1] = 0f;
 					npc.TargetClosest(true);
@@ -4437,7 +4437,7 @@ namespace CalamityMod.NPCs
 			// Pick a random phase
 			else if (npc.ai[0] == -1f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					float num595 = npc.ai[1];
 					int phase;
@@ -4721,7 +4721,7 @@ namespace CalamityMod.NPCs
 				if (Collision.CanHit(vector76, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && spawnBee)
 				{
 					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int hornetAmt = CalamityMod.hornetList.Count;
 						int spawnType = Main.rand.Next(210, 212);
@@ -4821,7 +4821,7 @@ namespace CalamityMod.NPCs
 				if (shoot && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(vector78, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
 					Main.PlaySound(SoundID.Item17, npc.position);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num624 = 12f;
 						if ((double)npc.life < (double)npc.lifeMax * 0.33)
@@ -4945,7 +4945,7 @@ namespace CalamityMod.NPCs
 			npc.defense = npc.defDefense;
 
 			// Spawn hands
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (npc.ai[0] == 0f)
 				{
@@ -5030,7 +5030,7 @@ namespace CalamityMod.NPCs
 					Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 
 					// Fire magic bolt after teleport
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num151 = 2f + (distance * 0.005f);
 						if (num151 > 5f)
@@ -5055,7 +5055,7 @@ namespace CalamityMod.NPCs
 					// Teleport dust
 					for (int m = 0; m < 60; m++)
 					{
-						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default(Color), 3f);
+						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
 						Main.dust[num39].noGravity = true;
 						Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
 					}
@@ -5078,13 +5078,13 @@ namespace CalamityMod.NPCs
 				}
 				if (emitDust)
 				{
-					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default(Color), 1.5f);
+					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 1.5f);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 2f;
 				}
 
 				// Teleport
-				if (Main.netMode != 1 && npc.ai[3] >= 30f)
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] >= 30f)
 				{
 					Vector2 value53 = npc.Center + new Vector2((float)(npc.direction * 20), 6f);
 					Vector2 vector251 = Main.player[npc.target].Center - value53;
@@ -5121,7 +5121,7 @@ namespace CalamityMod.NPCs
 								// Teleport dust
 								for (int m = 0; m < 60; m++)
 								{
-									int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default(Color), 3f);
+									int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
 									Main.dust[num39].noGravity = true;
 									Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
 								}
@@ -5147,7 +5147,7 @@ namespace CalamityMod.NPCs
 				if (handsDead)
 					num158 /= 2f;
 
-				if (Main.netMode != 1 && calamityGlobalNPC.newAI[1] % num158 == 0f)
+				if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[1] % num158 == 0f)
 				{
 					Vector2 vector18 = npc.Center;
 					float num159 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector18.X;
@@ -5324,14 +5324,14 @@ namespace CalamityMod.NPCs
 			// Emit dust
 			if (npc.ai[1] != 2f && npc.ai[1] != 3f && num156 != 0)
 			{
-				int num180 = Dust.NewDust(new Vector2(npc.position.X + (float)(npc.width / 2) - 15f - npc.velocity.X * 5f, npc.position.Y + (float)npc.height - 2f), 30, 10, 5, -npc.velocity.X * 0.2f, 3f, 0, default(Color), 2f);
+				int num180 = Dust.NewDust(new Vector2(npc.position.X + (float)(npc.width / 2) - 15f - npc.velocity.X * 5f, npc.position.Y + (float)npc.height - 2f), 30, 10, 5, -npc.velocity.X * 0.2f, 3f, 0, default, 2f);
 				Main.dust[num180].noGravity = true;
 				Main.dust[num180].velocity.X = Main.dust[num180].velocity.X * 1.3f;
 				Main.dust[num180].velocity.X = Main.dust[num180].velocity.X + npc.velocity.X * 0.4f;
 				Main.dust[num180].velocity.Y = Main.dust[num180].velocity.Y + (2f + npc.velocity.Y);
 				for (int num181 = 0; num181 < 2; num181++)
 				{
-					num180 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 120f), npc.width, 60, 5, npc.velocity.X, npc.velocity.Y, 0, default(Color), 2f);
+					num180 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + 120f), npc.width, 60, 5, npc.velocity.X, npc.velocity.Y, 0, default, 2f);
 					Main.dust[num180].noGravity = true;
 					Main.dust[num180].velocity -= npc.velocity;
 					Main.dust[num180].velocity.Y = Main.dust[num180].velocity.Y + 5f;
@@ -5350,7 +5350,7 @@ namespace CalamityMod.NPCs
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 11)
 			{
 				npc.ai[2] += 10f;
-				if (npc.ai[2] > 50f || Main.netMode != 2)
+				if (npc.ai[2] > 50f || Main.netMode != NetmodeID.Server)
 				{
 					npc.life = -1;
 					npc.HitEffect(0, 10.0);
@@ -5610,7 +5610,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] > (float)num330)
 					npc.ai[2] = 0f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num331 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)(npc.height / 2) + 20f), NPCID.LeechHead, 1, 0f, 0f, 0f, 0f, 255);
 					Main.npc[num331].velocity.X = (float)(npc.direction * 9);
@@ -5830,7 +5830,7 @@ namespace CalamityMod.NPCs
 				npc.rotation = 0f;
 
 			// Expert hungry respawn over time
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				// Range of 1 to 11
 				int chance = (int)(1f + lifeRatio * 10f);
@@ -5898,7 +5898,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Spawn eyes and hungries
-			if (npc.localAI[0] == 1f && Main.netMode != 1)
+			if (npc.localAI[0] == 1f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] = 2f;
 
@@ -6005,7 +6005,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Fire lasers
-			if (Main.netMode != 1 && Main.npc[Main.wof].ai[3] == 0f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && Main.npc[Main.wof].ai[3] == 0f)
 			{
 				// Percent life remaining
 				float lifeRatio = (float)Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
@@ -6093,7 +6093,7 @@ namespace CalamityMod.NPCs
 				{
 					for (int i = 0; i < 2; i++)
 					{
-						int num = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default(Color), 2f);
+						int num = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].noLight = true;
 					}
@@ -6144,7 +6144,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				// Spawn segments from head
 				if (npc.ai[0] == 0f && npc.type == NPCID.TheDestroyer)
@@ -6208,7 +6208,7 @@ namespace CalamityMod.NPCs
 							// Set projectile damage and type, set projectile to saucer scrap if probe has been launched
 							int damage = 28;
 							int projectileType = ProjectileID.DeathLaser;
-							if (npc.ai[2] == 0f || Main.rand.Next(2) == 0)
+							if (npc.ai[2] == 0f || Main.rand.NextBool(2))
 							{
 								if (phase3 || calamityGlobalNPC.newAI[2] > 0f)
 								{
@@ -6594,16 +6594,16 @@ namespace CalamityMod.NPCs
 			if (npc.rotation > num378 - num379 && npc.rotation < num378 + num379)
 				npc.rotation = num378;
 
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
-				int num380 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
+				int num380 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
 				Dust var_9_131D1_cp_0_cp_0 = Main.dust[num380];
 				var_9_131D1_cp_0_cp_0.velocity.X = var_9_131D1_cp_0_cp_0.velocity.X * 0.5f;
 				Dust var_9_131F5_cp_0_cp_0 = Main.dust[num380];
 				var_9_131F5_cp_0_cp_0.velocity.Y = var_9_131F5_cp_0_cp_0.velocity.Y * 0.1f;
 			}
 
-			if (Main.netMode != 1 && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
+			if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
 			{
 				int num;
 				for (int num381 = 0; num381 < 200; num381 = num + 1)
@@ -6693,7 +6693,7 @@ namespace CalamityMod.NPCs
 							num385 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector40.X;
 							num386 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector40.Y;
 
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								float num389 = 10.5f;
 								int num390 = 19;
@@ -6811,7 +6811,7 @@ namespace CalamityMod.NPCs
 
 						for (int num398 = 0; num398 < 20; num398 = num + 1)
 						{
-							Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+							Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 							num = num398;
 						}
 
@@ -6819,7 +6819,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
 				npc.velocity.X = npc.velocity.X * 0.98f;
 				npc.velocity.Y = npc.velocity.Y * 0.98f;
@@ -6907,7 +6907,7 @@ namespace CalamityMod.NPCs
 					num402 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector42.Y;
 					npc.rotation = (float)Math.Atan2((double)num402, (double)num401) - 1.57f;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[1] += 1f;
 						if (npc.localAI[1] >= (spazAlive ? 72f : 24f))
@@ -6995,7 +6995,7 @@ namespace CalamityMod.NPCs
 							npc.localAI[1] += 2f;
 						}
 
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							npc.localAI[1] += 1f;
 							if (npc.localAI[1] > (spazAlive ? 24f : 8f))
@@ -7095,7 +7095,7 @@ namespace CalamityMod.NPCs
 								num349 *= num351;
 								num350 *= num351;
 
-								if (Main.netMode != 1)
+								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									Main.PlaySound(SoundID.Item33, npc.position);
 
@@ -7258,16 +7258,16 @@ namespace CalamityMod.NPCs
 				npc.rotation = num420;
 
 			// Dust
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
-				int num422 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
+				int num422 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
 				Dust dust = Main.dust[num422];
 				dust.velocity.X = dust.velocity.X * 0.5f;
 				dust.velocity.Y = dust.velocity.Y * 0.1f;
 			}
 
 			// Despawn Twins at the same time
-			if (Main.netMode != 1 && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
+			if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
 			{
 				int num;
 				for (int num423 = 0; num423 < 200; num423 = num + 1)
@@ -7364,7 +7364,7 @@ namespace CalamityMod.NPCs
 							vector44 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							num427 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector44.X;
 							num428 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector44.Y;
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								float num430 = 15f;
 								int num431 = 22;
@@ -7493,7 +7493,7 @@ namespace CalamityMod.NPCs
 
 						for (int num439 = 0; num439 < 20; num439 = num + 1)
 						{
-							Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+							Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 							num = num439;
 						}
 
@@ -7501,7 +7501,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
 				npc.velocity.X = npc.velocity.X * 0.98f;
 				npc.velocity.Y = npc.velocity.Y * 0.98f;
@@ -7613,7 +7613,7 @@ namespace CalamityMod.NPCs
 							Main.PlaySound(SoundID.Item34, npc.position);
 						}
 
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							npc.localAI[1] += 1f;
 							if (npc.localAI[1] > 2f)
@@ -7740,7 +7740,7 @@ namespace CalamityMod.NPCs
 						}
 
 						// Set charging velocity
-						else if (Main.netMode != 1)
+						else if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							// Get a target
 							npc.TargetClosest(true);
@@ -7884,7 +7884,7 @@ namespace CalamityMod.NPCs
 							Vector2 vector44 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float num427 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector44.X;
 							float num428 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector44.Y;
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								float num430 = 16f;
 								int num431 = 26;
@@ -7930,7 +7930,7 @@ namespace CalamityMod.NPCs
 			bool targetFloatingUp = Main.player[npc.target].gravDir == -1f;
 
 			// Spawn arms
-			if (npc.ai[0] == 0f && Main.netMode != 1)
+			if (npc.ai[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.TargetClosest(true);
 				npc.ai[0] = 1f;
@@ -8017,7 +8017,7 @@ namespace CalamityMod.NPCs
 			if (Main.dayTime && npc.ai[1] != 3f && npc.ai[1] != 2f)
 			{
 				// Heal
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int healAmt = npc.life - 300;
 					if (healAmt < 0)
@@ -8059,7 +8059,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					// Shoot homing skulls
 					if (!allArmsDead)
@@ -8323,7 +8323,7 @@ namespace CalamityMod.NPCs
 					npc.velocity.X = num458 * num460;
 					npc.velocity.Y = num459 * num460;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[0] += 1f;
 						if (npc.localAI[0] >= (CalamityWorld.death ? 54f : 60f))
@@ -8408,7 +8408,7 @@ namespace CalamityMod.NPCs
 
 							if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 64f)
 							{
-								if (Main.netMode != 1)
+								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									if (NPC.CountNPCS(NPCID.Probe) < 6)
 										NPC.NewNPC((int)npc.Center.X, (int)(npc.Center.Y + 4f), NPCID.Probe);
@@ -8513,10 +8513,10 @@ namespace CalamityMod.NPCs
 					{
 						calamityGlobalNPC.newAI[1] += 1f;
 
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							Vector2 velocity = new Vector2(-1f * (float)Main.rand.NextDouble() * 3f, 1f);
-							velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * 0.78539818525314331, default(Vector2));
+							velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * 0.78539818525314331, default);
 							velocity *= 5f;
 							int damage = Main.expertMode ? 27 : 35;
 							float delayBeforeHoming = 45f;
@@ -8554,7 +8554,7 @@ namespace CalamityMod.NPCs
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 32)
 			{
 				npc.ai[2] += 10f;
-				if (npc.ai[2] > 50f || Main.netMode != 2)
+				if (npc.ai[2] > 50f || Main.netMode != NetmodeID.Server)
 				{
 					npc.life = -1;
 					npc.HitEffect(0, 10.0);
@@ -8657,7 +8657,7 @@ namespace CalamityMod.NPCs
 				float num508 = (float)Math.Sqrt((double)(num506 * num506 + num507 * num507));
 				npc.rotation = (float)Math.Atan2((double)num507, (double)num506) - 1.57f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					// Fire laser every 1.5 seconds (change this as each arm dies to fire more aggressively)
 					npc.localAI[0] += 1f;
@@ -8747,7 +8747,7 @@ namespace CalamityMod.NPCs
 				num515 = (float)Math.Sqrt((double)(num513 * num513 + num514 * num514));
 				npc.rotation = (float)Math.Atan2((double)num514, (double)num513) - 1.57f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					// Fire laser every 1.5 seconds (change this as each arm dies to fire more aggressively)
 					npc.localAI[0] += 1f;
@@ -8793,7 +8793,7 @@ namespace CalamityMod.NPCs
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 32)
 			{
 				npc.ai[2] += 10f;
-				if (npc.ai[2] > 50f || Main.netMode != 2)
+				if (npc.ai[2] > 50f || Main.netMode != NetmodeID.Server)
 				{
 					npc.life = -1;
 					npc.HitEffect(0, 10.0);
@@ -8932,7 +8932,7 @@ namespace CalamityMod.NPCs
 				float num494 = (float)Math.Sqrt((double)(num492 * num492 + num493 * num493));
 				npc.rotation = (float)Math.Atan2((double)num493, (double)num492) - 1.57f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					// Fire rocket every 2 seconds (change this as each arm dies to fire more aggressively)
 					npc.localAI[0] += 1f;
@@ -9002,7 +9002,7 @@ namespace CalamityMod.NPCs
 				num501 = (float)Math.Sqrt((double)(num499 * num499 + num500 * num500));
 				npc.rotation = (float)Math.Atan2((double)num500, (double)num499) - 1.57f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					// Fire rockets every 2 seconds (change this as each arm dies to fire more aggressively)
 					npc.localAI[0] += 1f;
@@ -9063,7 +9063,7 @@ namespace CalamityMod.NPCs
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 32)
 			{
 				npc.ai[2] += 10f;
-				if (npc.ai[2] > 50f || Main.netMode != 2)
+				if (npc.ai[2] > 50f || Main.netMode != NetmodeID.Server)
 				{
 					npc.life = -1;
 					npc.HitEffect(0, 10.0);
@@ -9371,7 +9371,7 @@ namespace CalamityMod.NPCs
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 32)
 			{
 				npc.ai[2] += 10f;
-				if (npc.ai[2] > 50f || Main.netMode != 2)
+				if (npc.ai[2] > 50f || Main.netMode != NetmodeID.Server)
 				{
 					npc.life = -1;
 					npc.HitEffect(0, 10.0);
@@ -9668,20 +9668,20 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn if too far from target
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6000f)
 				{
 					npc.active = false;
 					npc.life = 0;
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 				}
 			}
 
 			// Set whoAmI variable and spawn hooks
 			NPC.plantBoss = npc.whoAmI;
-			if (npc.localAI[0] == 0f && Main.netMode != 1)
+			if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] = 1f;
 				int num729 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasHook, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
@@ -9898,7 +9898,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Fire projectiles
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f + (8f * (1f - lifeRatio));
 
@@ -9907,7 +9907,7 @@ namespace CalamityMod.NPCs
 						npc.localAI[1] += 3f;
 
 						// If hit, fire projectiles even if target is behind tiles
-						if (npc.justHit && Main.rand.Next(2) == 0)
+						if (npc.justHit && Main.rand.NextBool(2))
 							npc.localAI[3] = 1f;
 					}
 
@@ -9933,13 +9933,13 @@ namespace CalamityMod.NPCs
 
 							int damage = 22;
 							int projectileType = ProjectileID.SeedPlantera;
-							if (lifeRatio < 0.9f && Main.rand.Next(2) == 0)
+							if (lifeRatio < 0.9f && Main.rand.NextBool(2))
 							{
 								damage = 27;
 								npc.localAI[1] = -30f;
 								projectileType = ProjectileID.PoisonSeedPlantera;
 							}
-							else if (lifeRatio < 0.8f && Main.rand.Next(4) == 0)
+							else if (lifeRatio < 0.8f && Main.rand.NextBool(4))
 							{
 								int thornBallCount = 0;
 								for (int i = 0; i < 1000; i++)
@@ -9984,7 +9984,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Spawn tentacles
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (npc.localAI[0] == 1f)
 					{
@@ -10053,7 +10053,7 @@ namespace CalamityMod.NPCs
 						Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
 
 						float num742 = 10f - ((float)tentacleScale * 0.5f); // 9.5f to 6f, slower projectiles are harder to avoid
-						if (nearbyActiveTiles < 300)
+						if (nearbyActiveTiles <= 300)
 							num742 = 10f;
 
 						float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
@@ -10069,8 +10069,8 @@ namespace CalamityMod.NPCs
 						int numProj = 2;
 
 						int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
-						if (nearbyActiveTiles < 300)
-							spread = (Main.rand.Next(2) == 0 ? 3 : 6) + (tentacleScale / 2);
+						if (nearbyActiveTiles <= 300)
+							spread = (Main.rand.NextBool(2) ? 3 : 6) + (tentacleScale / 2);
 
 						float rotation = MathHelper.ToRadians(spread);
 						for (int i = 0; i < numProj + 1; i++)
@@ -10106,8 +10106,8 @@ namespace CalamityMod.NPCs
 						int numProj = 4;
 
 						int spread = 30;
-						if (nearbyActiveTiles < 300)
-							spread = (Main.rand.Next(2) == 0 ? 30 : 45);
+						if (nearbyActiveTiles <= 300)
+							spread = (Main.rand.NextBool(2) ? 30 : 45);
 
 						float rotation = MathHelper.ToRadians(spread);
 						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
@@ -10132,9 +10132,9 @@ namespace CalamityMod.NPCs
 			{
 				if (Main.dayTime)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
-						int dust = Dust.NewDust(npc.position, npc.width, npc.height, 55, 0f, 0f, 200, default(Color), 0.5f);
+						int dust = Dust.NewDust(npc.position, npc.width, npc.height, 55, 0f, 0f, 200, default, 0.5f);
 						Main.dust[dust].noGravity = true;
 						Main.dust[dust].velocity *= 0.75f;
 						Main.dust[dust].fadeIn = 1.3f;
@@ -10152,7 +10152,7 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[1] >= 15f)
 					{
 						calamityGlobalNPC.newAI[1] = 0f;
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							int healAmt = npc.lifeMax / (CalamityWorld.bossRushActive ? 400 : 100);
 							if (healAmt > npc.lifeMax - npc.life)
@@ -10210,7 +10210,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Set centers for movement
-			if (Main.netMode == 1)
+			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				if (npc.ai[0] == 0f)
 					npc.ai[0] = (float)((int)(npc.Center.X / 16f));
@@ -10219,7 +10219,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Find new spot to move to after set time has passed
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				// Move immediately
 				if (npc.ai[0] == 0f || npc.ai[1] == 0f)
@@ -10349,7 +10349,7 @@ namespace CalamityMod.NPCs
 				num778 = (int)npc.ai[3] - 1;
 
 			// Movement variables
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] -= 1f;
 				if (npc.localAI[0] <= 0f)
@@ -10562,7 +10562,7 @@ namespace CalamityMod.NPCs
 				{
 					calamityGlobalNPC.newAI[0] = 0f;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 
 					npc.netUpdate = true;
@@ -10575,7 +10575,7 @@ namespace CalamityMod.NPCs
 				npc.localAI[0] = 1f;
 				npc.alpha = 255;
 				npc.rotation = 0f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[0] = -1f;
 					npc.netUpdate = true;
@@ -10683,9 +10683,9 @@ namespace CalamityMod.NPCs
 					int num20 = 36;
 					for (int i = 0; i < num20; i++)
 					{
-						Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default(Vector2)) + npc.Center;
+						Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default) + npc.Center;
 						Vector2 vector2 = expr_80F - npc.Center;
-						int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default(Color), 1.4f);
+						int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
 						Main.dust[num21].noGravity = true;
 						Main.dust[num21].noLight = true;
 						Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
@@ -10845,9 +10845,9 @@ namespace CalamityMod.NPCs
 				int num24 = 7;
 				for (int j = 0; j < num24; j++)
 				{
-					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default(Vector2)) + vector;
+					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default) + vector;
 					Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default(Color), 1.4f);
+					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
 					Main.dust[num25].noGravity = true;
 					Main.dust[num25].noLight = true;
 					Main.dust[num25].velocity /= 4f;
@@ -10906,7 +10906,7 @@ namespace CalamityMod.NPCs
 				{
 					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (float)(npc.width + 20) / 2f + vector;
 						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble, 0, 0f, 0f, 0f, 0f, 255);
@@ -10944,7 +10944,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == (float)(num9 - 30))
 					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
 
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num9 - 30))
 				{
 					Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
 					bool normal = Main.rand.NextBool();
@@ -11143,9 +11143,9 @@ namespace CalamityMod.NPCs
 				int num29 = 7;
 				for (int k = 0; k < num29; k++)
 				{
-					Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * 3.1415926535897931 / (double)((float)num29), default(Vector2)) + vector;
+					Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * 3.1415926535897931 / (double)((float)num29), default) + vector;
 					Vector2 vector9 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default(Color), 1.4f);
+					int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default, 1.4f);
 					Main.dust[num30].noGravity = true;
 					Main.dust[num30].noLight = true;
 					Main.dust[num30].velocity /= 4f;
@@ -11174,12 +11174,12 @@ namespace CalamityMod.NPCs
 				{
 					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
 						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble, 0, 0f, 0f, 0f, 0f, 255);
 						Main.npc[num31].target = npc.target;
-						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default(Vector2)) * scaleFactor3;
+						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default) * scaleFactor3;
 						Main.npc[num31].netUpdate = true;
 						Main.npc[num31].ai[3] = (float)Main.rand.Next(80, 121) / 100f;
 
@@ -11192,7 +11192,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Velocity and rotation
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default);
 				npc.rotation -= num15 * (float)npc.direction;
 
 				npc.ai[2] += 1f;
@@ -11216,7 +11216,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == (float)(num9 - 30))
 					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num9 - 30))
 					Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 
 				npc.ai[2] += 1f;
@@ -11386,9 +11386,9 @@ namespace CalamityMod.NPCs
 				int num34 = 7;
 				for (int m = 0; m < num34; m++)
 				{
-					Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default(Vector2)) + vector;
+					Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default) + vector;
 					Vector2 vector11 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default(Color), 1.4f);
+					int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default, 1.4f);
 					Main.dust[num35].noGravity = true;
 					Main.dust[num35].noLight = true;
 					Main.dust[num35].velocity /= 4f;
@@ -11428,7 +11428,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == (float)(num12 / 2))
 					Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
 
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num12 / 2))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num12 / 2))
 				{
 					// Teleport location
 					if (npc.ai[1] == 0f)
@@ -11566,7 +11566,7 @@ namespace CalamityMod.NPCs
 
 				npc.ai[1] += 1f;
 
-				if (npc.ai[1] >= 20f && Main.netMode != 1)
+				if (npc.ai[1] >= 20f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -11789,7 +11789,7 @@ namespace CalamityMod.NPCs
 							npc.ai[0] = 0f;
 							npc.TargetClosest(true);
 
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								npc.ai[1] = -1f;
 								npc.ai[2] = -1f;
@@ -11871,7 +11871,7 @@ namespace CalamityMod.NPCs
 							float num1371 = 4f;
 							float num1372 = 2f;
 
-							if (Main.netMode != 1 && vector239.Length() < 4f)
+							if (Main.netMode != NetmodeID.MultiplayerClient && vector239.Length() < 4f)
 							{
 								int num1373 = 20;
 								if (Main.expertMode)
@@ -11922,7 +11922,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] = 0f;
 			}
 
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[2] += 1f;
 				if (npc.localAI[2] > 300f)
@@ -11952,7 +11952,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (npc.ai[0] == 0f && Main.netMode != 1)
+			if (npc.ai[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.TargetClosest(true);
 				npc.ai[0] = 1f;
@@ -12072,7 +12072,7 @@ namespace CalamityMod.NPCs
 			if (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != 58)
 			{
 				npc.ai[2] += 10f;
-				if (npc.ai[2] > 50f || Main.netMode != 2)
+				if (npc.ai[2] > 50f || Main.netMode != NetmodeID.Server)
 				{
 					npc.life = -1;
 					npc.HitEffect(0, 10.0);
@@ -12080,7 +12080,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (Main.netMode != 1 && Main.npc[(int)npc.ai[1]].ai[3] == 2f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && Main.npc[(int)npc.ai[1]].ai[3] == 2f)
 			{
 				npc.localAI[1] += 1f;
 				if (npc.localAI[1] > 30f)
@@ -12329,7 +12329,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[3] > (float)num892)
 						npc.ai[3] = (float)(-(float)num892);
 
-					if (npc.ai[3] == 0f && Main.netMode != 1)
+					if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector116 = new Vector2(npc.Center.X, npc.Center.Y);
 						vector116.X += npc.velocity.X * 7f;
@@ -12355,7 +12355,7 @@ namespace CalamityMod.NPCs
 				else if (npc.ai[3] < 0f)
 					npc.ai[3] += 1f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += (float)Main.rand.Next(1, 4);
 
@@ -12415,7 +12415,7 @@ namespace CalamityMod.NPCs
 
 				npc.rotation = npc.velocity.X * 0.01f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[3] += 1f;
 					int num901 = 10;
@@ -12449,7 +12449,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += (float)Main.rand.Next(1, 4);
 
@@ -12492,7 +12492,7 @@ namespace CalamityMod.NPCs
 					int num909 = Projectile.NewProjectile(vector118.X, vector118.Y, num904, num905, 349, 40, 0f, Main.myPlayer, 0f, 0f);
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += (float)Main.rand.Next(1, 4);
 
@@ -12531,7 +12531,7 @@ namespace CalamityMod.NPCs
 		public static void RevengeanceMoonLordCoreAI(NPC npc)
 		{
 			// Buffed teleport, teleports happen at a closer range
-			if (npc.ai[0] >= 0f && npc.ai[0] < 2f && Main.netMode != 1 && npc.Distance(Main.player[npc.target].Center) > 1800f) //2400
+			if (npc.ai[0] >= 0f && npc.ai[0] < 2f && Main.netMode != NetmodeID.MultiplayerClient && npc.Distance(Main.player[npc.target].Center) > 1800f) //2400
 			{
 				npc.ai[0] = -2f;
 				npc.netUpdate = true;
@@ -12592,7 +12592,7 @@ namespace CalamityMod.NPCs
 					if ((int)calamityGlobalNPC.newAI[2] % 60 == 0)
 					{
 						npc.netUpdate = true;
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							int num = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 400, 0, 0f, 0f, 0f, 0f, 255);
 							Main.npc[num].ai[3] = npc.ai[3];
@@ -12611,7 +12611,7 @@ namespace CalamityMod.NPCs
 						if ((int)calamityGlobalNPC.newAI[2] % 60 == 0)
 						{
 							npc.netUpdate = true;
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								int num = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 400, 0, 0f, 0f, 0f, 0f, 255);
 								Main.npc[num].ai[3] = npc.ai[3];
@@ -12646,7 +12646,7 @@ namespace CalamityMod.NPCs
 						calamityGlobalNPC.newAI[0] = 0f;
 						npc.netUpdate = true;
 
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Eidolist"), 0, 0f, 0f, 0f, 0f, 255);
 
 						calamityGlobalNPC.newAI[0] = -360f;
@@ -12670,7 +12670,7 @@ namespace CalamityMod.NPCs
 					calamityGlobalNPC.CultCountdown--;
 					if (calamityGlobalNPC.CultCountdown == 0)
 					{
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							Player player2 = Main.player[npc.target];
 							int speed2 = 8;
@@ -12814,7 +12814,7 @@ namespace CalamityMod.NPCs
 			num179 = 12f / num179;
 			npc.velocity.X = num177 * num179;
 			npc.velocity.Y = num178 * num179;
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[1] += 1f;
 				if (npc.localAI[1] >= 60f)
@@ -12851,7 +12851,7 @@ namespace CalamityMod.NPCs
 		public static void RevengeanceLihzahrdAI(NPC npc)
 		{
 			// Transform into second state sooner
-			if (Main.netMode != 1 && (double)npc.life <= (double)npc.lifeMax * 0.9)
+			if (Main.netMode != NetmodeID.MultiplayerClient && (double)npc.life <= (double)npc.lifeMax * 0.9)
 				npc.Transform(NPCID.LihzahrdCrawler);
 		}
 

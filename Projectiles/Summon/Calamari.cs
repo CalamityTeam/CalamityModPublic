@@ -45,9 +45,9 @@ namespace CalamityMod.Projectiles.Summon
                 for (int num227 = 0; num227 < num226; num227++)
                 {
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default(Vector2)) + projectile.Center;
+                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
-                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 109, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default(Color), 1.4f);
+                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 109, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                     Main.dust[num228].noGravity = true;
                     Main.dust[num228].noLight = true;
                     Main.dust[num228].velocity = vector7;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            if (Main.rand.Next(600) == 0)
+            if (Main.rand.NextBool(600))
             {
                 Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 35);
             }
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (projectile.ai[1] > 3f)
                 {
                     Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 34);
-                    int num = Dust.NewDust(projectile.Center, 0, 0, 109, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1.4f);
+                    int num = Dust.NewDust(projectile.Center, 0, 0, 109, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.4f);
                     Main.dust[num].scale = 0.5f + (float)Main.rand.NextDouble() * 0.3f;
                     Main.dust[num].velocity /= 2.5f;
                     Main.dust[num].noGravity = true;

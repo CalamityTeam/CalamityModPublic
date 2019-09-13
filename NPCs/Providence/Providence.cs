@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.Providence
 				if (healTimer >= heal)
 				{
 					healTimer = 0;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int healAmt = npc.lifeMax / 200;
 						if (healAmt > npc.lifeMax - npc.life)
@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs.Providence
 				bossLife = (float)npc.lifeMax;
 			if (npc.life > 0)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.66);
 					if ((float)(npc.life + num660) < bossLife)
@@ -555,7 +555,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[3] >= (float)num856)
 						npc.ai[3] = (float)(-(float)num856);
 
-					if (npc.ai[3] == 0f && Main.netMode != 1)
+					if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						vector.X += npc.velocity.X * 7f;
 						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
@@ -580,7 +580,7 @@ namespace CalamityMod.NPCs.Providence
 				else if (npc.ai[3] < 0f)
 					npc.ai[3] += 1f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= 300f)
@@ -594,7 +594,7 @@ namespace CalamityMod.NPCs.Providence
 				npc.noGravity = true;
 				npc.noTileCollide = true;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[3] += 1f;
 
@@ -621,7 +621,7 @@ namespace CalamityMod.NPCs.Providence
 					}
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= 300f)
@@ -663,9 +663,9 @@ namespace CalamityMod.NPCs.Providence
 				{
 					npc.ai[3] = 0f;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						if (Main.rand.Next(4) == 0 && !CalamityWorld.death && !CalamityWorld.bossRushActive)
+						if (Main.rand.NextBool(4) && !CalamityWorld.death && !CalamityWorld.bossRushActive)
 							Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, mod.ProjectileType("HolyLight"), 0, 0f, Main.myPlayer, 0f, 0f);
 						else
 							Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, mod.ProjectileType("HolyBurnOrb"), 0, 0f, Main.myPlayer, 0f, 0f);
@@ -680,16 +680,16 @@ namespace CalamityMod.NPCs.Providence
 					string key = "Mods.CalamityMod.ProfanedBossText";
 					Color messageColor = Color.Orange;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 
 				// Inflict Icarus Folly
 				if (npc.ai[1] >= 600f)
 				{
-					if (Main.netMode != 2)
+					if (Main.netMode != NetmodeID.Server)
 					{
 						Player player2 = Main.player[Main.myPlayer];
 						bool inLiquid = (player2.wet || player2.honeyWet) && !player2.lavaWet;
@@ -702,9 +702,9 @@ namespace CalamityMod.NPCs.Providence
 							for (int num621 = 0; num621 < 40; num621++)
 							{
 								int num622 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-									player2.width, player2.height, 244, 0f, 0f, 100, default(Color), 2f);
+									player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
 								Main.dust[num622].velocity *= 3f;
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 								{
 									Main.dust[num622].scale = 0.5f;
 									Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -714,11 +714,11 @@ namespace CalamityMod.NPCs.Providence
 							for (int num623 = 0; num623 < 60; num623++)
 							{
 								int num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-									player2.width, player2.height, 244, 0f, 0f, 100, default(Color), 3f);
+									player2.width, player2.height, 244, 0f, 0f, 100, default, 3f);
 								Main.dust[num624].noGravity = true;
 								Main.dust[num624].velocity *= 5f;
 								num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-									player2.width, player2.height, 244, 0f, 0f, 100, default(Color), 2f);
+									player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
 								Main.dust[num624].velocity *= 2f;
 							}
 						}
@@ -749,7 +749,7 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.ai[3] >= (float)num856)
 						npc.ai[3] = (float)(-(float)num856);
 
-					if (npc.ai[3] == 0f && Main.netMode != 1)
+					if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						vector.X += npc.velocity.X * 7f;
 						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
@@ -774,7 +774,7 @@ namespace CalamityMod.NPCs.Providence
 				else if (npc.ai[3] < 0f)
 					npc.ai[3] += 1f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= 300f)
@@ -788,7 +788,7 @@ namespace CalamityMod.NPCs.Providence
 				npc.noGravity = true;
 				npc.noTileCollide = true;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[3] += 1f;
 
@@ -815,7 +815,7 @@ namespace CalamityMod.NPCs.Providence
 					}
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= 300f)
@@ -833,7 +833,7 @@ namespace CalamityMod.NPCs.Providence
 
 				npc.velocity *= 0.95f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[2] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + (2f * (1f - lifeRatio));
 
@@ -864,7 +864,7 @@ namespace CalamityMod.NPCs.Providence
 					}
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= 300f)
@@ -882,7 +882,7 @@ namespace CalamityMod.NPCs.Providence
 
 				npc.velocity *= 0.95f;
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= 60f)
@@ -925,7 +925,7 @@ namespace CalamityMod.NPCs.Providence
 								num1223 = 2.8f;
 
 							Vector2 vector199 = vector + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * value19 / 2f;
-							int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default(Color), 1f);
+							int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
 							Main.dust[num1224].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - (float)num1220 * 2f) / 10f;
 							Main.dust[num1224].noGravity = true;
 							Main.dust[num1224].scale = num1223;
@@ -939,7 +939,7 @@ namespace CalamityMod.NPCs.Providence
 						if (Main.player[Main.myPlayer].active && !Main.player[Main.myPlayer].dead && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 2800f)
 							Main.PlaySound(29, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 104, 1f, 0f);
 
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							npc.TargetClosest(false);
 
@@ -950,7 +950,7 @@ namespace CalamityMod.NPCs.Providence
 							if (vector200.X < 0f)
 								num1225 = 1f;
 
-							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default(Vector2));
+							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default);
 							Projectile.NewProjectile(vector.X, vector.Y - 32f, vector200.X, vector200.Y, mod.ProjectileType("ProvidenceHolyRay"), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
 
 							if (revenge)
@@ -981,7 +981,7 @@ namespace CalamityMod.NPCs.Providence
 						npc.localAI[1] = 0f;
 				}
 
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= (revenge ? 235f : 315f))
@@ -1030,7 +1030,7 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItem(npc, mod.ItemType("RuneofCos"));
 			}
 
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				SpawnLootBox();
 			}
@@ -1045,12 +1045,12 @@ namespace CalamityMod.NPCs.Providence
 
                 WorldGenerationMethods.SpawnOre(mod.TileType("UelibloomOre"), 15E-05, .4f, .8f);
 
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     Main.NewText(Language.GetTextValue(key2), messageColor2);
                     Main.NewText(Language.GetTextValue(key3), messageColor3);
                 }
-                else if (Main.netMode == 2)
+                else if (Main.netMode == NetmodeID.Server)
                 {
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
@@ -1080,7 +1080,7 @@ namespace CalamityMod.NPCs.Providence
 					Main.tile[x, y].lava(false);
 					Main.tile[x, y].liquid = 0;
 
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 						NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
 					else
 						WorldGen.SquareTileFrame(x, y, true);
@@ -1208,7 +1208,7 @@ namespace CalamityMod.NPCs.Providence
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 15; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 
 			if (npc.life <= 0)
 			{
@@ -1225,9 +1225,9 @@ namespace CalamityMod.NPCs.Providence
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 60; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -1235,10 +1235,10 @@ namespace CalamityMod.NPCs.Providence
 				}
 				for (int num623 = 0; num623 < 90; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

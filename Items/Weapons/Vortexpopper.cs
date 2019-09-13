@@ -71,14 +71,14 @@ namespace CalamityMod.Items.Weapons
             float ai = new Vector2(num78, num79).ToRotation();
             float num96 = 2.09439516f;
             int num97 = Main.rand.Next(6, 10);
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
             {
                 num97++;
             }
             for (int num98 = 0; num98 < num97; num98++)
             {
                 float scaleFactor2 = (float)Main.rand.NextDouble() * 0.2f + 0.05f;
-                Vector2 vector6 = new Vector2(num78, num79).RotatedBy((double)(num96 * (float)Main.rand.NextDouble() - num96 / 2f), default(Vector2)) * scaleFactor2;
+                Vector2 vector6 = new Vector2(num78, num79).RotatedBy((double)(num96 * (float)Main.rand.NextDouble() - num96 / 2f), default) * scaleFactor2;
                 int num99 = Projectile.NewProjectile(position.X, position.Y, vector6.X, vector6.Y, 444, damage, knockBack, player.whoAmI, ai, 0f);
                 Main.projectile[num99].localAI[0] = (float)type;
                 Main.projectile[num99].localAI[1] = 12f;

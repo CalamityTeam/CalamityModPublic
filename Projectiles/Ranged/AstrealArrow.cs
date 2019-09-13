@@ -79,13 +79,13 @@ namespace CalamityMod.Projectiles.Ranged
         		projectile.velocity.X = -10f;
         		projectile.velocity.Y = 0f;
         	}
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             if (flameTimer <= 0)
 			{
-                float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800 : projectile.position.X - 800);
+                float xPos = (Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800);
                 Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
                 float num80 = xPos;
                 float speedX = (float)projectile.position.X - vector2.X;

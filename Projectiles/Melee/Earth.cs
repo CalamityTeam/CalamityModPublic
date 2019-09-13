@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = 20 + Main.rand.Next(40);
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.NextBool(5))
 				{
 					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
 				}
@@ -69,14 +69,14 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				dustChoice = 244;
 			}
-			if (Main.rand.Next(16) == 0)
+			if (Main.rand.NextBool(16))
 			{
-				Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
-				int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustChoice, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
+				Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default);
+				int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustChoice, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
 				Main.dust[num59].velocity = value3 * 0.66f;
 				Main.dust[num59].position = projectile.Center + value3 * 12f;
 			}
-			if (Main.rand.Next(48) == 0)
+			if (Main.rand.NextBool(48))
 			{
 				int num60 = Gore.NewGore(projectile.Center, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), 16, 1f);
 				Main.gore[num60].velocity *= 0.66f;
@@ -85,11 +85,11 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.ai[1] == 1f)
 			{
 				projectile.light = 0.9f;
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, dustChoice, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, dustChoice, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
 				}
-				if (Main.rand.Next(20) == 0)
+				if (Main.rand.NextBool(20))
 				{
 					Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
 				}

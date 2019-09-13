@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				int num249 = Main.rand.Next(2);
 				if (num249 == 0)
@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Weapons
 				{
 					num249 = 244;
 				}
-				int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, num249, (float)(player.direction * 2), 0f, 150, default(Color), 1.3f);
+				int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, num249, (float)(player.direction * 2), 0f, 150, default, 1.3f);
 				Main.dust[num250].velocity *= 0.2f;
 			}
 		}

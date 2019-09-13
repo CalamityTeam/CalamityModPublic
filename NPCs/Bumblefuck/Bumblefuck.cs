@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 
 				// Phase switch
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= 30f && Main.netMode != 1)
+				if (npc.ai[1] >= 30f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -422,7 +422,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 
 							npc.TargetClosest(true);
 
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								npc.ai[1] = -1f;
 								npc.ai[2] = -1f;
@@ -512,7 +512,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 							float num1323 = 4f; //4
 							float num1324 = 2f; //2
 
-							if (Main.netMode != 1 && vector208.Length() < 4f)
+							if (Main.netMode != NetmodeID.MultiplayerClient && vector208.Length() < 4f)
 							{
 								int num1325 = 10;
 								if (Main.expertMode)
@@ -624,13 +624,13 @@ namespace CalamityMod.NPCs.Bumblefuck
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 50; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
 				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BumbleHead"), 1f);

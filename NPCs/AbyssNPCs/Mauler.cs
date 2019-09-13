@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				npc.localAI[1] += 1f;
 				npc.localAI[0] += 1f;
-				if (Main.netMode != 1 && npc.localAI[0] >= 30f)
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 30f)
 				{
 					npc.localAI[0] = 0f;
 					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				}
 				if (npc.velocity.Y == 0f)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.velocity.Y = (float)Main.rand.Next(-200, -150) * 0.1f; //50 20
 						npc.velocity.X = (float)Main.rand.Next(-20, 20) * 0.1f; //20 20
@@ -237,7 +237,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			if (hasBeenHit)
 			{
-				if (Main.rand.Next(300) == 0)
+				if (Main.rand.NextBool(300))
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"), (int)npc.position.X, (int)npc.position.Y);
 				}
@@ -252,7 +252,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				for (int k = 0; k < (int)((double)npc.localAI[1] * 0.05); k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 0, default, 1f);
 				}
 			}
 			npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public void BlowUp()
 		{
 			Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 60);
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Vector2 valueBoom = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float spreadBoom = 15f * 0.0174f;
@@ -290,7 +290,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				int damageBoom = (npc.localAI[1] >= 255f ? 200 : 50);
 				for (iBoom = 0; iBoom < 25; iBoom++)
 				{
-					int projectileType = (Main.rand.Next(2) == 0 ? mod.ProjectileType("SulphuricAcidMist") : mod.ProjectileType("SulphuricAcidCannon"));
+					int projectileType = (Main.rand.NextBool(2) ? mod.ProjectileType("SulphuricAcidMist") : mod.ProjectileType("SulphuricAcidCannon"));
 					offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
 					int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
 					int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
@@ -298,9 +298,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			for (int num621 = 0; num621 < 25; num621++)
 			{
-				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -309,10 +309,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			for (int num623 = 0; num623 < 50; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
+				num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity *= 2f;
 				Main.dust[num624].noGravity = true;
 			}
@@ -347,7 +347,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			if (CalamityWorld.downedPolterghast)
 			{
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("SulphuricAcidCannon"));
 				}
@@ -383,13 +383,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 30; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Mauler2"), 1f);

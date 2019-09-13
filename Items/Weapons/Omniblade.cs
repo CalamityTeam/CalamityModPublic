@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				target.AddBuff(mod.BuffType("WhisperingDeath"), 360);
 			}

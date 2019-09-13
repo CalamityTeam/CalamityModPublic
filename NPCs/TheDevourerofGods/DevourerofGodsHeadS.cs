@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				if (laserWallPhase == 0) //start laser wall phase
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						laserWallCounter += 1;
 						if (laserWallCounter >= 720)
@@ -185,9 +185,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				{
 					string key = "Mods.CalamityMod.EdgyBossText11";
 					Color messageColor = Color.Cyan;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 
 					halfLife = true;
@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.velocity.Length();
 
 			// Spawn segments and fire projectiles
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				// Segments
 				if (!tail && npc.ai[0] == 0f)
@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						Vector2 vector44 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num427 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector44.X;
 						float num428 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector44.Y;
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							float num430 = 16f;
 							int num432 = mod.ProjectileType("DoGFire");
@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					{
 						Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
 
-						float targetPosY = Main.player[npc.target].position.Y + (Main.rand.Next(2) == 0 ? 50f : 0f);
+						float targetPosY = Main.player[npc.target].position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
 
 						for (int x = 0; x < totalShots; x++)
 						{
@@ -288,13 +288,13 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 							shotSpacing[0] -= spacingVar; //105
 						}
 
-						if (Main.rand.Next(2) == 0 && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+						if (Main.rand.NextBool(2) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
 						{
 							for (int x = 0; x < 10; x++)
 							{
 								Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 								Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[3] -= (Main.rand.Next(2) == 0 ? 180 : 200);
+								shotSpacing[3] -= (Main.rand.NextBool(2) ? 180 : 200);
 							}
 							shotSpacing[3] = 1050;
 						}
@@ -391,7 +391,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			// Flight
 			if (npc.ai[2] == 0f)
 			{
-				if (Main.netMode != 2)
+				if (Main.netMode != NetmodeID.Server)
 				{
 					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
 						Main.player[Main.myPlayer].AddBuff(mod.BuffType("Warped"), 2);
@@ -612,7 +612,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			// Ground
 			else
 			{
-				if (Main.netMode != 2)
+				if (Main.netMode != NetmodeID.Server)
 				{
 					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, vector) < 5600f)
 						Main.player[Main.myPlayer].AddBuff(mod.BuffType("ExtremeGrav"), 2);
@@ -893,12 +893,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                 string key2 = "Mods.CalamityMod.DoGBossText2";
                 Color messageColor2 = Color.Orange;
 
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     Main.NewText(Language.GetTextValue(key), messageColor);
                     Main.NewText(Language.GetTextValue(key2), messageColor2);
                 }
-                else if (Main.netMode == 2)
+                else if (Main.netMode == NetmodeID.Server)
                 {
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
@@ -980,11 +980,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				string key = "Mods.CalamityMod.EdgyBossText2";
 				Color messageColor = Color.Cyan;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -1019,9 +1019,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 15; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -1029,10 +1029,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 				for (int num623 = 0; num623 < 30; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
@@ -1075,11 +1075,11 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				key = "Mods.CalamityMod.EdgyBossText7";
 			}
 			Color messageColor = Color.Cyan;
-			if (Main.netMode == 0)
+			if (Main.netMode == NetmodeID.SinglePlayer)
 			{
 				Main.NewText(Language.GetTextValue(key), messageColor);
 			}
-			else if (Main.netMode == 2)
+			else if (Main.netMode == NetmodeID.Server)
 			{
 				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}

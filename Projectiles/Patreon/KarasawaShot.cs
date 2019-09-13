@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Patreon
 					Vector2 vector33 = projectile.position;
 					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
 					projectile.alpha = 255;
-					int num448 = Dust.NewDust(vector33, 1, 1, dustTypeOnTimer, 0f, 0f, 0, default(Color), 1f);
+					int num448 = Dust.NewDust(vector33, 1, 1, dustTypeOnTimer, 0f, 0f, 0, default, 1f);
 					Main.dust[num448].noGravity = true;
 					Main.dust[num448].position = vector33;
 					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
@@ -68,8 +68,8 @@ namespace CalamityMod.Projectiles.Patreon
 					{
 						int dustType = (num41 == 0 ? dust1 : dust2);
 						Vector2 value8 = Vector2.UnitX * -12f;
-						value8 = -Vector2.UnitY.RotatedBy((double)(projectile.ai[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7 * 1.5f;
-						int num42 = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default(Color), 1f);
+						value8 = -Vector2.UnitY.RotatedBy((double)(projectile.ai[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7 * 1.5f;
+						int num42 = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default, 1f);
 						Main.dust[num42].scale = 0.75f;
 						Main.dust[num42].noGravity = true;
 						Main.dust[num42].position = projectile.Center + value8;
@@ -89,9 +89,9 @@ namespace CalamityMod.Projectiles.Patreon
 					Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
 					dustVel = dustVel.RotatedBy(-angleRandom);
 					dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-					int randomDustType = (Main.rand.Next(2) == 0 ? dust1 : dust2);
+					int randomDustType = (Main.rand.NextBool(2) ? dust1 : dust2);
 
-					int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default(Color), 1.7f);
+					int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 200, default, 1.7f);
 					Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
 					Main.dust[num54].noGravity = true;
 
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Patreon
 					dust.velocity *= (randomDustType == dust2 ? 2f : 4f);
 					dust = Main.dust[num54];
 
-					num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default(Color), 0.8f);
+					num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 100, default, 0.8f);
 					Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
 
 					dust = Main.dust[num54];
@@ -119,10 +119,10 @@ namespace CalamityMod.Projectiles.Patreon
 					Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
 					dustVel = dustVel.RotatedBy(-angleRandom);
 					dustVel = dustVel.RotatedByRandom(2.0f * angleRandom);
-					int randomDustType = (Main.rand.Next(2) == 0 ? dust1 : dust2);
+					int randomDustType = (Main.rand.NextBool(2) ? dust1 : dust2);
 
-					int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default(Color), 2f);
-					Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2)) * (float)projectile.width / 3f;
+					int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDustType, dustVel.X, dustVel.Y, 0, default, 2f);
+					Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 3f;
 					Main.dust[num56].noGravity = true;
 
 					Dust dust = Main.dust[num56];
@@ -160,16 +160,16 @@ namespace CalamityMod.Projectiles.Patreon
 			for (int num227 = 0; num227 < num226; num227++) // 108 dusts
 			{
 				Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.3f;
-				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default(Vector2)) + projectile.Center;
+				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
 				Vector2 vector7 = vector6 - projectile.Center;
 
-				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (Main.rand.Next(2) == 0 ? dust1 : dust2), vector7.X * 0.3f, vector7.Y * 0.3f, 100, default(Color), 2f);
+				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (Main.rand.NextBool(2) ? dust1 : dust2), vector7.X * 0.3f, vector7.Y * 0.3f, 100, default, 2f);
 				Main.dust[num228].noGravity = true;
 
-				int num229 = Dust.NewDust(vector6 + vector7, 0, 0, (Main.rand.Next(2) == 0 ? dust1 : dust2), vector7.X * 0.2f, vector7.Y * 0.2f, 100, default(Color), 2f);
+				int num229 = Dust.NewDust(vector6 + vector7, 0, 0, (Main.rand.NextBool(2) ? dust1 : dust2), vector7.X * 0.2f, vector7.Y * 0.2f, 100, default, 2f);
 				Main.dust[num229].noGravity = true;
 
-				int num230 = Dust.NewDust(vector6 + vector7, 0, 0, (Main.rand.Next(2) == 0 ? dust1 : dust2), vector7.X * 0.1f, vector7.Y * 0.1f, 100, default(Color), 2f);
+				int num230 = Dust.NewDust(vector6 + vector7, 0, 0, (Main.rand.NextBool(2) ? dust1 : dust2), vector7.X * 0.1f, vector7.Y * 0.1f, 100, default, 2f);
 				Main.dust[num230].noGravity = true;
 			}
 

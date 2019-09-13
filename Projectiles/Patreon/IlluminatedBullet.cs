@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Patreon
                 projectile.alpha = 0;
 
             // Once projectile is visible, spawn trailing sparkles
-            if (projectile.timeLeft <= 298 && Main.rand.Next(5) == 0)
+            if (projectile.timeLeft <= 298 && Main.rand.NextBool(5))
             {
                 int idx = Dust.NewDust(projectile.Center, 1, 1, 228, 0f, 0f);
                 Main.dust[idx].noGravity = true;

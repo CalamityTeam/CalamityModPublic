@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	if (Main.rand.Next(5) == 0)
+        	if (Main.rand.NextBool(5))
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }

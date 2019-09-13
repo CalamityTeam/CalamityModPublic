@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.Enums;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -66,46 +67,45 @@ namespace CalamityMod.Projectiles.Magic
 					{"Leviathan", 15},
 					{"Testdude", 16}
 				};
-				int someNumber;
-				if (LaserHue.TryGetValue(playerName, out someNumber))
-				{
-					switch (someNumber)
-					{
-						case 0:
-						case 1:
-							return 2f;
-						case 2:
-							return 0.83f;
-						case 3:
-							return 1.5f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-						case 4:
-							return 1.27f;
-						case 5:
-							return 0.65f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-						case 6:
-							return 0f;
-						case 7:
-						case 8:
-							return 1.7f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
-						case 9:
-							return 0.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
-						case 10:
-							return 1.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.18f;
-						case 11:
-							return 1.7f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.05f;
-						case 12:
-							return 0.83f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.03f;
-						case 13:
-							return 1.4f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.06f;
-						case 14:
-							return 0.31f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.13f;
-						case 15:
-							return 1.9f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
-						case 16:
-							return Main.rand.NextFloat();
-					}
-				}
-			}
+                if (LaserHue.TryGetValue(playerName, out int someNumber))
+                {
+                    switch (someNumber)
+                    {
+                        case 0:
+                        case 1:
+                            return 2f;
+                        case 2:
+                            return 0.83f;
+                        case 3:
+                            return 1.5f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        case 4:
+                            return 1.27f;
+                        case 5:
+                            return 0.65f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        case 6:
+                            return 0f;
+                        case 7:
+                        case 8:
+                            return 1.7f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
+                        case 9:
+                            return 0.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.07f;
+                        case 10:
+                            return 1.15f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.18f;
+                        case 11:
+                            return 1.7f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.05f;
+                        case 12:
+                            return 0.83f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.03f;
+                        case 13:
+                            return 1.4f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.06f;
+                        case 14:
+                            return 0.31f + (float)Math.Cos(Main.time / 120.0 * 6.2831854820251465) * 0.13f;
+                        case 15:
+                            return 1.9f + (float)Math.Cos(Main.time / 180.0 * 6.2831854820251465) * 0.1f;
+                        case 16:
+                            return Main.rand.NextFloat();
+                    }
+                }
+            }
 			return (float)((int)indexing) / 6f;
 		}
 
@@ -155,12 +155,12 @@ namespace CalamityMod.Projectiles.Magic
 				scaleFactor6 = -2f;
 			}
 			float num814 = (projectile2.ai[0] + num810 * num813) / (num813 * 6f) * 6.28318548f;
-			num811 = Vector2.UnitY.RotatedBy((double)num814, default(Vector2)).Y * 0.5235988f * num812;
-			value37 = (Vector2.UnitY.RotatedBy((double)num814, default(Vector2)) * new Vector2(4f, y)).RotatedBy((double)projectile2.velocity.ToRotation(), default(Vector2));
+			num811 = Vector2.UnitY.RotatedBy((double)num814, default).Y * 0.5235988f * num812;
+			value37 = (Vector2.UnitY.RotatedBy((double)num814, default) * new Vector2(4f, y)).RotatedBy((double)projectile2.velocity.ToRotation(), default);
 			projectile.position = projectile2.Center + value36 * 16f - projectile.Size / 2f + new Vector2(0f, -Main.projectile[(int)projectile.ai[1]].gfxOffY);
 			projectile.position += projectile2.velocity.ToRotation().ToRotationVector2() * scaleFactor6;
 			projectile.position += value37;
-			projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy((double)num811, default(Vector2));
+			projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy((double)num811, default);
 			projectile.scale = 1.8f * (1f - num812);
 			projectile.damage = projectile2.damage;
 			if (projectile2.ai[0] >= 180f)
@@ -227,9 +227,9 @@ namespace CalamityMod.Projectiles.Magic
 					float hue = (x + Main.rand.NextFloat() * 0.4f) % 1f;
 					Main.dust[num846].color = Color.Lerp(color, Main.hslToRgb(2.55f, hue, 0.53f), projectile.scale / 1.4f);
 				}
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.NextBool(5))
 				{
-					Vector2 value42 = projectile.velocity.RotatedBy(1.5707963705062866, default(Vector2)) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
+					Vector2 value42 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
 					int num847 = Dust.NewDust(vector80 + value42 - Vector2.One * 4f, 8, 8, 244, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 5f);
 					Main.dust[num847].velocity *= 0.5f;
 					Main.dust[num847].velocity.Y = -Math.Abs(Main.dust[num847].velocity.Y);
@@ -238,9 +238,9 @@ namespace CalamityMod.Projectiles.Magic
 				float value43 = 0.1f * (float)Math.Sin((double)(Main.GlobalTime * 20f));
 				Vector2 size = new Vector2(projectile.velocity.Length() * projectile.localAI[1], (float)projectile.width * projectile.scale);
 				float num848 = projectile.velocity.ToRotation();
-				if (Main.netMode != 2)
+				if (Main.netMode != NetmodeID.Server)
 				{
-					((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(projectile.position + new Vector2(size.X * 0.5f, 0f).RotatedBy((double)num848, default(Vector2)), new Color(0.5f, 0.1f * (float)Math.Sign(value43) + 0.5f, 0f, 1f) * Math.Abs(value43), size, RippleShape.Square, num848);
+					((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(projectile.position + new Vector2(size.X * 0.5f, 0f).RotatedBy((double)num848, default), new Color(0.5f, 0.1f * (float)Math.Sign(value43) + 0.5f, 0f, 1f) * Math.Abs(value43), size, RippleShape.Square, num848);
 				}
 				Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
 				return;

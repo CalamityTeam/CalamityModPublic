@@ -45,7 +45,7 @@ namespace CalamityMod.Items.SupremeCalamitas
 						if (Main.tile[i, j].type == mod.TileType("ArenaTile"))
 						{
 							WorldGen.KillTile(i, j, false, false, false);
-							if (Main.netMode == 2)
+							if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
 							}

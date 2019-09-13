@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Scavenger
 			}
 			if (Main.npc[CalamityGlobalNPC.scavenger].ai[0] == 1f && Main.npc[CalamityGlobalNPC.scavenger].velocity.Y == 0f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int smash = Projectile.NewProjectile((float)center.X, (float)center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), 35 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[smash].timeLeft = 30;
@@ -137,8 +137,8 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -146,8 +146,8 @@ namespace CalamityMod.NPCs.Scavenger
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight2"), 1f);
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
-					Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

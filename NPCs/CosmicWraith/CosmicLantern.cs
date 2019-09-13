@@ -64,7 +64,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             if (npc.alpha < 0)
             {
                 npc.alpha = 0;
-                int num1262 = Dust.NewDust(npc.position, npc.width, npc.height, 204, 0f, 0f, 0, default(Color), 0.25f);
+                int num1262 = Dust.NewDust(npc.position, npc.width, npc.height, 204, 0f, 0f, 0, default, 0.25f);
                 Main.dust[num1262].velocity *= 0.1f;
                 Main.dust[num1262].noGravity = true;
             }
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 			{
 				for (int k = 0; k < 10; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 204, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 204, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

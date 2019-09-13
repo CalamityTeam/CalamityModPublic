@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
             {
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 107, 0f, 0f, 100, new Color(0, 255, 255));
             }
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons
 			target.AddBuff(BuffID.OnFire, 120);
 			target.AddBuff(BuffID.Ichor, 120);
 			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
-            float xPos = (Main.rand.Next(2) == 0) ? player.position.X + 800 : player.position.X - 800;
+            float xPos = (Main.rand.NextBool(2)) ? player.position.X + 800 : player.position.X - 800;
             Vector2 vector2 = new Vector2(xPos, player.position.Y + Main.rand.Next(-800, 801));
             float num80 = xPos;
             float speedX = (float)target.position.X - vector2.X;

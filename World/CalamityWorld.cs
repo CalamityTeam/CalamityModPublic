@@ -711,11 +711,11 @@ namespace CalamityMod.World
 						{
 							string key = "Mods.CalamityMod.BossRushTierThreeEndText2";
 							Color messageColor = Color.LightCoral;
-							if (Main.netMode == 0)
+							if (Main.netMode == NetmodeID.SinglePlayer)
 							{
 								Main.NewText(Language.GetTextValue(key), messageColor);
 							}
-							else if (Main.netMode == 2)
+							else if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 							}
@@ -724,11 +724,11 @@ namespace CalamityMod.World
 						{
 							string key = "Mods.CalamityMod.BossRushTierFourEndText2";
 							Color messageColor = Color.LightCoral;
-							if (Main.netMode == 0)
+							if (Main.netMode == NetmodeID.SinglePlayer)
 							{
 								Main.NewText(Language.GetTextValue(key), messageColor);
 							}
-							else if (Main.netMode == 2)
+							else if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 							}
@@ -787,7 +787,7 @@ namespace CalamityMod.World
 								}
 							}
 						}
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							Main.PlaySound(SoundID.Roar, Main.player[closestPlayer].position, 0);
 							switch (bossRushStage)
@@ -959,7 +959,7 @@ namespace CalamityMod.World
 				if (bossRushStage != 0)
 				{
 					bossRushStage = 0;
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 					{
 						var netMessage = mod.GetPacket();
 						netMessage.Write((byte)CalamityModMessageType.BossRushStage);
@@ -973,14 +973,14 @@ namespace CalamityMod.World
 			if (DoGSecondStageCountdown > 0) //works
 			{
 				DoGSecondStageCountdown--;
-				if (Main.netMode == 2)
+				if (Main.netMode == NetmodeID.Server)
 				{
 					var netMessage = mod.GetPacket();
 					netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
 					netMessage.Write(DoGSecondStageCountdown);
 					netMessage.Send();
 				}
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (DoGSecondStageCountdown == 21540)
 					{
@@ -1001,11 +1001,11 @@ namespace CalamityMod.World
 							NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("DevourerofGodsHeadS"));
 							string key = "Mods.CalamityMod.EdgyBossText10";
 							Color messageColor = Color.Cyan;
-							if (Main.netMode == 0)
+							if (Main.netMode == NetmodeID.SinglePlayer)
 							{
 								Main.NewText(Language.GetTextValue(key), messageColor);
 							}
-							else if (Main.netMode == 2)
+							else if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 							}
@@ -1016,7 +1016,7 @@ namespace CalamityMod.World
 			#endregion
 			if (Main.player[closestPlayer].ZoneDungeon && !NPC.downedBoss3)
 			{
-				if (!NPC.AnyNPCs(NPCID.DungeonGuardian) && Main.netMode != 1)
+				if (!NPC.AnyNPCs(NPCID.DungeonGuardian) && Main.netMode != NetmodeID.MultiplayerClient)
 					NPC.SpawnOnPlayer(closestPlayer, NPCID.DungeonGuardian); //your hell is as vast as my bonergrin, pray your life ends quickly
 			}
 			if (Main.player[closestPlayer].ZoneRockLayerHeight &&
@@ -1057,7 +1057,7 @@ namespace CalamityMod.World
 					int chance = (int)spawnRate;
 					if (Main.rand.Next(chance) == 0)
 					{
-						if (!NPC.AnyNPCs(mod.NPCType("ArmoredDiggerHead")) && Main.netMode != 1)
+						if (!NPC.AnyNPCs(mod.NPCType("ArmoredDiggerHead")) && Main.netMode != NetmodeID.MultiplayerClient)
 							NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("ArmoredDiggerHead"));
 					}
 				}
@@ -1066,10 +1066,10 @@ namespace CalamityMod.World
 			{
 				if (Main.player[closestPlayer].townNPCs >= 2f)
 				{
-					if (Main.rand.Next(2000) == 0)
+					if (Main.rand.NextBool(2000))
 					{
 						int steamGril = NPC.FindFirstNPC(NPCID.Steampunker);
-						if (steamGril == -1 && Main.netMode != 1)
+						if (steamGril == -1 && Main.netMode != NetmodeID.MultiplayerClient)
 							NPC.SpawnOnPlayer(closestPlayer, NPCID.Steampunker);
 					}
 				}
@@ -1078,19 +1078,19 @@ namespace CalamityMod.World
 			{
 				if (Main.player[closestPlayer].chaosState)
 				{
-					if (!NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")) && Main.netMode != 1)
+					if (!NPC.AnyNPCs(mod.NPCType("EidolonWyrmHeadHuge")) && Main.netMode != NetmodeID.MultiplayerClient)
 						NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("EidolonWyrmHeadHuge"));
 				}
 			}
-			/*if (Main.rand.Next(100000000) == 0)
+			/*if (Main.rand.NextBool(100000000))
 			{
 				string key = "Mods.CalamityMod.AprilFools";
 				Color messageColor = Color.Crimson;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -1100,7 +1100,7 @@ namespace CalamityMod.World
 			{
 				if (bossSpawnCountdown <= 0) //check for countdown being 0
 				{
-					if (Main.rand.Next(50000) == 0)
+					if (Main.rand.NextBool(50000))
 					{
 						if (!NPC.downedBoss1 && bossType == 0) //only set countdown and boss type if conditions are met
 							if (!Main.dayTime && (Main.player[closestPlayer].ZoneOverworldHeight || Main.player[closestPlayer].ZoneSkyHeight))
@@ -1261,7 +1261,7 @@ namespace CalamityMod.World
 									}
 							}
 						}
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							var netMessage = mod.GetPacket();
 							netMessage.Write((byte)CalamityModMessageType.BossSpawnCountdownSync);
@@ -1277,7 +1277,7 @@ namespace CalamityMod.World
 				else
 				{
 					bossSpawnCountdown--;
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 					{
 						var netMessage = mod.GetPacket();
 						netMessage.Write((byte)CalamityModMessageType.BossSpawnCountdownSync);
@@ -1380,7 +1380,7 @@ namespace CalamityMod.World
 								canSpawn = false;
 						}
 
-						if (canSpawn && Main.netMode != 1)
+						if (canSpawn && Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							if (bossType == NPCID.Spazmatism)
 								NPC.SpawnOnPlayer(closestPlayer, NPCID.Retinazer);
@@ -1400,7 +1400,7 @@ namespace CalamityMod.World
 								NPC.SpawnOnPlayer(closestPlayer, bossType);
 						}
 						bossType = 0;
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							var netMessage = mod.GetPacket();
 							netMessage.Write((byte)CalamityModMessageType.BossTypeSync);
@@ -1413,7 +1413,7 @@ namespace CalamityMod.World
 			#endregion
 			if (!NPC.downedBoss3 && revenge)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (Sandstorm.Happening)
 					{
@@ -1422,7 +1422,7 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (revenge)
 				{
@@ -1455,11 +1455,11 @@ namespace CalamityMod.World
 		{
 			string key = "Mods.CalamityMod.BossSpawnText";
 			Color messageColor = Color.Crimson;
-			if (Main.netMode == 0)
+			if (Main.netMode == NetmodeID.SinglePlayer)
 			{
 				Main.NewText(Language.GetTextValue(key), messageColor);
 			}
-			else if (Main.netMode == 2)
+			else if (Main.netMode == NetmodeID.Server)
 			{
 				NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}

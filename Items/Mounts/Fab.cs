@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Mounts
 			mountData.swimFrameCount = mountData.inAirFrameCount;
 			mountData.swimFrameDelay = mountData.inAirFrameDelay;
 			mountData.swimFrameStart = mountData.inAirFrameStart;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
 				mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/FabExtra");
 				mountData.textureWidth = mountData.backTexture.Width;

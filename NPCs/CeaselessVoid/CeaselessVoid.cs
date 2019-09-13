@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				{
 					npc.velocity = new Vector2(0f, -10f);
 					CalamityWorld.DoGSecondStageCountdown = 0;
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 					{
 						var netMessage = mod.GetPacket();
 						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
@@ -190,7 +190,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					}
 				}
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				beamPortal += expertMode ? 2 : 1;
 				beamPortal += shootBoost;
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			}
 			if (npc.life > 0)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.26);
 					if ((float)(npc.life + num660) < bossLife)
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             else if (CalamityWorld.DoGSecondStageCountdown > 14460)
             {
                 CalamityWorld.DoGSecondStageCountdown = 14460;
-                if (Main.netMode == 2)
+                if (Main.netMode == NetmodeID.Server)
                 {
                     var netMessage = mod.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
@@ -376,7 +376,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -388,9 +388,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -398,10 +398,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);

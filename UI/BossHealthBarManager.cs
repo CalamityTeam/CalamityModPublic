@@ -1055,10 +1055,10 @@ namespace CalamityMod.UI
                             continue;
                         }
 
-                        DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, pos, border, 0f, default(Vector2), scale, SpriteEffects.None, 0f);
+                        DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, pos, border, 0f, default, scale, SpriteEffects.None, 0f);
                     }
                 }
-                DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, position, main, 0f, default(Vector2), scale, SpriteEffects.None, 0f);
+                DynamicSpriteFontExtensionMethods.DrawString(sb, font, text, position, main, 0f, default, scale, SpriteEffects.None, 0f);
             }
             private bool IsEoW(int id)
             {

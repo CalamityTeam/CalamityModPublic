@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
@@ -33,7 +34,7 @@ namespace CalamityMod.Tiles
 				if (!NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
 				{
 					WorldGen.KillTile(i, j, false, false, false);
-					if (!Main.tile[i, j].active() && Main.netMode != 0)
+					if (!Main.tile[i, j].active() && Main.netMode != NetmodeID.SinglePlayer)
 					{
 						NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
 					}

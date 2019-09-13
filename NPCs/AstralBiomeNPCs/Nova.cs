@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 Vector2 between = target.Center - npc.Center;
 
                 //after locking target for x amount of time and being far enough away
-                if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.Next(180) == 0)
+                if (between.Length() > 150 && npc.ai[3] >= targetTime && Main.rand.NextBool(180))
                 {
                     //set ai mode to target and travel
                     npc.ai[3] = -1f;
@@ -169,7 +169,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
             Rectangle myRect = npc.getRect();
 
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 for (int i = 0; i < 200; i++)
                 {
@@ -192,20 +192,20 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
             for (int i = 0; i < 45; i++)
             {
-                int dust = Dust.NewDust(npc.Center - off, size, size, mod.DustType("AstralEnemy"), Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f), 0, default(Color), Main.rand.NextFloat(1f, 2f));
+                int dust = Dust.NewDust(npc.Center - off, size, size, mod.DustType("AstralEnemy"), Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f), 0, default, Main.rand.NextFloat(1f, 2f));
                 Main.dust[dust].velocity *= 1.4f;
             }
             for (int i = 0; i < 15; i++)
             {
-                int dust = Dust.NewDust(npc.Center - off, size, size, 31, 0f, 0f, 100, default(Color), 1.7f);
+                int dust = Dust.NewDust(npc.Center - off, size, size, 31, 0f, 0f, 100, default, 1.7f);
                 Main.dust[dust].velocity *= 1.4f;
             }
             for (int i = 0; i < 27; i++)
             {
-                int dust = Dust.NewDust(npc.Center - off, size, size, 6, 0f, 0f, 100, default(Color), 2.4f);
+                int dust = Dust.NewDust(npc.Center - off, size, size, 6, 0f, 0f, 100, default, 2.4f);
                 Main.dust[dust].noGravity = true;
                 Main.dust[dust].velocity *= 5f;
-                dust = Dust.NewDust(npc.Center - off, size, size, 6, 0f, 0f, 100, default(Color), 1.6f);
+                dust = Dust.NewDust(npc.Center - off, size, size, 6, 0f, 0f, 100, default, 1.6f);
                 Main.dust[dust].velocity *= 3f;
             }
         }
@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-            if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
+            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StellarCannon"));
             }

@@ -36,7 +36,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
 			int lifeAmount = player.statLifeMax2 - player.statLife;
-			flat += lifeAmount * 0.2f * CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage;
+			flat += lifeAmount * 0.2f * player.GetCalamityPlayer().throwingDamage;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

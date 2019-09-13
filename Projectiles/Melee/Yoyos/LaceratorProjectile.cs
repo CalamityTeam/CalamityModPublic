@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				return;
 			}
 			Player player = Main.player[projectile.owner];
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				player.statLife += 1;
 				player.HealEffect(1);

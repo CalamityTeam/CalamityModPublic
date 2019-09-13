@@ -41,9 +41,9 @@ namespace CalamityMod.Projectiles.Summon
 			{
 			   projectile.frame = 0;
 			}
-            if (Main.rand.Next(8) == 0)
+            if (Main.rand.NextBool(8))
             {
-                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
+                Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default);
                 int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.2f);
                 Main.dust[num59].noGravity = true;
                 Main.dust[num59].velocity = value3 * 0.66f;

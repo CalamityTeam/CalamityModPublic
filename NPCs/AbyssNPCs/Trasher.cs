@@ -346,20 +346,20 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void NPCLoot()
 		{
-			if (!NPC.savedAngler && !NPC.AnyNPCs(NPCID.Angler) && !NPC.AnyNPCs(NPCID.SleepingAngler) && Main.netMode != 1)
+			if (!NPC.savedAngler && !NPC.AnyNPCs(NPCID.Angler) && !NPC.AnyNPCs(NPCID.SleepingAngler) && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Angler, 0, 0f, 0f, 0f, 0f, 255);
 				NPC.savedAngler = true;
 			}
-			if (Main.rand.Next(25) == 0)
+			if (Main.rand.NextBool(25))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DivingHelmet);
 			}
-			if (Main.rand.Next(20) == 0)
+			if (Main.rand.NextBool(20))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TrashmanTrashcan"));
 			}
-			if (Main.rand.Next(10) == 0 && Main.hardMode)
+			if (Main.rand.NextBool(10) && Main.hardMode)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gatligator);
 			}
@@ -369,13 +369,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 25; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trasher"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Trasher2"), 1f);

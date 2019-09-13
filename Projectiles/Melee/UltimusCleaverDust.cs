@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Melee
 			Main.dust[num199].noGravity = true;
 			Dust expr_89E7_cp_0 = Main.dust[num199];
 			expr_89E7_cp_0.velocity.Y = expr_89E7_cp_0.velocity.Y - 2f;
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
 				Dust expr_8A4E_cp_0 = Main.dust[num200];

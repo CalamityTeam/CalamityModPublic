@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				{
 					if (Main.rand.Next(3) < 1)
 					{
-						int num1012 = Dust.NewDust(npc.Center - new Vector2(70f), 70 * 2, 70 * 2, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+						int num1012 = Dust.NewDust(npc.Center - new Vector2(70f), 70 * 2, 70 * 2, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
 						Main.dust[num1012].noGravity = true;
 						Main.dust[num1012].velocity *= 0.2f;
 						Main.dust[num1012].fadeIn = 1f;
@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 			if (Vector2.Distance(player.Center, vectorCenter) > 6400f)
 			{
 				CalamityWorld.DoGSecondStageCountdown = 0;
-				if (Main.netMode == 2)
+				if (Main.netMode == NetmodeID.Server)
 				{
 					var netMessage = mod.GetPacket();
 					netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				CosmicCountdown--;
 				if (CosmicCountdown == 0)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int speed2 = revenge ? 13 : 12;
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 			if (npc.ai[0] == 0f)
 			{
 				npc.chaseable = true;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (npc.localAI[1] >= 120f)
@@ -272,12 +272,12 @@ namespace CalamityMod.NPCs.CosmicWraith
 							int min = 20;
 							int max = 23;
 
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 								num1250 += Main.rand.Next(min, max);
 							else
 								num1250 -= Main.rand.Next(min, max);
 
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 								num1251 += Main.rand.Next(min, max);
 							else
 								num1251 -= Main.rand.Next(min, max);
@@ -317,32 +317,32 @@ namespace CalamityMod.NPCs.CosmicWraith
 				if (npc.alpha <= lifeToAlpha)
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
-					if (Main.netMode != 1 && revenge)
+					if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
 					{
 						int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
 						}
 						int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
 						}
 						for (int num621 = 0; num621 < 5; num621++)
 						{
-							int num622 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X + 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+							int num622 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X + 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 							Main.dust[num622].velocity *= 3f;
 							Main.dust[num622].noGravity = true;
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								Main.dust[num622].scale = 0.5f;
 								Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 							}
-							int num623 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X - 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+							int num623 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X - 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 							Main.dust[num623].velocity *= 3f;
 							Main.dust[num623].noGravity = true;
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								Main.dust[num623].scale = 0.5f;
 								Main.dust[num623].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -350,15 +350,15 @@ namespace CalamityMod.NPCs.CosmicWraith
 						}
 						for (int num623 = 0; num623 < 20; num623++)
 						{
-							int num624 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X + 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+							int num624 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X + 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
 							Main.dust[num624].noGravity = true;
 							Main.dust[num624].velocity *= 5f;
-							num624 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X + 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+							num624 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X + 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 							Main.dust[num624].velocity *= 2f;
-							int num625 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X - 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+							int num625 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X - 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
 							Main.dust[num625].noGravity = true;
 							Main.dust[num625].velocity *= 5f;
-							num625 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X - 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+							num625 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X - 750f, Main.player[npc.target].position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 							Main.dust[num625].velocity *= 2f;
 						}
 					}
@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				}
 				if (flag104)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num1070 = 15f; //changed from 10
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -503,19 +503,19 @@ namespace CalamityMod.NPCs.CosmicWraith
 			{
 				npc.dontTakeDamage = false;
 				npc.chaseable = true;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (NPC.CountNPCS(mod.NPCType("CosmicLantern")) < 5)
 					{
 						for (int x = 0; x < 5; x++)
 						{
 							int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
-							if (Main.netMode == 2)
+							if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
 							}
 							int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
-							if (Main.netMode == 2)
+							if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
 							}
@@ -599,7 +599,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				}
 				else if (chargeSwitch == 2) //charging
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						dustTimer--;
 						if (cosmicDust && dustTimer <= 0)
@@ -785,7 +785,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             if (CalamityWorld.DoGSecondStageCountdown > 600)
             {
                 CalamityWorld.DoGSecondStageCountdown = 600;
-                if (Main.netMode == 2)
+                if (Main.netMode == NetmodeID.Server)
                 {
                     var netMessage = mod.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
@@ -809,7 +809,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -821,9 +821,9 @@ namespace CalamityMod.NPCs.CosmicWraith
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -831,10 +831,10 @@ namespace CalamityMod.NPCs.CosmicWraith
 				}
 				for (int num623 = 0; num623 < 60; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);

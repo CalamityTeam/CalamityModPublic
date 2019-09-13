@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Patreon
 				for (int i = 0; i < 5; ++i)
 				{
 					pos -= projectile.velocity * ((float)i * 0.25f);
-					int idx = Dust.NewDust(pos, 1, 1, 158, 0f, 0f, 0, default(Color), 1f);
+					int idx = Dust.NewDust(pos, 1, 1, 158, 0f, 0f, 0, default, 1f);
 					Main.dust[idx].noGravity = true;
 					Main.dust[idx].position = pos;
 					Main.dust[idx].scale = (float)Main.rand.Next(70, 110) * 0.013f;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Patreon
 					float scale = Main.rand.NextFloat(0.5f, 1.6f);
 
 					// Actually spawn the smoke
-					int idx = Dust.NewDust(pos, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default(Color), scale);
+					int idx = Dust.NewDust(pos, 1, 1, dustID, dustVel.X, dustVel.Y, 0, default, scale);
 					Main.dust[idx].noGravity = true;
 					Main.dust[idx].position = pos;
 				}
@@ -103,9 +103,9 @@ namespace CalamityMod.Projectiles.Patreon
 			Vector2 corner = new Vector2(projectile.position.X, projectile.position.Y);
 			for (int i = 0; i < 40; i++)
 			{
-				int idx = Dust.NewDust(corner, projectile.width, projectile.height, 31, 0f, 0f, 100, default(Color), 2f);
+				int idx = Dust.NewDust(corner, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
 				Main.dust[idx].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Main.dust[idx].scale = 0.5f;
 					Main.dust[idx].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -113,10 +113,10 @@ namespace CalamityMod.Projectiles.Patreon
 			}
 			for (int i = 0; i < 70; i++)
 			{
-				int idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3f);
+				int idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
 				Main.dust[idx].noGravity = true;
 				Main.dust[idx].velocity *= 5f;
-				idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 2f);
+				idx = Dust.NewDust(corner, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
 				Main.dust[idx].velocity *= 2f;
 			}
 
@@ -133,22 +133,22 @@ namespace CalamityMod.Projectiles.Patreon
 				{
 					smokeScale = 1f;
 				}
-				int idx = Gore.NewGore(goreVec, default(Vector2), Main.rand.Next(61, 64), 1f);
+				int idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
 				Main.gore[idx].velocity *= smokeScale;
 				Main.gore[idx].velocity.X += 1f;
 				Main.gore[idx].velocity.Y += 1f;
 
-				idx = Gore.NewGore(goreVec, default(Vector2), Main.rand.Next(61, 64), 1f);
+				idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
 				Main.gore[idx].velocity *= smokeScale;
 				Main.gore[idx].velocity.X -= 1f;
 				Main.gore[idx].velocity.Y += 1f;
 
-				idx = Gore.NewGore(goreVec, default(Vector2), Main.rand.Next(61, 64), 1f);
+				idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
 				Main.gore[idx].velocity *= smokeScale;
 				Main.gore[idx].velocity.X += 1f;
 				Main.gore[idx].velocity.Y -= 1f;
 
-				idx = Gore.NewGore(goreVec, default(Vector2), Main.rand.Next(61, 64), 1f);
+				idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
 				Main.gore[idx].velocity *= smokeScale;
 				Main.gore[idx].velocity.X -= 1f;
 				Main.gore[idx].velocity.Y -= 1f;

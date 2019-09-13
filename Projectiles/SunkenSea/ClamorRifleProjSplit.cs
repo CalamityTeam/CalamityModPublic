@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			for (int num151 = 0; num151 < 3; num151++)
 			{
 				int num154 = 14;
-				int num155 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 68, 0f, 0f, 100, default(Color), 1f);
+				int num155 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 68, 0f, 0f, 100, default, 1f);
 				Main.dust[num155].noGravity = true;
 				Main.dust[num155].velocity *= 0.1f;
 				Main.dust[num155].velocity += projectile.velocity * 0.5f;

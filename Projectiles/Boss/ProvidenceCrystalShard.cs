@@ -80,9 +80,9 @@ namespace CalamityMod.Projectiles.Boss
 			int num3;
 			for (int num979 = 0; num979 < 2; num979 = num3 + 1)
 			{
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
-					Vector2 value55 = Vector2.UnitY.RotatedBy((double)((float)num979 * 3.14159274f), default(Vector2)).RotatedBy((double)projectile.rotation, default(Vector2));
+					Vector2 value55 = Vector2.UnitY.RotatedBy((double)((float)num979 * 3.14159274f), default).RotatedBy((double)projectile.rotation, default);
 					Dust dust24 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
 					dust24.noGravity = true;
 					dust24.noLight = true;
@@ -94,9 +94,9 @@ namespace CalamityMod.Projectiles.Boss
 			}
 			for (int num980 = 0; num980 < 2; num980 = num3 + 1)
 			{
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
-					Vector2 value56 = Vector2.UnitY.RotatedBy((double)((float)num980 * 3.14159274f), default(Vector2));
+					Vector2 value56 = Vector2.UnitY.RotatedBy((double)((float)num980 * 3.14159274f), default);
 					Dust dust25 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
 					dust25.noGravity = true;
 					dust25.noLight = true;
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
 				}
 				num3 = num980;
 			}
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 			{
 				float scaleFactor13 = 1f + Main.rand.NextFloat() * 2f;
 				float fadeIn = 1f + Main.rand.NextFloat();
@@ -160,7 +160,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				int num71 = Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
 				Main.dust[num71].position = projectile.Center;
-				Main.dust[num71].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num70 / num69), default(Vector2)) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+				Main.dust[num71].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num70 / num69), default) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
 				Main.dust[num71].noGravity = true;
 				Main.dust[num71].scale = 2f;
 				Main.dust[num71].fadeIn = Main.rand.NextFloat() * 2f;
@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				int num74 = Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
 				Main.dust[num74].position = projectile.Center;
-				Main.dust[num74].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num73 / num69), default(Vector2)) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+				Main.dust[num74].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num73 / num69), default) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
 				Dust dust = Main.dust[num74];
 				dust.velocity *= Main.rand.NextFloat() * 0.8f;
 				Main.dust[num74].noGravity = true;

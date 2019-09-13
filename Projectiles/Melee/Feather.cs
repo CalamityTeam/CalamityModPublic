@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
 			int num3;
 			for (int num611 = 0; num611 < 10; num611 = num3 + 1)
 			{
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 42, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 1f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 42, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 1f);
 				num3 = num611;
 			}
 		}

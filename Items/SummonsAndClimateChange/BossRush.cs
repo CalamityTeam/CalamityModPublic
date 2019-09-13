@@ -45,11 +45,11 @@ namespace CalamityMod.Items.SummonsAndClimateChange
                 CalamityWorld.bossRushActive = true;
                 string key = "Mods.CalamityMod.BossRushStartText";
                 Color messageColor = Color.LightCoral;
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     Main.NewText(Language.GetTextValue(key), messageColor);
                 }
-                else if (Main.netMode == 2)
+                else if (Main.netMode == NetmodeID.Server)
                 {
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.SummonsAndClimateChange
             }
 
             CalamityMod.UpdateServerBoolean();
-            if (Main.netMode == 2)
+            if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.BossRushStage);

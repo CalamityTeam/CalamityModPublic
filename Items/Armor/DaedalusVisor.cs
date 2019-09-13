@@ -52,14 +52,14 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
             modPlayer.daedalusSplit = true;
 			modPlayer.rogueStealthMax = 1.1f;
-			CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.05f;
+			player.GetCalamityPlayer().throwingDamage += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingVelocity += 0.15f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.13f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 7;
+            player.GetCalamityPlayer().throwingVelocity += 0.15f;
+            player.GetCalamityPlayer().throwingDamage += 0.13f;
+            player.GetCalamityPlayer().throwingCrit += 7;
 			player.moveSpeed += 0.17f;
         }
 

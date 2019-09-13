@@ -152,7 +152,7 @@ namespace CalamityMod.NPCs.Scavenger
                 playerDistanceY *= totalPlayerDistance;
                 int nukeDamage = Main.expertMode ? 40 : 60;
                 int projectileType = mod.ProjectileType("ScavengerNuke");
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int nuke = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                 }
@@ -174,7 +174,7 @@ namespace CalamityMod.NPCs.Scavenger
 			{
 				npc.localAI[1] += 1f;
 			}
-			if (Main.netMode != 1 && npc.localAI[0] >= 900f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 900f)
 			{
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -189,7 +189,7 @@ namespace CalamityMod.NPCs.Scavenger
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 				}
 			}
-			if (Main.netMode != 1 && npc.localAI[1] >= 30f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] >= 30f)
 			{
 				npc.localAI[1] = 0f;
 				if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -268,8 +268,8 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
-				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -278,8 +278,8 @@ namespace CalamityMod.NPCs.Scavenger
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerHead3"), 1f);
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
-					Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

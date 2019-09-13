@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.velocity.Y = npc.velocity.Y - num2;
             }
             npc.localAI[0] += 1f;
-            if (Main.netMode != 1 && npc.localAI[0] >= 150f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 150f)
             {
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
             player.AddBuff(BuffID.Frostburn, 300, true);
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 player.AddBuff(mod.BuffType("GlacialState"), 30, true);
             }
@@ -256,13 +256,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 15; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}
@@ -270,11 +270,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrostBarrier"));
             }
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientIceChunk"));
             }

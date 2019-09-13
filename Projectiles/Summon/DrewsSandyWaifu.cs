@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
 				int num501 = 50;
 				for (int num502 = 0; num502 < num501; num502++)
 				{
-					int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 32, 0f, 0f, 0, default(Color), 1f);
+					int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 32, 0f, 0f, 0, default, 1f);
 					Main.dust[num503].velocity *= 2f;
 					Main.dust[num503].scale *= 1.15f;
 				}
@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Summon
 						for (int num227 = 0; num227 < num226; num227++)
 						{
 							Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-							vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default(Vector2)) + projectile.Center;
+							vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
 							Vector2 vector7 = vector6 - projectile.Center;
 							int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 107, vector7.X * 1.5f, vector7.Y * 1.5f, 100, new Color(0, 200, 0), 1f);
 							Main.dust[num228].noGravity = true;

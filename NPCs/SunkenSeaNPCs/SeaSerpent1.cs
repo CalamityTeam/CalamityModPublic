@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 				npc.TargetClosest(true);
 			}
 			npc.velocity.Length();
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (!TailSpawned && npc.ai[0] == 0f)
 				{
@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Serpentine"));
 			}
@@ -335,13 +335,13 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 10; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SeaSerpent/SeaSerpentGore1"), 1f);
 			}
@@ -349,14 +349,14 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override bool CheckActive()
 		{
-			if (npc.timeLeft <= 0 && Main.netMode != 1)
+			if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
 				{
 					if (Main.npc[k].active)
 					{
 						Main.npc[k].active = false;
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							Main.npc[k].life = 0;
 							Main.npc[k].netSkip = -1;

@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Summon
 			Microsoft.Xna.Framework.Rectangle rectangle9 = texture2D23.Frame(1, 1, 0, 0);
 			Vector2 origin3 = rectangle9.Size() / 2f;
 			float num233 = -0.06283186f * num229;
-			Vector2 spinningpoint2 = Vector2.UnitY.RotatedBy((double)(num229 * 0.1f), default(Vector2));
+			Vector2 spinningpoint2 = Vector2.UnitY.RotatedBy((double)(num229 * 0.1f), default);
 			float num234 = 0f;
 			float num235 = 5.1f;
 			Microsoft.Xna.Framework.Color value34 = new Microsoft.Xna.Framework.Color(225, 225, 100);
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Summon
 				float num237 = num234 / vector33.Y;
 				float num238 = num234 * 6.28318548f / -20f;
 				float num239 = num237 - 0.15f;
-				Vector2 vector34 = spinningpoint2.RotatedBy((double)num238, default(Vector2));
+				Vector2 vector34 = spinningpoint2.RotatedBy((double)num238, default);
 				Vector2 value35 = new Vector2(0f, num237 + 1f);
 				value35.X = value35.Y * num232;
 				Microsoft.Xna.Framework.Color color39 = Microsoft.Xna.Framework.Color.Lerp(Microsoft.Xna.Framework.Color.Transparent, value34, num237 * 2f);

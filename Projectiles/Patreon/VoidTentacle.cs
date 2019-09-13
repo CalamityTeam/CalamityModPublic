@@ -74,8 +74,8 @@ namespace CalamityMod.Projectiles.Patreon
 				int i = 0;
 				while (i < projectile.scale * 4f)
 				{
-					int dustID = Main.rand.Next(5) == 0 ? 199 : 175;
-					int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustID, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1.1f);
+					int dustID = Main.rand.NextBool(5) ? 199 : 175;
+					int idx = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustID, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.1f);
 					Main.dust[idx].position = (Main.dust[idx].position + projectile.Center) / 2f;
 					Main.dust[idx].noGravity = true;
 					Main.dust[idx].velocity *= 0.1f;

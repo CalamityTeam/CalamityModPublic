@@ -40,11 +40,11 @@ namespace CalamityMod.Projectiles.Ranged
 						num247 = projectile.velocity.X * 0.5f;
 						num248 = projectile.velocity.Y * 0.5f;
 					}
-					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 109, 0f, 0f, 100, default(Color), 0.5f);
+					int num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 109, 0f, 0f, 100, default, 0.5f);
 					Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
 					Main.dust[num249].velocity *= 0.2f;
 					Main.dust[num249].noGravity = true;
-					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 159, 0f, 0f, 100, default(Color), 0.25f);
+					num249 = Dust.NewDust(new Vector2(projectile.position.X + 3f + num247, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 159, 0f, 0f, 100, default, 0.25f);
 					Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
 					Main.dust[num249].velocity *= 0.05f;
 				}

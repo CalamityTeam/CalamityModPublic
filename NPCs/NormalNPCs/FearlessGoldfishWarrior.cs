@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 							npc.ai[1] = 10f;
 						}
 						WorldGen.KillTile(num170, num171 - 1, true, false, false);
-						if ((Main.netMode != 1 || !flag23) && flag23 && Main.netMode != 1)
+						if ((Main.netMode != NetmodeID.MultiplayerClient || !flag23) && flag23 && Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							if (Main.tile[num170, num171 - 1].type == 10)
 							{
@@ -285,7 +285,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 									npc.ai[3] = (float)num35;
 									npc.netUpdate = true;
 								}
-								if (Main.netMode == 2 & flag24)
+								if (Main.netMode == NetmodeID.Server & flag24)
 								{
 									NetMessage.SendData(19, -1, -1, null, 0, (float)num170, (float)(num171 - 1), (float)npc.direction, 0, 0, 0);
 								}
@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 									npc.ai[3] = (float)num35;
 									npc.netUpdate = true;
 								}
-								if (Main.netMode == 2 & flag25)
+								if (Main.netMode == NetmodeID.Server & flag25)
 								{
 									NetMessage.SendData(19, -1, -1, null, 4, (float)num170, (float)(num171 - 1), 0f, 0, 0, 0);
 								}
@@ -421,13 +421,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

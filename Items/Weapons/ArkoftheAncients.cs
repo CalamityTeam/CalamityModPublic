@@ -117,7 +117,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				int dustType = 15;
 				switch (Main.rand.Next(3))
@@ -134,14 +134,14 @@ namespace CalamityMod.Items.Weapons
 					default:
 						break;
 				}
-				int dust = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, dustType, (float)(player.direction * 2), 0f, 150, default(Color), 1.3f);
+				int dust = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, dustType, (float)(player.direction * 2), 0f, 150, default, 1.3f);
 				Main.dust[dust].velocity *= 0.2f;
 			}
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				target.AddBuff(mod.BuffType("HolyLight"), 300);
 			}

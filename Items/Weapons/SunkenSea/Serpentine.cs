@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
 			float num72 = item.shootSpeed;
 			player.itemTime = item.useTime;
 			Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-			Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default(Vector2));
+			Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
 			Vector2 vector3 = Main.MouseWorld - vector2;
 			float velX = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
 			float velY = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

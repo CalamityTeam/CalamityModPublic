@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
                         swingYeet = false;
 
-                        if (Main.rand.Next(1000) == 0) //Launch the player very fast very rarely
+                        if (Main.rand.NextBool(1000)) //Launch the player very fast very rarely
                         {
                             horMult = 12f;
                             verMult = 2.3f;
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             }
             else
             {
-                idle_impulseWalk = idle_counter > 100 && Main.rand.Next(400) == 0; //try to impulse
+                idle_impulseWalk = idle_counter > 100 && Main.rand.NextBool(400); //try to impulse
                 if (idle_impulseWalk) //if we've just decided to stroll
                 {
                     idle_counter = 0;
@@ -548,13 +548,13 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
             //draw actual sprite
             spriteBatch.Draw(Main.npcTexture[npc.type], position, npc.frame,
-                drawColor, 0f, default(Vector2), 1f, //color, rotation, origin, scale
+                drawColor, 0f, default, 1f, //color, rotation, origin, scale
                 effect, 0f); //effect, drawlayer
 
             //draw glowmask
             spriteBatch.Draw(
                 glowmask, position, npc.frame,
-                Color.White * 0.65f, 0f, default(Vector2), 1f, //color, rotation, origin, scale
+                Color.White * 0.65f, 0f, default, 1f, //color, rotation, origin, scale
                 effect, 0f); //effect, drawlayer
 
             return false;
@@ -619,7 +619,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-            if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
+            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TitanArm"));
             }

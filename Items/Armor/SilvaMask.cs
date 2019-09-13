@@ -55,8 +55,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage += 0.13f;
-            CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 13;
+            player.GetCalamityPlayer().throwingDamage += 0.13f;
+            player.GetCalamityPlayer().throwingCrit += 13;
 			player.moveSpeed += 0.2f;
         }
 

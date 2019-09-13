@@ -56,15 +56,15 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
-				if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("PerforatorHive")) < 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("PerforatorHive")) < 1)
 				{
 					Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
 					NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("PerforatorHive"));

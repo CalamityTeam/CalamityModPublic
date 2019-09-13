@@ -197,7 +197,7 @@ namespace CalamityMod.Projectiles.Pets
 							idleTimer = 0;
 						}
 						idleBarkTimer++;
-						if (idleBarkTimer > 1080 && Main.rand.Next(2) == 0)
+						if (idleBarkTimer > 1080 && Main.rand.NextBool(2))
 						{
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/KendraBark"), (int)projectile.position.X, (int)projectile.position.Y);
 							chosenIdle = 3;

@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.direction = Main.player[projectile.owner].direction;
             }
-            if (projectile.alpha == 0 && Main.rand.Next(15) == 0)
+            if (projectile.alpha == 0 && Main.rand.NextBool(15))
             {
                 Dust dust34 = Main.dust[Dust.NewDust(projectile.Top, 0, 0, 267, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1f)];
                 dust34.velocity.X = 0f;
@@ -225,7 +225,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 arg_F8CE_0 = vector59;
                 Vector2 arg_F8BE_0 = Vector2.UnitY;
                 double arg_F8BE_1 = (double)(num286 * 1.57079637f);
-                Vector2 center = default(Vector2);
+                Vector2 center = default;
                 arg_F907_0.Draw(arg_F907_1, arg_F8CE_0 + arg_F8BE_0.RotatedBy(arg_F8BE_1, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
             }
             return false;

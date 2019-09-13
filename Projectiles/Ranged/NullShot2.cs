@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 else
                 {
-                    target.velocity.X = (Main.rand.Next(2) == 0 ? 30f : -30f);
+                    target.velocity.X = (Main.rand.NextBool(2) ? 30f : -30f);
                 }
             }
         }

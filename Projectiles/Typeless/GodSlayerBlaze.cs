@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
 			projectile.ai[0] += 4f;
 			int num462 = 0;
 			float scale = 0.7f;
-			int dustType = (Main.rand.Next(2) == 0 ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
+			int dustType = (Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
 			if (projectile.ai[1] == 0f)
 			{
 				scale = 1.5f;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Typeless
 				num466 = num465 / num466;
 				num463 *= num466;
 				num464 *= num466;
-				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default(Color), scale);
+				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, scale);
 				if (dustType != 173)
 					Main.dust[num467].color = new Color(255, 255, 255, 0);
 				Main.dust[num467].noGravity = true;

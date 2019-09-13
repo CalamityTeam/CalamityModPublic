@@ -65,11 +65,11 @@ namespace CalamityMod.Items.DifficultyItems
 				CalamityWorld.revenge = true;
 				string key = "Mods.CalamityMod.RevengeText";
 				Color messageColor = Color.Crimson;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -81,11 +81,11 @@ namespace CalamityMod.Items.DifficultyItems
 				CalamityWorld.revenge = false;
 				string key = "Mods.CalamityMod.RevengeText2";
 				Color messageColor = Color.Crimson;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -95,11 +95,11 @@ namespace CalamityMod.Items.DifficultyItems
 					CalamityWorld.death = false;
 					key = "Mods.CalamityMod.DeathText2";
 					messageColor = Color.Crimson;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -109,11 +109,11 @@ namespace CalamityMod.Items.DifficultyItems
 					CalamityWorld.defiled = false;
 					key = "Mods.CalamityMod.DefiledText2";
 					messageColor = Color.DarkSeaGreen;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}

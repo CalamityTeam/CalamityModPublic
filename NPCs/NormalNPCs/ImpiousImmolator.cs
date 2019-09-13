@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 						npc.velocity.Y = -12f;
 					}
 					npc.localAI[0] += 1f;
-					if (Main.netMode != 1 && npc.localAI[0] >= 90f)
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 90f)
 					{
 						npc.localAI[0] = 0f;
 						if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -267,7 +267,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("UnholyEssence"), Main.rand.Next(2, 5));
-			if (Main.rand.Next(15) == 0)
+			if (Main.rand.NextBool(15))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EnergyStaff"));
 			}
@@ -277,13 +277,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 25; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

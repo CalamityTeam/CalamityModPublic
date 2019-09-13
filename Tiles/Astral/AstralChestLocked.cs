@@ -128,7 +128,7 @@ namespace CalamityMod.Tiles.Astral
 			}
 
 			bool isLocked = IsLockedChest(left, top);
-			if (Main.netMode == 1 && !isLocked)
+			if (Main.netMode == NetmodeID.MultiplayerClient && !isLocked)
 			{
 				if (left == player.chestX && top == player.chestY && player.chest >= 0)
 				{
@@ -148,7 +148,7 @@ namespace CalamityMod.Tiles.Astral
 				{
 					if (Chest.Unlock(left, top))
 					{
-						if (Main.netMode == 1)
+						if (Main.netMode == NetmodeID.MultiplayerClient)
 							NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, (float)left, (float)top);
 					}
 				}

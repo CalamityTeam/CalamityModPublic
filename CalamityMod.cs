@@ -64,6 +64,7 @@ namespace CalamityMod
 		public static List<int> dungeonEnemyBuffList;
 		public static List<int> dungeonProjectileBuffList;
 		public static List<int> bossScaleList;
+        public static List<int> bossHPScaleList;
 		public static List<int> beeEnemyList;
 		public static List<int> beeProjectileList;
 		public static List<int> hardModeNerfList;
@@ -85,6 +86,7 @@ namespace CalamityMod
 		public static List<int> eventProjectileBuffList;
 		public static List<int> revengeanceEnemyBuffList;
 		public static List<int> revengeanceProjectileBuffList;
+        public static List<int> revengeanceLifeStealExceptionList;
 		public static List<int> trapProjectileList;
 		public static List<int> scopedWeaponList;
 		public static List<int> trueMeleeBoostExceptionList;
@@ -219,6 +221,7 @@ namespace CalamityMod
 			dungeonEnemyBuffList = null;
 			dungeonProjectileBuffList = null;
 			bossScaleList = null;
+            bossHPScaleList = null;
 			beeEnemyList = null;
 			beeProjectileList = null;
 			hardModeNerfList = null;
@@ -239,7 +242,8 @@ namespace CalamityMod
 			eventProjectileBuffList = null;
 			revengeanceEnemyBuffList = null;
 			revengeanceProjectileBuffList = null;
-			trapProjectileList = null;
+            revengeanceLifeStealExceptionList = null;
+            trapProjectileList = null;
 			scopedWeaponList = null;
 			trueMeleeBoostExceptionList = null;
 
@@ -529,7 +533,27 @@ namespace CalamityMod
 					NPCID.GolemHead
 				};
 
-				beeEnemyList = new List<int>()
+                bossHPScaleList = new List<int>()
+                {
+                    NPCID.EaterofWorldsHead,
+                    NPCID.EaterofWorldsBody,
+                    NPCID.EaterofWorldsTail,
+                    NPCID.SkeletronHand,
+                    NPCID.WallofFleshEye,
+                    NPCID.TheDestroyerBody,
+                    NPCID.TheDestroyerTail,
+                    NPCID.PrimeCannon,
+                    NPCID.PrimeLaser,
+                    NPCID.PrimeVice,
+                    NPCID.PrimeSaw,
+                    NPCID.GolemHead,
+                    NPCID.GolemFistRight,
+                    NPCID.GolemFistLeft,
+                    NPCID.MoonLordHead,
+                    NPCID.MoonLordHand
+                };
+
+                beeEnemyList = new List<int>()
 				{
 					NPCID.GiantMossHornet,
 					NPCID.BigMossHornet,
@@ -1262,7 +1286,36 @@ namespace CalamityMod
 					calamity.ProjectileType("SporeGasPlantera3")
 				};
 
-				trapProjectileList = new List<int>()
+                revengeanceLifeStealExceptionList = new List<int>()
+                {
+                    NPCID.Probe,
+                    NPCID.MoonLordFreeEye,
+                    NPCID.CultistDragonHead,
+                    NPCID.CultistDragonBody1,
+                    NPCID.CultistDragonBody2,
+                    NPCID.CultistDragonBody3,
+                    NPCID.CultistDragonBody4,
+                    NPCID.CultistDragonTail,
+                    NPCID.Sharkron,
+                    NPCID.Sharkron2,
+                    NPCID.PlanterasTentacle,
+                    NPCID.Spore,
+                    NPCID.TheHungryII,
+                    NPCID.LeechHead,
+                    NPCID.LeechBody,
+                    NPCID.LeechTail,
+                    NPCID.TheDestroyerBody,
+                    NPCID.TheDestroyerTail,
+                    NPCID.EaterofWorldsBody,
+                    NPCID.EaterofWorldsTail,
+                    NPCID.GolemHead,
+                    NPCID.GolemFistRight,
+                    NPCID.GolemFistLeft,
+                    NPCID.MoonLordCore
+                };
+
+
+                trapProjectileList = new List<int>()
 				{
 					ProjectileID.PoisonDartTrap,
 					ProjectileID.SpikyBallTrap,
@@ -1739,9 +1792,9 @@ namespace CalamityMod
 		public static Color BuffEffects(Entity codable, Color lightColor, float shadow = 0f, bool effects = true, bool poisoned = false, bool onFire = false, bool onFire2 = false, bool hunter = false, bool noItems = false, bool blind = false, bool bleed = false, bool venom = false, bool midas = false, bool ichor = false, bool onFrostBurn = false, bool burned = false, bool honey = false, bool dripping = false, bool drippingSlime = false, bool loveStruck = false, bool stinky = false)
 		{
 			float cr = 1f; float cg = 1f; float cb = 1f; float ca = 1f;
-			if (effects && honey && Main.rand.Next(30) == 0)
+			if (effects && honey && Main.rand.NextBool(30))
 			{
-				int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default(Color), 1f);
+				int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default, 1f);
 				Main.dust[dustID].velocity.Y = 0.3f;
 				Main.dust[dustID].velocity.X *= 0.1f;
 				Main.dust[dustID].scale += (float)Main.rand.Next(3, 4) * 0.1f;
@@ -1755,9 +1808,9 @@ namespace CalamityMod
 			}
 			if (poisoned)
 			{
-				if (effects && Main.rand.Next(30) == 0)
+				if (effects && Main.rand.NextBool(30))
 				{
-					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 46, 0f, 0f, 120, default(Color), 0.2f);
+					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 46, 0f, 0f, 120, default, 0.2f);
 					Main.dust[dustID].noGravity = true;
 					Main.dust[dustID].fadeIn = 1.9f;
 					if (codable is Player)
@@ -1770,9 +1823,9 @@ namespace CalamityMod
 			}
 			if (venom)
 			{
-				if (effects && Main.rand.Next(10) == 0)
+				if (effects && Main.rand.NextBool(10))
 				{
-					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 171, 0f, 0f, 100, default(Color), 0.5f);
+					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 171, 0f, 0f, 100, default, 0.5f);
 					Main.dust[dustID].noGravity = true;
 					Main.dust[dustID].fadeIn = 1.5f;
 					if (codable is Player)
@@ -1803,7 +1856,7 @@ namespace CalamityMod
 			{
 				if (effects)
 				{
-					int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 2f);
+					int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 2f);
 					Main.dust[dustID].noGravity = true;
 					Main.dust[dustID].velocity *= 1.8f;
 					Main.dust[dustID].velocity.Y -= 0.75f;
@@ -1825,11 +1878,11 @@ namespace CalamityMod
 				{
 					if (Main.rand.Next(4) < 3)
 					{
-						int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 135, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 3.5f);
+						int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 135, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
 						Main.dust[dustID].noGravity = true;
 						Main.dust[dustID].velocity *= 1.8f;
 						Main.dust[dustID].velocity.Y -= 0.5f;
-						if (Main.rand.Next(4) == 0)
+						if (Main.rand.NextBool(4))
 						{
 							Main.dust[dustID].noGravity = false;
 							Main.dust[dustID].scale *= 0.5f;
@@ -1853,11 +1906,11 @@ namespace CalamityMod
 				{
 					if (Main.rand.Next(4) != 0)
 					{
-						int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 3.5f);
+						int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
 						Main.dust[dustID].noGravity = true;
 						Main.dust[dustID].velocity *= 1.8f;
 						Main.dust[dustID].velocity.Y -= 0.5f;
-						if (Main.rand.Next(4) == 0)
+						if (Main.rand.NextBool(4))
 						{
 							Main.dust[dustID].noGravity = false;
 							Main.dust[dustID].scale *= 0.5f;
@@ -1879,14 +1932,14 @@ namespace CalamityMod
 			{
 				Vector2 position = codable.position;
 				position.X -= 2f; position.Y -= 2f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
-					int dustID = Dust.NewDust(position, codable.width + 4, codable.height + 2, 211, 0f, 0f, 50, default(Color), 0.8f);
-					if (Main.rand.Next(2) == 0)
+					int dustID = Dust.NewDust(position, codable.width + 4, codable.height + 2, 211, 0f, 0f, 50, default, 0.8f);
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[dustID].alpha += 25;
 					}
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[dustID].alpha += 25;
 					}
@@ -1901,12 +1954,12 @@ namespace CalamityMod
 				}
 				else
 				{
-					int dustID = Dust.NewDust(position, codable.width + 8, codable.height + 8, 211, 0f, 0f, 50, default(Color), 1.1f);
-					if (Main.rand.Next(2) == 0)
+					int dustID = Dust.NewDust(position, codable.width + 8, codable.height + 8, 211, 0f, 0f, 50, default, 1.1f);
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[dustID].alpha += 25;
 					}
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[dustID].alpha += 25;
 					}
@@ -1927,16 +1980,16 @@ namespace CalamityMod
 				Color newColor = new Color(0, 80, 255, 100);
 				if (Main.rand.Next(4) != 0)
 				{
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Vector2 position2 = codable.position;
 						position2.X -= 2f; position2.Y -= 2f;
 						int dustID = Dust.NewDust(position2, codable.width + 4, codable.height + 2, 4, 0f, 0f, alpha, newColor, 1.4f);
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[dustID].alpha += 25;
 						}
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[dustID].alpha += 25;
 						}
@@ -1959,11 +2012,11 @@ namespace CalamityMod
 				{
 					if (Main.rand.Next(4) != 0)
 					{
-						int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 75, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 3.5f);
+						int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 75, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
 						Main.dust[dustID].noGravity = true;
 						Main.dust[dustID].velocity *= 1.8f;
 						Main.dust[dustID].velocity.Y -= 0.5f;
-						if (Main.rand.Next(4) == 0)
+						if (Main.rand.NextBool(4))
 						{
 							Main.dust[dustID].noGravity = false;
 							Main.dust[dustID].scale *= 0.5f;
@@ -1994,9 +2047,9 @@ namespace CalamityMod
 			if (bleed)
 			{
 				bool dead = (codable is Player ? ((Player)codable).dead : codable is NPC ? ((NPC)codable).life <= 0 : false);
-				if (effects && !dead && Main.rand.Next(30) == 0)
+				if (effects && !dead && Main.rand.NextBool(30))
 				{
-					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default(Color), 1f);
+					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default, 1f);
 					Main.dust[dustID].velocity.Y += 0.5f;
 					Main.dust[dustID].velocity *= 0.25f;
 					if (codable is Player)
@@ -2007,7 +2060,7 @@ namespace CalamityMod
 				cg *= 0.9f;
 				cb *= 0.9f;
 			}
-			if (loveStruck && effects && shadow == 0f && Main.instance.IsActive && !Main.gamePaused && Main.rand.Next(5) == 0)
+			if (loveStruck && effects && shadow == 0f && Main.instance.IsActive && !Main.gamePaused && Main.rand.NextBool(5))
 			{
 				Vector2 value = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
 				value.Normalize();
@@ -2025,12 +2078,12 @@ namespace CalamityMod
 			{
 				cr *= 0.7f;
 				cb *= 0.55f;
-				if (effects && Main.rand.Next(5) == 0 && Main.instance.IsActive && !Main.gamePaused)
+				if (effects && Main.rand.NextBool(5) && Main.instance.IsActive && !Main.gamePaused)
 				{
 					Vector2 value2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
 					value2.Normalize(); value2.X *= 0.66f; value2.Y = Math.Abs(value2.Y);
 					Vector2 vector = value2 * (float)Main.rand.Next(3, 5) * 0.25f;
-					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 188, vector.X, vector.Y * 0.5f, 100, default(Color), 1.5f);
+					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 188, vector.X, vector.Y * 0.5f, 100, default, 1.5f);
 					Main.dust[dustID].velocity *= 0.1f;
 					Main.dust[dustID].velocity.Y -= 0.5f;
 					if (codable is Player)
@@ -2049,9 +2102,9 @@ namespace CalamityMod
 			}
 			if (hunter && (codable is NPC ? ((NPC)codable).lifeMax > 1 : true))
 			{
-				if (effects && !Main.gamePaused && Main.instance.IsActive && Main.rand.Next(50) == 0)
+				if (effects && !Main.gamePaused && Main.instance.IsActive && Main.rand.NextBool(50))
 				{
-					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 15, 0f, 0f, 150, default(Color), 0.8f);
+					int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 15, 0f, 0f, 150, default, 0.8f);
 					Main.dust[dustID].velocity *= 0.1f;
 					Main.dust[dustID].noLight = true;
 					if (codable is Player)
@@ -2102,9 +2155,11 @@ namespace CalamityMod
 			Color lightColor = overrideColor != null ? (Color)overrideColor : GetLightColor(position + new Vector2(width * 0.5f, height * 0.5f));
 			if (sb is List<DrawData>)
 			{
-				DrawData dd = new DrawData(texture, GetDrawPosition(position, origin, width, height, texture.Width, texture.Height, framecount, scale, drawCentered), frame, lightColor, rotation, origin, scale, direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-				dd.shader = shader;
-				((List<DrawData>)sb).Add(dd);
+                DrawData dd = new DrawData(texture, GetDrawPosition(position, origin, width, height, texture.Width, texture.Height, framecount, scale, drawCentered), frame, lightColor, rotation, origin, scale, direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0)
+                {
+                    shader = shader
+                };
+                ((List<DrawData>)sb).Add(dd);
 			}
 			else if (sb is SpriteBatch)
 			{
@@ -2269,7 +2324,7 @@ namespace CalamityMod
         #region Update Server Boolean
         public static void UpdateServerBoolean()
         {
-            if (Main.netMode == 2)
+            if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
         }
         #endregion

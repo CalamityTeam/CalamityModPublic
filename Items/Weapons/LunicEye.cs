@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons
 			formula += player.rangedDamage - 1f;
 			formula += player.magicDamage - 1f;
 			formula += player.minionDamage - 1f;
-			formula += CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingDamage - 1f;
+			formula += player.GetCalamityPlayer().throwingDamage - 1f;
 			add += formula;
 		}
 

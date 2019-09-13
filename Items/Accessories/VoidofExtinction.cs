@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Accessories
 			}
             if (player.immune)
             {
-                if (Main.rand.Next(10) == 0)
+                if (Main.rand.NextBool(10))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {

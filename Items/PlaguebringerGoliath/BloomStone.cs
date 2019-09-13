@@ -4,6 +4,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.CalamityCustomThrowingDamage;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.PlaguebringerGoliath
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
 			player.allDamage += 0.03f;
 			int bloomCounter = 0;
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 							if (flag)
 							{
 								nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-								if (Main.netMode != 0)
+								if (Main.netMode != NetmodeID.SinglePlayer)
 								{
 									NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
 								}
@@ -83,7 +84,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 					Main.tile[num4, num5].halfBrick(false);
 					if (Main.tile[num4, num5 + 1].type == 0)
 					{
-						if (Main.rand.Next(1000) == 0)
+						if (Main.rand.NextBool(1000))
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 227;
@@ -93,14 +94,14 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 								Main.tile[num4, num5].frameX = (short)(34 * Main.rand.Next(1, 13));
 							}
 						}
-						if (Main.netMode == 1)
+						if (Main.netMode == NetmodeID.MultiplayerClient)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}
 					}
 					if (Main.tile[num4, num5 + 1].type == 2)
 					{
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 3;
@@ -120,14 +121,14 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 								Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 21));
 							}
 						}
-						if (Main.netMode == 1)
+						if (Main.netMode == NetmodeID.MultiplayerClient)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}
 					}
 					else if (Main.tile[num4, num5 + 1].type == 109)
 					{
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.tile[num4, num5].active(true);
 							Main.tile[num4, num5].type = 110;
@@ -147,7 +148,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 								Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(2, 8));
 							}
 						}
-						if (Main.netMode == 1)
+						if (Main.netMode == NetmodeID.MultiplayerClient)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}
@@ -157,7 +158,7 @@ namespace CalamityMod.Items.PlaguebringerGoliath
 						Main.tile[num4, num5].active(true);
 						Main.tile[num4, num5].type = 74;
 						Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(9, 17));
-						if (Main.netMode == 1)
+						if (Main.netMode == NetmodeID.MultiplayerClient)
 						{
 							NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
 						}

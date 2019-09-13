@@ -307,21 +307,21 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(1000000) == 0 && CalamityWorld.revenge)
+			if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
 			}
 			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
 				}
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(1, 3));
 				}
-				if (Main.expertMode && Main.rand.Next(2) == 0)
+				if (Main.expertMode && Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"));
 				}
@@ -329,7 +329,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			if (NPC.downedGolemBoss)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ChaoticOre"), Main.rand.Next(3, 10));
-				if (Main.rand.Next(200) == 0)
+				if (Main.rand.NextBool(200))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Hellborn"));
 				}
@@ -340,13 +340,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 25; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 

@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-        	if (Main.rand.Next(2) == 0)
+        	if (Main.rand.NextBool(2))
 			{
 				for (int num468 = 0; num468 < 1; num468++)
 				{
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Rogue
 					num440 = num437 / num440;
 					num438 *= num440;
 					num439 *= num440;
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						if (projectile.owner == Main.myPlayer)
         				{

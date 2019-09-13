@@ -31,11 +31,11 @@ namespace CalamityMod.Projectiles.Astral
 			{
 				if (projectile.ai[0] % 4 == 0)
 				{
-					coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, mod.DustType("AstralBlue"), 0f, 0f, 100, default(Color), 1.5f);
+					coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, mod.DustType("AstralBlue"), 0f, 0f, 100, default, 1.5f);
 				}
 				else
 				{
-					coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.5f);
+					coolDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.5f);
 				}
 				Main.dust[coolDust].noGravity = true;
 				Main.dust[coolDust].velocity *= 0.1f;

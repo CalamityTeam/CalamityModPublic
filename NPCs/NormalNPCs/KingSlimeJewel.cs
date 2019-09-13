@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			}
 
 			// Fire projectiles
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				// Fire bolt every 1.5 seconds
 				npc.localAI[0] += 1f;
@@ -128,10 +128,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 					{
 						Vector2 velocity2 = new Vector2(num506, num507);
 						velocity2.Normalize();
-						int num622 = Dust.NewDust(npc.Center, npc.width, npc.height, 90, velocity2.X, velocity2.Y, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(npc.Center, npc.width, npc.height, 90, velocity2.X, velocity2.Y, 100, default, 2f);
 						Main.dust[num622].velocity *= 1.5f;
 						Main.dust[num622].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;

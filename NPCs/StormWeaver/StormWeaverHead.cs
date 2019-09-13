@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			{
 				for (int num934 = 0; num934 < 2; num934++)
 				{
-					int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default(Color), 2f);
+					int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
 					Main.dust[num935].noGravity = true;
 					Main.dust[num935].noLight = true;
 				}
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			{
 				npc.alpha = 0;
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (!tail && npc.ai[0] == 0f)
 				{
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
 					int damage = expertMode ? 50 : 70;
-					float xPos = (Main.rand.Next(2) == 0 ? npc.position.X + 300f : npc.position.X - 300f);
+					float xPos = (Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f);
 					Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
 					Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
 				}
@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.StormWeaver
 				if ((double)npc.position.Y < Main.topWorld + 16f)
 				{
 					CalamityWorld.DoGSecondStageCountdown = 0;
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 					{
 						var netMessage = mod.GetPacket();
 						netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 10000f)
 			{
 				CalamityWorld.DoGSecondStageCountdown = 0;
-				if (Main.netMode == 2)
+				if (Main.netMode == NetmodeID.Server)
 				{
 					var netMessage = mod.GetPacket();
 					netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
@@ -466,44 +466,44 @@ namespace CalamityMod.NPCs.StormWeaver
 			int num = 86400;
 			int num2 = num / 24;
 			Main.rainTime = Main.rand.Next(num2 * 8, num);
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				Main.rainTime += Main.rand.Next(0, num2);
 			}
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 2);
 			}
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 2);
 			}
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 3);
 			}
-			if (Main.rand.Next(7) == 0)
+			if (Main.rand.NextBool(7))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 4);
 			}
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 5);
 			}
 			float num3 = 1f;
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				num3 += 0.05f;
 			}
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				num3 += 0.1f;
 			}
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				num3 += 0.15f;
 			}
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				num3 += 0.2f;
 			}
@@ -533,7 +533,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -546,9 +546,9 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 20; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -556,10 +556,10 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 				for (int num623 = 0; num623 < 40; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
@@ -574,7 +574,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					Main.npc[num957].active = false;
 				}
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				NPC.SpawnOnPlayer(Main.LocalPlayer.whoAmI, mod.NPCType("StormWeaverHeadNaked"));
 			}

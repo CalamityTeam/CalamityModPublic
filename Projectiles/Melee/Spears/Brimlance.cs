@@ -37,9 +37,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
 			projectile.position.X = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - (float)(projectile.width / 2);
 			projectile.position.Y = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - (float)(projectile.height / 2);
 			projectile.position += projectile.velocity * projectile.ai[0];
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
-				int num = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 235, (float)(projectile.direction * 2), 0f, 150, default(Color), 1f);
+				int num = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 235, (float)(projectile.direction * 2), 0f, 150, default, 1f);
 				Main.dust[num].noGravity = true;
 			}
 			if (projectile.ai[0] == 0f)

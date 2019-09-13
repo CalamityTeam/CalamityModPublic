@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						if (screamTimer == 300)
 						{
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/CorvinaScream"), (int)npc.position.X, (int)npc.position.Y);
-							if (Main.netMode != 2)
+							if (Main.netMode != NetmodeID.Server)
 							{
 								if (!Main.player[npc.target].dead && Main.player[npc.target].active)
 								{
@@ -282,21 +282,21 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(8, 16));
-			if (Main.rand.Next(1000000) == 0 && CalamityWorld.revenge)
+			if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
 			}
 			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"));
 				}
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(1, 3));
 				}
-				if (Main.expertMode && Main.rand.Next(2) == 0)
+				if (Main.expertMode && Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"));
 				}
@@ -307,13 +307,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 139, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 139, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 25; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 139, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 139, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

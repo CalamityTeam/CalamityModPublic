@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.position.X = (float)(Main.player[npc.target].Center.X / 16) * 16f - (float)(npc.width / 2);
                 npc.position.Y = ((float)(Main.player[npc.target].Center.Y / 16) * 16f - (float)(npc.height / 2)) - 150f;
             }
-            if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != 1)
+            if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 1);
                 Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);
@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			{
 				npc.defense = 20;
 			}
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!flag100)
                 {
@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     npc.localAI[0] += 1f;
                 }
-                if (expertMode && Main.rand.Next(2) == 0)
+                if (expertMode && Main.rand.NextBool(2))
                 {
                     if (npc.localAI[0] >= 450f)
                     {
@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
                 }
                 npc.ai[2] += 1f;
-                if ((double)npc.ai[2] > 300.0 && npc.velocity.Y == 0f && Main.netMode != 1)
+                if ((double)npc.ai[2] > 300.0 && npc.velocity.Y == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int num1882 = Main.rand.Next(3);
                     if (num1882 == 0)
@@ -528,7 +528,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.position.X = npc.position.X - (float)(npc.width / 2);
 					npc.position.Y = npc.position.Y - (float)npc.height;
 				}
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.05);
 					if ((float)(npc.life + num660) < bossLife)
@@ -540,7 +540,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
 							int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
 							int num663 = mod.NPCType("SlimeSpawnCrimson");
-							if (Main.rand.Next(3) == 0)
+							if (Main.rand.NextBool(3))
 							{
 								num663 = mod.NPCType("SlimeSpawnCrimson2");
 							}
@@ -550,7 +550,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
 							Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));
 							Main.npc[num664].ai[1] = 0f;
-							if (Main.netMode == 2 && num664 < 200)
+							if (Main.netMode == NetmodeID.Server && num664 < 200)
 							{
 								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 							}
@@ -591,7 +591,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
 			}
 		}
 

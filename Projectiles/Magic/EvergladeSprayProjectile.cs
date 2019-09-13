@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
 				float num152 = projectile.velocity.X / 3f * (float)num151;
 				float num153 = projectile.velocity.Y / 3f * (float)num151;
 				int num154 = 14;
-				int num155 = Dust.NewDust(new Vector2(projectile.position.X + (float)num154, projectile.position.Y + (float)num154), projectile.width - num154 * 2, projectile.height - num154 * 2, 157, 0f, 0f, 100, default(Color), 1f);
+				int num155 = Dust.NewDust(new Vector2(projectile.position.X + (float)num154, projectile.position.Y + (float)num154), projectile.width - num154 * 2, projectile.height - num154 * 2, 157, 0f, 0f, 100, default, 1f);
 				Main.dust[num155].noGravity = true;
 				Main.dust[num155].velocity *= 0.1f;
 				Main.dust[num155].velocity += projectile.velocity * 0.5f;
@@ -52,10 +52,10 @@ namespace CalamityMod.Projectiles.Magic
 				Dust expr_6A1F_cp_0 = Main.dust[num155];
 				expr_6A1F_cp_0.position.Y = expr_6A1F_cp_0.position.Y - num153;
 			}
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 			{
 				int num156 = 16;
-				int num157 = Dust.NewDust(new Vector2(projectile.position.X + (float)num156, projectile.position.Y + (float)num156), projectile.width - num156 * 2, projectile.height - num156 * 2, 157, 0f, 0f, 100, default(Color), 0.5f);
+				int num157 = Dust.NewDust(new Vector2(projectile.position.X + (float)num156, projectile.position.Y + (float)num156), projectile.width - num156 * 2, projectile.height - num156 * 2, 157, 0f, 0f, 100, default, 0.5f);
 				Main.dust[num157].velocity *= 0.25f;
 				Main.dust[num157].velocity += projectile.velocity * 0.5f;
 			}

@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Melee
 					});
 					break;
 			}
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f);
 				Main.dust[dust].noGravity = true;
@@ -180,11 +180,11 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				float num796 = projectile.oldVelocity.X * (30f / (float)num795);
 				float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
-				int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, dustType, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.8f);
+				int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, dustType, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
 				Main.dust[num798].noGravity = true;
 				Dust dust = Main.dust[num798];
 				dust.velocity *= 0.5f;
-				num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, dustType, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.4f);
+				num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, dustType, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
 				dust = Main.dust[num798];
 				dust.velocity *= 0.05f;
 				num3 = num795;

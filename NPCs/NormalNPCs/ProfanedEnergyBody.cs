@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void AI()
 		{
 			CalamityGlobalNPC.energyFlame = npc.whoAmI;
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (npc.localAI[0] == 0f)
 				{
@@ -65,13 +65,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 50; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

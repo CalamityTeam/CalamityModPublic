@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			int shoot = revenge ? 4 : 3;
 			npc.localAI[0] += (float)(Main.rand.Next(shoot));
-			if (Main.netMode != 1 && npc.localAI[0] >= 300f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 300f)
 			{
 				npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))

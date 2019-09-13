@@ -109,15 +109,15 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num648 = 0; num648 < 20; num648++)
 			{
-				int num649 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default(Color), 1.5f);
+				int num649 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num649].velocity *= 1.4f;
 			}
 			for (int num650 = 0; num650 < 10; num650++)
 			{
-				int num651 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default(Color), 2.5f);
+				int num651 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 2.5f);
 				Main.dust[num651].noGravity = true;
 				Main.dust[num651].velocity *= 5f;
-				num651 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default(Color), 1.5f);
+				num651 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num651].velocity *= 3f;
 			}
 		}

@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					for (int num55 = 0; num55 < 10; num55++)
 					{
-						int num56 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 60, projectile.velocity.X * 0.01f, projectile.velocity.Y * 0.01f, 200, default(Color), 2f);
+						int num56 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 60, projectile.velocity.X * 0.01f, projectile.velocity.Y * 0.01f, 200, default, 2f);
 						Main.dust[num56].noGravity = true;
 					}
 				}

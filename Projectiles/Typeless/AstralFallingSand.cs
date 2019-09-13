@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 int i = Dust.NewDust(projectile.position, projectile.width, projectile.height, 108, 0f, projectile.velocity.Y * 0.5f);
                 Main.dust[i].velocity.X *= 0.2f;

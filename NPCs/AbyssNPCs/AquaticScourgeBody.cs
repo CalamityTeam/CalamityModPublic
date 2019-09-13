@@ -27,17 +27,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
             aiType = -1; //new
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
-            npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 100000;
-            }
-			if (CalamityWorld.bossRushActive)
-			{
-				npc.lifeMax = CalamityWorld.death ? 4300000 : 4000000;
-			}
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            npc.LifeMaxNERD(73000, 85000, 100000, 4000000, 4300000);
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -125,7 +117,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				npc.active = false;
 			}
-			if (Main.netMode != 1 && detectsPlayer)
+			if (Main.netMode != NetmodeID.MultiplayerClient && detectsPlayer)
 			{
 				int num = (Main.expertMode || CalamityWorld.bossRushActive) ? 4 : 3;
 				npc.localAI[0] += (float)Main.rand.Next(num);
@@ -243,13 +235,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody2"), 1f);

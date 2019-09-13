@@ -46,15 +46,15 @@ namespace CalamityMod.Items.Weapons.Astral
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
             float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
             int spikeAmount = 4;
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 spikeAmount++;
             }
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
             {
                 spikeAmount++;
             }
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 spikeAmount += 2;
             }

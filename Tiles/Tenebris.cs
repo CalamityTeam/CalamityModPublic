@@ -74,7 +74,7 @@ namespace CalamityMod.Tiles
                         {
                             Main.tile[i, j].type = (ushort)mod.TileType("Tenebris");
                             WorldGen.SquareTileFrame(i, j, true);
-                            if (Main.netMode == 2)
+                            if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
                             }

@@ -49,22 +49,22 @@ namespace CalamityMod.Items.Weapons
 			for (int num119 = 0; num119 < num118; num119++)
 			{
 				float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-				Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default(Vector2));
+				Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
 				if (!flag11)
 				{
 					value9 -= vector7;
 				}
 				if (type == ProjectileID.WoodenArrowFriendly)
 				{
-					if (Main.rand.Next(12) == 0)
+					if (Main.rand.NextBool(12))
 					{
 						type = mod.ProjectileType("TorrentialArrow");
 					}
-					if (Main.rand.Next(25) == 0)
+					if (Main.rand.NextBool(25))
 					{
 						type = 408;
 					}
-					if (Main.rand.Next(100) == 0)
+					if (Main.rand.NextBool(100))
 					{
 						type = mod.ProjectileType("TyphoonArrow");
 					}

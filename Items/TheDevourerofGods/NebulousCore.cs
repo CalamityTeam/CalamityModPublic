@@ -40,7 +40,7 @@ namespace CalamityMod.Items.TheDevourerofGods
 			player.allDamage += 0.12f;
 			int damage = 1500;
             float knockBack = 3f;
-            if (Main.rand.Next(15) == 0)
+            if (Main.rand.NextBool(15))
             {
                 int num = 0;
                 for (int i = 0; i < 1000; i++)
@@ -70,7 +70,7 @@ namespace CalamityMod.Items.TheDevourerofGods
                                 int num6 = (int)center.X / 16;
                                 int num7 = (int)center.Y / 16;
                                 bool flag = false;
-                                if (Main.rand.Next(3) == 0 && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
+                                if (Main.rand.NextBool(3) && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
                                 {
                                     flag = true;
                                 }

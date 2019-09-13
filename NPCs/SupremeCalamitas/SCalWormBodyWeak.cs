@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.alpha = 0;
                 }
             }
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] += 1f;
                 if (npc.localAI[0] >= 900f)

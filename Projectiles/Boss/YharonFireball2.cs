@@ -73,9 +73,9 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.alpha = 0;
 				}
 			}
-			if (Main.rand.Next(16) == 0)
+			if (Main.rand.NextBool(16))
 			{
-				Dust expr_733B = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 200, default(Color), 1f);
+				Dust expr_733B = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 200, default, 1f);
 				expr_733B.scale *= 0.7f;
 				expr_733B.velocity += projectile.velocity * 0.25f;
 			}
@@ -110,14 +110,14 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num193 = 0; num193 < 2; num193++)
 			{
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default(Color), 1.5f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
 			}
 			for (int num194 = 0; num194 < 20; num194++)
 			{
-				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default(Color), 2.5f);
+				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default, 2.5f);
 				Main.dust[num195].noGravity = true;
 				Main.dust[num195].velocity *= 3f;
-				num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default(Color), 1.5f);
+				num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.5f);
 				Main.dust[num195].velocity *= 2f;
 				Main.dust[num195].noGravity = true;
 			}

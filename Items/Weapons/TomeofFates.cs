@@ -64,12 +64,12 @@ namespace CalamityMod.Items.Weapons
             value2 *= item.shootSpeed;
             int projChoice = Main.rand.Next(7);
             float num91 = (float)Main.rand.Next(10, 160) * 0.001f;
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 num91 *= -1f;
             }
             float num92 = (float)Main.rand.Next(10, 160) * 0.001f;
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 num92 *= -1f;
             }

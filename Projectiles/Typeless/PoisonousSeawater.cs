@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
             }
             for (int num468 = 0; num468 < 2; num468++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default(Color), 1f);
+                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 1f);
                 if (randomDust == 89)
                 {
                     Main.dust[num469].scale *= 0.35f;

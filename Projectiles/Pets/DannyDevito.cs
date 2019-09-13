@@ -279,7 +279,7 @@ namespace CalamityMod.Projectiles.Pets
 								Recipe.FindRecipes();
 								return;
 							}
-							Main.player[projectile.owner].GetModPlayer<CalamityPlayer>(mod).trashManChest = projectile.type;
+							Main.player[projectile.owner].GetCalamityPlayer().trashManChest = projectile.type;
 							Main.player[projectile.owner].chest = -2;
 							Main.player[projectile.owner].chestX = (int)(projectile.Center.X / 16f);
 							Main.player[projectile.owner].chestY = (int)(projectile.Center.Y / 16f);

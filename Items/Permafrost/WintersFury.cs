@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Permafrost
                 Main.projectile[p].minion = false;
                 Main.projectile[p].magic = true;
             }
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 Main.PlaySound(SoundID.Item1, position);
                 Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, mod.ProjectileType("Snowball"), damage, knockBack * 2f, player.whoAmI);

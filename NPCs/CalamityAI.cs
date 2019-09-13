@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs
 			if (npc.ai[0] == 2f || npc.ai[0] >= 5f || (npc.ai[0] == 4f && npc.velocity.Y > 0f) ||
 				npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += ((npc.ai[0] == 2f || (npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode)) ? 4f : shootTimer);
 					if (npc.localAI[0] >= 180f)
@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs
 					{
 						for (int num623 = 0; num623 < 4; num623++)
 						{
-							int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 1.5f);
+							int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 1.5f);
 							Main.dust[num624].velocity *= 0.2f;
 						}
 					}
@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs
 				npc.velocity.Y *= 0.95f;
 
 				// Spawn slimes and start teleport
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
@@ -360,7 +360,7 @@ namespace CalamityMod.NPCs
 						bool spawnFlag = revenge;
 						if (NPC.CountNPCS(mod.NPCType("AstrageldonSlime")) > 1)
 							spawnFlag = false;
-						if (spawnFlag && Main.netMode != 1)
+						if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
 
 						// Reset localAI and find a teleport destination
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs
 				int num;
 				for (int num245 = 0; num245 < 10; num245 = num + 1)
 				{
-					int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
+					int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default, 2f);
 					Main.dust[num244].noGravity = true;
 					Main.dust[num244].velocity *= 0.5f;
 					num = num245;
@@ -445,7 +445,7 @@ namespace CalamityMod.NPCs
 					bool spawnFlag = revenge;
 					if (NPC.CountNPCS(mod.NPCType("AstrageldonSlime")) > 1)
 						spawnFlag = false;
-					if (spawnFlag && Main.netMode != 1)
+					if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
 						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y - 25, mod.NPCType("AstrageldonSlime"), 0, 0f, 0f, 0f, 0f, 255);
 
 					// Become vulnerable
@@ -470,7 +470,7 @@ namespace CalamityMod.NPCs
 				int num;
 				for (int num245 = 0; num245 < 10; num245 = num + 1)
 				{
-					int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default(Color), 2f);
+					int num244 = Dust.NewDust(npc.position, npc.width, npc.height, mod.DustType("AstralOrange"), npc.velocity.X, npc.velocity.Y, 255, default, 2f);
 					Main.dust[num244].noGravity = true;
 					Main.dust[num244].velocity *= 0.5f;
 					num = num245;

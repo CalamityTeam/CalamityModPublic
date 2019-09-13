@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
 					}
-					if (Main.netMode != 1 && spikeTimer == 0f)
+					if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
 					{
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
                         for (int n = 0; n < 5; n++)
@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
 					}
-					if (Main.netMode != 1 && spikeTimer == 0f)
+					if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
 					{
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
                         num15 = Main.player[npc.target].position.Y - vector3.Y - (float)Main.rand.Next(0, 200);
@@ -118,13 +118,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

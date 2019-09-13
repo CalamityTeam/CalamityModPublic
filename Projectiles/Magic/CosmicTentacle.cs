@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
 				int num897 = 0;
 				while ((float)num897 < projectile.scale * 10f)
 				{
-					int num898 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 58, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1.1f);
+					int num898 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 58, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.1f);
 					Main.dust[num898].position = (Main.dust[num898].position + projectile.Center) / 2f;
 					Main.dust[num898].noGravity = true;
 					Main.dust[num898].velocity *= 0.1f;

@@ -26,28 +26,28 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
 		public override void AI()
 		{
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
 			if (projectile.owner == Main.myPlayer)
 			{
 				int proj = 0;
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
 					proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, 569, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 					Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 					Main.projectile[proj].usesLocalNPCImmunity = true;
 					Main.projectile[proj].localNPCHitCooldown = 30;
 				}
-				if (Main.rand.Next(30) == 0)
+				if (Main.rand.NextBool(30))
 				{
 					proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 570, (int)((double)projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
 					Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 					Main.projectile[proj].usesLocalNPCImmunity = true;
 					Main.projectile[proj].localNPCHitCooldown = 30;
 				}
-				if (Main.rand.Next(50) == 0)
+				if (Main.rand.NextBool(50))
 				{
 					proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f, 571, (int)((double)projectile.damage * 0.7), projectile.knockBack, projectile.owner, 0f, 0f);
 					Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;

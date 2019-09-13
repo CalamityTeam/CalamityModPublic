@@ -30,9 +30,9 @@ namespace CalamityMod.Projectiles.Permafrost
 
 		public override void AI()
 		{
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
-                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 1f);
+                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
                 Main.dust[index2].noGravity = true;
             }
         }

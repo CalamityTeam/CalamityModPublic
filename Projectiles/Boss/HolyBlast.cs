@@ -44,9 +44,9 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				for (int num621 = 0; num621 < 10; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -103,14 +103,14 @@ namespace CalamityMod.Projectiles.Boss
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
 			for (int num193 = 0; num193 < 6; num193++)
 			{
-				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 50, default(Color), 1.5f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 50, default, 1.5f);
 			}
 			for (int num194 = 0; num194 < 60; num194++)
 			{
-				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 0, default(Color), 2.5f);
+				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 0, default, 2.5f);
 				Main.dust[num195].noGravity = true;
 				Main.dust[num195].velocity *= 3f;
-				num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 50, default(Color), 1.5f);
+				num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 50, default, 1.5f);
 				Main.dust[num195].velocity *= 2f;
 				Main.dust[num195].noGravity = true;
 			}

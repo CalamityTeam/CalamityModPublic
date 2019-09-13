@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				vector17.Y *= -1f;
 			}
-			vector17 = vector17.RotatedBy((double)projectile.localAI[0], default(Vector2));
+			vector17 = vector17.RotatedBy((double)projectile.localAI[0], default);
 			projectile.ai[0] += 1f;
 			if (projectile.ai[0] < 30f)
 			{
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Melee
 				int num53 = 0;
 				while ((float)num53 < num52)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						Vector2 position = projectile.position + projectile.velocity + projectile.velocity * ((float)num53 / num52);
 						Dust dust2 = Main.dust[Dust.NewDust(position, projectile.width, projectile.height, 187, 0f, 0f, 100, new Color(150, Main.DiscoG, 255), 1f)];
@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Melee
         {
         	Player player = Main.player[projectile.owner];
         	target.AddBuff(BuffID.Frostburn, 300);
-        	if (Main.rand.Next(3) == 0)
+        	if (Main.rand.NextBool(3))
         	{
         		target.AddBuff(mod.BuffType("GlacialState"), 120);
         	}

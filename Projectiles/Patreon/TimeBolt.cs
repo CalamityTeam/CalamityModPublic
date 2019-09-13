@@ -60,8 +60,8 @@ namespace CalamityMod.Projectiles.Patreon
 					Vector2 center = projectile.Center;
 					Vector2 vector74 = new Vector2(-4f, 4f);
 					vector74 += new Vector2(-4f, 4f);
-					vector74 = vector74.RotatedBy((double)projectile.rotation, default(Vector2));
-					int dust = Dust.NewDust(center + vector74 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default(Color), 1f);
+					vector74 = vector74.RotatedBy((double)projectile.rotation, default);
+					int dust = Dust.NewDust(center + vector74 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 1f);
 					Dust dust2 = Main.dust[dust];
 					dust2.velocity *= 0.1f;
 					if (Main.rand.Next(6) != 0)
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Patreon
 						projectile.Kill();
 				}
 
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
 					{
@@ -156,8 +156,8 @@ namespace CalamityMod.Projectiles.Patreon
 					Vector2 center = projectile.Center;
 					Vector2 vector75 = new Vector2(-4f, 4f);
 					vector75 += new Vector2(-4f, 4f);
-					vector75 = vector75.RotatedBy((double)projectile.rotation, default(Vector2));
-					int dust = Dust.NewDust(center + vector75 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default(Color), 0.6f);
+					vector75 = vector75.RotatedBy((double)projectile.rotation, default);
+					int dust = Dust.NewDust(center + vector75 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
 					Dust dust2 = Main.dust[dust];
 					dust2.velocity *= 0.1f;
 					dust2.noGravity = true;
@@ -198,8 +198,8 @@ namespace CalamityMod.Projectiles.Patreon
 				Vector2 center = projectile.Center;
 				Vector2 vector76 = new Vector2(-4f, 4f);
 				vector76 += new Vector2(-4f, 4f);
-				vector76 = vector76.RotatedBy((double)projectile.rotation, default(Vector2));
-				int dust = Dust.NewDust(center + vector76 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default(Color), 0.6f);
+				vector76 = vector76.RotatedBy((double)projectile.rotation, default);
+				int dust = Dust.NewDust(center + vector76 + Vector2.One * -4f, 8, 8, dustType, 0f, 0f, 100, default, 0.6f);
 				Dust dust2 = Main.dust[dust];
 				dust2.velocity *= 0.1f;
 				dust2.noGravity = true;

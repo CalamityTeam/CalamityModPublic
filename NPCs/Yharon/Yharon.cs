@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.Yharon
     [AutoloadBossHead]
 	public class Yharon : ModNPC
 	{
-		private Rectangle safeBox = default(Rectangle);
+		private Rectangle safeBox = default;
 		private bool protectionBoost = false;
 		private bool moveCloser = false;
 		private bool phaseOneLoot = false;
@@ -156,11 +156,11 @@ namespace CalamityMod.NPCs.Yharon
 					{
 						string key = "Mods.CalamityMod.DargonBossText2";
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.Yharon
 				safeBox.Y = (int)(vectorPlayer.Y - (revenge ? 9000f : 10500f));
 				safeBox.Width = revenge ? 6000 : 7000;
 				safeBox.Height = revenge ? 18000 : 21000;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Projectile.NewProjectile(Main.player[npc.target].position.X + (revenge ? 3000f : 3500f), Main.player[npc.target].position.Y + 100f, 0f, 0f, mod.ProjectileType("SkyFlareRevenge"), 0, 0f, Main.myPlayer, 0f, 0f);
 					Projectile.NewProjectile(Main.player[npc.target].position.X - (revenge ? 3000f : 3500f), Main.player[npc.target].position.Y + 100f, 0f, 0f, mod.ProjectileType("SkyFlareRevenge"), 0, 0f, Main.myPlayer, 0f, 0f);
@@ -350,7 +350,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.localAI[0] = 1f;
 				npc.alpha = 255;
 				npc.rotation = 0f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[0] = -1f;
 					npc.netUpdate = true;
@@ -513,9 +513,9 @@ namespace CalamityMod.NPCs.Yharon
 					for (int num1469 = 0; num1469 < num1468; num1469++)
 					{
 						Vector2 vector169 = Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f;
-						vector169 = vector169.RotatedBy((double)((float)(num1469 - (num1468 / 2 - 1)) * 6.28318548f / (float)num1468), default(Vector2)) + npc.Center;
+						vector169 = vector169.RotatedBy((double)((float)(num1469 - (num1468 / 2 - 1)) * 6.28318548f / (float)num1468), default) + npc.Center;
 						Vector2 value16 = vector169 - npc.Center;
-						int num1470 = Dust.NewDust(vector169 + value16, 0, 0, 244, value16.X * 2f, value16.Y * 2f, 100, default(Color), 1.4f);
+						int num1470 = Dust.NewDust(vector169 + value16, 0, 0, 244, value16.X * 2f, value16.Y * 2f, 100, default, 1.4f);
 						Main.dust[num1470].noGravity = true;
 						Main.dust[num1470].noLight = true;
 						Main.dust[num1470].velocity = Vector2.Normalize(value16) * 3f;
@@ -679,9 +679,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1474 = 0; num1474 < num1473; num1474++)
 				{
 					Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default(Vector2)) + vectorCenter;
+					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + vectorCenter;
 					Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default(Color), 1.4f);
+					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
 					Main.dust[num1475].noGravity = true;
 					Main.dust[num1475].noLight = true;
 					Main.dust[num1475].velocity /= 4f;
@@ -744,7 +744,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] % (float)num1455 == 0f) //fire flare bombs from mouth
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
@@ -782,7 +782,7 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 				}
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
 				{
 					Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(npc.direction * 2), 8f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1)); //changed
 					Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(-(float)npc.direction * 2), 8f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
@@ -822,9 +822,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1474 = 0; num1474 < num1473; num1474++)
 				{
 					Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default(Vector2)) + vectorCenter;
+					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + vectorCenter;
 					Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default(Color), 1.4f); //changed
+					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f); //changed
 					Main.dust[num1475].noGravity = true;
 					Main.dust[num1475].noLight = true;
 					Main.dust[num1475].velocity /= 4f;
@@ -1020,9 +1020,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1480 = 0; num1480 < num1479; num1480++)
 				{
 					Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default(Vector2)) + vectorCenter;
+					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
 					Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default(Color), 1.4f); //changed
+					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f); //changed
 					Main.dust[num1481].noGravity = true;
 					Main.dust[num1481].noLight = true;
 					Main.dust[num1481].velocity /= 4f;
@@ -1047,7 +1047,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] % (float)num1462 == 0f)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount)
@@ -1057,7 +1057,7 @@ namespace CalamityMod.NPCs.Yharon
 						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-400, 401) * 0.13f, (float)Main.rand.Next(-30, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
 					}
 				}
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
 				npc.rotation -= num1463 * (float)npc.direction;
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num1461)
@@ -1076,7 +1076,7 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 				}
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
 				{
 					Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 				}
@@ -1115,9 +1115,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1480 = 0; num1480 < num1479; num1480++)
 				{
 					Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default(Vector2)) + vectorCenter;
+					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
 					Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default(Color), 1.4f); //changed
+					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f); //changed
 					Main.dust[num1481].noGravity = true;
 					Main.dust[num1481].noLight = true;
 					Main.dust[num1481].velocity /= 4f;
@@ -1142,7 +1142,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] % (float)num1462 == 0f)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int damage = expertMode ? 75 : 90; //700
 						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
@@ -1157,7 +1157,7 @@ namespace CalamityMod.NPCs.Yharon
 						Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, playerX, playerY, mod.ProjectileType("FlareDust2"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
 				npc.rotation -= num1463 * (float)npc.direction;
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num1461)
@@ -1360,9 +1360,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1480 = 0; num1480 < num1479; num1480++)
 				{
 					Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default(Vector2)) + vectorCenter;
+					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
 					Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default(Color), 1.4f);
+					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f);
 					Main.dust[num1481].noGravity = true;
 					Main.dust[num1481].noLight = true;
 					Main.dust[num1481].velocity /= 4f;
@@ -1389,18 +1389,18 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] % (float)num1462 == 0f)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount && NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
 						{
-							NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, (Main.rand.Next(2) == 0 ? mod.NPCType("DetonatingFlare") : mod.NPCType("DetonatingFlare2")), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, (Main.rand.NextBool(2) ? mod.NPCType("DetonatingFlare") : mod.NPCType("DetonatingFlare2")), 0, 0f, 0f, 0f, 0f, 255);
 						}
 						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-401, 401) * 0.13f, (float)Main.rand.Next(-31, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
 						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-31, 31) * 0.13f, (float)Main.rand.Next(-151, 151) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
 					}
 				}
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
 				npc.rotation -= num1463 * (float)npc.direction;
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num1461)
@@ -1421,7 +1421,7 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 				}
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
 				{
 					Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 				}
@@ -1491,9 +1491,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1480 = 0; num1480 < num1479; num1480++)
 				{
 					Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default(Vector2)) + vectorCenter;
+					vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
 					Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default(Color), 1.4f);
+					int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f);
 					Main.dust[num1481].noGravity = true;
 					Main.dust[num1481].noLight = true;
 					Main.dust[num1481].velocity /= 4f;
@@ -1520,7 +1520,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] % (float)num1462 == 0f)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int damage = expertMode ? 75 : 90; //700
 						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
@@ -1535,7 +1535,7 @@ namespace CalamityMod.NPCs.Yharon
 						Projectile.NewProjectile((int)vector173.X + xPos, (int)vector173.Y - 15, playerX, playerY, mod.ProjectileType("FlareDust2"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
 				npc.rotation -= num1463 * (float)npc.direction;
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num1461)
@@ -1559,14 +1559,14 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				if (CalamityWorld.death && !CalamityWorld.bossRushActive)
 				{
-					if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30))
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
 					{
 						Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 					}
 				}
 				else
 				{
-					if (Main.netMode != 1 && npc.ai[2] == (float)(num1457 - 30))
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1457 - 30))
 					{
 						Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("Flare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 					}
@@ -1596,7 +1596,7 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				if (npc.ai[1] == 0f)
 				{
-					teleportLocation = (Main.rand.Next(2) == 0 ? (revenge ? 500 : 600) : (revenge ? -500 : -600));
+					teleportLocation = (Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600));
 					npc.ai[1] = (float)(360 * Math.Sign((vectorCenter - player.Center).X));
 				}
 				Vector2 value7 = player.Center + new Vector2(npc.ai[1], (float)teleportLocation) - vectorCenter; //teleport distance
@@ -1702,9 +1702,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int m = 0; m < num34; m++)
 				{
 					Vector2 vector11 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector11 = vector11.RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default(Vector2)) + vectorCenter;
+					vector11 = vector11.RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default) + vectorCenter;
 					Vector2 value8 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num35 = Dust.NewDust(vector11 + value8, 0, 0, 244, value8.X * 2f, value8.Y * 2f, 100, default(Color), 1.4f);
+					int num35 = Dust.NewDust(vector11 + value8, 0, 0, 244, value8.X * 2f, value8.Y * 2f, 100, default, 1.4f);
 					Main.dust[num35].noGravity = true;
 					Main.dust[num35].noLight = true;
 					Main.dust[num35].velocity /= 4f;
@@ -1738,7 +1738,7 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 				}
-				if (Main.netMode != 1 && npc.ai[2] == (float)(num1460 / 2))
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1460 / 2))
 				{
 					if (npc.ai[1] == 0f)
 					{
@@ -1768,7 +1768,7 @@ namespace CalamityMod.NPCs.Yharon
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
 					npc.ai[3] += 1f;
-					if (npc.ai[3] == 5f && Main.netMode != 1)
+					if (npc.ai[3] == 5f && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, mod.ProjectileType("BigFlare"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 					}
@@ -1787,7 +1787,7 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 				}
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
 				npc.rotation -= num1463 * (float)npc.direction;
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num1461)
@@ -1863,11 +1863,11 @@ namespace CalamityMod.NPCs.Yharon
 				moveCloser = true;
 				string key = "Mods.CalamityMod.FlameText";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -1881,7 +1881,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (healCounter >= heal)
 				{
 					healCounter = 0;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int healAmt = npc.lifeMax / 200;
 						if (healAmt > npc.lifeMax - npc.life)
@@ -2257,9 +2257,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1474 = 0; num1474 < num1473; num1474++)
 				{
 					Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default(Vector2)) + npc.Center;
+					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + npc.Center;
 					Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default(Color), 1.4f);
+					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
 					Main.dust[num1475].noGravity = true;
 					Main.dust[num1475].noLight = true;
 					Main.dust[num1475].velocity /= 4f;
@@ -2307,11 +2307,11 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				if (npc.ai[1] >= num11)
 				{
-					if (npc.ai[1] % 8 == 0 && Main.netMode != 1)
+					if (npc.ai[1] % 8 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num33 = 30f;
 						Vector2 position = npc.Center + new Vector2((110f + num33) * (float)npc.direction, -20f).RotatedBy((double)npc.rotation,
-							default(Vector2));
+							default);
 						float speed = 0.01f;
 						Vector2 vectorShoot = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f + 30f);
 						float playerX = targetData.Center.X - vectorShoot.X;
@@ -2375,9 +2375,9 @@ namespace CalamityMod.NPCs.Yharon
 					}
 					float num33 = 30f;
 					Vector2 position = npc.Center + new Vector2((110f + num33) * (float)npc.direction, -20f).RotatedBy((double)npc.rotation,
-						default(Vector2));
+						default);
 					int num34 = (int)(npc.ai[1] - num15 + 1f);
-					if (num34 <= num17 && num34 % num16 == 0 && Main.netMode != 1)
+					if (num34 <= num17 && num34 % num16 == 0 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Projectile.NewProjectile(position, npc.velocity, mod.ProjectileType("YharonFireball"), num4, 0f, Main.myPlayer, 0f, 0f);
 					}
@@ -2396,7 +2396,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			else if (npc.ai[0] == 5f) //spin 2 win
 			{
-				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num22 * (float)npc.direction), default(Vector2));
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num22 * (float)npc.direction), default);
 				npc.position.Y = npc.position.Y - 0.1f;
 				npc.position += npc.DirectionTo(targetData.Center) * 10f;
 				npc.rotation -= num22 * (float)npc.direction;
@@ -2409,13 +2409,13 @@ namespace CalamityMod.NPCs.Yharon
 				int expr_B0F_cp_1 = 1;
 				num26 = expr_B0F_cp_0[expr_B0F_cp_1] + 1f;
 				expr_B0F_cp_0[expr_B0F_cp_1] = num26;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (npc.ai[1] % 12 == 0)
 					{
 						float num33 = 30f;
 						Vector2 position = npc.Center + new Vector2((110f + num33) * (float)npc.direction, -20f).RotatedBy((double)npc.rotation,
-							default(Vector2));
+							default);
 						Projectile.NewProjectile(position, npc.velocity, mod.ProjectileType("YharonFireball"), num4, 0f, Main.myPlayer, 0f, 0f);
 						if (phase4)
 						{
@@ -2489,7 +2489,7 @@ namespace CalamityMod.NPCs.Yharon
 					{
 						flag3 = false;
 					}
-					if (flag3 && Main.netMode != 1)
+					if (flag3 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector7 = npc.Center + (6.28318548f * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 100f * (0.6f + Main.rand.NextFloat() * 0.4f);
 						if (Vector2.Distance(vector7, targetData.Center) > 100f)
@@ -2498,14 +2498,14 @@ namespace CalamityMod.NPCs.Yharon
 							NPC.NewNPC(point2.X, point2.Y, mod.NPCType("DetonatingFlare"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 							NPC.NewNPC(point2.X, point2.Y, mod.NPCType("DetonatingFlare2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 						}
-						NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(2) == 0 ? 100 : -100), (int)npc.Center.Y - 100, mod.NPCType("DetonatingFlare"), 0, 0f, 0f, 0f, 0f, 255);
-						NPC.NewNPC((int)npc.Center.X + (Main.rand.Next(2) == 0 ? 100 : -100), (int)npc.Center.Y - 100, mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
+						NPC.NewNPC((int)npc.Center.X + (Main.rand.NextBool(2) ? 100 : -100), (int)npc.Center.Y - 100, mod.NPCType("DetonatingFlare"), 0, 0f, 0f, 0f, 0f, 255);
+						NPC.NewNPC((int)npc.Center.X + (Main.rand.NextBool(2) ? 100 : -100), (int)npc.Center.Y - 100, mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
 					}
 					npc.ai[1] += 1f;
 				}
 				if (npc.ai[1] >= 90f)
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("BigFlare2"), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
 						Boom(600, num4);
@@ -2525,9 +2525,9 @@ namespace CalamityMod.NPCs.Yharon
 				for (int num1474 = 0; num1474 < num1473; num1474++)
 				{
 					Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default(Vector2)) + npc.Center;
+					vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + npc.Center;
 					Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default(Color), 1.4f);
+					int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
 					Main.dust[num1475].noGravity = true;
 					Main.dust[num1475].noLight = true;
 					Main.dust[num1475].velocity /= 4f;
@@ -2561,13 +2561,13 @@ namespace CalamityMod.NPCs.Yharon
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 				}
-				if (Main.netMode != 1 && npc.ai[2] == 15f)
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 15f)
 				{
 					if (npc.ai[1] == 0f)
 					{
 						npc.ai[1] = (float)(300 * Math.Sign((npcCenter - targetData.Center).X));
 					}
-					teleportLocation = (Main.rand.Next(2) == 0 ? (revenge ? 600 : 700) : (revenge ? -600 : -700));
+					teleportLocation = (Main.rand.NextBool(2) ? (revenge ? 600 : 700) : (revenge ? -600 : -700));
 					Vector2 center = targetData.Center + new Vector2(-npc.ai[1], (float)teleportLocation); //teleport distance
 					npcCenter = (npc.Center = center);
 				}
@@ -2788,9 +2788,9 @@ namespace CalamityMod.NPCs.Yharon
 				string key = "Mods.CalamityMod.DargonBossText";
 				Color messageColor = Color.Orange;
 
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}
 
@@ -2841,9 +2841,9 @@ namespace CalamityMod.NPCs.Yharon
 
                     string key = "Mods.CalamityMod.AuricOreText";
                     Color messageColor = Color.Gold;
-                    if (Main.netMode == 0)
+                    if (Main.netMode == NetmodeID.SinglePlayer)
                         Main.NewText(Language.GetTextValue(key), messageColor);
-                    else if (Main.netMode == 2)
+                    else if (Main.netMode == NetmodeID.Server)
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
 
@@ -3005,7 +3005,7 @@ namespace CalamityMod.NPCs.Yharon
 		#region Boom
 		public void Boom(int timeLeft, int damage)
 		{
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Vector2 valueBoom = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float spreadBoom = 15f * 0.0174f;
@@ -3030,7 +3030,7 @@ namespace CalamityMod.NPCs.Yharon
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -3043,9 +3043,9 @@ namespace CalamityMod.NPCs.Yharon
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -3053,10 +3053,10 @@ namespace CalamityMod.NPCs.Yharon
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.Leviathan
 			if (npc.ai[0] > 45f)
 			{
 				npc.ai[0] = 0f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int damage = Main.expertMode ? 26 : 32;
 					Projectile.NewProjectile(center.X, center.Y, direction.X, direction.Y, mod.ProjectileType("WaterSpear"), damage, 0f, npc.target);
@@ -89,13 +89,13 @@ namespace CalamityMod.NPCs.Leviathan
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

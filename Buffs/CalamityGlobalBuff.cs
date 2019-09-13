@@ -1,9 +1,7 @@
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs
 {
@@ -13,7 +11,7 @@ namespace CalamityMod.Buffs
         {
             if (type == BuffID.Shine)
             {
-                player.GetModPlayer<CalamityPlayer>(mod).shine = true;
+                player.GetCalamityPlayer().shine = true;
             }
             else if (type == BuffID.IceBarrier)
             {
@@ -25,11 +23,11 @@ namespace CalamityMod.Buffs
 			}
 			else if (type == BuffID.Rage)
             {
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 10;
+                player.GetCalamityPlayer().throwingCrit += 10;
             }
             else if (type == BuffID.WellFed)
             {
-                CalamityCustomThrowingDamagePlayer.ModPlayer(player).throwingCrit += 2;
+                player.GetCalamityPlayer().throwingCrit += 2;
             }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {

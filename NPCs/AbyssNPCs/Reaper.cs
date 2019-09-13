@@ -298,7 +298,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					{
 						if (npc.velocity.Y == 0f)
 						{
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								npc.velocity.Y = (float)Main.rand.Next(-250, -180) * 0.1f; //50 20
 								npc.velocity.X = (float)Main.rand.Next(-50, 50) * 0.1f; //20 20
@@ -369,7 +369,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					npc.localAI[0] = 1f;
 					npc.alpha = 255;
 					npc.rotation = 0f;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.ai[0] = -1f;
 						npc.netUpdate = true;
@@ -487,9 +487,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						int num20 = 36;
 						for (int i = 0; i < num20; i++)
 						{
-							Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default(Vector2)) + npc.Center;
+							Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default) + npc.Center;
 							Vector2 vector2 = expr_80F - npc.Center;
-							int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default(Color), 1.4f);
+							int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
 							Main.dust[num21].noGravity = true;
 							Main.dust[num21].noLight = true;
 							Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
@@ -587,9 +587,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					int num24 = 7;
 					for (int j = 0; j < num24; j++)
 					{
-						Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default(Vector2)) + vector;
+						Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default) + vector;
 						Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-						int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default(Color), 1.4f);
+						int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
 						Main.dust[num25].noGravity = true;
 						Main.dust[num25].noLight = true;
 						Main.dust[num25].velocity /= 4f;
@@ -660,20 +660,20 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Voidstone"), Main.rand.Next(40, 51));
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"), Main.rand.Next(2, 4));
-			if (Main.rand.Next(10000) == 0 && CalamityWorld.revenge)
+			if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
 			}
 			if (CalamityWorld.downedPolterghast)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("ReaperTooth"), Main.rand.Next(3, 5));
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DeepSeaDumbbell"));
 				}
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
-					if (Main.rand.Next(33) == 0)
+					if (Main.rand.NextBool(33))
 					{
 						Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheReaper"));
 					}
@@ -685,11 +685,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(10, 18));
 				}
-				if (Main.expertMode && Main.rand.Next(2) == 0)
+				if (Main.expertMode && Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(4, 6));
 				}
@@ -700,13 +700,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 40; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

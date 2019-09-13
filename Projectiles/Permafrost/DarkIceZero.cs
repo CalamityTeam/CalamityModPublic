@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Permafrost
             }
 
             //make pretty dust
-            int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 1.25f);
+            int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.25f);
             Main.dust[index2].noGravity = true;
         }
 
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Permafrost
                 Main.PlaySound(SoundID.Item27, projectile.position);
                 for (int i = 0; i < 30; i++)
                 {
-                    int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 0, default(Color), Main.rand.NextFloat(1f, 2f));
+                    int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 0, default, Main.rand.NextFloat(1f, 2f));
                     Main.dust[index2].noGravity = true;
                     Main.dust[index2].velocity *= 4f;
                 }

@@ -70,15 +70,15 @@ namespace CalamityMod.Items.Weapons
 	    	num78 *= num80;
 			num79 *= num80;
 	    	int num130 = 7;
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
 				num130++;
 			}
-			if (Main.rand.Next(7) == 0)
+			if (Main.rand.NextBool(7))
 			{
 				num130++;
 			}
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 			{
 				num130++;
 			}

@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				npc.TargetClosest(true);
 			}
 			npc.velocity.Length();
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (!TailSpawned && npc.ai[0] == 0f)
 				{
@@ -463,7 +463,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public void BarfShitUp()
 		{
 			Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Vector2 valueBoom = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float spreadBoom = 15f * 0.0174f;
@@ -474,7 +474,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				int damageBoom = (Main.expertMode || CalamityWorld.bossRushActive) ? 28 : 33;
 				for (iBoom = 0; iBoom < 15; iBoom++)
 				{
-					int projectileType = (Main.rand.Next(2) == 0 ? mod.ProjectileType("SandTooth") : mod.ProjectileType("SandBlast"));
+					int projectileType = (Main.rand.NextBool(2) ? mod.ProjectileType("SandTooth") : mod.ProjectileType("SandBlast"));
 					if (projectileType == mod.ProjectileType("SandTooth"))
 					{
 						damageBoom = Main.expertMode ? 24 : 30;
@@ -623,13 +623,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 15; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASHead"), 1f);
 			}
@@ -641,14 +641,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return false;
 			}
-			if (npc.timeLeft <= 0 && Main.netMode != 1)
+			if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
 				{
 					if (Main.npc[k].active)
 					{
 						Main.npc[k].active = false;
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							Main.npc[k].life = 0;
 							Main.npc[k].netSkip = -1;

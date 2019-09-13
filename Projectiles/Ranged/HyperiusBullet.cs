@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Ranged
 				{
 					float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
 					float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
-					int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 235, 0f, 0f, 0, default(Color), 0.75f);
+					int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 235, 0f, 0f, 0, default, 0.75f);
 					Main.dust[num137].alpha = projectile.alpha;
 					Main.dust[num137].position.X = x2;
 					Main.dust[num137].position.Y = y2;
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-    		float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800 : projectile.position.X - 800);
+    		float xPos = (Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800);
     		Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
     		float num80 = xPos;
     		float speedX = (float)target.position.X - vector2.X;

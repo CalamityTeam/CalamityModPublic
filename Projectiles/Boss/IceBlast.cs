@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
 			int num3;
 			for (int num322 = 0; num322 < 2; num322 = num3 + 1)
 			{
-				int num323 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, projectile.velocity.X, projectile.velocity.Y, 50, default(Color), 0.6f);
+				int num323 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, projectile.velocity.X, projectile.velocity.Y, 50, default, 0.6f);
 				Main.dust[num323].noGravity = true;
 				Dust dust = Main.dust[num323];
 				dust.velocity *= 0.3f;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
 			int num3;
 			for (int num498 = 0; num498 < num497; num498 = num3 + 1)
 			{
-				int num499 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, 0f, 0f, 0, default(Color), 1f);
+				int num499 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, 0f, 0f, 0, default, 1f);
 				if (Main.rand.Next(3) != 0)
 				{
 					Dust dust = Main.dust[num499];

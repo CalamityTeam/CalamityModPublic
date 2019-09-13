@@ -105,9 +105,9 @@ namespace CalamityMod.NPCs
 				{
 					string key2 = "Mods.CalamityMod.UglyBossText";
 					Color messageColor2 = Color.Aquamarine;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
 				}
 			}
@@ -138,9 +138,9 @@ namespace CalamityMod.NPCs
 				Color messageColor = Color.Crimson;
 				if (!NPC.downedMechBoss3 && !CalamityWorld.downedBrimstoneElemental)
 				{
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 			}
@@ -160,9 +160,9 @@ namespace CalamityMod.NPCs
 
 					WorldGenerationMethods.SpawnOre(mod.TileType("PerennialOre"), 12E-05, .5f, .7f);
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
 				}
 
@@ -175,9 +175,9 @@ namespace CalamityMod.NPCs
 					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 			}
@@ -197,12 +197,12 @@ namespace CalamityMod.NPCs
 					string key2 = "Mods.CalamityMod.BabyBossText2";
 					Color messageColor2 = Color.Yellow;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
@@ -242,9 +242,9 @@ namespace CalamityMod.NPCs
 					string key = "Mods.CalamityMod.DeusText";
 					Color messageColor = Color.Gold;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 			}
@@ -274,7 +274,7 @@ namespace CalamityMod.NPCs
 				{
 					WorldGenerationMethods.SpawnOre(mod.TileType("ExodiumOre"), 12E-05, .01f, .07f);
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
@@ -282,7 +282,7 @@ namespace CalamityMod.NPCs
 						Main.NewText(Language.GetTextValue(key4), messageColor4);
 						Main.NewText(Language.GetTextValue(key5), messageColor5);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
@@ -383,9 +383,9 @@ namespace CalamityMod.NPCs
 
 				string key = "Mods.CalamityMod.BossRushTierThreeEndText";
 				Color messageColor = Color.LightCoral;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}
 			else if (npc.type == mod.NPCType("ScavengerBody"))
@@ -415,9 +415,9 @@ namespace CalamityMod.NPCs
 
 				string key = "Mods.CalamityMod.BossRushTierFourEndText";
 				Color messageColor = Color.LightCoral;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}
 			else if (npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("Leviathan"))
@@ -473,7 +473,7 @@ namespace CalamityMod.NPCs
 				CalamityWorld.bossRushActive = false;
 
 				CalamityMod.UpdateServerBoolean();
-				if (Main.netMode == 2)
+				if (Main.netMode == NetmodeID.Server)
 				{
 					var netMessage = mod.GetPacket();
 					netMessage.Write((byte)CalamityModMessageType.BossRushStage);
@@ -483,9 +483,9 @@ namespace CalamityMod.NPCs
 
 				string key = "Mods.CalamityMod.BossRushTierFiveEndText";
 				Color messageColor = Color.LightCoral;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				return false;
 			}
@@ -522,9 +522,9 @@ namespace CalamityMod.NPCs
 
 					string key = "Mods.CalamityMod.BossRushTierOneEndText";
 					Color messageColor = Color.LightCoral;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					break;
 				case NPCID.Spazmatism:
@@ -549,9 +549,9 @@ namespace CalamityMod.NPCs
 
 					string key2 = "Mods.CalamityMod.BossRushTierTwoEndText";
 					Color messageColor2 = Color.LightCoral;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key2), messageColor2);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
 					break;
 				case NPCID.Plantera:
@@ -570,7 +570,7 @@ namespace CalamityMod.NPCs
 					break;
 			}
 
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 			{
 				var netMessage = mod.GetPacket();
 				netMessage.Write((byte)CalamityModMessageType.BossRushStage);
@@ -639,7 +639,7 @@ namespace CalamityMod.NPCs
 					npc.type != mod.NPCType("StormWeaverTail") && npc.type != mod.NPCType("DevourerofGodsHead") &&
 					npc.type != mod.NPCType("DevourerofGodsBody") && npc.type != mod.NPCType("DevourerofGodsTail"))
 				{
-					if (Main.netMode != 2)
+					if (Main.netMode != NetmodeID.Server)
 					{
 						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 							Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).adrenaline = 0;
@@ -963,9 +963,9 @@ namespace CalamityMod.NPCs
 					string key = "Mods.CalamityMod.GhostBossText2";
 					Color messageColor = Color.Cyan;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 				else if (CalamityMod.ghostKillCount == 20)
@@ -973,13 +973,13 @@ namespace CalamityMod.NPCs
 					string key = "Mods.CalamityMod.GhostBossText3";
 					Color messageColor = Color.Cyan;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 
-				if (CalamityMod.ghostKillCount >= 30 && Main.netMode != 1)
+				if (CalamityMod.ghostKillCount >= 30 && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int lastPlayer = npc.lastInteraction;
 
@@ -1002,9 +1002,9 @@ namespace CalamityMod.NPCs
 					string key = "Mods.CalamityMod.SandSharkText";
 					Color messageColor = Color.Goldenrod;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 				else if (CalamityMod.sharkKillCount == 8)
@@ -1012,12 +1012,12 @@ namespace CalamityMod.NPCs
 					string key = "Mods.CalamityMod.SandSharkText2";
 					Color messageColor = Color.Goldenrod;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
-				if (CalamityMod.sharkKillCount >= 10 && Main.netMode != 1)
+				if (CalamityMod.sharkKillCount >= 10 && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 					{
@@ -1046,9 +1046,9 @@ namespace CalamityMod.NPCs
 					string key = "Mods.CalamityMod.DeusText2";
 					Color messageColor = Color.Gold;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 				else if (CalamityMod.astralKillCount == 2)
@@ -1056,12 +1056,12 @@ namespace CalamityMod.NPCs
 					string key = "Mods.CalamityMod.DeusText3";
 					Color messageColor = Color.Gold;
 
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 						Main.NewText(Language.GetTextValue(key), messageColor);
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
-				if (CalamityMod.astralKillCount >= 3 && Main.netMode != 1)
+				if (CalamityMod.astralKillCount >= 3 && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int lastPlayer = npc.lastInteraction;
 

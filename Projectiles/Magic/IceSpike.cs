@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             projectile.rotation += 0.5f;
             projectile.localAI[0] += 1f;
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default(Color), 1f);
+            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 1f);
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
             float num472 = projectile.Center.X;

@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.DesertScourge
 					npc.alpha = 0;
 				}
 			}
-            if (Main.netMode != 1 && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+            if (Main.netMode != NetmodeID.MultiplayerClient && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
                 if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         num943 *= num944;
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
-                        if (Main.rand.Next(2) == 0)
+                        if (Main.rand.NextBool(2))
                         {
                             Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
@@ -144,11 +144,11 @@ namespace CalamityMod.NPCs.DesertScourge
 			int wormCount = 5;
 			if (npc.life <= (npc.lifeMax * 0.75f) && NPC.CountNPCS(mod.NPCType("DriedSeekerHead")) < wormCount)
 			{
-				if (Main.rand.Next(10) == 0 && Main.netMode != 1)
+				if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
 					int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("DriedSeekerHead"));
-					if (Main.netMode == 2 && seeker < 200)
+					if (Main.netMode == NetmodeID.Server && seeker < 200)
 					{
 						NetMessage.SendData(23, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
 					}
@@ -157,7 +157,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/ScourgeBody3"), 1f);
 				for (int k = 0; k < 10; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

@@ -236,7 +236,7 @@ namespace CalamityMod.World
 				depthLimit = 0.14f;
 				if (y > 1500) { depthLimit = 0.1f; if (y > 2100) { depthLimit = 0.07f; } }
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				for (int k = 0; k < (int)((double)(x * y) * frequency); k++)
 				{
@@ -341,7 +341,7 @@ namespace CalamityMod.World
 			bool meteorDropped = true;
 
 			// Clients in multiplayer don't drop meteors.
-			if (Main.netMode == 1)
+			if (Main.netMode == NetmodeID.MultiplayerClient)
 				return;
 			for (int i = 0; i < 255; i++)
 			{
@@ -425,9 +425,9 @@ namespace CalamityMod.World
 							string key = "Mods.CalamityMod.AstralText";
 							Color messageColor = Color.Gold;
 
-							if (Main.netMode == 0)
+							if (Main.netMode == NetmodeID.SinglePlayer)
 								Main.NewText(Language.GetTextValue(key), messageColor);
-							else if (Main.netMode == 2)
+							else if (Main.netMode == NetmodeID.Server)
 								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 							break;
 						}
@@ -571,7 +571,7 @@ namespace CalamityMod.World
 			{
 				for (int num18 = j - num; num18 < j + num; num18++)
 				{
-					if (num18 > j + WorldGen.genRand.Next(-3, 4) - 3 && Main.tile[num17, num18].active() && Main.rand.Next(10) == 0)
+					if (num18 > j + WorldGen.genRand.Next(-3, 4) - 3 && Main.tile[num17, num18].active() && Main.rand.NextBool(10))
 					{
 						float num19 = (float)Math.Abs(i - num17);
 						float num20 = (float)Math.Abs(j - num18);
@@ -596,7 +596,7 @@ namespace CalamityMod.World
 			{
 				for (int num23 = j - num; num23 < j + num; num23++)
 				{
-					if (num23 > j + WorldGen.genRand.Next(-2, 3) && Main.tile[num22, num23].active() && Main.rand.Next(20) == 0)
+					if (num23 > j + WorldGen.genRand.Next(-2, 3) && Main.tile[num22, num23].active() && Main.rand.NextBool(20))
 					{
 						float num24 = (float)Math.Abs(i - num22);
 						float num25 = (float)Math.Abs(j - num23);
@@ -616,7 +616,7 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
 				if (CanAstralBiomeSpawn())
@@ -649,26 +649,25 @@ namespace CalamityMod.World
 			{
 				for (int y = (int)(origin.Y - verticalRadius * 0.4f) - 3; y <= origin.Y + verticalRadius + 3; y++)
 				{
-					float dist;
-					if (CheckInEllipse(new Point(x, y), topFoci, bottomFoci, constant, center, out dist, y < origin.Y))
-					{
-						//If we're in the outer blurPercent% of the ellipse
-						float percent = dist / constant;
-						float blurPercent = 0.98f;
-						if (percent > blurPercent)
-						{
-							float outerEdgePercent = (percent - blurPercent) / (1f - blurPercent);
-							if (Main.rand.NextFloat(1f) > outerEdgePercent)
-							{
-								ConvertToAstral(x, y);
-							}
-						}
-						else
-						{
-							ConvertToAstral(x, y);
-						}
-					}
-				}
+                    if (CheckInEllipse(new Point(x, y), topFoci, bottomFoci, constant, center, out float dist, y < origin.Y))
+                    {
+                        //If we're in the outer blurPercent% of the ellipse
+                        float percent = dist / constant;
+                        float blurPercent = 0.98f;
+                        if (percent > blurPercent)
+                        {
+                            float outerEdgePercent = (percent - blurPercent) / (1f - blurPercent);
+                            if (Main.rand.NextFloat(1f) > outerEdgePercent)
+                            {
+                                ConvertToAstral(x, y);
+                            }
+                        }
+                        else
+                        {
+                            ConvertToAstral(x, y);
+                        }
+                    }
+                }
 			}
 		}
 
@@ -911,11 +910,11 @@ namespace CalamityMod.World
 					}
 					if (tileframe)
 					{
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							WorldGen.SquareTileFrame(x, y, true);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.SendTileSquare(-1, x, y, 1);
 						}

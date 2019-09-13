@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
         {
             float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AquaBlastToxic"), (int)((double)damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }

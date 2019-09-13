@@ -40,7 +40,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if (Main.rand.Next(150) == 0)
+			if (Main.rand.NextBool(150))
 			{
 				int random = WorldGen.genRand.Next(4);
 				if (random == 0)
@@ -85,7 +85,7 @@ namespace CalamityMod.Tiles.SunkenSea
 							}
 							Main.tile[i, j].frameX = (short)(WorldGen.genRand.Next(18) * 18);
 							WorldGen.SquareTileFrame(i, j, true);
-							if (Main.netMode == 2)
+							if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
 							}

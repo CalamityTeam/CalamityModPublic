@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -22,11 +20,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 28;
 			npc.height = 28;
 			npc.defense = 5;
-			npc.lifeMax = 30;
-			if (CalamityWorld.bossRushActive)
-			{
-				npc.lifeMax = 30000;
-			}
+            npc.LifeMaxNERD(30, bossRush: 30000);
 			npc.aiStyle = -1;
 			aiType = -1;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -193,7 +187,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur && spawnInfo.water)
+			if (spawnInfo.player.InSulphur() && spawnInfo.water)
 			{
 				return 0.2f;
 			}
@@ -209,13 +203,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 15; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticParasite1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticParasite2"), 1f);

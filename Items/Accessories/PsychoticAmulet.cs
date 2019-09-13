@@ -25,12 +25,11 @@ namespace CalamityMod.Items.Accessories
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
-			CalamityCustomThrowingDamagePlayer modPlayer2 = CalamityCustomThrowingDamagePlayer.ModPlayer(player);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.pAmulet = true;
 			player.shroomiteStealth = true;
-			modPlayer2.throwingDamage += 0.05f;
-			modPlayer2.throwingCrit += 5;
+			modPlayer.throwingDamage += 0.05f;
+			modPlayer.throwingCrit += 5;
 			player.rangedDamage += 0.05f;
 			player.rangedCrit += 5;
 		}

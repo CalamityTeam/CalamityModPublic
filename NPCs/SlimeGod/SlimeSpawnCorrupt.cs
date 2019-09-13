@@ -52,14 +52,14 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			if (Main.netMode != 1 && npc.life <= 0)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.life <= 0)
 			{
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
 				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("SlimeSpawnCorrupt2"));
 			}
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
 			}
 		}
 

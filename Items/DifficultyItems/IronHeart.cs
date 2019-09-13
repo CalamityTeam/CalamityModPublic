@@ -56,11 +56,11 @@ namespace CalamityMod.Items.DifficultyItems
 				CalamityWorld.ironHeart = true;
 				string key = "Mods.CalamityMod.IronHeartText";
 				Color messageColor = Color.LightSkyBlue;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -70,11 +70,11 @@ namespace CalamityMod.Items.DifficultyItems
 				CalamityWorld.ironHeart = false;
 				string key = "Mods.CalamityMod.IronHeartText2";
 				Color messageColor = Color.LightSkyBlue;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}

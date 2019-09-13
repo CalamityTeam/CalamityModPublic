@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Pets
 
 				for (int i = 0; i < 77; i++) //loop to make lots of dust
 				{
-					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 182, projectile.velocity.X * 0.7f, projectile.velocity.Y * 0.7f, 100, default(Color), 2.5f);
+					int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 182, projectile.velocity.X * 0.7f, projectile.velocity.Y * 0.7f, 100, default, 2.5f);
 
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.5f;
@@ -214,9 +214,9 @@ namespace CalamityMod.Projectiles.Pets
 
 			if ((double) notlocalai1 > (double) Main.rand.Next(30, 120) && !player.immune && player.velocity.X == 0 && player.velocity.Y == 0)
             {
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						int style = 5 + Main.rand.Next(5);
 						Main.PlaySound(SoundID.Meowmere, (int) projectile.position.X, (int) projectile.position.Y, style, 4f, 0.0f); //nya
@@ -235,7 +235,7 @@ namespace CalamityMod.Projectiles.Pets
 					player.immune = false;
 					player.immuneTime = 0;
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 						SpawnDoggo();
 				}
 				projectile.netUpdate = true;

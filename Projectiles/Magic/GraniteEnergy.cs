@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 4f)
 			{
-				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default(Color), 0.6f);
+				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.6f);
 				Main.dust[num469].velocity *= 0f;
 			}
 			float num472 = projectile.Center.X;

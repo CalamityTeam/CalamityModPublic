@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
 			Lighting.AddLight(projectile.Center, 0.45f, 0f, 0.45f);
 			for (int num457 = 0; num457 < 2; num457++)
 			{
-				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 65, 0f, 0f, 100, default(Color), 2f);
+				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 65, 0f, 0f, 100, default, 2f);
 				Main.dust[num458].noGravity = true;
 				Main.dust[num458].velocity *= 0.15f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
 			for (int j = 0; j <= 25; j++)
 			{
-				int num459 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 65, 0f, 0f, 100, default(Color), 1f);
+				int num459 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 65, 0f, 0f, 100, default, 1f);
 				Main.dust[num459].noGravity = true;
 				Main.dust[num459].velocity *= 0.1f;
 			}

@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
 			if (npc.homeless)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 					return "Is this...what the world is like now? It seems so much more lifeless than when I saw it before I disappeared.";
 				else
 					return "Thank you for your service, my child, but I am afraid I am without a home now.";

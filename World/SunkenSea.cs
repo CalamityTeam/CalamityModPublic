@@ -306,7 +306,7 @@ namespace CalamityMod.World
 			int num = (int)(scale.X * (float)clusters.Width);
 			int num2 = (int)(scale.Y * (float)clusters.Height);
 			bool genCentalHole = true;
-			Rectangle rectangle = default(Rectangle);
+			Rectangle rectangle = default;
 			int radius = (int)(((float)WorldGen.genRand.Next(24, 28)) * size); //Radius of the generated hole
 			int diameter = radius * 2;
 			Point point = new Point(WorldGen.UndergroundDesertLocation.Left + (WorldGen.UndergroundDesertLocation.Width / 2),

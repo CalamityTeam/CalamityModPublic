@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Patreon
 			int movingDust = 3;
 			for (int i = 0; i < movingDust; ++i)
 			{
-				int dustID = Main.rand.Next(4) == 0 ? 27 : 118;
+				int dustID = Main.rand.NextBool(4) ? 27 : 118;
 				Vector2 corner = 0.5f * projectile.position + 0.5f * projectile.Center;
 				int idx = Dust.NewDust(corner, projectile.width / 2, projectile.height / 2, dustID);
 
