@@ -547,6 +547,7 @@ namespace CalamityMod
                     NPCID.PrimeVice,
                     NPCID.PrimeSaw,
                     NPCID.GolemHead,
+                    NPCID.GolemHeadFree,
                     NPCID.GolemFistRight,
                     NPCID.GolemFistLeft,
                     NPCID.MoonLordHead,

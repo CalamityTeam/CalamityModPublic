@@ -62,6 +62,11 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.ai[1] += 1f;
 				if (projectile.ai[1] < 120f)
 				{
+					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
+					{
+						projectile.velocity.X *= 1.01f;
+						projectile.velocity.Y *= 1.01f;
+					}
 					float scaleFactor2 = projectile.velocity.Length();
 					Vector2 vector11 = Main.player[num103].Center - projectile.Center;
 					vector11.Normalize();
@@ -71,14 +76,7 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.velocity *= scaleFactor2;
 				}
 				else
-				{
 					projectile.tileCollide = true;
-					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 18f)
-					{
-						projectile.velocity.X *= 1.01f;
-						projectile.velocity.Y *= 1.01f;
-					}
-				}
 			}
 		}
 

@@ -14,93 +14,93 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs
 {
     public class CalamityGlobalNPC : GlobalNPC
-    {
-        #region Variables
-        // Damage reduction
-        private float protection = 0f;
-        private float defProtection = 0f;
+	{
+		#region Variables
+		// Damage reduction
+		private float protection = 0f;
+		private float defProtection = 0f;
 
-        // Iron Heart
-        private int ironHeartDamage = 0;
+		// Iron Heart
+		private int ironHeartDamage = 0;
 
-        // NewAI
-        private const int maxAIMod = 4;
-        public float[] newAI = new float[maxAIMod];
+		// NewAI
+		private const int maxAIMod = 4;
+		public float[] newAI = new float[maxAIMod];
 
-        // Town NPC Patreon
-        private bool setNewName = true;
+		// Town NPC Patreon
+		private bool setNewName = true;
 
-        // Draedons Remote
-        public static bool DraedonMayhem = false;
+		// Draedons Remote
+		public static bool DraedonMayhem = false;
 
-        // Lunatic Cultist Rev+ attack
-        public int CultProjectiles = 2;
-        public float CultAngleSpread = 170f;
-        public int CultCountdown = 0;
+		// Lunatic Cultist Rev+ attack
+		public int CultProjectiles = 2;
+		public float CultAngleSpread = 170f;
+		public int CultCountdown = 0;
 
-        // Debuffs
-        public bool timeSlow = false;
-        public bool wCleave = false;
-        public bool bBlood = false;
-        public bool dFlames = false;
-        public bool marked = false;
-        public bool irradiated = false;
-        public bool bFlames = false;
-        public bool hFlames = false;
-        public bool pFlames = false;
-        public bool gState = false;
-        public bool aCrunch = false;
-        public bool tSad = false;
-        public bool pShred = false;
-        public bool cDepth = false;
-        public bool gsInferno = false;
-        public bool astralInfection = false;
-        public bool aFlames = false;
-        public bool eFreeze = false;
-        public bool wDeath = false;
-        public bool nightwither = false;
-        public bool silvaStun = false;
-        public bool enraged = false;
-        public bool yellowCandle = false;
-        public bool pearlAura = false;
-        public bool shellfishVore = false;
-        public bool clamDebuff = false;
+		// Debuffs
+		public bool timeSlow = false;
+		public bool wCleave = false;
+		public bool bBlood = false;
+		public bool dFlames = false;
+		public bool marked = false;
+		public bool irradiated = false;
+		public bool bFlames = false;
+		public bool hFlames = false;
+		public bool pFlames = false;
+		public bool gState = false;
+		public bool aCrunch = false;
+		public bool tSad = false;
+		public bool pShred = false;
+		public bool cDepth = false;
+		public bool gsInferno = false;
+		public bool astralInfection = false;
+		public bool aFlames = false;
+		public bool eFreeze = false;
+		public bool wDeath = false;
+		public bool nightwither = false;
+		public bool silvaStun = false;
+		public bool enraged = false;
+		public bool yellowCandle = false;
+		public bool pearlAura = false;
+		public bool shellfishVore = false;
+		public bool clamDebuff = false;
 
-        // whoAmI Variables
-        public static int bobbitWormBottom = -1;
-        public static int hiveMind = -1;
-        public static int perfHive = -1;
-        public static int slimeGodPurple = -1;
-        public static int slimeGodRed = -1;
-        public static int slimeGod = -1;
-        public static int laserEye = -1;
-        public static int fireEye = -1;
-        public static int primeLaser = -1;
-        public static int primeCannon = -1;
-        public static int primeVice = -1;
-        public static int primeSaw = -1;
-        public static int brimstoneElemental = -1;
-        public static int cataclysm = -1;
-        public static int catastrophe = -1;
-        public static int calamitas = -1;
-        public static int leviathan = -1;
-        public static int siren = -1;
-        public static int scavenger = -1;
-        public static int astrumDeusHeadMain = -1;
-        public static int energyFlame = -1;
-        public static int doughnutBoss = -1;
-        public static int holyBossAttacker = -1;
-        public static int holyBossDefender = -1;
-        public static int holyBossHealer = -1;
-        public static int holyBoss = -1;
-        public static int voidBoss = -1;
-        public static int ghostBossClone = -1;
-        public static int ghostBoss = -1;
-        public static int DoGHead = -1;
-        public static int SCalCataclysm = -1;
-        public static int SCalCatastrophe = -1;
-        public static int SCal = -1;
-        public static int SCalWorm = -1;
+		// whoAmI Variables
+		public static int bobbitWormBottom = -1;
+		public static int hiveMind = -1;
+		public static int perfHive = -1;
+		public static int slimeGodPurple = -1;
+		public static int slimeGodRed = -1;
+		public static int slimeGod = -1;
+		public static int laserEye = -1;
+		public static int fireEye = -1;
+		public static int primeLaser = -1;
+		public static int primeCannon = -1;
+		public static int primeVice = -1;
+		public static int primeSaw = -1;
+		public static int brimstoneElemental = -1;
+		public static int cataclysm = -1;
+		public static int catastrophe = -1;
+		public static int calamitas = -1;
+		public static int leviathan = -1;
+		public static int siren = -1;
+		public static int scavenger = -1;
+		public static int astrumDeusHeadMain = -1;
+		public static int energyFlame = -1;
+		public static int doughnutBoss = -1;
+		public static int holyBossAttacker = -1;
+		public static int holyBossDefender = -1;
+		public static int holyBossHealer = -1;
+		public static int holyBoss = -1;
+		public static int voidBoss = -1;
+		public static int ghostBossClone = -1;
+		public static int ghostBoss = -1;
+		public static int DoGHead = -1;
+		public static int SCalCataclysm = -1;
+		public static int SCalCatastrophe = -1;
+		public static int SCal = -1;
+		public static int SCalWorm = -1;
 
         // Collections
         public SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
@@ -121,6 +121,7 @@ namespace CalamityMod.NPCs
             { NPCID.PrimeLaser, 380000 },
             { NPCID.Golem, 450000 },
             { NPCID.GolemHead, 300000 },
+            { NPCID.GolemHeadFree, 300000 },
             { NPCID.GolemFistLeft, 250000 },
             { NPCID.GolemFistRight, 250000 },
             { NPCID.EaterofWorldsHead, 20000 },
@@ -494,9 +495,9 @@ namespace CalamityMod.NPCs
             }
 
             if (CalamityWorld.bossRushActive)
-            {
-                BossRushStatChanges(npc, mod);
-            }
+			{
+				BossRushStatChanges(npc, mod);
+			}
             else
             {
                 if (CalamityMod.enemyImmunityList.Contains(npc.type))
@@ -676,10 +677,16 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 5.0);
             }
             else if (npc.type == NPCID.Golem)
-            {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 8.5) : (int)(npc.lifeMax * 3.5);
-                npc.npcSlots = 64f;
-            }
+			{
+                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 5.0) : (int)(npc.lifeMax * 2.5);
+				npc.npcSlots = 64f;
+			}
+			else if (npc.type == NPCID.GolemHead || npc.type == NPCID.GolemHeadFree)
+			{
+                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.0) : (int)(npc.lifeMax * 2.0);
+				if (npc.type == NPCID.GolemHeadFree)
+					npc.dontTakeDamage = false;
+			}
             else if (npc.type == NPCID.Plantera)
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.4) : (int)(npc.lifeMax * 2.3);
@@ -798,247 +805,251 @@ namespace CalamityMod.NPCs
 
         #region Revengeance Damage Reduction
         private void RevengeanceDamageReduction(NPC npc, Mod mod)
-        {
-            if (Config.RevengeanceAndDeathThoriumBossBuff)
-            {
-                Mod thorium = ModLoader.GetMod("ThoriumMod");
-                if (thorium != null)
-                {
-                    if (npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("FallenDeathBeholder") ||
-                        npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("AbyssionReleased"))
-                    {
-                        protection = 0.05f;
-                    }
-                    else if (npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") || npc.type == thorium.NPCType("PyroCore") ||
-                        npc.type == thorium.NPCType("Aquaius"))
-                    {
-                        protection = 0.1f;
-                    }
-                    else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("FallenDeathBeholder2") || npc.type == thorium.NPCType("SlagFury") ||
-                        npc.type == thorium.NPCType("Aquaius2") || npc.type == thorium.NPCType("GraniteEnergyStorm"))
-                    {
-                        protection = 0.2f;
-                    }
-                    else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2") ||
-                        npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("AbyssionCracked"))
-                    {
-                        protection = 0.25f;
-                    }
-                    else if (npc.type == thorium.NPCType("Omnicide"))
-                    {
-                        protection = 0.3f;
-                    }
-                    else if (npc.type == thorium.NPCType("Abyssion"))
-                    {
-                        protection = 0.35f;
-                    }
-                }
-            }
+		{
+			if (Config.RevengeanceAndDeathThoriumBossBuff)
+			{
+				Mod thorium = ModLoader.GetMod("ThoriumMod");
+				if (thorium != null)
+				{
+					if (npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("FallenDeathBeholder") ||
+						npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("AbyssionReleased"))
+					{
+						protection = 0.05f;
+					}
+					else if (npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") || npc.type == thorium.NPCType("PyroCore") ||
+						npc.type == thorium.NPCType("Aquaius"))
+					{
+						protection = 0.1f;
+					}
+					else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("FallenDeathBeholder2") || npc.type == thorium.NPCType("SlagFury") ||
+						npc.type == thorium.NPCType("Aquaius2") || npc.type == thorium.NPCType("GraniteEnergyStorm"))
+					{
+						protection = 0.2f;
+					}
+					else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2") ||
+						npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("AbyssionCracked"))
+					{
+						protection = 0.25f;
+					}
+					else if (npc.type == thorium.NPCType("Omnicide"))
+					{
+						protection = 0.3f;
+					}
+					else if (npc.type == thorium.NPCType("Abyssion"))
+					{
+						protection = 0.35f;
+					}
+				}
+			}
 
-            if (npc.type == mod.NPCType("Cnidrion") || npc.type == mod.NPCType("DesertScourgeBody") || npc.type == mod.NPCType("ColossalSquid") ||
-                npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu") || npc.type == mod.NPCType("ProfanedGuardianBoss3") ||
-                npc.type == mod.NPCType("ScornEater") || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") ||
-                npc.type == mod.NPCType("Mauler") || npc.type == mod.NPCType("EutrophicRay"))
-            {
-                protection = 0.05f;
-            }
-            else if (npc.type == mod.NPCType("AstrumDeusBody") || npc.type == mod.NPCType("SoulSeeker") || npc.type == mod.NPCType("DesertScourgeTail") ||
-                npc.type == mod.NPCType("Horse") || npc.type == mod.NPCType("ProfanedEnergyBody") || npc.type == mod.NPCType("ScavengerClawLeft") ||
-                npc.type == mod.NPCType("ScavengerClawRight") || npc.type == mod.NPCType("ScavengerHead") || npc.type == mod.NPCType("MantisShrimp") ||
-                npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("AstrumDeusHead") || npc.type == mod.NPCType("AquaticScourgeHead") ||
-                npc.type == mod.NPCType("Cryon") || npc.type == mod.NPCType("Cryogen"))
-            {
-                protection = 0.1f;
-            }
-            else if (npc.type == mod.NPCType("ArmoredDiggerHead") || npc.type == mod.NPCType("AstralProbe") || npc.type == mod.NPCType("Calamitas") ||
-                npc.type == mod.NPCType("CalamitasRun") || npc.type == mod.NPCType("CalamitasRun2") || npc.type == mod.NPCType("CalamitasRun3") ||
-                npc.type == mod.NPCType("SoulSlurper") || npc.type == mod.NPCType("ProvSpawnHealer") || npc.type == mod.NPCType("Gnasher") ||
-                npc.type == mod.NPCType("ScavengerLegLeft") || npc.type == mod.NPCType("ScavengerLegRight") || npc.type == mod.NPCType("ShockstormShuttle") ||
-                npc.type == mod.NPCType("Reaper") || npc.type == mod.NPCType("OverloadedSoldier") || npc.type == mod.NPCType("AquaticScourgeTail") ||
-                npc.type == mod.NPCType("EidolonWyrmHead") || npc.type == mod.NPCType("Aries") || npc.type == mod.NPCType("AstralachneaGround") ||
-                npc.type == mod.NPCType("AstralachneaWall") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("Atlas") ||
-                npc.type == mod.NPCType("BigSightseer") || npc.type == mod.NPCType("FusionFeeder") || npc.type == mod.NPCType("Hadarian") ||
-                npc.type == mod.NPCType("Hive") || npc.type == mod.NPCType("Mantis") || npc.type == mod.NPCType("Nova") || npc.type == mod.NPCType("SmallSightseer") ||
-                npc.type == mod.NPCType("StellarCulex"))
-            {
-                protection = 0.15f;
-            }
-            else if (npc.type == mod.NPCType("AstrumDeusProbe3") || npc.type == mod.NPCType("PlaguebringerShade") || npc.type == mod.NPCType("BlindedAngler"))
-            {
-                protection = 0.2f;
-            }
-            else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("ProfanedGuardianBoss2") || npc.type == mod.NPCType("SandTortoise") ||
-                npc.type == mod.NPCType("StasisProbe") || npc.type == mod.NPCType("BobbitWormHead") || npc.type == mod.NPCType("GreatSandShark") ||
-                npc.type == mod.NPCType("Clam") || npc.type == mod.NPCType("PrismTurtle"))
-            {
-                protection = 0.25f;
-            }
-            else if (npc.type == mod.NPCType("ProvSpawnOffense") || npc.type == mod.NPCType("GiantClam"))
-            {
-                protection = 0.3f;
-            }
-            else if (npc.type == mod.NPCType("ArmoredDiggerBody") || npc.type == mod.NPCType("AstrumDeusTail") || npc.type == mod.NPCType("DespairStone") ||
-                npc.type == mod.NPCType("SoulSeekerSupreme") || npc.type == mod.NPCType("Leviathan"))
-            {
-                protection = 0.35f;
-            }
-            else if (npc.type == mod.NPCType("CryogenIce") || npc.type == mod.NPCType("ProfanedGuardianBoss") || npc.type == mod.NPCType("ProvSpawnDefense") ||
-                npc.type == mod.NPCType("ScavengerBody"))
-            {
-                protection = 0.4f;
-            }
-            else if (npc.type == mod.NPCType("ArmoredDiggerTail"))
-            {
-                protection = 0.45f;
-            }
-            else if (npc.type == mod.NPCType("SirenIce"))
-            {
-                protection = 0.5f;
-            }
-            else
-            {
-                switch (npc.type)
-                {
-                    case NPCID.SkeletronHand:
-                    case NPCID.SkeletronHead:
-                    case NPCID.QueenBee:
-                    case NPCID.HeadlessHorseman:
-                    case NPCID.FlyingAntlion:
-                    case NPCID.PirateCaptain:
-                    case NPCID.MoonLordHead:
-                    case NPCID.MoonLordHand:
-                    case NPCID.MoonLordCore:
-                    case NPCID.MoonLordFreeEye:
-                    case NPCID.CultistBoss:
-                    case NPCID.Crab:
-                    case NPCID.SeaSnail:
-                        protection = 0.05f;
-                        break;
+			if (npc.type == mod.NPCType("Cnidrion") || npc.type == mod.NPCType("DesertScourgeBody") || npc.type == mod.NPCType("ColossalSquid") ||
+				npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu") || npc.type == mod.NPCType("ProfanedGuardianBoss3") ||
+				npc.type == mod.NPCType("ScornEater") || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") ||
+				npc.type == mod.NPCType("Mauler") || npc.type == mod.NPCType("EutrophicRay"))
+			{
+				protection = 0.05f;
+			}
+			else if (npc.type == mod.NPCType("AstrumDeusBody") || npc.type == mod.NPCType("SoulSeeker") || npc.type == mod.NPCType("DesertScourgeTail") ||
+				npc.type == mod.NPCType("Horse") || npc.type == mod.NPCType("ProfanedEnergyBody") || npc.type == mod.NPCType("ScavengerClawLeft") ||
+				npc.type == mod.NPCType("ScavengerClawRight") || npc.type == mod.NPCType("ScavengerHead") || npc.type == mod.NPCType("MantisShrimp") ||
+				npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("AstrumDeusHead") || npc.type == mod.NPCType("AquaticScourgeHead") ||
+				npc.type == mod.NPCType("Cryon") || npc.type == mod.NPCType("Cryogen"))
+			{
+				protection = 0.1f;
+			}
+			else if (npc.type == mod.NPCType("ArmoredDiggerHead") || npc.type == mod.NPCType("AstralProbe") || npc.type == mod.NPCType("Calamitas") ||
+				npc.type == mod.NPCType("CalamitasRun") || npc.type == mod.NPCType("CalamitasRun2") || npc.type == mod.NPCType("CalamitasRun3") ||
+				npc.type == mod.NPCType("SoulSlurper") || npc.type == mod.NPCType("ProvSpawnHealer") || npc.type == mod.NPCType("Gnasher") ||
+				npc.type == mod.NPCType("ScavengerLegLeft") || npc.type == mod.NPCType("ScavengerLegRight") || npc.type == mod.NPCType("ShockstormShuttle") ||
+				npc.type == mod.NPCType("Reaper") || npc.type == mod.NPCType("OverloadedSoldier") || npc.type == mod.NPCType("AquaticScourgeTail") ||
+				npc.type == mod.NPCType("EidolonWyrmHead") || npc.type == mod.NPCType("Aries") || npc.type == mod.NPCType("AstralachneaGround") ||
+				npc.type == mod.NPCType("AstralachneaWall") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("Atlas") ||
+				npc.type == mod.NPCType("BigSightseer") || npc.type == mod.NPCType("FusionFeeder") || npc.type == mod.NPCType("Hadarian") ||
+				npc.type == mod.NPCType("Hive") || npc.type == mod.NPCType("Mantis") || npc.type == mod.NPCType("Nova") || npc.type == mod.NPCType("SmallSightseer") ||
+				npc.type == mod.NPCType("StellarCulex"))
+			{
+				protection = 0.15f;
+			}
+			else if (npc.type == mod.NPCType("AstrumDeusProbe3") || npc.type == mod.NPCType("PlaguebringerShade") || npc.type == mod.NPCType("BlindedAngler"))
+			{
+				protection = 0.2f;
+			}
+			else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("ProfanedGuardianBoss2") || npc.type == mod.NPCType("SandTortoise") ||
+				npc.type == mod.NPCType("StasisProbe") || npc.type == mod.NPCType("BobbitWormHead") || npc.type == mod.NPCType("GreatSandShark") ||
+				npc.type == mod.NPCType("Clam") || npc.type == mod.NPCType("PrismTurtle"))
+			{
+				protection = 0.25f;
+			}
+			else if (npc.type == mod.NPCType("ProvSpawnOffense") || npc.type == mod.NPCType("GiantClam"))
+			{
+				protection = 0.3f;
+			}
+			else if (npc.type == mod.NPCType("ArmoredDiggerBody") || npc.type == mod.NPCType("AstrumDeusTail") || npc.type == mod.NPCType("DespairStone") ||
+				npc.type == mod.NPCType("SoulSeekerSupreme") || npc.type == mod.NPCType("Leviathan"))
+			{
+				protection = 0.35f;
+			}
+			else if (npc.type == mod.NPCType("CryogenIce") || npc.type == mod.NPCType("ProfanedGuardianBoss") || npc.type == mod.NPCType("ProvSpawnDefense") ||
+				npc.type == mod.NPCType("ScavengerBody"))
+			{
+				protection = 0.4f;
+			}
+			else if (npc.type == mod.NPCType("ArmoredDiggerTail"))
+			{
+				protection = 0.45f;
+			}
+			else if (npc.type == mod.NPCType("SirenIce"))
+			{
+				protection = 0.5f;
+			}
+			else
+			{
+				switch (npc.type)
+				{
+					case NPCID.SkeletronHand:
+					case NPCID.SkeletronHead:
+					case NPCID.QueenBee:
+					case NPCID.HeadlessHorseman:
+					case NPCID.FlyingAntlion:
+					case NPCID.PirateCaptain:
+					case NPCID.MoonLordHead:
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordCore:
+					case NPCID.MoonLordFreeEye:
+					case NPCID.CultistBoss:
+					case NPCID.Crab:
+					case NPCID.SeaSnail:
+						protection = 0.05f;
+						break;
 
-                    case NPCID.Antlion:
-                    case NPCID.TheHungry:
-                    case NPCID.TheDestroyer:
-                    case NPCID.UndeadViking:
-                    case NPCID.MourningWood:
-                    case NPCID.Everscream:
-                    case NPCID.GreekSkeleton:
-                    case NPCID.GraniteFlyer:
-                    case NPCID.WalkingAntlion:
-                    case NPCID.Pumpking:
-                    case NPCID.IceQueen:
-                    case NPCID.IceGolem:
-                    case NPCID.AnomuraFungus:
-                    case NPCID.SkeletonArcher:
-                    case NPCID.SandElemental:
-                    case NPCID.Arapaima:
-                    case NPCID.ArmoredViking:
-                    case NPCID.DD2Betsy:
-                    case NPCID.DD2OgreT2:
-                        protection = 0.1f;
-                        break;
+					case NPCID.Antlion:
+					case NPCID.TheHungry:
+					case NPCID.TheDestroyer:
+					case NPCID.UndeadViking:
+					case NPCID.MourningWood:
+					case NPCID.Everscream:
+					case NPCID.GreekSkeleton:
+					case NPCID.GraniteFlyer:
+					case NPCID.WalkingAntlion:
+					case NPCID.Pumpking:
+					case NPCID.IceQueen:
+					case NPCID.IceGolem:
+					case NPCID.AnomuraFungus:
+					case NPCID.SkeletonArcher:
+					case NPCID.SandElemental:
+					case NPCID.Arapaima:
+					case NPCID.ArmoredViking:
+					case NPCID.DD2Betsy:
+					case NPCID.DD2OgreT2:
+						protection = 0.1f;
+						break;
 
-                    case NPCID.ElfCopter:
-                    case NPCID.GraniteGolem:
-                    case NPCID.ArmoredSkeleton:
-                    case NPCID.PirateShipCannon:
-                    case NPCID.DD2OgreT3:
-                    case NPCID.Golem:
-                        protection = 0.15f;
-                        break;
+					case NPCID.ElfCopter:
+					case NPCID.GraniteGolem:
+					case NPCID.ArmoredSkeleton:
+					case NPCID.PirateShipCannon:
+					case NPCID.DD2OgreT3:
+						protection = 0.15f;
+						break;
 
-                    case NPCID.Retinazer:
-                    case NPCID.Spazmatism:
-                    case NPCID.PrimeCannon:
-                    case NPCID.PrimeLaser:
-                    case NPCID.TheDestroyerBody:
-                    case NPCID.RustyArmoredBonesAxe:
-                    case NPCID.RustyArmoredBonesFlail:
-                    case NPCID.RustyArmoredBonesSword:
-                    case NPCID.RustyArmoredBonesSwordNoArmor:
-                    case NPCID.BlueArmoredBones:
-                    case NPCID.BlueArmoredBonesMace:
-                    case NPCID.BlueArmoredBonesNoPants:
-                    case NPCID.BlueArmoredBonesSword:
-                    case NPCID.HellArmoredBones:
-                    case NPCID.HellArmoredBonesSpikeShield:
-                    case NPCID.HellArmoredBonesMace:
-                    case NPCID.HellArmoredBonesSword:
-                    case NPCID.RaggedCaster:
-                    case NPCID.RaggedCasterOpenCoat:
-                    case NPCID.Necromancer:
-                    case NPCID.NecromancerArmored:
-                    case NPCID.DiabolistRed:
-                    case NPCID.DiabolistWhite:
-                    case NPCID.BoneLee:
-                    case NPCID.DungeonSpirit:
-                    case NPCID.GiantCursedSkull:
-                    case NPCID.SkeletonSniper:
-                    case NPCID.TacticalSkeleton:
-                    case NPCID.SkeletonCommando:
-                    case NPCID.AngryBonesBig:
-                    case NPCID.AngryBonesBigMuscle:
-                    case NPCID.AngryBonesBigHelmet:
-                    case NPCID.MartianSaucerTurret:
-                    case NPCID.MartianSaucerCannon:
-                    case NPCID.MartianTurret:
-                    case NPCID.MartianDrone:
-                    case NPCID.MartianSaucer:
-                    case NPCID.MartianSaucerCore:
-                    case NPCID.Crawdad:
-                    case NPCID.Crawdad2:
-                    case NPCID.GiantShelly:
-                    case NPCID.GiantShelly2:
-                    case NPCID.Mothron:
-                        protection = 0.2f;
-                        break;
+					case NPCID.Retinazer:
+					case NPCID.Spazmatism:
+					case NPCID.PrimeCannon:
+					case NPCID.PrimeLaser:
+					case NPCID.TheDestroyerBody:
+					case NPCID.RustyArmoredBonesAxe:
+					case NPCID.RustyArmoredBonesFlail:
+					case NPCID.RustyArmoredBonesSword:
+					case NPCID.RustyArmoredBonesSwordNoArmor:
+					case NPCID.BlueArmoredBones:
+					case NPCID.BlueArmoredBonesMace:
+					case NPCID.BlueArmoredBonesNoPants:
+					case NPCID.BlueArmoredBonesSword:
+					case NPCID.HellArmoredBones:
+					case NPCID.HellArmoredBonesSpikeShield:
+					case NPCID.HellArmoredBonesMace:
+					case NPCID.HellArmoredBonesSword:
+					case NPCID.RaggedCaster:
+					case NPCID.RaggedCasterOpenCoat:
+					case NPCID.Necromancer:
+					case NPCID.NecromancerArmored:
+					case NPCID.DiabolistRed:
+					case NPCID.DiabolistWhite:
+					case NPCID.BoneLee:
+					case NPCID.DungeonSpirit:
+					case NPCID.GiantCursedSkull:
+					case NPCID.SkeletonSniper:
+					case NPCID.TacticalSkeleton:
+					case NPCID.SkeletonCommando:
+					case NPCID.AngryBonesBig:
+					case NPCID.AngryBonesBigMuscle:
+					case NPCID.AngryBonesBigHelmet:
+					case NPCID.MartianSaucerTurret:
+					case NPCID.MartianSaucerCannon:
+					case NPCID.MartianTurret:
+					case NPCID.MartianDrone:
+					case NPCID.MartianSaucer:
+					case NPCID.MartianSaucerCore:
+					case NPCID.Crawdad:
+					case NPCID.Crawdad2:
+					case NPCID.GiantShelly:
+					case NPCID.GiantShelly2:
+					case NPCID.Mothron:
+						protection = 0.2f;
+						break;
 
-                    case NPCID.PrimeSaw:
-                    case NPCID.PrimeVice:
-                    case NPCID.SkeletronPrime:
-                    case NPCID.Probe:
-                    case NPCID.PossessedArmor:
-                        protection = 0.25f;
-                        break;
+					case NPCID.PrimeSaw:
+					case NPCID.PrimeVice:
+					case NPCID.SkeletronPrime:
+					case NPCID.Probe:
+					case NPCID.PossessedArmor:
+					case NPCID.Golem:
+					case NPCID.GolemFistLeft:
+					case NPCID.GolemFistRight:
+					case NPCID.GolemHead:
+					case NPCID.GolemHeadFree:
+						protection = 0.25f;
+						break;
 
-                    case NPCID.Mimic:
-                    case NPCID.PresentMimic:
-                    case NPCID.BigMimicCorruption:
-                    case NPCID.BigMimicCrimson:
-                    case NPCID.BigMimicHallow:
-                    case NPCID.BigMimicJungle:
-                        protection = 0.3f;
-                        break;
+					case NPCID.Mimic:
+					case NPCID.PresentMimic:
+					case NPCID.BigMimicCorruption:
+					case NPCID.BigMimicCrimson:
+					case NPCID.BigMimicHallow:
+					case NPCID.BigMimicJungle:
+						protection = 0.3f;
+						break;
 
-                    case NPCID.GiantTortoise:
-                    case NPCID.IceTortoise:
-                    case NPCID.SantaNK1:
-                    case NPCID.MartianWalker:
-                    case NPCID.TheDestroyerTail:
-                        protection = 0.35f;
-                        break;
+					case NPCID.GiantTortoise:
+					case NPCID.IceTortoise:
+					case NPCID.SantaNK1:
+					case NPCID.MartianWalker:
+					case NPCID.TheDestroyerTail:
+						protection = 0.35f;
+						break;
 
-                    case NPCID.DeadlySphere:
-                        protection = 0.4f;
-                        break;
+					case NPCID.DeadlySphere:
+						protection = 0.4f;
+						break;
 
-                    case NPCID.Paladin:
-                        protection = 0.45f;
-                        break;
+					case NPCID.Paladin:
+						protection = 0.45f;
+						break;
 
-                    case NPCID.WallofFlesh:
-                    case NPCID.MothronEgg:
-                        protection = 0.5f;
-                        break;
+					case NPCID.WallofFlesh:
+					case NPCID.MothronEgg:
+						protection = 0.5f;
+						break;
 
-                    case NPCID.DungeonGuardian:
-                        protection = 0.999999f;
-                        break;
+					case NPCID.DungeonGuardian:
+						protection = 0.999999f;
+						break;
 
-                    default:
-                        break;
-                }
-            }
-        }
+					default:
+						break;
+				}
+			}
+		}
         #endregion
 
         #region Other Stat Changes
@@ -1126,10 +1137,10 @@ namespace CalamityMod.NPCs
         // TODO: Change Iron Heart damage in here for Iron Heart mode
         #region Iron Heart Changes
         private void IronHeartChanges(NPC npc)
-        {
-            // Iron Heart damage variable will scale with npc.damage
-            ironHeartDamage = 0;
-        }
+		{
+			// Iron Heart damage variable will scale with npc.damage
+			ironHeartDamage = 0;
+		}
         #endregion
 
         #region Scale Expert Multiplayer Stats
@@ -1300,9 +1311,14 @@ namespace CalamityMod.NPCs
         #region Can Hit Player
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
-            if (CalamityWorld.downedDoG && !npc.boss && !npc.friendly && !npc.dontTakeDamage)
+            if (!npc.boss && !npc.friendly && !npc.dontTakeDamage)
             {
-                if (Main.pumpkinMoon || Main.snowMoon || Main.eclipse)
+                if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
+                {
+                    cooldownSlot = 1;
+                }
+
+                if(CalamityWorld.buffedEclipse && Main.eclipse)
                 {
                     cooldownSlot = 1;
                 }
@@ -1525,6 +1541,13 @@ namespace CalamityMod.NPCs
                         return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod);
                     case NPCID.PlanterasTentacle:
                         return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod);
+
+                    case NPCID.Golem:
+						return CalamityGlobalAI.BuffedGolemAI(npc, enraged, mod);
+					case NPCID.GolemHead:
+						return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged, mod);
+					case NPCID.GolemHeadFree:
+						return CalamityGlobalAI.BuffedGolemHeadFreeAI(npc, enraged, mod);
 
                     case NPCID.DukeFishron:
                         return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged, mod);
@@ -2090,101 +2113,84 @@ namespace CalamityMod.NPCs
 
         #region AI
         public override void AI(NPC npc)
-        {
-            if (!CalamityWorld.spawnedHardBoss)
-            {
-                if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer || npc.type == NPCID.SkeletronPrime ||
-                    npc.type == NPCID.Plantera || npc.type == mod.NPCType("Cryogen") || npc.type == mod.NPCType("AquaticScourgeHead") ||
-                    npc.type == mod.NPCType("BrimstoneElemental") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("AstrumDeusHeadSpectral") ||
-                    npc.type == mod.NPCType("Calamitas") || npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("PlaguebringerGoliath") ||
-                    npc.type == mod.NPCType("ScavengerBody") || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
-                {
-                    CalamityWorld.spawnedHardBoss = true;
-                    CalamityMod.UpdateServerBoolean();
-                }
-            }
+		{
+			if (!CalamityWorld.spawnedHardBoss)
+			{
+				if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.Spazmatism || npc.type == NPCID.Retinazer || npc.type == NPCID.SkeletronPrime ||
+					npc.type == NPCID.Plantera || npc.type == mod.NPCType("Cryogen") || npc.type == mod.NPCType("AquaticScourgeHead") ||
+					npc.type == mod.NPCType("BrimstoneElemental") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("AstrumDeusHeadSpectral") ||
+					npc.type == mod.NPCType("Calamitas") || npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("PlaguebringerGoliath") ||
+					npc.type == mod.NPCType("ScavengerBody") || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
+				{
+					CalamityWorld.spawnedHardBoss = true;
+					CalamityMod.UpdateServerBoolean();
+				}
+			}
 
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
-            {
-                bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
-                switch (npc.type)
-                {
-                    case NPCID.MoonLordFreeEye:
-                        CalamityGlobalAI.RevengeanceMoonLordFreeEyeAI(npc);
-                        break;
+				switch (npc.type)
+				{
+					case NPCID.MoonLordFreeEye:
+						CalamityGlobalAI.RevengeanceMoonLordFreeEyeAI(npc);
+						break;
 
-                    case NPCID.MoonLordCore:
-                        CalamityGlobalAI.RevengeanceMoonLordCoreAI(npc);
-                        break;
+					case NPCID.MoonLordCore:
+						CalamityGlobalAI.RevengeanceMoonLordCoreAI(npc);
+						break;
 
-                    case NPCID.MoonLordHand:
-                    case NPCID.MoonLordHead:
-                        CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
-                        break;
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordHead:
+						CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
+						break;
 
-                    case NPCID.CultistBoss:
-                        CalamityGlobalAI.RevengeanceCultistAI(npc, configBossRushBoost, mod, enraged);
-                        break;
+					case NPCID.CultistBoss:
+						CalamityGlobalAI.RevengeanceCultistAI(npc, configBossRushBoost, mod, enraged);
+						break;
+					case NPCID.DungeonGuardian:
+						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
+						break;
 
-                    case NPCID.GolemHeadFree:
-                        if (!CalamityWorld.bossRushActive)
-                        {
-                            CalamityGlobalAI.RevengeanceGolemHeadFreeAI(npc);
-                        }
+					case NPCID.Lihzahrd:
+						CalamityGlobalAI.RevengeanceLihzahrdAI(npc);
+						break;
 
-                        break;
+					case NPCID.IceGolem:
+						CalamityGlobalAI.RevengeanceIceGolemAI(npc);
+						break;
 
-                    case NPCID.GolemHead:
-                        if (!CalamityWorld.bossRushActive)
-                        {
-                            CalamityGlobalAI.RevengeanceGolemHeadAI(npc);
-                        }
+					default:
+						break;
+				}
+			}
+		}
+		#endregion
 
-                        break;
+		#region Post AI
+		public override void PostAI(NPC npc)
+		{
+			if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
+			{
+				npc.velocity.X *= 0.95f;
+				npc.velocity.Y *= 0.95f;
+			}
 
-                    case NPCID.DungeonGuardian:
-                        CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
-                        break;
-
-                    case NPCID.Lihzahrd:
-                        CalamityGlobalAI.RevengeanceLihzahrdAI(npc);
-                        break;
-
-                    case NPCID.IceGolem:
-                        CalamityGlobalAI.RevengeanceIceGolemAI(npc);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-        }
-        #endregion
-
-        #region Post AI
-        public override void PostAI(NPC npc)
-        {
-            if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
-            {
-                npc.velocity.X *= 0.95f;
-                npc.velocity.Y *= 0.95f;
-            }
-
-            if (!CalamityWorld.bossRushActive)
-            {
-                if (silvaStun)
-                {
-                    npc.velocity.X = 0f;
-                    npc.velocity.Y = 0f;
-                }
-                else if (timeSlow)
-                {
-                    npc.velocity.X *= 0.85f;
-                    npc.velocity.Y *= 0.85f;
-                }
-            }
-        }
+			if (!CalamityWorld.bossRushActive)
+			{
+				if (silvaStun)
+				{
+					npc.velocity.X = 0f;
+					npc.velocity.Y = 0f;
+				}
+				else if (timeSlow)
+				{
+					npc.velocity.X *= 0.85f;
+					npc.velocity.Y *= 0.85f;
+				}
+			}
+		}
         #endregion
 
         #region On Hit Player
@@ -2216,30 +2222,30 @@ namespace CalamityMod.NPCs
             }
 
             if (CalamityWorld.revenge)
-            {
-                if (Config.RevengeanceAndDeathThoriumBossBuff)
-                {
-                    Mod thorium = ModLoader.GetMod("ThoriumMod");
-                    if (thorium != null)
-                    {
-                        if (npc.type == thorium.NPCType("GraniteEnergyStorm") || npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") ||
-                            npc.type == thorium.NPCType("TheBuriedWarrior2") || npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("CryoCore") ||
-                            npc.type == thorium.NPCType("BioCore") || npc.type == thorium.NPCType("PyroCore") || npc.type == thorium.NPCType("SlagFury") ||
-                            npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") || npc.type == thorium.NPCType("Aquaius") ||
-                            npc.type == thorium.NPCType("Aquaius2"))
-                        {
-                            target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
-                        }
-                        else if (npc.type == thorium.NPCType("ViscountBaby") || npc.type == thorium.NPCType("EnemyBeholder") || npc.type == thorium.NPCType("AbyssalSpawn") ||
-                            npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2") ||
-                            npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("Abyssion") ||
-                            npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
-                        {
-                            target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
-                            target.AddBuff(mod.BuffType("Horror"), 180);
-                        }
-                    }
-                }
+			{
+				if (Config.RevengeanceAndDeathThoriumBossBuff)
+				{
+					Mod thorium = ModLoader.GetMod("ThoriumMod");
+					if (thorium != null)
+					{
+						if (npc.type == thorium.NPCType("GraniteEnergyStorm") || npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") ||
+							npc.type == thorium.NPCType("TheBuriedWarrior2") || npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("CryoCore") ||
+							npc.type == thorium.NPCType("BioCore") || npc.type == thorium.NPCType("PyroCore") || npc.type == thorium.NPCType("SlagFury") ||
+							npc.type == thorium.NPCType("Omnicide") || npc.type == thorium.NPCType("RealityBreaker") || npc.type == thorium.NPCType("Aquaius") ||
+							npc.type == thorium.NPCType("Aquaius2"))
+						{
+							target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+						}
+						else if (npc.type == thorium.NPCType("ViscountBaby") || npc.type == thorium.NPCType("EnemyBeholder") || npc.type == thorium.NPCType("AbyssalSpawn") ||
+							npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("FallenDeathBeholder") || npc.type == thorium.NPCType("FallenDeathBeholder2") ||
+							npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("Abyssion") ||
+							npc.type == thorium.NPCType("AbyssionCracked") || npc.type == thorium.NPCType("AbyssionReleased"))
+						{
+							target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+							target.AddBuff(mod.BuffType("Horror"), 180);
+						}
+					}
+				}
 
                 switch (npc.type)
                 {
@@ -2812,16 +2818,16 @@ namespace CalamityMod.NPCs
 
         #region Edit Spawn Pool
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ||
-                spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity ||
-                spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur ||
-                spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea ||
-                (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !NPC.LunarApocalypseIsUp))
-            {
-                pool[0] = 0f;
-            }
-        }
+		{
+			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyss ||
+				spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity ||
+				spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur ||
+				spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea ||
+				(spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !NPC.LunarApocalypseIsUp))
+			{
+				pool[0] = 0f;
+			}
+		}
         #endregion
 
         #region Drawing
@@ -3642,20 +3648,20 @@ namespace CalamityMod.NPCs
 
         #region Any Boss NPCs
         public static bool AnyBossNPCS()
-        {
-            Mod mod = ModLoader.GetMod("CalamityMod");
+		{
+			Mod mod = ModLoader.GetMod("CalamityMod");
 
-            for (int i = 0; i < 200; i++)
-            {
-                if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
-                    (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == mod.NPCType("SlimeGodRun") ||
-                    Main.npc[i].type == mod.NPCType("SlimeGodRunSplit") || Main.npc[i].type == mod.NPCType("SlimeGod") || Main.npc[i].type == mod.NPCType("SlimeGodSplit")))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+			for (int i = 0; i < 200; i++)
+			{
+				if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
+					(Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == mod.NPCType("SlimeGodRun") ||
+					Main.npc[i].type == mod.NPCType("SlimeGodRunSplit") || Main.npc[i].type == mod.NPCType("SlimeGod") || Main.npc[i].type == mod.NPCType("SlimeGodSplit")))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
         #endregion
 
         #region Any Living Players
@@ -3674,19 +3680,19 @@ namespace CalamityMod.NPCs
 
         #region Should Affect NPC
         public static bool ShouldAffectNPC(NPC target)
-        {
-            Mod mod = ModLoader.GetMod("CalamityMod");
+		{
+			Mod mod = ModLoader.GetMod("CalamityMod");
 
-            if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Mothron &&
-                target.type != NPCID.Pumpking && target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
-                target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCID.IceQueen &&
-                target.type != mod.NPCType("Reaper") && target.type != mod.NPCType("Mauler") && target.type != mod.NPCType("EidolonWyrmHead") &&
-                target.type != mod.NPCType("EidolonWyrmHeadHuge") && target.type != mod.NPCType("ColossalSquid") && target.type != NPCID.DD2Betsy)
-            {
-                return true;
-            }
-            return false;
-        }
+			if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Mothron &&
+				target.type != NPCID.Pumpking && target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
+				target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCID.IceQueen &&
+				target.type != mod.NPCType("Reaper") && target.type != mod.NPCType("Mauler") && target.type != mod.NPCType("EidolonWyrmHead") &&
+				target.type != mod.NPCType("EidolonWyrmHeadHuge") && target.type != mod.NPCType("ColossalSquid") && target.type != NPCID.DD2Betsy)
+			{
+				return true;
+			}
+			return false;
+		}
         #endregion
 
         #region Old Duke Spawn
