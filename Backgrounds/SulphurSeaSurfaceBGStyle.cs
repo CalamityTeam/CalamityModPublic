@@ -1,8 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-using CalamityMod.CalPlayer;
-
 namespace CalamityMod.Backgrounds
 {
     public class SulphurSeaSurfaceBGStyle : ModSurfaceBgStyle
@@ -13,10 +11,7 @@ namespace CalamityMod.Backgrounds
             return mod.GetBackgroundSlot("Backgrounds/SulphurSeaSurfaceClose");
         }
 
-        public override bool ChooseBgStyle()
-        {
-            return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur;
-        }
+        public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.InSulphur();
 
         public override void ModifyFarFades(float[] fades, float transitionSpeed)
         {

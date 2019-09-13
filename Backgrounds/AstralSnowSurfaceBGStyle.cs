@@ -1,30 +1,17 @@
-﻿
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
-
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Backgrounds
 {
     public class AstralSnowSurfaceBGStyle : ModSurfaceBgStyle
     {
-        public override int ChooseFarTexture()
-        {
-            return mod.GetBackgroundSlot("Backgrounds/AstralSnowSurfaceFar");
-        }
-        public override int ChooseMiddleTexture()
-        {
-            return mod.GetBackgroundSlot("Backgrounds/AstralSnowSurfaceMiddle");
-        }
-        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
-        {
-            return mod.GetBackgroundSlot("Backgrounds/AstralSurfaceClose");
-        }
+        public override int ChooseFarTexture() => mod.GetBackgroundSlot("Backgrounds/AstralSnowSurfaceFar");
 
-        public override bool ChooseBgStyle()
-        {
-            return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && Main.LocalPlayer.ZoneSnow;
-        }
+        public override int ChooseMiddleTexture() => mod.GetBackgroundSlot("Backgrounds/AstralSnowSurfaceMiddle");
+
+        public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b) => mod.GetBackgroundSlot("Backgrounds/AstralSurfaceClose");
+
+        public override bool ChooseBgStyle() => !Main.gameMenu && Main.LocalPlayer.InAstral() && Main.LocalPlayer.ZoneSnow;
 
         public override void ModifyFarFades(float[] fades, float transitionSpeed)
         {
