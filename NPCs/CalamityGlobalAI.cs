@@ -12711,101 +12711,1868 @@ namespace CalamityMod.NPCs
 				}
 			}
 		}
-		#endregion
+        #endregion
 
-		#region Revengeance Golem AI
-		public static void RevengeanceGolemHeadFreeAI(NPC npc)
-		{
-			// Enrage if the player isn't inside the temple
-			bool enrage = true;
-			if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
-			{
-				int num = (int)Main.player[npc.target].Center.X / 16;
-				int num2 = (int)Main.player[npc.target].Center.Y / 16;
-				Tile tile = Framing.GetTileSafely(num, num2);
+        #region Buffed Golem AI
+        public static bool BuffedGolemAI(NPC npc, bool enraged, Mod mod)
+        {
+            // whoAmI variable
+            NPC.golemBoss = npc.whoAmI;
 
-				if (tile.wall == 87)
-					enrage = false;
-			}
+            // Percent life remaining
+            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
-			// Check if Golem body is still alive to avoid index out of bounds errors
-			if (NPC.CountNPCS(NPCID.Golem) > 0)
-			{
-				// Increase laser fire rate if enraged
-				if (enrage)
-				{
-					npc.ai[1] += 3f;
-					npc.ai[2] += 3f;
-				}
+            // Phases
+            bool phase2 = lifeRatio < 0.75f;
+            bool phase3 = lifeRatio < 0.5f;
+            bool phase4 = lifeRatio < 0.25f;
 
-				// Decrease laser and fireball fire rate to make the fight more fair
-				npc.ai[1] -= 0.25f; //0.75
-				if ((double)Main.npc[NPC.golemBoss].life < (double)Main.npc[NPC.golemBoss].lifeMax * 0.8)
-					npc.ai[1] -= 0.75f; //1
-				if ((double)Main.npc[NPC.golemBoss].life < (double)Main.npc[NPC.golemBoss].lifeMax * 0.6)
-					npc.ai[1] -= 0.75f; //1.25
-				if ((double)Main.npc[NPC.golemBoss].life < (double)Main.npc[NPC.golemBoss].lifeMax * 0.2)
-					npc.ai[1] -= 0.75f; //1.5
-				if ((double)Main.npc[NPC.golemBoss].life < (double)Main.npc[NPC.golemBoss].lifeMax * 0.1)
-					npc.ai[1] -= 0.75f; //1.75
+            // Spawn parts
+            if (npc.localAI[0] == 0f && Main.netMode != 1)
+            {
+                npc.localAI[0] = 1f;
+                NPC.NewNPC((int)npc.Center.X - 84, (int)npc.Center.Y - 9, NPCID.GolemFistLeft, 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X + 78, (int)npc.Center.Y - 9, NPCID.GolemFistRight, 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X - 3, (int)npc.Center.Y - 57, NPCID.GolemHead, 0, 0f, 0f, 0f, 0f, 255);
+            }
 
-				npc.ai[2] -= 0.25f; //0.75
-				if (Main.npc[NPC.golemBoss].life < Main.npc[NPC.golemBoss].lifeMax / 2)
-					npc.ai[2] -= 0.75f; //1
-				if (Main.npc[NPC.golemBoss].life < Main.npc[NPC.golemBoss].lifeMax / 3)
-					npc.ai[2] -= 0.75f; //1.25
-				if (Main.npc[NPC.golemBoss].life < Main.npc[NPC.golemBoss].lifeMax / 4)
-					npc.ai[2] -= 0.5f; //1.75
-				if (Main.npc[NPC.golemBoss].life < Main.npc[NPC.golemBoss].lifeMax / 5)
-					npc.ai[2] -= 0.5f; //1.25
-				if (Main.npc[NPC.golemBoss].life < Main.npc[NPC.golemBoss].lifeMax / 6)
-					npc.ai[2] -= 0.25f; //2
-			}
-		}
+            // Despawn
+            if (npc.target >= 0 && Main.player[npc.target].dead)
+            {
+                npc.TargetClosest(true);
+                if (Main.player[npc.target].dead)
+                    npc.noTileCollide = true;
+            }
 
-		public static void RevengeanceGolemHeadAI(NPC npc)
-		{
-			// Enrage if the player isn't inside the temple
-			bool enrage = true;
-			if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
-			{
-				int num = (int)Main.player[npc.target].Center.X / 16;
-				int num2 = (int)Main.player[npc.target].Center.Y / 16;
-				Tile tile = Framing.GetTileSafely(num, num2);
+            // Enrage if the target isn't inside the temple
+            bool enrage = true;
+            if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+            {
+                int num = (int)Main.player[npc.target].Center.X / 16;
+                int num2 = (int)Main.player[npc.target].Center.Y / 16;
 
-				if (tile.wall == 87)
-					enrage = false;
-			}
+                Tile tile = Framing.GetTileSafely(num, num2);
+                if (tile.wall == WallID.LihzahrdBrickUnsafe)
+                    enrage = false;
+            }
 
-			if (npc.ai[0] == 1f)
-			{
-				// Increase laser fire rate if enraged
-				if (enrage)
-				{
-					npc.ai[1] += 3f;
-					npc.ai[2] += 3f;
-				}
+            // Alpha
+            if (npc.alpha > 0)
+            {
+                npc.alpha -= 10;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
 
-				// Decrease laser and fireball fire rate to make the fight more fair
-				npc.ai[1] -= 0.25f; //0.75
-				if ((double)npc.life < (double)npc.lifeMax * 0.4)
-					npc.ai[1] -= 0.75f; //1
-				if ((double)npc.life < (double)npc.lifeMax * 0.2)
-					npc.ai[1] -= 0.75f; //1.25
+                npc.ai[1] = 0f;
+            }
 
-				npc.ai[2] -= 0.25f; //0.75
-				if (npc.life < npc.lifeMax / 3)
-					npc.ai[2] -= 0.75f; //1
-				if (npc.life < npc.lifeMax / 4)
-					npc.ai[2] -= 0.75f; //1.25
-				if (npc.life < npc.lifeMax / 5)
-					npc.ai[2] -= 0.75f; //1.5
-			}
-		}
-		#endregion
+            // Check for body parts
+            bool flag40 = NPC.AnyNPCs(NPCID.GolemHead);
+            bool flag41 = NPC.AnyNPCs(NPCID.GolemFistLeft);
+            bool flag42 = NPC.AnyNPCs(NPCID.GolemFistRight);
+            npc.dontTakeDamage = flag40 || flag41 || flag42;
 
-		#region Revengeance Dungeon Guardian AI
-		public static void RevengeanceDungeonGuardianAI(NPC npc, bool configBossRushBoost, bool enraged)
+            // Spawn arm dust
+            if (!flag41)
+            {
+                int num642 = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y - 9f), 8, 8, 31, 0f, 0f, 100, default(Color), 1f);
+                Dust dust = Main.dust[num642];
+                dust.alpha += Main.rand.Next(100);
+                dust.velocity *= 0.2f;
+                dust.velocity.Y = dust.velocity.Y - (0.5f + (float)Main.rand.Next(10) * 0.1f);
+                dust.fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
+
+                if (Main.rand.Next(10) == 0)
+                {
+                    num642 = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default(Color), 1f);
+                    if (Main.rand.Next(20) != 0)
+                    {
+                        Main.dust[num642].noGravity = true;
+                        dust = Main.dust[num642];
+                        dust.scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
+                        dust.velocity.Y = dust.velocity.Y - 1f;
+                    }
+                }
+            }
+            if (!flag42)
+            {
+                int num643 = Dust.NewDust(new Vector2(npc.Center.X + 62f, npc.Center.Y - 9f), 8, 8, 31, 0f, 0f, 100, default(Color), 1f);
+                Dust dust = Main.dust[num643];
+                dust.alpha += Main.rand.Next(100);
+                dust.velocity *= 0.2f;
+                dust.velocity.Y = dust.velocity.Y - (0.5f + (float)Main.rand.Next(10) * 0.1f);
+                dust.fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
+
+                if (Main.rand.Next(10) == 0)
+                {
+                    num643 = Dust.NewDust(new Vector2(npc.Center.X + 62f, npc.Center.Y - 9f), 8, 8, 6, 0f, 0f, 0, default(Color), 1f);
+                    if (Main.rand.Next(20) != 0)
+                    {
+                        Main.dust[num643].noGravity = true;
+                        dust = Main.dust[num643];
+                        dust.scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
+                        dust.velocity.Y = dust.velocity.Y - 1f;
+                    }
+                }
+            }
+
+            // Jump
+            if (npc.ai[0] == 0f)
+            {
+                npc.noTileCollide = false;
+
+                if (npc.velocity.Y == 0f)
+                {
+                    // Laser fire when head is dead
+                    if (Main.netMode != 1 && !flag40)
+                    {
+                        npc.localAI[1] += 1f;
+
+                        float divisor = 14f -
+                            (phase2 ? 7f : 0f) -
+                            (phase3 ? 3f : 0f) -
+                            (phase4 ? 1f : 0f);
+
+                        if (enrage)
+                            divisor = 3f;
+
+                        if (npc.localAI[1] % divisor == 0f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
+                        {
+                            Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y - 40f);
+                            float num673 = enrage ? 12f : 6f;
+                            float num674 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector82.X;
+                            float num675 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector82.Y;
+                            float num676 = (float)Math.Sqrt((double)(num674 * num674 + num675 * num675));
+
+                            num676 = num673 / num676;
+                            num674 *= num676;
+                            num675 *= num676;
+                            vector82.X += num674 * 3f;
+                            vector82.Y += num675 * 3f;
+
+                            if (Main.netMode != 1)
+                            {
+                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, ProjectileID.EyeBeam, 35, 0f, Main.myPlayer, 0f, 0f);
+                                Main.projectile[num677].timeLeft = 480;
+                            }
+                        }
+
+                        if (npc.localAI[1] >= 15f)
+                            npc.localAI[1] = 0f;
+                    }
+
+                    // Slow down
+                    npc.velocity.X = npc.velocity.X * 0.8f;
+
+                    // Delay before jumping
+                    npc.ai[1] += 1f;
+                    if (npc.ai[1] > 0f)
+                    {
+                        npc.ai[1] += 1f;
+                        if (enrage)
+                            npc.ai[1] += 18f;
+                        else
+                        {
+                            if (!flag41)
+                                npc.ai[1] += 6f;
+                            if (!flag42)
+                                npc.ai[1] += 6f;
+                            if (!flag40)
+                                npc.ai[1] += 6f;
+                        }
+                    }
+                    if (npc.ai[1] >= 300f)
+                    {
+                        npc.ai[1] = -20f;
+                        npc.frameCounter = 0.0;
+                    }
+                    else if (npc.ai[1] == -1f)
+                    {
+                        // Set jump velocity
+                        npc.TargetClosest(true);
+
+                        float velocityX = 4f + (8f * (1f - lifeRatio));
+                        if (enrage)
+                            velocityX *= 1.5f;
+
+                        npc.velocity.X = velocityX * (float)npc.direction;
+                        npc.velocity.Y = -12.1f;
+
+                        if (npc.target >= 0 && Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+                            npc.noTileCollide = true;
+
+                        npc.ai[0] = 1f;
+                        npc.ai[1] = 0f;
+                    }
+                }
+            }
+
+            // Fall down
+            else if (npc.ai[0] == 1f)
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    // Play sound
+                    Main.PlaySound(SoundID.Item14, npc.position);
+
+                    npc.ai[0] = 0f;
+
+                    // Dust and gore
+                    for (int num644 = (int)npc.position.X - 20; num644 < (int)npc.position.X + npc.width + 40; num644 += 20)
+                    {
+                        for (int num645 = 0; num645 < 4; num645++)
+                        {
+                            int num646 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, 31, 0f, 0f, 100, default(Color), 1.5f);
+                            Dust dust = Main.dust[num646];
+                            dust.velocity *= 0.2f;
+                        }
+                        int num647 = Gore.NewGore(new Vector2((float)(num644 - 20), npc.position.Y + (float)npc.height - 8f), default(Vector2), Main.rand.Next(61, 64), 1f);
+                        Gore gore = Main.gore[num647];
+                        gore.velocity *= 0.4f;
+                    }
+
+                    // Fireball explosion when head is dead
+                    if (Main.netMode != 1 && !flag40)
+                    {
+                        for (int num621 = 0; num621 < 10; num621++)
+                        {
+                            int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2f);
+                            Main.dust[num622].velocity.Y *= 6f;
+                            Main.dust[num622].velocity.X *= 3f;
+                            if (Main.rand.Next(2) == 0)
+                            {
+                                Main.dust[num622].scale = 0.5f;
+                                Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            }
+                        }
+                        for (int num623 = 0; num623 < 20; num623++)
+                        {
+                            int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 3f);
+                            Main.dust[num624].noGravity = true;
+                            Main.dust[num624].velocity.Y *= 10f;
+                            num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2f);
+                            Main.dust[num624].velocity.X *= 2f;
+                        }
+
+                        int spawnX = (int)(npc.width / 2);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            float velocityX = Main.rand.NextBool() ? (float)Main.rand.Next(5, 7) : (float)Main.rand.Next(-6, -4);
+                            float velocityY = (float)Main.rand.Next(-2, 3);
+
+                            if (enrage)
+                            {
+                                velocityX *= 2f;
+                                velocityY *= 2f;
+                            }
+
+                            int proj = Projectile.NewProjectile(npc.Center.X + (float)Main.rand.Next(-spawnX, spawnX), npc.Center.Y + (float)(npc.width / 2) * 0.8f,
+                                velocityX, velocityY, ProjectileID.Fireball, 32, 0f, Main.myPlayer, 0f, 0f);
+                            Main.projectile[proj].timeLeft = 240;
+                        }
+                    }
+                }
+                else
+                {
+                    npc.TargetClosest(true);
+
+                    // Fall through
+                    if (npc.target >= 0 &&
+                        ((Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height && npc.velocity.Y < 0f)))
+                        npc.noTileCollide = true;
+                    else
+                        npc.noTileCollide = false;
+
+                    // Velocity when falling
+                    if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
+                    {
+                        npc.velocity.X = npc.velocity.X * 0.9f;
+
+                        if (Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height)
+                        {
+                            float fallSpeed = 0.2f + (0.8f * (1f - lifeRatio));
+                            if (enrage)
+                                fallSpeed *= 1.5f;
+
+                            npc.velocity.Y = npc.velocity.Y + fallSpeed;
+                        }
+                    }
+                    else
+                    {
+                        if (npc.direction < 0)
+                            npc.velocity.X = npc.velocity.X - 0.2f;
+                        else if (npc.direction > 0)
+                            npc.velocity.X = npc.velocity.X + 0.2f;
+
+                        float num648 = 3f + (6f * (1f - lifeRatio));
+                        if (enrage)
+                            num648 *= 1.5f;
+
+                        if (npc.velocity.X < -num648)
+                            npc.velocity.X = -num648;
+                        if (npc.velocity.X > num648)
+                            npc.velocity.X = num648;
+                    }
+                }
+            }
+
+            // Target
+            if (npc.target <= 0 || npc.target == 255 || Main.player[npc.target].dead)
+                npc.TargetClosest(true);
+
+            // Despawn
+            int num649 = 3000;
+            if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)num649)
+            {
+                npc.TargetClosest(true);
+
+                if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)num649)
+                    npc.active = false;
+            }
+
+            return false;
+        }
+
+        public static bool BuffedGolemHeadAI(NPC npc, bool enraged, Mod mod)
+        {
+            // Don't collide
+            npc.noTileCollide = true;
+
+            // Die if body is gone
+            if (NPC.golemBoss < 0)
+            {
+                npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
+                return false;
+            }
+
+            // Percent life remaining
+            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+            // Count body parts
+            bool flag41 = NPC.AnyNPCs(NPCID.GolemFistLeft);
+            bool flag42 = NPC.AnyNPCs(NPCID.GolemFistRight);
+            npc.dontTakeDamage = flag41 || flag42;
+
+            // Stay in position on top of body
+            float num650 = 12f;
+            Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
+            float num651 = Main.npc[NPC.golemBoss].Center.X - vector80.X;
+            float num652 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
+            num652 -= 57f;
+            num651 -= 3f;
+            float num653 = (float)Math.Sqrt((double)(num651 * num651 + num652 * num652));
+            if (num653 < 20f)
+            {
+                npc.rotation = 0f;
+                npc.velocity.X = num651;
+                npc.velocity.Y = num652;
+            }
+            else
+            {
+                num653 = num650 / num653;
+                npc.velocity.X = num651 * num653;
+                npc.velocity.Y = num652 * num653;
+                npc.rotation = npc.velocity.X * 0.1f;
+            }
+
+            // Enrage if the target isn't inside the temple
+            bool enrage = true;
+            if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+            {
+                int num = (int)Main.player[npc.target].Center.X / 16;
+                int num2 = (int)Main.player[npc.target].Center.Y / 16;
+
+                Tile tile = Framing.GetTileSafely(num, num2);
+                if (tile.wall == WallID.LihzahrdBrickUnsafe)
+                    enrage = false;
+            }
+
+            // Alpha
+            if (npc.alpha > 0)
+            {
+                npc.alpha -= 10;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
+
+                npc.ai[1] = 30f;
+            }
+
+            // Spit fireballs if arms are alive
+            if (npc.ai[0] == 0f)
+            {
+                npc.ai[1] += 1f;
+                int num654 = 300;
+                if (npc.ai[1] < 20f || npc.ai[1] > (float)(num654 - 20))
+                    npc.localAI[0] = 1f;
+                else
+                    npc.localAI[0] = 0f;
+
+                if (npc.ai[1] >= (float)num654)
+                {
+                    npc.TargetClosest(true);
+
+                    npc.ai[1] = 0f;
+
+                    Vector2 vector81 = new Vector2(npc.Center.X, npc.Center.Y + 10f);
+                    float num655 = enrage ? 16f : 8f;
+                    float num656 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector81.X;
+                    float num657 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector81.Y;
+                    float num658 = (float)Math.Sqrt((double)(num656 * num656 + num657 * num657));
+
+                    num658 = num655 / num658;
+                    num656 *= num658;
+                    num657 *= num658;
+
+                    if (Main.netMode != 1)
+                        Projectile.NewProjectile(vector81.X, vector81.Y, num656, num657, ProjectileID.Fireball, 30, 0f, Main.myPlayer, 0f, 0f);
+                }
+            }
+
+            // Shoot lasers and fireballs if arms are dead
+            else if (npc.ai[0] == 1f)
+            {
+                npc.TargetClosest(true);
+
+                // Fire projectiles from eye positions
+                Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y + 10f);
+                if (Main.player[npc.target].Center.X < npc.Center.X - (float)npc.width)
+                {
+                    npc.localAI[1] = -1f;
+                    vector82.X -= 40f;
+                }
+                else if (Main.player[npc.target].Center.X > npc.Center.X + (float)npc.width)
+                {
+                    npc.localAI[1] = 1f;
+                    vector82.X += 40f;
+                }
+                else
+                    npc.localAI[1] = 0f;
+
+                // Fireballs
+                npc.ai[1] += 1f + (2f * (1f - lifeRatio));
+
+                int num662 = 300;
+                if (npc.ai[1] < 20f || npc.ai[1] > (float)(num662 - 20))
+                    npc.localAI[0] = 1f;
+                else
+                    npc.localAI[0] = 0f;
+
+                if (npc.ai[1] >= (float)num662)
+                {
+                    npc.TargetClosest(true);
+
+                    npc.ai[1] = 0f;
+
+                    float num663 = enrage ? 16f : 8f;
+                    float num664 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector82.X;
+                    float num665 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector82.Y;
+                    float num666 = (float)Math.Sqrt((double)(num664 * num664 + num665 * num665));
+
+                    num666 = num663 / num666;
+                    num664 *= num666;
+                    num665 *= num666;
+
+                    if (Main.netMode != 1)
+                        Projectile.NewProjectile(vector82.X, vector82.Y, num664, num665, ProjectileID.Fireball, 32, 0f, Main.myPlayer, 0f, 0f);
+                }
+
+                // Lasers
+                npc.ai[2] += 1f + (3f * (1f - lifeRatio));
+                if (enrage)
+                    npc.ai[2] += 4f;
+                if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                    npc.ai[2] += 8f;
+
+                if (npc.ai[2] >= 150f)
+                {
+                    npc.ai[2] = 0f;
+
+                    int num670 = 35;
+                    int num671 = ProjectileID.EyeBeam;
+
+                    if (npc.localAI[1] == 0f)
+                    {
+                        for (int num672 = 0; num672 < 2; num672++)
+                        {
+                            vector82 = new Vector2(npc.Center.X, npc.Center.Y - 22f);
+                            if (num672 == 0)
+                                vector82.X -= 18f;
+                            else
+                                vector82.X += 18f;
+
+                            float num673 = 9f;
+                            if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                                num673 = 14f;
+
+                            float num674 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector82.X;
+                            float num675 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector82.Y;
+                            float num676 = (float)Math.Sqrt((double)(num674 * num674 + num675 * num675));
+
+                            num676 = num673 / num676;
+                            num674 *= num676;
+                            num675 *= num676;
+                            vector82.X += num674 * 3f;
+                            vector82.Y += num675 * 3f;
+
+                            if (Main.netMode != 1)
+                            {
+                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, num671, num670, 0f, Main.myPlayer, 0f, 0f);
+                                Main.projectile[num677].timeLeft = (enrage ? 480 : 300);
+                            }
+                        }
+                    }
+                    else if (npc.localAI[1] != 0f)
+                    {
+                        vector82 = new Vector2(npc.Center.X, npc.Center.Y - 22f);
+                        if (npc.localAI[1] == -1f)
+                            vector82.X -= 30f;
+                        else if (npc.localAI[1] == 1f)
+                            vector82.X += 30f;
+
+                        float num678 = 9f;
+                        if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                            num678 = 14f;
+
+                        float num679 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector82.X;
+                        float num680 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector82.Y;
+                        float num681 = (float)Math.Sqrt((double)(num679 * num679 + num680 * num680));
+
+                        num681 = num678 / num681;
+                        num679 *= num681;
+                        num680 *= num681;
+                        vector82.X += num679 * 3f;
+                        vector82.Y += num680 * 3f;
+
+                        if (Main.netMode != 1)
+                        {
+                            int num682 = Projectile.NewProjectile(vector82.X, vector82.Y, num679, num680, num671, num670, 0f, Main.myPlayer, 0f, 0f);
+                            Main.projectile[num682].timeLeft = (enrage ? 480 : 300);
+                        }
+                    }
+                }
+            }
+
+            // Laser fire if arms are dead
+            if (!flag41 && !flag42)
+            {
+                npc.ai[0] = 1f;
+                return false;
+            }
+            npc.ai[0] = 0f;
+
+            return false;
+        }
+
+        public static bool BuffedGolemHeadFreeAI(NPC npc, bool enraged, Mod mod)
+        {
+            CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+
+            // Die if body is gone
+            if (NPC.golemBoss < 0)
+            {
+                npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
+                return false;
+            }
+
+            // Percent life remaining
+            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+            float golemLifeRatio = (float)Main.npc[NPC.golemBoss].life / (float)Main.npc[NPC.golemBoss].lifeMax;
+            float combinedRatio = lifeRatio + golemLifeRatio;
+
+            // Phases
+            bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f;
+            bool phase3 = lifeRatio < 0.4f || golemLifeRatio < 0.7f;
+            bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f;
+
+            // Float through tiles or not
+            bool flag44 = false;
+            if (!Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1) || phase3)
+            {
+                npc.noTileCollide = true;
+                flag44 = true;
+            }
+            else
+                npc.noTileCollide = false;
+
+            // Target
+            npc.TargetClosest(true);
+
+            // Enrage if the target isn't inside the temple
+            bool enrage = true;
+            if ((double)Main.player[npc.target].Center.Y > Main.worldSurface * 16.0)
+            {
+                int num = (int)Main.player[npc.target].Center.X / 16;
+                int num2 = (int)Main.player[npc.target].Center.Y / 16;
+
+                Tile tile = Framing.GetTileSafely(num, num2);
+                if (tile.wall == WallID.LihzahrdBrickUnsafe)
+                    enrage = false;
+            }
+
+            // Move to new location
+            if (npc.ai[3] <= 0f)
+            {
+                npc.ai[3] = 300f;
+
+                float maxDistance = 300f;
+
+                // Four corners around target
+                if (phase3)
+                {
+                    if (calamityGlobalNPC.newAI[1] == -maxDistance)
+                    {
+                        switch ((int)calamityGlobalNPC.newAI[0])
+                        {
+                            case 0:
+                            case 300:
+                                calamityGlobalNPC.newAI[0] = -maxDistance;
+                                break;
+                            case -300:
+                                calamityGlobalNPC.newAI[1] = maxDistance;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch ((int)calamityGlobalNPC.newAI[0])
+                        {
+                            case 0:
+                            case -300:
+                                calamityGlobalNPC.newAI[0] = maxDistance;
+                                break;
+                            case 300:
+                                calamityGlobalNPC.newAI[1] = -maxDistance;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                // Above target
+                else if (phase2)
+                {
+                    switch ((int)calamityGlobalNPC.newAI[0])
+                    {
+                        case 0:
+                            calamityGlobalNPC.newAI[0] = maxDistance;
+                            break;
+                        case 300:
+                            calamityGlobalNPC.newAI[0] = -maxDistance;
+                            break;
+                        case -300:
+                            calamityGlobalNPC.newAI[0] = 0f;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    calamityGlobalNPC.newAI[0] = 0f;
+                    calamityGlobalNPC.newAI[1] = -maxDistance;
+                }
+            }
+
+            npc.ai[3] -= 1f +
+                (phase2 ? 1f : 0f) +
+                (phase3 ? 1f : 0f) +
+                (phase4 ? 2f : 0f);
+
+            float offsetX = calamityGlobalNPC.newAI[0];
+            float offsetY = calamityGlobalNPC.newAI[1];
+
+            // Velocity and acceleration
+            float num700 = 7f +
+                (phase2 ? 4f : 0f) +
+                (phase3 ? 4f : 0f);
+            if (enrage)
+                num700 = 15f;
+
+            Vector2 vector87 = new Vector2(npc.Center.X, npc.Center.Y);
+            float num702 = Main.player[npc.target].Center.X - vector87.X + offsetX;
+            float num703 = Main.player[npc.target].Center.Y - vector87.Y + offsetY;
+            float num704 = (float)Math.Sqrt((double)(num702 * num702 + num703 * num703));
+
+            // Static movement
+            if (phase3)
+            {
+                if (num704 < num700)
+                {
+                    npc.velocity.X = num702;
+                    npc.velocity.Y = num703;
+                }
+                else
+                {
+                    num704 = num700 / num704;
+                    npc.velocity.X = num702 * num704;
+                    npc.velocity.Y = num703 * num704;
+                }
+            }
+
+            // Rubber band movement
+            else
+            {
+                float num701 = 0.1f + (phase2 ? 0.1f : 0f);
+                if (enrage)
+                    num701 = 0.2f;
+
+                num704 = num700 / num704;
+                num702 *= num704;
+                num703 *= num704;
+
+                if (npc.velocity.X < num702)
+                {
+                    npc.velocity.X = npc.velocity.X + num701;
+                    if (npc.velocity.X < 0f && num702 > 0f)
+                        npc.velocity.X = npc.velocity.X + num701;
+                }
+                else if (npc.velocity.X > num702)
+                {
+                    npc.velocity.X = npc.velocity.X - num701;
+                    if (npc.velocity.X > 0f && num702 < 0f)
+                        npc.velocity.X = npc.velocity.X - num701;
+                }
+                if (npc.velocity.Y < num703)
+                {
+                    npc.velocity.Y = npc.velocity.Y + num701;
+                    if (npc.velocity.Y < 0f && num703 > 0f)
+                        npc.velocity.Y = npc.velocity.Y + num701;
+                }
+                else if (npc.velocity.Y > num703)
+                {
+                    npc.velocity.Y = npc.velocity.Y - num701;
+                    if (npc.velocity.Y > 0f && num703 < 0f)
+                        npc.velocity.Y = npc.velocity.Y - num701;
+                }
+            }
+
+            // Fireballs
+            npc.ai[1] += 1f + (2f * (2f - (lifeRatio + golemLifeRatio)));
+
+            int num705 = 360;
+            if (npc.ai[1] < 20f || npc.ai[1] > (float)(num705 - 20))
+                npc.localAI[0] = 1f;
+            else
+                npc.localAI[0] = 0f;
+
+            if (flag44 && !phase3)
+                npc.ai[1] = 20f;
+
+            if (npc.ai[1] >= (float)num705 && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
+            {
+                npc.TargetClosest(true);
+
+                npc.ai[1] = 0f;
+
+                Vector2 vector88 = new Vector2(npc.Center.X, npc.Center.Y - 10f);
+                float num706 = enrage ? 16f : 8f;
+                float num709 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector88.X;
+                float num710 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector88.Y;
+                float num711 = (float)Math.Sqrt((double)(num709 * num709 + num710 * num710));
+
+                num711 = num706 / num711;
+                num709 *= num711;
+                num710 *= num711;
+
+                int projectileType = phase3 ? ProjectileID.InfernoHostileBolt : ProjectileID.Fireball;
+                if (Main.netMode != 1)
+                {
+                    int proj = Projectile.NewProjectile(vector88.X, vector88.Y, num709, num710, projectileType, 32, 0f, Main.myPlayer, 0f, 0f);
+                    if (projectileType == ProjectileID.InfernoHostileBolt)
+                    {
+                        Main.projectile[proj].timeLeft = 300;
+                        Main.projectile[proj].ai[0] = Main.player[npc.target].Center.X;
+                        Main.projectile[proj].ai[1] = Main.player[npc.target].Center.Y;
+                        Main.projectile[proj].netUpdate = true;
+                    }
+                }
+            }
+
+            // Lasers
+            npc.ai[2] += 1f + (5f * (2f - (lifeRatio + golemLifeRatio)));
+            if (!Collision.CanHit(Main.npc[NPC.golemBoss].Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+                npc.ai[2] += 8f;
+
+            if (npc.ai[2] >= 150f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
+            {
+                npc.ai[2] = 0f;
+
+                for (int num713 = 0; num713 < 2; num713++)
+                {
+                    Vector2 vector89 = new Vector2(npc.Center.X, npc.Center.Y - 50f);
+                    if (num713 == 0)
+                        vector89.X -= 14f;
+                    else if (num713 == 1)
+                        vector89.X += 14f;
+
+                    float num714 = 9f + (2f * (2f - (lifeRatio + golemLifeRatio)));
+                    float num717 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector89.X;
+                    float num718 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector89.Y;
+                    float num719 = (float)Math.Sqrt((double)(num717 * num717 + num718 * num718));
+
+                    num719 = num714 / num719;
+                    num717 *= num719;
+                    num718 *= num719;
+                    vector89.X += num717 * 3f;
+                    vector89.Y += num718 * 3f;
+
+                    if (Main.netMode != 1)
+                    {
+                        int num720 = Projectile.NewProjectile(vector89.X, vector89.Y, num717, num718, ProjectileID.EyeBeam, 35, 0f, Main.myPlayer, 0f, 0f);
+                        Main.projectile[num720].timeLeft = (enrage ? 480 : 300);
+                    }
+                }
+            }
+
+            return false;
+        }
+        #endregion
+
+        #region Buffed Duke Fishron AI
+        public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
+        {
+            CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+
+            // Variables
+            float num = 0.6f * Main.damageMultiplier;
+            bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.66;
+            bool phase3 = (double)npc.life <= (double)npc.lifeMax * ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.33 : 0.2);
+            bool phase2AI = npc.ai[0] > 4f;
+            bool phase3AI = npc.ai[0] > 9f;
+            bool charging = npc.ai[3] < 10f;
+
+            // Adjust stats
+            if (phase3AI)
+            {
+                npc.damage = (int)((float)npc.defDamage * 1.1f * num);
+                npc.defense = (int)((float)npc.defDefense * 0.75f);
+            }
+            else if (phase2AI)
+            {
+                npc.damage = (int)((float)npc.defDamage * 1.2f * num);
+                npc.defense = npc.defDefense;
+            }
+            else
+            {
+                npc.damage = npc.defDamage;
+                npc.defense = (int)((float)npc.defDefense * 1.2f);
+            }
+
+            int num2 = 30;
+            float num3 = 0.55f;
+            float scaleFactor = 8.5f;
+            if (phase3AI)
+            {
+                num3 = 0.7f;
+                scaleFactor = 12f;
+            }
+            else if (phase2AI & charging)
+            {
+                num3 = 0.6f;
+                scaleFactor = 10f;
+            }
+
+            int chargeTime = 28;
+            float chargeVelocity = 17f;
+            if (phase3AI)
+            {
+                chargeTime = 25;
+                chargeVelocity = 27f;
+            }
+            else if (charging & phase2AI)
+            {
+                chargeTime = 27;
+                chargeVelocity = 21f;
+            }
+
+            // Variables
+            int num6 = 80;
+            int num7 = 4;
+            float num8 = 0.3f;
+            float scaleFactor2 = 5f;
+            int num9 = 90;
+            int num10 = 180;
+            int num11 = 180;
+            int num12 = 30;
+            int num13 = 120;
+            int num14 = 4;
+            float scaleFactor3 = 6f;
+            float scaleFactor4 = 20f;
+            float num15 = 6.28318548f / (float)(num13 / 2);
+            int num16 = 75;
+            Vector2 vector = npc.Center;
+            Player player = Main.player[npc.target];
+
+            // Get target
+            if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+            {
+                npc.TargetClosest(true);
+                player = Main.player[npc.target];
+                npc.netUpdate = true;
+            }
+
+            // Despawn
+            if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+            {
+                npc.velocity.Y = npc.velocity.Y - 0.4f;
+
+                if (npc.timeLeft > 10)
+                    npc.timeLeft = 10;
+
+                if (npc.ai[0] > 4f)
+                    npc.ai[0] = 5f;
+                else
+                    npc.ai[0] = 0f;
+
+                npc.ai[2] = 0f;
+            }
+
+            // Enrage variable
+            bool enrage = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
+
+            // If the player isn't in the ocean biome or Fishron is transitioning between phases, become immune
+            if (!phase3AI)
+                npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f || enrage;
+
+            // Enrage
+            if (enrage)
+            {
+                num2 = 20;
+                npc.damage = npc.defDamage * 2;
+                npc.defense = npc.defDefense * 2;
+                npc.ai[3] = 0f;
+                chargeVelocity += 8f;
+            }
+
+            // Spawn cthulhunadoes in phase 3
+            if (phase3AI)
+            {
+                calamityGlobalNPC.newAI[0] += 1f;
+                if (calamityGlobalNPC.newAI[0] >= 600f)
+                {
+                    calamityGlobalNPC.newAI[0] = 0f;
+
+                    if (Main.netMode != 1)
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Set variables for spawn effects
+            if (npc.localAI[0] == 0f)
+            {
+                npc.localAI[0] = 1f;
+                npc.alpha = 255;
+                npc.rotation = 0f;
+                if (Main.netMode != 1)
+                {
+                    npc.ai[0] = -1f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Rotation
+            float num17 = (float)Math.Atan2((double)(player.Center.Y - vector.Y), (double)(player.Center.X - vector.X));
+            if (npc.spriteDirection == 1)
+                num17 += 3.14159274f;
+            if (num17 < 0f)
+                num17 += 6.28318548f;
+            if (num17 > 6.28318548f)
+                num17 -= 6.28318548f;
+            if (npc.ai[0] == -1f)
+                num17 = 0f;
+            if (npc.ai[0] == 3f)
+                num17 = 0f;
+            if (npc.ai[0] == 4f)
+                num17 = 0f;
+            if (npc.ai[0] == 8f)
+                num17 = 0f;
+
+            float num18 = 0.04f;
+            if (npc.ai[0] == 1f || npc.ai[0] == 6f)
+                num18 = 0f;
+            if (npc.ai[0] == 7f)
+                num18 = 0f;
+            if (npc.ai[0] == 3f)
+                num18 = 0.01f;
+            if (npc.ai[0] == 4f)
+                num18 = 0.01f;
+            if (npc.ai[0] == 8f)
+                num18 = 0.01f;
+
+            if (npc.rotation < num17)
+            {
+                if ((double)(num17 - npc.rotation) > 3.1415926535897931)
+                    npc.rotation -= num18;
+                else
+                    npc.rotation += num18;
+            }
+            if (npc.rotation > num17)
+            {
+                if ((double)(npc.rotation - num17) > 3.1415926535897931)
+                    npc.rotation += num18;
+                else
+                    npc.rotation -= num18;
+            }
+
+            if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+                npc.rotation = num17;
+            if (npc.rotation < 0f)
+                npc.rotation += 6.28318548f;
+            if (npc.rotation > 6.28318548f)
+                npc.rotation -= 6.28318548f;
+            if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+                npc.rotation = num17;
+
+            // Alpha adjustments
+            if (npc.ai[0] != -1f && npc.ai[0] < 9f)
+            {
+                if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+                    npc.alpha += 15;
+                else
+                    npc.alpha -= 15;
+
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
+                if (npc.alpha > 150)
+                    npc.alpha = 150;
+            }
+
+            // Spawn effects
+            if (npc.ai[0] == -1f)
+            {
+                // Velocity
+                npc.velocity *= 0.98f;
+
+                // Direction
+                int num19 = Math.Sign(player.Center.X - vector.X);
+                if (num19 != 0)
+                {
+                    npc.direction = num19;
+                    npc.spriteDirection = -npc.direction;
+                }
+
+                // Alpha
+                if (npc.ai[2] > 20f)
+                {
+                    npc.velocity.Y = -2f;
+
+                    npc.alpha -= 5;
+                    if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+                        npc.alpha += 15;
+                    if (npc.alpha < 0)
+                        npc.alpha = 0;
+                    if (npc.alpha > 150)
+                        npc.alpha = 150;
+                }
+
+                // Spawn dust and play sound
+                if (npc.ai[2] == (float)(num9 - 30))
+                {
+                    int num20 = 36;
+                    for (int i = 0; i < num20; i++)
+                    {
+                        Vector2 expr_80F = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * 6.28318548f / (float)num20), default(Vector2)) + npc.Center;
+                        Vector2 vector2 = expr_80F - npc.Center;
+                        int num21 = Dust.NewDust(expr_80F + vector2, 0, 0, 172, vector2.X * 2f, vector2.Y * 2f, 100, default(Color), 1.4f);
+                        Main.dust[num21].noGravity = true;
+                        Main.dust[num21].noLight = true;
+                        Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
+                    }
+
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+                }
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num16)
+                {
+                    npc.ai[0] = 0f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Phase 1
+            else if (npc.ai[0] == 0f && !player.dead)
+            {
+                // Velocity
+                if (npc.ai[1] == 0f)
+                    npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+                Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
+                if (npc.velocity.X < vector3.X)
+                {
+                    npc.velocity.X = npc.velocity.X + num3;
+                    if (npc.velocity.X < 0f && vector3.X > 0f)
+                        npc.velocity.X = npc.velocity.X + num3;
+                }
+                else if (npc.velocity.X > vector3.X)
+                {
+                    npc.velocity.X = npc.velocity.X - num3;
+                    if (npc.velocity.X > 0f && vector3.X < 0f)
+                        npc.velocity.X = npc.velocity.X - num3;
+                }
+                if (npc.velocity.Y < vector3.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y + num3;
+                    if (npc.velocity.Y < 0f && vector3.Y > 0f)
+                        npc.velocity.Y = npc.velocity.Y + num3;
+                }
+                else if (npc.velocity.Y > vector3.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y - num3;
+                    if (npc.velocity.Y > 0f && vector3.Y < 0f)
+                        npc.velocity.Y = npc.velocity.Y - num3;
+                }
+
+                // Rotation and direction
+                int num22 = Math.Sign(player.Center.X - vector.X);
+                if (num22 != 0)
+                {
+                    if (npc.ai[2] == 0f && num22 != npc.direction)
+                        npc.rotation += 3.14159274f;
+
+                    npc.direction = num22;
+
+                    if (npc.spriteDirection != -npc.direction)
+                        npc.rotation += 3.14159274f;
+
+                    npc.spriteDirection = -npc.direction;
+                }
+
+                // Phase switch
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num2)
+                {
+                    int num23 = 0;
+                    switch ((int)npc.ai[3])
+                    {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                        case 6:
+                        case 7:
+                        case 8:
+                        case 9:
+                            num23 = 1;
+                            break;
+                        case 10:
+                            npc.ai[3] = 1f;
+                            num23 = 2;
+                            break;
+                        case 11:
+                            npc.ai[3] = 0f;
+                            num23 = 3;
+                            break;
+                    }
+
+                    if (phase2)
+                        num23 = 4;
+
+                    // Set velocity for charge
+                    if (num23 == 1)
+                    {
+                        npc.ai[0] = 1f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+
+                        // Velocity
+                        npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+                        // Direction
+                        if (num22 != 0)
+                        {
+                            npc.direction = num22;
+
+                            if (npc.spriteDirection == 1)
+                                npc.rotation += 3.14159274f;
+
+                            npc.spriteDirection = -npc.direction;
+                        }
+                    }
+
+                    // Bubbles
+                    else if (num23 == 2)
+                    {
+                        npc.ai[0] = 2f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+
+                    // Spawn sharknadoes
+                    else if (num23 == 3)
+                    {
+                        npc.ai[0] = 3f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+
+                    // Go to phase 2
+                    else if (num23 == 4)
+                    {
+                        npc.ai[0] = 4f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Charge
+            else if (npc.ai[0] == 1f)
+            {
+                // Accelerate
+                npc.velocity *= 1.01f;
+
+                // Spawn dust
+                int num24 = 7;
+                for (int j = 0; j < num24; j++)
+                {
+                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default(Vector2)) + vector;
+                    Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                    int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default(Color), 1.4f);
+                    Main.dust[num25].noGravity = true;
+                    Main.dust[num25].noLight = true;
+                    Main.dust[num25].velocity /= 4f;
+                    Main.dust[num25].velocity -= npc.velocity;
+                }
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)chargeTime)
+                {
+                    npc.ai[0] = 0f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] += 2f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Bubble belch
+            else if (npc.ai[0] == 2f)
+            {
+                // Velocity
+                if (npc.ai[1] == 0f)
+                    npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+                Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor2;
+                if (npc.velocity.X < vector5.X)
+                {
+                    npc.velocity.X = npc.velocity.X + num8;
+                    if (npc.velocity.X < 0f && vector5.X > 0f)
+                        npc.velocity.X = npc.velocity.X + num8;
+                }
+                else if (npc.velocity.X > vector5.X)
+                {
+                    npc.velocity.X = npc.velocity.X - num8;
+                    if (npc.velocity.X > 0f && vector5.X < 0f)
+                        npc.velocity.X = npc.velocity.X - num8;
+                }
+                if (npc.velocity.Y < vector5.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y + num8;
+                    if (npc.velocity.Y < 0f && vector5.Y > 0f)
+                        npc.velocity.Y = npc.velocity.Y + num8;
+                }
+                else if (npc.velocity.Y > vector5.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y - num8;
+                    if (npc.velocity.Y > 0f && vector5.Y < 0f)
+                        npc.velocity.Y = npc.velocity.Y - num8;
+                }
+
+                // Play sounds and spawn bubbles
+                if (npc.ai[2] == 0f)
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+                if (npc.ai[2] % (float)num7 == 0f)
+                {
+                    Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
+
+                    if (Main.netMode != 1)
+                    {
+                        Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (float)(npc.width + 20) / 2f + vector;
+                        NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, NPCID.DetonatingBubble, 0, 0f, 0f, 0f, 0f, 255);
+                    }
+                }
+
+                // Direction
+                int num26 = Math.Sign(player.Center.X - vector.X);
+                if (num26 != 0)
+                {
+                    npc.direction = num26;
+                    if (npc.spriteDirection != -npc.direction)
+                        npc.rotation += 3.14159274f;
+                    npc.spriteDirection = -npc.direction;
+                }
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num6)
+                {
+                    npc.ai[0] = 0f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Sharknado spawn
+            else if (npc.ai[0] == 3f)
+            {
+                // Velocity
+                npc.velocity *= 0.98f;
+                npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+                // Play sound and spawn sharknadoes
+                if (npc.ai[2] == (float)(num9 - 30))
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
+
+                if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+                {
+                    Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
+                    bool normal = Main.rand.NextBool();
+                    float velocityY = normal ? 8f : -4f;
+                    float ai1 = normal ? 0f : -1f;
+
+                    Projectile.NewProjectile(vector7.X, vector7.Y, (float)(npc.direction * 3), velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                    Projectile.NewProjectile(vector7.X, vector7.Y, (float)(-(float)npc.direction * 3), velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+
+                    velocityY = normal ? -4f : 8f;
+                    ai1 = normal ? -1f : 0f;
+                    Projectile.NewProjectile(vector7.X, vector7.Y, 0f, velocityY, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 0f, ai1);
+                }
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num9)
+                {
+                    npc.ai[0] = 0f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Transition to phase 2
+            else if (npc.ai[0] == 4f)
+            {
+                // Velocity
+                npc.velocity *= 0.98f;
+                npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+                // Sound
+                if (npc.ai[2] == (float)(num10 - 60))
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num10)
+                {
+                    npc.ai[0] = 5f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Phase 2
+            else if (npc.ai[0] == 5f && !player.dead)
+            {
+                // Velocity
+                if (npc.ai[1] == 0f)
+                    npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+                Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
+                if (npc.velocity.X < vector8.X)
+                {
+                    npc.velocity.X = npc.velocity.X + num3;
+                    if (npc.velocity.X < 0f && vector8.X > 0f)
+                        npc.velocity.X = npc.velocity.X + num3;
+                }
+                else if (npc.velocity.X > vector8.X)
+                {
+                    npc.velocity.X = npc.velocity.X - num3;
+                    if (npc.velocity.X > 0f && vector8.X < 0f)
+                        npc.velocity.X = npc.velocity.X - num3;
+                }
+                if (npc.velocity.Y < vector8.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y + num3;
+                    if (npc.velocity.Y < 0f && vector8.Y > 0f)
+                        npc.velocity.Y = npc.velocity.Y + num3;
+                }
+                else if (npc.velocity.Y > vector8.Y)
+                {
+                    npc.velocity.Y = npc.velocity.Y - num3;
+                    if (npc.velocity.Y > 0f && vector8.Y < 0f)
+                        npc.velocity.Y = npc.velocity.Y - num3;
+                }
+
+                // Direction and rotation
+                int num27 = Math.Sign(player.Center.X - vector.X);
+                if (num27 != 0)
+                {
+                    if (npc.ai[2] == 0f && num27 != npc.direction)
+                        npc.rotation += 3.14159274f;
+
+                    npc.direction = num27;
+
+                    if (npc.spriteDirection != -npc.direction)
+                        npc.rotation += 3.14159274f;
+
+                    npc.spriteDirection = -npc.direction;
+                }
+
+                // Phase switch
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num2)
+                {
+                    int num28 = 0;
+                    switch ((int)npc.ai[3])
+                    {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            num28 = 1;
+                            break;
+                        case 6:
+                            npc.ai[3] = 1f;
+                            num28 = 2;
+                            break;
+                        case 7:
+                            npc.ai[3] = 0f;
+                            num28 = 3;
+                            break;
+                    }
+
+                    if (phase3)
+                        num28 = 4;
+
+                    // Set velocity for charge
+                    if (num28 == 1)
+                    {
+                        npc.ai[0] = 6f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+
+                        // Velocity and rotation
+                        npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+                        // Direction
+                        if (num27 != 0)
+                        {
+                            npc.direction = num27;
+
+                            if (npc.spriteDirection == 1)
+                                npc.rotation += 3.14159274f;
+
+                            npc.spriteDirection = -npc.direction;
+                        }
+                    }
+
+                    // Set velocity for spin
+                    else if (num28 == 2)
+                    {
+                        // Velocity and rotation
+                        npc.velocity = Vector2.Normalize(player.Center - vector) * scaleFactor4;
+                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+                        // Direction
+                        if (num27 != 0)
+                        {
+                            npc.direction = num27;
+
+                            if (npc.spriteDirection == 1)
+                                npc.rotation += 3.14159274f;
+
+                            npc.spriteDirection = -npc.direction;
+                        }
+
+                        npc.ai[0] = 7f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+
+                    // Spawn cthulhunado
+                    else if (num28 == 3)
+                    {
+                        npc.ai[0] = 8f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+
+                    // Go to next phase
+                    else if (num28 == 4)
+                    {
+                        npc.ai[0] = 9f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Charge
+            else if (npc.ai[0] == 6f)
+            {
+                // Accelerate
+                npc.velocity *= 1.01f;
+
+                // Spawn dust
+                int num29 = 7;
+                for (int k = 0; k < num29; k++)
+                {
+                    Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * 3.1415926535897931 / (double)((float)num29), default(Vector2)) + vector;
+                    Vector2 vector9 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                    int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, 172, vector9.X * 2f, vector9.Y * 2f, 100, default(Color), 1.4f);
+                    Main.dust[num30].noGravity = true;
+                    Main.dust[num30].noLight = true;
+                    Main.dust[num30].velocity /= 4f;
+                    Main.dust[num30].velocity -= npc.velocity;
+                }
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)chargeTime)
+                {
+                    npc.ai[0] = 5f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] += 2f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Bubble spin
+            else if (npc.ai[0] == 7f)
+            {
+                // Play sounds and spawn bubbles
+                if (npc.ai[2] == 0f)
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+                if (npc.ai[2] % (float)num14 == 0f)
+                {
+                    Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
+
+                    if (Main.netMode != 1)
+                    {
+                        Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
+                        int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, NPCID.DetonatingBubble, 0, 0f, 0f, 0f, 0f, 255);
+                        Main.npc[num31].target = npc.target;
+                        Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default(Vector2)) * scaleFactor3;
+                        Main.npc[num31].netUpdate = true;
+                        Main.npc[num31].ai[3] = (float)Main.rand.Next(80, 121) / 100f;
+
+                        if (npc.ai[2] % (float)(num14 * 5) == 0f)
+                        {
+                            int npc2 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, NPCID.Sharkron2, 0, 0f, 0f, 0f, 0f, 255);
+                            Main.npc[npc2].ai[1] = 89f;
+                        }
+                    }
+                }
+
+                // Velocity and rotation
+                npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default(Vector2));
+                npc.rotation -= num15 * (float)npc.direction;
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num13)
+                {
+                    npc.ai[0] = 5f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Spawn cthulhunado
+            else if (npc.ai[0] == 8f)
+            {
+                // Velocity
+                npc.velocity *= 0.98f;
+                npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+                // Play sound and spawn cthulhunado
+                if (npc.ai[2] == (float)(num9 - 30))
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+                if (Main.netMode != 1 && npc.ai[2] == (float)(num9 - 30))
+                    Projectile.NewProjectile(vector.X, vector.Y, 0f, 0f, ProjectileID.SharknadoBolt, 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num9)
+                {
+                    npc.ai[0] = 5f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Transition to phase 3
+            else if (npc.ai[0] == 9f)
+            {
+                // Alpha adjustments
+                if (npc.ai[2] < (float)(num11 - 90))
+                {
+                    if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+                        npc.alpha += 15;
+                    else
+                        npc.alpha -= 15;
+
+                    if (npc.alpha < 0)
+                        npc.alpha = 0;
+                    if (npc.alpha > 150)
+                        npc.alpha = 150;
+                }
+                else if (npc.alpha < 255)
+                {
+                    npc.alpha += 4;
+                    if (npc.alpha > 255)
+                        npc.alpha = 255;
+                }
+
+                // Velocity
+                npc.velocity *= 0.98f;
+                npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+                // Play sound
+                if (npc.ai[2] == (float)(num11 - 60))
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num11)
+                {
+                    npc.ai[0] = 10f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] = 0f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Phase 3
+            else if (npc.ai[0] == 10f && !player.dead)
+            {
+                npc.dontTakeDamage = false;
+                npc.chaseable = false;
+
+                // Alpha
+                if (npc.alpha < 255)
+                {
+                    npc.alpha += 25;
+                    if (npc.alpha > 255)
+                        npc.alpha = 255;
+                }
+
+                // Teleport location
+                if (npc.ai[1] == 0f)
+                    npc.ai[1] = (float)(360 * Math.Sign((vector - player.Center).X));
+
+                Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
+                npc.SimpleFlyMovement(desiredVelocity, num3);
+
+                // Rotation and direction
+                int num32 = Math.Sign(player.Center.X - vector.X);
+                if (num32 != 0)
+                {
+                    if (npc.ai[2] == 0f && num32 != npc.direction)
+                    {
+                        npc.rotation += 3.14159274f;
+                        for (int l = 0; l < npc.oldPos.Length; l++)
+                            npc.oldPos[l] = Vector2.Zero;
+                    }
+
+                    npc.direction = num32;
+
+                    if (npc.spriteDirection != -npc.direction)
+                        npc.rotation += 3.14159274f;
+
+                    npc.spriteDirection = -npc.direction;
+                }
+
+                // Phase switch
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num2)
+                {
+                    int num33 = 0;
+                    switch ((int)npc.ai[3])
+                    {
+                        case 0:
+                        case 2:
+                        case 3:
+                        case 5:
+                        case 6:
+                        case 7:
+                            num33 = 1;
+                            break;
+                        case 1:
+                        case 4:
+                        case 8:
+                            num33 = 2;
+                            break;
+                    }
+
+                    // Set velocity for charge
+                    if (num33 == 1)
+                    {
+                        npc.ai[0] = 11f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+
+                        // Velocity and rotation
+                        npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
+                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+                        // Direction
+                        if (num32 != 0)
+                        {
+                            npc.direction = num32;
+
+                            if (npc.spriteDirection == 1)
+                                npc.rotation += 3.14159274f;
+
+                            npc.spriteDirection = -npc.direction;
+                        }
+                    }
+
+                    // Pause
+                    else if (num33 == 2)
+                    {
+                        npc.ai[0] = 12f;
+                        npc.ai[1] = 0f;
+                        npc.ai[2] = 0f;
+                    }
+
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Charge
+            else if (npc.ai[0] == 11f)
+            {
+                npc.dontTakeDamage = false;
+                npc.chaseable = true;
+
+                // Accelerate
+                npc.velocity *= 1.01f;
+
+                // Alpha
+                npc.alpha -= 25;
+                if (npc.alpha < 0)
+                    npc.alpha = 0;
+
+                // Spawn dust
+                int num34 = 7;
+                for (int m = 0; m < num34; m++)
+                {
+                    Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default(Vector2)) + vector;
+                    Vector2 vector11 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                    int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, 172, vector11.X * 2f, vector11.Y * 2f, 100, default(Color), 1.4f);
+                    Main.dust[num35].noGravity = true;
+                    Main.dust[num35].noLight = true;
+                    Main.dust[num35].velocity /= 4f;
+                    Main.dust[num35].velocity -= npc.velocity;
+                }
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)chargeTime)
+                {
+                    npc.ai[0] = 10f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.ai[3] += 1f;
+                    npc.netUpdate = true;
+                }
+            }
+
+            // Pause before teleport
+            else if (npc.ai[0] == 12f)
+            {
+                npc.dontTakeDamage = true;
+                npc.chaseable = false;
+
+                // Alpha
+                if (npc.alpha < 255)
+                {
+                    npc.alpha += 17;
+                    if (npc.alpha > 255)
+                        npc.alpha = 255;
+                }
+
+                // Velocity
+                npc.velocity *= 0.98f;
+                npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+                // Play sound
+                if (npc.ai[2] == (float)(num12 / 2))
+                    Main.PlaySound(29, (int)vector.X, (int)vector.Y, 20, 1f, 0f);
+
+                if (Main.netMode != 1 && npc.ai[2] == (float)(num12 / 2))
+                {
+                    // Teleport location
+                    if (npc.ai[1] == 0f)
+                        npc.ai[1] = (float)(300 * Math.Sign((vector - player.Center).X));
+
+                    // Rotation and direction
+                    Vector2 center = player.Center + new Vector2(-npc.ai[1], -200f);
+                    vector = (npc.Center = center);
+                    int num36 = Math.Sign(player.Center.X - vector.X);
+                    if (num36 != 0)
+                    {
+                        if (npc.ai[2] == 0f && num36 != npc.direction)
+                        {
+                            npc.rotation += 3.14159274f;
+                            for (int n = 0; n < npc.oldPos.Length; n++)
+                                npc.oldPos[n] = Vector2.Zero;
+                        }
+
+                        npc.direction = num36;
+
+                        if (npc.spriteDirection != -npc.direction)
+                            npc.rotation += 3.14159274f;
+
+                        npc.spriteDirection = -npc.direction;
+                    }
+                }
+
+                npc.ai[2] += 1f;
+                if (npc.ai[2] >= (float)num12)
+                {
+                    npc.ai[0] = 10f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+
+                    npc.ai[3] += 1f;
+                    if (npc.ai[3] >= 9f)
+                        npc.ai[3] = 0f;
+
+                    npc.netUpdate = true;
+                }
+            }
+
+            if (ModLoader.GetMod("FargowiltasSouls") != null)
+                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
+            return false;
+        }
+        #endregion
+
+        #region Revengeance Dungeon Guardian AI
+        public static void RevengeanceDungeonGuardianAI(NPC npc, bool configBossRushBoost, bool enraged)
 		{
 			Vector2 vector21 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 			float num177 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector21.X;
