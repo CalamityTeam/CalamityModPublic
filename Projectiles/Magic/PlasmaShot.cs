@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				for (int num121 = 0; num121 < 10; num121++)
 				{
-					Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f)];
+					Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f)];
 					dust.velocity = Vector2.Zero;
 					dust.position -= projectile.velocity / 5f * (float)num121;
 					dust.noGravity = true;

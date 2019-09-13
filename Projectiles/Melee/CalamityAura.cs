@@ -27,15 +27,15 @@ namespace CalamityMod.Projectiles.Melee
 			for (int num151 = 0; num151 < 3; num151++)
 			{
 				int num154 = 14;
-				int num155 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 73, 0f, 0f, 100, default(Color), 1.35f);
+				int num155 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num154 * 2, projectile.height - num154 * 2, 73, 0f, 0f, 100, default, 1.35f);
 				Main.dust[num155].noGravity = true;
 				Main.dust[num155].velocity *= 0.1f;
 				Main.dust[num155].velocity += projectile.velocity * 0.5f;
 			}
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 			{
 				int num156 = 16;
-				int num157 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num156 * 2, projectile.height - num156 * 2, 73, 0f, 0f, 100, default(Color), 1f);
+				int num157 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width - num156 * 2, projectile.height - num156 * 2, 73, 0f, 0f, 100, default, 1f);
 				Main.dust[num157].velocity *= 0.25f;
 				Main.dust[num157].noGravity = true;
 				Main.dust[num157].velocity += projectile.velocity * 0.5f;
@@ -67,14 +67,14 @@ namespace CalamityMod.Projectiles.Melee
 			int num3;
 			for (int num53 = 0; num53 < 40; num53 = num3 + 1)
 			{
-				int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 200, default(Color), num50);
+				int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 200, default, num50);
 				Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
 				Main.dust[num54].noGravity = true;
 				Dust dust = Main.dust[num54];
 				dust.velocity *= 3f;
 				dust = Main.dust[num54];
 				dust.velocity += value4 * Main.rand.NextFloat();
-				num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default(Color), num51);
+				num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default, num51);
 				Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
 				dust = Main.dust[num54];
 				dust.velocity *= 2f;
@@ -87,8 +87,8 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			for (int num55 = 0; num55 < 20; num55 = num3 + 1)
 			{
-				int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 0, default(Color), num52);
-				Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2)) * (float)projectile.width / 3f;
+				int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 0, default, num52);
+				Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 3f;
 				Main.dust[num56].noGravity = true;
 				Dust dust = Main.dust[num56];
 				dust.velocity *= 0.5f;

@@ -60,10 +60,10 @@ namespace CalamityMod.Projectiles.Melee
             int num3;
             for (int num369 = 0; num369 < 1; num369 = num3 + 1)
             {
-                int dustType = (Main.rand.Next(3) == 0 ? 56 : 242);
+                int dustType = (Main.rand.NextBool(3) ? 56 : 242);
                 float num370 = projectile.velocity.X / 3f * (float)num369;
                 float num371 = projectile.velocity.Y / 3f * (float)num369;
-                int num372 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default(Color), 1f);
+                int num372 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
                 Main.dust[num372].position.X = projectile.Center.X - num370;
                 Main.dust[num372].position.Y = projectile.Center.Y - num371;
                 Dust dust = Main.dust[num372];

@@ -91,13 +91,13 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 13, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 13, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 13, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 13, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/DankCreeperGore2"), 1f);
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override void NPCLoot()
 		{
-			if (Main.expertMode && Main.netMode != 1)
+			if (Main.expertMode && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, mod.ProjectileType("ShadeNimbusHostile"), 14, 0f, Main.myPlayer, 0f, 0f);
 			}

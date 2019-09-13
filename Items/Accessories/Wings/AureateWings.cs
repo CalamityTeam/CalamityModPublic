@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Accessories.Wings
 					{
 						num68 += player.velocity.Y;
 					}
-					int num69 = Dust.NewDust(new Vector2(x, num68), 8, 8, type, 0f, 0f, alpha, default(Color), scale);
+					int num69 = Dust.NewDust(new Vector2(x, num68), 8, 8, type, 0f, 0f, alpha, default, scale);
 					Dust expr_5A11_cp_0_cp_0 = Main.dust[num69];
 					expr_5A11_cp_0_cp_0.velocity.X = expr_5A11_cp_0_cp_0.velocity.X * 0.1f;
 					Main.dust[num69].velocity.Y = Main.dust[num69].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;

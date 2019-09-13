@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				{
 					npc.ai[1] += 1f;
 				}
-				if (npc.ai[1] >= 300f && Main.netMode != 1)
+				if (npc.ai[1] >= 300f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] = 0f;
 					if ((double)npc.life < (double)npc.lifeMax * 0.25)
@@ -274,13 +274,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 40; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 2f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 2f);
 				}
 			}
 		}
@@ -291,9 +291,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(1, 4));
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(1, 4));
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("VictoryShard"), Main.rand.Next(1, 4));
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
-				if (Main.rand.Next(25) == 0)
+				if (Main.rand.NextBool(25))
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheTransformer"));
 				else
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AmidiasSpark"));

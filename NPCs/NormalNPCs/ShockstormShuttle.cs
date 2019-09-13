@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
 		public override void AI()
 		{
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] += (float)Main.rand.Next(4); //adds to localAI to fire projectiles at random times
 				if (npc.localAI[0] >= (float)Main.rand.Next(100, 120)) //rate at which projectiles are shot
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 							num184 = 22;
 						}
 						int num185 = 435; //projectile ID
-						if (Main.rand.Next(8) == 0)
+						if (Main.rand.NextBool(8))
 						{
 							num185 = 449; //more powerful projectile ID
 						}
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 					}
 				}
 			}
-			if (npc.localAI[3] == 0f && Main.netMode != 1)
+			if (npc.localAI[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[3] = 1f;
 			}
@@ -381,17 +381,17 @@ namespace CalamityMod.NPCs.NormalNPCs
 				}
 				if (npc.ai[1] < 40f)
 				{
-					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 40f * 6.28318548f), default(Vector2)).Y * 0.2f;
+					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 40f * 6.28318548f), default).Y * 0.2f;
 					return;
 				}
 				if (npc.ai[1] < 80f)
 				{
-					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 20f * 6.28318548f), default(Vector2)).Y * 0.3f;
+					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 20f * 6.28318548f), default).Y * 0.3f;
 					return;
 				}
 				if (npc.ai[1] < 120f)
 				{
-					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 10f * 6.28318548f), default(Vector2)).Y * 0.4f;
+					npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 10f * 6.28318548f), default).Y * 0.4f;
 					return;
 				}
 					npc.rotation = (npc.ai[1] - 120f) / 30f * 6.28318548f;
@@ -419,7 +419,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 					if (num1608 == 1)
 					{
 						npc.ai[2] = (float)((Math.Sign((player8.Center - center16).X) == 1) ? 1 : -1);
-						if (Main.netMode != 1) //second projectile being shot.  Didn't use this
+						if (Main.netMode != NetmodeID.MultiplayerClient) //second projectile being shot.  Didn't use this
 						{
 							npc.localAI[0] += (float)Main.rand.Next(4);
 							if (npc.localAI[0] >= (float)Main.rand.Next(50, 100))
@@ -541,13 +541,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 234, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 234, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 234, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 234, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}
@@ -569,7 +569,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
 			}

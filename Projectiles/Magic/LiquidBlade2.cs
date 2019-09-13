@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Magic
 				while ((float)num99 < num98)
 				{
 					Vector2 vector11 = Vector2.UnitX * 0f;
-					vector11 += -Vector2.UnitY.RotatedBy((double)((float)num99 * (6.28318548f / num98)), default(Vector2)) * new Vector2(1f, 4f);
-					vector11 = vector11.RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
+					vector11 += -Vector2.UnitY.RotatedBy((double)((float)num99 * (6.28318548f / num98)), default) * new Vector2(1f, 4f);
+					vector11 = vector11.RotatedBy((double)projectile.velocity.ToRotation(), default);
 					int num100 = Dust.NewDust(projectile.Center, 0, 0, 66, 0f, 0f, 0, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
 					Main.dust[num100].scale = 1.5f;
 					Main.dust[num100].noGravity = true;

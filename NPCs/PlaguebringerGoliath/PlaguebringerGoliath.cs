@@ -119,9 +119,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			{
 				string key = "Mods.CalamityMod.PlagueBossText";
 				Color messageColor = Color.Lime;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 
 				halfLife = true;
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			// Phase switch
 			if (npc.ai[0] == -1f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					float num595 = npc.ai[1];
 					int num596;
@@ -462,7 +462,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				{
 					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 8);
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int randomAmt = expertMode ? 2 : 4;
 						if (Main.rand.Next(randomAmt) == 0)
@@ -537,7 +537,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 88);
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (expertMode && NPC.CountNPCS(mod.NPCType("PlagueMine")) < (aboveGroundEnrage ? 6 : 4))
 							NPC.NewNPC((int)vector119.X, (int)vector119.Y, mod.NPCType("PlagueMine"), 0, 0f, 0f, 0f, 0f, 255);
@@ -611,7 +611,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
 
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float projectileSpeed = revenge ? 6.5f : 6f;
 						if (jungleEnrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -625,14 +625,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						num1072 *= num1073;
 
 						int num1074 = 40; //projectile damage
-						int num1075 = (Main.rand.Next(2) == 0 ? mod.ProjectileType("PlagueStingerGoliath") : mod.ProjectileType("PlagueStingerGoliathV2"));
+						int num1075 = (Main.rand.NextBool(2) ? mod.ProjectileType("PlagueStingerGoliath") : mod.ProjectileType("PlagueStingerGoliathV2"));
 						if (expertMode)
 						{
 							num1074 = 28; //112
 							int damageBoost = (int)(6f * (1f - (float)npc.life / (float)npc.lifeMax));
 							num1074 += damageBoost; //112 to 136
 
-							if (Main.rand.Next(6) == 0)
+							if (Main.rand.NextBool(6))
 							{
 								num1074 += 8; //144 to 168
 								num1075 = mod.ProjectileType("HiveBombGoliath");
@@ -640,7 +640,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						}
 						else
 						{
-							if (Main.rand.Next(9) == 0)
+							if (Main.rand.NextBool(9))
 							{
 								num1074 = 50;
 								num1075 = mod.ProjectileType("HiveBombGoliath");
@@ -691,7 +691,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						{
 							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 116);
 
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								int speed = revenge ? 6 : 5;
 								float spawnX = npc.Center.X;
@@ -868,7 +868,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 		{
 			for (int k = 0; k < 2; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -885,9 +885,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -895,10 +895,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

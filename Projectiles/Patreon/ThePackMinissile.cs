@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Patreon
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int i = 0; i < 10; i++)
 			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 255, 0f, 0f, 0, default(Color), 1f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 255, 0f, 0f, 0, default, 1f);
 
 			}
 		}

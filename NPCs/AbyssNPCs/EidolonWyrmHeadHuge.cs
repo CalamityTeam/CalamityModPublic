@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			else
 			{
-				if (Main.rand.Next(900) == 0)
+				if (Main.rand.NextBool(900))
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), (int)npc.position.X, (int)npc.position.Y);
 				}
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				npc.TargetClosest(true);
 			}
 			npc.velocity.Length();
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (!TailSpawned && npc.ai[0] == 0f)
 				{
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						npc.TargetClosest(true);
 						npc.netUpdate = true;
 						int damage = Main.expertMode ? 300 : 400;
-						float xPos = (Main.rand.Next(2) == 0 ? npc.position.X + 200f : npc.position.X - 200f);
+						float xPos = (Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f);
 						Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-200, 201));
 						int random = Main.rand.Next(3);
 						if (random == 0)
@@ -168,9 +168,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 								for (int num621 = 0; num621 < 20; num621++)
 								{
 									int num622 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X, Main.player[npc.target].position.Y),
-										Main.player[npc.target].width, Main.player[npc.target].height, 185, 0f, 0f, 100, default(Color), 2f);
+										Main.player[npc.target].width, Main.player[npc.target].height, 185, 0f, 0f, 100, default, 2f);
 									Main.dust[num622].velocity *= 0.6f;
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										Main.dust[num622].scale = 0.5f;
 										Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -179,10 +179,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 								for (int num623 = 0; num623 < 30; num623++)
 								{
 									int num624 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X, Main.player[npc.target].position.Y),
-										Main.player[npc.target].width, Main.player[npc.target].height, 185, 0f, 0f, 100, default(Color), 3f);
+										Main.player[npc.target].width, Main.player[npc.target].height, 185, 0f, 0f, 100, default, 3f);
 									Main.dust[num624].noGravity = true;
 									num624 = Dust.NewDust(new Vector2(Main.player[npc.target].position.X, Main.player[npc.target].position.Y),
-										Main.player[npc.target].width, Main.player[npc.target].height, 185, 0f, 0f, 100, default(Color), 2f);
+										Main.player[npc.target].width, Main.player[npc.target].height, 185, 0f, 0f, 100, default, 2f);
 									Main.dust[num624].velocity *= 0.2f;
 								}
 								if (Math.Abs(Main.player[npc.target].velocity.X) > 0.1f)
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
 			}
-			if (Main.expertMode && Main.rand.Next(2) == 0)
+			if (Main.expertMode && Main.rand.NextBool(2))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Lumenite"), Main.rand.Next(15, 28));
 			}
@@ -493,13 +493,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 15; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WyrmAdult"), 1f);
 			}
@@ -511,14 +511,14 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return false;
 			}
-			if (npc.timeLeft <= 0 && Main.netMode != 1)
+			if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
 				{
 					if (Main.npc[k].active)
 					{
 						Main.npc[k].active = false;
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							Main.npc[k].life = 0;
 							Main.npc[k].netSkip = -1;

@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
 					projectile.velocity *= 1.05f;
 				}
 			}
-			int num192 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 32, 0f, 0f, 0, default(Color), 0.5f);
+			int num192 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 32, 0f, 0f, 0, default, 0.5f);
 			Main.dust[num192].noGravity = true;
 			Main.dust[num192].velocity *= 0.2f;
 			Main.dust[num192].position = (Main.dust[num192].position + projectile.Center) / 2f;

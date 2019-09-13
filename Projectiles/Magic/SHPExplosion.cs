@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					randomDust = 187;
 				}
-				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default(Color), 2f);
+				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 2f);
 				Main.dust[num467].noGravity = true;
 				Main.dust[num467].position.X = projectile.Center.X;
 				Main.dust[num467].position.Y = projectile.Center.Y;

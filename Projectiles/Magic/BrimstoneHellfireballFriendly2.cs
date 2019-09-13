@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			for (int num457 = 0; num457 < 5; num457++)
 			{
-				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default(Color), 0.6f);
+				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 0.6f);
 				Main.dust[num458].noGravity = true;
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;

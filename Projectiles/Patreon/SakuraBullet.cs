@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Patreon
 				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
 			}
 
-			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default(Color), 0.6f);
+			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default, 0.6f);
 			Main.dust[num458].noGravity = true;
 			Main.dust[num458].velocity *= 0.5f;
 			Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -82,16 +82,16 @@ namespace CalamityMod.Projectiles.Patreon
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 25);
-			int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default(Color), 1f);
+			int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default, 1f);
 			Main.dust[num622].velocity *= 0.5f;
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				Main.dust[num622].scale = 0.5f;
 				Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 			}
-			int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default(Color), 1.4f);
+			int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default, 1.4f);
 			Main.dust[num624].noGravity = true;
-			num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default(Color), 0.8f);
+			num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 73, 0f, 0f, 100, default, 0.8f);
 		}
 	}
 }

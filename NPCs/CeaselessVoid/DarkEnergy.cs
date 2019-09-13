@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					npc.velocity.Y = npc.velocity.Y * 1.05f; //1.05f
 					npc.velocity.X = npc.velocity.X * 1.05f; //1.05f
 				}
-				if (Main.netMode != 1 && ((expertMode && Main.rand.Next(50) == 0) || Main.rand.Next(100) == 0))
+				if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
 				{
 					npc.TargetClosest(true);
 					vector96 = new Vector2(npc.Center.X, npc.Center.Y);
@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

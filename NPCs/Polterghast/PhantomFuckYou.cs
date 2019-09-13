@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.Polterghast
 			{
 				for (int num621 = 0; num621 < 5; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
 				}
 				npc.ai[1] = npc.ai[0];
 				start = false;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
             if (timer > 180)
             {
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 58 : 70;
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, mod.ProjectileType("PhantomMine"), damage, 1f, npc.target);

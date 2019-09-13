@@ -83,16 +83,16 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void AI()
 		{
-			if ((double)npc.life <= (double)npc.lifeMax * 0.75 && Main.netMode != 1)
+			if ((double)npc.life <= (double)npc.lifeMax * 0.75 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun3"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				string key = "Mods.CalamityMod.CalamitasBossText";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -233,7 +233,7 @@ namespace CalamityMod.NPCs.Calamitas
 				num825 = player.position.X + (float)(player.width / 2) - vector82.X;
 				num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
 				npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (revenge)
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.Calamitas
 				num834 = player.position.X + (float)(player.width / 2) - vector83.X;
 				num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
 				npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (revenge)
@@ -414,7 +414,7 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				for (int k = 0; k < 5; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 			else
@@ -427,9 +427,9 @@ namespace CalamityMod.NPCs.Calamitas
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -437,10 +437,10 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.aBrain = true;
             if (player.immune)
             {
-                if (Main.rand.Next(8) == 0)
+                if (Main.rand.NextBool(8))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {

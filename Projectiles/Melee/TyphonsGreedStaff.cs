@@ -90,10 +90,10 @@ namespace CalamityMod.Projectiles.Melee
             value2 = (num12 + ((num9 == -1) ? 3.14159274f : 0f)).ToRotationVector2() * (projectile.ai[0] / num) * scaleFactor;
             Vector2 value3 = projectile.Center + (num12 + ((num9 == -1) ? 3.14159274f : 0f)).ToRotationVector2() * 30f;
             Vector2 vector2 = num12.ToRotationVector2();
-            Vector2 value4 = vector2.RotatedBy((double)(1.57079637f * (float)projectile.spriteDirection), default(Vector2));
-            if (Main.rand.Next(2) == 0)
+            Vector2 value4 = vector2.RotatedBy((double)(1.57079637f * (float)projectile.spriteDirection), default);
+            if (Main.rand.NextBool(2))
             {
-                Dust dust3 = Dust.NewDustDirect(value3 - new Vector2(5f), 10, 10, 33, player.velocity.X, player.velocity.Y, 150, default(Color), 1f);
+                Dust dust3 = Dust.NewDustDirect(value3 - new Vector2(5f), 10, 10, 33, player.velocity.X, player.velocity.Y, 150, default, 1f);
                 dust3.velocity = projectile.DirectionTo(dust3.position) * 0.1f + dust3.velocity * 0.1f;
             }
             for (int j = 0; j < 4; j++)
@@ -116,13 +116,13 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 if (Main.rand.Next(6) != 0)
                 {
-                    Dust dust4 = Dust.NewDustDirect(projectile.position, 0, 0, 186, 0f, 0f, 100, default(Color), 1f);
+                    Dust dust4 = Dust.NewDustDirect(projectile.position, 0, 0, 186, 0f, 0f, 100, default, 1f);
                     dust4.position = projectile.Center + vector2 * (60f + Main.rand.NextFloat() * 20f) * scaleFactor3;
                     dust4.velocity = value4 * (4f + 4f * Main.rand.NextFloat()) * scaleFactor3 * scaleFactor2;
                     dust4.noGravity = true;
                     dust4.noLight = true;
                     dust4.scale = 0.5f;
-                    if (Main.rand.Next(4) == 0)
+                    if (Main.rand.NextBool(4))
                     {
                         dust4.noGravity = false;
                     }
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.localAI[0] >= 12f)
             {
                 projectile.localAI[0] = 0f;
-                float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800f : projectile.position.X - 800f);
+                float xPos = (Main.rand.NextBool(2) ? projectile.position.X + 800f : projectile.position.X - 800f);
                 Vector2 vector20 = new Vector2(xPos, projectile.position.Y + (float)Main.rand.Next(-800, 801));
                 float num80 = xPos;
                 float speedX = (float)player.position.X - vector20.X;

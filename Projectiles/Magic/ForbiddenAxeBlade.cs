@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				projectile.ai[1] = 0f;
 			}
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
 			}

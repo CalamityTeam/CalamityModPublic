@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 				projectile.ai[0] += 1f;
 				int num297 = 58;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					for (int num298 = 0; num298 < 1; num298++)
 					{
-						int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-						if (Main.rand.Next(3) == 0)
+						int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+						if (Main.rand.NextBool(3))
 						{
 							Main.dust[num299].noGravity = true;
 							Main.dust[num299].scale *= 3f;

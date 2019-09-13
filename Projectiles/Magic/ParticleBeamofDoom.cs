@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
 					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
 					projectile.alpha = 255;
 					int num249 = 206;
-					int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default(Color), 2.5f);
+					int num448 = Dust.NewDust(vector33, 1, 1, num249, 0f, 0f, 0, default, 2.5f);
 					Main.dust[num448].position = vector33;
 					Main.dust[num448].velocity *= 0.1f;
 				}

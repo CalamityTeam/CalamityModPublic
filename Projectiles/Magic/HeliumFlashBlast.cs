@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             int dustCount = (int)projectile.localAI[1];
             for (int i = 0; i < dustCount; ++i)
             {
-                int dustType = Main.rand.Next(3) == 0 ? 262 : 87;
+                int dustType = Main.rand.NextBool(3) ? 262 : 87;
                 float scale = Main.rand.NextFloat(2.0f, 2.5f);
                 float randX = Main.rand.NextFloat(-30f, 30f);
                 float randY = Main.rand.NextFloat(-30f, 30f);

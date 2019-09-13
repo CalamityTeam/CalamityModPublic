@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
-	        if (Main.rand.Next(5) == 0)
+	        if (Main.rand.NextBool(5))
 			{
 				int num250 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 33, (float)(player.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
 				Main.dust[num250].velocity *= 0.2f;

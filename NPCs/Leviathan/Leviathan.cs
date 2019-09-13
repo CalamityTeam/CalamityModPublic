@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.Leviathan
 			{
 				soundChoice = 40;
 			}
-			if (Main.rand.Next(600) == 0)
+			if (Main.rand.NextBool(600))
 			{
 				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y,
 					((sirenAlive && !CalamityWorld.death && !CalamityWorld.bossRushActive) ? soundChoice : soundChoiceRage));
@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.Leviathan
 							vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							num415 = player.position.X + (float)(player.width / 2) - vector40.X;
 							num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								float num418 = sirenAlive ? 13.5f : 16f;
 								int num419 = 48;
@@ -299,7 +299,7 @@ namespace CalamityMod.NPCs.Leviathan
 					if (Collision.CanHit(vector119, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && flag103)
 					{
 						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoice);
-						if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("Parasea")) < spawnLimit2 && NPC.CountNPCS(mod.NPCType("AquaticAberration")) < spawnLimit)
+						if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("Parasea")) < spawnLimit2 && NPC.CountNPCS(mod.NPCType("AquaticAberration")) < spawnLimit)
 						{
 							int num1061;
 							int value = CalamityWorld.death ? 2 : 3;
@@ -395,9 +395,9 @@ namespace CalamityMod.NPCs.Leviathan
 						int num24 = 7;
 						for (int j = 0; j < num24; j++)
 						{
-							Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default(Vector2)) + vector;
+							Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default) + vector;
 							Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-							int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default(Color), 1.4f);
+							int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
 							Main.dust[num25].noGravity = true;
 							Main.dust[num25].noLight = true;
 							Main.dust[num25].velocity /= 4f;
@@ -540,7 +540,7 @@ namespace CalamityMod.NPCs.Leviathan
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -550,9 +550,9 @@ namespace CalamityMod.NPCs.Leviathan
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -560,10 +560,10 @@ namespace CalamityMod.NPCs.Leviathan
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);

@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
 				Main.PlaySound(SoundID.Item8, projectile.position);
 				for (int num124 = 0; num124 < 10; num124++)
 				{
-					int num125 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (Main.rand.Next(2) == 0 ? 5 : 6), projectile.velocity.X, projectile.velocity.Y, 0, default(Color), 2f);
+					int num125 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (Main.rand.NextBool(2) ? 5 : 6), projectile.velocity.X, projectile.velocity.Y, 0, default, 2f);
 					Main.dust[num125].noGravity = true;
 					Main.dust[num125].velocity = projectile.Center - Main.dust[num125].position;
 					Main.dust[num125].velocity.Normalize();
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				for (int num157 = 0; num157 < 2; num157++)
 				{
-					int num158 = Dust.NewDust(new Vector2(projectile.position.X + 4f, projectile.position.Y + 4f), projectile.width - 8, projectile.height - 8, (Main.rand.Next(2) == 0 ? 5 : 6), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 2f);
+					int num158 = Dust.NewDust(new Vector2(projectile.position.X + 4f, projectile.position.Y + 4f), projectile.width - 8, projectile.height - 8, (Main.rand.NextBool(2) ? 5 : 6), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 2f);
 					Main.dust[num158].position -= projectile.velocity * 2f;
 					Main.dust[num158].noGravity = true;
 					Dust expr_7A4A_cp_0_cp_0 = Main.dust[num158];
@@ -118,9 +118,9 @@ namespace CalamityMod.Projectiles.Melee
 			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 27);
 			for (int num621 = 0; num621 < 5; num621++)
 			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default(Color), 2f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 2f);
 				Main.dust[num622].velocity *= 3f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -128,10 +128,10 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			for (int num623 = 0; num623 < 10; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 3f);
+				int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity *= 5f;
-				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default(Color), 2f);
+				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
 		}

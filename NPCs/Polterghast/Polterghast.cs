@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Polterghast
 			if (Vector2.Distance(Main.player[npc.target].Center, vector) > (despawnBoost ? 1500f : 6000f))
 				npc.active = false;
 
-			if (npc.localAI[0] == 0f && Main.netMode != 1)
+			if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] = 1f;
 				int num729 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterghastHook"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
@@ -207,17 +207,17 @@ namespace CalamityMod.NPCs.Polterghast
 					if (npc.localAI[2] >= 600f)
 					{
 						npc.localAI[2] = 0f;
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterPhantom"), 0, 0f, 0f, 0f, 0f, 255);
 						}
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
 						for (int num621 = 0; num621 < 10; num621++)
 						{
-							int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+							int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 							Main.dust[num622].velocity *= 3f;
 							Main.dust[num622].noGravity = true;
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								Main.dust[num622].scale = 0.5f;
 								Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -225,10 +225,10 @@ namespace CalamityMod.NPCs.Polterghast
 						}
 						for (int num623 = 0; num623 < 30; num623++)
 						{
-							int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 3f);
+							int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
 							Main.dust[num624].noGravity = true;
 							Main.dust[num624].velocity *= 5f;
-							num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+							num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
 							Main.dust[num624].velocity *= 2f;
 						}
 					}
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.Polterghast
 					npc.damage = expertMode ? 240 : 150;
 					npc.defense = 150;
 				}
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += (expertMode ? 2f : 1.5f);
 					if (speedBoost1 || CalamityWorld.bossRushActive)
@@ -426,10 +426,10 @@ namespace CalamityMod.NPCs.Polterghast
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt5"), 1f);
 					for (int num621 = 0; num621 < 10; num621++)
 					{
-						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
 						Main.dust[num622].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -437,10 +437,10 @@ namespace CalamityMod.NPCs.Polterghast
 					}
 					for (int num623 = 0; num623 < 30; num623++)
 					{
-						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 3f);
+						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 5f;
-						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
 						Main.dust[num624].velocity *= 2f;
 					}
 				}
@@ -455,7 +455,7 @@ namespace CalamityMod.NPCs.Polterghast
 					npc.damage = expertMode ? 288 : 180;
 					npc.defense = 100;
 				}
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += (expertMode ? 2f : 1.5f);
 					if (speedBoost1 || CalamityWorld.bossRushActive)
@@ -548,7 +548,7 @@ namespace CalamityMod.NPCs.Polterghast
 				if (!spawnGhost)
 				{
 					spawnGhost = true;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PolterPhantom"), 0, 0f, 0f, 0f, 0f, 255);
 						for (int I = 0; I < 3; I++)
@@ -568,10 +568,10 @@ namespace CalamityMod.NPCs.Polterghast
 					Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt5"), 1f);
 					for (int num621 = 0; num621 < 10; num621++)
 					{
-						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
 						Main.dust[num622].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -579,10 +579,10 @@ namespace CalamityMod.NPCs.Polterghast
 					}
 					for (int num623 = 0; num623 < 30; num623++)
 					{
-						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 3f);
+						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 5f;
-						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
 						Main.dust[num624].velocity *= 2f;
 					}
 				}
@@ -616,7 +616,7 @@ namespace CalamityMod.NPCs.Polterghast
 						num761 = num757 / num761;
 						num758 *= num761;
 						num760 *= num761;
-						if (NPC.CountNPCS(mod.NPCType("PhantomSpiritL")) < (revenge ? 3 : 2) && Main.netMode != 1)
+						if (NPC.CountNPCS(mod.NPCType("PhantomSpiritL")) < (revenge ? 3 : 2) && Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							int num762 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("PhantomSpiritL"), 0, 0f, 0f, 0f, 0f, 255);
 							Main.npc[num762].velocity.X = num758;
@@ -664,9 +664,9 @@ namespace CalamityMod.NPCs.Polterghast
                 string key = "Mods.CalamityMod.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
 
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == 2)
+                else if (Main.netMode == NetmodeID.Server)
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
 
@@ -766,7 +766,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default(Color), 1f);
+			Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default, 1f);
 			if (npc.life <= 0)
 			{
 				npc.position.X = npc.position.X + (float)(npc.width / 2);
@@ -777,9 +777,9 @@ namespace CalamityMod.NPCs.Polterghast
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 10; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -787,10 +787,10 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 				for (int num623 = 0; num623 < 60; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

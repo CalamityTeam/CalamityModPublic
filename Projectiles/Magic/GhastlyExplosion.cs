@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
 			int num328 = (int)projectile.ai[0];
 			for (int num329 = 0; num329 < 3; num329 = num3 + 1)
 			{
-				int num330 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, projectile.velocity.X, projectile.velocity.Y, num328, default(Color), 1.2f);
+				int num330 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, projectile.velocity.X, projectile.velocity.Y, num328, default, 1.2f);
 				Main.dust[num330].position = (Main.dust[num330].position + projectile.Center) / 2f;
 				Main.dust[num330].noGravity = true;
 				Dust dust = Main.dust[num330];
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			for (int num331 = 0; num331 < 2; num331 = num3 + 1)
 			{
-				int num330 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, projectile.velocity.X, projectile.velocity.Y, num328, default(Color), 0.4f);
+				int num330 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, projectile.velocity.X, projectile.velocity.Y, num328, default, 0.4f);
 				if (num331 == 0)
 				{
 					Main.dust[num330].position = (Main.dust[num330].position + projectile.Center * 5f) / 6f;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
 			int num3;
 			for (int num116 = 0; num116 < 20; num116 = num3 + 1)
 			{
-				int num117 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)projectile.ai[0], projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.5f);
+				int num117 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)projectile.ai[0], projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.5f);
 				Dust dust;
 				Main.dust[num117].scale = 1.2f + (float)Main.rand.Next(-10, 11) * 0.01f;
 				Main.dust[num117].noGravity = true;

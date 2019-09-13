@@ -126,7 +126,7 @@ namespace CalamityMod.NPCs.Leviathan
 				leviAlive = Main.npc[CalamityGlobalNPC.leviathan].active;
 
 			// Spawn Leviathan and Clones, change music
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (phase2 || CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.Leviathan
 				npc.defense = 25;
 
 			// Ice Shield
-			if (npc.ai[3] == 0f && npc.localAI[1] == 0f && Main.netMode != 1)
+			if (npc.ai[3] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				int num6 = NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("SirenIce"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				npc.ai[3] = (float)(num6 + 1);
@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 
 			// Play sound
-			if (Main.rand.Next(300) == 0)
+			if (Main.rand.NextBool(300))
 				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 35);
 
 			// Count number of players nearby
@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.Leviathan
 				if (Collision.CanHit(vector119, 1, 1, player.position, player.width, player.height) && flag103)
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 85);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						int num1061 = 371;
 						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y - 30, num1061, 0, 0f, 0f, 0f, 0f, 255);
@@ -432,7 +432,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 				if (flag104 && (npc.position.Y + (float)npc.height < player.position.Y || (!leviAlive && phase2)) && Collision.CanHit(vector121, 1, 1, player.position, player.width, player.height))
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num1070 = revenge ? 13f : 11f;
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -557,9 +557,9 @@ namespace CalamityMod.NPCs.Leviathan
 				int num24 = 7;
 				for (int j = 0; j < num24; j++)
 				{
-					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default(Vector2)) + vector;
+					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default) + vector;
 					Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default(Color), 1.4f);
+					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
 					Main.dust[num25].noGravity = true;
 					Main.dust[num25].noLight = true;
 					Main.dust[num25].velocity /= 4f;
@@ -702,7 +702,7 @@ namespace CalamityMod.NPCs.Leviathan
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			for (int k = 0; k < 3; k++)
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 
 			if (npc.life <= 0)
 			{
@@ -713,7 +713,7 @@ namespace CalamityMod.NPCs.Leviathan
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SirenGores/Siren5"), 1f);
 
 				for (int k = 0; k < 50; k++)
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 		}
 

@@ -1416,7 +1416,7 @@ namespace CalamityMod.CalPlayer
 					CalamityWorld.bossRushActive = false;
 					CalamityWorld.bossRushStage = 0;
 					CalamityMod.UpdateServerBoolean();
-					if (Main.netMode == 2)
+					if (Main.netMode == NetmodeID.Server)
 					{
 						var netMessage = mod.GetPacket();
 						netMessage.Write((byte)CalamityModMessageType.BossRushStage);
@@ -1666,7 +1666,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.statLife -= player.statLifeMax2 / 4;
 							PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
 							}
@@ -1786,7 +1786,7 @@ namespace CalamityMod.CalPlayer
 					{
 						player.AddBuff(mod.BuffType("Enraged"), 600, false);
 					}
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						for (int l = 0; l < 200; l++)
 						{
@@ -1807,12 +1807,12 @@ namespace CalamityMod.CalPlayer
 			{
 				if (celestialJewel)
 				{
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						player.TeleportationPotion();
 						Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 6);
 					}
-					else if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
+					else if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
 					{
 						NetMessage.SendData(73, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
 					}
@@ -1881,7 +1881,7 @@ namespace CalamityMod.CalPlayer
 		#region TeleportMethods
 		public void HandleTeleport(int teleportType, bool forceHandle = false, int whoAmI = 0)
 		{
-			bool syncData = forceHandle || Main.netMode == 0;
+			bool syncData = forceHandle || Main.netMode == NetmodeID.SinglePlayer;
 			if (syncData)
 			{
 				TeleportPlayer(teleportType, forceHandle, whoAmI);
@@ -2130,7 +2130,7 @@ namespace CalamityMod.CalPlayer
 			Main.TeleportEffect(player.getRect(), 1);
 			Main.TeleportEffect(player.getRect(), 3);
 			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 6);
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
 				return;
 			}
@@ -2575,7 +2575,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-			if (player.whoAmI == Main.myPlayer && Main.netMode == 1)
+			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				packetTimer++;
 				if (packetTimer == 60)
@@ -2654,7 +2654,7 @@ namespace CalamityMod.CalPlayer
 				(eCore ? 50 : 0) +
 				(cShard ? 50 : 0) +
 				(starBeamRye ? 50 : 0);
-			if (Main.netMode != 2 && player.whoAmI == Main.myPlayer)
+			if (Main.netMode != NetmodeID.Server && player.whoAmI == Main.myPlayer)
 			{
 				Texture2D rain3 = mod.GetTexture("ExtraTextures/Rain3");
 				Texture2D rainOriginal = mod.GetTexture("ExtraTextures/RainOriginal");
@@ -3075,7 +3075,7 @@ namespace CalamityMod.CalPlayer
 					Main.dust[num].noGravity = true;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					}
@@ -3103,7 +3103,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[num].noGravity = true;
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 						Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 						}
@@ -3169,7 +3169,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[num].noGravity = true;
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 						Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 						}
@@ -3343,7 +3343,7 @@ namespace CalamityMod.CalPlayer
 			{
 				int damage = 10;
 				float knockBack = 1f;
-				if (Main.rand.Next(15) == 0)
+				if (Main.rand.NextBool(15))
 				{
 					int num = 0;
 					for (int i = 0; i < 1000; i++)
@@ -3373,7 +3373,7 @@ namespace CalamityMod.CalPlayer
 									int num6 = (int)center.X / 16;
 									int num7 = (int)center.Y / 16;
 									bool flag = false;
-									if (Main.rand.Next(3) == 0 && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
+									if (Main.rand.NextBool(3) && Main.tile[num6, num7] != null && Main.tile[num6, num7].wall > 0)
 									{
 										flag = true;
 									}
@@ -3527,7 +3527,7 @@ namespace CalamityMod.CalPlayer
 						{
 							for (int num69 = num67 - num65; num69 <= num67 + num65; num69++)
 							{
-								if (Main.rand.Next(4) == 0)
+								if (Main.rand.NextBool(4))
 								{
 									Vector2 vector = new Vector2((float)(num66 - num68), (float)(num67 - num69));
 									if (vector.Length() < (float)num65 && num68 > 0 && num68 < Main.maxTilesX - 1 && num69 > 0 && num69 < Main.maxTilesY - 1 && Main.tile[num68, num69] != null && Main.tile[num68, num69].active())
@@ -3595,7 +3595,7 @@ namespace CalamityMod.CalPlayer
 						if ((double)aquaticBoost <= 0.0)
 						{
 							aquaticBoost = 0f;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
@@ -3628,7 +3628,7 @@ namespace CalamityMod.CalPlayer
 						if ((double)modStealth <= 0.0)
 						{
 							modStealth = 0f;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
@@ -3663,7 +3663,7 @@ namespace CalamityMod.CalPlayer
 						if ((double)modStealth <= 0.0)
 						{
 							modStealth = 0f;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
@@ -3703,7 +3703,7 @@ namespace CalamityMod.CalPlayer
 					{
 						flag14 = true;
 					}
-					if (shieldInvinc == 0f && num29 != shieldInvinc && Main.netMode == 1)
+					if (shieldInvinc == 0f && num29 != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
 					{
 						NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 					}
@@ -3731,14 +3731,14 @@ namespace CalamityMod.CalPlayer
 					{
 						flag14 = true;
 					}
-					if (shieldInvinc == 5f && num30 != shieldInvinc && Main.netMode == 1)
+					if (shieldInvinc == 5f && num30 != shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
 					{
 						NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 					}
 				}
 				if (flag14)
 				{
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Vector2 vector = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
 						Dust dust = Main.dust[Dust.NewDust(player.Center - vector * 30f, 0, 0, 244, 0f, 0f, 0, default, 1f)];
@@ -3748,7 +3748,7 @@ namespace CalamityMod.CalPlayer
 						dust.scale = 0.5f + Main.rand.NextFloat();
 						dust.fadeIn = 0.5f;
 					}
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Vector2 vector2 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
 						Dust dust2 = Main.dust[Dust.NewDust(player.Center - vector2 * 30f, 0, 0, 246, 0f, 0f, 0, default, 1f)];
@@ -4059,7 +4059,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (giantPearl)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					for (int m = 0; m < 200; m++)
 					{
@@ -4434,7 +4434,7 @@ namespace CalamityMod.CalPlayer
 							if (flag)
 							{
 								nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-								if (Main.netMode != 0)
+								if (Main.netMode != NetmodeID.SinglePlayer)
 								{
 									NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
 								}
@@ -4752,7 +4752,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-			if (nCore && Main.rand.Next(10) == 0)
+			if (nCore && Main.rand.NextBool(10))
 			{
 				Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 67);
 				for (int j = 0; j < 25; j++)
@@ -4765,7 +4765,7 @@ namespace CalamityMod.CalPlayer
 					Main.dust[num].velocity *= 0.9f;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					}
@@ -4791,7 +4791,7 @@ namespace CalamityMod.CalPlayer
 					Main.dust[num].velocity *= 0.9f;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					}
@@ -4881,7 +4881,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 			deathCount++;
-			if (player.whoAmI == Main.myPlayer && Main.netMode == 1)
+			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				DeathPacket(false);
 			}
@@ -5072,21 +5072,21 @@ namespace CalamityMod.CalPlayer
 				}
 				if (aWeapon)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, mod.DustType("BrimstoneFlame"), player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
 					}
 				}
 				if (aChicken)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 244, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
 					}
 				}
 				if (eGauntlet)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 66, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
 						Main.dust[num280].noGravity = true;
@@ -5094,28 +5094,28 @@ namespace CalamityMod.CalPlayer
 				}
 				if (cryogenSoul)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 67, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
 					}
 				}
 				if (xerocSet)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 58, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 1.25f);
 					}
 				}
 				if (reaverBlast)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 74, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
 					}
 				}
 				if (dsSetBonus)
 				{
-					if (Main.rand.Next(3) == 0)
+					if (Main.rand.NextBool(3))
 					{
 						int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 27, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 2.5f);
 					}
@@ -5136,7 +5136,7 @@ namespace CalamityMod.CalPlayer
 				target.AddBuff(mod.BuffType("HolyLight"), 120, false);
 				target.AddBuff(mod.BuffType("Plague"), 120, false);
 				target.AddBuff(mod.BuffType("BrimstoneFlames"), 120, false);
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.NextBool(5))
 				{
 					target.AddBuff(mod.BuffType("GlacialState"), 120, false);
 				}
@@ -5150,11 +5150,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (aWeapon)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("AbyssalFlames"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("AbyssalFlames"), 240, false);
 				}
@@ -5165,11 +5165,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (abyssalAmulet)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 240, false);
 				}
@@ -5180,11 +5180,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (dsSetBonus)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("DemonFlames"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("DemonFlames"), 240, false);
 				}
@@ -5195,11 +5195,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (cryogenSoul || frostFlare)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(44, 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(44, 240, false);
 				}
@@ -5210,11 +5210,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (yInsignia)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("HolyLight"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("HolyLight"), 240, false);
 				}
@@ -5225,11 +5225,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (ataxiaFire)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(BuffID.OnFire, 720, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(BuffID.OnFire, 480, false);
 				}
@@ -5240,11 +5240,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (alchFlask)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 240, false);
 				}
@@ -5257,11 +5257,11 @@ namespace CalamityMod.CalPlayer
 			{
 				if (item.melee || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(mod.BuffType("ArmorCrunch"), 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(mod.BuffType("ArmorCrunch"), 240, false);
 					}
@@ -5284,16 +5284,16 @@ namespace CalamityMod.CalPlayer
 			if (omegaBlueChestplate && proj.friendly && !target.friendly)
 				target.AddBuff(mod.BuffType("CrushDepth"), 240);
 
-			if (proj.melee && silvaMelee && Main.rand.Next(4) == 0)
+			if (proj.melee && silvaMelee && Main.rand.NextBool(4))
 				target.AddBuff(mod.BuffType("SilvaStun"), 20);
 
 			if (abyssalAmulet)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 240, false);
 				}
@@ -5304,11 +5304,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (dsSetBonus)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("DemonFlames"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("DemonFlames"), 240, false);
 				}
@@ -5323,11 +5323,11 @@ namespace CalamityMod.CalPlayer
 			}
 			else if (alchFlask)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 240, false);
 				}
@@ -5344,7 +5344,7 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(mod.BuffType("HolyLight"), 120, false);
 					target.AddBuff(mod.BuffType("Plague"), 120, false);
 					target.AddBuff(mod.BuffType("BrimstoneFlames"), 120, false);
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.NextBool(5))
 					{
 						target.AddBuff(mod.BuffType("GlacialState"), 120, false);
 					}
@@ -5358,11 +5358,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (aWeapon)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(mod.BuffType("AbyssalFlames"), 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(mod.BuffType("AbyssalFlames"), 240, false);
 					}
@@ -5373,11 +5373,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (cryogenSoul || frostFlare)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(44, 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(44, 240, false);
 					}
@@ -5388,11 +5388,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (yInsignia)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(mod.BuffType("HolyLight"), 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(mod.BuffType("HolyLight"), 240, false);
 					}
@@ -5403,11 +5403,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (ataxiaFire)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(BuffID.OnFire, 720, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(BuffID.OnFire, 480, false);
 					}
@@ -5421,11 +5421,11 @@ namespace CalamityMod.CalPlayer
 			{
 				if (proj.melee || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(mod.BuffType("ArmorCrunch"), 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(mod.BuffType("ArmorCrunch"), 240, false);
 					}
@@ -5500,7 +5500,7 @@ namespace CalamityMod.CalPlayer
 				target.AddBuff(mod.BuffType("HolyLight"), 120, false);
 				target.AddBuff(mod.BuffType("Plague"), 120, false);
 				target.AddBuff(mod.BuffType("BrimstoneFlames"), 120, false);
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.NextBool(5))
 				{
 					target.AddBuff(mod.BuffType("GlacialState"), 120, false);
 				}
@@ -5514,11 +5514,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (aWeapon)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("AbyssalFlames"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("AbyssalFlames"), 240, false);
 				}
@@ -5529,11 +5529,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (abyssalAmulet)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 240, false);
 				}
@@ -5544,11 +5544,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (cryogenSoul || frostFlare)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(44, 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(44, 240, false);
 				}
@@ -5559,11 +5559,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (yInsignia)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("HolyLight"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("HolyLight"), 240, false);
 				}
@@ -5574,11 +5574,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (ataxiaFire)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(BuffID.OnFire, 720, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(BuffID.OnFire, 480, false);
 				}
@@ -5589,11 +5589,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (alchFlask)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 240, false);
 				}
@@ -5613,16 +5613,16 @@ namespace CalamityMod.CalPlayer
 			if (omegaBlueChestplate)
 				target.AddBuff(mod.BuffType("CrushDepth"), 240);
 
-			if (proj.melee && silvaMelee && Main.rand.Next(4) == 0)
+			if (proj.melee && silvaMelee && Main.rand.NextBool(4))
 				target.AddBuff(mod.BuffType("SilvaStun"), 20);
 
 			if (abyssalAmulet)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("CrushDepth"), 240, false);
 				}
@@ -5637,11 +5637,11 @@ namespace CalamityMod.CalPlayer
 			}
 			else if (alchFlask)
 			{
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 360, false);
 				}
-				else if (Main.rand.Next(2) == 0)
+				else if (Main.rand.NextBool(2))
 				{
 					target.AddBuff(mod.BuffType("Plague"), 240, false);
 				}
@@ -5658,7 +5658,7 @@ namespace CalamityMod.CalPlayer
 					target.AddBuff(mod.BuffType("HolyLight"), 120, false);
 					target.AddBuff(mod.BuffType("Plague"), 120, false);
 					target.AddBuff(mod.BuffType("BrimstoneFlames"), 120, false);
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.NextBool(5))
 					{
 						target.AddBuff(mod.BuffType("GlacialState"), 120, false);
 					}
@@ -5672,11 +5672,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (aWeapon)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(mod.BuffType("AbyssalFlames"), 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(mod.BuffType("AbyssalFlames"), 240, false);
 					}
@@ -5687,11 +5687,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (cryogenSoul || frostFlare)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(44, 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(44, 240, false);
 					}
@@ -5702,11 +5702,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (yInsignia)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(mod.BuffType("HolyLight"), 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(mod.BuffType("HolyLight"), 240, false);
 					}
@@ -5717,11 +5717,11 @@ namespace CalamityMod.CalPlayer
 				}
 				if (ataxiaFire)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(BuffID.OnFire, 720, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(BuffID.OnFire, 480, false);
 					}
@@ -5735,11 +5735,11 @@ namespace CalamityMod.CalPlayer
 			{
 				if (proj.melee || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						target.AddBuff(mod.BuffType("ArmorCrunch"), 360, false);
 					}
-					else if (Main.rand.Next(2) == 0)
+					else if (Main.rand.NextBool(2))
 					{
 						target.AddBuff(mod.BuffType("ArmorCrunch"), 240, false);
 					}
@@ -5807,7 +5807,7 @@ namespace CalamityMod.CalPlayer
 		{
 			#region MultiplierBoosts
 			double damageMult = 1.0;
-			if (silvaMelee && Main.rand.Next(4) == 0 && item.melee)
+			if (silvaMelee && Main.rand.NextBool(4) && item.melee)
 			{
 				damageMult += 4.0;
 			}
@@ -5940,10 +5940,10 @@ namespace CalamityMod.CalPlayer
 								gainLevelCooldown = 2400; //40 seconds
 							}
 							meleeLevel++;
-							if (fasterMeleeLevel && meleeLevel % 100 != 0 && Main.rand.Next(10) == 0) //add only to non-multiples of 100
+							if (fasterMeleeLevel && meleeLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
 								meleeLevel++;
 							shootFireworksLevelUpMelee = true;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 							{
 								LevelPacket(false, 0);
 							}
@@ -6018,7 +6018,7 @@ namespace CalamityMod.CalPlayer
 			{
 				damageMult += 0.05;
 			}
-			if (silvaMelee && Main.rand.Next(4) == 0 && isTrueMelee)
+			if (silvaMelee && Main.rand.NextBool(4) && isTrueMelee)
 			{
 				damageMult += 4.0;
 			}
@@ -6246,7 +6246,7 @@ namespace CalamityMod.CalPlayer
 						Main.projectile[FUCKYOU].netUpdate = true;
 					}
 				}
-				if (bloodflareThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && crit && Main.rand.Next(2) == 0)
+				if (bloodflareThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && crit && Main.rand.NextBool(2))
 				{
 					if (target.canGhostHeal)
 					{
@@ -6316,10 +6316,10 @@ namespace CalamityMod.CalPlayer
 								gainLevelCooldown = 2400; //40 seconds
 							}
 							meleeLevel++;
-							if (fasterMeleeLevel && meleeLevel % 100 != 0 && Main.rand.Next(10) == 0) //add only to non-multiples of 100
+							if (fasterMeleeLevel && meleeLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
 								meleeLevel++;
 							shootFireworksLevelUpMelee = true;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 							{
 								LevelPacket(false, 0);
 							}
@@ -6335,10 +6335,10 @@ namespace CalamityMod.CalPlayer
 								gainLevelCooldown = 2400; //40 seconds
 							}
 							rangedLevel++;
-							if (fasterRangedLevel && rangedLevel % 100 != 0 && Main.rand.Next(10) == 0) //add only to non-multiples of 100
+							if (fasterRangedLevel && rangedLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
 								rangedLevel++;
 							shootFireworksLevelUpRanged = true;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 							{
 								LevelPacket(false, 1);
 							}
@@ -6354,10 +6354,10 @@ namespace CalamityMod.CalPlayer
 								gainLevelCooldown = 2400; //40 seconds
 							}
 							magicLevel++;
-							if (fasterMagicLevel && magicLevel % 100 != 0 && Main.rand.Next(10) == 0) //add only to non-multiples of 100
+							if (fasterMagicLevel && magicLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
 								magicLevel++;
 							shootFireworksLevelUpMagic = true;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 							{
 								LevelPacket(false, 2);
 							}
@@ -6373,10 +6373,10 @@ namespace CalamityMod.CalPlayer
 								gainLevelCooldown = 2400; //40 seconds
 							}
 							summonLevel++;
-							if (fasterSummonLevel && summonLevel % 100 != 0 && Main.rand.Next(10) == 0) //add only to non-multiples of 100
+							if (fasterSummonLevel && summonLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
 								summonLevel++;
 							shootFireworksLevelUpSummon = true;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 							{
 								LevelPacket(false, 3);
 							}
@@ -6392,10 +6392,10 @@ namespace CalamityMod.CalPlayer
 								gainLevelCooldown = 2400; //40 seconds
 							}
 							rogueLevel++;
-							if (fasterRogueLevel && rogueLevel % 100 != 0 && Main.rand.Next(10) == 0) //add only to non-multiples of 100
+							if (fasterRogueLevel && rogueLevel % 100 != 0 && Main.rand.NextBool(10)) //add only to non-multiples of 100
 								rogueLevel++;
 							shootFireworksLevelUpRogue = true;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 							{
 								LevelPacket(false, 4);
 							}
@@ -6619,7 +6619,7 @@ namespace CalamityMod.CalPlayer
 					player.AddBuff(BuffID.Electrified, 120);
 				}
 			}
-			if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.Next(20) == 0)
+			if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
 			{
 				player.statLife += damage;
 				player.HealEffect(damage);
@@ -6628,7 +6628,7 @@ namespace CalamityMod.CalPlayer
 				proj.velocity.X = -proj.velocity.X;
 				proj.velocity.Y = -proj.velocity.Y;
 			}
-			if (projRefRare && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.Next(2) == 0)
+			if (projRefRare && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(2))
 			{
 				proj.hostile = false;
 				proj.friendly = true;
@@ -6649,7 +6649,7 @@ namespace CalamityMod.CalPlayer
 					proj.damage *= 8;
 				}
 			}
-			if (daedalusReflect && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.Next(3) == 0)
+			if (daedalusReflect && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(3))
 			{
 				int healAmt = damage / 5;
 				player.statLife += healAmt;
@@ -6691,7 +6691,7 @@ namespace CalamityMod.CalPlayer
 			}
 			/*if (abyssPosX && liquidType == 0 && (bait.type == ItemID.GoldWorm || bait.type == ItemID.GoldGrasshopper || bait.type == ItemID.GoldButterfly) && power > 150)
             {
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     CalamityGlobalNPC.OldDukeSpawn(player.whoAmI, mod.NPCType("OldDuke"));
                 }
@@ -6712,23 +6712,23 @@ namespace CalamityMod.CalPlayer
 			{
 				if (power >= 40)
 				{
-					if (abyssPosX && liquidType == 0 && Main.rand.Next(15) == 0 && power < 80)
+					if (abyssPosX && liquidType == 0 && Main.rand.NextBool(15) && power < 80)
 					{
 						caughtType = mod.ItemType("PlantyMush");
 					}
 					if (power >= 60)
 					{
-						if (player.FindBuffIndex(BuffID.Gills) > -1 && NPC.downedPlantBoss && liquidType == 0 && Main.rand.Next(25) == 0 && power < 160)
+						if (player.FindBuffIndex(BuffID.Gills) > -1 && NPC.downedPlantBoss && liquidType == 0 && Main.rand.NextBool(25) && power < 160)
 						{
 							caughtType = mod.ItemType("Floodtide");
 						}
-						if (abyssPosX && liquidType == 0 && Main.rand.Next(25) == 0 && power < 160)
+						if (abyssPosX && liquidType == 0 && Main.rand.NextBool(25) && power < 160)
 						{
 							caughtType = mod.ItemType("AlluringBait");
 						}
 						if (power >= 80)
 						{
-							if (abyssPosX && Main.hardMode && liquidType == 0 && Main.rand.Next(15) == 0 && power < 210)
+							if (abyssPosX && Main.hardMode && liquidType == 0 && Main.rand.NextBool(15) && power < 210)
 							{
 								switch (Main.rand.Next(4))
 								{
@@ -6740,7 +6740,7 @@ namespace CalamityMod.CalPlayer
 							}
 							if (power >= 110)
 							{
-								if (abyssPosX && liquidType == 0 && Main.rand.Next(25) == 0 && power < 240)
+								if (abyssPosX && liquidType == 0 && Main.rand.NextBool(25) && power < 240)
 								{
 									caughtType = mod.ItemType("AbyssalAmulet");
 								}
@@ -6846,11 +6846,11 @@ namespace CalamityMod.CalPlayer
 					{
 						string key = "Mods.CalamityMod.SupremeBossText2";
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -6863,7 +6863,7 @@ namespace CalamityMod.CalPlayer
 			{
 				return false;
 			}
-			if (godSlayerReflect && Main.rand.Next(50) == 0)
+			if (godSlayerReflect && Main.rand.NextBool(50))
 			{
 				return false;
 			}
@@ -6884,8 +6884,8 @@ namespace CalamityMod.CalPlayer
 				(dArtifact ? 0.25 : 0.0) +
 				((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * (double)player.beetleOrbs) : 0.0) +
 				(enraged ? 0.25 : 0.0) +
-				((CalamityWorld.defiled && Main.rand.Next(4) == 0) ? 0.5 : 0.0) +
-				((bloodPact && Main.rand.Next(4) == 0) ? 1.5 : 0.0);
+				((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0) +
+				((bloodPact && Main.rand.NextBool(4)) ? 1.5 : 0.0);
 
 			if (CalamityWorld.revenge)
 			{
@@ -7078,7 +7078,7 @@ namespace CalamityMod.CalPlayer
 				player.statLife += healAmt;
 				player.HealEffect(healAmt);
 			}
-			if (daedalusAbsorb && Main.rand.Next(10) == 0)
+			if (daedalusAbsorb && Main.rand.NextBool(10))
 			{
 				int healAmt = damage / 2;
 				player.statLife += healAmt;
@@ -7131,7 +7131,7 @@ namespace CalamityMod.CalPlayer
 						{
 							int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 31, 0f, 0f, 100, default, 2f);
 							Main.dust[num622].velocity *= 3f;
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								Main.dust[num622].scale = 0.5f;
 								Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -7191,7 +7191,7 @@ namespace CalamityMod.CalPlayer
 					{
 						int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 67, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -7208,7 +7208,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (tarraMelee)
 				{
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						player.AddBuff(mod.BuffType("TarraLifeRegen"), 120);
 					}
@@ -7428,7 +7428,7 @@ namespace CalamityMod.CalPlayer
 					{
 						for (i = 0; i < 4; i++)
 						{
-							float xPos = Main.rand.Next(2) == 0 ? player.Center.X + 100 : player.Center.X - 100;
+							float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
 							Vector2 vector2 = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
 							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 							int spore1 = Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), 590, fDamage, 1.25f, player.whoAmI, 0f, 0f);
@@ -7465,7 +7465,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-			if (ataxiaBlaze && Main.rand.Next(5) == 0)
+			if (ataxiaBlaze && Main.rand.NextBool(5))
 			{
 				if (damage > 0)
 				{
@@ -7518,7 +7518,7 @@ namespace CalamityMod.CalPlayer
 					{
 						for (i = 0; i < 4; i++)
 						{
-							float xPos = Main.rand.Next(2) == 0 ? player.Center.X + 100 : player.Center.X - 100;
+							float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
 							Vector2 vector2 = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
 							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
 							Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), 567, rDamage, 2f, player.whoAmI, 0f, 0f);
@@ -7604,7 +7604,7 @@ namespace CalamityMod.CalPlayer
 		public void KillPlayer()
 		{
 			deathCount++;
-			if (player.whoAmI == Main.myPlayer && Main.netMode == 1)
+			if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				DeathPacket(false);
 			}
@@ -7646,7 +7646,7 @@ namespace CalamityMod.CalPlayer
 							Main.item[num].noGrabDelay = 100;
 							Main.item[num].favorited = false;
 							Main.item[num].newAndShiny = false;
-							if (Main.netMode == 1)
+							if (Main.netMode == NetmodeID.MultiplayerClient)
 							{
 								NetMessage.SendData(21, -1, -1, null, num, 0f, 0f, 0f, 0, 0, 0);
 							}
@@ -7701,15 +7701,15 @@ namespace CalamityMod.CalPlayer
 			player.crystalLeaf = false;
 			PlayerDeathReason damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
 			NetworkText deathText = damageSource.GetDeathText(player.name);
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 			{
 				NetMessage.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
 			}
-			else if (Main.netMode == 0)
+			else if (Main.netMode == NetmodeID.SinglePlayer)
 			{
 				Main.NewText(deathText.ToString(), 225, 25, 25, false);
 			}
-			if (Main.netMode == 1 && player.whoAmI == Main.myPlayer)
+			if (Main.netMode == NetmodeID.MultiplayerClient && player.whoAmI == Main.myPlayer)
 			{
 				NetMessage.SendPlayerDeath(player.whoAmI, damageSource, (int)1000.0, 0, false, -1, -1);
 			}
@@ -8000,7 +8000,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
 						Main.dust[num14].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num14].fadeIn = 0.5f;
 						}
@@ -8015,7 +8015,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
 						Main.dust[num14].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num14].fadeIn = 0.5f;
 						}
@@ -8031,7 +8031,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
 						Main.dust[num14].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num14].fadeIn = 0.5f;
 						}
@@ -8047,7 +8047,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
 						Main.dust[num14].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num14].fadeIn = 0.5f;
 						}
@@ -8063,7 +8063,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 						Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
 						Main.dust[num14].noGravity = true;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num14].fadeIn = 0.5f;
 						}
@@ -8504,7 +8504,7 @@ namespace CalamityMod.CalPlayer
 					Main.dust[num].velocity *= 0.4f;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 						Main.dust[num].noGravity = true;
@@ -8961,7 +8961,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (revivifyTimer > 0)
 			{
-				if (Main.rand.Next(2) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 91, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 1f);
 					Main.dust[dust].noGravity = true;
@@ -8971,7 +8971,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (tRegen)
 			{
-				if (Main.rand.Next(10) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(10) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 107, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
 					Main.dust[dust].noGravity = true;
@@ -8991,7 +8991,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
 				{
-					if (Main.rand.Next(2) == 0 && drawInfo.shadow == 0f)
+					if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
 					{
 						int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 229, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
 						Main.dust[dust].noGravity = true;
@@ -9011,7 +9011,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
 				{
-					if (Main.rand.Next(2) == 0 && drawInfo.shadow == 0f)
+					if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
 					{
 						int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 246, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1f);
 						Main.dust[dust].noGravity = true;
@@ -9031,7 +9031,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
 				{
-					if (Main.rand.Next(2) == 0 && drawInfo.shadow == 0f)
+					if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
 					{
 						int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 27, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.5f);
 						Main.dust[dust].noGravity = true;
@@ -9053,7 +9053,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (drawInfo.shadow == 0f)
 					{
-						int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, Main.rand.Next(2) == 0 ? 57 : 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.5f);
+						int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, Main.rand.NextBool(2) ? 57 : 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 1.5f);
 						Main.dust[dust].noGravity = true;
 						Main.dust[dust].velocity *= 0.5f;
 						Main.playerDrawDust.Add(dust);
@@ -9069,7 +9069,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (bFlames || aFlames || rageMode)
 			{
-				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, mod.DustType("BrimstoneFlame"), player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
 					Main.dust[dust].noGravity = true;
@@ -9094,7 +9094,7 @@ namespace CalamityMod.CalPlayer
 					Main.dust[dust].velocity *= 0.75f;
 					Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 0.75f;
 					Main.dust[dust].velocity.Y = Main.dust[dust].velocity.Y - 1f;
-					if (Main.rand.Next(4) == 0)
+					if (Main.rand.NextBool(4))
 					{
 						Main.dust[dust].noGravity = false;
 						Main.dust[dust].scale *= 0.5f;
@@ -9103,7 +9103,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (adrenalineMode)
 			{
-				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 206, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
 					Main.dust[dust].velocity *= 1.8f;
@@ -9120,7 +9120,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (gsInferno)
 			{
-				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 173, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
 					Main.dust[dust].noGravity = true;
@@ -9138,9 +9138,9 @@ namespace CalamityMod.CalPlayer
 			}
 			if (astralInfection)
 			{
-				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
 				{
-					int dustType = (Main.rand.Next(2) == 0 ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
+					int dustType = (Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, dustType, player.velocity.X * 0.2f, player.velocity.Y * 0.2f, 100, default, 0.7f);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.2f;
@@ -9151,7 +9151,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (hFlames || hInferno)
 			{
-				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, mod.DustType("HolyFlame"), player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
 					Main.dust[dust].noGravity = true;
@@ -9169,7 +9169,7 @@ namespace CalamityMod.CalPlayer
 			}
 			else if (eGravity)
 			{
-				if (Main.rand.Next(12) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(12) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 244, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
 					Main.dust[dust].noGravity = true;
@@ -9180,7 +9180,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (pFlames)
 			{
-				if (Main.rand.Next(4) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 89, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
 					Main.dust[dust].noGravity = true;
@@ -9218,7 +9218,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (bBlood)
 			{
-				if (Main.rand.Next(6) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 5, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 3f);
 					Main.dust[dust].noGravity = true;
@@ -9236,7 +9236,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (mushy)
 			{
-				if (Main.rand.Next(6) == 0 && drawInfo.shadow == 0f)
+				if (Main.rand.NextBool(6) && drawInfo.shadow == 0f)
 				{
 					int dust = Dust.NewDust(drawInfo.position - new Vector2(2f, 2f), player.width + 4, player.height + 4, 56, player.velocity.X * 0.4f, player.velocity.Y * 0.4f, 100, default, 2f);
 					Main.dust[dust].noGravity = true;
@@ -9630,7 +9630,7 @@ namespace CalamityMod.CalPlayer
 					break;
 			}
 
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 				ExactLevelPacket(true, levelType);
 		}
 
@@ -9655,35 +9655,35 @@ namespace CalamityMod.CalPlayer
 					break;
 			}
 
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 				LevelPacket(true, levelType);
 		}
 
 		internal void HandleStress(BinaryReader reader)
 		{
 			stress = reader.ReadInt32();
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 				StressPacket(true);
 		}
 
 		internal void HandleAdrenaline(BinaryReader reader)
 		{
 			adrenaline = reader.ReadInt32();
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 				AdrenalinePacket(true);
 		}
 
 		internal void HandleRadiation(BinaryReader reader)
 		{
 			radiation = reader.ReadDouble();
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 				RadiationPacket(true);
 		}
 
 		/*internal void HandleDistanceFromBoss(BinaryReader reader)
 		{
 			distanceFromBoss = reader.ReadInt32();
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 			{
 				DistanceFromBossPacket(true);
 			}
@@ -9692,13 +9692,13 @@ namespace CalamityMod.CalPlayer
 		internal void HandleDeathCount(BinaryReader reader)
 		{
 			deathCount = reader.ReadInt32();
-			if (Main.netMode == 2)
+			if (Main.netMode == NetmodeID.Server)
 				DeathPacket(true);
 		}
 
 		public override void OnEnterWorld(Player player)
 		{
-			if (Main.netMode == 1)
+			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				ExactLevelPacket(false, 0);
 				ExactLevelPacket(false, 1);
@@ -10111,7 +10111,7 @@ namespace CalamityMod.CalPlayer
 					}
 					break;
 			}
-			if (Main.netMode == 1)
+			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				ExactLevelPacket(false, levelUpType);
 			}

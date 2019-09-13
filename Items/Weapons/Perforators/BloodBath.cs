@@ -71,11 +71,11 @@ namespace CalamityMod.Items.Weapons.Perforators
 	    	num78 *= num80;
 			num79 *= num80;
 			int num107 = 2;
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				num107++;
 			}
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				num107++;
 			}

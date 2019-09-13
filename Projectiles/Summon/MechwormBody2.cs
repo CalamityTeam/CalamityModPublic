@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Summon
 			if (num1064 != projectile.rotation)
 			{
 				float num1068 = MathHelper.WrapAngle(num1064 - projectile.rotation);
-				vector134 = vector134.RotatedBy((double)(num1068 * 0.1f), default(Vector2));
+				vector134 = vector134.RotatedBy((double)(num1068 * 0.1f), default);
 			}
 			projectile.rotation = vector134.ToRotation() + 1.57079637f;
 			projectile.position = projectile.Center;

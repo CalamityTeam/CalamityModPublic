@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (npc.homeless)
             {
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                     return "I could smell my vodka from MILES away!";
                 else
                     return "Have any spare rooms available? Preferably candle-lit with a hefty supply of booze.";

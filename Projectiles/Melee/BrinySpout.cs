@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
 			float num615 = 1.5f;
 			int num616 = 150;
 			int num617 = 42;
-			if (Main.rand.Next(15) == 0)
+			if (Main.rand.NextBool(15))
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 187, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100, new Color(53, Main.DiscoG, 255));
             }

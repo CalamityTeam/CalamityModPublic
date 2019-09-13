@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         	Lighting.AddLight(projectile.Center, 0.4f, 0f, 0f);
-        	if (Main.rand.Next(4) == 0)
+        	if (Main.rand.NextBool(4))
             {
             	int num469 = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, 0f, 0f);
 				Main.dust[num469].noGravity = true;

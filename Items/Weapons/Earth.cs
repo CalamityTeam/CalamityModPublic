@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Weapons
 			{
 				return;
 			}
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				target.defense -= 50;
 			}

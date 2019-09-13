@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void AI()
 		{
 			projectile.rotation += 0.5f;
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}

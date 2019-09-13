@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Rogue
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
         	for (int k = 0; k < 5; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default(Color), 1f);
+            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
             }
         }
     }

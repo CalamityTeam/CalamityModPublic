@@ -76,9 +76,9 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			Vector2 vector14 = projectile.Center + projectile.velocity * 3f;
 			Lighting.AddLight(vector14, 3f, 0.2f, 0.2f);
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
-				int num30 = Dust.NewDust(vector14 - projectile.Size / 2f, projectile.width, projectile.height, 235, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 2f);
+				int num30 = Dust.NewDust(vector14 - projectile.Size / 2f, projectile.width, projectile.height, 235, projectile.velocity.X, projectile.velocity.Y, 100, default, 2f);
 				Main.dust[num30].noGravity = true;
 				Main.dust[num30].position -= projectile.velocity;
 			}

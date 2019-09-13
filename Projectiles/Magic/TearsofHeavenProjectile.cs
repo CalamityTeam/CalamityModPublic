@@ -32,19 +32,19 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				for (int num468 = 0; num468 < 3; num468++)
 				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default(Color), 1f);
+					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 1f);
 					Main.dust[num469].noGravity = true;
 					Main.dust[num469].velocity *= 0f;
 				}
 				for (int num92 = 0; num92 < 3; num92++)
 				{
-					int num96 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default(Color), 1f);
+					int num96 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, 1f);
 					Main.dust[num96].noGravity = true;
 					Main.dust[num96].velocity *= 0f;
 				}
 				for (int num105 = 0; num105 < 3; num105++)
 				{
-					int num102 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, 0f, 0f, 100, default(Color), 1f);
+					int num102 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, 0f, 0f, 100, default, 1f);
 					Main.dust[num102].noGravity = true;
 					Main.dust[num102].velocity *= 0f;
 				}

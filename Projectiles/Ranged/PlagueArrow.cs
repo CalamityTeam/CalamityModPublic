@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Ranged
 				int num516 = 6;
 				for (int num517 = 0; num517 < num516; num517++)
 				{
-					if (num517 % 2 != 1 || Main.rand.Next(3) == 0)
+					if (num517 % 2 != 1 || Main.rand.NextBool(3))
 					{
 						Vector2 value20 = projectile.position;
 						Vector2 value21 = projectile.oldVelocity;

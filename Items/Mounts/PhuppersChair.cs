@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameCount = 4;
             mountData.swimFrameDelay = 4;
             mountData.swimFrameStart = 0;
-            if (Main.netMode != 2)
+            if (Main.netMode != NetmodeID.Server)
             {
                 mountData.textureWidth = mountData.backTexture.Width;
                 mountData.textureHeight = mountData.backTexture.Height;

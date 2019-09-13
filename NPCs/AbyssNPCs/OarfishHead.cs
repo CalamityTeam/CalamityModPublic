@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				npc.TargetClosest(true);
 			}
 			npc.velocity.Length();
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (!TailSpawned && npc.ai[0] == 0f)
 				{
@@ -325,17 +325,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(1000000) == 0 && CalamityWorld.revenge)
+			if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
 			}
 			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(3, 6));
 				}
-				if (Main.expertMode && Main.rand.Next(2) == 0)
+				if (Main.expertMode && Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(1, 3));
 				}
@@ -346,27 +346,27 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 10; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}
 
 		public override bool CheckActive()
 		{
-			if (npc.timeLeft <= 0 && Main.netMode != 1)
+			if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
 				{
 					if (Main.npc[k].active)
 					{
 						Main.npc[k].active = false;
-						if (Main.netMode == 2)
+						if (Main.netMode == NetmodeID.Server)
 						{
 							Main.npc[k].life = 0;
 							Main.npc[k].netSkip = -1;

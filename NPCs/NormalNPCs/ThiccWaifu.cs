@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				Vector2 vector = npc.Center;
 				vector = Vector2.UnitX * (float)npc.direction * 200f;
 				Vector2 vector223 = npc.Center + Vector2.UnitX * (float)npc.direction * 50f - Vector2.UnitY * 6f;
-				if (npc.ai[0] == 54f && Main.netMode != 1)
+				if (npc.ai[0] == 54f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					List<Point> list4 = new List<Point>();
 					Vector2 vec5 = Main.player[npc.target].Center + new Vector2(Main.player[npc.target].velocity.X * 30f, 0f);
@@ -283,13 +283,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 16, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 16, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 50; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 16, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 16, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}
@@ -297,22 +297,22 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"), Main.rand.Next(2, 4));
-			if (Main.rand.Next(100) == 0 && CalamityWorld.downedProvidence)
+			if (Main.rand.NextBool(100) && CalamityWorld.downedProvidence)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Thunderstorm"));
 			}
 			if (Main.expertMode)
 			{
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EyeoftheStorm"));
 				}
 			}
-			else if (Main.rand.Next(4) == 0)
+			else if (Main.rand.NextBool(4))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EyeoftheStorm"));
 			}
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StormSaber"));
 			}

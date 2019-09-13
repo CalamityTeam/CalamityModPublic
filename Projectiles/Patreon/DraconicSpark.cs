@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Patreon
                 if(Main.rand.Next(3) != 0)
                 {
                     float scale = Main.rand.NextFloat(0.6f, 1.2f);
-                    int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustID, 0f, 0f, 100, default(Color), scale);
+                    int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustID, 0f, 0f, 100, default, scale);
                     Main.dust[idx].noGravity = true;
                     Main.dust[idx].velocity += projectile.velocity * 0.1f;
                 }

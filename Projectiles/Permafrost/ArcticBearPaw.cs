@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Permafrost
             target.AddBuff(BuffID.Frostburn, 480);
             target.AddBuff(mod.BuffType("GlacialState"), 60);
 
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
                 target.AddBuff(BuffID.Confused, Main.rand.Next(60, 240));
         }
 

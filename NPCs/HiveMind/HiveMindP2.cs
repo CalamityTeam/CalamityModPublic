@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.HiveMind
 			}
 			else
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 					SpawnStuff();
 				state = nextState;
 				nextState = 0;
@@ -303,7 +303,7 @@ namespace CalamityMod.NPCs.HiveMind
 						}
 						else
 						{
-							if (CalamityWorld.revenge && (Main.rand.Next(4) == 0 || reelCount == 3))
+							if (CalamityWorld.revenge && (Main.rand.NextBool(4) || reelCount == 3))
 							{
 								reelCount = 0;
 								nextState = 2;
@@ -375,7 +375,7 @@ namespace CalamityMod.NPCs.HiveMind
 						npc.alpha = 255;
 						npc.velocity = Vector2.Zero;
 						state = 0;
-						if (Main.netMode != 1 && npc.ai[1] != 0f && npc.ai[2] != 0f)
+						if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] != 0f && npc.ai[2] != 0f)
 						{
 							npc.position.X = npc.ai[1] * 16 - npc.width / 2;
 							npc.position.Y = npc.ai[2] * 16 - npc.height / 2;
@@ -387,8 +387,8 @@ namespace CalamityMod.NPCs.HiveMind
 					{
 						for (int i = 0; i < 10; i++)
 						{
-							int posX = (int)player.Center.X / 16 + Main.rand.Next(15, 46) * (Main.rand.Next(2) == 0 ? -1 : 1);
-							int posY = (int)player.Center.Y / 16 + Main.rand.Next(15, 46) * (Main.rand.Next(2) == 0 ? -1 : 1);
+							int posX = (int)player.Center.X / 16 + Main.rand.Next(15, 46) * (Main.rand.NextBool(2) ? -1 : 1);
+							int posY = (int)player.Center.Y / 16 + Main.rand.Next(15, 46) * (Main.rand.NextBool(2) ? -1 : 1);
 							if (!WorldGen.SolidTile(posX, posY) && Collision.CanHit(new Vector2(posX * 16, posY * 16), 1, 1, player.position, player.width, player.height))
 							{
 								npc.ai[1] = posX;
@@ -430,7 +430,7 @@ namespace CalamityMod.NPCs.HiveMind
 					if (npc.alpha > 0)
 					{
 						npc.alpha -= lungeFade;
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							npc.Center = player.Center + new Vector2(teleportRadius, 0).RotatedBy(rotation);
 						}
@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.HiveMind
 							}
 							else
 							{
-								if (Main.netMode != 1)
+								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									npc.Center = player.Center + new Vector2(teleportRadius, 0).RotatedBy(rotation);
 								}
@@ -475,7 +475,7 @@ namespace CalamityMod.NPCs.HiveMind
 					if (npc.alpha > 0)
 					{
 						npc.alpha -= 5;
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							npc.Center = player.Center;
 							npc.position.Y += teleportRadius;
@@ -500,7 +500,7 @@ namespace CalamityMod.NPCs.HiveMind
 							{
 								phase2timer = 0;
 								npc.ai[0]++;
-								if (Main.netMode != 1 && Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height)) //draw line of sight
+								if (Main.netMode != NetmodeID.MultiplayerClient && Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height)) //draw line of sight
 								{
 									if (npc.ai[0] == 2 || npc.ai[0] == 4)
 									{
@@ -530,7 +530,7 @@ namespace CalamityMod.NPCs.HiveMind
 					if (npc.alpha > 0)
 					{
 						npc.alpha -= 5;
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							npc.Center = player.Center;
 							npc.position.Y -= teleportRadius;
@@ -555,7 +555,7 @@ namespace CalamityMod.NPCs.HiveMind
 							{
 								phase2timer = 0;
 								npc.ai[0]++;
-								if (Main.netMode != 1)
+								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
 									int damage = Main.expertMode ? 14 : 18;
 									Projectile.NewProjectile(npc.position.X + Main.rand.Next(npc.width), npc.position.Y + Main.rand.Next(npc.height), 0, 0, mod.ProjectileType("ShadeNimbusHostile"), damage, 0, Main.myPlayer, 11, 0);
@@ -616,9 +616,9 @@ namespace CalamityMod.NPCs.HiveMind
 		{
 			for (int k = 0; k < damage / npc.lifeMax * 100.0; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
 			}
-			if (Main.netMode != 1 && Main.rand.Next(15) == 0 && NPC.CountNPCS(mod.NPCType("HiveBlob2")) < 2)
+			if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(15) && NPC.CountNPCS(mod.NPCType("HiveBlob2")) < 2)
 			{
 				Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
 				NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("HiveBlob2"));
@@ -639,9 +639,9 @@ namespace CalamityMod.NPCs.HiveMind
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 14, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 14, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -649,10 +649,10 @@ namespace CalamityMod.NPCs.HiveMind
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 14, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 14, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 14, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 14, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
@@ -701,9 +701,9 @@ namespace CalamityMod.NPCs.HiveMind
                 Color messageColor = Color.Cyan;
                 WorldGenerationMethods.SpawnOre(mod.TileType("AerialiteOre"), 12E-05, .4f, .6f);
 
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == 2)
+                else if (Main.netMode == NetmodeID.Server)
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
 

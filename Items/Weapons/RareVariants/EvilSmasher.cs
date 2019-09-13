@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("FossilSpike"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				item.damage = 82;
 				item.useAnimation = 15;

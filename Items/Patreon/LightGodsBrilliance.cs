@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Patreon
 				float SpeedY = speedY + (float) Main.rand.Next(-50, 51) * 0.05f;
 				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
 			}
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("LightBall"), (int)((double)damage * 2.0), knockBack, player.whoAmI, 0.0f, 0.0f);
 			}

@@ -79,14 +79,14 @@ namespace CalamityMod.Projectiles.Melee
 				for (int num1004 = 0; num1004 < 5; num1004++)
 				{
 					int num1005 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 0, new Color(150, Main.DiscoG, 255), 2.7f);
-					Main.dust[num1005].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2)) * (float)projectile.width / 2f;
+					Main.dust[num1005].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
 					Main.dust[num1005].noGravity = true;
 					Main.dust[num1005].velocity *= 3f;
 				}
 				for (int num1006 = 0; num1006 < 10; num1006++)
 				{
 					int num1007 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 187, 0f, 0f, 0, new Color(150, Main.DiscoG, 255), 1.5f);
-					Main.dust[num1007].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2)) * (float)projectile.width / 2f;
+					Main.dust[num1007].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
 					Main.dust[num1007].noGravity = true;
 					Main.dust[num1007].velocity *= 3f;
 				}

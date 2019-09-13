@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 
 			Player player = Main.player[npc.target];
 			Vector2 vector = npc.Center;
-			if (Main.netMode != 1 && npc.localAI[1] == 0f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
 			{
 				npc.localAI[1] = 1f;
 				NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("ProfanedGuardianBoss2"), 0, 0f, 0f, 0f, 0f, 255);
@@ -179,13 +179,13 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			{
 				if (Main.rand.Next(3) < num1009)
 				{
-					int num1012 = Dust.NewDust(npc.Center - new Vector2((float)num1010), num1010 * 2, num1010 * 2, 244, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+					int num1012 = Dust.NewDust(npc.Center - new Vector2((float)num1010), num1010 * 2, num1010 * 2, 244, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
 					Main.dust[num1012].noGravity = true;
 					Main.dust[num1012].velocity *= 0.2f;
 					Main.dust[num1012].fadeIn = 1f;
 				}
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] += 1f + (2f * (1f - lifeRatio));
 				if (npc.localAI[0] >= 240f)
@@ -313,7 +313,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			}
 			else if (npc.ai[0] == 2f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					dustTimer--;
 					if (lifeRatio < 0.5f && dustTimer <= 0)
@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -463,7 +463,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA4"), 1f);
 				for (int k = 0; k < 50; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

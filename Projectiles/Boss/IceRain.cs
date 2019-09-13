@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
 			int num3;
 			for (int num373 = 0; num373 < 3; num373 = num3 + 1)
 			{
-				int num374 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 76, 0f, 0f, 0, default(Color), 1f);
+				int num374 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 76, 0f, 0f, 0, default, 1f);
 				Main.dust[num374].noGravity = true;
 				Main.dust[num374].noLight = true;
 				Main.dust[num374].scale = 0.7f;

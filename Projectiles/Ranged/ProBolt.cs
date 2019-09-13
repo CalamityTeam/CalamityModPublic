@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
 			{
 				float x = projectile.position.X - projectile.velocity.X / 10f * (float)num134;
 				float y = projectile.position.Y - projectile.velocity.Y / 10f * (float)num134;
-				int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 160, 0f, 0f, 0, default(Color), 1.25f);
+				int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 160, 0f, 0f, 0, default, 1.25f);
 				Main.dust[num135].alpha = projectile.alpha;
 				Main.dust[num135].position.X = x;
 				Main.dust[num135].position.Y = y;

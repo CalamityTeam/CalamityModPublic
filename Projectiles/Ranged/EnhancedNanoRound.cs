@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Ranged
 				{
 					float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
 					float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
-					int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 229, 0f, 0f, 0, default(Color), 0.5f);
+					int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 229, 0f, 0f, 0, default, 0.5f);
 					Main.dust[num137].alpha = projectile.alpha;
 					Main.dust[num137].position.X = x2;
 					Main.dust[num137].position.Y = y2;
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Ranged
             int num212 = Main.rand.Next(5, 10);
 			for (int num213 = 0; num213 < num212; num213++)
 			{
-				int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default(Color), 2f);
+				int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 229, 0f, 0f, 100, default, 2f);
 				Main.dust[num214].velocity *= 2f;
 				Main.dust[num214].noGravity = true;
 			}

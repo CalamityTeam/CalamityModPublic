@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Enemy
                     {
                         num248 = projectile.velocity.Y * 0.5f;
                     }
-                    int num249 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default(Color), projectile.scale);
+                    int num249 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 6, 0f, 0f, 100, default, projectile.scale);
                     Main.dust[num249].scale *= 2f + (float)Main.rand.Next(10) * 0.1f;
                     Main.dust[num249].velocity *= 0.2f;
                     Main.dust[num249].noGravity = true;
-                    num249 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default(Color), projectile.scale * 0.5f);
+                    num249 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 3f + num248) - projectile.velocity * 0.5f, projectile.width - 8, projectile.height - 8, 31, 0f, 0f, 100, default, projectile.scale * 0.5f);
                     Main.dust[num249].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
                     Main.dust[num249].velocity *= 0.05f;
                 }

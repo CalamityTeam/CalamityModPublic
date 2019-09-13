@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
 			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = 20 + Main.rand.Next(40);
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.NextBool(5))
 				{
 					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
 				}
@@ -53,9 +53,9 @@ namespace CalamityMod.Projectiles.Melee
 				for (int l = 0; l < 12; l++)
 				{
 					Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
-					vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default(Vector2)) * new Vector2(8f, 16f);
-					vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
-					int num9 = Dust.NewDust(projectile.Center, 0, 0, 244, 0f, 0f, 160, default(Color), 1f);
+					vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
+					vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
+					int num9 = Dust.NewDust(projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
 					Main.dust[num9].scale = 1.1f;
 					Main.dust[num9].noGravity = true;
 					Main.dust[num9].position = projectile.Center + vector3;
@@ -74,23 +74,23 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.alpha = num58;
 			}
 			projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
-			if (Main.rand.Next(36) == 0)
+			if (Main.rand.NextBool(36))
 			{
-				Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
-				int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
+				Vector2 value3 = Vector2.UnitX.RotatedByRandom(1.5707963705062866).RotatedBy((double)projectile.velocity.ToRotation(), default);
+				int num59 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
 				Main.dust[num59].velocity = value3 * 0.66f;
 				Main.dust[num59].position = projectile.Center + value3 * 12f;
 			}
 			if (projectile.ai[1] == 1f)
 			{
 				projectile.light = 0.9f;
-				if (Main.rand.Next(30) == 0)
+				if (Main.rand.NextBool(30))
 				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default(Color), 1.2f);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
 				}
-				if (Main.rand.Next(60) == 0)
+				if (Main.rand.NextBool(60))
 				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f, 150, default(Color), 2f);
+					Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f, 150, default, 2f);
 				}
 			}
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);

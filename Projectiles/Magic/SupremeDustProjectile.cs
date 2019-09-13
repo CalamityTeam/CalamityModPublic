@@ -44,8 +44,8 @@ namespace CalamityMod.Projectiles.Magic
 				}
 				projectile.ai[0] += 1f;
 				int num297 = 32;
-				int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-				if (Main.rand.Next(3) == 0)
+				int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+				if (Main.rand.NextBool(3))
 				{
 					Main.dust[num299].noGravity = true;
 					Main.dust[num299].scale *= 4f;
@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Magic
 				Dust expr_DC94_cp_0 = Main.dust[num299];
 				expr_DC94_cp_0.velocity.Y = expr_DC94_cp_0.velocity.Y * 1.2f;
 				Main.dust[num299].scale *= num296;
-				int num399 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
-				if (Main.rand.Next(3) == 0)
+				int num399 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+				if (Main.rand.NextBool(3))
 				{
 					Main.dust[num399].noGravity = true;
 					Main.dust[num399].scale *= 6f;

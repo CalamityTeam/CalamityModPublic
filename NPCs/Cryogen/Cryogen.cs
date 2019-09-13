@@ -108,7 +108,7 @@ namespace CalamityMod.NPCs.Cryogen
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			npc.TargetClosest(true);
-			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != 1 && npc.ai[0] < 4f) //spawn shield for phase 0 1 2 3, not 4 5
+			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && npc.ai[0] < 4f) //spawn shield for phase 0 1 2 3, not 4 5
 			{
 				int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("CryogenIce"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				npc.ai[2] = (float)(num6 + 1);
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.Cryogen
 			{
 				npc.timeLeft = 2400;
 			}
-			if (Main.netMode != 1 && expertMode)
+			if (Main.netMode != NetmodeID.MultiplayerClient && expertMode)
 			{
 				time++;
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			if (npc.ai[0] == 0f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f;
 					if (npc.localAI[0] >= 120f)
@@ -245,7 +245,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f;
 					if (npc.localAI[0] >= 120f)
@@ -329,7 +329,7 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.velocity.Y = npc.velocity.Y - num1165 * 2f;
 					}
 				}
-				if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != 1)
+				if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					iceShard += 4;
 					if (iceShard > 8)
@@ -351,7 +351,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			else if (npc.ai[0] == 2f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f;
 					if (npc.localAI[0] >= 120f)
@@ -361,7 +361,7 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.netUpdate = true;
 						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 								float spread = 45f * 0.0174f;
@@ -437,7 +437,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			else if (npc.ai[0] == 3f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f;
 					if (npc.localAI[0] >= 120f)
@@ -528,7 +528,7 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.velocity.Y = npc.velocity.Y - num1165 * 2f;
 					}
 				}
-				if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != 1)
+				if (npc.position.X + (float)npc.width > player.position.X && npc.position.X < player.position.X + (float)player.width && npc.position.Y + (float)npc.height < player.position.Y && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					iceShard += 4;
 					if (iceShard > 8)
@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			else if (npc.ai[0] == 4f)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f;
 					if (npc.localAI[0] >= 60f && npc.alpha == 0)
@@ -597,7 +597,7 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					npc.chaseable = true;
 					npc.dontTakeDamage = false;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[2] += 1f;
 						if (npc.localAI[2] >= 180f)
@@ -616,12 +616,12 @@ namespace CalamityMod.NPCs.Cryogen
 								int min = 14;
 								int max = 18;
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num1250 += Main.rand.Next(min, max);
 								else
 									num1250 -= Main.rand.Next(min, max);
 
-								if (Main.rand.Next(2) == 0)
+								if (Main.rand.NextBool(2))
 									num1251 += Main.rand.Next(min, max);
 								else
 									num1251 -= Main.rand.Next(min, max);
@@ -677,9 +677,9 @@ namespace CalamityMod.NPCs.Cryogen
 					drawAltTexture = true;
 					for (int num621 = 0; num621 < 40; num621++)
 					{
-						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default(Color), 2f);
+						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
 						Main.dust[num622].velocity *= 3f;
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num622].scale = 0.5f;
 							Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -687,10 +687,10 @@ namespace CalamityMod.NPCs.Cryogen
 					}
 					for (int num623 = 0; num623 < 70; num623++)
 					{
-						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default(Color), 3f);
+						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 3f);
 						Main.dust[num624].noGravity = true;
 						Main.dust[num624].velocity *= 5f;
-						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default(Color), 2f);
+						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
 						Main.dust[num624].velocity *= 2f;
 					}
 					float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
@@ -706,11 +706,11 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.netUpdate = true;
 					string key = "Mods.CalamityMod.CryogenBossText";
 					Color messageColor = Color.Cyan;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -813,7 +813,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			if (npc.life > 0)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.05);
 					if ((float)(npc.life + num660) < npc.ai[3])
@@ -837,7 +837,7 @@ namespace CalamityMod.NPCs.Cryogen
 								randomSpawn = mod.NPCType("Cryocore2");
 							}
 							int num664 = NPC.NewNPC(x, y, randomSpawn, 0, 0f, 0f, 0f, 0f, 255);
-							if (Main.netMode == 2 && num664 < 200)
+							if (Main.netMode == NetmodeID.Server && num664 < 200)
 							{
 								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 							}
@@ -869,15 +869,15 @@ namespace CalamityMod.NPCs.Cryogen
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -885,10 +885,10 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
@@ -903,44 +903,44 @@ namespace CalamityMod.NPCs.Cryogen
 			int num = 86400;
 			int num2 = num / 24;
 			Main.rainTime = Main.rand.Next(num2 * 8, num);
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				Main.rainTime += Main.rand.Next(0, num2);
 			}
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 2);
 			}
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 2);
 			}
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 3);
 			}
-			if (Main.rand.Next(7) == 0)
+			if (Main.rand.NextBool(7))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 4);
 			}
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 			{
 				Main.rainTime += Main.rand.Next(0, num2 * 5);
 			}
 			float num3 = 1f;
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				num3 += 0.05f;
 			}
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				num3 += 0.1f;
 			}
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				num3 += 0.15f;
 			}
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				num3 += 0.2f;
 			}
@@ -992,7 +992,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             // Spawn Permafrost if he isn't in the world
             int permafrostNPC = NPC.FindFirstNPC(mod.NPCType("DILF"));
-            if (permafrostNPC == -1 && Main.netMode != 1)
+            if (permafrostNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("DILF"), 0, 0f, 0f, 0f, 0f, 255);
             }
@@ -1004,9 +1004,9 @@ namespace CalamityMod.NPCs.Cryogen
                 Color messageColor = Color.LightSkyBlue;
                 WorldGenerationMethods.SpawnOre(mod.TileType("CryonicOre"), 15E-05, .45f, .65f);
 
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                     Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == 2)
+                else if (Main.netMode == NetmodeID.Server)
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
 

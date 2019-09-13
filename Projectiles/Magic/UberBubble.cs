@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
 			int num190 = Main.rand.Next(4, 6);
 			for (int num191 = 0; num191 < num190; num191++)
 			{
-				int num192 = Dust.NewDust(projectile.Center, 0, 0, 171, 0f, 0f, 100, default(Color), 1.4f);
+				int num192 = Dust.NewDust(projectile.Center, 0, 0, 171, 0f, 0f, 100, default, 1.4f);
 				Main.dust[num192].velocity *= 0.8f;
 				Main.dust[num192].position = Vector2.Lerp(Main.dust[num192].position, projectile.Center, 0.5f);
 				Main.dust[num192].noGravity = true;

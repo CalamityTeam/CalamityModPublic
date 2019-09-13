@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
 					}
-					if (Main.netMode != 1 && spikeTimer == 0f)
+					if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
 					{
 						for (int n = 0; n < 5; n++)
 						{
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
 					}
-					if (Main.netMode != 1 && spikeTimer == 0f)
+					if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
 					{
 						num15 = Main.player[npc.target].position.Y - vector3.Y - (float)Main.rand.Next(0, 200);
 						num16 = (float)Math.Sqrt((double)(num14 * num14 + num15 * num15));
@@ -99,13 +99,13 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}
@@ -114,12 +114,12 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			if (Main.expertMode)
 			{
-				if (Main.rand.Next(50) == 0)
+				if (Main.rand.NextBool(50))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
 				}
 			}
-			else if (Main.rand.Next(100) == 0)
+			else if (Main.rand.NextBool(100))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Nazar);
 			}

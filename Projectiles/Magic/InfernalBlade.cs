@@ -42,9 +42,9 @@ namespace CalamityMod.Projectiles.Magic
 				while ((float)num99 < num98)
 				{
 					Vector2 vector11 = Vector2.UnitX * 0f;
-					vector11 += -Vector2.UnitY.RotatedBy((double)((float)num99 * (6.28318548f / num98)), default(Vector2)) * new Vector2(1f, 4f);
-					vector11 = vector11.RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
-					int num100 = Dust.NewDust(projectile.Center, 0, 0, 182, 0f, 0f, 0, default(Color), 1f);
+					vector11 += -Vector2.UnitY.RotatedBy((double)((float)num99 * (6.28318548f / num98)), default) * new Vector2(1f, 4f);
+					vector11 = vector11.RotatedBy((double)projectile.velocity.ToRotation(), default);
+					int num100 = Dust.NewDust(projectile.Center, 0, 0, 182, 0f, 0f, 0, default, 1f);
 					Main.dust[num100].scale = 1.5f;
 					Main.dust[num100].noGravity = true;
 					Main.dust[num100].position = projectile.Center + vector11;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Magic
 			int num487 = Main.rand.Next(4, 10);
 			for (int num488 = 0; num488 < num487; num488++)
 			{
-				int num489 = Dust.NewDust(projectile.Center, 0, 0, 182, 0f, 0f, 100, default(Color), 1f);
+				int num489 = Dust.NewDust(projectile.Center, 0, 0, 182, 0f, 0f, 100, default, 1f);
 				Main.dust[num489].velocity *= 1.6f;
 				Dust expr_FEDF_cp_0 = Main.dust[num489];
 				expr_FEDF_cp_0.velocity.Y = expr_FEDF_cp_0.velocity.Y - 1f;

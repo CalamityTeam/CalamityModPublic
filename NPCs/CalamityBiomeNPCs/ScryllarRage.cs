@@ -260,11 +260,11 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 
 		public override void NPCLoot()
 		{
-			if (CalamityWorld.downedProvidence && Main.rand.Next(2) == 0)
+			if (CalamityWorld.downedProvidence && Main.rand.NextBool(2))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"));
 			}
-			if (Main.hardMode && Main.rand.Next(3) == 0)
+			if (Main.hardMode && Main.rand.NextBool(3))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofChaos"));
 			}
@@ -274,13 +274,13 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 40; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

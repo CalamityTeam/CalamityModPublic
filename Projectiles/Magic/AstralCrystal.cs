@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Magic
 			d1.customData = d2.customData = 0.035f;
 
 			//Astral chunk dust
-			if (Main.rand.Next(30) == 0)
+			if (Main.rand.NextBool(30))
 			{
 				Dust dust = Dust.NewDustPerfect(projectile.Center, mod.DustType("AstralChunk"));
 				dust.velocity *= 0.3f;

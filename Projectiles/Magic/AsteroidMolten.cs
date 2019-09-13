@@ -40,14 +40,14 @@ namespace CalamityMod.Projectiles.Magic
 			Vector2 position = projectile.Center + Vector2.Normalize(projectile.velocity) * 10f;
 			Dust dust20 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f)];
 			dust20.position = position;
-			dust20.velocity = projectile.velocity.RotatedBy(1.5707963705062866, default(Vector2)) * 0.33f + projectile.velocity / 4f;
-			dust20.position += projectile.velocity.RotatedBy(1.5707963705062866, default(Vector2));
+			dust20.velocity = projectile.velocity.RotatedBy(1.5707963705062866, default) * 0.33f + projectile.velocity / 4f;
+			dust20.position += projectile.velocity.RotatedBy(1.5707963705062866, default);
 			dust20.fadeIn = 0.5f;
 			dust20.noGravity = true;
 			dust20 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 0, new Color(255, Main.DiscoG, 0), 1f)];
 			dust20.position = position;
-			dust20.velocity = projectile.velocity.RotatedBy(-1.5707963705062866, default(Vector2)) * 0.33f + projectile.velocity / 4f;
-			dust20.position += projectile.velocity.RotatedBy(-1.5707963705062866, default(Vector2));
+			dust20.velocity = projectile.velocity.RotatedBy(-1.5707963705062866, default) * 0.33f + projectile.velocity / 4f;
+			dust20.position += projectile.velocity.RotatedBy(-1.5707963705062866, default);
 			dust20.fadeIn = 0.5f;
 			dust20.noGravity = true;
 			for (int num189 = 0; num189 < 1; num189++)
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			for (int num339 = 0; num339 < 2; num339++)
 			{
-				int num340 = Gore.NewGore(projectile.position + new Vector2((float)(projectile.width * Main.rand.Next(100)) / 100f, (float)(projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default(Vector2), Main.rand.Next(61, 64), 1f);
+				int num340 = Gore.NewGore(projectile.position + new Vector2((float)(projectile.width * Main.rand.Next(100)) / 100f, (float)(projectile.height * Main.rand.Next(100)) / 100f) - Vector2.One * 10f, default, Main.rand.Next(61, 64), 1f);
 				Main.gore[num340].velocity *= 0.3f;
 				Gore expr_B4D2_cp_0 = Main.gore[num340];
 				expr_B4D2_cp_0.velocity.X = expr_B4D2_cp_0.velocity.X + (float)Main.rand.Next(-10, 11) * 0.05f;

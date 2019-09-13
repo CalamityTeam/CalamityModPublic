@@ -36,7 +36,7 @@ namespace CalamityMod.Tiles
 			if (!player.dead && player.active)
 			{
 				player.AddBuff(mod.BuffType("YellowDamageCandle"), 20);
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     for (int m = 0; m < 200; m++)
 					{

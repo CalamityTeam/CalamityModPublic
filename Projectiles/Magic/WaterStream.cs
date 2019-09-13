@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
 				Dust expr_6A1F_cp_0 = Main.dust[num155];
 				expr_6A1F_cp_0.position.Y = expr_6A1F_cp_0.position.Y - num153;
 			}
-			if (Main.rand.Next(8) == 0)
+			if (Main.rand.NextBool(8))
 			{
 				int num156 = 16;
 				int num157 = Dust.NewDust(new Vector2(projectile.position.X + (float)num156, projectile.position.Y + (float)num156), projectile.width - num156 * 2, projectile.height - num156 * 2, 14, 0f, 0f, 100, new Color(0, 255, 255), 0.5f);

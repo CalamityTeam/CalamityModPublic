@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
         		projectile.ai[1] = 1f;
         		Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
         	}
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
             }

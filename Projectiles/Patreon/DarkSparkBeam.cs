@@ -119,12 +119,12 @@ namespace CalamityMod.Projectiles.Patreon
 				scaleFactor6 = -7f; //-2, inverted
 			}
 			float num814 = (projectile2.ai[0] + num810 * num813) / (num813 * 6f) * 6.28318548f;
-			num811 = Vector2.UnitY.RotatedBy((double)num814, default(Vector2)).Y * 0.5235988f * num812;
-			value37 = (Vector2.UnitY.RotatedBy((double)num814, default(Vector2)) * new Vector2(4f, y)).RotatedBy((double)projectile2.velocity.ToRotation(), default(Vector2));
+			num811 = Vector2.UnitY.RotatedBy((double)num814, default).Y * 0.5235988f * num812;
+			value37 = (Vector2.UnitY.RotatedBy((double)num814, default) * new Vector2(4f, y)).RotatedBy((double)projectile2.velocity.ToRotation(), default);
 			projectile.position = projectile2.Center + value36 * 16f - projectile.Size / 2f + new Vector2(0f, -Main.projectile[(int)projectile.ai[1]].gfxOffY);
 			projectile.position += projectile2.velocity.ToRotation().ToRotationVector2() * scaleFactor6;
 			projectile.position += value37;
-			projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy((double)num811, default(Vector2));
+			projectile.velocity = Vector2.Normalize(projectile2.velocity).RotatedBy((double)num811, default);
 			projectile.scale = 1.5f * (1.5f - num812);
 			projectile.damage = projectile2.damage;
 			double damageMult = 1.0 + (double)(projectile2.ai[0] * 0.0015f); //1 to 2.0 (1400 * x)
@@ -193,9 +193,9 @@ namespace CalamityMod.Projectiles.Patreon
 					}
 					Main.dust[num846].color = color;
 				}
-				if (Main.rand.Next(5) == 0)
+				if (Main.rand.NextBool(5))
 				{
-					Vector2 value42 = projectile.velocity.RotatedBy(1.5707963705062866, default(Vector2)) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
+					Vector2 value42 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
 					int num847 = Dust.NewDust(vector80 + value42 - Vector2.One * 4f, 8, 8, 267, 0f, 0f, 100, color, 5f);
 					Main.dust[num847].velocity *= 0.5f;
 					Main.dust[num847].noGravity = true;
@@ -205,9 +205,9 @@ namespace CalamityMod.Projectiles.Patreon
 				float value43 = 0.1f * (float)Math.Sin((double)(Main.GlobalTime * 20f));
 				Vector2 size = new Vector2(projectile.velocity.Length() * projectile.localAI[1], (float)projectile.width * projectile.scale);
 				float num848 = projectile.velocity.ToRotation();
-				if (Main.netMode != 2)
+				if (Main.netMode != NetmodeID.Server)
 				{
-					((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(projectile.position + new Vector2(size.X * 0.5f, 0f).RotatedBy((double)num848, default(Vector2)), color, size, RippleShape.Square, num848);
+					((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(projectile.position + new Vector2(size.X * 0.5f, 0f).RotatedBy((double)num848, default), color, size, RippleShape.Square, num848);
 				}
 				Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
 				return;

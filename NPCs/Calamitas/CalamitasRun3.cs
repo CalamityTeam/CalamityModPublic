@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.Calamitas
 			Player player = Main.player[npc.target];
 			if (!halfLife && npc.life <= npc.lifeMax / 2)
 			{
-				if (!secondStage && Main.netMode != 1)
+				if (!secondStage && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
 					for (int I = 0; I < 5; I++)
@@ -132,11 +132,11 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 				string key = "Mods.CalamityMod.CalamitasBossText3";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.Calamitas
 			}
 			if (npc.life > 0)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.3); //70%, 40%, and 10%
 					if ((float)(npc.life + num660) < bossLife)
@@ -160,11 +160,11 @@ namespace CalamityMod.NPCs.Calamitas
 							NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("CalamitasRun2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 							string key = "Mods.CalamityMod.CalamitasBossText2";
 							Color messageColor = Color.Orange;
-							if (Main.netMode == 0)
+							if (Main.netMode == NetmodeID.SinglePlayer)
 							{
 								Main.NewText(Language.GetTextValue(key), messageColor);
 							}
-							else if (Main.netMode == 2)
+							else if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 							}
@@ -335,7 +335,7 @@ namespace CalamityMod.NPCs.Calamitas
 				num825 = player.position.X + (float)(player.width / 2) - vector82.X;
 				num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
 				npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (!flag100)
@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs.Calamitas
 				num834 = player.position.X + (float)(player.width / 2) - vector83.X;
 				num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
 				npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (!flag100)
@@ -529,7 +529,7 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CalamitasTrophy"));
 			}
@@ -553,27 +553,27 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"), Main.rand.Next(30, 41));
 				}
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
 					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("ChaosStone"), 1, true);
 				}
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CalamitasInferno"));
 				}
-				if (Main.rand.Next(7) == 0)
+				if (Main.rand.NextBool(7))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CalamitasMask"));
 				}
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("TheEyeofCalamitas"));
 				}
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BlightedEyeStaff"));
 				}
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Animosity"));
 				}
@@ -592,9 +592,9 @@ namespace CalamityMod.NPCs.Calamitas
 				if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/WyrmScream"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}
 
@@ -613,7 +613,7 @@ namespace CalamityMod.NPCs.Calamitas
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -631,9 +631,9 @@ namespace CalamityMod.NPCs.Calamitas
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -641,10 +641,10 @@ namespace CalamityMod.NPCs.Calamitas
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

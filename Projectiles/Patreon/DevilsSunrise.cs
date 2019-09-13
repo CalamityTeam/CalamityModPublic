@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Patreon
 			Vector2 vector14 = projectile.Center + projectile.velocity * 3f;
 			Lighting.AddLight(vector14, (float)((double)red * 0.001), 0.1f, 0.1f);
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int dust = Dust.NewDust(vector14 - projectile.Size / 2f, projectile.width, projectile.height, 66, projectile.velocity.X, projectile.velocity.Y, 100, new Color(red, greenAndBlue, greenAndBlue), 1f);
 				Main.dust[dust].noGravity = true;

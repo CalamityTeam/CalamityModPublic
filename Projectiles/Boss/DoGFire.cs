@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 				Main.PlaySound(SoundID.Item20, projectile.position);
 			}
 
-			int dust = Dust.NewDust(new Vector2(projectile.position.X + projectile.velocity.X, projectile.position.Y + projectile.velocity.Y), projectile.width, projectile.height, 173, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 3f);
+			int dust = Dust.NewDust(new Vector2(projectile.position.X + projectile.velocity.X, projectile.position.Y + projectile.velocity.Y), projectile.width, projectile.height, 173, projectile.velocity.X, projectile.velocity.Y, 100, default, 3f);
 			Main.dust[dust].noGravity = true;
 
 			projectile.rotation += 0.3f * (float)projectile.direction;
@@ -77,11 +77,11 @@ namespace CalamityMod.Projectiles.Boss
 			int num3;
 			for (int num584 = 0; num584 < 20; num584 = num3 + 1)
 			{
-				int num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default(Color), 2.5f);
+				int num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 2.5f);
 				Main.dust[num585].noGravity = true;
 				Dust dust = Main.dust[num585];
 				dust.velocity *= 2f;
-				num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default(Color), 1.2f);
+				num585 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, -projectile.velocity.X * 0.2f, -projectile.velocity.Y * 0.2f, 100, default, 1.2f);
 				dust = Main.dust[num585];
 				dust.velocity *= 2f;
 				num3 = num584;

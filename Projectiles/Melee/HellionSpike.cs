@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 		public override void AI()
 		{
 			Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(BuffID.Venom, 300);
 			if (crit)
 			{
-				float xPos = (Main.rand.Next(2) == 0 ? projectile.position.X + 800 : projectile.position.X - 800);
+				float xPos = (Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800);
 				Vector2 vector2 = new Vector2(xPos, projectile.position.Y - Main.rand.Next(600, 801));
 				float num80 = xPos;
 				float speedX = (float)target.position.X - vector2.X;

@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons
 		{
 			float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;
 			float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("FishronRPG"), damage, knockBack, player.whoAmI, 0f, 0f);
 			}

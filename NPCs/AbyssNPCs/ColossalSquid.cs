@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					npc.ai[3] = 0f;
 					npc.netUpdate = true;
 				}
-				if (Main.rand.Next(300) == 0)
+				if (Main.rand.NextBool(300))
 				{
 					Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 34);
 				}
@@ -331,7 +331,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				npc.chaseable = hasBeenHit;
 				if (hasBeenHit)
 				{
-					if (Main.rand.Next(300) == 0)
+					if (Main.rand.NextBool(300))
 					{
 						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 34);
 					}
@@ -378,7 +378,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					}
 					npc.localAI[2] = 1f;
 					npc.localAI[0] += 1f;
-					if (Main.netMode != 1 && npc.localAI[0] >= 150f)
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 150f)
 					{
 						npc.localAI[0] = 0f;
 						npc.netUpdate = true;
@@ -411,7 +411,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				}
 				else
 				{
-					if (Main.rand.Next(300) == 0)
+					if (Main.rand.NextBool(300))
 					{
 						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 35);
 					}
@@ -553,24 +553,24 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlackInk, Main.rand.Next(3, 6));
-			if (Main.rand.Next(10000) == 0 && CalamityWorld.revenge)
+			if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
 			}
 			if (CalamityWorld.downedPolterghast)
 			{
-				if (Main.rand.Next(3) == 0)
+				if (Main.rand.NextBool(3))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CalamarisLament"));
 				}
 			}
 			if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
 			{
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(26, 39));
 				}
-				if (Main.expertMode && Main.rand.Next(2) == 0)
+				if (Main.expertMode && Main.rand.NextBool(2))
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("DepthCells"), Main.rand.Next(5, 8));
 				}
@@ -581,13 +581,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 30; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ColossalSquid2"), 1f);

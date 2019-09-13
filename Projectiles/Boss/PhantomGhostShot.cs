@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				for (int num151 = 0; num151 < 40; num151++)
 				{
-					int num152 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default(Color), 1f);
+					int num152 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1f);
 					Main.dust[num152].velocity *= 3f;
 					Main.dust[num152].velocity += projectile.velocity * 0.75f;
 					Main.dust[num152].scale *= 1.2f;

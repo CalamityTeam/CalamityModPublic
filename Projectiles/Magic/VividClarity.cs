@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
 				for (int num41 = 0; num41 < 2; num41++)
 				{
 					Vector2 value8 = Vector2.UnitX * -12f;
-					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.ai[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7 - projectile.rotation.ToRotationVector2() * 10f;
+					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.ai[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7 - projectile.rotation.ToRotationVector2() * 10f;
 					int num42 = Dust.NewDust(projectile.Center, 0, 0, 66, 0f, 0f, 160, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
 					Main.dust[num42].scale = 0.75f;
 					Main.dust[num42].noGravity = true;

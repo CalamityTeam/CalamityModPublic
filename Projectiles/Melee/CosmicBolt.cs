@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
 					Vector2 vector30 = projectile.position;
 					vector30 -= projectile.velocity * ((float)num441 * 0.25f);
 					projectile.alpha = 255;
-					int num442 = Dust.NewDust(vector30, 1, 1, 107, 0f, 0f, 0, default(Color), 1.3f);
+					int num442 = Dust.NewDust(vector30, 1, 1, 107, 0f, 0f, 0, default, 1.3f);
 					Main.dust[num442].position = vector30;
 					Dust expr_13A3E_cp_0 = Main.dust[num442];
 					expr_13A3E_cp_0.position.X = expr_13A3E_cp_0.position.X + (float)(projectile.width / 2);

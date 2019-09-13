@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.soundDelay = 10;
 				Main.PlaySound(SoundID.Item20, projectile.position);
 			}
-			int num114 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default(Color), 2f);
+			int num114 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 2f);
 			Dust dust = Main.dust[num114];
 			dust.velocity *= 0.3f;
 			Main.dust[num114].position.X = projectile.position.X + (float)(projectile.width / 2) + 4f + (float)Main.rand.Next(-4, 5);
@@ -144,9 +144,9 @@ namespace CalamityMod.Projectiles.Magic
 			for (int num227 = 0; num227 < num226; num227++)
 			{
 				Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default(Vector2)) + projectile.Center;
+				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
 				Vector2 vector7 = vector6 - projectile.Center;
-				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 85, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default(Color), 1.2f);
+				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 85, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.2f);
 				Main.dust[num228].noGravity = true;
 				Main.dust[num228].noLight = true;
 				Main.dust[num228].velocity = vector7;

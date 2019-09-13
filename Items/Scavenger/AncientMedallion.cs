@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Scavenger
 
 		public override bool UseItem(Player player)
 		{
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC((int)(player.position.X + (float)(Main.rand.Next(-100, 101))), (int)(player.position.Y - 250f), mod.NPCType("ScavengerBody"), 0, 0f, 0f, 0f, 0f, 255);
                 Main.PlaySound(SoundID.Roar, player.position, 0);

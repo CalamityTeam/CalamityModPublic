@@ -37,15 +37,15 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 projectile.frame = 0;
             }
-			if(Main.rand.Next(2) == 0)
+			if(Main.rand.NextBool(2))
 			{
 				projectile.velocity *= 0.95f;
 			}
-			else if(Main.rand.Next(2) == 0)
+			else if(Main.rand.NextBool(2))
 			{
 				projectile.velocity *= 0.90f;
 			}
-			else if(Main.rand.Next(2) == 0)
+			else if(Main.rand.NextBool(2))
 			{
 				projectile.velocity *= 0.85f;
 			}

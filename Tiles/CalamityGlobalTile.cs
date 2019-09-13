@@ -106,7 +106,7 @@ namespace CalamityMod.Tiles
 				//Draw Glow
 				if (astralCactus)
 				{
-					spriteBatch.Draw(CalamityMod.AstralCactusGlowTexture, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+					spriteBatch.Draw(CalamityMod.AstralCactusGlowTexture, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle((int)frameX, (int)frameY, 16, 18), Color.White * 0.75f, 0f, default, 1f, SpriteEffects.None, 0f);
 				}
 				return;
 			}
@@ -123,7 +123,7 @@ namespace CalamityMod.Tiles
 						if (Main.tile[i + 1, j].type == mod.TileType("LumenylCrystals") || (Main.tile[i + 1, j].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
 						{
 							WorldGen.KillTile(i + 1, j, false, false, false);
-							if (!Main.tile[i + 1, j].active() && Main.netMode != 0)
+							if (!Main.tile[i + 1, j].active() && Main.netMode != NetmodeID.SinglePlayer)
 							{
 								NetMessage.SendData(17, -1, -1, null, 0, (float)i + 1, (float)j, 0f, 0, 0, 0);
 							}
@@ -137,7 +137,7 @@ namespace CalamityMod.Tiles
 						if (Main.tile[i - 1, j].type == mod.TileType("LumenylCrystals") || (Main.tile[i - 1, j].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
 						{
 							WorldGen.KillTile(i - 1, j, false, false, false);
-							if (!Main.tile[i - 1, j].active() && Main.netMode != 0)
+							if (!Main.tile[i - 1, j].active() && Main.netMode != NetmodeID.SinglePlayer)
 							{
 								NetMessage.SendData(17, -1, -1, null, 0, (float)i - 1, (float)j, 0f, 0, 0, 0);
 							}
@@ -151,7 +151,7 @@ namespace CalamityMod.Tiles
 						if (Main.tile[i, j + 1].type == mod.TileType("LumenylCrystals") || (Main.tile[i, j + 1].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
 						{
 							WorldGen.KillTile(i, j + 1, false, false, false);
-							if (!Main.tile[i, j + 1].active() && Main.netMode != 0)
+							if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
 							{
 								NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
 							}
@@ -165,7 +165,7 @@ namespace CalamityMod.Tiles
 						if (Main.tile[i, j - 1].type == mod.TileType("LumenylCrystals") || (Main.tile[i, j - 1].type == mod.TileType("SeaPrismCrystals") && CalamityWorld.downedDesertScourge))
 						{
 							WorldGen.KillTile(i, j - 1, false, false, false);
-							if (!Main.tile[i, j - 1].active() && Main.netMode != 0)
+							if (!Main.tile[i, j - 1].active() && Main.netMode != NetmodeID.SinglePlayer)
 							{
 								NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j - 1, 0f, 0, 0, 0);
 							}
@@ -221,7 +221,7 @@ namespace CalamityMod.Tiles
 				}
 				if (abyssPosX && abyssPosY)
 				{
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.NextBool(10))
 					{
 						int expr_B64 = WorldGen.genRand.Next(15);
 						if (expr_B64 == 0)
@@ -318,11 +318,11 @@ namespace CalamityMod.Tiles
 								if (num13 > 1000000f)
 								{
 									int num14 = (int)(num13 / 1000000f);
-									if (num14 > 50 && Main.rand.Next(2) == 0)
+									if (num14 > 50 && Main.rand.NextBool(2))
 									{
 										num14 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num14 /= Main.rand.Next(3) + 1;
 									}
@@ -332,11 +332,11 @@ namespace CalamityMod.Tiles
 								else if (num13 > 10000f)
 								{
 									int num15 = (int)(num13 / 10000f);
-									if (num15 > 50 && Main.rand.Next(2) == 0)
+									if (num15 > 50 && Main.rand.NextBool(2))
 									{
 										num15 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num15 /= Main.rand.Next(3) + 1;
 									}
@@ -346,11 +346,11 @@ namespace CalamityMod.Tiles
 								else if (num13 > 100f)
 								{
 									int num16 = (int)(num13 / 100f);
-									if (num16 > 50 && Main.rand.Next(2) == 0)
+									if (num16 > 50 && Main.rand.NextBool(2))
 									{
 										num16 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num16 /= Main.rand.Next(3) + 1;
 									}
@@ -360,11 +360,11 @@ namespace CalamityMod.Tiles
 								else
 								{
 									int num17 = (int)num13;
-									if (num17 > 50 && Main.rand.Next(2) == 0)
+									if (num17 > 50 && Main.rand.NextBool(2))
 									{
 										num17 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num17 /= Main.rand.Next(4) + 1;
 									}
@@ -381,7 +381,7 @@ namespace CalamityMod.Tiles
 				}
 				else if (sulphurPosX)
 				{
-					if (Main.rand.Next(15) == 0)
+					if (Main.rand.NextBool(15))
 					{
 						int expr_B64 = WorldGen.genRand.Next(15);
 						if (expr_B64 == 0)
@@ -479,11 +479,11 @@ namespace CalamityMod.Tiles
 								if (num13 > 1000000f)
 								{
 									int num14 = (int)(num13 / 1000000f);
-									if (num14 > 50 && Main.rand.Next(2) == 0)
+									if (num14 > 50 && Main.rand.NextBool(2))
 									{
 										num14 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num14 /= Main.rand.Next(3) + 1;
 									}
@@ -493,11 +493,11 @@ namespace CalamityMod.Tiles
 								else if (num13 > 10000f)
 								{
 									int num15 = (int)(num13 / 10000f);
-									if (num15 > 50 && Main.rand.Next(2) == 0)
+									if (num15 > 50 && Main.rand.NextBool(2))
 									{
 										num15 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num15 /= Main.rand.Next(3) + 1;
 									}
@@ -507,11 +507,11 @@ namespace CalamityMod.Tiles
 								else if (num13 > 100f)
 								{
 									int num16 = (int)(num13 / 100f);
-									if (num16 > 50 && Main.rand.Next(2) == 0)
+									if (num16 > 50 && Main.rand.NextBool(2))
 									{
 										num16 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num16 /= Main.rand.Next(3) + 1;
 									}
@@ -521,11 +521,11 @@ namespace CalamityMod.Tiles
 								else
 								{
 									int num17 = (int)num13;
-									if (num17 > 50 && Main.rand.Next(2) == 0)
+									if (num17 > 50 && Main.rand.NextBool(2))
 									{
 										num17 /= Main.rand.Next(3) + 1;
 									}
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										num17 /= Main.rand.Next(4) + 1;
 									}

@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 173);
 			}
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons
 				int num3;
 				for (int num53 = 0; num53 < 40; num53 = num3 + 1)
 				{
-					int num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 173, 0f, 0f, 200, default(Color), num50);
+					int num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 173, 0f, 0f, 200, default, num50);
 					Main.dust[num54].position = target.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
 					Main.dust[num54].noGravity = true;
 					Dust dust = Main.dust[num54];
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons
 					dust.velocity *= 3f;
 					dust = Main.dust[num54];
 					dust.velocity += value4 * Main.rand.NextFloat();
-					num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 173, 0f, 0f, 100, default(Color), num51);
+					num54 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 173, 0f, 0f, 100, default, num51);
 					Main.dust[num54].position = target.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)target.width / 2f;
 					dust = Main.dust[num54];
 					dust.velocity.Y -= 3f;
@@ -91,8 +91,8 @@ namespace CalamityMod.Items.Weapons
 				}
 				for (int num55 = 0; num55 < 20; num55 = num3 + 1)
 				{
-					int num56 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 173, 0f, 0f, 0, default(Color), num52);
-					Main.dust[num56].position = target.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)target.velocity.ToRotation(), default(Vector2)) * (float)target.width / 3f;
+					int num56 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 173, 0f, 0f, 0, default, num52);
+					Main.dust[num56].position = target.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)target.velocity.ToRotation(), default) * (float)target.width / 3f;
 					Main.dust[num56].noGravity = true;
 					Dust dust = Main.dust[num56];
 					dust.velocity.Y -= 1.5f;

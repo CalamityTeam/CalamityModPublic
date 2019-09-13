@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					return;
 				}
-				if (projectile.ai[0] % 30f == 0f && Main.netMode != 1)
+				if (projectile.ai[0] % 30f == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					Vector2 vector80 = projectile.rotation.ToRotationVector2();
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, mod.ProjectileType("IceCluster"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
@@ -84,12 +84,12 @@ namespace CalamityMod.Projectiles.Magic
 				{
 					return;
 				}
-				Vector2 value47 = new Vector2(0f, -720f).RotatedBy((double)projectile.velocity.ToRotation(), default(Vector2));
+				Vector2 value47 = new Vector2(0f, -720f).RotatedBy((double)projectile.velocity.ToRotation(), default);
 				float scaleFactor8 = projectile.ai[0] % 45f / 45f;
 				Vector2 spinningpoint = value47 * scaleFactor8;
 				for (int num844 = 0; num844 < 6; num844++)
 				{
-					Vector2 vector81 = projectile.Center + spinningpoint.RotatedBy((double)((float)num844 * 6.28318548f / 6f), default(Vector2));
+					Vector2 vector81 = projectile.Center + spinningpoint.RotatedBy((double)((float)num844 * 6.28318548f / 6f), default);
 					Lighting.AddLight(vector81, 0.3f, 0.75f, 0.9f);
 					for (int num845 = 0; num845 < 2; num845++)
 					{

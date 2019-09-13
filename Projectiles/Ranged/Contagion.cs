@@ -74,11 +74,11 @@ namespace CalamityMod.Projectiles.Ranged
 				if (projectile.ai[1] == 1f && projectile.ai[0] != 1f)
 				{
 					Vector2 vector2 = Vector2.UnitX * 24f;
-					vector2 = vector2.RotatedBy((double)(projectile.rotation - 1.57079637f), default(Vector2));
+					vector2 = vector2.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
 					Vector2 value = projectile.Center + vector2;
 					for (int i = 0; i < 2; i++)
 					{
-						int num5 = Dust.NewDust(value - Vector2.One * 8f, 16, 16, 44, projectile.velocity.X / 2f, projectile.velocity.Y / 2f, 100, default(Color), 0.25f);
+						int num5 = Dust.NewDust(value - Vector2.One * 8f, 16, 16, 44, projectile.velocity.X / 2f, projectile.velocity.Y / 2f, 100, default, 0.25f);
 						Main.dust[num5].velocity *= 0.66f;
 						Main.dust[num5].noGravity = true;
 						Main.dust[num5].scale = 1.4f;
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
 						int num7 = 7;
 						value2 = projectile.Center + new Vector2((float)Main.rand.Next(-num7, num7 + 1), (float)Main.rand.Next(-num7, num7 + 1));
 						Vector2 spinningpoint = Vector2.Normalize(projectile.velocity) * scaleFactor2;
-						spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 0.19634954631328583 - 0.098174773156642914, default(Vector2));
+						spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 0.19634954631328583 - 0.098174773156642914, default);
 						if (float.IsNaN(spinningpoint.X) || float.IsNaN(spinningpoint.Y))
 						{
 							spinningpoint = -Vector2.UnitY;

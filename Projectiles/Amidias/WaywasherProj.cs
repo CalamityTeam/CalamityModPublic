@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Amidias
 				Dust expr_4815_cp_0 = Main.dust[num102];
 				expr_4815_cp_0.position.Y = expr_4815_cp_0.position.Y - num100;
 			}
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				int num103 = 4;
 				int num104 = Dust.NewDust(new Vector2(projectile.position.X + (float)num103, projectile.position.Y + (float)num103), projectile.width - num103 * 2, projectile.height - num103 * 2, 33, 0f, 0f, 0, new Color(0, 142, 255), 0.6f);

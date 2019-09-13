@@ -193,7 +193,7 @@ namespace CalamityMod.Items
 			}
 			if (player.GetModPlayer<CalamityPlayer>(mod).ataxiaBolt)
 			{
-				if (item.ranged && !rogue && Main.rand.Next(2) == 0)
+				if (item.ranged && !rogue && Main.rand.NextBool(2))
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
@@ -213,7 +213,7 @@ namespace CalamityMod.Items
 			}
 			if (player.GetModPlayer<CalamityPlayer>(mod).ataxiaVolley)
 			{
-				if (rogue && Main.rand.Next(10) == 0)
+				if (rogue && Main.rand.NextBool(10))
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
@@ -246,7 +246,7 @@ namespace CalamityMod.Items
 			if (player.GetModPlayer<CalamityPlayer>(mod).victideSet)
 			{
 				if ((item.ranged || item.melee || item.magic ||
-					rogue || item.summon) && item.rare < 8 && Main.rand.Next(10) == 0)
+					rogue || item.summon) && item.rare < 8 && Main.rand.NextBool(10))
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
@@ -1865,13 +1865,13 @@ namespace CalamityMod.Items
 			int y = Main.rand.Next(100, 300);
 
 			// Pick a random side: left or right
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 				x -= Main.LogicCheckScreenWidth / 2 + x;
 			else
 				x += Main.LogicCheckScreenWidth / 2 - x;
 
 			// Pick a random side: top or bottom
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 				y -= Main.LogicCheckScreenHeight / 2 + y;
 			else
 				y += Main.LogicCheckScreenHeight / 2 - y;
@@ -1950,13 +1950,13 @@ namespace CalamityMod.Items
 				}
 			}
 
-			if (player.ammoBox && Main.rand.Next(5) == 0)
+			if (player.ammoBox && Main.rand.NextBool(5))
 				dontConsumeAmmo = true;
-			if (player.ammoPotion && Main.rand.Next(5) == 0)
+			if (player.ammoPotion && Main.rand.NextBool(5))
 				dontConsumeAmmo = true;
-			if (player.ammoCost80 && Main.rand.Next(5) == 0)
+			if (player.ammoCost80 && Main.rand.NextBool(5))
 				dontConsumeAmmo = true;
-			if (player.ammoCost75 && Main.rand.Next(4) == 0)
+			if (player.ammoCost75 && Main.rand.NextBool(4))
 				dontConsumeAmmo = true;
 
 			if (!dontConsumeAmmo && itemAmmo.consumable)

@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.velocity.X = (npc.velocity.X * 100f + num818) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num819) / 101f;
 			npc.rotation = (float)Math.Atan2((double)num819, (double)num818) - 1.57f;
-			int num822 = Dust.NewDust(npc.position, npc.width, npc.height, 60, 0f, 0f, 0, default(Color), 1f);
+			int num822 = Dust.NewDust(npc.position, npc.width, npc.height, 60, 0f, 0f, 0, default, 1f);
 			Dust dust = Main.dust[num822];
 			dust.velocity *= 0.1f;
 			Main.dust[num822].scale = 1.3f;
@@ -69,13 +69,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 60, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 60, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int num288 = 0; num288 < 50; num288++)
 				{
-					int num289 = Dust.NewDust(npc.position, npc.width, npc.height, 60, npc.velocity.X, npc.velocity.Y, 0, default(Color), 1f);
+					int num289 = Dust.NewDust(npc.position, npc.width, npc.height, 60, npc.velocity.X, npc.velocity.Y, 0, default, 1f);
 					Dust dust = Main.dust[num289];
 					dust.velocity *= 2f;
 					Main.dust[num289].noGravity = true;

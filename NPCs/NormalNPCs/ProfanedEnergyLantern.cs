@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				num750 = (int)npc.ai[3] - 1;
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] -= 1f;
 				if (npc.localAI[0] <= 0f)
@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				npc.velocity.Y = -8f;
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (!Main.player[npc.target].dead)
 				{
@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				for (int k = 0; k < 50; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

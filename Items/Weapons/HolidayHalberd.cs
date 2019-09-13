@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons
 				case 1: dustType = 107; break;
 				case 2: dustType = 90; break;
 			}
-	        if (Main.rand.Next(5) == 0)
+	        if (Main.rand.NextBool(5))
 	        {
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, dustType);
 	        }
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	if (Main.rand.Next(3) == 0)
+	    	if (Main.rand.NextBool(3))
 			{
 	    		type = mod.ProjectileType("GreenBall");
 			}

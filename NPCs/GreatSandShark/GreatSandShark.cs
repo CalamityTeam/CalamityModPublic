@@ -331,7 +331,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 					{
 						spawnFlag = false;
 					}
-					if (spawnFlag && Main.netMode != 1)
+					if (spawnFlag && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y + 50, NPCID.SandShark, 0, 0f, 0f, 0f, 0f, 255);
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/GreatSandSharkRoar"), (int)npc.position.X, (int)npc.position.Y);
@@ -444,10 +444,10 @@ namespace CalamityMod.NPCs.GreatSandShark
 								npc.localAI[0] = -1f;
 								for (int num621 = 0; num621 < 25; num621++)
 								{
-									int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 32, 0f, 0f, 100, default(Color), 2f);
+									int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 32, 0f, 0f, 100, default, 2f);
 									Main.dust[num622].velocity.Y *= 6f;
 									Main.dust[num622].velocity.X *= 3f;
-									if (Main.rand.Next(2) == 0)
+									if (Main.rand.NextBool(2))
 									{
 										Main.dust[num622].scale = 0.5f;
 										Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -455,10 +455,10 @@ namespace CalamityMod.NPCs.GreatSandShark
 								}
 								for (int num623 = 0; num623 < 50; num623++)
 								{
-									int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 85, 0f, 0f, 100, default(Color), 3f);
+									int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 85, 0f, 0f, 100, default, 3f);
 									Main.dust[num624].noGravity = true;
 									Main.dust[num624].velocity.Y *= 10f;
-									num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 268, 0f, 0f, 100, default(Color), 2f);
+									num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 268, 0f, 0f, 100, default, 2f);
 									Main.dust[num624].velocity.X *= 2f;
 								}
 								int spawnX = (int)(npc.width / 2);
@@ -637,15 +637,15 @@ namespace CalamityMod.NPCs.GreatSandShark
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int num621 = 0; num621 < 50; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -653,10 +653,10 @@ namespace CalamityMod.NPCs.GreatSandShark
 				}
 				for (int num623 = 0; num623 < 100; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}
@@ -665,7 +665,7 @@ namespace CalamityMod.NPCs.GreatSandShark
 		public override void NPCLoot()
 		{
 			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandScale"));
-			if (Main.expertMode && Main.rand.Next(3) == 0)
+			if (Main.expertMode && Main.rand.NextBool(3))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("GrandScale"));
 			}

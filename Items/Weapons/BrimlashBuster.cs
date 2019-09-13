@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
-	        if (Main.rand.Next(3) == 0)
+	        if (Main.rand.NextBool(3))
 	        {
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
 	        }
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
 	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
-	    	if (Main.rand.Next(3) == 0)
+	    	if (Main.rand.NextBool(3))
 	    	{
 	    		item.damage = 378;
 	    	}

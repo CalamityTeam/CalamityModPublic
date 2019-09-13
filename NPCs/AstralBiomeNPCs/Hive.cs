@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.ai[0]++;
 			if (npc.ai[0] > 180)
 			{
-				if (Main.rand.Next(100) == 0)
+				if (Main.rand.NextBool(100))
 				{
 					npc.ai[0] = 0;
 
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
 			}
-			if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
+			if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HivePod"));
 			}

@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
         	Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.75f) / 255f, 0f);
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X, projectile.velocity.Y);
             }
@@ -54,11 +54,11 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				float num796 = projectile.oldVelocity.X * (30f / (float)num795);
 				float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
-				int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.8f);
+				int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
 				Main.dust[num798].noGravity = true;
 				Dust dust = Main.dust[num798];
 				dust.velocity *= 0.5f;
-				num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default(Color), 1.4f);
+				num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 107, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
 				dust = Main.dust[num798];
 				dust.velocity *= 0.05f;
 				num3 = num795;

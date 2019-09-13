@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Typeless
             int numDust = 2;
             for(int i = 0; i < numDust; ++i)
             {
-                int dustType = (Main.rand.Next(6) == 0) ? 112 : 173;
+                int dustType = (Main.rand.NextBool(6)) ? 112 : 173;
                 float scale = 0.8f + Main.rand.NextFloat(0.6f);
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
                 Main.dust[idx].noGravity = true;

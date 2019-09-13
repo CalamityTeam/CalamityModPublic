@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons
 		    float SpeedX = speedX + (float) Main.rand.Next(-10, 11) * 0.05f;
 		    float SpeedY = speedY + (float) Main.rand.Next(-10, 11) * 0.05f;
 		    Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("SeaDragonRocket"), damage * 2, knockBack, player.whoAmI, 0f, 0f);
             }

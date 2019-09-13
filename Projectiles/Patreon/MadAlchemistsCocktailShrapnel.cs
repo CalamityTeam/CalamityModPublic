@@ -39,14 +39,14 @@ namespace CalamityMod.Projectiles.Patreon
 				for (int num41 = 0; num41 < 2; num41++)
 				{
 					Vector2 value8 = Vector2.UnitX * -15f;
-					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7 * 0.75f;
-					int num42 = Dust.NewDust(projectile.Center, 0, 0, 173, 0f, 0f, 160, default(Color), 0.75f);
+					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7 * 0.75f;
+					int num42 = Dust.NewDust(projectile.Center, 0, 0, 173, 0f, 0f, 160, default, 0.75f);
 					Main.dust[num42].noGravity = true;
 					Main.dust[num42].position = projectile.Center + value8;
 					Main.dust[num42].velocity = projectile.velocity;
 				}
 			}
-			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default(Color), 1f);
+			int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
 			Main.dust[num458].noGravity = true;
 			Main.dust[num458].velocity *= 0f;
 			float num472 = projectile.Center.X;

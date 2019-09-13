@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override bool HasWalkDust()
         {
-            return Main.rand.Next(3) == 0;
+            return Main.rand.NextBool(3);
         }
 
         public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)

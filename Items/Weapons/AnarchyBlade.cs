@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void MeleeEffects(Player player, Rectangle hitbox)
 	    {
-	        if (Main.rand.Next(3) == 0)
+	        if (Main.rand.NextBool(3))
 	        {
 	        	int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 235);
 	        }
@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons
 	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrimstoneBoom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
 	    	target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);
 
-	    	if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.Next(5) == 0)
+	    	if (player.statLife < (player.statLifeMax2 * 0.5f) && Main.rand.NextBool(5))
 	    	{
 				if (!CalamityPlayer.areThereAnyDamnBosses && CalamityGlobalNPC.ShouldAffectNPC(target))
 				{

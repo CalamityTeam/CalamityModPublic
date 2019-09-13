@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.Achievements;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Melee
 				}
 				for (int num468 = 0; num468 < 5; num468++)
 				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num307, 0f, 0f, 100, default(Color), 2f);
+					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num307, 0f, 0f, 100, default, 2f);
 					Main.dust[num469].noGravity = true;
 					Main.dust[num469].velocity *= 0f;
 				}
@@ -88,7 +89,7 @@ namespace CalamityMod.Projectiles.Melee
 								if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active())
 								{
 									WorldGen.KillTile(num824, num825, false, false, false);
-									if (!Main.tile[num824, num825].active() && Main.netMode != 0)
+									if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
 									{
 										NetMessage.SendData(17, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
 									}
@@ -97,7 +98,7 @@ namespace CalamityMod.Projectiles.Melee
 						}
 					}
 					AchievementsHelper.CurrentlyMining = false;
-					if (Main.netMode != 0)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 					{
 						NetMessage.SendData(29, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
 					}

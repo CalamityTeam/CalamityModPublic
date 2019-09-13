@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
 			Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f);
 			for (int num457 = 0; num457 < 10; num457++)
 			{
-				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default(Color), 0.9f);
+				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.9f);
 				Main.dust[num458].noGravity = true;
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Ranged
 				num466 = num465 / num466;
 				num463 *= num466;
 				num464 *= num466;
-				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default(Color), 0.6f);
+				int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.6f);
 				Main.dust[num467].noGravity = true;
 				Main.dust[num467].position.X = projectile.Center.X;
 				Main.dust[num467].position.Y = projectile.Center.Y;

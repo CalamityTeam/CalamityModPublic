@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void Kill(int timeLeft)
         {
-        	if (Main.rand.Next(2) == 0)
+        	if (Main.rand.NextBool(2))
         	{
         		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("AdamantiteThrowingAxe"));
         	}

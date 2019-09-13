@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
 		public override void AI()
         {
-            if (Main.rand.Next(900) == 0)
+            if (Main.rand.NextBool(900))
             {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/AngryDogGrowl"), (int)npc.position.X, (int)npc.position.Y);
             }
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.velocity.Y = npc.velocity.Y - 4f;
                     for (int k = 0; k < 5; k++)
                     {
-                        Dust.NewDust(npc.position, npc.width, npc.height, 33, 0f, -1f, 0, default(Color), 1f);
+                        Dust.NewDust(npc.position, npc.width, npc.height, 33, 0f, -1f, 0, default, 1f);
                     }
                 }
                 if (npc.ai[3] < (float)num)
@@ -640,24 +640,24 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Leather, Main.rand.Next(1, 3));
 			}
-			if (Main.rand.Next(100) == 0)
+			if (Main.rand.NextBool(100))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Cryophobia"));
 			}

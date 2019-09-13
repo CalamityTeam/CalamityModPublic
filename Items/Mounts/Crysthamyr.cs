@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Mounts
 			mountData.swimFrameCount = mountData.inAirFrameCount;
 			mountData.swimFrameDelay = mountData.runningFrameDelay;
 			mountData.swimFrameStart = mountData.inAirFrameStart;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
 				mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/CrysthamyrExtra");
 				mountData.textureWidth = mountData.backTexture.Width;
@@ -96,11 +96,11 @@ namespace CalamityMod.Items.Mounts
 				{
 					for (int i = 0; i < 2; i++)
 					{
-						int dust = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, rand, 0, 0, 0, default(Color));
+						int dust = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, rand, 0, 0, 0, default);
 						Main.dust[dust].noGravity = true;
 					}
 				}
-				int dust2 = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, rand, 0, 0, 0, default(Color));
+				int dust2 = Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, rand, 0, 0, 0, default);
 				Main.dust[dust2].noGravity = true;
 			}
 			if (player.velocity.Y != 0f)

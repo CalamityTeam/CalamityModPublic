@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				if ((npc.life <= npc.lifeMax * 0.9f))
 				{
-					if (secondStage == false && Main.netMode != 1)
+					if (secondStage == false && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
 						for (int I = 0; I < 3; I++)
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 				if ((npc.life <= npc.lifeMax * 0.8f))
 				{
-					if (thirdStage == false && Main.netMode != 1)
+					if (thirdStage == false && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
 						for (int I = 0; I < 5; I++)
@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				if ((npc.life <= npc.lifeMax * 0.65f))
 				{
-					if (secondStage == false && Main.netMode != 1)
+					if (secondStage == false && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
 						for (int I = 0; I < 3; I++)
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 				if ((npc.life <= npc.lifeMax * 0.3f))
 				{
-					if (thirdStage == false && Main.netMode != 1)
+					if (thirdStage == false && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
 						for (int I = 0; I < 5; I++)
@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				for (int num934 = 0; num934 < 2; num934++)
 				{
-					int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default(Color), 2f);
+					int num935 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
 					Main.dust[num935].noGravity = true;
 					Main.dust[num935].noLight = true;
 				}
@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				npc.alpha = 0;
 			}
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (!tailSpawned && npc.ai[0] == 0f)
 				{
@@ -229,7 +229,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 					}
 					tailSpawned = true;
 				}
-				if (!npc.active && Main.netMode == 2)
+				if (!npc.active && Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
 				}
@@ -602,9 +602,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 5; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -612,10 +612,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 				}
 				for (int num623 = 0; num623 < 10; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

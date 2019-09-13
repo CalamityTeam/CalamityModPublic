@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Melee
 					value81.X *= -1f;
 					Vector2 value82 = new Vector2(2f, 10f);
 					Vector2 position4 = projectile.Center + new Vector2(60f, 200f) * value81 * 0.5f + value82;
-					Dust dust34 = Main.dust[Dust.NewDust(position4, 0, 0, 187, 0f, 0f, 0, default(Color), 0.5f)];
+					Dust dust34 = Main.dust[Dust.NewDust(position4, 0, 0, 187, 0f, 0f, 0, default, 0.5f)];
 					dust34.position = position4;
 					dust34.customData = projectile.Center + value82;
 					dust34.fadeIn = 1f;
@@ -95,9 +95,9 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			for (int num1135 = 0; num1135 < 2; num1135++)
 			{
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
-					Vector2 value83 = Vector2.UnitY.RotatedBy((double)((float)num1135 * 3.14159274f), default(Vector2)).RotatedBy((double)projectile.rotation, default(Vector2));
+					Vector2 value83 = Vector2.UnitY.RotatedBy((double)((float)num1135 * 3.14159274f), default).RotatedBy((double)projectile.rotation, default);
 					Dust dust35 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 187, 0f, 0f, 225, newColor3, 1f)];
 					dust35.noGravity = true;
 					dust35.noLight = true;
@@ -108,9 +108,9 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			for (int num1136 = 0; num1136 < 2; num1136++)
 			{
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
-					Vector2 value84 = Vector2.UnitY.RotatedBy((double)((float)num1136 * 3.14159274f), default(Vector2));
+					Vector2 value84 = Vector2.UnitY.RotatedBy((double)((float)num1136 * 3.14159274f), default);
 					Dust dust36 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 187, 0f, 0f, 225, newColor3, 1.5f)];
 					dust36.noGravity = true;
 					dust36.noLight = true;

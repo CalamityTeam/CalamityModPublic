@@ -30,9 +30,9 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 			projectile.spriteDirection = projectile.direction;
 			//Dust trail
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, projectile.velocity.X * 0.4f, projectile.velocity.Y * 0.4f, 160, default(Color), 0.7f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, projectile.velocity.X * 0.4f, projectile.velocity.Y * 0.4f, 160, default, 0.7f);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, -projectile.velocity.X * 0.4f, -projectile.velocity.Y * 0.4f, 120, default(Color), 1.2f);
+				Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, -projectile.velocity.X * 0.4f, -projectile.velocity.Y * 0.4f, 120, default, 1.2f);
 			}
 			Main.PlaySound(0, projectile.position);
 			projectile.Kill();

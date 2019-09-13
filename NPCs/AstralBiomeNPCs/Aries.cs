@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
 		public override void NPCLoot()
         {
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(1, 3));
             }
@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-			if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
+			if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("StellarKnife"));
 			}

@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Patreon
 			int num3;
 			for (int num418 = 0; num418 < 3; num418 = num3 + 1)
 			{
-				int num419 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, projectile.velocity.X, projectile.velocity.Y, 50, default(Color), 1f);
+				int num419 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, projectile.velocity.X, projectile.velocity.Y, 50, default, 1f);
 				Main.dust[num419].noGravity = true;
 				Main.dust[num419].scale = 1f;
 				num3 = num418;

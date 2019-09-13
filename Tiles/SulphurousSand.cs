@@ -117,13 +117,13 @@ namespace CalamityMod.Tiles
 				if (!Main.tile[i, tileLocationY].active())
 				{
 					if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
-						Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
+						Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, mod.ProjectileType("SulphuricAcidCannon"), 0, 2f, Main.myPlayer, 0f, 0f);
 					}
 					if (i < 250 || i > Main.maxTilesX - 250)
 					{
-						if (Main.rand.Next(400) == 0)
+						if (Main.rand.NextBool(400))
 						{
 							if (Main.tile[i, tileLocationY].liquid == 255)
 							{
@@ -145,7 +145,7 @@ namespace CalamityMod.Tiles
 									Main.tile[i, tileLocationY - 4].liquid == 255)
 								{
 									WorldGen.PlaceTile(i, tileLocationY, 81, true, false, -1, 0);
-									if (Main.netMode == 2 && Main.tile[i, tileLocationY].active())
+									if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].active())
 									{
 										NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
 									}
@@ -169,7 +169,7 @@ namespace CalamityMod.Tiles
 								if (num15 < num14)
 								{
 									WorldGen.PlaceTile(i, tileLocationY, 324, true, false, -1, Main.rand.Next(2));
-									if (Main.netMode == 2 && Main.tile[i, tileLocationY].active())
+									if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].active())
 									{
 										NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
 									}

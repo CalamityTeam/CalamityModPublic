@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				npc.active = false;
 			}
-			if (Main.netMode != 1 && detectsPlayer)
+			if (Main.netMode != NetmodeID.MultiplayerClient && detectsPlayer)
 			{
 				int num = (Main.expertMode || CalamityWorld.bossRushActive) ? 4 : 3;
 				npc.localAI[0] += (float)Main.rand.Next(num);
@@ -235,13 +235,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBody2"), 1f);

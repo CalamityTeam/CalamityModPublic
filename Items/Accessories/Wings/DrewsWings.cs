@@ -37,10 +37,10 @@ namespace CalamityMod.Items.Accessories.Wings
 				{
 					num59 = -40;
 				}
-				int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, 91, 0f, 0f, 100, default(Color), 2.4f);
+				int num60 = Dust.NewDust(new Vector2(player.position.X + (float)(player.width / 2) + (float)num59, player.position.Y + (float)(player.height / 2) - 15f), 30, 30, 91, 0f, 0f, 100, default, 2.4f);
 				Main.dust[num60].noGravity = true;
 				Main.dust[num60].velocity *= 0.3f;
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
 					Main.dust[num60].fadeIn = 2f;
 				}

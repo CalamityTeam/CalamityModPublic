@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.chaseable = hasBeenHit;
 			if (hitAmount == 5)
 			{
-				if (Main.netMode != 2)
+				if (Main.netMode != NetmodeID.Server)
 				{
 					if (!Main.player[npc.target].dead && Main.player[npc.target].active)
 					{
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 					{
 						if (npc.ai[2] == 0f)
 						{
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								npc.TargetClosest(true);
 								npc.ai[2] = 1f;
@@ -174,9 +174,9 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 						}
 						else if (npc.ai[2] == 2f)
 						{
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
-								int num5 = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, 0f, 200, default(Color), 1.5f);
+								int num5 = Dust.NewDust(npc.position, npc.width, npc.height, 226, 0f, 0f, 200, default, 1.5f);
 								Main.dust[num5].noGravity = true;
 								Main.dust[num5].velocity *= 0.75f;
 								Main.dust[num5].fadeIn = 1.3f;
@@ -228,10 +228,10 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 								{
 									for (int stompDustAmount = 0; stompDustAmount < 5; stompDustAmount++)
 									{
-										int stompDust = Dust.NewDust(new Vector2(npc.position.X - 30f, npc.position.Y + (float)npc.height), npc.width + 30, 4, 33, 0f, 0f, 100, default(Color), 1.5f);
+										int stompDust = Dust.NewDust(new Vector2(npc.position.X - 30f, npc.position.Y + (float)npc.height), npc.width + 30, 4, 33, 0f, 0f, 100, default, 1.5f);
 										Main.dust[stompDust].velocity *= 0.2f;
 									}
-									int stompGore = Gore.NewGore(new Vector2((float)(stompDustArea - 30), npc.position.Y + (float)npc.height - 12f), default(Vector2), Main.rand.Next(61, 64), 1f);
+									int stompGore = Gore.NewGore(new Vector2((float)(stompDustArea - 30), npc.position.Y + (float)npc.height - 12f), default, Main.rand.Next(61, 64), 1f);
 									Main.gore[stompGore].velocity *= 0.4f;
 								}
 							}
@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 					}
 					else if (attack == 3)
 					{
-						if (Main.netMode != 1)
+						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							Main.PlaySound(SoundID.Item68, npc.position);
 							int damage = Main.expertMode ? 28 : 35;
@@ -358,13 +358,13 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 50; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 37, hitDirection, -1f, 0, default, 1f);
 				}
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantClam/GiantClam1"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GiantClam/GiantClam2"), 1f);
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		{
             // Spawn Amidias if he isn't in the world
             int amidiasNPC = NPC.FindFirstNPC(mod.NPCType("SEAHOE"));
-            if (amidiasNPC == -1 && Main.netMode != 1)
+            if (amidiasNPC == -1 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("SEAHOE"), 0, 0f, 0f, 0f, 0f, 255);
             }

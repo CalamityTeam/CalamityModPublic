@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
 		public override void AI()
 		{
 			projectile.rotation += 0.15f;
-			if (Main.rand.Next(5) == 0)
+			if (Main.rand.NextBool(5))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}

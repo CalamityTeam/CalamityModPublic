@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 
 using CalamityMod.World;
 using CalamityMod.CalPlayer;
+using Terraria.ID;
 
 namespace CalamityMod.UI
 {
@@ -144,7 +145,7 @@ namespace CalamityMod.UI
             }
 
             Vector2 size = Main.fontMouseText.MeasureString(text);
-            Utils.DrawBorderStringFourWay(sb, Main.fontMouseText, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default(Vector2));
+            Utils.DrawBorderStringFourWay(sb, Main.fontMouseText, text, CenterPoint.X - size.X / 2f, CenterPoint.Y + CircleOffset + CircleTextureSize / 2 + 4, Color.White, Color.Black, default);
         }
 
         public static void DoTeleportation(int circle)
@@ -155,12 +156,12 @@ namespace CalamityMod.UI
 
             if (circle == 3)
             {
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     p.TeleportationPotion();
                     Main.PlaySound(2, (int)p.position.X, (int)p.position.Y, 6, 1f, 0f);
                 }
-                else if (Main.netMode == 1)
+                else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     NetMessage.SendData(73, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
                 }

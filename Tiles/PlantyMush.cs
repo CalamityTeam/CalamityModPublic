@@ -71,7 +71,7 @@ namespace CalamityMod.Tiles
 							Main.tile[num53, num54].type = (ushort)mod.TileType("ViperVines");
 							Main.tile[num53, num54].active(true);
 							WorldGen.SquareTileFrame(num53, num54, true);
-							if (Main.netMode == 2)
+							if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
 							}

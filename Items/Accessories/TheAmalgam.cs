@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Accessories
             }
             if (player.immune)
             {
-                if (Main.rand.Next(20) == 0)
+                if (Main.rand.NextBool(20))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -106,7 +106,7 @@ namespace CalamityMod.Items.Accessories
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int type = (Main.rand.Next(2) == 0 ? mod.ProjectileType("AuraRain") : mod.ProjectileType("StandingFire"));
+                            int type = (Main.rand.NextBool(2) ? mod.ProjectileType("AuraRain") : mod.ProjectileType("StandingFire"));
                             int num19 = Projectile.NewProjectile(x, y, num15, num16, type, 2000, 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].tileCollide = false;
                         }
@@ -136,7 +136,7 @@ namespace CalamityMod.Items.Accessories
                             if (flag)
                             {
                                 nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-                                if (Main.netMode != 0)
+                                if (Main.netMode != NetmodeID.SinglePlayer)
                                 {
                                     NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
                                 }

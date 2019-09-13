@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Enemy
             int num3;
             for (int num246 = 0; num246 < 25; num246 = num3 + 1)
             {
-                int num247 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 0, default(Color), 1f);
+                int num247 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 0, default, 1f);
                 Main.dust[num247].position = (Main.dust[num247].position + projectile.position) / 2f;
                 Main.dust[num247].velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                 Main.dust[num247].velocity.Normalize();

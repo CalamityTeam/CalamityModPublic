@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 5);
             }
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons
                 return;
             }
             int healAmount = (Main.rand.Next(6) + 1);
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 player.statLife += healAmount;
                 player.HealEffect(healAmount);

@@ -73,7 +73,7 @@ namespace CalamityMod.Items.Leviathan
                             if (flag)
                             {
                                 nPC.StrikeNPC(num3, 0f, 0, false, false, false);
-                                if (Main.netMode != 0)
+                                if (Main.netMode != NetmodeID.SinglePlayer)
                                 {
                                     NetMessage.SendData(28, -1, -1, null, l, (float)num3, 0f, 0f, 0, 0, 0);
                                 }

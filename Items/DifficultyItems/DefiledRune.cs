@@ -58,11 +58,11 @@ namespace CalamityMod.Items.DifficultyItems
 				CalamityWorld.defiled = true;
 				string key = "Mods.CalamityMod.DefiledText";
 				Color messageColor = Color.DarkSeaGreen;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -72,11 +72,11 @@ namespace CalamityMod.Items.DifficultyItems
 				CalamityWorld.defiled = false;
 				string key = "Mods.CalamityMod.DefiledText2";
 				Color messageColor = Color.DarkSeaGreen;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}

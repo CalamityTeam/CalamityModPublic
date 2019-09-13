@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
 					num440 = num437 / num440;
 					num438 *= num440;
 					num439 *= num440;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						if (projectile.owner == Main.myPlayer)
 						{

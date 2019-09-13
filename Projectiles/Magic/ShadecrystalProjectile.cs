@@ -29,9 +29,9 @@ namespace CalamityMod.Projectiles.Magic
         	Lighting.AddLight(projectile.Center, 0.15f, 0f, 0.15f);
 			projectile.rotation += projectile.velocity.X * 0.2f;
 			projectile.ai[1] += 1f;
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
-				int num300 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 70, 0f, 0f, 0, default(Color), 1f);
+				int num300 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 70, 0f, 0f, 0, default, 1f);
 				Main.dust[num300].noGravity = true;
 				Main.dust[num300].velocity *= 0.2f;
 				Main.dust[num300].scale *= 0.8f;

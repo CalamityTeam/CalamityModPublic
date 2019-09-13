@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Mounts
 			mountData.swimFrameCount = mountData.inAirFrameCount;
 			mountData.swimFrameDelay = mountData.inAirFrameDelay;
 			mountData.swimFrameStart = mountData.inAirFrameStart;
-			if (Main.netMode != 2)
+			if (Main.netMode != NetmodeID.Server)
 			{
 				mountData.backTextureExtra = mod.GetTexture("Items/Mounts/OnyxExcavatorExtra");
 				mountData.frontTextureExtra = mod.GetTexture("Items/Mounts/OnyxExcavatorExtra2");
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Mounts
 			{
 				for (int i = 0; i < 2; i++)
 				{
-					Dust expr_631 = Main.dust[Dust.NewDust(mountedPlayer.BottomLeft, mountedPlayer.width, 6, 192, 0f, 0f, 0, default(Color), 1f)];
+					Dust expr_631 = Main.dust[Dust.NewDust(mountedPlayer.BottomLeft, mountedPlayer.width, 6, 192, 0f, 0f, 0, default, 1f)];
 					expr_631.velocity = new Vector2(velocity.X * 0.15f, Main.rand.NextFloat() * -2f);
 					expr_631.noLight = true;
 					expr_631.scale = 0.2f + Main.rand.NextFloat() * 0.8f;
@@ -148,7 +148,7 @@ namespace CalamityMod.Items.Mounts
 									!player.noBuilding && tile.type != TileID.ElderCrystalStand)
 								{
 									WorldGen.KillTile(num824, num825, false, false, false);
-									if (!Main.tile[num824, num825].active() && Main.netMode != 0)
+									if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
 									{
 										NetMessage.SendData(17, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
 									}

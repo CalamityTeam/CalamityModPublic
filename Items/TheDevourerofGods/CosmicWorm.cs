@@ -36,11 +36,11 @@ namespace CalamityMod.Items.TheDevourerofGods
 		{
             string key = "Mods.CalamityMod.EdgyBossText12";
             Color messageColor = Color.Cyan;
-            if (Main.netMode == 0)
+            if (Main.netMode == NetmodeID.SinglePlayer)
             {
                 Main.NewText(Language.GetTextValue(key), messageColor);
             }
-            else if (Main.netMode == 2)
+            else if (Main.netMode == NetmodeID.Server)
             {
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }

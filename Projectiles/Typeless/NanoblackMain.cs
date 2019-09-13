@@ -48,9 +48,9 @@ namespace CalamityMod.Projectiles.Typeless
                 projectile.ai[1] = GetBladeDelay();
 
             // Produces electricity and green firework sparks constantly while in flight.
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
-                int dustType = (Main.rand.Next(5) == 0) ? 226 : 220;
+                int dustType = (Main.rand.NextBool(5)) ? 226 : 220;
                 float scale = 0.8f + Main.rand.NextFloat(0.3f);
                 float velocityMult = Main.rand.NextFloat(0.3f, 0.6f);
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);

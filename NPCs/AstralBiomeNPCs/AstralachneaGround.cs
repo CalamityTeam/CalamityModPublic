@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         public override void AI()
         {
             npc.TargetClosest();
-            if (Main.netMode != 1 && npc.velocity.Y == 0f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.velocity.Y == 0f)
             {
                 int x = (int)npc.Center.X / 16;
                 int y = (int)npc.Center.Y / 16;
@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-            if (CalamityWorld.downedAstrageldon && Main.rand.Next(7) == 0)
+            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AstralachneaStaff"));
             }

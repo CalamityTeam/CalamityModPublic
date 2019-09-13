@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.ai[0] > 3f)
 			{
 				int num104 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y),
-					projectile.width, projectile.height, 75, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default(Color), 1f);
+					projectile.width, projectile.height, 75, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default, 1f);
 				Main.dust[num104].noGravity = true;
 			}
 		}

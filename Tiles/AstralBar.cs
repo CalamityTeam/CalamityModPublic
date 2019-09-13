@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 type = mod.DustType("AstralOrange");
             }

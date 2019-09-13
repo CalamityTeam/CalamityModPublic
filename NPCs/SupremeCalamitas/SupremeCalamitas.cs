@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		private int bulletHellCounter = 0;
 		private int bulletHellCounter2 = 0;
 
-		private Rectangle safeBox = default(Rectangle);
+		private Rectangle safeBox = default;
 
 		public override void SetStaticDefaults()
 		{
@@ -221,11 +221,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText12"; //kill SCal 4 times
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -234,11 +234,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText11"; //kill SCal once
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -249,11 +249,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						string key = "Mods.CalamityMod.SupremeBossText15"; //die 50 or more times
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -262,11 +262,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						string key = "Mods.CalamityMod.SupremeBossText14"; //die 20 or more times
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -275,11 +275,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						string key = "Mods.CalamityMod.SupremeBossText13"; //die 5 or more times
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -311,7 +311,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					safeBox.Height = 2500;
 					spawnYAdd = 125;
 				}
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num52 = (int)(safeBox.X + (float)(safeBox.Width / 2)) / 16;
 					int num53 = (int)(safeBox.Y + (float)(safeBox.Height / 2)) / 16;
@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								Main.tile[num55, num56].type = (ushort)mod.TileType("ArenaTile");
 								Main.tile[num55, num56].active(true);
 							}
-							if (Main.netMode == 2)
+							if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.SendTileSquare(-1, num55, num56, 1, TileChangeType.None);
 							}
@@ -397,7 +397,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				float num740 = player.Center.X - vector92.X;
 				float num741 = player.Center.Y - vector92.Y;
 				npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					bulletHellCounter += 1;
 					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 4 : 6))
@@ -428,15 +428,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				string key = "Mods.CalamityMod.SupremeBossText3";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					spawnY += 250;
 					if (CalamityWorld.death)
@@ -473,7 +473,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				float num740 = player.Center.X - vector92.X;
 				float num741 = player.Center.Y - vector92.Y;
 				npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int damage = expertMode ? 150 : 200; //600 400
 					if (bulletHellCounter2 < 1200)
@@ -523,11 +523,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				string key = "Mods.CalamityMod.SupremeBossText4";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -549,7 +549,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				float num740 = player.Center.X - vector92.X;
 				float num741 = player.Center.Y - vector92.Y;
 				npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int damage = expertMode ? 150 : 200;
 					if (bulletHellCounter2 % 180 == 0) //blasts from top
@@ -591,11 +591,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					music = MusicID.Boss3;
 				string key = "Mods.CalamityMod.SupremeBossText5";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -617,7 +617,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				float num740 = player.Center.X - vector92.X;
 				float num741 = player.Center.Y - vector92.Y;
 				npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
-				if (Main.netMode != 1) //more clustered attack
+				if (Main.netMode != NetmodeID.MultiplayerClient) //more clustered attack
 				{
 					int damage = expertMode ? 150 : 200;
 					if (bulletHellCounter2 % 180 == 0) //blasts from top
@@ -664,11 +664,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					music = MusicID.LunarBoss;
 				string key = "Mods.CalamityMod.SupremeBossText7";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -690,7 +690,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				float num740 = player.Center.X - vector92.X;
 				float num741 = player.Center.Y - vector92.Y;
 				npc.rotation = (float)Math.Atan2((double)num741, (double)num740) - 1.57f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int damage = expertMode ? 150 : 200;
 					if (bulletHellCounter2 % 240 == 0) //blasts from top
@@ -738,11 +738,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				string key = "Mods.CalamityMod.SupremeBossText9";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -774,11 +774,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						{
 							string key = "Mods.CalamityMod.SupremeBossText27";
 							Color messageColor = Color.Orange;
-							if (Main.netMode == 0)
+							if (Main.netMode == NetmodeID.SinglePlayer)
 							{
 								Main.NewText(Language.GetTextValue(key), messageColor);
 							}
-							else if (Main.netMode == 2)
+							else if (Main.netMode == NetmodeID.Server)
 							{
 								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 							}
@@ -792,11 +792,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						string key = "Mods.CalamityMod.SupremeBossText25";
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -805,11 +805,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						string key = "Mods.CalamityMod.SupremeBossText26";
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -829,11 +829,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText24";
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -844,11 +844,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText23";
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -859,11 +859,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText22";
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -874,11 +874,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText21";
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
@@ -889,15 +889,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText20";
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						spawnY += 250;
 						if (CalamityWorld.death)
@@ -953,11 +953,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				string key = "Mods.CalamityMod.SupremeBossText";
 				Color messageColor = Color.Orange;
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue(key), messageColor);
 				}
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 				{
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
@@ -969,15 +969,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				{
 					string key = "Mods.CalamityMod.SupremeBossText8";
 					Color messageColor = Color.Orange;
-					if (Main.netMode == 0)
+					if (Main.netMode == NetmodeID.SinglePlayer)
 					{
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == 2)
+					else if (Main.netMode == NetmodeID.Server)
 					{
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
 						for (int I = 0; I < 20; I++)
@@ -997,7 +997,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			if (npc.life > 0)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.55);
 					if ((float)(npc.life + num660) < bossLife)
@@ -1007,11 +1007,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						NPC.SpawnOnPlayer(npc.FindClosestPlayer(), mod.NPCType("SupremeCatastrophe"));
 						string key = "Mods.CalamityMod.SupremeBossText6";
 						Color messageColor = Color.Orange;
-						if (Main.netMode == 0)
+						if (Main.netMode == NetmodeID.SinglePlayer)
 						{
 							Main.NewText(Language.GetTextValue(key), messageColor);
 						}
-						else if (Main.netMode == 2)
+						else if (Main.netMode == NetmodeID.Server)
 						{
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
@@ -1160,7 +1160,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					num825 = player.position.X + (float)(player.width / 2) - vector82.X;
 					num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
 					npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[1] += wormAlive ? 0.5f : 1f;
 						if (npc.localAI[1] > 90f)
@@ -1360,7 +1360,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							num415 = player.position.X + (float)(player.width / 2) - vector40.X;
 							num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								float num418 = 10f * uDieLul;
 								int num419 = expertMode ? 150 : 200; //600 500
@@ -1428,7 +1428,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					num834 = player.position.X + (float)(player.width / 2) - vector83.X;
 					num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
 					npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[1] += wormAlive ? 0.5f : 1f;
 						if (npc.localAI[1] > 140f)
@@ -1541,12 +1541,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						for (int num388 = 0; num388 < 50; num388++)
 						{
-							Dust.NewDust(npc.position, npc.width, npc.height, 235, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+							Dust.NewDust(npc.position, npc.width, npc.height, 235, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 						}
 						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 					}
 				}
-				Dust.NewDust(npc.position, npc.width, npc.height, 235, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 235, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 				npc.velocity.X = npc.velocity.X * 0.98f;
 				npc.velocity.Y = npc.velocity.Y * 0.98f;
 				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
@@ -1636,7 +1636,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					num825 = player.position.X + (float)(player.width / 2) - vector82.X;
 					num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
 					npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[1] += wormAlive ? 0.5f : 1f;
 						if (npc.localAI[1] > 60f)
@@ -1828,7 +1828,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							vector40 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							num415 = player.position.X + (float)(player.width / 2) - vector40.X;
 							num416 = player.position.Y + (float)(player.height / 2) - vector40.Y;
-							if (Main.netMode != 1)
+							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								float num418 = 10f * uDieLul;
 								int num419 = expertMode ? 150 : 200; //600 500
@@ -1896,7 +1896,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					num834 = player.position.X + (float)(player.width / 2) - vector83.X;
 					num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
 					npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[1] += wormAlive ? 0.5f : 1f;
 						if (npc.localAI[1] > 100f)
@@ -1980,11 +1980,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 string key = "Mods.CalamityMod.SupremeBossText2";
                 Color messageColor = Color.Orange;
-                if (Main.netMode == 0)
+                if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     Main.NewText(Language.GetTextValue(key), messageColor);
                 }
-                else if (Main.netMode == 2)
+                else if (Main.netMode == NetmodeID.Server)
                 {
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
@@ -2077,9 +2077,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 key = "Mods.CalamityMod.SupremeBossText10";
             }
 
-            if (Main.netMode == 0)
+            if (Main.netMode == NetmodeID.SinglePlayer)
                 Main.NewText(Language.GetTextValue(key), messageColor);
-            else if (Main.netMode == 2)
+            else if (Main.netMode == NetmodeID.Server)
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
         }
 
@@ -2220,7 +2220,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -2232,9 +2232,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -2242,10 +2242,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 			}

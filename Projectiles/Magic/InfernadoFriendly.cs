@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Magic
 			float num615 = 2.5f;
 			int num616 = 320;
 			int num617 = 88;
-			if (Main.rand.Next(25) == 0)
+			if (Main.rand.NextBool(25))
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }

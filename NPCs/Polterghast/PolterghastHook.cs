@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.Polterghast
                     phase2 = true;
                 }
                 npc.TargetClosest(true);
-                if (Main.netMode == 1)
+                if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     if (npc.ai[0] == 0f)
                     {
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.Polterghast
                         npc.ai[1] = (float)((int)(npc.Center.X / 16f));
                     }
                 }
-                if (Main.netMode != 1)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (npc.ai[0] == 0f || npc.ai[1] == 0f)
                     {
@@ -233,7 +233,7 @@ namespace CalamityMod.NPCs.Polterghast
                     {
                         npc.ai[3] = 0f;
                     }
-                    if (Main.netMode != 1 && npc.ai[2] == 20f)
+                    if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                     {
                         float num151 = 5f;
                         int num152 = 60;
@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.Polterghast
                 }
                 return;
             }
-            if (Main.netMode == 1)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 if (npc.ai[0] == 0f)
                 {
@@ -257,7 +257,7 @@ namespace CalamityMod.NPCs.Polterghast
                     npc.ai[1] = (float)((int)(npc.Center.X / 16f));
                 }
             }
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (npc.ai[0] == 0f || npc.ai[1] == 0f)
                 {
@@ -469,13 +469,13 @@ namespace CalamityMod.NPCs.Polterghast
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

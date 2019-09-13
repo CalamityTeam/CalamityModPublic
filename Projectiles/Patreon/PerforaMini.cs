@@ -145,10 +145,10 @@ namespace CalamityMod.Projectiles.Patreon
 			}
 
 			//Dust
-			if (Main.rand.Next(50) == 0)
+			if (Main.rand.NextBool(50))
 			{
-				int d1 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 5, 0f, 0f, 100, default(Color), 1.5f);
-				int d2 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 170, 0f, 0f, 170, default(Color), 0.5f);
+				int d1 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 5, 0f, 0f, 100, default, 1.5f);
+				int d2 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 170, 0f, 0f, 170, default, 0.5f);
 				Main.dust[d2].noLight = true;
 				Main.dust[d1].position = projectile.Center;
 				Main.dust[d2].position = projectile.Center;

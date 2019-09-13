@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					for (int num55 = 0; num55 < 8; num55++)
 					{
-						int num56 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 234, projectile.velocity.X * 0.005f, projectile.velocity.Y * 0.005f, 200, default(Color), 1f);
+						int num56 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 234, projectile.velocity.X * 0.005f, projectile.velocity.Y * 0.005f, 200, default, 1f);
 						Main.dust[num56].noGravity = true;
 						Main.dust[num56].velocity *= 0.5f;
 					}
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee
 					projectile.Kill();
 				}
         	}
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
             {
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 234, projectile.velocity.X * 0.005f, projectile.velocity.Y * 0.005f);
             }

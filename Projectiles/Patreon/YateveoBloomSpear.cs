@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.position.Y = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - (float)(projectile.height / 2);
 			projectile.position += projectile.velocity * projectile.ai[0];
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int dustType = Main.rand.Next(5);
 				switch (dustType)

@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			{
 				for (int k = 0; k < 8; k++)
 				{
-					int num114 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default(Color), 1.25f);
+					int num114 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default, 1.25f);
 					Dust dust = Main.dust[num114];
 					dust.velocity *= 0.3f;
 					Main.dust[num114].position.X = projectile.position.X + (float)(projectile.width / 2) + 4f + (float)Main.rand.Next(-4, 5);
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			if (num1064 != projectile.rotation)
 			{
 				float num1068 = MathHelper.WrapAngle(num1064 - projectile.rotation);
-				vector134 = vector134.RotatedBy((double)(num1068 * 0.1f), default(Vector2));
+				vector134 = vector134.RotatedBy((double)(num1068 * 0.1f), default);
 			}
 			projectile.rotation = vector134.ToRotation() + 1.57079637f;
 			projectile.position = projectile.Center;

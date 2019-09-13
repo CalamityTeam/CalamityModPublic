@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Patreon
 				}
         	}
 
-			int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default(Color), 1f);
+			int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 67, 0f, 0f, 100, default, 1f);
 			Main.dust[dust].noGravity = true;
 			Main.dust[dust].velocity *= 0f;
 

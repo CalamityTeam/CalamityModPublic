@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Magic
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
 			for (int num457 = 0; num457 < 5; num457++)
 			{
-				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default(Color), 2f);
+				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 2f);
 				Main.dust[num458].noGravity = true;
 				Main.dust[num458].velocity *= 0.5f;
 				Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 43);
         	for (int j = 0; j <= 10; j++)
         	{
-        		Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default(Color), 1f);
+        		Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 1f);
         	}
         	float spread = 30f * 0.0174f;
 			double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y)- spread/2;

@@ -45,18 +45,18 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				projectile.Kill();
 			}
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
-				int num193 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, 0f, 100, default(Color), 1f);
+				int num193 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 180, 0f, 0f, 100, default, 1f);
 				Main.dust[num193].position = projectile.Center;
 				Main.dust[num193].scale += (float)Main.rand.Next(50) * 0.01f;
 				Main.dust[num193].noGravity = true;
 				Dust expr_835F_cp_0 = Main.dust[num193];
 				expr_835F_cp_0.velocity.Y = expr_835F_cp_0.velocity.Y - 2f;
 			}
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
-				int num194 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 176, 0f, 0f, 100, default(Color), 1f);
+				int num194 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 176, 0f, 0f, 100, default, 1f);
 				Main.dust[num194].position = projectile.Center;
 				Main.dust[num194].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
 				Main.dust[num194].noGravity = true;

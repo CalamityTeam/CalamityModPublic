@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Boss
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
 			for (int num468 = 0; num468 < 5; num468++)
 			{
-				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default(Color), 1f);
+				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 100, default, 1f);
 				Main.dust[num469].noGravity = true;
 				Main.dust[num469].velocity *= 0f;
 			}

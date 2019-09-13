@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void AI()
 		{
 			CalamityGlobalNPC.bobbitWormBottom = npc.whoAmI;
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (npc.localAI[0] == 0f)
 				{

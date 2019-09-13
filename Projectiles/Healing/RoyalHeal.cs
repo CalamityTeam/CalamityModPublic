@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Healing
 			{
 				float num494 = projectile.velocity.X * 0.334f * (float)num493;
 				float num495 = -(projectile.velocity.Y * 0.334f) * (float)num493;
-				int num496 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 20, 0f, 0f, 100, default(Color), 1.1f);
+				int num496 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 20, 0f, 0f, 100, default, 1.1f);
 				Main.dust[num496].noGravity = true;
 				Main.dust[num496].velocity *= 0f;
 				Dust expr_153E2_cp_0 = Main.dust[num496];
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Healing
 			{
 				float num498 = projectile.velocity.X * 0.2f * (float)num497;
 				float num499 = -(projectile.velocity.Y * 0.2f) * (float)num497;
-				int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 20, 0f, 0f, 100, default(Color), 1.3f);
+				int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 20, 0f, 0f, 100, default, 1.3f);
 				Main.dust[num500].noGravity = true;
 				Main.dust[num500].velocity *= 0f;
 				Dust expr_154F9_cp_0 = Main.dust[num500];

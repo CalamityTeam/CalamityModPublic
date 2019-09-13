@@ -78,9 +78,9 @@ namespace CalamityMod.Projectiles.Magic
 						projectile.velocity *= 6f / projectile.velocity.Length();
 					}
 				}
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
-					int num1028 = Dust.NewDust(projectile.Center, 8, 8, 60, 0f, 0f, 0, default(Color), 1f);
+					int num1028 = Dust.NewDust(projectile.Center, 8, 8, 60, 0f, 0f, 0, default, 1f);
 					Main.dust[num1028].position = projectile.Center;
 					Main.dust[num1028].velocity = projectile.velocity;
 					Main.dust[num1028].noGravity = true;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Magic
 			int num3;
 			for (int num114 = 0; num114 < 10; num114 = num3 + 1)
 			{
-				int num115 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)projectile.ai[0], projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default(Color), 0.5f);
+				int num115 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)projectile.ai[0], projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 0, default, 0.5f);
 				Dust dust;
 				Main.dust[num115].scale = 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
 				Main.dust[num115].noGravity = true;

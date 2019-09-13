@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Patreon
 			// Produces golden dust constantly while in flight. This lights the yoyo.
 			if (Main.rand.NextBool())
 			{
-				int dustType = (Main.rand.Next(3) == 0) ? 244 : 246;
+				int dustType = (Main.rand.NextBool(3)) ? 244 : 246;
 				float scale = 0.8f + Main.rand.NextFloat(0.6f);
 				int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
 				Main.dust[idx].noGravity = true;
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Patreon
 			}
 
 			// Rarely, draw some "arcs" which are lines of dust to the edge
-			if (Main.rand.Next(30) == 0)
+			if (Main.rand.NextBool(30))
 			{
 				int numArcs = 3;
 				float arcDustDensity = 0.6f;
@@ -192,7 +192,7 @@ namespace CalamityMod.Projectiles.Patreon
 					bool crit = Main.rand.Next(100) <= owner.meleeCrit + 4;
 					target.StrikeNPC(finalDamage, 0f, 0, crit, false, false);
 
-					if (Main.netMode != 0)
+					if (Main.netMode != NetmodeID.SinglePlayer)
 						NetMessage.SendData(28, -1, -1, null, i, finalDamage, 0f, 0f, crit ? 1 : 0, 0, 0);
 				}
 			}

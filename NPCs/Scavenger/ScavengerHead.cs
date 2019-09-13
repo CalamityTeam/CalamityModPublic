@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.Scavenger
 				playerDistanceY *= totalPlayerDistance;
 				int nukeDamage = expertMode ? 40 : 60;
 				int projectileType = mod.ProjectileType("ScavengerNuke");
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int nuke = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[nuke].velocity.Y = -15f;
@@ -141,11 +141,11 @@ namespace CalamityMod.NPCs.Scavenger
 				int num285 = 0;
 				while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)hitDirection, -1f, 0, default, 1f);
 					num285++;
 				}
 			}
-			else if (Main.netMode != 1)
+			else if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("ScavengerHead2"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 			}

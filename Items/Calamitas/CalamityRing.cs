@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Calamitas
             {
                 if (player.immune)
                 {
-                    if (Main.rand.Next(10) == 0)
+                    if (Main.rand.NextBool(10))
                     {
                         for (int l = 0; l < 1; l++)
                         {

@@ -37,7 +37,7 @@ namespace CalamityMod.Skies
                 spriteBatch.Draw(CalamityMod.AstralSky, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Main.bgColor * opacity);
 
                 //Terraria's conditions.
-                if (Main.netMode != 2)
+                if (Main.netMode != NetmodeID.Server)
                 {
                     for (int i = 0; i < Main.star.Length; i++)
                     {

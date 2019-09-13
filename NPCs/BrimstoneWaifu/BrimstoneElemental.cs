@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			{
 				if (Main.rand.Next(3) < dustAmt)
 				{
-					int dust = Dust.NewDust(npc.Center - new Vector2((float)size), size * 2, size * 2, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+					int dust = Dust.NewDust(npc.Center - new Vector2((float)size), size * 2, size * 2, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 0.2f;
 					Main.dust[dust].fadeIn = 1f;
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			{
 				npc.defense = provy ? 120 : 20;
 				npc.chaseable = true;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (npc.justHit)
@@ -186,12 +186,12 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							int min = 12;
 							int max = 15;
 
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 								playerPosX += Main.rand.Next(min, max);
 							else
 								playerPosX -= Main.rand.Next(min, max);
 
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 								playerPosY += Main.rand.Next(min, max);
 							else
 								playerPosY -= Main.rand.Next(min, max);
@@ -221,7 +221,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.alpha += 25;
 				if (npc.alpha >= 255)
 				{
-					if (Main.netMode != 1 && NPC.CountNPCS(mod.NPCType("Brimling")) < 2 && revenge)
+					if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("Brimling")) < 2 && revenge)
 					{
 						NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Brimling"), 0, 0f, 0f, 0f, 0f, 255);
 					}
@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				}
 				if (shootProjectile && Collision.CanHit(shootFromVectorX, 1, 1, player.position, player.width, player.height))
 				{
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float projectileSpeed = 6f; //changed from 10
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.defense = 99999;
 				npc.dontTakeDamage = false;
 				npc.chaseable = false;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += (float)Main.rand.Next(4);
 					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -539,7 +539,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 		public override void NPCLoot()
 		{
 			// redo the rest of this drop code later
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("BrimstoneElementalTrophy"));
 			}
@@ -560,7 +560,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				{
 					Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Bloodstone"), Main.rand.Next(20, 31));
 				}
-				if (Main.rand.Next(10) == 0)
+				if (Main.rand.NextBool(10))
 				{
 					npc.DropItemInstanced(npc.position, npc.Size, mod.ItemType("RoseStone"), 1, true);
 				}
@@ -589,9 +589,9 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			Color messageColor = Color.Crimson;
 			if (!NPC.downedMechBoss3 && !CalamityWorld.downedBrimstoneElemental)
 			{
-				if (Main.netMode == 0)
+				if (Main.netMode == NetmodeID.SinglePlayer)
 					Main.NewText(Language.GetTextValue(key), messageColor);
-				else if (Main.netMode == 2)
+				else if (Main.netMode == NetmodeID.Server)
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 			}
 
@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -622,9 +622,9 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -632,10 +632,10 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				}
 				for (int num623 = 0; num623 < 60; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);

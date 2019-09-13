@@ -109,7 +109,7 @@ namespace CalamityMod.NPCs.HiveMind
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			CalamityGlobalNPC.hiveMind = npc.whoAmI;
-			if (Main.netMode != 1)
+			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (revenge)
 				{
@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.HiveMind
 			}
 	       	if (npc.life > 0)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.25);
 					if ((float)(npc.life + num660) < npc.ai[3])
@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs.HiveMind
 							int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
 							int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
 							int num663 = mod.NPCType("HiveBlob");
-							if (Main.rand.Next(3) == 0 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (Main.rand.NextBool(3) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							{
 								num663 = mod.NPCType("DankCreeper");
 							}
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.HiveMind
 							Main.npc[num664].SetDefaults(num663, -1f);
 							Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
 							Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
-							if (Main.netMode == 2 && num664 < 200)
+							if (Main.netMode == NetmodeID.Server && num664 < 200)
 							{
 								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 							}
@@ -198,26 +198,26 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				npc.scale += 0.0165f;
 				npc.alpha -= 4;
-				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default(Color), 2.5f * npc.scale);
+				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default, 2.5f * npc.scale);
 				Main.dust[num622].velocity *= 2f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 				for (int i = 0; i < 2; i++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default(Color), 3.5f * npc.scale);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default, 3.5f * npc.scale);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 3.5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default(Color), 2.5f * npc.scale);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default, 2.5f * npc.scale);
 					Main.dust[num624].velocity *= 1f;
 				}
 			}
 			else if (burrowTimer == -60)
 			{
 				npc.scale = 0.01f;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.Center = player.Center;
 					npc.position.Y = player.position.Y - npc.height;
@@ -239,19 +239,19 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				npc.scale -= 0.0165f;
 				npc.alpha += 4;
-				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default(Color), 2.5f * npc.scale);
+				int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default, 2.5f * npc.scale);
 				Main.dust[num622].velocity *= 2f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
 					Main.dust[num622].scale = 0.5f;
 					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
 				}
 				for (int i = 0; i < 2; i++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default(Color), 3.5f * npc.scale);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default, 3.5f * npc.scale);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 3.5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default(Color), 2.5f * npc.scale);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.Center.Y), npc.width, npc.height / 2, 14, 0f, -3f, 100, default, 2.5f * npc.scale);
 					Main.dust[num624].velocity *= 1f;
 				}
 			}
@@ -282,12 +282,12 @@ namespace CalamityMod.NPCs.HiveMind
             {
                 if (NPC.CountNPCS(NPCID.EaterofSouls) < 3 && NPC.CountNPCS(NPCID.DevourerHead) < 1)
                 {
-                    if (Main.rand.Next(60) == 0 && Main.netMode != 1)
+                    if (Main.rand.NextBool(60) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.EaterofSouls);
                     }
-                    if (Main.rand.Next(150) == 0 && Main.netMode != 1)
+                    if (Main.rand.NextBool(150) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.DevourerHead);
@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs.HiveMind
                 int num285 = 0;
                 while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 14, (float)hitDirection, -1f, 0, default(Color), 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 14, (float)hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }
@@ -306,7 +306,7 @@ namespace CalamityMod.NPCs.HiveMind
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore2"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore3"), 1f);
 				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore4"), 1f);
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (NPC.CountNPCS(mod.NPCType("HiveMindP2")) < 1)
 					{

@@ -127,9 +127,9 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 Vector2 position = npc.Bottom - new Vector2(19f, 42f);
                 //20 34 38 42
                 Rectangle src = new Rectangle(20, 34, 38, 42);
-                spriteBatch.Draw(Main.npcTexture[npc.type], position - Main.screenPosition, src, drawColor, npc.rotation, default(Vector2), 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.npcTexture[npc.type], position - Main.screenPosition, src, drawColor, npc.rotation, default, 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 //draw glowmask
-                spriteBatch.Draw(glowmask, position - Main.screenPosition, src, Color.White * 0.6f, npc.rotation, default(Vector2), 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+                spriteBatch.Draw(glowmask, position - Main.screenPosition, src, Color.White * 0.6f, npc.rotation, default, 1f, npc.spriteDirection == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-			if (CalamityWorld.downedAstrageldon && Main.rand.Next(2) == 0)
+			if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(2))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HadarianMembrane"), Main.rand.Next(1, 3));
 			}

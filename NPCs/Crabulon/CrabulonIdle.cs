@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.Crabulon
 				float num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
 				num349 *= num351;
 				num350 *= num351;
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num352 = 1;
 					npc.localAI[3] += 2f;
@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			if (npc.ai[0] == 0f)
 			{
-				if (Main.netMode != 2)
+				if (Main.netMode != NetmodeID.Server)
 				{
 					if (!player.dead && player.active && (player.Center - npc.Center).Length() < 800f)
 					{
@@ -347,14 +347,14 @@ namespace CalamityMod.NPCs.Crabulon
 				if (npc.velocity.Y == 0f)
 				{
 					Main.PlaySound(SoundID.Item14, npc.position);
-					if (Main.netMode != 1)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Projectile.NewProjectile((int)npc.Center.X, (int)npc.Center.Y + 20, 0f, 0f, mod.ProjectileType("Mushmash"), 20, 0f, Main.myPlayer, 0f, 0f);
 					}
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= 3f)
 					{
-						if (Main.netMode != 1 && revenge)
+						if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
 						{
 							for (int x = 0; x < 20; x++)
 							{
@@ -375,7 +375,7 @@ namespace CalamityMod.NPCs.Crabulon
 					{
 						for (int num623 = 0; num623 < 4; num623++)
 						{
-							int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, 56, 0f, 0f, 100, default(Color), 1.5f);
+							int num624 = Dust.NewDust(new Vector2(npc.position.X - 20f, npc.position.Y + (float)npc.height), npc.width + 20, 4, 56, 0f, 0f, 100, default, 1.5f);
 							Main.dust[num624].velocity *= 0.2f;
 						}
 					}
@@ -436,7 +436,7 @@ namespace CalamityMod.NPCs.Crabulon
 			}
 			if (npc.life > 0)
 			{
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					int num660 = (int)((double)npc.lifeMax * 0.05);
 					if ((float)(npc.life + num660) < npc.localAI[0])
@@ -452,7 +452,7 @@ namespace CalamityMod.NPCs.Crabulon
 							Main.npc[num664].SetDefaults(num663, -1f);
 							Main.npc[num664].velocity.X = (float)Main.rand.Next(-50, 51) * 0.1f;
 							Main.npc[num664].velocity.Y = (float)Main.rand.Next(-50, -31) * 0.1f;
-							if (Main.netMode == 2 && num664 < 200)
+							if (Main.netMode == NetmodeID.Server && num664 < 200)
 							{
 								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 							}
@@ -531,7 +531,7 @@ namespace CalamityMod.NPCs.Crabulon
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 56, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 56, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -543,9 +543,9 @@ namespace CalamityMod.NPCs.Crabulon
 				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
 				for (int num621 = 0; num621 < 40; num621++)
 				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 56, 0f, 0f, 100, default(Color), 2f);
+					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 56, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
 						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
@@ -553,10 +553,10 @@ namespace CalamityMod.NPCs.Crabulon
 				}
 				for (int num623 = 0; num623 < 70; num623++)
 				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 56, 0f, 0f, 100, default(Color), 3f);
+					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 56, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
 					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 56, 0f, 0f, 100, default(Color), 2f);
+					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 56, 0f, 0f, 100, default, 2f);
 					Main.dust[num624].velocity *= 2f;
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);

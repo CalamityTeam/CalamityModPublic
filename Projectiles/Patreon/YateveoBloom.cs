@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Patreon
 				}
 			}
 
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
 				int dustType = Main.rand.Next(5);
 				switch (dustType)

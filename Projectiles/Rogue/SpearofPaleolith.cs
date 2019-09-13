@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void AI()
 		{
 			shardRainTimer--;
-			if (Main.rand.Next(4) == 0)
+			if (Main.rand.NextBool(4))
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}

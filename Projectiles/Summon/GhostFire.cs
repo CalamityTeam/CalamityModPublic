@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
 				Vector2 vector33 = projectile.position;
 				vector33 -= projectile.velocity * 0.25f;
 				projectile.alpha = 255;
-				int num448 = Dust.NewDust(vector33, 1, 1, 180, 0f, 0f, 0, default(Color), 0.2f);
+				int num448 = Dust.NewDust(vector33, 1, 1, 180, 0f, 0f, 0, default, 0.2f);
 				Main.dust[num448].position = vector33;
 				Main.dust[num448].noGravity = true;
 				Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;

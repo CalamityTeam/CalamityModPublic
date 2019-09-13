@@ -115,7 +115,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public void Boom()
 		{
 			Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 14);
-			if (Main.netMode != 1 && puffedUp)
+			if (Main.netMode != NetmodeID.MultiplayerClient && puffedUp)
 			{
 				int damageBoom = 100;
 				int projectileType = mod.ProjectileType("PufferExplosion");
@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void NPCLoot()
 		{
-			if (Main.rand.Next(1000000) == 0 && CalamityWorld.revenge)
+			if (Main.rand.NextBool(1000000) && CalamityWorld.revenge)
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HalibutCannon"));
 			}
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
@@ -250,7 +250,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 				for (int k = 0; k < 15; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

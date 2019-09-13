@@ -40,13 +40,13 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					int dustType = (num41 == 0 ? 67 : 174);
 					Vector2 value8 = Vector2.UnitX * -12f;
-					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default(Vector2)) * value7;
-					int num42 = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default(Color), 1f);
+					value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7;
+					int num42 = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default, 1f);
 					Main.dust[num42].scale = (dustType == 67 ? 1.5f : 1f);
 					Main.dust[num42].noGravity = true;
 					Main.dust[num42].position = projectile.Center + value8;
 					Main.dust[num42].velocity = projectile.velocity;
-					int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default(Color), 0.8f);
+					int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 0.8f);
 					Main.dust[num458].noGravity = true;
 					Main.dust[num458].velocity *= 0f;
 				}

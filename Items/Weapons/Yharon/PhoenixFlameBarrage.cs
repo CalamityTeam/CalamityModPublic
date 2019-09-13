@@ -63,11 +63,11 @@ namespace CalamityMod.Items.Weapons.Yharon
             num78 *= num80;
             num79 *= num80;
             int num107 = 30;
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 num107++;
             }
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 num107++;
             }

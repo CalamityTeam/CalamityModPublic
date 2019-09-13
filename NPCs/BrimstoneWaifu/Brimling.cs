@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			if (npc.localAI[1] == 1f)
 			{
 				npc.localAI[1] = 0f;
-				if (Main.rand.Next(4) == 0)
+				if (Main.rand.NextBool(4))
 				{
 					npc.ai[0] = (float)num1447;
 				}
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			Vector2 vector251 = Main.player[npc.target].Center - value53;
 			bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
 			npc.localAI[0] += 1f;
-			if (Main.netMode != 1 && npc.localAI[0] >= 300f && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 300f && Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] != 4f)
 			{
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			int var_9_48E3C_cp_1 = 0;
 			num244 = var_9_48E3C_cp_0[var_9_48E3C_cp_1];
 			var_9_48E3C_cp_0[var_9_48E3C_cp_1] = num244 + 1f;
-			if (npc.ai[0] >= (float)num1447 && Main.netMode != 1)
+			if (npc.ai[0] >= (float)num1447 && Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				if (npc.localAI[0] > 260f)
 				{
@@ -279,13 +279,13 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 		{
 			for (int k = 0; k < 5; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 235, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

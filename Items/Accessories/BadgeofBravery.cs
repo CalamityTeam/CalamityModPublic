@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
 
 		public override void OnCraft(Recipe recipe)
 		{
-			if (Main.rand.Next(40) == 0)
+			if (Main.rand.NextBool(40))
 				recipe.createItem.type = mod.ItemType("SamuraiBadge");
 			else
 				recipe.createItem.type = item.type;

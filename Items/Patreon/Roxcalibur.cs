@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Patreon
 			{
 				for (int i = 0; i < 50; i++)
 				{
-					int d = Dust.NewDust(player.Center, player.width, player.height, 191, Main.rand.Next(-8, 9), Main.rand.Next(-8, 9), 100, default(Color), 1);
+					int d = Dust.NewDust(player.Center, player.width, player.height, 191, Main.rand.Next(-8, 9), Main.rand.Next(-8, 9), 100, default, 1);
 					Main.dust[d].noGravity = true;
 					Main.dust[d].position = player.Center;
 				}
@@ -198,11 +198,11 @@ namespace CalamityMod.Items.Patreon
 				player.itemRotation = player.direction * MathHelper.ToRadians(135f);
 				//Dust trail
 				int dusty = hitbox.Y + (hitbox.Height / 2);
-				Dust.NewDust(new Vector2(hitbox.X, dusty), hitbox.Width, hitbox.Height / 2, 191, player.velocity.X * 0.25f, player.velocity.Y * 0.25f, 160, default(Color), 0.7f);
+				Dust.NewDust(new Vector2(hitbox.X, dusty), hitbox.Width, hitbox.Height / 2, 191, player.velocity.X * 0.25f, player.velocity.Y * 0.25f, 160, default, 0.7f);
 			}
 			else
 			{
-				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 191, 0f, 0f, 160, default(Color), 0.7f);
+				Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 191, 0f, 0f, 160, default, 0.7f);
 			}
 		}
 

@@ -35,12 +35,12 @@ namespace CalamityMod.Projectiles.Ranged
             float speedY = 1f;
             if (!speedXChoice)
             {
-                speedX = (Main.rand.Next(2) == 0 ? 1.03f : 0.97f);
+                speedX = (Main.rand.NextBool(2) ? 1.03f : 0.97f);
                 speedXChoice = true;
             }
             if (!speedYChoice)
             {
-                speedY = (Main.rand.Next(2) == 0 ? 1.03f : 0.97f);
+                speedY = (Main.rand.NextBool(2) ? 1.03f : 0.97f);
                 speedYChoice = true;
             }
             projectile.velocity.X *= speedX;
@@ -61,17 +61,17 @@ namespace CalamityMod.Projectiles.Ranged
 					num296 = 0.75f;
 				}
 				projectile.ai[0] += 1f;
-				int num297 = (Main.rand.Next(2) == 0 ? 107 : 234);
-                if (Main.rand.Next(4) == 0)
+				int num297 = (Main.rand.NextBool(2) ? 107 : 234);
+                if (Main.rand.NextBool(4))
                 {
                     num297 = 269;
                 }
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
                     for (int num298 = 0; num298 < 2; num298++)
                     {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 0.6f);
-                        if (Main.rand.Next(3) == 0)
+                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 0.6f);
+                        if (Main.rand.NextBool(3))
                         {
                             Main.dust[num299].scale *= 1.5f;
                             Dust expr_DBEF_cp_0 = Main.dust[num299];

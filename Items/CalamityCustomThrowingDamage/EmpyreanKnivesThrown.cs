@@ -39,7 +39,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default(Vector2));
+            Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
             Vector2 vector3 = Main.MouseWorld - vector2;
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
@@ -62,19 +62,19 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             num78 *= num80;
             num79 *= num80;
             int num146 = 4;
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 num146++;
             }
-            if (Main.rand.Next(4) == 0)
+            if (Main.rand.NextBool(4))
             {
                 num146++;
             }
-            if (Main.rand.Next(8) == 0)
+            if (Main.rand.NextBool(8))
             {
                 num146++;
             }
-            if (Main.rand.Next(16) == 0)
+            if (Main.rand.NextBool(16))
             {
                 num146++;
             }

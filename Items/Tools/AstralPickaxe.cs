@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Tools
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
-            Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.Next(2) == 0 ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"), 0.56f, 40, 65, -0.13f, 0.13f);
+            Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"), 0.56f, 40, 65, -0.13f, 0.13f);
             if (d != null)
             {
                 d.customData = 0.02f;

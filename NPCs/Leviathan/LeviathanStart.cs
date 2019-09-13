@@ -85,9 +85,9 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void NPCLoot()
         {
-            if (CalamityWorld.revenge && Main.rand.Next(4) == 0)
+            if (CalamityWorld.revenge && Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (Main.rand.Next(2) == 0 ? mod.ItemType("SirensHeart") : mod.ItemType("SirensHeartAlt")));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (Main.rand.NextBool(2) ? mod.ItemType("SirensHeart") : mod.ItemType("SirensHeartAlt")));
             }
         }
 
@@ -97,16 +97,16 @@ namespace CalamityMod.NPCs.Leviathan
 			{
 				for (int k = 0; k < 5; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 			else
 			{
 				for (int k = 0; k < 20; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
 				}
-				if (Main.netMode != 1)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, mod.NPCType("Siren"), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 				}

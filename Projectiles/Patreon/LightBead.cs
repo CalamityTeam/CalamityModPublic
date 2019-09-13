@@ -29,9 +29,9 @@ namespace CalamityMod.Projectiles.Patreon
         	Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.5f);
 			projectile.rotation += projectile.velocity.X * 0.2f;
 			projectile.ai[1] += 1f;
-			if (Main.rand.Next(3) == 0)
+			if (Main.rand.NextBool(3))
 			{
-				int num300 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 0, default(Color), 1f);
+				int num300 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 0, default, 1f);
 				Main.dust[num300].noGravity = true;
 				Main.dust[num300].velocity *= 0.5f;
 				Main.dust[num300].scale *= 0.9f;

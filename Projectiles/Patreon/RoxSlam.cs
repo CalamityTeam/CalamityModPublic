@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Patreon
 				for (int dustexplode = 0; dustexplode < 360; dustexplode++)
 				{
 					Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
-					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 51, dustd.X, dustd.Y, 100, default(Color), 3f);
+					int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 51, dustd.X, dustd.Y, 100, default, 3f);
 					Main.dust[d].noGravity = true;
 					Main.dust[d].position = projectile.Center;
 				}

@@ -62,7 +62,7 @@ namespace CalamityMod.Items.LoreItems
 						{
 							player.statLife -= player.statLifeMax2 / 7;
 							PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
-							if (Main.rand.Next(2) == 0)
+							if (Main.rand.NextBool(2))
 							{
 								damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
 							}

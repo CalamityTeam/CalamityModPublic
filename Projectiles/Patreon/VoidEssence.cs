@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Patreon
 			int trailDust = 1;
 			for (int i = 0; i < trailDust; ++i)
 			{
-				int dustID = Main.rand.Next(8) == 0 ? 66 : 143;
+				int dustID = Main.rand.NextBool(8) ? 66 : 143;
 
 				int idx = Dust.NewDust(projectile.position - projectile.velocity, projectile.width, projectile.height, dustID);
 				Main.dust[idx].noGravity = true;

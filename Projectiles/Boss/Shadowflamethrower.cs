@@ -37,12 +37,12 @@ namespace CalamityMod.Projectiles.Boss
 					num302 = 0.75f;
 
 				projectile.ai[0] += 1f;
-				if (Main.rand.Next(2) == 0)
+				if (Main.rand.NextBool(2))
 				{
-					int num305 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default(Color), 1f);
+					int num305 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
 					Dust dust;
 
-					if (Main.rand.Next(3) != 0 || Main.rand.Next(3) == 0)
+					if (Main.rand.Next(3) != 0 || Main.rand.NextBool(3))
 					{
 						Main.dust[num305].noGravity = true;
 						dust = Main.dust[num305];
@@ -70,11 +70,11 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 				target.AddBuff(mod.BuffType("Shadowflame"), 240, true);
-			else if (Main.rand.Next(4) == 0)
+			else if (Main.rand.NextBool(4))
 				target.AddBuff(mod.BuffType("Shadowflame"), 150, true);
-			else if (Main.rand.Next(2) == 0)
+			else if (Main.rand.NextBool(2))
 				target.AddBuff(mod.BuffType("Shadowflame"), 90, true);
         }
 	}

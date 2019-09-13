@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Typeless
 			for (int num191 = 0; num191 < 2; num191 = num3 + 1)
 			{
 				int num192 = (int)(10f * projectile.scale);
-				int num193 = Dust.NewDust(projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 107, 0f, 0f, 0, default(Color), 1f);
+				int num193 = Dust.NewDust(projectile.Center - Vector2.One * (float)num192, num192 * 2, num192 * 2, 107, 0f, 0f, 0, default, 1f);
 				Dust dust20 = Main.dust[num193];
 				Vector2 value8 = Vector2.Normalize(dust20.position - projectile.Center);
 				dust20.position = projectile.Center + value8 * (float)num192 * projectile.scale;
