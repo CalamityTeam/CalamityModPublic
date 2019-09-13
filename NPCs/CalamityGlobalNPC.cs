@@ -3531,6 +3531,7 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(mod.ItemType("Impaler")));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
             }
 
             if (type == NPCID.Dryad)
