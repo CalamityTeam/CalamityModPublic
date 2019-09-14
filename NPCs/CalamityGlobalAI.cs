@@ -8525,6 +8525,9 @@ namespace CalamityMod.NPCs
 			bool flag42 = NPC.AnyNPCs(NPCID.GolemFistRight);
 			npc.dontTakeDamage = flag40 || flag41 || flag42;
 
+			// Phase 2, check for free head
+			bool flag43 = NPC.AnyNPCs(NPCID.GolemHeadFree);
+
 			// Spawn arm dust
 			if (!flag41)
 			{
@@ -8581,16 +8584,16 @@ namespace CalamityMod.NPCs
 					{
 						npc.localAI[1] += 1f;
 
-						float divisor = 20f -
+						float divisor = 15f -
 							(phase2 ? 4f : 0f) -
-							(phase3 ? 4f : 0f) -
-							(phase4 ? 4f : 0f);
+							(phase3 ? 3f : 0f) -
+							(phase4 ? 2f : 0f);
 
 						if (enrage)
 							divisor = 5f;
 
-						Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y - 80f);
-						if (npc.localAI[1] % divisor == 0f && Vector2.Distance(Main.player[npc.target].Center, vector82) > 160f)
+						Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y - 60f);
+						if (npc.localAI[1] % divisor == 0f && (Vector2.Distance(Main.player[npc.target].Center, vector82) > 160f || !flag43))
 						{
 							float num673 = enrage ? 12f : 6f;
 							float num674 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector82.X;
@@ -9140,7 +9143,7 @@ namespace CalamityMod.NPCs
 			// Velocity and acceleration
 			float num700 = 7f +
 				(phase2 ? 4f : 0f) +
-				(phase3 ? 9f : 0f);
+				(phase3 ? 14f : 0f);
 
 			Vector2 vector87 = new Vector2(npc.Center.X, npc.Center.Y);
 			float num702 = Main.player[npc.target].Center.X - vector87.X + offsetX;
@@ -9151,7 +9154,7 @@ namespace CalamityMod.NPCs
 			if (phase3)
 			{
 				if (enrage)
-					num700 = 20f;
+					num700 = 25f;
 
 				if (num704 < num700)
 				{
@@ -9225,7 +9228,7 @@ namespace CalamityMod.NPCs
 				npc.ai[1] = 0f;
 
 				Vector2 vector88 = new Vector2(npc.Center.X, npc.Center.Y - 10f);
-				float num706 = enrage ? 12f : 6f;
+				float num706 = enrage ? 10f : 5f;
 				float num709 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector88.X;
 				float num710 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector88.Y;
 				float num711 = (float)Math.Sqrt((double)(num709 * num709 + num710 * num710));
@@ -9249,7 +9252,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Lasers
-			npc.ai[2] += 1f + (5f * (2f - (lifeRatio + golemLifeRatio)));
+			npc.ai[2] += 1f + (2f * (2f - (lifeRatio + golemLifeRatio)));
 			if (!Collision.CanHit(Main.npc[NPC.golemBoss].Center, 1, 1, Main.player[npc.target].Center, 1, 1))
 				npc.ai[2] += 8f;
 
@@ -9265,7 +9268,7 @@ namespace CalamityMod.NPCs
 					else if (num713 == 1)
 						vector89.X += 14f;
 
-					float num714 = 6f + (2f * (2f - (lifeRatio + golemLifeRatio)));
+					float num714 = 5f + (2f * (2f - (lifeRatio + golemLifeRatio)));
 					float num717 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector89.X;
 					float num718 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector89.Y;
 					float num719 = (float)Math.Sqrt((double)(num717 * num717 + num718 * num718));
