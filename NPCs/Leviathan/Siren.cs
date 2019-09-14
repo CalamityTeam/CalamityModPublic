@@ -207,14 +207,6 @@ namespace CalamityMod.NPCs.Leviathan
 			if (Main.rand.NextBool(300))
 				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 35);
 
-			// Count number of players nearby
-			int num1038 = 0;
-			for (int num1039 = 0; num1039 < 255; num1039++)
-			{
-				if (Main.player[num1039].active && !Main.player[num1039].dead && (vector - Main.player[num1039].Center).Length() < 1000f)
-					num1038++;
-			}
-
 			// Time left
 			if (npc.timeLeft < 3000)
 				npc.timeLeft = 3000;
@@ -323,7 +315,6 @@ namespace CalamityMod.NPCs.Leviathan
 				float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
 
 				npc.ai[1] += 1f;
-				npc.ai[1] += (float)(num1038 / 2);
 				if (phase2 || CalamityWorld.bossRushActive)
 					npc.ai[1] += 0.25f;
 				if (phase3 || CalamityWorld.bossRushActive)

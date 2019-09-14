@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
 
 	    public override void SetDefaults()
 	    {
-			item.damage = 99;
+			item.damage = 110;
 			item.ranged = true;
 			item.width = 76;
 			item.height = 36;

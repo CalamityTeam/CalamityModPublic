@@ -19,11 +19,11 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
-            projectile.penetrate = 3;
+            projectile.penetrate = 2;
             projectile.extraUpdates = 3;
             projectile.timeLeft = 90;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 9;
+			projectile.localNPCHitCooldown = 12;
 		}
 
         public override void AI()

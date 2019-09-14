@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
-			float num474 = 250f;
+			float num474 = 350f;
 			bool flag17 = false;
 			for (int num475 = 0; num475 < 200; num475++)
 			{

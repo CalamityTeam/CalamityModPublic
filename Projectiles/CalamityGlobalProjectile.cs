@@ -280,8 +280,11 @@ namespace CalamityMod.Projectiles
 			{
 				if (CalamityMod.dungeonProjectileBuffList.Contains(projectile.type))
 				{
-					if (projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f)
+					if ((projectile.type == ProjectileID.RocketSkeleton && projectile.ai[1] == 1f) ||
+						(NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast)))
+					{
 						projectile.damage = defDamage;
+					}
 					else
 						projectile.damage = defDamage + 60;
 				}

@@ -1290,24 +1290,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        /*#region Can Be Hit By
-		public override bool? CanBeHitByItem(NPC npc, Player player, Item item)
-		{
-			if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
-				return !CalamityPlayer.areThereAnyDamnBosses;
-
-			return null;
-		}
-
-		public override bool? CanBeHitByProjectile(NPC npc, Projectile projectile)
-		{
-			if (npc.type == NPCID.TargetDummy || npc.type == mod.NPCType("SuperDummy"))
-				return !CalamityPlayer.areThereAnyDamnBosses;
-
-			return null;
-		}
-		#endregion*/
-
         #region Can Hit Player
         public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
         {
@@ -2149,6 +2131,7 @@ namespace CalamityMod.NPCs
 					case NPCID.CultistBoss:
 						CalamityGlobalAI.RevengeanceCultistAI(npc, configBossRushBoost, mod, enraged);
 						break;
+
 					case NPCID.DungeonGuardian:
 						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
 						break;
