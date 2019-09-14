@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 		public override void AI()
 		{
 			npc.TargetClosest(true);
-			if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).clamity)
+			if (Main.player[npc.target].GetCalamityPlayer().clamity)
 			{
 				hitAmount = 3;
 				hasBeenHit = true;
@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea && spawnInfo.water)
+			if (spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea && spawnInfo.water)
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
 			}

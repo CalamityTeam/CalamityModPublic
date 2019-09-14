@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).godSlayerCooldown = true;
+			player.GetCalamityPlayer().godSlayerCooldown = true;
 		}
 	}
 }

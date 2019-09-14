@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.reaverDoubleTap = true;
             player.setBonus = "5% increased ranged damage\n" +
                 "While using a ranged weapon you have a 10% chance to fire a powerful rocket";

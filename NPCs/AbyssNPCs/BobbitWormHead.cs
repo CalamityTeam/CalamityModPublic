@@ -62,8 +62,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					if (npc.ai[1] >= 60f)
 					{
 						npc.TargetClosest(true);
-						if (npc.Center.Y + ((Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).anechoicPlating ||
-							Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).anechoicCoating) ? 50f : 100f) > Main.player[npc.target].Center.Y &&
+						if (npc.Center.Y + ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+							Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 50f : 100f) > Main.player[npc.target].Center.Y &&
 							Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 						{
 							npc.ai[1] = 0f;

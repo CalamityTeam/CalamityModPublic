@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "5% increased ranged damage\n" +
                 "Getting hit causes you to emit a blast of crystal shards";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.daedalusShard = true;
             player.rangedDamage += 0.05f;
         }

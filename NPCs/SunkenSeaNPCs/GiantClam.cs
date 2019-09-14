@@ -347,7 +347,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(mod.NPCType("GiantClam")))
+			if (spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(mod.NPCType("GiantClam")))
             {
 				return SpawnCondition.CaveJellyfish.Chance * 0.12f;
 			}

@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.NPCs;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs.Amidias
 {

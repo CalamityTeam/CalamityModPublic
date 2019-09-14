@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 2f, 0f, 0f);
 			Player player = Main.player[npc.target];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);

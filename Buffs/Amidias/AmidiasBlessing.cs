@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.Amidias
 {
@@ -9,16 +8,16 @@ namespace CalamityMod.Buffs.Amidias
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Amidias' Blessing");
-            Description.SetDefault("You are blessed by Amidias\n"
-								  +"Lets you breathe underwater, even in the Abyss!\n"
-								  +"Just don't get hit...");
+            Description.SetDefault("You are blessed by Amidias" +
+								   "\nLets you breathe underwater, even in the Abyss!" +
+								   "\nJust don't get hit...");
             Main.debuff[Type] = false;
 			Main.buffNoSave[Type] = false;
         }
 
         public override void Update(Player player, ref int buffIndex)
 		{
-            player.GetModPlayer<CalamityPlayer>(mod).amidiasBlessing = true;
+            player.GetCalamityPlayer().amidiasBlessing = true;
             player.breath = player.breathMax + 91;
         }
 	}

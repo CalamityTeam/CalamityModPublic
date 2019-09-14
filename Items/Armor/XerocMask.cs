@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.xerocSet = true;
 			modPlayer.rogueStealthMax = 1.25f;
 			player.setBonus = "9% increased rogue damage and velocity\n" +

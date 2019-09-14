@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			return spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity ? 0.125f : 0f;
+			return spawnInfo.player.GetCalamityPlayer().ZoneCalamity ? 0.125f : 0f;
         }
 
 		public override void NPCLoot()

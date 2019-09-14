@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).wDeath = true;
+			player.GetCalamityPlayer().wDeath = true;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
             player.lavaImmune = false;
             if (Collision.LavaCollision(player.position, player.width, (player.waterWalk ? (player.height - 6) : player.height)))
             {
-                player.GetModPlayer<CalamityPlayer>(mod).KillPlayer();
+                player.GetCalamityPlayer().KillPlayer();
             }
             else if (player.immune)
             {

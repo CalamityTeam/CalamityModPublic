@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
 
 	    public override void UpdateEquip(Player player)
 	    {
-	    	CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+	    	CalamityPlayer modPlayer = player.GetCalamityPlayer();
     		modPlayer.shadowSpeed = true;
 	        player.moveSpeed += 1f;
 	    }

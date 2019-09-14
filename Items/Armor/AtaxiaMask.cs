@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
                 "Inferno effect when below 50% life\n" +
                 "Magic attacks summon damaging and healing flare orbs on hit\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaMage = true;
             player.magicDamage += 0.05f;

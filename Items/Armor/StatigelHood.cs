@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Armor
                 "Summons a mini slime god to fight for you, the type depends on what world evil you have\n" +
                 "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                 "Grants an extra jump and increased jump height";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;
             player.doubleJumpSail = true;

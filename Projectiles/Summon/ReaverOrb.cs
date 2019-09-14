@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
         {
         	bool flag64 = projectile.type == mod.ProjectileType("ReaverOrb");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (!modPlayer.reaverOrb)
         	{
         		projectile.active = false;

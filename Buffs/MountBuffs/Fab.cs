@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.MountBuffs
         {
             player.mount.SetMount(mod.MountType<Items.Mounts.Fab>(), player);
             player.buffTime[buffIndex] = 10;
-            player.GetModPlayer<CalamityPlayer>(mod).fab = true;
+            player.GetCalamityPlayer().fab = true;
         }
     }
 }

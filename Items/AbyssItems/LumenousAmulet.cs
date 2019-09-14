@@ -26,7 +26,7 @@ namespace CalamityMod.Items.AbyssItems
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.abyssalAmulet = true;
             modPlayer.lumenousAmulet = true;
         }

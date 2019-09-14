@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.PotionBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).penumbra = true;
+			player.GetCalamityPlayer().penumbra = true;
 		}
 	}
 }

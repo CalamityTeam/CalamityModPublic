@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Polterghast
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.affliction = true;
 			if (player.whoAmI != Main.myPlayer && player.miscCounter % 10 == 0)
 			{

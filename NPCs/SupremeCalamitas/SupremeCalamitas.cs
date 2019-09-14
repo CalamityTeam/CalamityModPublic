@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			if (!startText)
 			{
-				if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalKillCount == 4)
+				if (Main.LocalPlayer.GetCalamityPlayer().sCalKillCount == 4)
 				{
 					string key = "Mods.CalamityMod.SupremeBossText12"; //kill SCal 4 times
 					Color messageColor = Color.Orange;
@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
 				}
-				else if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalKillCount == 1)
+				else if (Main.LocalPlayer.GetCalamityPlayer().sCalKillCount == 1)
 				{
 					string key = "Mods.CalamityMod.SupremeBossText11"; //kill SCal once
 					Color messageColor = Color.Orange;
@@ -243,9 +243,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
 				}
-				if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount < 51)
+				if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount < 51)
 				{
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount == 50)
+					if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount == 50)
 					{
 						string key = "Mods.CalamityMod.SupremeBossText15"; //die 50 or more times
 						Color messageColor = Color.Orange;
@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
-					else if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount > 19)
+					else if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount > 19)
 					{
 						string key = "Mods.CalamityMod.SupremeBossText14"; //die 20 or more times
 						Color messageColor = Color.Orange;
@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
-					else if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount > 4)
+					else if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount > 4)
 					{
 						string key = "Mods.CalamityMod.SupremeBossText13"; //die 5 or more times
 						Color messageColor = Color.Orange;
@@ -1999,8 +1999,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DeathMessage();
 
             // Incrase the player's SCal kill count
-            if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount < 5)
-				Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount++;
+            if (Main.player[npc.target].GetCalamityPlayer().sCalKillCount < 5)
+				Main.player[npc.target].GetCalamityPlayer().sCalKillCount++;
 
             // Materials
             int essenceMin = Main.expertMode ? 30 : 20;
@@ -2049,9 +2049,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             string key;
 
             // If the player has never killed SCal before, comment on how many attempts it took
-            if (Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).sCalKillCount == 0)
+            if (Main.player[npc.target].GetCalamityPlayer().sCalKillCount == 0)
             {
-                switch (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(mod).sCalDeathCount)
+                switch (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount)
                 {
                     case 0:
                         key = "Mods.CalamityMod.SupremeBossText16";

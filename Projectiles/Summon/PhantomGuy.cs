@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Summon
 			float num636 = 600f;
 			bool flag64 = projectile.type == mod.ProjectileType("PhantomGuy");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			player.AddBuff(mod.BuffType("Phantom"), 3600);
 			if (flag64)
 			{

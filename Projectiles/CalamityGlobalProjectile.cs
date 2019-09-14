@@ -1227,7 +1227,7 @@ namespace CalamityMod.Projectiles
 		#region Drawing
 		public override Color? GetAlpha(Projectile projectile, Color lightColor)
 		{
-			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).trippy)
+			if (Main.player[Main.myPlayer].GetCalamityPlayer().trippy)
 				return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
 
 			if (projectile.type == ProjectileID.PinkLaser)
@@ -1243,7 +1243,7 @@ namespace CalamityMod.Projectiles
 
 		public override bool PreDraw(Projectile projectile, SpriteBatch spriteBatch, Color lightColor)
 		{
-			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).trippy)
+			if (Main.player[Main.myPlayer].GetCalamityPlayer().trippy)
 			{
 				Texture2D texture = Main.projectileTexture[projectile.type];
 				SpriteEffects spriteEffects = SpriteEffects.None;

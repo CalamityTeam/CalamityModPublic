@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Potions
 			if (player.itemAnimation > 0 && player.itemTime == 0)
 			{
 				player.itemTime = item.useTime;
-				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.revivifyTimer = 900;
 			}
 			return true;

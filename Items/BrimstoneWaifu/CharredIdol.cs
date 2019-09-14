@@ -28,7 +28,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
 
 		public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			return modPlayer.ZoneCalamity && !NPC.AnyNPCs(mod.NPCType("BrimstoneElemental"));
 		}
 

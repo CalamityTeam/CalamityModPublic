@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.PotionBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).cadence = true;
+			player.GetCalamityPlayer().cadence = true;
 		}
 	}
 }

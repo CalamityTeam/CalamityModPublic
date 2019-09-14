@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "120% increased minion damage";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
             modPlayer.bloodflareSet = true;
@@ -196,7 +196,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.auricBoost = true;
             player.maxMinions += 7;
         }

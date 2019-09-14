@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			return (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneCalamity || spawnInfo.player.ZoneDungeon) && Main.hardMode ? 0.04f : 0f;
+			return (spawnInfo.player.GetCalamityPlayer().ZoneCalamity || spawnInfo.player.ZoneDungeon) && Main.hardMode ? 0.04f : 0f;
         }
 
 		public override void HitEffect(int hitDirection, double damage)

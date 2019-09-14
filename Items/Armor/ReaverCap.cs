@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.reaverSpore = true;
 			modPlayer.rogueStealthMax = 1.15f;
 			player.setBonus = "5% increased rogue damage\n" +

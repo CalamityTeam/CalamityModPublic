@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Patreon
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             if (player.dead)
             {
                 modPlayer.gDefense = false;

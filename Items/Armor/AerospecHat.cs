@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased movement speed and magic critical strike chance\n" +
                     "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
                     "Allows you to fall more quickly and disables fall damage";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;

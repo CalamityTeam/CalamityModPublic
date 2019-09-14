@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).aFlames = true;
+			player.GetCalamityPlayer().aFlames = true;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)

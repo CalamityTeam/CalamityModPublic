@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Providence
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             if (!hideVisual) { modPlayer.dashMod = 3; }
             modPlayer.elysianAegis = true;
             player.noKnockback = true;

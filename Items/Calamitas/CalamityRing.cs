@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Calamitas
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             if (modPlayer.calamityRing)
             {
                 return false;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Calamitas
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.calamityRing = true;
 			player.allDamage += 0.15f;
 			player.endurance -= 0.3f;

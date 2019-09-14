@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            int level = Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).summonLevel;
-            int exactLevel = Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).exactSummonLevel;
+            int level = Main.player[Main.myPlayer].GetCalamityPlayer().summonLevel;
+            int exactLevel = Main.player[Main.myPlayer].GetCalamityPlayer().exactSummonLevel;
             int damageGain = 0;
             int minionKB = 0;
             int minionSlots = 0;
@@ -120,7 +120,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.fasterSummonLevel = true;
         }
     }

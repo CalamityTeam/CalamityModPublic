@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Shrines
         {
             player.mount.SetMount(mod.MountType<Items.Mounts.OnyxExcavator>(), player);
             player.buffTime[buffIndex] = 10;
-            player.GetModPlayer<CalamityPlayer>(mod).onyxExcavator = true;
+            player.GetCalamityPlayer().onyxExcavator = true;
         }
     }
 }

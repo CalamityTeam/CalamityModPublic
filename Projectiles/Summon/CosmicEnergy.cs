@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			bool flag64 = projectile.type == mod.ProjectileType("CosmicEnergy");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			player.AddBuff(mod.BuffType("CosmicEnergy"), 3600);
 			if (flag64)
 			{

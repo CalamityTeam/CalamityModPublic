@@ -63,9 +63,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void AI()
 		{
-			if ((Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).anechoicPlating ||
-				Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).anechoicCoating) ? 100f : 600f) *
-				(Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).fishAlert ? 3f : 1f) ||
+			if ((Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+				Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 100f : 600f) *
+				(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f) ||
 				npc.justHit)
 			{
 				detectsPlayer = true;
@@ -364,11 +364,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("GulperEelHead")))
+            if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("GulperEelHead")))
             {
 				return SpawnCondition.CaveJellyfish.Chance * 0.3f;
 			}
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("GulperEelHead")))
+            if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("GulperEelHead")))
             {
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}

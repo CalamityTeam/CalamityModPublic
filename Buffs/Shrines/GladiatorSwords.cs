@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.Shrines
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (player.ownedProjectileCounts[mod.ProjectileType("GladiatorSword")] > 0)
 			{
 				modPlayer.glSword = true;

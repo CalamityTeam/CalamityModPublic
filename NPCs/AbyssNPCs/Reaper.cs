@@ -149,9 +149,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						npc.TargetClosest(false);
 						if ((!Main.player[npc.target].dead &&
 							Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) &&
-							(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).anechoicPlating ||
-							Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).anechoicCoating) ? 300f : 500f) *
-							(Main.player[npc.target].GetModPlayer<CalamityPlayer>(mod).fishAlert ? 3f : 1f)) ||
+							(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+							Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 300f : 500f) *
+							(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f)) ||
 							npc.justHit)
 						{
 							hasBeenHit = true;
@@ -644,12 +644,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")) &&
+			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")) &&
 				!NPC.AnyNPCs(mod.NPCType("ColossalSquid")) && !NPC.AnyNPCs(mod.NPCType("EidolonWyrmHead")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")))
+			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer4 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Reaper")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
 			}

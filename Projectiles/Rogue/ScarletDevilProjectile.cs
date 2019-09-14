@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void AI()
 		{
-			CalamityPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = Main.player[Main.myPlayer].GetCalamityPlayer();
 			Lighting.AddLight(projectile.Center, 0.55f, 0.25f, 0f);
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 130, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, new Color(255, 255, 255), 0.85f);

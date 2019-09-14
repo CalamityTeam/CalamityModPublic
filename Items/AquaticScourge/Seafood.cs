@@ -28,7 +28,7 @@ namespace CalamityMod.Items.AquaticScourge
 
 		public override bool CanUseItem(Player player)
 		{
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             return modPlayer.ZoneSulphur && !NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead"));
 		}
 

@@ -690,7 +690,7 @@ namespace CalamityMod.NPCs
 					{
 						if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                         {
-                            Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(mod).adrenaline = 0;
+                            Main.player[Main.myPlayer].GetCalamityPlayer().adrenaline = 0;
                         }
                     }
 				}
@@ -1245,7 +1245,7 @@ namespace CalamityMod.NPCs
 		private void ArmorSetLoot(NPC npc, Mod mod)
 		{
 			// Tarragon armor set bonus: 20% chance to drop hearts from all valid enemies
-			if (Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).tarraSet)
+			if (Main.player[(int)Player.FindClosest(npc.position, npc.width, npc.height)].GetCalamityPlayer().tarraSet)
 			{
 				if (!npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && npc.lifeMax > 100)
                 {
@@ -1256,7 +1256,7 @@ namespace CalamityMod.NPCs
 			// Blood Orb drops: Valid enemy during a blood moon on the Surface
 			if (!npc.SpawnedFromStatue && (npc.damage > 5 || npc.boss) && Main.bloodMoon && npc.HasPlayerTarget && npc.position.Y / 16D < Main.worldSurface)
 			{
-				if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod).bloodflareSet)
+				if (Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].GetCalamityPlayer().bloodflareSet)
                 {
                     DropHelper.DropItemChance(npc, mod.ItemType("BloodOrb"), 2); // 50% chance of 1 orb with Bloodflare
                 }

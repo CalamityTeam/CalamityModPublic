@@ -21,7 +21,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).irradiated = true;
+			player.GetCalamityPlayer().irradiated = true;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)

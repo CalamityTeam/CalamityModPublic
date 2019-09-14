@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.SunkenSea
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (player.ownedProjectileCounts[mod.ProjectileType("Shellfish")] > 0)
 			{
 				modPlayer.shellfish = true;

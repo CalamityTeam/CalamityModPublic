@@ -120,7 +120,7 @@ namespace CalamityMod.Items
 				speedX *= player.GetCalamityPlayer().throwingVelocity;
 				speedY *= player.GetCalamityPlayer().throwingVelocity;
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).luxorsGift)
+			if (player.GetCalamityPlayer().luxorsGift)
 			{
 				// useTime 9 = 0.9 useTime 2 = 0.2
 				double damageMult = 1.0;
@@ -147,36 +147,36 @@ namespace CalamityMod.Items
 						Projectile.NewProjectile(position.X, position.Y, 0f, 0f, mod.ProjectileType("LuxorsGiftSummon"), damage, 0f, player.whoAmI, 0f, 0f);
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).eArtifact && item.ranged && !rogue)
+			if (player.GetCalamityPlayer().eArtifact && item.ranged && !rogue)
 			{
 				speedX *= 1.25f;
 				speedY *= 1.25f;
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).bloodflareMage) //0 - 99
+			if (player.GetCalamityPlayer().bloodflareMage) //0 - 99
 			{
 				if (item.magic && Main.rand.Next(0, 100) >= 95)
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GhostlyBolt"), (int)((double)damage * (player.GetModPlayer<CalamityPlayer>(mod).auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GhostlyBolt"), (int)((double)damage * (player.GetCalamityPlayer().auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
 					}
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).bloodflareRanged) //0 - 99
+			if (player.GetCalamityPlayer().bloodflareRanged) //0 - 99
 			{
 				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 98)
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BloodBomb"), (int)((double)damage * (player.GetModPlayer<CalamityPlayer>(mod).auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BloodBomb"), (int)((double)damage * (player.GetCalamityPlayer().auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
 					}
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).tarraMage)
+			if (player.GetCalamityPlayer().tarraMage)
 			{
-				if (player.GetModPlayer<CalamityPlayer>(mod).tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
+				if (player.GetCalamityPlayer().tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
 				{
-					player.GetModPlayer<CalamityPlayer>(mod).tarraCrits = 0;
+					player.GetCalamityPlayer().tarraCrits = 0;
 					int num106 = 9 + Main.rand.Next(3);
 					for (int num107 = 0; num107 < num106; num107++)
 					{
@@ -191,7 +191,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).ataxiaBolt)
+			if (player.GetCalamityPlayer().ataxiaBolt)
 			{
 				if (item.ranged && !rogue && Main.rand.NextBool(2))
 				{
@@ -201,17 +201,17 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).godSlayerRanged) //0 - 99
+			if (player.GetCalamityPlayer().godSlayerRanged) //0 - 99
 			{
 				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 95)
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
-						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("GodSlayerShrapnelRound"), (int)((double)damage * (player.GetModPlayer<CalamityPlayer>(mod).auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("GodSlayerShrapnelRound"), (int)((double)damage * (player.GetCalamityPlayer().auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
 					}
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).ataxiaVolley)
+			if (player.GetCalamityPlayer().ataxiaVolley)
 			{
 				if (rogue && Main.rand.NextBool(10))
 				{
@@ -233,7 +233,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).reaverDoubleTap) //0 - 99
+			if (player.GetCalamityPlayer().reaverDoubleTap) //0 - 99
 			{
 				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 90)
 				{
@@ -243,7 +243,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetModPlayer<CalamityPlayer>(mod).victideSet)
+			if (player.GetCalamityPlayer().victideSet)
 			{
 				if ((item.ranged || item.melee || item.magic ||
 					rogue || item.summon) && item.rare < 8 && Main.rand.NextBool(10))
@@ -329,7 +329,7 @@ namespace CalamityMod.Items
 		{
 			if (item.type == ItemID.Heart || item.type == ItemID.CandyApple || item.type == ItemID.CandyCane)
 			{
-				bool boostedHeart = player.GetModPlayer<CalamityPlayer>(mod).photosynthesis;
+				bool boostedHeart = player.GetCalamityPlayer().photosynthesis;
 				if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
 				{
 					player.statLife -= (boostedHeart ? 5 : 10);
@@ -354,7 +354,7 @@ namespace CalamityMod.Items
 		#region Use Item Changes
 		public override bool CanUseItem(Item item, Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (item.type == ItemID.MonkStaffT1)
 			{
 				for (int i = 0; i < 1000; ++i)
@@ -1609,7 +1609,7 @@ namespace CalamityMod.Items
 				player.pickSpeed -= 0.4f;
 			else if (set == "Gladiator")
 			{
-				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.rogueStealthMax = 1f;
 				player.GetCalamityPlayer().throwingDamage += 0.1f;
 				player.GetCalamityPlayer().throwingVelocity += 0.1f;
@@ -1622,7 +1622,7 @@ namespace CalamityMod.Items
 			}
 			else if (set == "Obsidian")
 			{
-				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.rogueStealthMax = 1f;
 				player.GetCalamityPlayer().throwingDamage += 0.05f;
 				player.GetCalamityPlayer().throwingCrit += 5;
@@ -1780,7 +1780,7 @@ namespace CalamityMod.Items
 		#region Accessory Changes
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 
 			if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
 				modPlayer.jellyfishNecklace = true;
@@ -1825,7 +1825,7 @@ namespace CalamityMod.Items
 		#region WingChanges
 		public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			float flightSpeedMult = 1f +
 				(modPlayer.soaring ? 0.1f : 0f) +
 				(modPlayer.holyWrath ? 0.05f : 0f) +
@@ -1848,7 +1848,7 @@ namespace CalamityMod.Items
 		#region GrabChanges
 		public override void GrabRange(Item item, Player player, ref int grabRange)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			int itemGrabRangeBoost = 0 +
 				(modPlayer.wallOfFleshLore ? 10 : 0) +
 				(modPlayer.planteraLore ? 20 : 0) +

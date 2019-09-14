@@ -535,7 +535,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur && spawnInfo.water)
+			if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur && spawnInfo.water)
 			{
 				if (!NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead")))
 					return 0.01f;

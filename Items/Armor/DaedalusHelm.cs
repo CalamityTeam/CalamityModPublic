@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased melee damage\n" +
                 "You have a 33% chance to reflect projectiles back at enemies\n" +
                 "If you reflect a projectile you are also healed for 1/5 of that projectile's damage";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.daedalusReflect = true;
             player.meleeDamage += 0.05f;
         }

@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
 					"Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
 					"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
 					"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.aeroSet = true;
 			modPlayer.rogueStealthMax = 1f;
 			player.noFallDmg = true;

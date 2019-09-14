@@ -31,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 		{
 			if (player.ZoneCorrupt)
 			{
-				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.hiveMindLore = true;
 			}
 		}

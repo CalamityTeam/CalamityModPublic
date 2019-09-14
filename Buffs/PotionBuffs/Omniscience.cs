@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.PotionBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).omniscience = true;
+			player.GetCalamityPlayer().omniscience = true;
 		}
 	}
 }

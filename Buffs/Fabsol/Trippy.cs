@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Fabsol
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).trippy = true;
+			player.GetCalamityPlayer().trippy = true;
 		}
 	}
 }

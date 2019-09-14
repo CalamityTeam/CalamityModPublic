@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.aBulwark = true;
 			player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;
 			modPlayer.aBulwarkRare = true;
