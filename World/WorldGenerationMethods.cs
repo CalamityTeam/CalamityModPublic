@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using Terraria.World.Generation;
 using CalamityMod.World.Planets;
 using CalamityMod.Utilities;
+using Terraria.Utilities;
 
 namespace CalamityMod.World
 {
@@ -356,16 +357,17 @@ namespace CalamityMod.World
 			if (!CanAstralMeteorSpawn())
 				return;
 
-			float solidTileRequirement = 600f;
-
-			while (!meteorDropped)
+            UnifiedRandom rand = WorldGen.genRand;
+            float solidTileRequirement = 600f;
+            bool localAbyssSide = WorldGen.dungeonX < Main.maxTilesX / 2;
+            while (!meteorDropped)
 			{
-				float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
+                float worldEdgeMargin = (float)Main.maxTilesX * 0.08f;
 				int xLimit = Main.maxTilesX / 2;
-				int x = (CalamityWorld.abyssSide ? Main.rand.Next(400, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 400));
-				while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
+                int x = CalamityWorld.abyssSide ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
+                while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
 				{
-					x = (CalamityWorld.abyssSide ? Main.rand.Next(400, xLimit) : Main.rand.Next(xLimit, Main.maxTilesX - 400));
+					x = (CalamityWorld.abyssSide ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400));
 				}
 				//world surface = 920 large 740 medium 560 small
 				int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
@@ -447,7 +449,8 @@ namespace CalamityMod.World
 
 		public static bool GenerateAstralMeteor(int i, int j)
 		{
-			Mod mod = ModLoader.GetMod("CalamityMod");
+            UnifiedRandom rand = WorldGen.genRand;
+            Mod mod = ModLoader.GetMod("CalamityMod");
 			if (i < 50 || i > Main.maxTilesX - 50)
 			{
 				return false;
@@ -490,17 +493,17 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			num = WorldGen.genRand.Next(17, 23);
+			num = rand.Next(17, 23);
 			for (int num2 = i - num; num2 < i + num; num2++)
 			{
 				for (int num3 = j - num; num3 < j + num; num3++)
 				{
-					if (num3 > j + Main.rand.Next(-2, 3) - 5)
+					if (num3 > j + rand.Next(-2, 3) - 5)
 					{
 						float num4 = (float)Math.Abs(i - num2);
 						float num5 = (float)Math.Abs(j - num3);
 						float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
-						if ((double)num6 < (double)num * 0.9 + (double)Main.rand.Next(-4, 5))
+						if ((double)num6 < (double)num * 0.9 + (double)rand.Next(-4, 5))
 						{
 							if (Main.tile[num2, num3] != null)
 							{
@@ -519,12 +522,12 @@ namespace CalamityMod.World
 			{
 				for (int num8 = j - num; num8 < j + num; num8++)
 				{
-					if (num8 > j + Main.rand.Next(-2, 3) - 4)
+					if (num8 > j + rand.Next(-2, 3) - 4)
 					{
 						float num9 = (float)Math.Abs(i - num7);
 						float num10 = (float)Math.Abs(j - num8);
 						float num11 = (float)Math.Sqrt((double)(num9 * num9 + num10 * num10));
-						if ((double)num11 < (double)num * 0.8 + (double)Main.rand.Next(-3, 4))
+						if ((double)num11 < (double)num * 0.8 + (double)rand.Next(-3, 4))
 						{
 							if (Main.tile[num7, num8] != null)
 								Main.tile[num7, num8].active(false);
@@ -571,7 +574,7 @@ namespace CalamityMod.World
 			{
 				for (int num18 = j - num; num18 < j + num; num18++)
 				{
-					if (num18 > j + WorldGen.genRand.Next(-3, 4) - 3 && Main.tile[num17, num18].active() && Main.rand.NextBool(10))
+					if (num18 > j + WorldGen.genRand.Next(-3, 4) - 3 && Main.tile[num17, num18].active() && rand.NextBool(10))
 					{
 						float num19 = (float)Math.Abs(i - num17);
 						float num20 = (float)Math.Abs(j - num18);
@@ -596,7 +599,7 @@ namespace CalamityMod.World
 			{
 				for (int num23 = j - num; num23 < j + num; num23++)
 				{
-					if (num23 > j + WorldGen.genRand.Next(-2, 3) && Main.tile[num22, num23].active() && Main.rand.NextBool(20))
+					if (num23 > j + WorldGen.genRand.Next(-2, 3) && Main.tile[num22, num23].active() && rand.NextBool(20))
 					{
 						float num24 = (float)Math.Abs(i - num22);
 						float num25 = (float)Math.Abs(j - num23);
@@ -645,7 +648,8 @@ namespace CalamityMod.World
 			Vector2 topFoci = center - fociOffset;
 			Vector2 bottomFoci = center + fociOffset;
 
-			for (int x = origin.X - distanceInTiles - 2; x <= origin.X + distanceInTiles + 2; x++)
+            UnifiedRandom rand = WorldGen.genRand;
+            for (int x = origin.X - distanceInTiles - 2; x <= origin.X + distanceInTiles + 2; x++)
 			{
 				for (int y = (int)(origin.Y - verticalRadius * 0.4f) - 3; y <= origin.Y + verticalRadius + 3; y++)
 				{
@@ -657,7 +661,7 @@ namespace CalamityMod.World
                         if (percent > blurPercent)
                         {
                             float outerEdgePercent = (percent - blurPercent) / (1f - blurPercent);
-                            if (Main.rand.NextFloat(1f) > outerEdgePercent)
+                            if (rand.NextFloat(1f) > outerEdgePercent)
                             {
                                 ConvertToAstral(x, y);
                             }
