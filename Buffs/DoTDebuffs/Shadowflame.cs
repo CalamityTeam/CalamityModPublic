@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Shadowflame");
-			Description.SetDefault("Rapid health loss");
+			Description.SetDefault("Losing life");
 			Main.debuff[Type] = true;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = true;
