@@ -178,11 +178,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.playerSafe || spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
+			if (spawnInfo.playerSafe || spawnInfo.player.GetCalamityPlayer().ZoneSulphur)
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAbyssLayer1 && spawnInfo.water)
+			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer1 && spawnInfo.water)
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
 			}

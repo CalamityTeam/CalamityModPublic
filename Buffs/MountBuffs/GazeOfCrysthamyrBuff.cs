@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.MountBuffs
         {
             player.mount.SetMount(mod.MountType<Items.Mounts.Crysthamyr>(), player);
             player.buffTime[buffIndex] = 10;
-            player.GetModPlayer<CalamityPlayer>(mod).crysthamyr = true;
+            player.GetCalamityPlayer().crysthamyr = true;
         }
     }
 }

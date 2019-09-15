@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Patreon
 			float num636 = 150f;
 			bool flag64 = projectile.type == mod.ProjectileType("PinkButterfly");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			player.AddBuff(mod.BuffType("ResurrectionButterflyBuff"), 3600);
 			if (flag64)
 			{

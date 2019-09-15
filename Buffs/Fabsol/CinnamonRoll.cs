@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Fabsol
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).cinnamonRoll = true;
+			player.GetCalamityPlayer().cinnamonRoll = true;
 		}
 	}
 }

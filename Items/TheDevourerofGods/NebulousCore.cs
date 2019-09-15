@@ -35,7 +35,7 @@ namespace CalamityMod.Items.TheDevourerofGods
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.nCore = true;
 			player.allDamage += 0.12f;
 			int damage = 1500;

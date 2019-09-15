@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.fabledTortoise = true;
 			player.moveSpeed -= 0.5f;
 			player.thorns = 0.25f;

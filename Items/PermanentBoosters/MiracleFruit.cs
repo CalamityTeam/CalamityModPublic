@@ -28,7 +28,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
 		public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (modPlayer.mFruit || player.statLifeMax < 500)
 			{
 				return false;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.PermanentBoosters
 				{
 					player.HealEffect(25);
 				}
-				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.mFruit = true;
 			}
 			return true;

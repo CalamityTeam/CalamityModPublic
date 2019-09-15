@@ -24,7 +24,7 @@ namespace CalamityMod.Items.ShrineItems
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.luxorsGift = true;
 		}
 	}

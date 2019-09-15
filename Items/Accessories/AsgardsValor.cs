@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             if (!hideVisual) { modPlayer.dashMod = 2; }
             player.buffImmune[46] = true;
             player.buffImmune[44] = true;

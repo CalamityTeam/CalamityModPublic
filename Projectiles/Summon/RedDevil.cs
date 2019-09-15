@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
         {
         	bool flag64 = projectile.type == mod.ProjectileType("RedDevil");
         	Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
         	if (!modPlayer.redDevil)
         	{
         		projectile.active = false;

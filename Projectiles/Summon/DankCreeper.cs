@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			bool flag64 = projectile.type == mod.ProjectileType("DankCreeper");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			player.AddBuff(mod.BuffType("DankCreeper"), 3600);
 			if (flag64)
 			{

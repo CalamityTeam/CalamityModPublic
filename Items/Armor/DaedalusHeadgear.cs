@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "20% increased minion damage\n" +
                 "A daedalus crystal floats above you to protect you";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)
             {

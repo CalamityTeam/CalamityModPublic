@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
 			Lighting.AddLight(projectile.Center, 1.2f * num, 0.8f * num, 0f * num);
 			bool flag64 = projectile.type == mod.ProjectileType("AngryChicken");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			player.AddBuff(mod.BuffType("AngryChicken"), 3600);
 			if (flag64)
 			{

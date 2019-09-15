@@ -24,7 +24,7 @@ namespace CalamityMod.Items.ShrineItems
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod); //there might be an upgrade sometime later?
+            CalamityPlayer modPlayer = player.GetCalamityPlayer(); //there might be an upgrade sometime later?
 			if (modPlayer.gladiatorSword)
             {
                 return false;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.ShrineItems
 
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-	    	CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+	    	CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.gladiatorSword = true;
 			if (player.whoAmI == Main.myPlayer)
 			{

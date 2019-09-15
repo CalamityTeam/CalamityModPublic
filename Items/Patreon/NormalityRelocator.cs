@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Patreon
 
 		public override void UpdateInventory(Player player)
 		{
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.normalityRelocator = true;
         }
 

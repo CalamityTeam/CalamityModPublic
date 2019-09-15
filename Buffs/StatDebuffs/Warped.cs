@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).warped = true;
+			player.GetCalamityPlayer().warped = true;
 		}
 	}
 }

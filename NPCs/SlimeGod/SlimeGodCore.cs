@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.SlimeGod
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
             // Purified Jam is once per player, but drops for all players.
-            CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].GetCalamityPlayer();
             if (!mp.revJamDrop)
             {
                 DropHelper.DropItemCondition(npc, mod.ItemType("PurifiedJam"), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);

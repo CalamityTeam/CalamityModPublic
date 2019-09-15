@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			return (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.1f : 0f;
+			return (spawnInfo.player.GetCalamityPlayer().ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.1f : 0f;
         }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

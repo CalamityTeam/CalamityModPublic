@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 				"A friendly red devil follows you around\n" +
 				"Press Y to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
 				"This makes them do 25% more damage but they also take 125% more damage";
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.dsSetBonus = true;
 			if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
 			{

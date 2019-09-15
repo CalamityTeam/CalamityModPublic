@@ -1023,11 +1023,11 @@ namespace CalamityMod.World
 				!Main.player[closestPlayer].ZoneUnderworldHeight &&
 				!Main.player[closestPlayer].ZoneDungeon &&
 				!Main.player[closestPlayer].ZoneJungle &&
-				!Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneSunkenSea &&
+				!Main.player[closestPlayer].GetCalamityPlayer().ZoneSunkenSea &&
 				!CalamityPlayer.areThereAnyDamnBosses)
 			{
 				if (NPC.downedPlantBoss &&
-					!Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss &&
+					!Main.player[closestPlayer].GetCalamityPlayer().ZoneAbyss &&
 					Main.player[closestPlayer].townNPCs < 3f)
 				{
 					double spawnRate = 100000D;
@@ -1040,18 +1040,18 @@ namespace CalamityMod.World
 					if (demonMode)
 						spawnRate *= 0.75D;
 
-					if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg && Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).chaosCandle)
+					if (Main.player[closestPlayer].GetCalamityPlayer().zerg && Main.player[closestPlayer].GetCalamityPlayer().chaosCandle)
 						spawnRate *= 0.005D;
-					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zerg)
+					else if (Main.player[closestPlayer].GetCalamityPlayer().zerg)
 						spawnRate *= 0.01D;
-					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).chaosCandle)
+					else if (Main.player[closestPlayer].GetCalamityPlayer().chaosCandle)
 						spawnRate *= 0.02D;
 
-					if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zen && Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).tranquilityCandle)
+					if (Main.player[closestPlayer].GetCalamityPlayer().zen && Main.player[closestPlayer].GetCalamityPlayer().tranquilityCandle)
 						spawnRate *= 75D;
-					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).zen)
+					else if (Main.player[closestPlayer].GetCalamityPlayer().zen)
 						spawnRate *= 50D;
-					else if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).tranquilityCandle)
+					else if (Main.player[closestPlayer].GetCalamityPlayer().tranquilityCandle)
 						spawnRate *= 25D;
 
 					int chance = (int)spawnRate;
@@ -1074,7 +1074,7 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAbyss)
+			if (Main.player[closestPlayer].GetCalamityPlayer().ZoneAbyss)
 			{
 				if (Main.player[closestPlayer].chaosState)
 				{
@@ -1201,7 +1201,7 @@ namespace CalamityMod.World
 								}
 
 							if (!NPC.downedFishron && bossType == 0)
-								if (Main.player[closestPlayer].ZoneBeach && !Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneSulphur)
+								if (Main.player[closestPlayer].ZoneBeach && !Main.player[closestPlayer].GetCalamityPlayer().ZoneSulphur)
 								{
 									BossText();
 									bossType = NPCID.DukeFishron;
@@ -1225,7 +1225,7 @@ namespace CalamityMod.World
 								}
 
 							if (!downedAstrageldon && bossType == 0)
-								if (Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral &&
+								if (Main.player[closestPlayer].GetCalamityPlayer().ZoneAstral &&
 									!Main.dayTime && Main.player[closestPlayer].ZoneOverworldHeight)
 								{
 									BossText();
@@ -1359,7 +1359,7 @@ namespace CalamityMod.World
 						}
 						else if (bossType == mod.NPCType("Astrageldon"))
 						{
-							if (!Main.player[closestPlayer].GetModPlayer<CalamityPlayer>(mod).ZoneAstral ||
+							if (!Main.player[closestPlayer].GetCalamityPlayer().ZoneAstral ||
 									Main.dayTime || !Main.player[closestPlayer].ZoneOverworldHeight)
 								canSpawn = false;
 						}

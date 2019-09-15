@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
 		{
 			player.starCloak = true;
 			player.bee = true;
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.theBee = true;
 		}
 	}

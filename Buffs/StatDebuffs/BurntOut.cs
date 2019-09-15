@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).bOut = true;
+			player.GetCalamityPlayer().bOut = true;
 		}
 	}
 }

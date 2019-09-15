@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
             player.setBonus = "50% increased minion damage\n" +

@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.godSlayer = true;
             modPlayer.godSlayerMage = true;
             player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +

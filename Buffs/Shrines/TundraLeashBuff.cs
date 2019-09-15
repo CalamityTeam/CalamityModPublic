@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Shrines
         {
             player.mount.SetMount(mod.MountType<Items.Mounts.AngryDog>(), player);
             player.buffTime[buffIndex] = 10;
-            player.GetModPlayer<CalamityPlayer>(mod).angryDog = true;
+            player.GetCalamityPlayer().angryDog = true;
         }
     }
 }

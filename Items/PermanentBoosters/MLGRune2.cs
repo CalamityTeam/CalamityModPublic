@@ -30,7 +30,7 @@ Consuming it does something that cannot be reversed");
 
 		public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (modPlayer.extraAccessoryML)
 			{
 				return false;
@@ -40,7 +40,7 @@ Consuming it does something that cannot be reversed");
 
 		public override bool UseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (player.itemAnimation > 0 && !modPlayer.extraAccessoryML && player.itemTime == 0)
 			{
 				player.itemTime = item.useTime;

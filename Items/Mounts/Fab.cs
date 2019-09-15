@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Mounts
 
 		public override void UpdateEffects(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (modPlayer.fabsolVodka)
 			{
 				player.allDamage += 0.1f;

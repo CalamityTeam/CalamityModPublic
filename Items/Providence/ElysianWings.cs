@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Providence
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             player.moveSpeed += 0.4f;
             player.lavaMax += 240;
             player.wingTimeMax = 180;

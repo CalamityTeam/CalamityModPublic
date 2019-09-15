@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Armor
 
 	    public override void UpdateEquip(Player player)
 	    {
-	    	CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+	    	CalamityPlayer modPlayer = player.GetCalamityPlayer();
 	    	modPlayer.shadeRegen = true;
 	    	player.thorns = 100f;
 	    	player.statLifeMax2 += 200;

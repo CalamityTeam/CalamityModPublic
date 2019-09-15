@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).shadowflame = true;
+			player.GetCalamityPlayer().shadowflame = true;
 		}
 	}
 }

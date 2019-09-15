@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
 				runCheck = false;
 				playerMinionSlots = player9.maxMinions;
 			}
-			CalamityPlayer modPlayer = player9.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player9.GetCalamityPlayer();
 			if ((int)Main.time % 120 == 0)
 			{
 				projectile.netUpdate = true;

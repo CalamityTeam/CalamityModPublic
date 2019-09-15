@@ -1,10 +1,10 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.Amidias
 {
-	public class HermitCrab : ModBuff
+    public class HermitCrab : ModBuff
 	{
 		public override void SetDefaults()
 		{
@@ -16,11 +16,12 @@ namespace CalamityMod.Buffs.Amidias
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (player.ownedProjectileCounts[mod.ProjectileType("HermitCrab")] > 0)
 			{
 				modPlayer.hCrab = true;
 			}
+
 			if (!modPlayer.hCrab)
 			{
 				player.DelBuff(buffIndex);

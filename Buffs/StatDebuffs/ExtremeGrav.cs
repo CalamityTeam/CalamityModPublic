@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).eGrav = true;
+			player.GetCalamityPlayer().eGrav = true;
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.LoreItems
 
 		public override void UpdateInventory(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.polterghastLore = true;
 		}
 	}

@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.PetBuffs
 		public override void Update(Player player, ref int buffIndex)
 		{
 			player.buffTime[buffIndex] = 18000;
-			player.GetModPlayer<CalamityPlayer>(mod).perfmini = true;
+			player.GetCalamityPlayer().perfmini = true;
 			bool PetProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("PerforaMini")] <= 0;
 			if (PetProjectileNotSpawned && player.whoAmI == Main.myPlayer)
 			{

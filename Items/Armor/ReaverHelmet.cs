@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "16% increased minion damage\n" +
                 "Summons a reaver orb that emits spore gas when enemies are near";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.reaverOrb = true;
             if (player.whoAmI == Main.myPlayer)
             {

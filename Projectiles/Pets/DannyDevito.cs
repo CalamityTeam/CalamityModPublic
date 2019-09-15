@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Pets
 				projectile.active = false;
 				return;
 			}
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (player.dead)
 			{
 				modPlayer.trashMan = false;

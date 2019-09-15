@@ -329,7 +329,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 return 0f;
             }
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>(mod).ZoneSulphur && spawnInfo.water && NPC.CountNPCS(mod.NPCType("AquaticUrchin")) < 2)
+            if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur && spawnInfo.water && NPC.CountNPCS(mod.NPCType("AquaticUrchin")) < 2)
             {
                 return 0.2f;
             }

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;
 			modPlayer.rogueStealthMax = 1.3f;

@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.SunkenSea
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalamityPlayer>(mod).clamity = true;
+			player.GetCalamityPlayer().clamity = true;
 		}
 	}
 }

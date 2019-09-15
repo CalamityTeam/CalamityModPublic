@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Amidias
 			}
 			bool flag64 = projectile.type == mod.ProjectileType("HermitCrab");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			player.AddBuff(mod.BuffType("HermitCrab"), 3600);
 			if (flag64)
 			{

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Armor
                     "When using any weapon you have a 10% chance to throw a returning seashell projectile\n" +
                     "This seashell does true damage and does not benefit from any damage class\n" +
                     "Slightly reduces breath loss in the abyss";
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.victideSet = true;
             player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))

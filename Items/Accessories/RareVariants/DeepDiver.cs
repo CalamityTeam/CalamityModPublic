@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
         {
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-				CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.deepDiver = true;
 				modPlayer.dashMod = 5;
             }

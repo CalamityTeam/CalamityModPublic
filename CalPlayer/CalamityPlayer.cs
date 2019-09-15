@@ -1544,7 +1544,7 @@ namespace CalamityMod.CalPlayer
 
 		public override bool CustomBiomesMatch(Player other)
 		{
-			CalamityPlayer modOther = other.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modOther = other.GetCalamityPlayer();
 			return ZoneCalamity == modOther.ZoneCalamity || ZoneAstral == modOther.ZoneAstral || ZoneAbyss == modOther.ZoneAbyss ||
 				ZoneAbyssLayer1 == modOther.ZoneAbyssLayer1 || ZoneAbyssLayer2 == modOther.ZoneAbyssLayer2 ||
 				ZoneAbyssLayer3 == modOther.ZoneAbyssLayer3 || ZoneAbyssLayer4 == modOther.ZoneAbyssLayer4 ||
@@ -1553,7 +1553,7 @@ namespace CalamityMod.CalPlayer
 
 		public override void CopyCustomBiomesTo(Player other)
 		{
-			CalamityPlayer modOther = other.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modOther = other.GetCalamityPlayer();
 			modOther.ZoneCalamity = ZoneCalamity;
 			modOther.ZoneAstral = ZoneAstral;
 			modOther.ZoneSulphur = ZoneSulphur;
@@ -8721,7 +8721,7 @@ namespace CalamityMod.CalPlayer
 			}
 			Player drawPlayer = drawInfo.drawPlayer;
 			Mod mod = ModLoader.GetMod("CalamityMod");
-			CalamityPlayer modPlayer = drawPlayer.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = drawPlayer.GetCalamityPlayer();
 			if (modPlayer.sirenIce)
 			{
 				Texture2D texture = mod.GetTexture("ExtraTextures/IceShield");
@@ -8869,8 +8869,8 @@ namespace CalamityMod.CalPlayer
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			Player drawPlayer = edi.drawPlayer;
-			if (drawPlayer.mount != null && (drawPlayer.GetModPlayer<CalamityPlayer>(mod).fab || drawPlayer.GetModPlayer<CalamityPlayer>(mod).crysthamyr ||
-				drawPlayer.GetModPlayer<CalamityPlayer>(mod).onyxExcavator))
+			if (drawPlayer.mount != null && (drawPlayer.GetCalamityPlayer().fab || drawPlayer.GetCalamityPlayer().crysthamyr ||
+				drawPlayer.GetCalamityPlayer().onyxExcavator))
 			{
 				drawPlayer.mount.Draw(Main.playerDrawData, 3, drawPlayer, edi.position, edi.mountColor, edi.spriteEffects, edi.shadow);
 			}

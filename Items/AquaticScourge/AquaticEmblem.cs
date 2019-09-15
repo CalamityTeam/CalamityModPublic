@@ -29,7 +29,7 @@ namespace CalamityMod.Items.AquaticScourge
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.aquaticEmblem = true;
             player.npcTypeNoAggro[65] = true;
             player.npcTypeNoAggro[220] = true;

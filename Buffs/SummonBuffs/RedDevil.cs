@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.SummonBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			if (player.ownedProjectileCounts[mod.ProjectileType("RedDevil")] > 0)
 			{
 				modPlayer.rDevil = true;
