@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 
 namespace CalamityMod
@@ -64,4 +65,14 @@ namespace CalamityMod
         }
     }
 
+    public static class CMiscUtils
+    {
+        public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
+        {
+            if (condition)
+            {
+                list.Add(type);
+            }
+        }
+    }
 }

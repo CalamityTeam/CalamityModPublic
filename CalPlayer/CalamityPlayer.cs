@@ -586,78 +586,44 @@ namespace CalamityMod.CalPlayer
 
 		public override TagCompound Save()
 		{
-			var boost = new List<string>();
-			if (extraAccessoryML) boost.Add("extraAccessoryML");
-			if (eCore) boost.Add("etherealCore");
-			if (mFruit) boost.Add("miracleFruit");
-			if (bOrange) boost.Add("bloodOrange");
-			if (eBerry) boost.Add("elderBerry");
-			if (dFruit) boost.Add("dragonFruit");
-			if (pHeart) boost.Add("phantomHeart");
-			if (cShard) boost.Add("cometShard");
-			if (revJamDrop) boost.Add("revJam");
-			if (rageBoostOne) boost.Add("rageOne");
-			if (rageBoostTwo) boost.Add("rageTwo");
-			if (rageBoostThree) boost.Add("rageThree");
-			if (adrenalineBoostOne) boost.Add("adrenalineOne");
-			if (adrenalineBoostTwo) boost.Add("adrenalineTwo");
-			if (adrenalineBoostThree) boost.Add("adrenalineThree");
-			if (drawBossHPBar) boost.Add("bossHPBar");
-			if (shouldDrawSmallText) boost.Add("drawSmallText");
+            var boost = new List<string>();
+            boost.AddWithCondition("extraAccessoryML", extraAccessoryML);
+            boost.AddWithCondition("etherealCore", eCore);
+            boost.AddWithCondition("miracleFruit", mFruit);
+            boost.AddWithCondition("bloodOrange", bOrange);
+            boost.AddWithCondition("elderBerry", eBerry);
+			boost.AddWithCondition("dragonFruit", dFruit);
+			boost.AddWithCondition("phantomHeart", pHeart);
+			boost.AddWithCondition("cometShard", cShard);
+			boost.AddWithCondition("revJam", revJamDrop);
+			boost.AddWithCondition("rageOne", rageBoostOne);
+			boost.AddWithCondition("rageTwo", rageBoostTwo);
+			boost.AddWithCondition("rageThree", rageBoostThree);
+			boost.AddWithCondition("adrenalineOne", adrenalineBoostOne);
+			boost.AddWithCondition("adrenalineTwo", adrenalineBoostTwo);
+			boost.AddWithCondition("adrenalineThree", adrenalineBoostThree);
+			boost.AddWithCondition("bossHPBar", drawBossHPBar);
+			boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
 
 			return new TagCompound
 			{
-				{
-					"boost", boost
-				},
-				{
-					"stress", stress
-				},
-				{
-					"adrenaline", adrenaline
-				},
-				{
-					"sCalDeathCount", sCalDeathCount
-				},
-				{
-					"sCalKillCount", sCalKillCount
-				},
-				{
-					"meleeLevel", meleeLevel
-				},
-				{
-					"exactMeleeLevel", exactMeleeLevel
-				},
-				{
-					"rangedLevel", rangedLevel
-				},
-				{
-					"exactRangedLevel", exactRangedLevel
-				},
-				{
-					"magicLevel", magicLevel
-				},
-				{
-					"exactMagicLevel", exactMagicLevel
-				},
-				{
-					"summonLevel", summonLevel
-				},
-				{
-					"exactSummonLevel", exactSummonLevel
-				},
-				{
-					"rogueLevel", rogueLevel
-				},
-				{
-					"exactRogueLevel", exactRogueLevel
-				},
-				{
-					"deathCount", deathCount
-				},
-				{
-					"radiation", radiation
-				}
+				{ "boost", boost },
+				{ "stress", stress },
+				{ "adrenaline", adrenaline },
+				{ "sCalDeathCount", sCalDeathCount },
+				{ "sCalKillCount", sCalKillCount },
+				{ "meleeLevel", meleeLevel },
+				{ "exactMeleeLevel", exactMeleeLevel },
+				{ "rangedLevel", rangedLevel },
+				{ "exactRangedLevel", exactRangedLevel },
+				{ "magicLevel", magicLevel },
+				{ "exactMagicLevel", exactMagicLevel },
+				{ "summonLevel", summonLevel },
+				{ "exactSummonLevel", exactSummonLevel },
+				{ "rogueLevel", rogueLevel },
+				{ "exactRogueLevel", exactRogueLevel },
+				{ "deathCount", deathCount },
+				{ "radiation", radiation }
 			};
 		}
 
