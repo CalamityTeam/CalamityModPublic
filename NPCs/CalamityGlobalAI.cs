@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
 			// Phases based on life percentage
-			bool phase2 = lifeRatio < 0.5f;
+			bool phase2 = lifeRatio < 0.5f || CalamityWorld.death;
 
 			// Spawn crystal in phase 2
 			if (phase2 && !NPC.AnyNPCs(mod.NPCType("KingSlimeJewel")))
@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Activate teleport
-			if (!Main.player[npc.target].dead && npc.ai[2] >= 300f && npc.ai[1] < 5f && npc.velocity.Y == 0f)
+			if (!Main.player[npc.target].dead && npc.ai[2] >= (CalamityWorld.death ? 240f : 300f) && npc.ai[1] < 5f && npc.velocity.Y == 0f)
 			{
 				npc.ai[2] = 0f;
 				npc.ai[0] = 0f;
@@ -350,12 +350,17 @@ namespace CalamityMod.NPCs
 				if (!flag8)
 				{
 					npc.ai[0] += 2f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.8)
-						npc.ai[0] += 1f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.6)
-						npc.ai[0] += 1f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.4)
-						npc.ai[0] += 2f;
+					if (CalamityWorld.death)
+						npc.ai[0] += 4f;
+					else
+					{
+						if ((double)npc.life < (double)npc.lifeMax * 0.8)
+							npc.ai[0] += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.6)
+							npc.ai[0] += 1f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.4)
+							npc.ai[0] += 2f;
+					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.2)
 						npc.ai[0] += 3f;
 					if ((double)npc.life < (double)npc.lifeMax * 0.1)
@@ -523,10 +528,10 @@ namespace CalamityMod.NPCs
 			// Percent life remaining
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
-			bool phase2 = lifeRatio < 0.85f;
-			bool phase3 = lifeRatio < 0.75f;
-			bool phase4 = lifeRatio < 0.65f;
-			bool phase5 = lifeRatio < 0.5f;
+			bool phase2 = lifeRatio < 0.85f || CalamityWorld.death;
+			bool phase3 = lifeRatio < (CalamityWorld.death ? 0.9f : 0.75f);
+			bool phase4 = lifeRatio < (CalamityWorld.death ? 0.8f : 0.65f);
+			bool phase5 = lifeRatio < (CalamityWorld.death ? 0.7f : 0.5f);
 
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
@@ -745,7 +750,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				if (phase2 || CalamityWorld.death)
+				if (phase2)
 				{
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
@@ -1851,10 +1856,10 @@ namespace CalamityMod.NPCs
 				float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
 				// Phases based on HP
-				bool phase2 = lifeRatio < 0.85f;
-				bool phase3 = lifeRatio < 0.7f;
-				bool phase4 = lifeRatio < 0.5f;
-				bool phase5 = lifeRatio < 0.3f;
+				bool phase2 = lifeRatio < 0.85f || CalamityWorld.death;
+				bool phase3 = lifeRatio < (CalamityWorld.death ? 0.9f : 0.7f);
+				bool phase4 = lifeRatio < (CalamityWorld.death ? 0.7f : 0.5f);
+				bool phase5 = lifeRatio < (CalamityWorld.death ? 0.5f : 0.3f);
 				bool spinning = npc.ai[0] == -4f;
 
 				// Gain defense while spinning
@@ -2235,7 +2240,7 @@ namespace CalamityMod.NPCs
 
 						// Teleport location
 						npc.localAI[1] += 1f + ((float)creeperScale * 0.1f);
-						if (npc.localAI[1] >= 300f)
+						if (npc.localAI[1] >= (CalamityWorld.death ? 240f : 300f))
 						{
 							npc.localAI[1] = 0f;
 							npc.TargetClosest(true);
@@ -2282,7 +2287,7 @@ namespace CalamityMod.NPCs
 				// Turn invisible and teleport
 				else if (npc.ai[0] == 1f)
 				{
-					npc.alpha += 5;
+					npc.alpha += 25;
 					if (npc.alpha >= 255)
 					{
 						Main.PlaySound(SoundID.Item8, npc.Center);
@@ -2296,7 +2301,7 @@ namespace CalamityMod.NPCs
 				// Become visible
 				else if (npc.ai[0] == 2f)
 				{
-					npc.alpha -= 5;
+					npc.alpha -= 25;
 					if (npc.alpha <= 0)
 					{
 						npc.alpha = 0;
@@ -2521,12 +2526,17 @@ namespace CalamityMod.NPCs
 						npc.ai[1] += 1f;
 						npc.ai[2] = 0f;
 						float speed = 16f;
-						if ((double)npc.life < (double)npc.lifeMax * 0.75)
-							speed += 2f;
-						if ((double)npc.life < (double)npc.lifeMax * 0.5)
-							speed += 2f;
-						if ((double)npc.life < (double)npc.lifeMax * 0.25)
-							speed += 2f;
+						if (CalamityWorld.death)
+							speed += 6f;
+						else
+						{
+							if ((double)npc.life < (double)npc.lifeMax * 0.75)
+								speed += 2f;
+							if ((double)npc.life < (double)npc.lifeMax * 0.5)
+								speed += 2f;
+							if ((double)npc.life < (double)npc.lifeMax * 0.25)
+								speed += 2f;
+						}
 						if ((double)npc.life < (double)npc.lifeMax * 0.1)
 							speed += 2f;
 
@@ -2549,20 +2559,28 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] = 0f;
 					float num602 = 12f;
 					float num603 = 0.15f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.75)
+					if (CalamityWorld.death)
 					{
-						num602 += 1f;
-						num603 += 0.05f;
+						num602 += 4f;
+						num603 += 0.15f;
 					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.5)
+					else
 					{
-						num602 += 1f;
-						num603 += 0.05f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.25)
-					{
-						num602 += 2f;
-						num603 += 0.05f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.75)
+						{
+							num602 += 1f;
+							num603 += 0.05f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.5)
+						{
+							num602 += 1f;
+							num603 += 0.05f;
+						}
+						if ((double)npc.life < (double)npc.lifeMax * 0.25)
+						{
+							num602 += 2f;
+							num603 += 0.05f;
+						}
 					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.1)
 					{
@@ -2637,12 +2655,12 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] = 0f;
 					npc.velocity *= 0.9f;
 					float num606 = 0.1f;
-					if (npc.life < npc.lifeMax / 2)
+					if (npc.life < npc.lifeMax / 2 || CalamityWorld.death)
 					{
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
 					}
-					if (npc.life < npc.lifeMax / 3)
+					if (npc.life < npc.lifeMax / 3 || CalamityWorld.death)
 					{
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
@@ -2676,7 +2694,7 @@ namespace CalamityMod.NPCs
 				float num611 = (float)Math.Sqrt((double)(num609 * num609 + num610 * num610));
 
 				// Go to bee spawn phase
-				if (num611 < 200f)
+				if (num611 < (CalamityWorld.death ? 400f : 300f))
 				{
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
@@ -2837,7 +2855,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[1] % 15f == 14f)
 						shoot = true;
 				}
-				else if (npc.life < (double)npc.lifeMax * 0.66)
+				else if (npc.life < (double)npc.lifeMax * 0.66 || CalamityWorld.death)
 				{
 					if (npc.ai[1] % 25f == 24f)
 						shoot = true;
@@ -2942,7 +2960,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Go to a random phase
-				if (npc.ai[1] > 800f)
+				if (npc.ai[1] > 400f)
 				{
 					npc.ai[0] = -1f;
 					npc.ai[1] = 3f;
@@ -3215,7 +3233,7 @@ namespace CalamityMod.NPCs
 
 				calamityGlobalNPC.newAI[1] += 1f;
 				npc.ai[2] += 1f + (3f * (1f - lifeRatio));
-				if (npc.ai[2] >= 600f)
+				if (npc.ai[2] >= (CalamityWorld.death ? 510f : 600f))
 				{
 					npc.ai[2] = 0f;
 					npc.ai[1] = 1f;
@@ -3226,10 +3244,10 @@ namespace CalamityMod.NPCs
 
 				npc.rotation = npc.velocity.X / 15f;
 
-				float num169 = 0.04f;
-				float num170 = 5f;
-				float num171 = 0.08f;
-				float num172 = 10f;
+				float num169 = CalamityWorld.death ? 0.05f : 0.04f;
+				float num170 = CalamityWorld.death ? 5.5f : 5f;
+				float num171 = CalamityWorld.death ? 0.1f : 0.08f;
+				float num172 = CalamityWorld.death ? 11f : 10f;
 
 				if (npc.position.Y > Main.player[npc.target].position.Y - 250f)
 				{
@@ -3278,7 +3296,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.newAI[1] == 2f)
 					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
-				if (npc.ai[2] >= 300f)
+				if (npc.ai[2] >= (CalamityWorld.death ? 240f : 300f))
 				{
 					npc.ai[2] = 0f;
 					npc.ai[1] = 0f;
@@ -3297,7 +3315,7 @@ namespace CalamityMod.NPCs
 				if (enraged || configBossRushBoost)
 					num176 += 3f;
 
-				if (num175 > 150f)
+				if (num175 > 150f || CalamityWorld.death)
 					num176 *= 1.05f;
 				if (num175 > 200f)
 					num176 *= 1.1f;
@@ -3755,7 +3773,7 @@ namespace CalamityMod.NPCs
 
 			float halfAverageScreenWidth = 960f;
 			float distanceBeforeSlowingDown = 320f;
-			float timeBeforeEnrage = 600f;
+			float timeBeforeEnrage = CalamityWorld.death ? 420f : 600f;
 			float speedMult = 1f;
 
 			if (calamityGlobalNPC.newAI[0] < timeBeforeEnrage)
@@ -3792,7 +3810,7 @@ namespace CalamityMod.NPCs
 			if (calamityGlobalNPC.newAI[1] == 1f)
 			{
 				// Triple speed
-				speedMult = 3.25f;
+				speedMult = CalamityWorld.death ? 3.5f : 3.25f;
 
 				// Return to normal if very close to target
 				if (distanceFromTarget < distanceBeforeSlowingDown)
@@ -4790,7 +4808,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Enter phase 2 earlier
-				double healthMult = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.8 : 0.7);
+				double healthMult = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.85 : 0.7);
 				if ((double)npc.life < (double)npc.lifeMax * healthMult || targetFloatingUp)
 				{
 					npc.ai[0] = 1f;
@@ -5467,7 +5485,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Enter phase 2 earlier
-				double healthMult = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.8 : 0.7);
+				double healthMult = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.85 : 0.7);
 				if ((double)npc.life < (double)npc.lifeMax * healthMult || targetFloatingUp)
 				{
 					// Reset AI array and go to transition phase
@@ -8215,16 +8233,16 @@ namespace CalamityMod.NPCs
 			bool enrage = false;
 			bool despawn = false;
 
-			// Percent life remaining, Plantera
-			float lifeRatio = (float)Main.npc[NPC.plantBoss].life / (float)Main.npc[NPC.plantBoss].lifeMax;
-
 			// Despawn if Plantera is gone
-			if (NPC.plantBoss < 0 || !Main.npc[NPC.plantBoss].active)
+			if (NPC.plantBoss < 0)
 			{
 				npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
 				npc.netUpdate = true;
 				return false;
 			}
+
+			// Percent life remaining, Plantera
+			float lifeRatio = (float)Main.npc[NPC.plantBoss].life / (float)Main.npc[NPC.plantBoss].lifeMax;
 
 			// Despawn if Plantera's target is dead
 			if (Main.player[Main.npc[NPC.plantBoss].target].dead)
@@ -8364,7 +8382,7 @@ namespace CalamityMod.NPCs
 		public static bool BuffedPlanterasTentacleAI(NPC npc, Mod mod)
 		{
 			// Despawn if Plantera is gone
-			if (NPC.plantBoss < 0 || !Main.npc[NPC.plantBoss].active)
+			if (NPC.plantBoss < 0)
 			{
 				npc.StrikeNPCNoInteraction(9999, 0f, 0, false, false, false);
 				npc.netUpdate = true;
@@ -8625,7 +8643,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[1] > 0f)
 					{
 						npc.ai[1] += 1f;
-						if (enrage)
+						if (enrage || CalamityWorld.death)
 							npc.ai[1] += 18f;
 						else
 						{
@@ -8786,6 +8804,9 @@ namespace CalamityMod.NPCs
 					npc.active = false;
 			}
 
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
 			return false;
 		}
 
@@ -8857,7 +8878,7 @@ namespace CalamityMod.NPCs
 			if (npc.ai[0] == 0f)
 			{
 				npc.ai[1] += 1f;
-				int num654 = 300;
+				int num654 = 180;
 				if (npc.ai[1] < 20f || npc.ai[1] > (float)(num654 - 20))
 					npc.localAI[0] = 1f;
 				else
@@ -8907,7 +8928,7 @@ namespace CalamityMod.NPCs
 				// Fireballs
 				npc.ai[1] += 1f + (2f * (1f - lifeRatio));
 
-				int num662 = 300;
+				int num662 = 240;
 				if (npc.ai[1] < 20f || npc.ai[1] > (float)(num662 - 20))
 					npc.localAI[0] = 1f;
 				else
@@ -8919,7 +8940,7 @@ namespace CalamityMod.NPCs
 
 					npc.ai[1] = 0f;
 
-					float num663 = enrage ? 16f : 8f;
+					float num663 = enrage ? 18f : 12f;
 					float num664 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector82.X;
 					float num665 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector82.Y;
 					float num666 = (float)Math.Sqrt((double)(num664 * num664 + num665 * num665));
@@ -9016,6 +9037,9 @@ namespace CalamityMod.NPCs
 			}
 			npc.ai[0] = 0f;
 
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
 			return false;
 		}
 
@@ -9036,9 +9060,9 @@ namespace CalamityMod.NPCs
 			float combinedRatio = lifeRatio + golemLifeRatio;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f;
-			bool phase3 = lifeRatio < 0.4f || golemLifeRatio < 0.7f;
-			bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f;
+			bool phase2 = lifeRatio < 0.7f || golemLifeRatio < 0.85f || CalamityWorld.death;
+			bool phase3 = lifeRatio < 0.4f || golemLifeRatio < 0.7f || CalamityWorld.death;
+			bool phase4 = lifeRatio < 0.1f || golemLifeRatio < 0.55f || CalamityWorld.death;
 
 			// Float through tiles or not
 			bool flag44 = false;
@@ -9286,6 +9310,9 @@ namespace CalamityMod.NPCs
 					}
 				}
 			}
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
 			return false;
 		}

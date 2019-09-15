@@ -95,8 +95,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			writer.Write(dustTimer);
 			writer.Write(spawnX);
 			writer.Write(spawnY);
-			writer.Write(npc.dontTakeDamage);
-			writer.Write(npc.chaseable);
 			writer.Write(lifeToAlpha);
 		}
 
@@ -108,8 +106,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			dustTimer = reader.ReadInt32();
 			spawnX = reader.ReadInt32();
 			spawnY = reader.ReadInt32();
-			npc.dontTakeDamage = reader.ReadBoolean();
-			npc.chaseable = reader.ReadBoolean();
 			lifeToAlpha = reader.ReadInt32();
 		}
 
@@ -252,7 +248,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			if (npc.ai[0] == 0f)
 			{
-				npc.chaseable = true;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
@@ -298,8 +293,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.dontTakeDamage = true;
-				npc.chaseable = false;
 				npc.alpha += 25;
 				if (npc.alpha >= 255)
 				{
@@ -362,8 +355,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 							Main.dust[num625].velocity *= 2f;
 						}
 					}
-					npc.dontTakeDamage = false;
-					npc.chaseable = true;
 					npc.ai[3] += 1f;
 					npc.alpha = lifeToAlpha;
 					if (npc.ai[3] >= 3f)
@@ -381,8 +372,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			else if (npc.ai[0] == 3f)
 			{
-				npc.dontTakeDamage = false;
-				npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
 				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
@@ -501,8 +490,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			}
 			else if (npc.ai[0] == 4f)
 			{
-				npc.dontTakeDamage = false;
-				npc.chaseable = true;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					if (NPC.CountNPCS(mod.NPCType("CosmicLantern")) < 5)

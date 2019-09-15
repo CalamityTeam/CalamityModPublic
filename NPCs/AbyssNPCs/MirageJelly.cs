@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		{
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.damage = 100;
+			npc.damage = 80;
 			npc.width = 70;
 			npc.height = 162;
 			npc.defense = 10;
@@ -94,8 +94,17 @@ namespace CalamityMod.NPCs.AbyssNPCs
 							num1249++;
 							num1250 = (int)player.Center.X / 16;
 							num1251 = (int)player.Center.Y / 16;
-							num1250 += Main.rand.Next(-50, 51);
-							num1251 += Main.rand.Next(-50, 51);
+
+							int min = 9;
+							int max = 16;
+
+							if (Main.rand.NextBool(2))
+								num1250 += Main.rand.Next(min, max);
+							else
+								num1250 -= Main.rand.Next(min, max);
+
+							num1251 += Main.rand.Next(min, max);
+
 							if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height) &&
 								Main.tile[num1250, num1251].liquid > 204)
 							{

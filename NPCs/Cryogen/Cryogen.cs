@@ -87,7 +87,6 @@ namespace CalamityMod.NPCs.Cryogen
 			writer.Write(iceShard);
 			writer.Write(teleportLocationX);
 			writer.Write(npc.dontTakeDamage);
-			writer.Write(npc.chaseable);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
@@ -97,7 +96,6 @@ namespace CalamityMod.NPCs.Cryogen
 			iceShard = reader.ReadInt32();
 			teleportLocationX = reader.ReadInt32();
 			npc.dontTakeDamage = reader.ReadBoolean();
-			npc.chaseable = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -595,8 +593,6 @@ namespace CalamityMod.NPCs.Cryogen
 				npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 				if (npc.ai[1] == 0f)
 				{
-					npc.chaseable = true;
-					npc.dontTakeDamage = false;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						npc.localAI[2] += 1f;
@@ -642,8 +638,6 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else if (npc.ai[1] == 1f)
 				{
-					npc.dontTakeDamage = true;
-					npc.chaseable = false;
 					npc.alpha += 25;
 					if (npc.alpha >= 255)
 					{
@@ -660,8 +654,6 @@ namespace CalamityMod.NPCs.Cryogen
 					npc.alpha -= 25;
 					if (npc.alpha <= 0)
 					{
-						npc.dontTakeDamage = false;
-						npc.chaseable = true;
 						npc.alpha = 0;
 						npc.ai[1] = 0f;
 						npc.netUpdate = true;
@@ -714,8 +706,6 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			else
 			{
-				npc.dontTakeDamage = false;
-				npc.chaseable = true;
 				float num1372 = isChill ? 16f : 22f;
 				if (CalamityWorld.bossRushActive)
 				{

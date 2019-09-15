@@ -1427,10 +1427,33 @@ namespace CalamityMod.NPCs
 
             return true; //vanilla defense calc 78 - (180 / 2 = 90) = 0, boosted to 1 by calc
         }
-        #endregion
+		#endregion
 
-        #region Pre AI
-        public override bool PreAI(NPC npc)
+		#region Boss Head Slot
+		public override void BossHeadSlot(NPC npc, ref int index)
+		{
+			if (CalamityWorld.revenge)
+			{
+				if (npc.type == NPCID.BrainofCthulhu)
+				{
+					if ((float)npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.25f : 0.15f))
+						index = -1;
+				}
+
+				if (CalamityWorld.death)
+				{
+					if (npc.type == NPCID.DukeFishron)
+					{
+						if ((float)npc.life / (float)npc.lifeMax < 0.15f)
+							index = -1;
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region Pre AI
+		public override bool PreAI(NPC npc)
         {
             SetPatreonTownNPCName(npc);
 
@@ -2940,10 +2963,10 @@ namespace CalamityMod.NPCs
             }
             if (astralInfection)
             {
-                if (Main.rand.Next(5) < 4)
+                if (Main.rand.Next(5) < 3)
                 {
                     int dustType = (Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 0.6f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
                     Main.dust[dust].velocity.Y -= 0.15f;
@@ -3619,13 +3642,16 @@ namespace CalamityMod.NPCs
 
         public void SetShopItem(ref Chest shop, ref int nextSlot, int itemID, bool condition = true, int? price = null)
         {
-            shop.item[nextSlot].SetDefaults(itemID);
-            if (price != null)
-            {
-                shop.item[nextSlot].shopCustomPrice = price;
-            }
+			if (condition)
+			{
+				shop.item[nextSlot].SetDefaults(itemID);
+				if (price != null)
+				{
+					shop.item[nextSlot].shopCustomPrice = price;
+				}
 
-            nextSlot++;
+				nextSlot++;
+			}
         }
         #endregion
 

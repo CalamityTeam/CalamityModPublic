@@ -83,13 +83,11 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.chaseable);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.chaseable = reader.ReadBoolean();
 		}
 
@@ -211,9 +209,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.dontTakeDamage = true;
 				npc.defense = provy ? 120 : 20;
-				npc.chaseable = false;
+				npc.chaseable = true;
 				npc.alpha += 25;
 				if (npc.alpha >= 255)
 				{
@@ -234,7 +231,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.alpha -= 25;
 				if (npc.alpha <= 0)
 				{
-					npc.dontTakeDamage = false;
 					npc.defense = provy ? 120 : 20;
 					npc.chaseable = true;
 					npc.ai[3] += 1f;
@@ -256,7 +252,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			else if (npc.ai[0] == 3f)
 			{
 				npc.defense = provy ? 120 : 20;
-				npc.dontTakeDamage = false;
 				npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
@@ -392,7 +387,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			else if (npc.ai[0] == 4f)
 			{
 				npc.defense = 99999;
-				npc.dontTakeDamage = false;
 				npc.chaseable = false;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
