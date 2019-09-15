@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables
             item.height = 10;
             item.maxStack = 999;
 			item.rare = 10;
-			item.value = Item.buyPrice(0, 0, 10, 0);
+            item.value = Item.sellPrice(silver: 50);
 		}
 
         public override void ModifyTooltips(List<TooltipLine> list)

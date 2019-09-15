@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Materials
             item.height = 12;
             item.maxStack = 999;
 			item.rare = 10;
-			item.value = Item.buyPrice(0, 7, 0, 0);
+            item.value = Item.sellPrice(gold: 4);
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
 		}
 

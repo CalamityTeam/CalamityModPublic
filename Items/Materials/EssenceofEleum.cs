@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Materials
 			item.width = 8;
 			item.height = 20;
 			item.maxStack = 999;
-			item.value = Item.buyPrice(0, 3, 0, 0);
+            item.value = Item.sellPrice(silver: 40);
 			item.rare = 5;
 		}
 	}
