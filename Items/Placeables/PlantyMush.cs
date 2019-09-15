@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Placeables
             item.width = 13;
             item.height = 10;
             item.maxStack = 999;
-            item.value = 1750;
+            item.value = Item.sellPrice(silver: 6);
             item.rare = 3;
         }
     }

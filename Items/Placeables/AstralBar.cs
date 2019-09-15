@@ -25,16 +25,16 @@ namespace CalamityMod.Items.Placeables
             item.height = 16;
             item.maxStack = 99;
             item.rare = 9;
-			item.value = Item.buyPrice(0, 5, 50, 0);
+            item.value = Item.sellPrice(gold: 1, silver: 20);
 		}
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "Stardust", 12);
-            recipe.AddIngredient(mod.ItemType("AstralOre"), 8);
+            recipe.AddIngredient(null, "Stardust", 3);
+            recipe.AddIngredient(mod.ItemType("AstralOre"), 2);
             recipe.AddTile(TileID.LunarCraftingStation);
-            recipe.SetResult(this, 4);
+            recipe.SetResult(this);
             recipe.AddRecipe();
         }
     }

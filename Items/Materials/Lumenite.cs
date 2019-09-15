@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.AbyssItems
+namespace CalamityMod.Items.Materials
 {
     public class Lumenite : ModItem
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.AbyssItems
             item.width = 26;
             item.height = 26;
             item.maxStack = 999;
-			item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = Item.sellPrice(silver: 36);
 			item.rare = 3;
         }
     }

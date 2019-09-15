@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Yharon
+namespace CalamityMod.Items.Materials
 {
     public class HellcasterFragment : ModItem
     {
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Yharon
             item.width = 10;
             item.height = 14;
             item.maxStack = 999;
-			item.value = Item.buyPrice(0, 10, 0, 0);
+            item.value = Item.sellPrice(gold: 16);
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
 		}
     }

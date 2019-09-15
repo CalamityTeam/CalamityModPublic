@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.DesertScourge
+namespace CalamityMod.Items.Materials
 {
     public class VictoryShard : ModItem
 	{
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.DesertScourge
 			item.width = 14;
 			item.height = 14;
 			item.maxStack = 999;
-			item.value = Item.buyPrice(0, 0, 10, 0);
+            item.value = Item.sellPrice(silver: 3);
 			item.rare = 1;
 		}
 	}
