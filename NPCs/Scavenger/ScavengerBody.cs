@@ -102,8 +102,13 @@ namespace CalamityMod.NPCs.Scavenger
 			// Percent life remaining
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
-			Lighting.AddLight((int)(npc.position.X - 100f) / 16, (int)(npc.position.Y - 20f) / 16, 0f, 0.51f, 2f);
-			Lighting.AddLight((int)(npc.position.X + 100f) / 16, (int)(npc.position.Y - 20f) / 16, 0f, 0.51f, 2f);
+			// Large fire light
+			Lighting.AddLight((int)(npc.Center.X - 110f) / 16, (int)(npc.Center.Y - 30f) / 16, 0f, 0.5f, 2f);
+			Lighting.AddLight((int)(npc.Center.X + 110f) / 16, (int)(npc.Center.Y - 30f) / 16, 0f, 0.5f, 2f);
+
+			// Small fire light
+			Lighting.AddLight((int)(npc.Center.X - 40f) / 16, (int)(npc.Center.Y - 60f) / 16, 0f, 0.25f, 1f);
+			Lighting.AddLight((int)(npc.Center.X + 40f) / 16, (int)(npc.Center.Y - 60f) / 16, 0f, 0.25f, 1f);
 
 			CalamityGlobalNPC.scavenger = npc.whoAmI;
 
@@ -387,12 +392,20 @@ namespace CalamityMod.NPCs.Scavenger
 					{
 						npc.TargetClosest(true);
 
-						float speedX = ((enrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
-						npc.velocity.X = speedX * (float)npc.direction;
-						npc.velocity.Y = -15.2f;
+						float velocityX = ((enrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
+						npc.velocity.X = velocityX * (float)npc.direction;
 
-						if (npc.target >= 0 && CalamityWorld.revenge && Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+						if (CalamityWorld.revenge)
+						{
+							if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+								npc.velocity.Y = -15.2f;
+							else
+								npc.velocity.Y = 1f;
+
 							npc.noTileCollide = true;
+						}
+						else
+							npc.velocity.Y = -15.2f;
 
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;

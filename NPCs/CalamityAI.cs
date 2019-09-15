@@ -262,12 +262,19 @@ namespace CalamityMod.NPCs
 						npc.TargetClosest(true);
 
 						float velocityX = 6f + (6f * (1f - lifeRatio));
-
 						npc.velocity.X = velocityX * (float)npc.direction;
-						npc.velocity.Y = -14.5f;
 
-						if (npc.target >= 0 && CalamityWorld.revenge && player.position.Y < npc.position.Y + (float)npc.height)
+						if (CalamityWorld.revenge)
+						{
+							if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+								npc.velocity.Y = -14.5f;
+							else
+								npc.velocity.Y = 1f;
+
 							npc.noTileCollide = true;
+						}
+						else
+							npc.velocity.Y = -14.5f;
 
 						npc.ai[0] = 4f;
 						npc.ai[1] = 0f;

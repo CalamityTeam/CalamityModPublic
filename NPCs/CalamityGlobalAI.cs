@@ -8670,10 +8670,18 @@ namespace CalamityMod.NPCs
 							velocityX *= 1.5f;
 
 						npc.velocity.X = velocityX * (float)npc.direction;
-						npc.velocity.Y = -12.1f;
 
-						if (npc.target >= 0 && Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+						if (CalamityWorld.revenge)
+						{
+							if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
+								npc.velocity.Y = -12.1f;
+							else
+								npc.velocity.Y = 1f;
+
 							npc.noTileCollide = true;
+						}
+						else
+							npc.velocity.Y = -12.1f;
 
 						npc.ai[0] = 1f;
 						npc.ai[1] = 0f;
@@ -10366,20 +10374,20 @@ namespace CalamityMod.NPCs
 			npc.knockBackResist = 0f;
 			npc.damage = npc.defDamage;
 
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+			// Phases
+			bool phase2 = lifeRatio < 0.4f;
+			bool phase3 = lifeRatio < 0.1f;
+
 			if (!Main.eclipse)
 				npc.ai[0] = -1f;
 			else if (npc.target < 0 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 			{
 				npc.TargetClosest(true);
-				Vector2 vector235 = Main.player[npc.target].Center - npc.Center;
-				if (Main.player[npc.target].dead || vector235.Length() > 4000f)
+				if (Main.player[npc.target].dead)
 					npc.ai[0] = -1f;
-			}
-			else
-			{
-				Vector2 vector236 = Main.player[npc.target].Center - npc.Center;
-				if (npc.ai[0] > 1f && vector236.Length() > 3000f)
-					npc.ai[0] = 1f;
 			}
 
 			if (npc.ai[0] == -1f)
@@ -10431,7 +10439,7 @@ namespace CalamityMod.NPCs
 					npc.ai[2] = 0f;
 					npc.ai[3] = 0f;
 				}
-				else if (value38.Length() > 240f)
+				else if (value38.Length() > 600f)
 				{
 					float scaleFactor15 = 15f;
 					float num1354 = 30f;
@@ -10446,7 +10454,7 @@ namespace CalamityMod.NPCs
 
 				npc.ai[1] += 1f;
 
-				if (npc.ai[1] >= 20f && Main.netMode != NetmodeID.MultiplayerClient)
+				if (npc.ai[1] >= 10f && Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -10456,6 +10464,11 @@ namespace CalamityMod.NPCs
 					while (npc.ai[0] == 0f)
 					{
 						int num1355 = Main.rand.Next(3);
+						if (phase3)
+							num1355 = 1;
+						else if (phase2)
+							num1355 = Main.rand.Next(2);
+
 						if (num1355 == 0 && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
 							npc.ai[0] = 2f;
 						else if (num1355 == 1)
@@ -10636,7 +10649,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.ai[0] == 3.2f)
 						{
-							npc.damage = (int)((double)npc.defDamage * 1.5);
+							npc.damage = (int)((double)npc.defDamage * 1.2);
 							npc.collideX = false;
 							npc.collideY = false;
 							npc.noTileCollide = true;
@@ -10690,7 +10703,7 @@ namespace CalamityMod.NPCs
 										while (!WorldGen.SolidTile(num1361, num1362) && (double)num1362 < Main.worldSurface)
 											num1362++;
 
-										if ((new Vector2((float)(num1361 * 16 + 8), (float)(num1362 * 16 + 8)) - Main.player[npc.target].Center).Length() < 3600f)
+										if ((new Vector2((float)(num1361 * 16 + 8), (float)(num1362 * 16 + 8)) - Main.player[npc.target].Center).Length() < 5600f)
 										{
 											npc.ai[0] = 4.1f;
 											npc.ai[1] = (float)num1361;

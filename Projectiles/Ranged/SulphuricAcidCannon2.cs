@@ -109,19 +109,10 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.ai[0] == 1f)
             {
                 projectile.tileCollide = false;
-                int num988 = 15;
                 bool flag54 = false;
-                bool flag55 = false;
-                float[] var_2_2CB4E_cp_0 = projectile.localAI;
-                int var_2_2CB4E_cp_1 = 0;
-                float num73 = var_2_2CB4E_cp_0[var_2_2CB4E_cp_1];
-                var_2_2CB4E_cp_0[var_2_2CB4E_cp_1] = num73 + 1f;
-                if (projectile.localAI[0] % 30f == 0f)
-                {
-                    flag55 = true;
-                }
+				projectile.localAI[0] += 1f;
                 int num989 = (int)projectile.ai[1];
-                if (projectile.localAI[0] >= (float)(60 * num988))
+                if (projectile.localAI[0] >= 360f)
                 {
                     flag54 = true;
                 }
@@ -133,10 +124,6 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     projectile.Center = Main.npc[num989].Center - projectile.velocity * 2f;
                     projectile.gfxOffY = Main.npc[num989].gfxOffY;
-                    if (flag55)
-                    {
-                        Main.npc[num989].HitEffect(0, 1.0);
-                    }
                 }
                 else
                 {

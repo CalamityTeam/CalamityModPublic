@@ -39,7 +39,7 @@ namespace CalamityMod.UI
 
     internal static class BossHealthBarManager
     {
-        private static readonly int MAX_BARS = 4; //4
+        private static readonly int MAX_BARS = 4;
 
         public static bool SHOULD_DRAW_SMALLTEXT_HEALTH = true;
 
@@ -96,7 +96,14 @@ namespace CalamityMod.UI
             OneToMany[NPCID.PrimeCannon] = SkelePrime;
             OneToMany[NPCID.PrimeLaser] = SkelePrime;
 
-            int[] Saucer = new int[] { NPCID.MartianSaucerCore, NPCID.MartianSaucerTurret, NPCID.MartianSaucerCannon };
+			int[] Golem = new int[] { NPCID.Golem, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.GolemHeadFree };
+			OneToMany[NPCID.Golem] = Golem;
+			OneToMany[NPCID.GolemFistLeft] = Golem;
+			OneToMany[NPCID.GolemFistRight] = Golem;
+			OneToMany[NPCID.GolemHead] = Golem;
+			OneToMany[NPCID.GolemHeadFree] = Golem;
+
+			int[] Saucer = new int[] { NPCID.MartianSaucerCore, NPCID.MartianSaucerTurret, NPCID.MartianSaucerCannon };
             OneToMany[NPCID.MartianSaucerCore] = Saucer;
             OneToMany[NPCID.MartianSaucerTurret] = Saucer;
             OneToMany[NPCID.MartianSaucerCannon] = Saucer;
@@ -239,7 +246,8 @@ namespace CalamityMod.UI
                 MinibossHPBarList.Add(calamity.NPCType("ProvSpawnDefense"));
                 MinibossHPBarList.Add(calamity.NPCType("ProvSpawnOffense"));
                 MinibossHPBarList.Add(calamity.NPCType("ProvSpawnHealer"));
-            }
+				MinibossHPBarList.Add(calamity.NPCType("PolterPhantom"));
+			}
         }
 
         public static void Unload()
@@ -281,7 +289,11 @@ namespace CalamityMod.UI
                 {
                     AttemptAddBar(i, NPCID.SkeletronPrime);
                 }
-                else if (Main.npc[i].type == NPCID.MartianSaucerCore)
+				else if (Main.npc[i].type == NPCID.Golem)
+				{
+					AttemptAddBar(i, NPCID.Golem);
+				}
+				else if (Main.npc[i].type == NPCID.MartianSaucerCore)
                 {
                     AttemptAddBar(i, NPCID.MartianSaucerCore);
                 }

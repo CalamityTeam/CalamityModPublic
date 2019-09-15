@@ -678,14 +678,17 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Golem)
 			{
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 5.0) : (int)(npc.lifeMax * 2.5);
+                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 7.0) : (int)(npc.lifeMax * 4.0);
 				npc.npcSlots = 64f;
 			}
-			else if (npc.type == NPCID.GolemHead || npc.type == NPCID.GolemHeadFree)
+			else if (npc.type == NPCID.GolemHead)
 			{
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.0) : (int)(npc.lifeMax * 2.0);
-				if (npc.type == NPCID.GolemHeadFree)
-					npc.dontTakeDamage = false;
+			}
+			else if (npc.type == NPCID.GolemHeadFree)
+			{
+				npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.25) : (int)(npc.lifeMax * 1.1);
+				npc.dontTakeDamage = false;
 			}
             else if (npc.type == NPCID.Plantera)
             {

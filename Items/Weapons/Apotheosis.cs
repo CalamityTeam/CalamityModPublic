@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons
 			item.mana = 42;
 			item.width = 16;
 			item.height = 16;
-			item.useTime = 42;
-			item.useAnimation = 42;
+			item.useTime = 21;
+			item.useAnimation = 21;
 			item.useStyle = 5;
 			item.useTurn = false;
 			item.noMelee = true;

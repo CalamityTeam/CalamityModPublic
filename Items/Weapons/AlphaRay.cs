@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 260;
+	        item.damage = 280;
 	        item.magic = true;
 	        item.mana = 5;
 	        item.width = 84;
@@ -50,8 +50,7 @@ namespace CalamityMod.Items.Weapons
 	    {
 	    	if (player.altFunctionUse == 2)
 	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BigBeamofDeath"), (int)((double)damage * 1.7), knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
+	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BigBeamofDeath"), (int)((double)damage * 2.1), knockBack, player.whoAmI, 0.0f, 0.0f);
 	    	}
 	    	else
 	    	{
@@ -75,8 +74,8 @@ namespace CalamityMod.Items.Weapons
 					Main.projectile[laser].timeLeft = 120;
 		        	Main.projectile[laser].tileCollide = false;
 				}
-				return false;
 	    	}
+			return false;
 		}
 
 	    public override void AddRecipes()
