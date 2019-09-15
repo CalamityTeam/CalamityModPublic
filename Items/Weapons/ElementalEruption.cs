@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons
 			item.ranged = true;
 			item.width = 64;
 			item.height = 34;
-			item.useTime = 2;
+			item.useTime = 5;
 			item.useAnimation = 10;
 			item.useStyle = 5;
 			item.noMelee = true;

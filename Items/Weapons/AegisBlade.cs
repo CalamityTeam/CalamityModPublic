@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
 			item.height = 44;
             item.rare = 7;
             item.value = Item.buyPrice(0, 60, 0, 0);
-            item.shootSpeed = 9f;
+            item.shootSpeed = 14f;
 			item.shoot = mod.ProjectileType("NobodyKnows");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
