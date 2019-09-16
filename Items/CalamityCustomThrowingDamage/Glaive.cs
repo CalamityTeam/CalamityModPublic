@@ -14,8 +14,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glaive");
-            Tooltip.SetDefault("Stacks up to 3");
-            // Add stealth strike tooltip once stealth strikes are implemented
+            Tooltip.SetDefault(@"Stacks up to 3
+Stealth strikes are super fast and pierce infinitely");
         }
 
         public override void SafeSetDefaults()
