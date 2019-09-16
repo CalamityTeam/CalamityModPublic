@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -2451,7 +2452,7 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest(true);
 
 			// Despawn
-			if (Main.player[npc.target].dead && Main.expertMode)
+			if (Main.player[npc.target].dead)
 			{
 				if ((double)npc.position.Y < Main.worldSurface * 16.0 + 2000.0)
 					npc.velocity.Y = npc.velocity.Y + 0.04f;
@@ -3107,19 +3108,21 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				// Teleport after certain number of hits
-				if (npc.justHit)
-					npc.ai[3] += ((CalamityWorld.death ? 1.5f : 1f) + ((phase2 && handsDead) ? 1f : 0f)) - (handsDead ? 0f : 0.5f);
+				// Teleport after a certain time
+				// If hands are dead: 7 seconds in rev, 5.6 seconds in death
+				// If hands are not dead: 9.3 seconds in rev, 7 seconds in death
+				// If hands are dead in phase 2: 4.7 seconds in rev, 4 seconds in death
+				npc.ai[3] += ((CalamityWorld.death ? 1.25f : 1f) + ((phase2 && handsDead) ? 0.5f : 0f)) - (handsDead ? 0f : 0.25f);
 
 				// Dust to show teleport
 				int ai3 = (int)npc.ai[3]; // 0 to 30, and -60
 				bool emitDust = false;
 
-				if (ai3 >= 25)
+				if (ai3 >= 390)
 					emitDust = true;
-				else if (ai3 >= 10)
+				else if (ai3 >= 330)
 				{
-					if (Main.rand.Next(ai3 + 1) >= 10)
+					if (Main.rand.Next(310, ai3 + 1) >= 325)
 						emitDust = true;
 				}
 				if (emitDust)
@@ -3130,7 +3133,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Teleport
-				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] >= 30f)
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] >= 420f)
 				{
 					Vector2 value53 = npc.Center + new Vector2((float)(npc.direction * 20), 6f);
 					Vector2 vector251 = Main.player[npc.target].Center - value53;
@@ -3772,16 +3775,17 @@ namespace CalamityMod.NPCs
 				distanceFromTarget = targetPosition - npcPosition;
 
 			float halfAverageScreenWidth = 960f;
-			float distanceBeforeSlowingDown = 320f;
+			float enrageDistance = halfAverageScreenWidth + 120f;
+			float distanceBeforeSlowingDown = 400f;
 			float timeBeforeEnrage = CalamityWorld.death ? 420f : 600f;
 			float speedMult = 1f;
 
 			if (calamityGlobalNPC.newAI[0] < timeBeforeEnrage)
 			{
-				if (distanceFromTarget > halfAverageScreenWidth ||
+				if (distanceFromTarget > enrageDistance ||
 					!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					speedMult += (distanceFromTarget - halfAverageScreenWidth) * 0.001f;
+					speedMult += (distanceFromTarget - enrageDistance) * 0.001f;
 					calamityGlobalNPC.newAI[0] += 1f;
 
 					// Enrage after 10 seconds of target being off screen
@@ -6564,7 +6568,7 @@ namespace CalamityMod.NPCs
 							Vector2 velocity = new Vector2(-1f * (float)Main.rand.NextDouble() * 3f, 1f);
 							velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * 0.78539818525314331, default);
 							velocity *= 5f;
-							int damage = Main.expertMode ? 27 : 35;
+							int damage = 27;
 							float delayBeforeHoming = 45f;
 							Projectile.NewProjectile(npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, ProjectileID.SaucerMissile, damage, 0f, Main.myPlayer, 0f, delayBeforeHoming);
 						}
@@ -7790,7 +7794,7 @@ namespace CalamityMod.NPCs
 				{
 					if (Main.tile[x, y] != null)
 					{
-						if (Main.tile[x, y].active() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+						if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
 							insideTiles = true;
 					}
 				}
@@ -7828,7 +7832,7 @@ namespace CalamityMod.NPCs
 				{
 					if (Main.tile[x, y] != null)
 					{
-						if (Main.tile[x, y].active() && !Main.tile[x, y].actuator() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+						if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
 							nearbyActiveTiles++;
 					}
 				}
@@ -10366,6 +10370,1028 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
+		#region Buffed Cultist AI
+		public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+
+			// Chant sound
+			if (npc.ai[0] != -1f && Main.rand.NextBool(1000))
+			{
+				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, Main.rand.Next(88, 92), 1f, 0f);
+			}
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
+			// Phases
+			bool phase2 = lifeRatio < 0.8f;
+			bool phase3 = lifeRatio < 0.6f;
+			bool phase4 = lifeRatio < 0.4f;
+			bool phase5 = lifeRatio < 0.2f;
+
+			// Variables
+			bool isCultist = npc.type == NPCID.CultistBoss;
+			bool dontTakeDamage = false;
+			bool chaseable = true;
+
+			int iceMistDamage = 35;
+			int fireballDamage = isCultist ? 30 : 25;
+			int lightningDamage = 45;
+
+			int iceMistFireRate = 90 -
+				(phase2 ? 10 : 0) -
+				(phase3 ? 10 : 0) -
+				(phase4 ? 10 : 0) -
+				(phase5 ? 10 : 0);
+
+			float iceMistSpeed = CalamityWorld.death ? 6.5f : 6f;
+
+			int fireballFireRate = 12 -
+				(phase2 ? 2 : 0) -
+				(phase3 ? 2 : 0) -
+				(phase4 ? 2 : 0) -
+				(phase5 ? 2 : 0);
+
+			float fireballSpeed = CalamityWorld.death ? 7.5f : 7f;
+
+			int lightningOrbFireRate = 40 -
+				(phase2 ? 5 : 0) -
+				(phase3 ? 5 : 0) -
+				(phase4 ? 5 : 0) -
+				(phase5 ? 5 : 0);
+
+			int ancientLightSpawnRate = 30 -
+				(phase3 ? 10 : 0) -
+				(phase5 ? 10 : 0);
+
+			int idleTime = 40 -
+				(phase2 ? 5 : 0) -
+				(phase3 ? 5 : 0) -
+				(phase4 ? 5 : 0) -
+				(phase5 ? 5 : 0);
+
+			float timeToFinishRitual = 420f -
+				(phase2 ? 120f : 0f) -
+				(phase3 ? 90f : 0f) -
+				(phase4 ? 30f : 0f) -
+				(phase5 ? 15f : 0f);
+
+			// Cultist clone AI
+			if (!isCultist)
+			{
+				if (npc.ai[3] < 0f || !Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != NPCID.CultistBoss)
+				{
+					npc.life = 0;
+					npc.HitEffect(0, 10.0);
+					npc.active = false;
+					return false;
+				}
+				npc.ai[0] = Main.npc[(int)npc.ai[3]].ai[0];
+				npc.ai[1] = Main.npc[(int)npc.ai[3]].ai[1];
+				dontTakeDamage = true;
+				chaseable = false;
+			}
+
+			// Stop spawning ritual if hit
+			else if (npc.ai[0] == 5f && npc.ai[1] >= 120f && npc.ai[1] < timeToFinishRitual && npc.justHit)
+			{
+				npc.ai[0] = 0f;
+				npc.ai[1] = 0f;
+				npc.ai[3] += 1f;
+				npc.velocity = Vector2.Zero;
+				npc.netUpdate = true;
+				Main.projectile[(int)npc.ai[2]].ai[1] = -1f;
+				Main.projectile[(int)npc.ai[2]].netUpdate = true;
+			}
+
+			// Center and target
+			Vector2 center = npc.Center;
+			Player player = Main.player[npc.target];
+			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				npc.netUpdate = true;
+			}
+
+			// Despawn
+			if (player.dead || Vector2.Distance(player.Center, center) > 5600f)
+			{
+				npc.life = 0;
+				npc.HitEffect(0, 10.0);
+				npc.active = false;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+				}
+				new List<int>().Add(npc.whoAmI);
+				for (int j = 0; j < 200; j++)
+				{
+					if (Main.npc[j].active && Main.npc[j].type == 440 && Main.npc[j].ai[3] == (float)npc.whoAmI)
+					{
+						Main.npc[j].life = 0;
+						Main.npc[j].HitEffect(0, 10.0);
+						Main.npc[j].active = false;
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+						}
+					}
+				}
+			}
+
+			// Clones set to Cultist phase
+			float clonePhase = npc.ai[3];
+
+			// Spawn and play sound
+			if (npc.localAI[0] == 0f)
+			{
+				Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 89, 1f, 0f);
+				npc.localAI[0] = 1f;
+				npc.alpha = 255;
+				npc.rotation = 0f;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					npc.ai[0] = -1f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Appear and do weird ritual shit with tablet
+			if (npc.ai[0] == -1f)
+			{
+				npc.alpha -= 5;
+				if (npc.alpha < 0)
+				{
+					npc.alpha = 0;
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= timeToFinishRitual)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.netUpdate = true;
+				}
+				else if (npc.ai[1] > 360f)
+				{
+					npc.velocity *= 0.95f;
+					if (npc.localAI[2] != 13f)
+					{
+						Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 105, 1f, 0f);
+					}
+					npc.localAI[2] = 13f;
+				}
+				else if (npc.ai[1] > 300f)
+				{
+					npc.velocity = -Vector2.UnitY;
+					npc.localAI[2] = 10f;
+				}
+				else if (npc.ai[1] > 120f)
+				{
+					npc.localAI[2] = 1f;
+				}
+				else
+				{
+					npc.localAI[2] = 0f;
+				}
+				dontTakeDamage = true;
+				chaseable = false;
+			}
+
+			// Phase switch
+			if (npc.ai[0] == 0f)
+			{
+				if (npc.ai[1] == 0f)
+				{
+					npc.TargetClosest(false);
+				}
+				npc.localAI[2] = 10f;
+				int num14 = Math.Sign(player.Center.X - center.X);
+				if (num14 != 0)
+				{
+					npc.direction = (npc.spriteDirection = num14);
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= (float)idleTime & isCultist)
+				{
+					int num15 = 0;
+					if (phase2)
+					{
+						switch ((int)npc.ai[3])
+						{
+							case 0:
+								num15 = 0;
+								break;
+							case 1:
+								num15 = 1;
+								break;
+							case 2:
+								num15 = 0;
+								break;
+							case 3:
+								num15 = 5;
+								break;
+							case 4:
+								num15 = 0;
+								break;
+							case 5:
+								num15 = 3;
+								break;
+							case 6:
+								num15 = 0;
+								break;
+							case 7:
+								num15 = 5;
+								break;
+							case 8:
+								num15 = 0;
+								break;
+							case 9:
+								num15 = 2;
+								break;
+							case 10:
+								num15 = 0;
+								break;
+							case 11:
+								num15 = 3;
+								break;
+							case 12:
+								num15 = 0;
+								break;
+							case 13:
+								num15 = 4;
+								npc.ai[3] = -1f;
+								break;
+							default:
+								npc.ai[3] = -1f;
+								break;
+						}
+					}
+					else
+					{
+						switch ((int)npc.ai[3])
+						{
+							case 0:
+								num15 = 0;
+								break;
+							case 1:
+								num15 = 1;
+								break;
+							case 2:
+								num15 = 0;
+								break;
+							case 3:
+								num15 = 2;
+								break;
+							case 4:
+								num15 = 0;
+								break;
+							case 5:
+								num15 = 3;
+								break;
+							case 6:
+								num15 = 0;
+								break;
+							case 7:
+								num15 = 1;
+								break;
+							case 8:
+								num15 = 0;
+								break;
+							case 9:
+								num15 = 2;
+								break;
+							case 10:
+								num15 = 0;
+								break;
+							case 11:
+								num15 = 4;
+								npc.ai[3] = -1f;
+								break;
+							default:
+								npc.ai[3] = -1f;
+								break;
+						}
+					}
+
+					int maxValue = 6 -
+						(phase3 ? 2 : 0) -
+						(phase4 ? 1 : 0);
+
+					// Spawn Ancient Dooms
+					if (phase2 && Main.rand.NextBool(maxValue) && num15 != 0 && num15 != 4 && num15 != 5 && NPC.CountNPCS(NPCID.AncientDoom) < 10)
+					{
+						num15 = 6;
+					}
+
+					// Move above target, also moves clones
+					if (num15 == 0)
+					{
+						// Set a location to move to
+						float num16 = (float)Math.Ceiling((double)((player.Center + new Vector2(0f, -100f) - center).Length() / 50f));
+						if (num16 == 0f)
+						{
+							num16 = 1f;
+						}
+
+						// Add self and clones to list
+						List<int> list2 = new List<int>();
+						int num17 = 0;
+						list2.Add(npc.whoAmI);
+						for (int k = 0; k < 200; k++)
+						{
+							if (Main.npc[k].active && Main.npc[k].type == NPCID.CultistBossClone && Main.npc[k].ai[3] == (float)npc.whoAmI)
+							{
+								list2.Add(k);
+							}
+						}
+
+						// Move self and clones to location
+						bool flag5 = list2.Count % 2 == 0;
+						foreach (int current2 in list2)
+						{
+							NPC nPC2 = Main.npc[current2];
+							Vector2 center2 = nPC2.Center;
+							float num18 = (float)((num17 + flag5.ToInt() + 1) / 2) * 6.28318548f * 0.4f / (float)list2.Count;
+							if (num17 % 2 == 1)
+							{
+								num18 *= -1f;
+							}
+							if (list2.Count == 1)
+							{
+								num18 = 0f;
+							}
+							Vector2 value = new Vector2(0f, -1f).RotatedBy((double)num18, default(Vector2)) * new Vector2(150f, 200f);
+							Vector2 value2 = player.Center + value - center2;
+							nPC2.ai[0] = 1f;
+							nPC2.ai[1] = num16;
+							nPC2.velocity = (value2 / num16) * 2f;
+							if (npc.whoAmI >= nPC2.whoAmI)
+							{
+								nPC2.position -= nPC2.velocity;
+							}
+							nPC2.netUpdate = true;
+							num17++;
+						}
+					}
+
+					// Set AI phase
+					if (num15 == 1)
+					{
+						npc.ai[0] = 3f;
+						npc.ai[1] = 0f;
+					}
+					else if (num15 == 2)
+					{
+						npc.ai[0] = 2f;
+						npc.ai[1] = 0f;
+					}
+					else if (num15 == 3)
+					{
+						npc.ai[0] = 4f;
+						npc.ai[1] = 0f;
+					}
+					else if (num15 == 4)
+					{
+						npc.ai[0] = 5f;
+						npc.ai[1] = 0f;
+					}
+					if (num15 == 5)
+					{
+						npc.ai[0] = 7f;
+						npc.ai[1] = 0f;
+					}
+					if (num15 == 6)
+					{
+						npc.ai[0] = 8f;
+						npc.ai[1] = 0f;
+					}
+					npc.netUpdate = true;
+				}
+			}
+
+			// Movement, then switch to a different attack
+			else if (npc.ai[0] == 1f)
+			{
+				dontTakeDamage = true;
+				npc.localAI[2] = 10f;
+				if (npc.ai[1] % 2f != 0f && npc.ai[1] != 1f)
+				{
+					npc.position -= npc.velocity;
+				}
+				npc.ai[1] -= 1f;
+				if (npc.ai[1] <= 0f)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Ice Mist
+			else if (npc.ai[0] == 2f)
+			{
+				npc.localAI[2] = 11f;
+				Vector2 vec = Vector2.Normalize(player.Center - center);
+				if (vec.HasNaNs())
+				{
+					vec = new Vector2((float)npc.direction, 0f);
+				}
+				if ((npc.ai[1] >= 4f & isCultist) && (int)(npc.ai[1] - 4f) % iceMistFireRate == 0)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						List<int> list3 = new List<int>();
+						for (int l = 0; l < 200; l++)
+						{
+							if (Main.npc[l].active && Main.npc[l].type == NPCID.CultistBossClone && Main.npc[l].ai[3] == (float)npc.whoAmI)
+							{
+								list3.Add(l);
+							}
+						}
+						foreach (int current3 in list3)
+						{
+							NPC nPC3 = Main.npc[current3];
+							Vector2 center3 = nPC3.Center;
+							int num19 = Math.Sign(player.Center.X - center3.X);
+							if (num19 != 0)
+							{
+								nPC3.direction = (nPC3.spriteDirection = num19);
+							}
+							vec = Vector2.Normalize(player.Center - center3 + player.velocity * 20f);
+							if (vec.HasNaNs())
+							{
+								vec = new Vector2((float)npc.direction, 0f);
+							}
+							Vector2 vector = center3 + new Vector2((float)(npc.direction * 30), 12f);
+							Vector2 vector2 = vec * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+							vector2 = vector2.RotatedByRandom(0.52359879016876221);
+							Projectile.NewProjectile(vector.X, vector.Y, vector2.X, vector2.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						vec = Vector2.Normalize(player.Center - center + player.velocity * 20f);
+						if (vec.HasNaNs())
+						{
+							vec = new Vector2((float)npc.direction, 0f);
+						}
+						Vector2 vector3 = npc.Center + new Vector2((float)(npc.direction * 30), 12f);
+						Vector2 vector4 = vec * iceMistSpeed;
+						Projectile.NewProjectile(vector3.X, vector3.Y, vector4.X, vector4.Y, ProjectileID.CultistBossIceMist, iceMistDamage, 0f, Main.myPlayer, 0f, 1f);
+					}
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= (float)(4 + iceMistFireRate))
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Fireballs
+			else if (npc.ai[0] == 3f)
+			{
+				npc.localAI[2] = 11f;
+				Vector2 vec2 = Vector2.Normalize(player.Center - center);
+				if (vec2.HasNaNs())
+				{
+					vec2 = new Vector2((float)npc.direction, 0f);
+				}
+				if ((npc.ai[1] >= 4f & isCultist) && (int)(npc.ai[1] - 4f) % fireballFireRate == 0)
+				{
+					if ((int)(npc.ai[1] - 4f) / fireballFireRate == 2)
+					{
+						List<int> list4 = new List<int>();
+						for (int num20 = 0; num20 < 200; num20++)
+						{
+							if (Main.npc[num20].active && Main.npc[num20].type == NPCID.CultistBossClone && Main.npc[num20].ai[3] == (float)npc.whoAmI)
+							{
+								list4.Add(num20);
+							}
+						}
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							foreach (int current4 in list4)
+							{
+								NPC nPC4 = Main.npc[current4];
+								Vector2 center4 = nPC4.Center;
+								int num21 = Math.Sign(player.Center.X - center4.X);
+								if (num21 != 0)
+								{
+									nPC4.direction = (nPC4.spriteDirection = num21);
+								}
+								vec2 = Vector2.Normalize(player.Center - center4 + player.velocity * 20f);
+								if (vec2.HasNaNs())
+								{
+									vec2 = new Vector2((float)npc.direction, 0f);
+								}
+								Vector2 vector5 = center4 + new Vector2((float)(npc.direction * 30), 12f);
+								Vector2 vector6 = vec2 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+								vector6 = vector6.RotatedByRandom(0.52359879016876221);
+								Projectile.NewProjectile(vector5.X, vector5.Y, vector6.X, vector6.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
+							}
+						}
+					}
+					int num23 = Math.Sign(player.Center.X - center.X);
+					if (num23 != 0)
+					{
+						npc.direction = (npc.spriteDirection = num23);
+					}
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						vec2 = Vector2.Normalize(player.Center - center + player.velocity * 20f);
+						if (vec2.HasNaNs())
+						{
+							vec2 = new Vector2((float)npc.direction, 0f);
+						}
+						Vector2 vector7 = npc.Center + new Vector2((float)(npc.direction * 30), 12f);
+						Vector2 vector8 = vec2 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+						vector8 = vector8.RotatedByRandom(0.52359879016876221);
+						Projectile.NewProjectile(vector7.X, vector7.Y, vector8.X, vector8.Y, ProjectileID.CultistBossFireBall, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= (float)(4 + fireballFireRate * 4))
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Lightning Orb
+			else if (npc.ai[0] == 4f)
+			{
+				if (isCultist)
+				{
+					npc.localAI[2] = 12f;
+				}
+				else
+				{
+					npc.localAI[2] = 11f;
+				}
+				if ((npc.ai[1] == 20f & isCultist) && Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					List<int> list5 = new List<int>();
+					for (int num25 = 0; num25 < 200; num25++)
+					{
+						if (Main.npc[num25].active && Main.npc[num25].type == NPCID.CultistBossClone && Main.npc[num25].ai[3] == (float)npc.whoAmI)
+						{
+							list5.Add(num25);
+						}
+					}
+					foreach (int current5 in list5)
+					{
+						NPC nPC5 = Main.npc[current5];
+						Vector2 center5 = nPC5.Center;
+						int num26 = Math.Sign(player.Center.X - center5.X);
+						if (num26 != 0)
+						{
+							nPC5.direction = (nPC5.spriteDirection = num26);
+						}
+						Vector2 vec3 = Vector2.Normalize(player.Center - center5 + player.velocity * 20f);
+						if (vec3.HasNaNs())
+						{
+							vec3 = new Vector2((float)npc.direction, 0f);
+						}
+						Vector2 vector9 = center5 + new Vector2((float)(npc.direction * 30), 12f);
+						Vector2 vector10 = vec3 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+						vector10 = vector10.RotatedByRandom(0.52359879016876221);
+						Projectile.NewProjectile(vector9.X, vector9.Y, vector10.X, vector10.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
+					}
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y - 100f, 0f, 0f, ProjectileID.CultistBossLightningOrb, lightningDamage, 0f, Main.myPlayer, 0f, 0f);
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= (float)(20 + lightningOrbFireRate))
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Spawn Clones, and Dragon or Cthulhu head
+			else if (npc.ai[0] == 5f)
+			{
+				npc.localAI[2] = 10f;
+				if (Vector2.Normalize(player.Center - center).HasNaNs())
+				{
+					new Vector2((float)npc.direction, 0f);
+				}
+				if (npc.ai[1] >= 0f && npc.ai[1] < 30f)
+				{
+					dontTakeDamage = true;
+					chaseable = false;
+					float num28 = (npc.ai[1] - 0f) / 30f;
+					npc.alpha = (int)(num28 * 255f);
+				}
+				else if (npc.ai[1] >= 30f && npc.ai[1] < 90f)
+				{
+					if ((npc.ai[1] == 30f && Main.netMode != NetmodeID.MultiplayerClient) & isCultist)
+					{
+						npc.localAI[1] += 1f;
+						Vector2 spinningpoint = new Vector2(180f, 0f);
+						List<int> list6 = new List<int>();
+						for (int num29 = 0; num29 < 200; num29++)
+						{
+							if (Main.npc[num29].active && Main.npc[num29].type == NPCID.CultistBossClone && Main.npc[num29].ai[3] == (float)npc.whoAmI)
+							{
+								list6.Add(num29);
+							}
+						}
+						int num30 = 6 - list6.Count;
+						if (num30 > 2)
+						{
+							num30 = 2;
+						}
+						int num31 = list6.Count + num30 + 1;
+						float[] array = new float[num31];
+						for (int num32 = 0; num32 < array.Length; num32++)
+						{
+							array[num32] = Vector2.Distance(npc.Center + spinningpoint.RotatedBy((double)((float)num32 * 6.28318548f / (float)num31 - 1.57079637f), default(Vector2)), player.Center);
+						}
+						int num33 = 0;
+						for (int num34 = 1; num34 < array.Length; num34++)
+						{
+							if (array[num33] > array[num34])
+							{
+								num33 = num34;
+							}
+						}
+						if (num33 < num31 / 2)
+						{
+							num33 += num31 / 2;
+						}
+						else
+						{
+							num33 -= num31 / 2;
+						}
+						int num35 = num30;
+						for (int num36 = 0; num36 < array.Length; num36++)
+						{
+							if (num33 != num36)
+							{
+								Vector2 vector11 = npc.Center + spinningpoint.RotatedBy((double)((float)num36 * 6.28318548f / (float)num31 - 1.57079637f), default(Vector2));
+								if (num35-- > 0)
+								{
+									int num37 = NPC.NewNPC((int)vector11.X, (int)vector11.Y + npc.height / 2, NPCID.CultistBossClone, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+									Main.npc[num37].ai[3] = (float)npc.whoAmI;
+									Main.npc[num37].netUpdate = true;
+									Main.npc[num37].localAI[1] = npc.localAI[1];
+								}
+								else
+								{
+									int num38 = list6[-num35 - 1];
+									Main.npc[num38].Center = vector11;
+									NetMessage.SendData(23, -1, -1, null, num38, 0f, 0f, 0f, 0, 0, 0);
+								}
+							}
+						}
+						npc.ai[2] = (float)Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ProjectileID.CultistRitual, 0, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
+						npc.Center += spinningpoint.RotatedBy((double)((float)num33 * 6.28318548f / (float)num31 - 1.57079637f), default(Vector2));
+						npc.netUpdate = true;
+						list6.Clear();
+					}
+					dontTakeDamage = true;
+					chaseable = false;
+					npc.alpha = 255;
+					if (isCultist)
+					{
+						Vector2 vector12 = Main.projectile[(int)npc.ai[2]].Center;
+						vector12 -= npc.Center;
+						if (vector12 == Vector2.Zero)
+						{
+							vector12 = -Vector2.UnitY;
+						}
+						vector12.Normalize();
+						if (Math.Abs(vector12.Y) < 0.77f)
+						{
+							npc.localAI[2] = 11f;
+						}
+						else if (vector12.Y < 0f)
+						{
+							npc.localAI[2] = 12f;
+						}
+						else
+						{
+							npc.localAI[2] = 10f;
+						}
+						int num39 = Math.Sign(vector12.X);
+						if (num39 != 0)
+						{
+							npc.direction = (npc.spriteDirection = num39);
+						}
+					}
+					else
+					{
+						Vector2 vector13 = Main.projectile[(int)Main.npc[(int)npc.ai[3]].ai[2]].Center;
+						vector13 -= npc.Center;
+						if (vector13 == Vector2.Zero)
+						{
+							vector13 = -Vector2.UnitY;
+						}
+						vector13.Normalize();
+						if (Math.Abs(vector13.Y) < 0.77f)
+						{
+							npc.localAI[2] = 11f;
+						}
+						else if (vector13.Y < 0f)
+						{
+							npc.localAI[2] = 12f;
+						}
+						else
+						{
+							npc.localAI[2] = 10f;
+						}
+						int num40 = Math.Sign(vector13.X);
+						if (num40 != 0)
+						{
+							npc.direction = (npc.spriteDirection = num40);
+						}
+					}
+				}
+				else if (npc.ai[1] >= 90f && npc.ai[1] < 120f)
+				{
+					dontTakeDamage = true;
+					chaseable = false;
+					float num41 = (npc.ai[1] - 90f) / 30f;
+					npc.alpha = 255 - (int)(num41 * 255f);
+				}
+				else if (npc.ai[1] >= 120f && npc.ai[1] < timeToFinishRitual)
+				{
+					chaseable = false;
+					npc.alpha = 0;
+					if (isCultist)
+					{
+						Vector2 vector14 = Main.projectile[(int)npc.ai[2]].Center;
+						vector14 -= npc.Center;
+						if (vector14 == Vector2.Zero)
+						{
+							vector14 = -Vector2.UnitY;
+						}
+						vector14.Normalize();
+						if (Math.Abs(vector14.Y) < 0.77f)
+						{
+							npc.localAI[2] = 11f;
+						}
+						else if (vector14.Y < 0f)
+						{
+							npc.localAI[2] = 12f;
+						}
+						else
+						{
+							npc.localAI[2] = 10f;
+						}
+						int num42 = Math.Sign(vector14.X);
+						if (num42 != 0)
+						{
+							npc.direction = (npc.spriteDirection = num42);
+						}
+					}
+					else
+					{
+						Vector2 vector15 = Main.projectile[(int)Main.npc[(int)npc.ai[3]].ai[2]].Center;
+						vector15 -= npc.Center;
+						if (vector15 == Vector2.Zero)
+						{
+							vector15 = -Vector2.UnitY;
+						}
+						vector15.Normalize();
+						if (Math.Abs(vector15.Y) < 0.77f)
+						{
+							npc.localAI[2] = 11f;
+						}
+						else if (vector15.Y < 0f)
+						{
+							npc.localAI[2] = 12f;
+						}
+						else
+						{
+							npc.localAI[2] = 10f;
+						}
+						int num43 = Math.Sign(vector15.X);
+						if (num43 != 0)
+						{
+							npc.direction = (npc.spriteDirection = num43);
+						}
+					}
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= timeToFinishRitual)
+				{
+					chaseable = false;
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Pause
+			else if (npc.ai[0] == 6f)
+			{
+				npc.localAI[2] = 13f;
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= (float)(idleTime * 3))
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Ancient Light
+			else if (npc.ai[0] == 7f)
+			{
+				npc.localAI[2] = 11f;
+				Vector2 vec4 = Vector2.Normalize(player.Center - center);
+				if (vec4.HasNaNs())
+				{
+					vec4 = new Vector2((float)npc.direction, 0f);
+				}
+				if ((npc.ai[1] >= 4f & isCultist) && (int)(npc.ai[1] - 4f) % ancientLightSpawnRate == 0)
+				{
+					if ((int)(npc.ai[1] - 4f) / ancientLightSpawnRate == 2)
+					{
+						List<int> list7 = new List<int>();
+						for (int num44 = 0; num44 < 200; num44++)
+						{
+							if (Main.npc[num44].active && Main.npc[num44].type == NPCID.CultistBossClone && Main.npc[num44].ai[3] == (float)npc.whoAmI)
+							{
+								list7.Add(num44);
+							}
+						}
+						foreach (int current6 in list7)
+						{
+							NPC nPC6 = Main.npc[current6];
+							Vector2 center6 = nPC6.Center;
+							int num45 = Math.Sign(player.Center.X - center6.X);
+							if (num45 != 0)
+							{
+								nPC6.direction = (nPC6.spriteDirection = num45);
+							}
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								vec4 = Vector2.Normalize(player.Center - center6 + player.velocity * 20f);
+								if (vec4.HasNaNs())
+								{
+									vec4 = new Vector2((float)npc.direction, 0f);
+								}
+								Vector2 vector16 = center6 + new Vector2((float)(npc.direction * 30), 12f);
+								int num46 = 0;
+								while ((float)num46 < 5f)
+								{
+									Vector2 vector17 = vec4 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+									vector17 = vector17.RotatedByRandom(1.2566370964050293);
+									Projectile.NewProjectile(vector16.X, vector16.Y, vector17.X, vector17.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
+									num46++;
+								}
+							}
+						}
+					}
+					int num47 = Math.Sign(player.Center.X - center.X);
+					if (num47 != 0)
+					{
+						npc.direction = (npc.spriteDirection = num47);
+					}
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						vec4 = Vector2.Normalize(player.Center - center + player.velocity * 20f);
+						if (vec4.HasNaNs())
+						{
+							vec4 = new Vector2((float)npc.direction, 0f);
+						}
+						Vector2 vector18 = npc.Center + new Vector2((float)(npc.direction * 30), 12f);
+						float scaleFactor = CalamityWorld.death ? 11f : 10f;
+						float num48 = 0.251327425f;
+						int num49 = 0;
+						while ((float)num49 < 5f)
+						{
+							Vector2 vector19 = vec4 * scaleFactor;
+							vector19 = vector19.RotatedBy((double)(num48 * (float)num49 - (1.2566371f - num48) / 2f), default(Vector2));
+							float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * 6.28318548f / 60f;
+							int num50 = NPC.NewNPC((int)vector18.X, (int)vector18.Y + 7, NPCID.AncientLight, 0, 0f, ai, vector19.X, vector19.Y, 255);
+							Main.npc[num50].velocity = vector19;
+							num49++;
+						}
+					}
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= (float)(4 + ancientLightSpawnRate * 2))
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Ancient Doom
+			else if (npc.ai[0] == 8f)
+			{
+				npc.localAI[2] = 13f;
+				if ((npc.ai[1] >= 4f & isCultist) && (int)(npc.ai[1] - 4f) % 20 == 0)
+				{
+					List<int> list8 = new List<int>();
+					for (int num51 = 0; num51 < 200; num51++)
+					{
+						if (Main.npc[num51].active && Main.npc[num51].type == NPCID.CultistBossClone && Main.npc[num51].ai[3] == (float)npc.whoAmI)
+						{
+							list8.Add(num51);
+						}
+					}
+					int num52 = list8.Count + 1;
+					if (num52 > 3)
+					{
+						num52 = 3;
+					}
+					int num53 = Math.Sign(player.Center.X - center.X);
+					if (num53 != 0)
+					{
+						npc.direction = (npc.spriteDirection = num53);
+					}
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						for (int num54 = 0; num54 < num52; num54++)
+						{
+							Point point = npc.Center.ToTileCoordinates();
+							Point point2 = Main.player[npc.target].Center.ToTileCoordinates();
+							Vector2 vector20 = Main.player[npc.target].Center - npc.Center;
+							int num55 = 20;
+							int num56 = 3;
+							int num57 = 7;
+							int num58 = 2;
+							int num59 = 0;
+							bool flag6 = false;
+							if (vector20.Length() > 2800f)
+							{
+								flag6 = true;
+							}
+							while (!flag6 && num59 < 100)
+							{
+								num59++;
+								int num60 = Main.rand.Next(point2.X - num55, point2.X + num55 + 1);
+								int num61 = Main.rand.Next(point2.Y - num55, point2.Y + num55 + 1);
+								if ((num61 < point2.Y - num57 || num61 > point2.Y + num57 || num60 < point2.X - num57 || num60 > point2.X + num57) && (num61 < point.Y - num56 || num61 > point.Y + num56 || num60 < point.X - num56 || num60 > point.X + num56) && !Main.tile[num60, num61].nactive())
+								{
+									bool flag7 = true;
+									if (flag7 && Collision.SolidTiles(num60 - num58, num60 + num58, num61 - num58, num61 + num58))
+									{
+										flag7 = false;
+									}
+									if (flag7)
+									{
+										NPC.NewNPC(num60 * 16 + 8, num61 * 16 + 8, NPCID.AncientDoom, 0, (float)npc.whoAmI, 0f, 0f, 0f, 255);
+										break;
+									}
+								}
+							}
+						}
+					}
+				}
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 64f)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[3] += 1f;
+					npc.velocity = Vector2.Zero;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Set Clones to Cultist phase
+			if (!isCultist)
+			{
+				npc.ai[3] = clonePhase;
+			}
+
+			// Take damage or not
+			npc.dontTakeDamage = dontTakeDamage;
+			npc.chaseable = chaseable;
+
+			if (ModLoader.GetMod("FargowiltasSouls") != null)
+				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
+			return false;
+		}
+		#endregion
+
 		#region Buffed Mothron AI
 		public static bool BuffedMothronAI(NPC npc)
 		{
@@ -11509,95 +12535,6 @@ namespace CalamityMod.NPCs
 								int num = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 400, 0, 0f, 0f, 0f, 0f, 255);
 								Main.npc[num].ai[3] = npc.ai[3];
 								Main.npc[num].netUpdate = true;
-							}
-						}
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region Revengeance Cultist AI
-		public static void RevengeanceCultistAI(NPC npc, bool configBossRushBoost, Mod mod, bool enraged)
-		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
-
-			// Force enraged vulnerability
-			if (npc.buffImmune[mod.BuffType("Enraged")])
-				npc.buffImmune[mod.BuffType("Enraged")] = false;
-
-			if ((double)npc.life <= (double)npc.lifeMax * 0.5 || enraged || configBossRushBoost)
-			{
-				// Spawn Eidolists
-				if (!NPC.AnyNPCs(mod.NPCType("Eidolist")))
-				{
-					if (calamityGlobalNPC.newAI[0] < 120f)
-						calamityGlobalNPC.newAI[0] += 1f;
-
-					if (calamityGlobalNPC.newAI[0] >= 120f)
-					{
-						calamityGlobalNPC.newAI[0] = 0f;
-						npc.netUpdate = true;
-
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Eidolist"), 0, 0f, 0f, 0f, 0f, 255);
-
-						calamityGlobalNPC.newAI[0] = -360f;
-					}
-				}
-			}
-			else
-			{
-				// Fire projectiles from the sky
-				if (calamityGlobalNPC.CultCountdown == 0)
-				{
-					if (CalamityWorld.death || CalamityWorld.bossRushActive)
-						calamityGlobalNPC.CultCountdown = 75;
-					else if ((double)npc.life <= (double)npc.lifeMax * 0.5)
-						calamityGlobalNPC.CultCountdown = 150;
-					else
-						calamityGlobalNPC.CultCountdown = 200;
-				}
-				if (calamityGlobalNPC.CultCountdown > 0)
-				{
-					calamityGlobalNPC.CultCountdown--;
-					if (calamityGlobalNPC.CultCountdown == 0)
-					{
-						if (Main.netMode != NetmodeID.MultiplayerClient)
-						{
-							Player player2 = Main.player[npc.target];
-							int speed2 = 8;
-							float spawnX = Main.rand.Next(1000) - 500 + player2.Center.X;
-							float spawnY = -1000 + player2.Center.Y;
-							Vector2 baseSpawn = new Vector2(spawnX, spawnY);
-							Vector2 baseVelocity = player2.Center - baseSpawn;
-							baseVelocity.Normalize();
-							baseVelocity = baseVelocity * speed2;
-							int damage = 25; //100
-							for (int i = 0; i < calamityGlobalNPC.CultProjectiles; i++)
-							{
-								Vector2 spawn2 = baseSpawn;
-								spawn2.X = spawn2.X + i * 30 - (calamityGlobalNPC.CultProjectiles * 15);
-								Vector2 velocity = baseVelocity;
-								velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-calamityGlobalNPC.CultAngleSpread / 2 + (calamityGlobalNPC.CultAngleSpread * i / (float)calamityGlobalNPC.CultProjectiles)));
-								velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-								int projectileType = Main.rand.Next(3);
-								switch (projectileType)
-								{
-									case 0:
-										projectileType = ProjectileID.CultistBossFireBall;
-										break;
-									case 1:
-										projectileType = ProjectileID.FrostWave;
-										break;
-									case 2:
-										projectileType = ProjectileID.AncientDoomProjectile;
-										break;
-									default:
-										break;
-								}
-								int projectileI = Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-								Main.projectile[projectileI].tileCollide = false;
 							}
 						}
 					}

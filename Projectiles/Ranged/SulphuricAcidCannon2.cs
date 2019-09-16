@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
 					Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					vector15.Normalize();
 					vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("SulphuricAcidMist2"), (int)(350f * Main.player[projectile.owner].rangedDamage), 1f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("SulphuricAcidMist2"), (int)(500f * Main.player[projectile.owner].rangedDamage), 1f, projectile.owner, 0f, 0f);
 				}
 				else
 					counter += 1f;
@@ -177,7 +177,7 @@ namespace CalamityMod.Projectiles.Ranged
                                 projectile.netUpdate = true;
                                 projectile.StatusNPC(i);
                                 projectile.damage = 0;
-                                int num28 = 4;
+                                int num28 = 3;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
                                 for (int l = 0; l < 1000; l++)

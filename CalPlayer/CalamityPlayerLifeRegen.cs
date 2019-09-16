@@ -373,8 +373,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.eGravity)
 			{
-				player.velocity.X *= 0.99f;
-
 				if (player.wingTimeMax < 0)
 					player.wingTimeMax = 0;
 
@@ -386,8 +384,6 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.eGrav)
 			{
-				player.velocity.X *= 0.99f;
-
 				if (player.wingTimeMax < 0)
 					player.wingTimeMax = 0;
 
@@ -396,9 +392,6 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax > 400)
 					player.wingTimeMax = 200;
 			}
-
-			if (modPlayer.warped)
-				player.velocity.X *= 0.99f;
 
 			if (modPlayer.molluskSet)
 				player.velocity.X *= 0.985f;

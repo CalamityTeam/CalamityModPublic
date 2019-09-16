@@ -268,14 +268,13 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				// Laser walls
 				if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)))
 				{
-					laserShoot += 3;
-					if (laserShoot >= 2400)
-						laserShoot = 0;
+					laserShoot += 1;
 
-					float speed = (CalamityWorld.bossRushActive ? 4.5f : 4f);
+					float speed = 4f;
+					int divisor = CalamityWorld.bossRushActive ? 90 : (CalamityWorld.death ? 105 : 120);
 
 					// Walls from the sides
-					if (laserShoot % (CalamityWorld.bossRushActive ? 240 : (CalamityWorld.death ? 270 : 300)) == 0) //300 600 900 1200 1500 1800 2100 2400
+					if (laserShoot % divisor == 0)
 					{
 						Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
 
@@ -302,7 +301,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					}
 
 					// Wall from below
-					if (laserShoot % (CalamityWorld.bossRushActive ? 360 : (CalamityWorld.death ? 405 : 450)) == 0) //480 960 1440 1920 2400
+					if (laserShoot % divisor == 0)
 					{
 						for (int x = 0; x < totalShots; x++)
 						{
@@ -313,7 +312,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					}
 
 					// Wall from above
-					if (laserShoot % (CalamityWorld.bossRushActive ? 480 : (CalamityWorld.death ? 540 : 600)) == 0) //600 1200 1800 2400
+					if (laserShoot % divisor == 0)
 					{
 						if (lifeRatio < 0.4f && CalamityWorld.revenge)
 						{

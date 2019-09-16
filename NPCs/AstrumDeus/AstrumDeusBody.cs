@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			if (projectile.penetrate == -1 && !projectile.minion)
 			{
 				if (projectile.type == mod.ProjectileType("CosmicFire"))
-					damage = (int)((double)damage * 0.4);
+					damage = (int)((double)damage * 0.3);
 				else
 					damage = (int)((double)damage * 0.2);
 			}

@@ -352,7 +352,7 @@ namespace CalamityMod.NPCs.Providence
 					flightPath = 0;
 
 				// Velocity and acceleration
-				bool increaseSpeed = calamityGlobalNPC.newAI[0] > 180f;
+				bool increaseSpeed = calamityGlobalNPC.newAI[0] > 150f;
 				float acceleration = (expertMode ? 1.1f : 1.05f) + (0.2f * (1f - lifeRatio));
 				float velocity = (expertMode ? 16f : 15f) + (4f * (1f - lifeRatio));
 				if (CalamityWorld.bossRushActive)
@@ -367,7 +367,7 @@ namespace CalamityMod.NPCs.Providence
 				}
 				else if (increaseSpeed)
 				{
-					velocity += (calamityGlobalNPC.newAI[0] - 180f) * 0.04f;
+					velocity += (calamityGlobalNPC.newAI[0] - 150f) * 0.04f;
 					if (velocity > 30f)
 						velocity = 30f;
 				}

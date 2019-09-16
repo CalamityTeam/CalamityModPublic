@@ -683,11 +683,11 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.GolemHead)
 			{
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.0) : (int)(npc.lifeMax * 2.0);
+                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.0) : (int)(npc.lifeMax * 1.5);
 			}
 			else if (npc.type == NPCID.GolemHeadFree)
 			{
-				npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.25) : (int)(npc.lifeMax * 1.1);
+				npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.5) : (int)(npc.lifeMax * 1.25);
 				npc.dontTakeDamage = false;
 			}
             else if (npc.type == NPCID.Plantera)
@@ -695,7 +695,11 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.4) : (int)(npc.lifeMax * 2.3);
                 npc.npcSlots = 32f;
             }
-            else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
+			else if (npc.type == NPCID.PlanterasHook)
+			{
+				npc.damage = (npc.defDamage = 0);
+			}
+			else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.6) : (int)(npc.lifeMax * 1.9);
 
@@ -724,7 +728,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.BrainofCthulhu)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.9) : (int)(npc.lifeMax * 1.4);
+                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.1) : (int)(npc.lifeMax * 1.6);
                 npc.npcSlots = 12f;
             }
             else if (npc.type == NPCID.Creeper)
@@ -1439,7 +1443,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.type == NPCID.BrainofCthulhu)
 				{
-					if ((float)npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.25f : 0.15f))
+					if ((float)npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.33f : 0.2f))
 						index = -1;
 				}
 
@@ -1592,7 +1596,11 @@ namespace CalamityMod.NPCs
 
                         break;
 
-                    default:
+					case NPCID.CultistBoss:
+					case NPCID.CultistBossClone:
+						return CalamityGlobalAI.BuffedCultistAI(npc, enraged, mod);
+
+					default:
                         break;
                 }
             }
@@ -2154,10 +2162,6 @@ namespace CalamityMod.NPCs
 						CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
 						break;
 
-					case NPCID.CultistBoss:
-						CalamityGlobalAI.RevengeanceCultistAI(npc, configBossRushBoost, mod, enraged);
-						break;
-
 					case NPCID.DungeonGuardian:
 						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
 						break;
@@ -2220,7 +2224,6 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GolemHead:
-                case NPCID.GolemHeadFree:
                 case NPCID.GolemFistRight:
                 case NPCID.GolemFistLeft:
                     target.AddBuff(mod.BuffType("ArmorCrunch"), 180);
