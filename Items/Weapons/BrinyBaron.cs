@@ -32,8 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shootSpeed = 4f;
-			item.shoot = mod.ProjectileType("NobodyKnows");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+            item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -50,6 +49,7 @@ namespace CalamityMod.Items.Weapons
 	    		item.useTime = 15;
 	    		item.useAnimation = 15;
 	        	item.UseSound = SoundID.Item84;
+                item.shoot = mod.ProjectileType("Razorwind");
 			}
 			else
 			{
@@ -58,22 +58,15 @@ namespace CalamityMod.Items.Weapons
 	    		item.useTime = 20;
 	    		item.useAnimation = 20;
 	        	item.UseSound = SoundID.Item1;
+                item.shoot = 0;
 			}
 			return base.CanUseItem(player);
 		}
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	if (player.altFunctionUse == 2)
-	    	{
-	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Razorwind"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
-	    	}
-	    	else
-	    	{
-	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("NobodyKnows"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    		return false;
-	    	}
+	        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Razorwind"), damage, knockBack, player.whoAmI, 0f, 0f);
+            return false;
 		}
 
 	    public override void MeleeEffects(Player player, Rectangle hitbox)

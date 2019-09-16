@@ -28,8 +28,7 @@ namespace CalamityMod.Items.Weapons
 			item.height = 62;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-			item.shoot = mod.ProjectileType("NobodyKnows");
-			item.shootSpeed = 6f;
+            item.shootSpeed = 6f;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -45,6 +44,7 @@ namespace CalamityMod.Items.Weapons
 				item.noUseGraphic = true;
 				item.useStyle = 5;
 				item.autoReuse = false;
+                item.shoot = mod.ProjectileType("FulgurationHalberd");
 			}
 			else
 			{
@@ -52,16 +52,14 @@ namespace CalamityMod.Items.Weapons
 				item.noUseGraphic = false;
 				item.useStyle = 1;
 				item.autoReuse = true;
+                item.shoot = 0;
 			}
 			return base.CanUseItem(player);
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if (player.altFunctionUse == 2)
-			{
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FulgurationHalberd"), damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FulgurationHalberd"), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 

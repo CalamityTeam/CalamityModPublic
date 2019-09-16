@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons
             item.rare = 7;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.shootSpeed = 14f;
-			item.shoot = mod.ProjectileType("NobodyKnows");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
 		}
 
@@ -48,26 +47,23 @@ namespace CalamityMod.Items.Weapons
 	        	item.noMelee = true;
 	    		item.useTime = 20;
 	    		item.useAnimation = 20;
+                item.UseSound = SoundID.Item73;
+                item.shoot = mod.ProjectileType("AegisBeam");
 			}
 			else
 			{
 	        	item.noMelee = false;
 	    		item.useTime = 15;
 	    		item.useAnimation = 15;
+                item.UseSound = SoundID.Item1;
+                item.shoot = 0;
 			}
 			return base.CanUseItem(player);
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-	    	if (player.altFunctionUse == 2)
-	    	{
-	    		Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AegisBeam"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    	}
-	    	else
-	    	{
-	        	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("NobodyKnows"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-	    	}
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AegisBeam"), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 

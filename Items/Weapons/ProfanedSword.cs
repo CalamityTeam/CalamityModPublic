@@ -29,7 +29,6 @@ namespace CalamityMod.Items.Weapons
             item.rare = 6;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			item.shoot = mod.ProjectileType("NobodyKnows");
 			item.shootSpeed = 20f;
 		}
 
@@ -44,21 +43,20 @@ namespace CalamityMod.Items.Weapons
 			{
 				item.noMelee = true;
 				item.noUseGraphic = true;
+                item.shoot = mod.ProjectileType("ProfanedSword");
 			}
 			else
 			{
 				item.noMelee = false;
 				item.noUseGraphic = false;
+                item.shoot = 0;
 			}
 			return base.CanUseItem(player);
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			if (player.altFunctionUse == 2)
-			{
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ProfanedSword"), damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ProfanedSword"), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 
