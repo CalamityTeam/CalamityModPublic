@@ -84,6 +84,9 @@ namespace CalamityMod.Projectiles
 				default:
 					break;
 			}
+
+            // Disable Lunatic Cultist's homing resistance globally
+            ProjectileID.Sets.Homing[projectile.type] = false;
 		}
 		#endregion
 
