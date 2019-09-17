@@ -33,11 +33,6 @@ namespace CalamityMod.NPCs
 		// Draedons Remote
 		public static bool DraedonMayhem = false;
 
-		// Lunatic Cultist Rev+ attack
-		public int CultProjectiles = 2;
-		public float CultAngleSpread = 170f;
-		public int CultCountdown = 0;
-
 		// Debuffs
 		public bool timeSlow = false;
 		public bool wCleave = false;
@@ -695,7 +690,7 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.4) : (int)(npc.lifeMax * 2.3);
                 npc.npcSlots = 32f;
             }
-			else if (npc.type == NPCID.PlanterasHook)
+			else if (npc.type == NPCID.PlanterasHook || npc.type == NPCID.AncientDoom)
 			{
 				npc.damage = (npc.defDamage = 0);
 			}
@@ -1599,6 +1594,8 @@ namespace CalamityMod.NPCs
 					case NPCID.CultistBoss:
 					case NPCID.CultistBossClone:
 						return CalamityGlobalAI.BuffedCultistAI(npc, enraged, mod);
+					case NPCID.AncientDoom:
+						return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
 
 					default:
                         break;

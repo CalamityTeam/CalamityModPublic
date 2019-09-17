@@ -22,10 +22,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 66;
 			npc.height = 66;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000;
+			npc.lifeMax = CalamityWorld.revenge ? 750000 : 675000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 850000;
+				npc.lifeMax = 1300000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
@@ -156,14 +156,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			cooldownSlot = 0;
 			return true;
-		}
-
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
-			{
-				damage /= 4;
-			}
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

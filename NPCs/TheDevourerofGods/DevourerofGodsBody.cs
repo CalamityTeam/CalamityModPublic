@@ -24,10 +24,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 56;
 			npc.height = 56;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000;
+			npc.lifeMax = CalamityWorld.revenge ? 750000 : 675000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 850000;
+				npc.lifeMax = 1300000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

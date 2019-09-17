@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
 	    {
 			if (target.life <= 0)
 			{
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, 612, damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 				float randomSpeedX = (float)Main.rand.Next(5);
 				float randomSpeedY = (float)Main.rand.Next(3, 7);
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, mod.ProjectileType("PhoenixHeal"), item.damage, knockback, player.whoAmI);

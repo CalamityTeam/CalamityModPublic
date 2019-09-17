@@ -27,10 +27,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 80;
 			npc.height = 140;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000;
+			npc.lifeMax = CalamityWorld.revenge ? 1450000 : 1250000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 3060000;
+				npc.lifeMax = 2300000;
 			}
 			if (CalamityWorld.bossRushActive)
 			{
@@ -273,14 +273,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				return false;
 			}
 			return true;
-		}
-
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2") || projectile.type == mod.ProjectileType("EidolicWail"))
-			{
-				damage /= 4;
-			}
 		}
 
 		public override bool CheckActive()

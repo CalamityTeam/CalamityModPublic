@@ -1106,7 +1106,6 @@ namespace CalamityMod
 					NPCID.CultistDragonHead,
 					NPCID.AncientCultistSquidhead,
 					NPCID.AncientLight,
-					NPCID.AncientDoom,
 					NPCID.Butcher,
 					NPCID.Psycho,
 					NPCID.DeadlySphere,

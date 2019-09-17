@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
         	if (projectile.ai[0] == 0f)
 			{
 				projectile.ai[1] += 1f;
-				if (projectile.ai[1] >= 30f)
+				if (projectile.ai[1] >= 45f)
 				{
 					projectile.ai[0] = 1f;
 					projectile.ai[1] = 0f;

@@ -39,10 +39,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 186;
 			npc.height = 186;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 1875000 : 1650000;
+			npc.lifeMax = CalamityWorld.revenge ? 1450000 : 1250000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 3060000;
+				npc.lifeMax = 2300000;
 			}
 			if (CalamityWorld.bossRushActive)
 			{
@@ -273,18 +273,18 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					float speed = 4f;
 					int divisor = CalamityWorld.bossRushActive ? 90 : (CalamityWorld.death ? 105 : 120);
 
-					// Walls from the sides
 					if (laserShoot % divisor == 0)
 					{
 						Main.PlaySound(2, (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, 12);
 
 						float targetPosY = Main.player[npc.target].position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
 
+						// Side walls
 						for (int x = 0; x < totalShots; x++)
 						{
 							Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[0], -speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[0], speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-							shotSpacing[0] -= spacingVar; //105
+							shotSpacing[0] -= spacingVar;
 						}
 
 						if (Main.rand.NextBool(2) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
@@ -298,22 +298,16 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 							shotSpacing[3] = 1050;
 						}
 						shotSpacing[0] = 1050;
-					}
 
-					// Wall from below
-					if (laserShoot % divisor == 0)
-					{
+						// Lower wall
 						for (int x = 0; x < totalShots; x++)
 						{
 							Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[1], Main.player[npc.target].position.Y + 1000f, 0f, -speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-							shotSpacing[1] -= spacingVar; //105
+							shotSpacing[1] -= spacingVar;
 						}
 						shotSpacing[1] = 1050;
-					}
 
-					// Wall from above
-					if (laserShoot % divisor == 0)
-					{
+						// Upper wall
 						if (lifeRatio < 0.4f && CalamityWorld.revenge)
 						{
 							if (shotSpacing[2] < 2100)
@@ -322,7 +316,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 							for (int x = 0; x < 40; x++)
 							{
 								Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[2] -= spacingVar; //105
+								shotSpacing[2] -= spacingVar;
 							}
 							shotSpacing[2] = 2100;
 						}
@@ -331,7 +325,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 							for (int x = 0; x < totalShots; x++)
 							{
 								Projectile.NewProjectile(Main.player[npc.target].position.X + (float)shotSpacing[2], Main.player[npc.target].position.Y - 1000f, 0f, speed, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[2] -= spacingVar; //105
+								shotSpacing[2] -= spacingVar;
 							}
 							shotSpacing[2] = 1050;
 						}
@@ -908,14 +902,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             CalamityWorld.downedDoG = true;
             CalamityMod.UpdateServerBoolean();
         }
-
-        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2"))
-			{
-				damage /= 2;
-			}
-		}
 
 		// Can only hit the target if within certain distance
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)

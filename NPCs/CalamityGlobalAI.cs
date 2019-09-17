@@ -10413,7 +10413,7 @@ namespace CalamityMod.NPCs
 				(phase4 ? 2 : 0) -
 				(phase5 ? 2 : 0);
 
-			float fireballSpeed = CalamityWorld.death ? 7.5f : 7f;
+			float fireballSpeed = (CalamityWorld.death ? 7f : 6.5f) - (isCultist ? 0f : 3f);
 
 			int lightningOrbFireRate = 40 -
 				(phase2 ? 5 : 0) -
@@ -11387,6 +11387,92 @@ namespace CalamityMod.NPCs
 
 			if (ModLoader.GetMod("FargowiltasSouls") != null)
 				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+
+			return false;
+		}
+
+		public static bool BuffedAncientDoomAI(NPC npc, Mod mod)
+		{
+			float num1496 = 420f;
+			float num1497 = 120f;
+			int num1498 = 1;
+			float value57 = 0f;
+			float value58 = 1f;
+			float num1499 = CalamityWorld.death ? 5.5f : 5f;
+			bool flag110 = npc.ai[1] < 0f || !Main.npc[(int)npc.ai[0]].active;
+			if (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss)
+			{
+				if (Main.npc[(int)npc.ai[0]].life < Main.npc[(int)npc.ai[0]].lifeMax / 2)
+				{
+					num1498 = 2;
+				}
+				if (Main.npc[(int)npc.ai[0]].life < Main.npc[(int)npc.ai[0]].lifeMax / 4)
+				{
+					num1498 = 3;
+				}
+			}
+			else
+			{
+				flag110 = true;
+			}
+			npc.ai[1] += (float)num1498;
+			float num1500 = npc.ai[1] / num1497;
+			num1500 = MathHelper.Clamp(num1500, 0f, 1f);
+			npc.position = npc.Center;
+			npc.scale = MathHelper.Lerp(value57, value58, num1500);
+			npc.Center = npc.position;
+			npc.alpha = (int)(255f - num1500 * 255f);
+			if (Main.rand.Next(6) == 0)
+			{
+				Vector2 spinningpoint4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+				Dust dust17 = Main.dust[Dust.NewDust(npc.Center - spinningpoint4 * 20f, 0, 0, 27, 0f, 0f, 0, default(Color), 1f)];
+				dust17.noGravity = true;
+				dust17.position = npc.Center - spinningpoint4 * (float)Main.rand.Next(10, 21) * npc.scale;
+				dust17.velocity = spinningpoint4.RotatedBy(1.5707963705062866, default(Vector2)) * 4f;
+				dust17.scale = 0.5f + Main.rand.NextFloat();
+				dust17.fadeIn = 0.5f;
+			}
+			if (Main.rand.Next(6) == 0)
+			{
+				Vector2 spinningpoint5 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+				Dust dust18 = Main.dust[Dust.NewDust(npc.Center - spinningpoint5 * 30f, 0, 0, 240, 0f, 0f, 0, default(Color), 1f)];
+				dust18.noGravity = true;
+				dust18.position = npc.Center - spinningpoint5 * 20f * npc.scale;
+				dust18.velocity = spinningpoint5.RotatedBy(-1.5707963705062866, default(Vector2)) * 2f;
+				dust18.scale = 0.5f + Main.rand.NextFloat();
+				dust18.fadeIn = 0.5f;
+			}
+			if (Main.rand.Next(6) == 0)
+			{
+				Vector2 vector254 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
+				Dust dust19 = Main.dust[Dust.NewDust(npc.Center - vector254 * 30f, 0, 0, 240, 0f, 0f, 0, default(Color), 1f)];
+				dust19.position = npc.Center - vector254 * 20f * npc.scale;
+				dust19.velocity = Vector2.Zero;
+				dust19.scale = 0.5f + Main.rand.NextFloat();
+				dust19.fadeIn = 0.5f;
+				dust19.noLight = true;
+			}
+			npc.localAI[0] += 0.05235988f;
+			npc.localAI[1] = 0.25f + Vector2.UnitY.RotatedBy((double)(npc.ai[1] * 6.28318548f / 60f), default(Vector2)).Y * 0.25f;
+			if (npc.ai[1] >= num1496)
+			{
+				flag110 = true;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					int num;
+					for (int num1501 = 0; num1501 < 4; num1501 = num + 1)
+					{
+						Vector2 vector255 = new Vector2(0f, -num1499).RotatedBy((double)(1.57079637f * (float)num1501), default(Vector2));
+						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector255.X, vector255.Y, ProjectileID.AncientDoomProjectile, 45, 0f, Main.myPlayer, 0f, 0f);
+						num = num1501;
+					}
+				}
+			}
+			if (flag110)
+			{
+				npc.HitEffect(0, 9999.0);
+				npc.active = false;
+			}
 
 			return false;
 		}

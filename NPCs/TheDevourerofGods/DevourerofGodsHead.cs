@@ -33,10 +33,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 104;
 			npc.height = 104;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 500000 : 450000;
+			npc.lifeMax = CalamityWorld.revenge ? 750000 : 675000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 850000;
+				npc.lifeMax = 1300000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
@@ -694,14 +694,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
 				netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
 				netMessage.Send();
-			}
-		}
-
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (projectile.type == mod.ProjectileType("SulphuricAcidMist2"))
-			{
-				damage /= 2;
 			}
 		}
 
