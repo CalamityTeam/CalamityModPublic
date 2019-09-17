@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 3;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+			projectile.localNPCHitCooldown = 8;
         }
 
         public override void AI()

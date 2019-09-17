@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons
 
 	    public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
 	    {
-	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrinyTyphoonBubble"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI);
+	    	Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("BrinyTyphoonBubble"), (int)((float)item.damage * 0.5f * player.meleeDamage), knockback, player.whoAmI);
 		}
 	}
 }
