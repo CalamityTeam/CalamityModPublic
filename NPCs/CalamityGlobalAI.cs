@@ -11422,7 +11422,7 @@ namespace CalamityMod.NPCs
 			npc.scale = MathHelper.Lerp(value57, value58, num1500);
 			npc.Center = npc.position;
 			npc.alpha = (int)(255f - num1500 * 255f);
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
 				Vector2 spinningpoint4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
 				Dust dust17 = Main.dust[Dust.NewDust(npc.Center - spinningpoint4 * 20f, 0, 0, 27, 0f, 0f, 0, default(Color), 1f)];
@@ -11432,7 +11432,7 @@ namespace CalamityMod.NPCs
 				dust17.scale = 0.5f + Main.rand.NextFloat();
 				dust17.fadeIn = 0.5f;
 			}
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
 				Vector2 spinningpoint5 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
 				Dust dust18 = Main.dust[Dust.NewDust(npc.Center - spinningpoint5 * 30f, 0, 0, 240, 0f, 0f, 0, default(Color), 1f)];
@@ -11442,7 +11442,7 @@ namespace CalamityMod.NPCs
 				dust18.scale = 0.5f + Main.rand.NextFloat();
 				dust18.fadeIn = 0.5f;
 			}
-			if (Main.rand.Next(6) == 0)
+			if (Main.rand.NextBool(6))
 			{
 				Vector2 vector254 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
 				Dust dust19 = Main.dust[Dust.NewDust(npc.Center - vector254 * 30f, 0, 0, 240, 0f, 0f, 0, default(Color), 1f)];
