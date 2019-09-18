@@ -6563,15 +6563,15 @@ namespace CalamityMod.CalPlayer
 				}
 				else if (proj.type == ProjectileID.DeathLaser)
 				{
-					player.AddBuff(BuffID.OnFire, 180);
+					player.AddBuff(BuffID.OnFire, 240);
 				}
 				else if (proj.type == ProjectileID.Skull)
 				{
-					player.AddBuff(BuffID.Weak, 120);
+					player.AddBuff(BuffID.Weak, 180);
 				}
 				else if (proj.type == ProjectileID.ThornBall)
 				{
-					player.AddBuff(BuffID.Poisoned, 180);
+					player.AddBuff(BuffID.Poisoned, 240);
 				}
 				else if (proj.type == ProjectileID.CultistBossIceMist)
 				{

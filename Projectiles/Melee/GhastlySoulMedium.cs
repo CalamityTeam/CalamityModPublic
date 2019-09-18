@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num822].noGravity = true;
             float num953 = 35f * projectile.ai[1]; //100
             float scaleFactor12 = 7f * projectile.ai[1]; //5
-            float num954 = 600f;
+            float num954 = 900f;
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
             Lighting.AddLight(projectile.Center, 0.5f, 0.2f, 0.9f);
             if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 float num472 = projectile.Center.X;
                 float num473 = projectile.Center.Y;
-                float num474 = 400f;
+                float num474 = 600f;
                 bool flag17 = false;
                 for (int num475 = 0; num475 < 200; num475++)
                 {
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 if (flag17)
                 {
-                    float num483 = 13f;
+                    float num483 = 16f;
                     Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num484 = num472 - vector35.X;
                     float num485 = num473 - vector35.Y;

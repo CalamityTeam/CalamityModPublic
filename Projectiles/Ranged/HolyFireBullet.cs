@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.65f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
         	projectile.localAI[0] += 1f;
         	if (projectile.localAI[0] >= 4f)
         	{

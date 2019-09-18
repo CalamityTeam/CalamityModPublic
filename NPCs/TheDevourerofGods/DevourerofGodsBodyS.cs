@@ -25,10 +25,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 70;
 			npc.height = 70;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 1450000 : 1250000;
+			npc.lifeMax = CalamityWorld.revenge ? 1350000 : 1150000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 2300000;
+				npc.lifeMax = 2100000;
 			}
 			if (CalamityWorld.bossRushActive)
 			{

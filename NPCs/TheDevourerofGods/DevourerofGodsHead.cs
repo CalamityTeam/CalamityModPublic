@@ -460,12 +460,18 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				float fallSpeed = 16f + ((CalamityWorld.death ? 5f : 3.5f) * (1f - lifeRatio));
 				float speed = (CalamityWorld.death ? 0.2f : 0.18f) + (0.08f * (1f - lifeRatio));
 				float turnSpeed = (CalamityWorld.death ? 0.14f : 0.12f) + (0.12f * (1f - lifeRatio));
+				bool increaseSpeed = Vector2.Distance(Main.player[npc.target].Center, vector) > 3200f;
 
 				// Enrage
 				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
 				{
-					speed = 0.6f;
-					turnSpeed = 0.45f;
+					speed *= 4f;
+					turnSpeed *= 6f;
+				}
+				else if (increaseSpeed)
+				{
+					speed *= 2f;
+					turnSpeed *= 3f;
 				}
 
 				if (!flies)
@@ -559,17 +565,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 				else
 				{
-					if (npc.soundDelay == 0)
-					{
-						float num24 = num22 / 40f;
-						if (num24 < 10f)
-							num24 = 10f;
-						if (num24 > 20f)
-							num24 = 20f;
-
-						npc.soundDelay = (int)num24;
-						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
-					}
+					double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((CalamityWorld.death ? 0.1f : 0.08f) * (1f - lifeRatio));
+					double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((CalamityWorld.death ? 0.2f : 0.16f) * (1f - lifeRatio));
 
 					num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
 					float num25 = Math.Abs(num20);
@@ -581,13 +578,14 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
 					{
 						if (npc.velocity.X < num20)
-							npc.velocity.X = npc.velocity.X + turnSpeed;
+							npc.velocity.X = npc.velocity.X + turnSpeed * 1.3f;
 						else if (npc.velocity.X > num20)
-							npc.velocity.X = npc.velocity.X - turnSpeed;
+							npc.velocity.X = npc.velocity.X - turnSpeed * 1.3f;
+
 						if (npc.velocity.Y < num21)
-							npc.velocity.Y = npc.velocity.Y + turnSpeed;
+							npc.velocity.Y = npc.velocity.Y + turnSpeed * 1.3f;
 						else if (npc.velocity.Y > num21)
-							npc.velocity.Y = npc.velocity.Y - turnSpeed;
+							npc.velocity.Y = npc.velocity.Y - turnSpeed * 1.3f;
 					}
 
 					if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
@@ -601,14 +599,14 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						else if (npc.velocity.Y > num21)
 							npc.velocity.Y = npc.velocity.Y - speed;
 
-						if ((double)Math.Abs(num21) < (double)fallSpeed * 0.4 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
+						if ((double)Math.Abs(num21) < (double)fallSpeed * maximumSpeed1 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
 						{
 							if (npc.velocity.Y > 0f)
 								npc.velocity.Y = npc.velocity.Y + speed * 2f;
 							else
 								npc.velocity.Y = npc.velocity.Y - speed * 2f;
 						}
-						if ((double)Math.Abs(num20) < (double)fallSpeed * 0.4 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
+						if ((double)Math.Abs(num20) < (double)fallSpeed * maximumSpeed1 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
 						{
 							if (npc.velocity.X > 0f)
 								npc.velocity.X = npc.velocity.X + speed * 2f;
@@ -623,7 +621,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						else if (npc.velocity.X > num20)
 							npc.velocity.X = npc.velocity.X - speed * 1.1f;
 
-						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 1.0)
+						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * maximumSpeed2)
 						{
 							if (npc.velocity.Y > 0f)
 								npc.velocity.Y = npc.velocity.Y + speed;
@@ -638,7 +636,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						else if (npc.velocity.Y > num21)
 							npc.velocity.Y = npc.velocity.Y - speed * 1.1f;
 
-						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 1.0)
+						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * maximumSpeed2)
 						{
 							if (npc.velocity.X > 0f)
 								npc.velocity.X = npc.velocity.X + speed;

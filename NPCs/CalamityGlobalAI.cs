@@ -1336,10 +1336,10 @@ namespace CalamityMod.NPCs
 			float lifeRatio = segmentCount / (totalSegments + 2);
 
 			// Phases
-			bool phase2 = lifeRatio < 0.8f; // 52 or less parts left
-			bool phase3 = lifeRatio < 0.6f; // 39 or less parts left
-			bool phase4 = lifeRatio < 0.4f; // 26 or less parts left
-			bool phase5 = lifeRatio < 0.2f; // 13 or less parts left
+			bool phase2 = lifeRatio < 0.9f;
+			bool phase3 = lifeRatio < 0.75f;
+			bool phase4 = lifeRatio < 0.4f;
+			bool phase5 = lifeRatio < 0.1f;
 
 			// Fire projectiles
 			if (Main.netMode != NetmodeID.MultiplayerClient && !phase5)
@@ -2345,7 +2345,7 @@ namespace CalamityMod.NPCs
 
 			// Creeper count, 0 to 20
 			int creeperCount = NPC.CountNPCS(NPCID.Creeper);
-			bool phase2 = creeperCount <= 10;
+			bool phase2 = creeperCount <= 5;
 
 			// Adjust knockback
 			if (phase2)
@@ -3110,9 +3110,9 @@ namespace CalamityMod.NPCs
 
 				// Teleport after a certain time
 				// If hands are dead: 7 seconds in rev, 5.6 seconds in death
-				// If hands are not dead: 9.3 seconds in rev, 7 seconds in death
+				// If hands are not dead: 14 seconds in rev, 9.3 seconds in death
 				// If hands are dead in phase 2: 4.7 seconds in rev, 4 seconds in death
-				npc.ai[3] += ((CalamityWorld.death ? 1.25f : 1f) + ((phase2 && handsDead) ? 0.5f : 0f)) - (handsDead ? 0f : 0.25f);
+				npc.ai[3] += ((CalamityWorld.death ? 1.25f : 1f) + ((phase2 && handsDead) ? 0.5f : 0f)) - (handsDead ? 0f : 0.5f);
 
 				// Dust to show teleport
 				int ai3 = (int)npc.ai[3]; // 0 to 30, and -60

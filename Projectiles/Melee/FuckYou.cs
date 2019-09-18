@@ -122,5 +122,10 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(BuffID.OnFire, 300);
 			projectile.direction = Main.player[projectile.owner].direction;
 		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			damage = (int)((double)damage * 0.4);
+		}
 	}
 }

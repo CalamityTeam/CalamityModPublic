@@ -39,10 +39,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 186;
 			npc.height = 186;
 			npc.defense = 0;
-			npc.lifeMax = CalamityWorld.revenge ? 1450000 : 1250000;
+			npc.lifeMax = CalamityWorld.revenge ? 1350000 : 1150000;
 			if (CalamityWorld.death)
 			{
-				npc.lifeMax = 2300000;
+				npc.lifeMax = 2100000;
 			}
 			if (CalamityWorld.bossRushActive)
 			{
@@ -924,7 +924,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		}
 
 		// Projectiles can only hit within certain distance
-		public override bool? CanBeHitByProjectile(Projectile projectile)
+		/*public override bool? CanBeHitByProjectile(Projectile projectile)
 		{
 			Rectangle projectileHitbox = projectile.Hitbox;
 
@@ -939,7 +939,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			if (dist4 < minDist) minDist = dist4;
 
 			return minDist <= 80f;
-		}
+		}*/
 
 		// Melee hitboxes are fucked so I have no clue what to do here
 		/*public override bool? CanBeHitByItem(Player player, Item item)
