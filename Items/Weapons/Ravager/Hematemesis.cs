@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ravager
 
 	    public override void SetDefaults()
 	    {
-	        item.damage = 125;
+	        item.damage = 90;
 	        item.magic = true;
 	        item.mana = 14;
             item.rare = 8;

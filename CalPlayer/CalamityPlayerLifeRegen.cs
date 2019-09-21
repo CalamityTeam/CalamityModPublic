@@ -376,10 +376,10 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax < 0)
 					player.wingTimeMax = 0;
 
-				player.wingTimeMax /= 4;
-
 				if (player.wingTimeMax > 400)
-					player.wingTimeMax = 100;
+					player.wingTimeMax = 400;
+
+				player.wingTimeMax /= 4;
 			}
 
 			if (modPlayer.eGrav)
@@ -387,10 +387,10 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax < 0)
 					player.wingTimeMax = 0;
 
-				player.wingTimeMax /= 3;
-
 				if (player.wingTimeMax > 400)
-					player.wingTimeMax = 200;
+					player.wingTimeMax = 400;
+
+				player.wingTimeMax /= 2;
 			}
 
 			if (modPlayer.molluskSet)

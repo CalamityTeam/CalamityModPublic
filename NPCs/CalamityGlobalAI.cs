@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs
 				Vector2 vector = npc.Center + new Vector2(-40f, (float)(-(float)npc.height / 2));
 				for (int num621 = 0; num621 < 20; num621++)
 				{
-					int num622 = Dust.NewDust(vector, npc.width, npc.height, 90, 0f, 0f, 100, default, 2f);
+					int num622 = Dust.NewDust(vector, npc.width / 2, npc.height / 2, 90, 0f, 0f, 100, default, 2f);
 					Main.dust[num622].velocity *= 2f;
 					Main.dust[num622].noGravity = true;
                     if (Main.rand.NextBool(2))
@@ -3775,17 +3775,16 @@ namespace CalamityMod.NPCs
 				distanceFromTarget = targetPosition - npcPosition;
 
 			float halfAverageScreenWidth = 960f;
-			float enrageDistance = halfAverageScreenWidth + 120f;
 			float distanceBeforeSlowingDown = 400f;
 			float timeBeforeEnrage = CalamityWorld.death ? 420f : 600f;
 			float speedMult = 1f;
 
 			if (calamityGlobalNPC.newAI[0] < timeBeforeEnrage)
 			{
-				if (distanceFromTarget > enrageDistance ||
+				if (distanceFromTarget > halfAverageScreenWidth ||
 					!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					speedMult += (distanceFromTarget - enrageDistance) * 0.001f;
+					speedMult += (distanceFromTarget - halfAverageScreenWidth) * 0.001f;
 					calamityGlobalNPC.newAI[0] += 1f;
 
 					// Enrage after 10 seconds of target being off screen
@@ -3803,6 +3802,13 @@ namespace CalamityMod.NPCs
 				}
 				else if (distanceFromTarget < distanceBeforeSlowingDown)
 					speedMult += (distanceFromTarget - distanceBeforeSlowingDown) * 0.002f;
+
+				if (distanceFromTarget < halfAverageScreenWidth &&
+					Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+				{
+					if (calamityGlobalNPC.newAI[0] > 0f)
+						calamityGlobalNPC.newAI[0] -= 1f;
+				}
 
 				if (speedMult > 2f)
 					speedMult = 2f;
@@ -10827,7 +10833,7 @@ namespace CalamityMod.NPCs
 								vec = new Vector2((float)npc.direction, 0f);
 							}
 							Vector2 vector = center3 + new Vector2((float)(npc.direction * 30), 12f);
-							Vector2 vector2 = vec * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+							Vector2 vector2 = vec * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
 							vector2 = vector2.RotatedByRandom(0.52359879016876221);
 							Projectile.NewProjectile(vector.X, vector.Y, vector2.X, vector2.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
 						}
@@ -10893,7 +10899,7 @@ namespace CalamityMod.NPCs
 									vec2 = new Vector2((float)npc.direction, 0f);
 								}
 								Vector2 vector5 = center4 + new Vector2((float)(npc.direction * 30), 12f);
-								Vector2 vector6 = vec2 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+								Vector2 vector6 = vec2 * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
 								vector6 = vector6.RotatedByRandom(0.52359879016876221);
 								Projectile.NewProjectile(vector5.X, vector5.Y, vector6.X, vector6.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
 							}
@@ -10964,7 +10970,7 @@ namespace CalamityMod.NPCs
 							vec3 = new Vector2((float)npc.direction, 0f);
 						}
 						Vector2 vector9 = center5 + new Vector2((float)(npc.direction * 30), 12f);
-						Vector2 vector10 = vec3 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+						Vector2 vector10 = vec3 * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
 						vector10 = vector10.RotatedByRandom(0.52359879016876221);
 						Projectile.NewProjectile(vector9.X, vector9.Y, vector10.X, vector10.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
@@ -11255,7 +11261,7 @@ namespace CalamityMod.NPCs
 								int num46 = 0;
 								while ((float)num46 < 5f)
 								{
-									Vector2 vector17 = vec4 * (fireballSpeed + (float)Main.rand.NextDouble() * 4f);
+									Vector2 vector17 = vec4 * (fireballSpeed + (float)Main.rand.NextDouble() * 2f);
 									vector17 = vector17.RotatedByRandom(1.2566370964050293);
 									Projectile.NewProjectile(vector16.X, vector16.Y, vector17.X, vector17.Y, ProjectileID.CultistBossFireBallClone, fireballDamage, 0f, Main.myPlayer, 0f, 0f);
 									num46++;

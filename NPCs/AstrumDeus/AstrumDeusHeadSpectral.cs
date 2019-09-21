@@ -472,14 +472,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 			}
 			if (projectile.penetrate == -1 && !projectile.minion)
 			{
-				if (projectile.type == mod.ProjectileType("BrinySpout"))
-					damage = (int)((double)damage * 0.4);
-				else if (projectile.type == mod.ProjectileType("CosmicFire"))
+				if (projectile.type == mod.ProjectileType("CosmicFire"))
 					damage = (int)((double)damage * 0.3);
 				else
 					damage = (int)((double)damage * 0.2);
 			}
-			else if (projectile.penetrate > 1)
+			else if (projectile.penetrate > 1 && projectile.type != mod.ProjectileType("BrinySpout"))
 			{
 				damage /= projectile.penetrate;
 			}

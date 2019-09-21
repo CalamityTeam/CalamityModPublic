@@ -143,13 +143,13 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 				else if (laserWallPhase == 1) //turn invisible and fire laser walls
 				{
-					npc.alpha += 4;
-					if (npc.alpha == 204) //255
+					npc.alpha += 5;
+					if (npc.alpha == 255)
 						laserShoot = 0;
 
-					if (npc.alpha >= 204) //255
+					if (npc.alpha >= 255)
 					{
-						npc.alpha = 204; //255
+						npc.alpha = 255;
 						idleCounter--;
 						if (idleCounter <= 0)
 						{

@@ -690,7 +690,7 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.4) : (int)(npc.lifeMax * 2.3);
                 npc.npcSlots = 32f;
             }
-			else if (npc.type == NPCID.PlanterasHook || npc.type == NPCID.AncientDoom)
+			else if (npc.type == NPCID.PlanterasHook || npc.type == NPCID.CultistBoss || npc.type == NPCID.AncientDoom)
 			{
 				npc.damage = (npc.defDamage = 0);
 			}
