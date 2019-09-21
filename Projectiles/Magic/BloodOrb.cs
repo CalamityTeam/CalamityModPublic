@@ -78,7 +78,6 @@ namespace CalamityMod.Projectiles.Magic
 					num438 *= num440;
 					num439 *= num440;
 					Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("BloodBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-					return;
 				}
 			}
         }

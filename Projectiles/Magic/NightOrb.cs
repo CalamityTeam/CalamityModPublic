@@ -81,7 +81,6 @@ namespace CalamityMod.Projectiles.Magic
 					{
 						Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NightBolt"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					}
-					return;
 				}
 			}
         }

@@ -11,8 +11,6 @@ using Terraria.ModLoader;
 using CalamityMod.World;
 using CalamityMod.Utilities;
 
-/*Possibly add in a final phase for AI 2 that is similar to Sif's final phase in Dark Souls*/
-
 namespace CalamityMod.NPCs.Yharon
 {
     [AutoloadBossHead]

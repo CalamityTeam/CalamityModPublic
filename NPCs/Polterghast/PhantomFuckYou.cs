@@ -54,40 +54,46 @@ namespace CalamityMod.NPCs.Polterghast
 		public override bool PreAI()
 		{
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+
 			if (start)
 			{
-				for (int num621 = 0; num621 < 5; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
-				}
-				npc.ai[1] = npc.ai[0];
 				start = false;
+
+				for (int num621 = 0; num621 < 5; num621++)
+					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 180, 0f, 0f, 100, default, 2f);
+
+				npc.ai[1] = npc.ai[0];
 			}
+
             if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
             {
                 npc.active = false;
                 npc.netUpdate = true;
                 return false;
             }
+
             npc.TargetClosest(true);
+
 			Vector2 direction = Main.player[npc.target].Center - npc.Center;
 			direction.Normalize();
 			direction *= 9f;
 			npc.rotation = direction.ToRotation();
+
             timer++;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
-            {
                 timer++;
-            }
-            if (timer > 180)
+
+            if (timer >= 150)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = expertMode ? 58 : 70;
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, mod.ProjectileType("PhantomMine"), damage, 1f, npc.target);
                 }
+
                 timer = 0;
             }
+
             Player player = Main.player[npc.target];
 			double deg = (double)npc.ai[1];
 			double rad = deg * (Math.PI / 180);
@@ -100,7 +106,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 		public override Color? GetAlpha(Color drawColor)
 		{
-			return new Color(200, 200, 200, npc.alpha);
+			return new Color(200, 200, 200, 0);
 		}
 
 		public override bool CheckActive()

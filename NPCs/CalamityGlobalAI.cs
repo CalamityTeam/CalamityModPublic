@@ -8291,13 +8291,10 @@ namespace CalamityMod.NPCs
 				// Set timer to new amount if a different hook is currently moving
 				if (!despawn && npc.localAI[0] <= 0f && npc.ai[0] != 0f)
 				{
-					int num;
-					for (int num763 = 0; num763 < 200; num763 = num + 1)
+					for (int num763 = 0; num763 < 200; num763++)
 					{
 						if (num763 != npc.whoAmI && Main.npc[num763].active && Main.npc[num763].type == npc.type && (Main.npc[num763].velocity.X != 0f || Main.npc[num763].velocity.Y != 0f))
-							npc.localAI[0] = (float)Main.rand.Next(60, 300);
-
-						num = num763;
+							npc.localAI[0] = (float)Main.rand.Next(60, 301);
 					}
 				}
 
@@ -8305,7 +8302,7 @@ namespace CalamityMod.NPCs
 				if (npc.localAI[0] <= 0f)
 				{
 					// Reset timer
-					npc.localAI[0] = (float)Main.rand.Next(300, 600);
+					npc.localAI[0] = (float)Main.rand.Next(300, 601);
 
 					// Pick location
 					bool flag50 = false;
@@ -10381,6 +10378,9 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
 
+			// Set contact damage to 0
+			npc.damage = (npc.defDamage = 0);
+
 			// Chant sound
 			if (npc.ai[0] != -1f && Main.rand.NextBool(1000))
 			{
@@ -10399,7 +10399,6 @@ namespace CalamityMod.NPCs
 			// Variables
 			bool isCultist = npc.type == NPCID.CultistBoss;
 			bool dontTakeDamage = false;
-			bool chaseable = true;
 
 			int iceMistDamage = 35;
 			int fireballDamage = isCultist ? 30 : 25;
@@ -10413,11 +10412,7 @@ namespace CalamityMod.NPCs
 
 			float iceMistSpeed = CalamityWorld.death ? 6.5f : 6f;
 
-			int fireballFireRate = 12 -
-				(phase2 ? 2 : 0) -
-				(phase3 ? 2 : 0) -
-				(phase4 ? 2 : 0) -
-				(phase5 ? 2 : 0);
+			int fireballFireRate = 12;
 
 			float fireballSpeed = (CalamityWorld.death ? 7f : 6.5f) - (isCultist ? 0f : 3f);
 
@@ -10438,8 +10433,8 @@ namespace CalamityMod.NPCs
 				(phase5 ? 5 : 0);
 
 			float timeToFinishRitual = 420f -
-				(phase2 ? 120f : 0f) -
-				(phase3 ? 90f : 0f) -
+				(phase2 ? 90f : 0f) -
+				(phase3 ? 60f : 0f) -
 				(phase4 ? 30f : 0f) -
 				(phase5 ? 15f : 0f);
 
@@ -10456,7 +10451,6 @@ namespace CalamityMod.NPCs
 				npc.ai[0] = Main.npc[(int)npc.ai[3]].ai[0];
 				npc.ai[1] = Main.npc[(int)npc.ai[3]].ai[1];
 				dontTakeDamage = true;
-				chaseable = false;
 			}
 
 			// Stop spawning ritual if hit
@@ -10562,7 +10556,6 @@ namespace CalamityMod.NPCs
 					npc.localAI[2] = 0f;
 				}
 				dontTakeDamage = true;
-				chaseable = false;
 			}
 
 			// Phase switch
@@ -10998,7 +10991,6 @@ namespace CalamityMod.NPCs
 				if (npc.ai[1] >= 0f && npc.ai[1] < 30f)
 				{
 					dontTakeDamage = true;
-					chaseable = false;
 					float num28 = (npc.ai[1] - 0f) / 30f;
 					npc.alpha = (int)(num28 * 255f);
 				}
@@ -11070,7 +11062,6 @@ namespace CalamityMod.NPCs
 						list6.Clear();
 					}
 					dontTakeDamage = true;
-					chaseable = false;
 					npc.alpha = 255;
 					if (isCultist)
 					{
@@ -11130,13 +11121,11 @@ namespace CalamityMod.NPCs
 				else if (npc.ai[1] >= 90f && npc.ai[1] < 120f)
 				{
 					dontTakeDamage = true;
-					chaseable = false;
 					float num41 = (npc.ai[1] - 90f) / 30f;
 					npc.alpha = 255 - (int)(num41 * 255f);
 				}
 				else if (npc.ai[1] >= 120f && npc.ai[1] < timeToFinishRitual)
 				{
-					chaseable = false;
 					npc.alpha = 0;
 					if (isCultist)
 					{
@@ -11196,7 +11185,6 @@ namespace CalamityMod.NPCs
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= timeToFinishRitual)
 				{
-					chaseable = false;
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[3] += 1f;
@@ -11389,7 +11377,7 @@ namespace CalamityMod.NPCs
 
 			// Take damage or not
 			npc.dontTakeDamage = dontTakeDamage;
-			npc.chaseable = chaseable;
+			npc.chaseable = npc.ai[0] != -1f && npc.ai[0] != 5f;
 
 			if (ModLoader.GetMod("FargowiltasSouls") != null)
 				ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
@@ -11399,6 +11387,7 @@ namespace CalamityMod.NPCs
 
 		public static bool BuffedAncientDoomAI(NPC npc, Mod mod)
 		{
+			npc.damage = (npc.defDamage = 0);
 			float num1496 = 420f;
 			float num1497 = 120f;
 			int num1498 = 1;

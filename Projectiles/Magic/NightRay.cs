@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         	if (projectile.localAI[1] >= 29f && projectile.owner == Main.myPlayer)
         	{
         		projectile.localAI[1] = 0f;
-           		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, mod.ProjectileType("NightOrb"), (int)((double)projectile.damage * 0.6f), projectile.knockBack, projectile.owner, 0f, 0f);
+           		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, mod.ProjectileType("NightOrb"), (int)((double)projectile.damage * 0.6), projectile.knockBack, projectile.owner, 0f, 0f);
         	}
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 9f)
