@@ -615,7 +615,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SkeletronPrime:
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 3.2) : (int)(npc.lifeMax * 1.9);
+                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * 1.6);
                     npc.npcSlots = 12f;
                     break;
 
@@ -774,7 +774,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
-                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.65) : (int)(npc.lifeMax * 1.3);
+                    npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.45) : (int)(npc.lifeMax * 1.2);
                     npc.npcSlots = 12f;
                 }
                 else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
@@ -1065,7 +1065,7 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.CultistBoss)
             {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.25) : (int)(npc.lifeMax * (CalamityWorld.revenge ? 1.55 : 1.15));
+                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.5) : (int)(npc.lifeMax * (CalamityWorld.revenge ? 1.7 : 1.2));
                 npc.npcSlots = 20f;
             }
 
