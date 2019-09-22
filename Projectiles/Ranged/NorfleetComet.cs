@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
 			{
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("NorfleetExplosion"), (int)((double)projectile.damage * 0.3), projectile.knockBack * 0.1f, projectile.owner, 0f, 0f);
 			}
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 10);
 			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = 144);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

@@ -8184,7 +8184,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Heal if on surface and it's daytime, else, gain defense
-			if (surface)
+			if (surface && !CalamityWorld.bossRushActive)
 			{
 				if (Main.dayTime)
 				{
@@ -8210,7 +8210,7 @@ namespace CalamityMod.NPCs
 						calamityGlobalNPC.newAI[1] = 0f;
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int healAmt = npc.lifeMax / (CalamityWorld.bossRushActive ? 400 : 100);
+							int healAmt = npc.lifeMax / 100;
 							if (healAmt > npc.lifeMax - npc.life)
 								healAmt = npc.lifeMax - npc.life;
 
@@ -9433,7 +9433,9 @@ namespace CalamityMod.NPCs
 			}
 
 			// Enrage variable
-			bool enrage = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
+			bool enrage = !CalamityWorld.bossRushActive &&
+				(player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 ||
+				(player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400)));
 
 			// If the player isn't in the ocean biome or Fishron is transitioning between phases, become immune
 			if (!phase3AI)
@@ -10404,11 +10406,11 @@ namespace CalamityMod.NPCs
 			int fireballDamage = isCultist ? 30 : 25;
 			int lightningDamage = 45;
 
-			int iceMistFireRate = 90 -
-				(phase2 ? 10 : 0) -
-				(phase3 ? 10 : 0) -
-				(phase4 ? 10 : 0) -
-				(phase5 ? 10 : 0);
+			int iceMistFireRate = 60 -
+				(phase2 ? 5 : 0) -
+				(phase3 ? 5 : 0) -
+				(phase4 ? 5 : 0) -
+				(phase5 ? 5 : 0);
 
 			float iceMistSpeed = CalamityWorld.death ? 6.5f : 6f;
 
@@ -10438,6 +10440,37 @@ namespace CalamityMod.NPCs
 				(phase4 ? 30f : 0f) -
 				(phase5 ? 15f : 0f);
 
+			// Center and target
+			Vector2 center = npc.Center;
+			Player player = Main.player[npc.target];
+			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+			{
+				npc.TargetClosest(false);
+				player = Main.player[npc.target];
+				npc.netUpdate = true;
+			}
+
+			// Enrage
+			if (!Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+			{
+				calamityGlobalNPC.newAI[0] += 1f;
+				if (calamityGlobalNPC.newAI[0] >= 180f)
+				{
+					calamityGlobalNPC.newAI[0] = 180f;
+					iceMistSpeed = 8f;
+					iceMistFireRate = 30;
+					lightningOrbFireRate = 15;
+					ancientLightSpawnRate = 5;
+					idleTime = 15;
+					timeToFinishRitual = 180f;
+				}
+			}
+			else
+			{
+				if (calamityGlobalNPC.newAI[0] > 0f)
+					calamityGlobalNPC.newAI[0] -= 1f;
+			}
+
 			// Cultist clone AI
 			if (!isCultist)
 			{
@@ -10463,16 +10496,6 @@ namespace CalamityMod.NPCs
 				npc.netUpdate = true;
 				Main.projectile[(int)npc.ai[2]].ai[1] = -1f;
 				Main.projectile[(int)npc.ai[2]].netUpdate = true;
-			}
-
-			// Center and target
-			Vector2 center = npc.Center;
-			Player player = Main.player[npc.target];
-			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
-			{
-				npc.TargetClosest(false);
-				player = Main.player[npc.target];
-				npc.netUpdate = true;
 			}
 
 			// Despawn
@@ -10527,7 +10550,7 @@ namespace CalamityMod.NPCs
 					npc.alpha = 0;
 				}
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= timeToFinishRitual)
+				if (npc.ai[1] >= 420f)
 				{
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
@@ -10844,7 +10867,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= (float)(4 + iceMistFireRate))
+				if (npc.ai[1] >= (float)(4 + iceMistFireRate * 2))
 				{
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;

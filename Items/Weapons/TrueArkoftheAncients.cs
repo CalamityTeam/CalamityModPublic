@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetDefaults()
 		{
 			item.width = 60;
-			item.damage = 66;
+			item.damage = 100;
 			item.melee = true;
 			item.useAnimation = 25;
 			item.useTime = 25;
@@ -92,9 +92,9 @@ namespace CalamityMod.Items.Weapons
 				num79 *= num80;
 				float speedX4 = num78 + (float)Main.rand.Next(-160, 161) * 0.02f;
 				float speedY5 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
-				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage / 2, num74, i, 0f, (float)Main.rand.Next(10));
+				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage / 3, num74, i, 0f, (float)Main.rand.Next(10));
 				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
-				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), damage / 2, num74, i, 0f, (float)Main.rand.Next(5));
+				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), damage / 3, num74, i, 0f, (float)Main.rand.Next(5));
 			}
 			return false;
 		}

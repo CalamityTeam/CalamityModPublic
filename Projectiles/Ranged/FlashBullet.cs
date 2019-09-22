@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93);
+        	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
         	if (projectile.owner == Main.myPlayer)
         	{
         		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Flash"), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);

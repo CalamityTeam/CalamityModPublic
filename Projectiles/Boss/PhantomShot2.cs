@@ -69,10 +69,9 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.localAI[1] += 1f;
 			if (projectile.localAI[1] > 240f)
 			{
-				if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 30f)
-				{
-					projectile.velocity *= 1.025f;
-				}
+				if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 24f)
+					projectile.velocity *= 1.015f;
+
 				if (projectile.localAI[1] > 420f)
 				{
 					projectile.localAI[1] = 0f;
@@ -86,9 +85,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				projectile.alpha -= 5;
 				if (projectile.alpha < 30)
-				{
 					projectile.alpha = 30;
-				}
 			}
 		}
 

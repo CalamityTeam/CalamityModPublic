@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+        	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
         	if (projectile.owner == Main.myPlayer)
 			{
         		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("PlagueExplosionFriendly"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

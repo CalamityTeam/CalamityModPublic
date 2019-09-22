@@ -87,17 +87,15 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-        	if (projectile.owner == Main.myPlayer)
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 1040);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			if (projectile.owner == Main.myPlayer)
         	{
         		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ChickenExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         	}
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 1000;
-			projectile.height = 1000;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+        	Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
 			for (int num621 = 0; num621 < 40; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);

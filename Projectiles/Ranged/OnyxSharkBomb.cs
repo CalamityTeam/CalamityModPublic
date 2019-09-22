@@ -59,12 +59,20 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void Kill(int timeLeft)
 		{
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 32);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
 			for (int k = 0; k < 10; k++)
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 109, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
 			}
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X, projectile.velocity.Y, mod.ProjectileType("OnyxExplosion"), (int)((double)projectile.damage), projectile.knockBack, projectile.owner, 0f, 0f);
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
 			for (int k = 0; k < 5; k++)
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

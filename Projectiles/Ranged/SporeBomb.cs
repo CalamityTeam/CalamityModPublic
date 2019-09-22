@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
         	for (int num407 = 0; num407 < 25; num407++)
 			{
 				int num408 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 157, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 1f);
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Ranged
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, 569 + Main.rand.Next(3), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
 				}
 	        }
         }

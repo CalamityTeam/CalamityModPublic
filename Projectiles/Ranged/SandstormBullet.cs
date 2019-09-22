@@ -48,9 +48,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 20);
+            projectile.width = (projectile.height = 32);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             int num226 = 36;
@@ -64,7 +64,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
-            projectile.Damage();
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

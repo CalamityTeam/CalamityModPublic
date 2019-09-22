@@ -62,7 +62,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-        	int num251 = Main.rand.Next(3, 6);
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 32);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			int num251 = Main.rand.Next(3, 6);
         	if (projectile.owner == Main.myPlayer)
         	{
 				for (int num252 = 0; num252 < num251; num252++)
@@ -74,15 +78,9 @@ namespace CalamityMod.Projectiles.Ranged
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("Needler"), (int)((double)projectile.damage * 0.65), 0f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("Needler"), (int)((double)projectile.damage * 0.65), 0f, projectile.owner, 0f, 0f);
 				}
         	}
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 50;
-			projectile.height = 50;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num621 = 0; num621 < 3; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 46, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
