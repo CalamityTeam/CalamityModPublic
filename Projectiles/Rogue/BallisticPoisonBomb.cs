@@ -104,7 +104,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 128);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             int num251 = Main.rand.Next(3, 5);
             if (projectile.owner == Main.myPlayer)
             {
@@ -117,7 +121,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("BallisticPoisonBombSpike"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("BallisticPoisonBombSpike"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                 }
                 int num320 = Main.rand.Next(8, 13);
                 int num3;
@@ -130,12 +134,6 @@ namespace CalamityMod.Projectiles.Rogue
                     num3 = num321;
                 }
             }
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 128;
-            projectile.height = 128;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num621 = 0; num621 < 5; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 100, default, 2f);

@@ -8,15 +8,17 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ForbiddenSunburst : ModProjectile
     {
-    	public override void SetStaticDefaults()
+		private static float ExplosionRadius = 190.0f;
+
+		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sunburst");
 		}
 
         public override void SetDefaults()
         {
-            projectile.width = 250;
-            projectile.height = 250;
+            projectile.width = 220;
+            projectile.height = 220;
             projectile.friendly = true;
             projectile.ignoreWater = false;
             projectile.tileCollide = false;
@@ -27,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
+        	Lighting.AddLight(projectile.Center, 0.75f, 0.5f, 0f);
         	if (projectile.wet && !projectile.lavaWet)
         	{
         		projectile.Kill();
@@ -100,5 +102,20 @@ namespace CalamityMod.Projectiles.Magic
         	target.immune[projectile.owner] = 8;
         	target.AddBuff(BuffID.OnFire, 600);
         }
-    }
+
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist) minDist = dist2;
+			if (dist3 < minDist) minDist = dist3;
+			if (dist4 < minDist) minDist = dist4;
+
+			return minDist <= ExplosionRadius;
+		}
+	}
 }

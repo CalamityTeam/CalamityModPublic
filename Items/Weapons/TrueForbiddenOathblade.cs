@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 78;
-            item.damage = 120;
+            item.damage = 180;
             item.melee = true;
             item.useAnimation = 23;
             item.useTime = 23;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int numProj = 2;
-            float rotation = MathHelper.ToRadians(8);
+            float rotation = MathHelper.ToRadians(4);
             for (int i = 0; i < numProj + 1; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));

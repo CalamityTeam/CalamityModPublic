@@ -37,7 +37,16 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 192);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
 			for (int num625 = 0; num625 < 3; num625++)
 			{
 				float scaleFactor10 = 0.33f;
@@ -68,17 +77,12 @@ namespace CalamityMod.Projectiles.Rogue
 				Gore expr_13C5C_cp_0 = Main.gore[num626];
 				expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
 			}
-			projectile.width = 200;
-			projectile.height = 200;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num194 = 0; num194 < 25; num194++)
 			{
 				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 135, 0f, 0f, 100, default, 2f);
 				Main.dust[num195].noGravity = true;
 				Main.dust[num195].velocity *= 0f;
 			}
-			projectile.Damage();
 		}
 	}
 }

@@ -46,11 +46,16 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(SoundID.Item20, projectile.position);
 			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = 64);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(SoundID.Item20, projectile.Center);
 			for (int dust = 0; dust <= 30; dust++)
 			{
 				float num463 = (float)Main.rand.Next(-10, 11);
@@ -71,11 +76,6 @@ namespace CalamityMod.Projectiles.Melee
 				Main.dust[num467].velocity.X = num463;
 				Main.dust[num467].velocity.Y = num464;
 			}
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
 			int num251 = Main.rand.Next(2, 4);
 			if (projectile.owner == Main.myPlayer)
 			{
@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("AegisFlame"), (int)((double)projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("AegisFlame"), (int)((double)projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
 				}
 			}
 		}

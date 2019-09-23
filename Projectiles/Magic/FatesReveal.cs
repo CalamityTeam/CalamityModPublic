@@ -134,11 +134,16 @@ namespace CalamityMod.Projectiles.Magic
 		public override void Kill(int timeLeft)
 		{
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 180);
-			projectile.Center = projectile.position;
-			projectile.damage = projectile.damage * 3;
+			projectile.width = (projectile.height = 192);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.damage *= 3;
 			projectile.Damage();
-			Main.PlaySound(SoundID.Item14, projectile.position);
+			Main.PlaySound(SoundID.Item14, projectile.Center);
 			int num3;
 			for (int num122 = 0; num122 < 3; num122 = num3 + 1)
 			{

@@ -2295,9 +2295,6 @@ namespace CalamityMod.CalPlayer
 			if (weakPetrification)
 				WeakPetrification();
 
-			if (CalamityWorld.bossRushActive)
-				BossRushMovementChanges();
-
 			if (player.mount.Active || player.mount.Cart || (Config.BossRushDashCurse && CalamityWorld.bossRushActive))
 			{
 				player.dashDelay = 60;
@@ -2320,9 +2317,6 @@ namespace CalamityMod.CalPlayer
 
 			if (weakPetrification)
 				WeakPetrification();
-
-			if (CalamityWorld.bossRushActive)
-				BossRushMovementChanges();
 
 			if (player.mount.Active || player.mount.Cart || (Config.BossRushDashCurse && CalamityWorld.bossRushActive))
 			{
@@ -4412,11 +4406,6 @@ namespace CalamityMod.CalPlayer
 				{
 					lifeCounter = 0;
 				}
-				if (player.statLife >= player.statLifeMax2)
-				{
-					player.minionDamage += 0.1f;
-					player.maxMinions += 2;
-				}
 			}
 			if (brimstoneElementalLore && player.inferno)
 			{
@@ -4606,7 +4595,7 @@ namespace CalamityMod.CalPlayer
 				if (player.endurance > 0f)
 					player.endurance *= 0.5f;
 			}
-			if (yharonLore && !CalamityWorld.defiled && !CalamityWorld.bossRushActive)
+			if (yharonLore && !CalamityWorld.defiled)
 			{
 				if (player.wingTimeMax < 50000)
 					player.wingTimeMax = 50000;
@@ -6750,9 +6739,6 @@ namespace CalamityMod.CalPlayer
 
 			if (weakPetrification)
 				WeakPetrification();
-
-			if (CalamityWorld.bossRushActive)
-				BossRushMovementChanges();
 		}
 		#endregion
 
@@ -6776,27 +6762,6 @@ namespace CalamityMod.CalPlayer
 		private void Defiled()
 		{
 			player.wingTimeMax = 0;
-		}
-
-		private void BossRushMovementChanges()
-		{
-			switch (CalamityWorld.bossRushStage)
-			{
-				case 0:
-				case 1:
-				case 2:
-				case 3:
-				case 7:
-				case 13:
-				case 14:
-				case 17:
-				case 19:
-				case 22:
-					player.wingTimeMax = 0;
-					break;
-				default:
-					break;
-			}
 		}
 		#endregion
 

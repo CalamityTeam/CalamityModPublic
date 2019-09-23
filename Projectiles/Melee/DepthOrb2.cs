@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Melee
 			}
 			if (flag17)
 			{
-				float num483 = 12f;
+				float num483 = 18f;
 				Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
 				float num484 = num472 - vector35.X;
 				float num485 = num473 - vector35.Y;

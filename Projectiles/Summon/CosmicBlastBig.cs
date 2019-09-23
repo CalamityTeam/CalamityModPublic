@@ -116,11 +116,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);
-            projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 288);
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 288);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(29, (int)projectile.Center.X, (int)projectile.Center.Y, 103);
             for (int num193 = 0; num193 < 3; num193++)
             {
                 int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);
@@ -135,11 +140,6 @@ namespace CalamityMod.Projectiles.Summon
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
-			projectile.penetrate = -1;
-			projectile.maxPenetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
         }
     }
 }

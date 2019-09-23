@@ -564,11 +564,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				damage = (int)((double)damage * 0.1);
 			}
-			else if (projectile.type == mod.ProjectileType("RainBolt") || projectile.type == mod.ProjectileType("AtlantisSpear2"))
+			else if (projectile.type == mod.ProjectileType("RainBolt") || projectile.type == mod.ProjectileType("AtlantisSpear2") || projectile.type == mod.ProjectileType("MalachiteBolt"))
 			{
 				damage = (int)((double)damage * 0.2);
 			}
-			else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == mod.ProjectileType("CraniumSmasherExplosive") || projectile.type == mod.ProjectileType("BigNukeExplosion"))
+			else if (projectile.type == ProjectileID.DD2BetsyArrow)
 			{
 				damage = (int)((double)damage * 0.3);
 			}
@@ -576,13 +576,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 			{
 				damage = (int)((double)damage * 0.5);
 			}
-			else if (projectile.type == mod.ProjectileType("GoliathExplosion"))
-			{
-				damage = (int)((double)damage * 0.6);
-			}
+
 			if (projectile.penetrate == -1 && !projectile.minion)
 			{
-				if (projectile.type == mod.ProjectileType("CosmicFire"))
+				if (projectile.type == mod.ProjectileType("CosmicFire") || projectile.type == mod.ProjectileType("BigNuke"))
 					damage = (int)((double)damage * 0.3);
 				else
 					damage = (int)((double)damage * 0.2);

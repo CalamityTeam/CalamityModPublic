@@ -78,12 +78,16 @@ namespace CalamityMod.Projectiles.Astral
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103, 1f, 0f);
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 188);
+			projectile.width = (projectile.height = 192);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("AstralCannonExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(29, (int)projectile.Center.X, (int)projectile.Center.Y, 103, 1f, 0f);
 			for (int num193 = 0; num193 < 2; num193++)
 			{
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, mod.DustType("AstralOrange"), 0f, 0f, 50, default, 1f);

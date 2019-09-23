@@ -109,12 +109,17 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14, 1f, 0f);
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 188);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14, 1f, 0f);
             int num226 = 36;
-            projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 188);
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num227 = 0; num227 < num226; num227++)
             {
                 Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
@@ -138,7 +143,6 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
-            projectile.Damage();
         }
     }
 }

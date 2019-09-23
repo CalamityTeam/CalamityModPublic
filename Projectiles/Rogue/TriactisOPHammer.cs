@@ -118,12 +118,6 @@ namespace CalamityMod.Projectiles.Rogue
         		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("MageHammerBoom"), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
         	}
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 60;
-			projectile.height = 60;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num621 = 0; num621 < 40; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.NextBool(2) ? 89 : 229, 0f, 0f, 100, default, 2f);

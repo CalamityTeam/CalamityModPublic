@@ -65,11 +65,16 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void Kill(int timeLeft)
 		{
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
-			if (projectile.owner == Main.myPlayer)
-			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("IonExplosion"), projectile.damage, 0f, projectile.owner, 0f, 0f);
-			}
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 32);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
 			int num212 = Main.rand.Next(15, 30);
 			for (int num213 = 0; num213 < num212; num213++)
 			{

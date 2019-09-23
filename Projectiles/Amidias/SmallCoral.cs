@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Amidias
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
 			projectile.width = 16;
-			projectile.height = 22;
+			projectile.height = 16;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num621 = 0; num621 < 5; num621++)

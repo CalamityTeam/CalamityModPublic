@@ -55,28 +55,31 @@ namespace CalamityMod.Projectiles.Permafrost
             if (timeLeft > 0)
             {
                 timeLeft = 0;
-                Main.PlaySound(SoundID.Item27, projectile.position);
+
+				projectile.position = projectile.Center;
+				projectile.width = (projectile.height = 192);
+				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+				projectile.maxPenetrate = -1;
+				projectile.penetrate = -1;
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
+				projectile.damage /= 2;
+				projectile.Damage();
+				Main.PlaySound(SoundID.Item27, projectile.Center);
                 for (int i = 0; i < 30; i++)
                 {
                     int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172, 0f, 0f, 0, default, Main.rand.NextFloat(1f, 2f));
                     Main.dust[index2].noGravity = true;
                     Main.dust[index2].velocity *= 4f;
                 }
-                projectile.position = projectile.Center;
-                projectile.width = 200;
-                projectile.height = 200;
-                projectile.position.X -= projectile.width / 2;
-                projectile.position.Y -= projectile.height / 2;
                 for (int index1 = 0; index1 < 20; ++index1)
                 {
                     int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 68, 0f, 0f, 0, new Color(), 1.3f);
                     Main.dust[index2].noGravity = true;
                     Main.dust[index2].velocity *= 1.5f;
                 }
-                projectile.penetrate = -1;
-                projectile.damage /= 2;
-                projectile.Damage();
-            }
+			}
         }
 	}
 }

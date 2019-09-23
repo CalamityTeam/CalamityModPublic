@@ -66,15 +66,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
         	if (projectile.penetrate <= 1)
         	{
-        		int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("GoliathExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
-				projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-				projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-				projectile.width = 150;
-				projectile.height = 150;
+				projectile.position = projectile.Center;
+				projectile.width = (projectile.height = 160);
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-	            for (int num621 = 0; num621 < 70; num621++)
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
+				projectile.Damage();
+				for (int num621 = 0; num621 < 70; num621++)
 				{
 					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
 					Main.dust[num622].velocity *= 3f;
@@ -97,13 +96,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 15;
-			projectile.height = 15;
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 16);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 7; num621++)
+			for (int num621 = 0; num621 < 7; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
 				Main.dust[num622].velocity *= 3f;

@@ -132,11 +132,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 39, 1f, 0f);
-            projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 88);
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 96);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 39, 1f, 0f);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {
@@ -148,7 +153,6 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
-            projectile.Damage();
         }
     }
 }

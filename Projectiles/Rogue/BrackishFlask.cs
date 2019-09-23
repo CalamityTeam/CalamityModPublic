@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107); //change
+        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107);
         	int randomDust = Main.rand.Next(2);
 			if (randomDust == 0)
 			{

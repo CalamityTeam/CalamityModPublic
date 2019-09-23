@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Typeless
 {
     public class FuckYou : ModProjectile
     {
@@ -25,9 +25,8 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 60;
-            projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 5;
+			projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -124,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			damage = (int)((double)damage * 0.4);
+			damage = (int)((double)damage * 0.5);
 		}
 	}
 }

@@ -65,7 +65,6 @@ namespace CalamityMod.Projectiles.Rogue
 					num485 *= num486;
 					projectile.velocity.X = (projectile.velocity.X * 10f + num484) / 11f;
 					projectile.velocity.Y = (projectile.velocity.Y * 10f + num485) / 11f;
-					return;
 				}
 				else
 				{

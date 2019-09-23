@@ -30,7 +30,16 @@ namespace CalamityMod.Projectiles.SunkenSea
 
         public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 128);
+			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.Damage();
+			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
 			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SeafoamBubble"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
         	for (int num625 = 0; num625 < 3; num625++)
             {
@@ -62,15 +71,6 @@ namespace CalamityMod.Projectiles.SunkenSea
                 Gore expr_13C5C_cp_0 = Main.gore[num626];
                 expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
             }
-			projectile.width = 128;
-            projectile.height = 128;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
         }
     }
 }

@@ -37,9 +37,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 			target.AddBuff(BuffID.OnFire, 300);
 			if (projectile.owner == Main.myPlayer)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+				Main.projectile[boom].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
 			}
-        }
+		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{

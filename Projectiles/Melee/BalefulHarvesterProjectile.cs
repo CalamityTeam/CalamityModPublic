@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Melee
 				for (int k = 0; k < 2; k++)
 				{
 					Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 174, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-					Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("TinyFlare"),
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("TinyFlare"),
 					 (int)((double)projectile.damage * 0.35), projectile.knockBack * 0.35f, Main.myPlayer, 0f, 0f);
 				}
 			}

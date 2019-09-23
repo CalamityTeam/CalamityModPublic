@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -40,7 +41,8 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), 0, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-        }
+            int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), 0, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+			Main.projectile[boom].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+		}
     }
 }

@@ -32,8 +32,8 @@ namespace CalamityMod.Projectiles.Amidias
         	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
 			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 18;
-			projectile.height = 34;
+			projectile.width = 32;
+			projectile.height = 32;
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			for (int num621 = 0; num621 < 10; num621++)

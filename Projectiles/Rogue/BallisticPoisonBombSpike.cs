@@ -51,13 +51,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 30;
-			projectile.height = 30;
+			projectile.position = projectile.Center;
+			projectile.width = (projectile.height = 32);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 2; num621++)
+			for (int num621 = 0; num621 < 2; num621++)
 			{
 				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
 				Main.dust[num622].velocity *= 3f;
