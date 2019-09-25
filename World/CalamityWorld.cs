@@ -689,7 +689,7 @@ namespace CalamityMod.World
 			SunkenSeaLocation = new Rectangle(WorldGen.UndergroundDesertLocation.Left, WorldGen.UndergroundDesertLocation.Bottom,
 						WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);
 			int closestPlayer = (int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0);
-			#region BossRush
+
 			if (!deactivateStupidFuckingBullshit)
 			{
 				deactivateStupidFuckingBullshit = true;
@@ -968,9 +968,8 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			#endregion
-			#region SpawnDoG
-			if (DoGSecondStageCountdown > 0) //works
+
+			if (DoGSecondStageCountdown > 0)
 			{
 				DoGSecondStageCountdown--;
 				if (Main.netMode == NetmodeID.Server)
@@ -1013,12 +1012,13 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			#endregion
+
 			if (Main.player[closestPlayer].ZoneDungeon && !NPC.downedBoss3)
 			{
 				if (!NPC.AnyNPCs(NPCID.DungeonGuardian) && Main.netMode != NetmodeID.MultiplayerClient)
 					NPC.SpawnOnPlayer(closestPlayer, NPCID.DungeonGuardian); //your hell is as vast as my bonergrin, pray your life ends quickly
 			}
+
 			if (Main.player[closestPlayer].ZoneRockLayerHeight &&
 				!Main.player[closestPlayer].ZoneUnderworldHeight &&
 				!Main.player[closestPlayer].ZoneDungeon &&
@@ -1062,6 +1062,7 @@ namespace CalamityMod.World
 					}
 				}
 			}
+
 			if (Main.dayTime && Main.hardMode)
 			{
 				if (Main.player[closestPlayer].townNPCs >= 2f)
@@ -1074,6 +1075,7 @@ namespace CalamityMod.World
 					}
 				}
 			}
+
 			if (Main.player[closestPlayer].GetCalamityPlayer().ZoneAbyss)
 			{
 				if (Main.player[closestPlayer].chaosState)
@@ -1082,6 +1084,7 @@ namespace CalamityMod.World
 						NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("EidolonWyrmHeadHuge"));
 				}
 			}
+
 			/*if (Main.rand.NextBool(100000000))
 			{
 				string key = "Mods.CalamityMod.AprilFools";
@@ -1095,7 +1098,7 @@ namespace CalamityMod.World
 					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 				}
 			}*/
-			#region DeathModeBossSpawns
+
 			if (death && !CalamityPlayer.areThereAnyDamnBosses && Main.player[closestPlayer].statLifeMax2 >= 300)
 			{
 				if (bossSpawnCountdown <= 0) //check for countdown being 0
@@ -1410,8 +1413,8 @@ namespace CalamityMod.World
 					}
 				}
 			}
-			#endregion
-			if (!NPC.downedBoss3 && revenge)
+
+			if (!downedDesertScourge)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -1422,20 +1425,18 @@ namespace CalamityMod.World
 					}
 				}
 			}
+
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
-				if (revenge)
+				CultistRitual.delay -= Main.dayRate * 10;
+				if (CultistRitual.delay < 0)
 				{
-					CultistRitual.delay -= Main.dayRate * 10;
-					if (CultistRitual.delay < 0)
-					{
-						CultistRitual.delay = 0;
-					}
-					CultistRitual.recheck -= Main.dayRate * 10;
-					if (CultistRitual.recheck < 0)
-					{
-						CultistRitual.recheck = 0;
-					}
+					CultistRitual.delay = 0;
+				}
+				CultistRitual.recheck -= Main.dayRate * 10;
+				if (CultistRitual.recheck < 0)
+				{
+					CultistRitual.recheck = 0;
 				}
 			}
 		}

@@ -69,6 +69,8 @@ namespace CalamityMod.Buffs
             }
             else if (type == BuffID.CursedInferno && CalamityWorld.revenge)
                 tip += ". All damage taken increased by 20%";
+			else if (type == BuffID.Warmth)
+				tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
 		}
 	}
 }

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Yharon
 
 		public override Vector2? HoldoutOffset()
 		{
-			return new Vector2(-10, 0);
+			return new Vector2(-5, 10);
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

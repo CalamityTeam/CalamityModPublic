@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Astrageldon
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Nebulash");
-			Tooltip.SetDefault("Fires a whip sword that emits particle explosions on enemy hits");
+			Tooltip.SetDefault("Fires a whip sword that emits particle explosions on hit");
 		}
 
 		public override void SetDefaults()

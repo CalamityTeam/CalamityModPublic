@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 60;
+			item.width = 100;
 			item.damage = 450;
 			item.melee = true;
 			item.useAnimation = 19;
@@ -25,12 +26,18 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 8f;
 			item.UseSound = SoundID.Item71;
 			item.autoReuse = true;
-			item.height = 56;
+			item.height = 78;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("EssenceScythe");
 			item.shootSpeed = 21f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(50f, 37f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/EssenceFlayerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
 		public override void AddRecipes()

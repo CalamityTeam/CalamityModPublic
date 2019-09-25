@@ -13,16 +13,25 @@ namespace CalamityMod.Items.DifficultyItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Revengeance");
-			Tooltip.SetDefault("Activates revengeance mode, can only be used in expert mode.\n" +
+			Tooltip.SetDefault("Activates Revengeance Mode, can only be used in expert mode.\n" +
                 "Activates rage. When rage is maxed press V to activate rage mode.\n" +
-                "You gain rage whenever you take damage.\n" +
+                "You gain rage whenever you take damage or hit an enemy with a true melee weapon.\n" +
                 "Activates adrenaline. When adrenaline is maxed press B to activate adrenaline mode.\n" +
                 "You gain adrenaline whenever a boss is alive. Getting hit drops adrenaline back to 0.\n" +
                 "If you hit max adrenaline and don't use it within 3 seconds your adrenaline damage will drop gradually.\n" +
-				"All enemies drop 50% more cash and enemy spawn rates are boosted.\n" +
-				"Before you have killed your first boss you take 20% LESS damage from everything.\n" +
+				"All enemies drop 50% more cash.\n" +
+				"All enemies gain a new damage reduction stat, which can be reduced by applying various debuffs to them.\n" +
+				"The amount of this damage reduction stat varies based on enemy type.\n" +
+				"Makes certain enemies immune to life steal and nerfs the effectiveness of life steal.\n" +
+				"Increases enemy damage by 25% and spawn rates by 15%.\n" +
+				"Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
+				"Makes life regen scale with your current HP, the higher your HP the lower your life regen (this is not based on max HP).\n" +
+				"Reduces maximum asphalt run speed by 33%.\n" +
+				"Increases Nurse healing price.\n" +
+				"Allows certain enemies to inflict the Horror and Marked debuffs.\n" +
+				"Before you have killed your first boss you take 20% less damage from everything.\n" +
                 "Changes the Expert Mode 75% defense back to the Normal Mode 50% defense for the duration of prehardmode.\n" +
-                "Changes ALL boss AIs in vanilla and the Calamity Mod.\n" +
+                "Changes ALL boss AIs and some enemy AIs in vanilla and the Calamity Mod.\n" +
 				"DO NOT USE IF A BOSS IS ALIVE!\n" +
 				"Can be toggled on and off.");
 		}

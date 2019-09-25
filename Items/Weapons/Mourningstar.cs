@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mourningstar");
-			Tooltip.SetDefault("Launches a solar whip sword and a solar particle trail that explodes on enemy hits");
+			Tooltip.SetDefault("Launches a solar whip sword and a solar particle trail that explodes on hit");
 		}
 
 		public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shootSpeed = 24f;
-			item.shoot = 611;
+			item.shoot = mod.ProjectileType("Mourningstar");
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
 
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons
 		{
 	    	float ai3 = (Main.rand.NextFloat() - 0.75f) * 0.7853982f; //0.5
 	    	float ai3X = (Main.rand.NextFloat() - 0.25f) * 0.7853982f; //0.5
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0f, ai3);
-	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Mourningstar"), damage, knockBack, player.whoAmI, 0f, ai3X);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, ai3);
+	    	Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, ai3X);
 	    	return false;
 		}
 	}

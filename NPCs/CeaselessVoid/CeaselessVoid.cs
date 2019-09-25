@@ -91,12 +91,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		{
 			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
 			int lifePercentage = (int)(100.0 * lifeRatio);
-			Player player = Main.player[npc.target];
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			CalamityGlobalNPC.voidBoss = npc.whoAmI;
 			Vector2 vector = npc.Center;
 			npc.TargetClosest(true);
+			Player player = Main.player[npc.target];
+
 			if (NPC.CountNPCS(mod.NPCType("DarkEnergy")) > 0 ||
 				NPC.CountNPCS(mod.NPCType("DarkEnergy2")) > 0 ||
 				NPC.CountNPCS(mod.NPCType("DarkEnergy3")) > 0)
@@ -107,6 +108,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			{
 				npc.dontTakeDamage = false;
 			}
+
 			if (!player.active || player.dead)
 			{
 				npc.TargetClosest(false);
@@ -196,7 +198,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				beamPortal += shootBoost;
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
-					beamPortal += 4;
+					beamPortal += 1;
 				}
 				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{

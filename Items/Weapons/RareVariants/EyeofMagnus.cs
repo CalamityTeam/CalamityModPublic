@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 		{
 			DisplayName.SetDefault("Eye of Magnus");
 			Tooltip.SetDefault("Fires powerful beams\n" +
-				"Heals mana and health on enemy hits");
+				"Heals mana and health on hit");
 		}
 
 		public override void SetDefaults()

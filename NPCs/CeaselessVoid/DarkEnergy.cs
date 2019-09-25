@@ -83,12 +83,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.dontTakeDamage = false;
             }
             Vector2 vectorCenter = npc.Center;
-			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
-            if ((double)npc.life < (double)npc.lifeMax * 0.5)
+			Player player = Main.player[npc.target];
+
+			double mult = 0.5 +
+				(CalamityWorld.revenge ? 0.2 : 0.0) +
+				(CalamityWorld.death ? 0.2 : 0.0);
+            if ((double)npc.life < (double)npc.lifeMax * mult)
             {
                 npc.knockBackResist = 0f;
             }
+
 			if (npc.ai[1] == 0f)
 			{
 				npc.scale -= 0.01f;
@@ -135,17 +140,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
 				if (num786 > 90f)
 				{
-					num786 = 8f / num786; //8f
+					num786 = 16f / num786;
 					num784 *= num786;
 					num785 *= num786;
 					npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
 					npc.velocity.Y = (npc.velocity.Y * 15f + num785) / 16f;
 					return;
 				}
-				if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 8f) //8f
+				if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < 16f)
 				{
-					npc.velocity.Y = npc.velocity.Y * 1.05f; //1.05f
-					npc.velocity.X = npc.velocity.X * 1.05f; //1.05f
+					npc.velocity.Y = npc.velocity.Y * 1.1f;
+					npc.velocity.X = npc.velocity.X * 1.1f;
 				}
 				if (Main.netMode != NetmodeID.MultiplayerClient && ((expertMode && Main.rand.NextBool(50)) || Main.rand.NextBool(100)))
 				{
@@ -154,7 +159,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					num784 = player.Center.X - vector96.X;
 					num785 = player.Center.Y - vector96.Y;
 					num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-					num786 = 8f / num786; //8f
+					num786 = 12f / num786;
 					npc.velocity.X = num784 * num786;
 					npc.velocity.Y = num785 * num786;
 					npc.ai[0] = 1f;
@@ -165,15 +170,17 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			{
 				Vector2 value4 = player.Center - npc.Center;
 				value4.Normalize();
-				value4 *= 9f; //9f
+				value4 *= 11f;
 				npc.velocity = (npc.velocity * 99f + value4) / 100f;
 				Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num787 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector97.X;
 				float num788 = Main.npc[CalamityGlobalNPC.voidBoss].Center.Y - vector97.Y;
 				float num789 = (float)Math.Sqrt((double)(num787 * num787 + num788 * num788));
-				if (num789 > 1400f)
+				npc.ai[2] += 1f;
+				if (num789 > 700f || npc.ai[2] >= 150f)
 				{
 					npc.ai[0] = 0f;
+					npc.ai[2] = 0f;
 				}
 			}
 		}

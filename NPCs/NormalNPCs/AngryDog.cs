@@ -16,15 +16,15 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Angry Dog");
-			Main.npcFrameCount[npc.type] = 10;
+			Main.npcFrameCount[npc.type] = 9;
 		}
 
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
 			npc.damage = 10;
-			npc.width = 46; //324
-			npc.height = 30; //216
+			npc.width = 56;
+			npc.height = 56;
 			npc.defense = 4;
 			npc.lifeMax = 50;
 			if (CalamityWorld.downedCryogen)
@@ -588,13 +588,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (npc.ai[1] < 7f && npc.ai[1] > 0f)
             {
-                npc.frame.Y = frameHeight * 8;
+                npc.frame.Y = frameHeight * 7;
                 npc.frameCounter = 0.0;
                 return;
             }
             if (npc.ai[1] >= 7f)
             {
-                npc.frame.Y = frameHeight * 9;
+                npc.frame.Y = frameHeight * 8;
                 npc.frameCounter = 0.0;
                 return;
             }
@@ -606,13 +606,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             else
             {
                 npc.spriteDirection = npc.direction;
-                npc.frameCounter += (double)(npc.velocity.Length() / 8f);
+                npc.frameCounter += (double)(npc.velocity.Length() / 16f);
                 if (npc.frameCounter > 12.0)
                 {
                     npc.frame.Y = npc.frame.Y + frameHeight;
                     npc.frameCounter = 0.0;
                 }
-                if (npc.frame.Y >= frameHeight * 7)
+                if (npc.frame.Y >= frameHeight * 6)
                 {
                     npc.frame.Y = 0;
                 }

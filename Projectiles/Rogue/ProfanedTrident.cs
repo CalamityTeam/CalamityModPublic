@@ -12,6 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Spear");
+			Main.projFrames[projectile.type] = 4;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
@@ -29,7 +30,17 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+			projectile.frameCounter++;
+			if (projectile.frameCounter > 6)
+			{
+				projectile.frame++;
+				projectile.frameCounter = 0;
+			}
+			if (projectile.frame > 3)
+			{
+				projectile.frame = 0;
+			}
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
         	float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
 			float num474 = 400f;

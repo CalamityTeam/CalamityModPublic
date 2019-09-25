@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
         {
             DisplayName.SetDefault("Gilded Proboscis");
             Tooltip.SetDefault("Ignores immunity frames\n" +
-				"Heals the player on enemy hits");
+				"Heals the player on hit");
         }
 
         public override void SetDefaults()

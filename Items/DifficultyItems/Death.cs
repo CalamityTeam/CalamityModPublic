@@ -13,10 +13,14 @@ namespace CalamityMod.Items.DifficultyItems
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Death");
-			Tooltip.SetDefault("Makes bosses even more EXTREME\n" +
-                "Effect can be toggled on and off\n" +
-                "Effect will only work if revengeance mode is active\n" +
-                "Using this while a boss is alive will instantly kill you and despawn the boss");
+			Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
+				"Allows certain bosses to spawn naturally.\n" +
+				"Increases enemy damage by 15% and spawn rates by 25%.\n" +
+				"Nerfs the effectiveness of life steal.\n" +
+				"Greatly increases the effectiveness of Rage and Adrenaline.\n" +
+				"Effect can be toggled on and off.\n" +
+                "Effect will only work if Revengeance Mode is active.\n" +
+                "Using this while a boss is alive will instantly kill you and despawn the boss.");
 		}
 
 		public override void SetDefaults()

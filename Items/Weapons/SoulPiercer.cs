@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -18,8 +20,8 @@ namespace CalamityMod.Items.Weapons
             item.damage = 185;
             item.magic = true;
             item.mana = 19;
-            item.width = 60;
-            item.height = 60;
+            item.width = 64;
+            item.height = 64;
             item.useTime = 18;
             item.useAnimation = 18;
             item.useStyle = 5;
@@ -34,7 +36,13 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
 
-        public override void AddRecipes()
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(32f, 30f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/SoulPiercerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "CosmiliteBar", 12);

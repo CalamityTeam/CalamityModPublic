@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
         {
             item.damage = 39;
             item.melee = true;
-            item.width = 64;
+            item.width = 66;
             item.height = 80;
             item.useTime = 26;
             item.useAnimation = 26;

@@ -111,16 +111,22 @@ namespace CalamityMod.NPCs.CosmicWraith
 
 		public override void AI()
 		{
-			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
-			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
-			bool cosmicDust = lifeToAlpha > 15;
-			bool speedBoost = lifeToAlpha > 25;
-			bool cosmicRain = lifeToAlpha > 35;
-			bool cosmicSpeed = lifeToAlpha > 50;
-			bool cosmicTeleport = lifeToAlpha > 67;
-			Player player = Main.player[npc.target];
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+
+			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
+			lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
+
+			double mult = 1.0 -
+				(revenge ? 0.25 : 0.0) -
+				(CalamityWorld.death ? 0.25 : 0.0);
+
+			bool cosmicDust = lifeToAlpha > (int)(15D * mult);
+			bool speedBoost = lifeToAlpha > (int)(25D * mult);
+			bool cosmicRain = lifeToAlpha > (int)(35D * mult);
+			bool cosmicSpeed = lifeToAlpha > (int)(50D * mult);
+
+			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
 			Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
 			Vector2 vectorCenter = npc.Center;
@@ -204,8 +210,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 							Vector2 velocity = baseVelocity;
 							velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-CosmicAngleSpread / 2 + (CosmicAngleSpread * i / (float)CosmicProjectiles)));
 							velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-							int projectile = Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, mod.ProjectileType("CosmicFlameBurst"), damage, 0f, Main.myPlayer, 0f, 0f);
-							Main.projectile[projectile].tileCollide = false;
+							Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, mod.ProjectileType("CosmicFlameBurst"), damage, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}

@@ -289,20 +289,6 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 4;
 			}
 
-			if (CalamityCollision.HotWetCollision(player.position, player.width, player.height) || (modPlayer.ZoneAbyssLayer4 && point.Y > Main.maxTilesY - 300) || modPlayer.ZoneSunkenSea)
-			{
-				if (player.lifeRegen < 0)
-				{
-					player.lifeRegen += 2;
-
-					if (player.lifeRegen > 0)
-						player.lifeRegen = 0;
-				}
-
-				player.lifeRegenTime += 1;
-				player.lifeRegen += 1;
-			}
-
 			// Last Debuffs
 
 			if (modPlayer.omegaBlueChestplate)

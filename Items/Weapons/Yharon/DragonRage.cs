@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.knockBack = 7.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 80;
+            item.height = 82;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("DragonRage");

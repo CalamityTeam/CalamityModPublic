@@ -15,16 +15,15 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			projectile.width = 20;
 			projectile.height = 20;
-			aiType = 348;
 			projectile.hostile = true;
 			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
 			projectile.penetrate = 1;
 			cooldownSlot = 1;
 		}
 
 		public override void AI()
 		{
-			Lighting.AddLight(projectile.Center, 0.3f, 0f, 0.4f);
 			if (projectile.localAI[0] == 0f)
 			{
 				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 73);
@@ -33,9 +32,9 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 4f)
 			{
-				for (int num468 = 0; num468 < 5; num468++)
+				for (int num468 = 0; num468 < 2; num468++)
 				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);
+					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 3f);
 					Main.dust[num469].noGravity = true;
 					Main.dust[num469].velocity *= 0f;
 				}
@@ -45,8 +44,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
-			projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
+			projectile.position = projectile.Center;
 			projectile.width = (projectile.height = 48);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);

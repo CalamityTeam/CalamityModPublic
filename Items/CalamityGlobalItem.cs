@@ -697,6 +697,17 @@ namespace CalamityMod.Items
 					}
 				}
 			}
+			if (item.type == ItemID.WarmthPotion)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Reduces damage from cold sources\n" +
+							"Makes you immune to the Chilled, Frozen, and Glacial State debuffs";
+					}
+				}
+			}
 			if (item.type == ItemID.WormScarf)
 			{
 				foreach (TooltipLine line2 in tooltips)

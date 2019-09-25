@@ -292,6 +292,7 @@ namespace CalamityMod.Projectiles
 						projectile.damage = defDamage + 60;
 				}
 			}
+
 			if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
 			{
 				if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
@@ -514,6 +515,7 @@ namespace CalamityMod.Projectiles
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 91, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
+
 			if (Main.player[projectile.owner].GetCalamityPlayer().providenceLore && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
 				(projectile.melee || projectile.ranged || projectile.magic || rogue))
 			{
@@ -569,6 +571,7 @@ namespace CalamityMod.Projectiles
 					float num2 = (float)damage * num;
 					Main.player[Main.myPlayer].lifeSteal -= num2;
 				}
+
 				if (projectile.type == ProjectileID.VampireKnife)
 				{
 					float num = (float)damage * 0.0375f;
@@ -578,6 +581,7 @@ namespace CalamityMod.Projectiles
 					}
 					Main.player[Main.myPlayer].lifeSteal -= num;
 				}
+
 				if (Main.player[projectile.owner].GetCalamityPlayer().alchFlask &&
 					(projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type)) &&
 					Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("PlagueSeeker")] < 6)
@@ -590,6 +594,7 @@ namespace CalamityMod.Projectiles
 					int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("PlagueSeeker"), newDamage, 0f, projectile.owner, 0f, 0f);
 					Main.projectile[plague].melee = false;
 				}
+
 				if (Main.player[projectile.owner].GetCalamityPlayer().reaverBlast && projectile.melee)
 				{
 					int newDamage = (int)((double)projectile.damage * 0.2);
@@ -599,6 +604,7 @@ namespace CalamityMod.Projectiles
 					}
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ReaverBlast"), newDamage, 0f, projectile.owner, 0f, 0f);
 				}
+
 				if (Main.player[projectile.owner].GetCalamityPlayer().auricSet && target.canGhostHeal)
 				{
 					float num11 = 0.05f;
@@ -667,10 +673,10 @@ namespace CalamityMod.Projectiles
 					}
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SilvaOrb"), 0, 0f, projectile.owner, (float)num14, num12);
 				}
+
 				if (projectile.magic)
 				{
-					if (Main.player[projectile.owner].GetCalamityPlayer().silvaMage && projectile.penetrate == 1 &&
-						Main.rand.Next(0, 100) >= 97)
+					if (Main.player[projectile.owner].GetCalamityPlayer().silvaMage && projectile.penetrate == 1 && Main.rand.Next(0, 100) >= 97)
 					{
 						Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);
 						projectile.position = projectile.Center;
@@ -693,6 +699,7 @@ namespace CalamityMod.Projectiles
 						projectile.damage *= (Main.player[projectile.owner].GetCalamityPlayer().auricSet ? 7 : 4);
 						projectile.Damage();
 					}
+
 					if (Main.player[projectile.owner].GetCalamityPlayer().tarraMage && target.canGhostHeal)
 					{
 						if (Main.player[projectile.owner].GetCalamityPlayer().tarraMageHealCooldown <= 0)
@@ -724,6 +731,7 @@ namespace CalamityMod.Projectiles
 							}
 						}
 					}
+
 					if (Main.player[projectile.owner].GetCalamityPlayer().reaverBurst)
 					{
 						int num251 = Main.rand.Next(2, 5);
@@ -746,8 +754,7 @@ namespace CalamityMod.Projectiles
 							Main.projectile[proj].localNPCHitCooldown = 30;
 						}
 					}
-					else if (Main.player[projectile.owner].GetCalamityPlayer().ataxiaMage &&
-						Main.player[projectile.owner].GetCalamityPlayer().ataxiaDmg <= 0)
+					else if (Main.player[projectile.owner].GetCalamityPlayer().ataxiaMage && Main.player[projectile.owner].GetCalamityPlayer().ataxiaDmg <= 0)
 					{
 						int num = projectile.damage / 2;
 						Main.player[projectile.owner].GetCalamityPlayer().ataxiaDmg += (float)num;
@@ -830,8 +837,7 @@ namespace CalamityMod.Projectiles
 							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("AtaxiaHealOrb"), 0, 0f, projectile.owner, (float)num14, num12);
 						}
 					}
-					else if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet &&
-						Main.player[projectile.owner].GetCalamityPlayer().xerocDmg <= 0)
+					else if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet && Main.player[projectile.owner].GetCalamityPlayer().xerocDmg <= 0)
 					{
 						int num = projectile.damage / 2;
 						Main.player[projectile.owner].GetCalamityPlayer().xerocDmg += (float)num;
@@ -914,8 +920,7 @@ namespace CalamityMod.Projectiles
 							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("XerocHealOrb"), 0, 0f, projectile.owner, (float)num14, num12);
 						}
 					}
-					else if (Main.player[projectile.owner].GetCalamityPlayer().godSlayerMage &&
-						Main.player[projectile.owner].GetCalamityPlayer().godSlayerDmg <= 0)
+					else if (Main.player[projectile.owner].GetCalamityPlayer().godSlayerMage && Main.player[projectile.owner].GetCalamityPlayer().godSlayerDmg <= 0)
 					{
 						int num = projectile.damage / 2;
 						Main.player[projectile.owner].GetCalamityPlayer().godSlayerDmg += (float)num;
@@ -1002,8 +1007,7 @@ namespace CalamityMod.Projectiles
 				}
 				else if (projectile.melee)
 				{
-					if (Main.player[projectile.owner].GetCalamityPlayer().ataxiaGeyser &&
-						Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("ChaosGeyser")] < 3)
+					if (Main.player[projectile.owner].GetCalamityPlayer().ataxiaGeyser && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("ChaosGeyser")] < 3)
 					{
 						int newDamage = (int)((double)projectile.damage * 0.15);
 						if (newDamage > 35)
@@ -1012,8 +1016,7 @@ namespace CalamityMod.Projectiles
 						}
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ChaosGeyser"), newDamage, 0f, projectile.owner, 0f, 0f);
 					}
-					else if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet &&
-						Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("XerocBlast")] < 3)
+					else if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("XerocBlast")] < 3)
 					{
 						int newDamage = (int)((double)projectile.damage * 0.2);
 						if (newDamage > 40)
@@ -1025,8 +1028,7 @@ namespace CalamityMod.Projectiles
 				}
 				else if (projectile.ranged)
 				{
-					if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet &&
-						Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("XerocFire")] < 3)
+					if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("XerocFire")] < 3)
 					{
 						int newDamage = (int)((double)projectile.damage * 0.15);
 						if (newDamage > 40)
@@ -1038,8 +1040,7 @@ namespace CalamityMod.Projectiles
 				}
 				else if (rogue)
 				{
-					if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet &&
-						Main.player[projectile.owner].GetCalamityPlayer().xerocDmg <= 0)
+					if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet && Main.player[projectile.owner].GetCalamityPlayer().xerocDmg <= 0)
 					{
 						int num = projectile.damage / 2;
 						Main.player[projectile.owner].GetCalamityPlayer().xerocDmg += (float)num;
@@ -1095,16 +1096,18 @@ namespace CalamityMod.Projectiles
 					{
 						target.AddBuff(mod.BuffType("HolyLight"), 300);
 					}
+
 					if (Main.player[projectile.owner].GetCalamityPlayer().tearMinions)
 					{
 						target.AddBuff(mod.BuffType("TemporalSadness"), 60);
 					}
+
 					if (Main.player[projectile.owner].GetCalamityPlayer().shadowMinions)
 					{
 						target.AddBuff(BuffID.ShadowFlame, 300);
 					}
-					if (Main.player[projectile.owner].GetCalamityPlayer().godSlayerSummon &&
-						Main.player[projectile.owner].GetCalamityPlayer().godSlayerDmg <= 0)
+
+					if (Main.player[projectile.owner].GetCalamityPlayer().godSlayerSummon && Main.player[projectile.owner].GetCalamityPlayer().godSlayerDmg <= 0)
 					{
 						int num = projectile.damage / 2;
 						float ai1 = (Main.rand.NextFloat() + 0.5f);
@@ -1154,8 +1157,7 @@ namespace CalamityMod.Projectiles
 						num9 *= num10;
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("GodSlayerPhantom"), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
 					}
-					else if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet &&
-						Main.player[projectile.owner].GetCalamityPlayer().xerocDmg <= 0)
+					else if (Main.player[projectile.owner].GetCalamityPlayer().xerocSet && Main.player[projectile.owner].GetCalamityPlayer().xerocDmg <= 0)
 					{
 						int num = projectile.damage / 2;
 						Main.player[projectile.owner].GetCalamityPlayer().xerocDmg += (float)num;
@@ -1218,9 +1220,13 @@ namespace CalamityMod.Projectiles
 					if (projectile.timeLeft > 420)
 						return false;
 					break;
+
 				case ProjectileID.Cthulunado:
 					if (projectile.timeLeft > 720)
 						return false;
+					break;
+
+				default:
 					break;
 			}
 			return true;
@@ -1300,9 +1306,12 @@ namespace CalamityMod.Projectiles
 		{
 			if (texture == null)
 				texture = Main.projectileTexture[projectile.type];
+
 			int frameHeight = texture.Height / Main.projFrames[projectile.type];
 			int frameY = frameHeight * projectile.frame;
+
 			Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, frameY, texture.Width, frameHeight);
+
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
@@ -1319,6 +1328,7 @@ namespace CalamityMod.Projectiles
 							Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
 						}
 						break;
+
 					case 1:
 						Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
 						int num157 = 8;
@@ -1338,6 +1348,7 @@ namespace CalamityMod.Projectiles
 							goto IL_6881;
 						}
 						break;
+
 					default:
 						break;
 				}
@@ -1351,8 +1362,7 @@ namespace CalamityMod.Projectiles
 		{
 			if (projectile.owner == Main.myPlayer)
 			{
-				if (Main.player[projectile.owner].GetCalamityPlayer().providenceLore && projectile.friendly && projectile.damage > 0 &&
-					(projectile.melee || projectile.ranged || projectile.magic || rogue))
+				if (Main.player[projectile.owner].GetCalamityPlayer().providenceLore && projectile.friendly && projectile.damage > 0 && (projectile.melee || projectile.ranged || projectile.magic || rogue))
 				{
 					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
 					for (int i = 0; i < 3; i++)
@@ -1361,6 +1371,7 @@ namespace CalamityMod.Projectiles
 						Main.dust[dust].noGravity = true;
 					}
 				}
+
 				if (projectile.ranged)
 				{
 					if (Main.player[projectile.owner].GetCalamityPlayer().tarraRanged && Main.rand.Next(0, 100) >= 88)
@@ -1380,7 +1391,7 @@ namespace CalamityMod.Projectiles
 							{
 								newDamage = 65;
 							}
-							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("TarraEnergy"), newDamage, 0f, projectile.owner, 0f, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("TarraEnergy"), newDamage, 0f, projectile.owner, 0f, 0f);
 						}
 					}
 				}

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Diseased Pike");
-            Tooltip.SetDefault("Fires plague seekers on enemy hits");
+            Tooltip.SetDefault("Fires plague seekers on hit");
         }
 
         public override void SetDefaults()

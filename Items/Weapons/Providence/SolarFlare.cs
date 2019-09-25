@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Providence
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Solar Flare");
-            Tooltip.SetDefault("Emits large holy explosions on enemy hits");
+            Tooltip.SetDefault("Emits large holy explosions on hit");
         }
 
         public override void SetDefaults()

@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			float num998 = 8f;
 			float scaleFactor3 = 300f;
 			float num999 = 800f;
-			float num1000 = (lifeRatio < 0.75f ? 14f : 16f);
+			float num1000 = ((lifeRatio < 0.75f || CalamityWorld.death) ? 14f : 16f);
 			if (revenge)
 			{
 				num1000 *= 1.15f;
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			float scaleFactor5 = 10f;
 			float num1003 = 30f;
 			float num1004 = 150f;
-			float num1005 = (lifeRatio < 0.75f ? 14f : 16f);
+			float num1005 = ((lifeRatio < 0.75f || CalamityWorld.death) ? 14f : 16f);
 			if (revenge)
 			{
 				num1005 *= 1.15f;
@@ -254,7 +254,6 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.damage = expertMode ? 200 : 100;
 			if (npc.ai[0] == 0f)
 			{
-				npc.knockBackResist = 0f;
 				float scaleFactor6 = num998;
 				Vector2 center4 = npc.Center;
 				Vector2 center5 = Main.player[npc.target].Center;
@@ -297,7 +296,6 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			}
 			else if (npc.ai[0] == 1f)
 			{
-				npc.knockBackResist = 0f;
 				npc.velocity *= scaleFactor4;
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= num1001)
@@ -316,7 +314,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					dustTimer--;
-					if (lifeRatio < 0.5f && dustTimer <= 0)
+					if ((lifeRatio < 0.5f || CalamityWorld.death) && dustTimer <= 0)
 					{
 						Main.PlaySound(SoundID.Item20, npc.position);
 						int damage = expertMode ? 38 : 56;
@@ -329,7 +327,6 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					}
 				}
 				npc.damage = expertMode ? 240 : 120;
-				npc.knockBackResist = 0f;
 				float num1016 = num1003;
 				npc.ai[1] += 1f;
 				bool flag65 = Vector2.Distance(npc.Center, Main.player[npc.target].Center) > num1004 && npc.Center.Y > Main.player[npc.target].Center.Y;

@@ -82,11 +82,15 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 npc.damage = expertMode ? 240 : 120;
                 npc.dontTakeDamage = false;
             }
-            Player player = Main.player[npc.target];
-            if ((double)npc.life < (double)npc.lifeMax * 0.5)
-            {
-                npc.knockBackResist = 0f;
-            }
+
+			double mult = 0.5 +
+				(CalamityWorld.revenge ? 0.2 : 0.0) +
+				(CalamityWorld.death ? 0.2 : 0.0);
+			if ((double)npc.life < (double)npc.lifeMax * mult)
+			{
+				npc.knockBackResist = 0f;
+			}
+
 			if (npc.ai[1] == 0f)
 			{
 				npc.scale -= 0.01f;
@@ -108,7 +112,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				}
 			}
 			npc.TargetClosest(true);
-            if (!player.active || player.dead || CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
+			Player player = Main.player[npc.target];
+			if (!player.active || player.dead || CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
@@ -126,7 +131,13 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.timeLeft = 2400;
             }
-            float num1372 = expertMode ? 12f : 10f;
+
+            float num1372 = expertMode ? 10f : 8f;
+			if (CalamityWorld.revenge)
+				num1372 += 2f;
+			if (CalamityWorld.death)
+				num1372 += 2f;
+
 			Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
 			float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
 			float num1374 = Main.player[npc.target].Center.Y - vector167.Y;

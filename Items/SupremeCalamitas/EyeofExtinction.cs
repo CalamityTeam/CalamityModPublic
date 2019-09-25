@@ -14,6 +14,7 @@ namespace CalamityMod.Items.SupremeCalamitas
                 "Summons Supreme Calamitas\n" +
                 "Creates a large square arena of blocks around your player\n" +
                 "Your player is the CENTER of the arena so be sure to use this item in a good location\n" +
+				"During the battle, heart pickups will heal half as much HP\n" +
                 "Not consumable");
 		}
 

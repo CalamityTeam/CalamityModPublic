@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Melee
 				color25 = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f));
 			}
 			Vector2 projPos = projectile.position;
-        	projPos = new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition; //fuck it
+        	projPos = new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
 			Texture2D texture2D22 = Main.projectileTexture[projectile.type];
 			Microsoft.Xna.Framework.Color alpha3 = projectile.GetAlpha(color25);
 			if (projectile.velocity == Vector2.Zero)

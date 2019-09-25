@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
@@ -14,7 +16,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
 		public override void SafeSetDefaults()
 		{
-			item.width = 50;
+			item.width = 64;
 			item.damage = 550;
 			item.noMelee = true;
 			item.noUseGraphic = true;
@@ -24,13 +26,19 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.knockBack = 6.75f;
 			item.UseSound = SoundID.Item73;
 			item.autoReuse = true;
-			item.height = 50;
+			item.height = 64;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("ExecutionersBlade");
 			item.shootSpeed = 26f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(32f, 30f);
+			spriteBatch.Draw(mod.GetTexture("Items/CalamityCustomThrowingDamage/ExecutionersBladeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
 		public override void AddRecipes()

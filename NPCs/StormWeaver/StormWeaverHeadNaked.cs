@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					tail = true;
 				}
 				npc.localAI[0] += 1f;
-				if (npc.localAI[0] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 180f : 360f))
+				if (npc.localAI[0] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 180f : 300f))
 				{
 					npc.localAI[0] = 0f;
 					npc.TargetClosest(true);

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.GreatSandShark
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tumbleweed");
-            Tooltip.SetDefault("Releases a rolling tumbleweed on enemy hits");
+            Tooltip.SetDefault("Releases a rolling tumbleweed on hit");
         }
 
 	    public override void SetDefaults()

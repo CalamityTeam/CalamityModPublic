@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
         {
             DisplayName.SetDefault("Excelsus");
             Tooltip.SetDefault("Fires a spread of spinning blades\n" +
-				"Summons laser fountains on enemy hits");
+				"Summons laser fountains on hit");
         }
 
         public override void SetDefaults()

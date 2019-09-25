@@ -8705,9 +8705,14 @@ namespace CalamityMod.CalPlayer
 						effect = (SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically);
 				}
 
-				if (item.type == mod.ItemType("DeathhailStaff"))
+				if (item.type == mod.ItemType("DeathhailStaff") || item.type == mod.ItemType("Vesuvius") || item.type == mod.ItemType("SoulPiercer"))
 				{
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/DeathhailStaffGlow");
+					if (item.type == mod.ItemType("Vesuvius"))
+						texture = mod.GetTexture("Items/Weapons/VesuviusGlow");
+					else if (item.type == mod.ItemType("SoulPiercer"))
+						texture = mod.GetTexture("Items/Weapons/SoulPiercerGlow");
+
 					float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
 					int num105 = 0;
 					Vector2 zero3 = new Vector2(0f, (float)Main.itemTexture[item.type].Height);
@@ -8741,15 +8746,33 @@ namespace CalamityMod.CalPlayer
 						item.scale,
 						effect,
 						0);
+
 					Main.playerDrawData.Add(data);
 				}
 
-				else if (item.type == mod.ItemType("Deathwind"))
+				else if (item.type == mod.ItemType("Deathwind") || item.type == mod.ItemType("Apotheosis") || item.type == mod.ItemType("CleansingBlaze") || item.type == mod.ItemType("SubsumingVortex"))
 				{
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/DeathwindGlow");
+					int offsetX = 10;
+					if (item.type == mod.ItemType("Apotheosis"))
+					{
+						texture = mod.GetTexture("Items/Weapons/ApotheosisGlow");
+						offsetX = 6;
+					}
+					else if (item.type == mod.ItemType("CleansingBlaze"))
+					{
+						texture = mod.GetTexture("Items/Weapons/CleansingBlazeGlow");
+						offsetX = 37;
+					}
+					else if (item.type == mod.ItemType("SubsumingVortex"))
+					{
+						texture = mod.GetTexture("Items/Weapons/SubsumingVortexGlow");
+						offsetX = 9;
+					}
+
 					Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
 					Vector2 vector14 = vector13;
-					int num107 = (int)vector14.X - 10;
+					int num107 = (int)vector14.X - offsetX;
 					vector13.Y = vector14.Y;
 
 					Vector2 origin4 = new Vector2(-(float)num107, (float)(Main.itemTexture[item.type].Height / 2));
@@ -8765,12 +8788,18 @@ namespace CalamityMod.CalPlayer
 						item.scale,
 						effect,
 						0);
+
 					Main.playerDrawData.Add(data);
 				}
 
-				else if (item.type == mod.ItemType("Excelsus"))
+				else if (item.type == mod.ItemType("Excelsus") || item.type == mod.ItemType("EssenceFlayer") || item.type == mod.ItemType("TheEnforcer"))
 				{
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/ExcelsusGlow");
+					if (item.type == mod.ItemType("EssenceFlayer"))
+						texture = mod.GetTexture("Items/Weapons/EssenceFlayerGlow");
+					else if (item.type == mod.ItemType("TheEnforcer"))
+						texture = mod.GetTexture("Items/Weapons/TheEnforcerGlow");
+
 					float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
 
 					DrawData data = new DrawData(texture,
@@ -8782,6 +8811,7 @@ namespace CalamityMod.CalPlayer
 						item.scale,
 						effect,
 						0);
+
 					Main.playerDrawData.Add(data);
 				}
 			}

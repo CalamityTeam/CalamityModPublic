@@ -105,9 +105,18 @@ namespace CalamityMod.Projectiles.Boss
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("BrimstoneBarrage"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
 				}
 			}
-			for (int dust = 0; dust <= 10; dust++)
+			for (int num193 = 0; num193 < 2; num193++)
 			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 235, 0f, 0f);
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 50, default, 1f);
+			}
+			for (int num194 = 0; num194 < 20; num194++)
+			{
+				int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 0, default, 1.5f);
+				Main.dust[num195].noGravity = true;
+				Main.dust[num195].velocity *= 3f;
+				num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 235, 0f, 0f, 50, default, 1f);
+				Main.dust[num195].velocity *= 2f;
+				Main.dust[num195].noGravity = true;
 			}
 		}
 	}

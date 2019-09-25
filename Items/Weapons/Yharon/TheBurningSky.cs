@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Yharon
 
         public override void SetDefaults()
         {
-            item.width = 56;
+            item.width = 62;
             item.damage = 200;
             item.melee = true;
             item.useTime = 5;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 68;
+            item.height = 64;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("BurningMeteor");

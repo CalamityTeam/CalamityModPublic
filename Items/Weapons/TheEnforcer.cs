@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
         public override void SetDefaults()
         {
-            item.width = 64;
+            item.width = 100;
             item.damage = 2200;
             item.melee = true;
             item.useAnimation = 17;
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Weapons
             item.knockBack = 9f;
             item.UseSound = SoundID.Item20;
             item.autoReuse = true;
-            item.height = 64;
+            item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("EssenceBurst");
@@ -34,7 +35,13 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(50f, 48f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/TheEnforcerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73);
             int i = Main.myPlayer;

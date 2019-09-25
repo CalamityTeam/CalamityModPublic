@@ -1,9 +1,11 @@
 ﻿using System.IO;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.GameContent.Events;
 using CalamityMod.World;
 using CalamityMod.Utilities;
 
@@ -498,16 +500,27 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropItemCondition(npc, ItemID.GoldenBugNet, NPC.downedBoss3, 20, 1, 1);
             }
 
-            // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open
+            // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen
             if (!CalamityWorld.downedDesertScourge)
             {
                 string key = "Mods.CalamityMod.OpenSunkenSea";
                 Color messageColor = Color.Aquamarine;
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+				string key2 = "Mods.CalamityMod.SandstormTrigger";
+				Color messageColor2 = Color.PaleGoldenrod;
+				if (Main.netMode == NetmodeID.SinglePlayer)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+					Main.NewText(Language.GetTextValue(key2), messageColor2);
+				}
+				else if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+				}
+
+				if (!Sandstorm.Happening)
+					typeof(Sandstorm).GetMethod("StartSandstorm", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, null);
+			}
 
             // Mark Desert Scourge as dead
             CalamityWorld.downedDesertScourge = true;

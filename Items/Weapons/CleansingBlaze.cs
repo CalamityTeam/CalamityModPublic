@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,8 +18,8 @@ namespace CalamityMod.Items.Weapons
 		{
 			item.damage = 250;
 			item.ranged = true;
-			item.width = 60;
-			item.height = 34;
+			item.width = 64;
+			item.height = 32;
 			item.useTime = 3;
 			item.useAnimation = 12;
 			item.useStyle = 5;
@@ -32,6 +33,12 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 14f;
 			item.useAmmo = 23;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(32f, 14f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/CleansingBlazeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

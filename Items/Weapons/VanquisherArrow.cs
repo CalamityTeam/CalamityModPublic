@@ -1,5 +1,8 @@
 using Terraria.ModLoader;
+using Terraria;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -16,8 +19,8 @@ namespace CalamityMod.Items.Weapons
 		{
 			item.damage = 33;
 			item.ranged = true;
-			item.width = 14;
-			item.height = 36;
+			item.width = 22;
+			item.height = 46;
 			item.maxStack = 999;
 			item.consumable = true;
 			item.knockBack = 3.5f;
@@ -26,6 +29,12 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 10f;
 			item.ammo = 40;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+		}
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(11f, 21f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/VanquisherArrowGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
 		public override void AddRecipes()

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Cryogen
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Avalanche");
-            Tooltip.SetDefault("Spawns ice bombs that explode after 2 seconds into ice shards on enemy hits");
+            Tooltip.SetDefault("Spawns ice bombs that explode after 2 seconds into ice shards on hit");
         }
 
         public override void SetDefaults()

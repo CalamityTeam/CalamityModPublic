@@ -156,11 +156,6 @@ namespace CalamityMod.Projectiles.Magic
 			return false;
 		}
 
-		public override Color? GetAlpha(Color lightColor)
-		{
-			return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
-		}
-
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(mod.BuffType("ExoFreeze"), 30);

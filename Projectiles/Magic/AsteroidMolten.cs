@@ -147,5 +147,33 @@ namespace CalamityMod.Projectiles.Magic
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1, texture);
 			return false;
 		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow");
+			switch ((int)projectile.ai[0])
+			{
+				case 0:
+					break;
+				case 1:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow2");
+					break;
+				case 2:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow3");
+					break;
+				case 3:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow4");
+					break;
+				case 4:
+					return;
+				case 5:
+					texture = mod.GetTexture("Projectiles/Magic/AsteroidMoltenGlow6");
+					break;
+				default:
+					break;
+			}
+			Vector2 origin = texture.Size() / 2f;
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+		}
 	}
 }

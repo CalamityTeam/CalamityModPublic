@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -18,8 +20,8 @@ namespace CalamityMod.Items.Weapons
 			item.damage = 366;
 			item.magic = true;
 			item.mana = 42;
-			item.width = 16;
-			item.height = 16;
+			item.width = 30;
+			item.height = 34;
 			item.useTime = 21;
 			item.useAnimation = 21;
 			item.useStyle = 5;
@@ -35,7 +37,13 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
 		}
 
-        public override void AddRecipes()
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(15f, 15f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/ApotheosisGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "SubsumingVortex");

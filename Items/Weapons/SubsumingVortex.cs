@@ -1,6 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -17,8 +19,8 @@ namespace CalamityMod.Items.Weapons
 	        item.damage = 520;
 	        item.magic = true;
 	        item.mana = 20;
-	        item.width = 28;
-	        item.height = 30;
+	        item.width = 38;
+	        item.height = 48;
 	        item.UseSound = SoundID.Item84;
 	        item.useTime = 20;
 	        item.useAnimation = 20;
@@ -33,7 +35,13 @@ namespace CalamityMod.Items.Weapons
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
 		}
 
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Vector2 origin = new Vector2(19f, 22f);
+			spriteBatch.Draw(mod.GetTexture("Items/Weapons/SubsumingVortexGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 		    int num6 = 3;
 		    for (int index = 0; index < num6; ++index)

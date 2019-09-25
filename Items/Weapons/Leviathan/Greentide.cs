@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Greentide");
-			Tooltip.SetDefault("Summons green blasts of water from the sky on enemy hits");
+			Tooltip.SetDefault("Summons green blasts of water from the sky on hit");
 		}
 
         public override void SetDefaults()

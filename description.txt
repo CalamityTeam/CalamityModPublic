@@ -1,10 +1,13 @@
-This mod was created with the purpose of adding additional content to Terraria.
-It currently contains:
-8 new mineable ores
-24 new bosses
-4 new modes for extra challenge
-3 new biomes
-275+ new enemy NPCs
-1600+ new items
-Cross-content support for GRealm
-PLEASE BE ADVISED: Download the Calamity Mod Music mod if you want Calamity Mod music to be in your game!
+The Calamity Mod currently adds:
+
+20+ new bosses
+A lot of new enemies, ores, and items
+5 new modes for extra challenge
+6 new biomes and several new structures
+Buffs and nerfs to certain vanilla features in order to maintain balance
+Buffs and nerfs to certain vanilla items that were either too weak or too strong
+Cross-content support for various other mods
+
+PLEASE BE ADVISED:
+
+Download the Calamity Mod Music mod if you want Calamity Mod music to be in your game!

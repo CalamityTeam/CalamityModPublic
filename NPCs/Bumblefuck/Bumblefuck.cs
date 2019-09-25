@@ -78,8 +78,11 @@ namespace CalamityMod.NPCs.Bumblefuck
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.5f;
-			bool phase3 = lifeRatio < 0.1f;
+			float mult = 1f +
+				(revenge ? 0.25f : 0f) +
+				(CalamityWorld.death ? 0.25f : 0f);
+			bool phase2 = lifeRatio < 0.5f * mult;
+			bool phase3 = lifeRatio < 0.1f * mult;
 
 			// Max spawn amount
 			int num1305 = revenge ? 4 : 3;
