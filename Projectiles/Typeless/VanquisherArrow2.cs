@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -14,8 +15,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 22;
+            projectile.height = 22;
             projectile.friendly = true;
             projectile.arrow = true;
             projectile.timeLeft = 90;
@@ -61,7 +62,20 @@ namespace CalamityMod.Projectiles.Typeless
 			}
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		/*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 origin = new Vector2(0f, 0f);
+			Color color = new Color(0, 0, 0, 0);
+			if (projectile.timeLeft < 85)
+			{
+				byte b2 = (byte)(projectile.timeLeft * 3);
+				byte a2 = (byte)(100f * ((float)b2 / 255f));
+				color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
+			}
+			spriteBatch.Draw(mod.GetTexture("Projectiles/Typeless/VanquisherArrow2Glow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+		}*/
+
+		public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.timeLeft < 85)
             {

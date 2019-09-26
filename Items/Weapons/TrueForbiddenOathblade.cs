@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons
         public override void SetDefaults()
         {
             item.width = 78;
-            item.damage = 180;
+            item.damage = 200;
             item.melee = true;
             item.useAnimation = 23;
             item.useTime = 23;

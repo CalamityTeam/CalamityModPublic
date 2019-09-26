@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 100;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
-            item.shoot = mod.ProjectileType("EssenceBurst");
+            item.shoot = mod.ProjectileType("EssenceFireball");
             item.shootSpeed = 24f;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}

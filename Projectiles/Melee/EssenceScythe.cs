@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Melee
 
 		public override void SetDefaults()
 		{
-			projectile.width = 50;
-			projectile.height = 50;
+			projectile.width = 100;
+			projectile.height = 78;
 			projectile.aiStyle = 18;
 			projectile.friendly = true;
 			projectile.melee = true;
@@ -77,6 +77,23 @@ namespace CalamityMod.Projectiles.Melee
 		{
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
 			return false;
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 origin = new Vector2(50f, 39f);
+			Color color = Color.White;
+			if (projectile.timeLeft < 85)
+			{
+				byte b2 = (byte)(projectile.timeLeft * 3);
+				byte a2 = (byte)(100f * ((float)b2 / 255f));
+				color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
+			}
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/EssenceScytheGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, spriteEffects, 0f);
 		}
 
 		public override Color? GetAlpha(Color lightColor)

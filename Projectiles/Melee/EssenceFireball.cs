@@ -5,13 +5,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles.Melee
 {
-    public class DoGFire : ModProjectile
+    public class EssenceFireball : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Death Fire");
+			DisplayName.SetDefault("Fireball");
 			Main.projFrames[projectile.type] = 6;
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -21,13 +21,13 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			projectile.width = 30;
 			projectile.height = 30;
-			projectile.hostile = true;
+			projectile.friendly = true;
 			projectile.ignoreWater = true;
 			projectile.tileCollide = false;
+			projectile.melee = true;
 			projectile.alpha = 255;
-			projectile.penetrate = -1;
-			projectile.timeLeft = 480;
-			cooldownSlot = 1;
+			projectile.penetrate = 1;
+			projectile.timeLeft = 120;
 		}
 
 		public override void AI()
@@ -58,30 +58,6 @@ namespace CalamityMod.Projectiles.Boss
 			Main.dust[dust].noGravity = true;
 
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-
-			if (projectile.ai[1] == 1f)
-			{
-				int num103 = (int)Player.FindClosest(projectile.Center, 1, 1);
-				Vector2 vector11 = Main.player[num103].Center - projectile.Center;
-				projectile.ai[0] += 1f;
-				if (projectile.ai[0] >= 60f)
-				{
-					if (projectile.ai[0] < 300f)
-					{
-						float scaleFactor2 = projectile.velocity.Length();
-						vector11.Normalize();
-						vector11 *= scaleFactor2;
-						projectile.velocity = (projectile.velocity * 24f + vector11) / 25f;
-						projectile.velocity.Normalize();
-						projectile.velocity *= scaleFactor2;
-					}
-					else if (projectile.velocity.Length() < 24f)
-					{
-						projectile.tileCollide = true;
-						projectile.velocity *= 1.02f;
-					}
-				}
-			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -90,11 +66,9 @@ namespace CalamityMod.Projectiles.Boss
 			return false;
 		}
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
-			target.AddBuff(BuffID.Frostburn, 300, true);
-			target.AddBuff(BuffID.Darkness, 300, true);
 		}
 
 		public override void Kill(int timeLeft)
@@ -122,6 +96,11 @@ namespace CalamityMod.Projectiles.Boss
 				num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity *= 2f;
 			}
+			projectile.maxPenetrate = -1;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 10;
 			projectile.Damage();
 		}
 	}

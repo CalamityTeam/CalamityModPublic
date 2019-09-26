@@ -4143,6 +4143,10 @@ namespace CalamityMod.CalPlayer
 				player.statLifeMax2 = (int)((double)player.statLifeMax2 * 0.75);
 				player.maxMinions += 2;
 			}
+			if (thirdSageH && !player.dead && player.HasBuff(mod.BuffType("ThirdSageBuff")))
+			{
+				player.statLife = player.statLifeMax2;
+			}
 			if (pinkCandle)
 			{
 				// every frame, add up 1/60th of the healing value (0.4% max HP per second)
@@ -7221,7 +7225,6 @@ namespace CalamityMod.CalPlayer
 						break;
 					}
 				}
-				player.AddBuff(mod.BuffType("Backfire"), 360);
 				if (player.wingTime > player.wingTimeMax / 2)
 					player.wingTime = player.wingTimeMax / 2;
 			}

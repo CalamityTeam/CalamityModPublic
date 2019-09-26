@@ -257,7 +257,7 @@ namespace CalamityMod.Projectiles.Summon
 			if (projectile.ai[0] == 0f)
 			{
 				float scaleFactor3 = 24f;
-				int num658 = 114;
+				int num658 = ProjectileID.UnholyTridentFriendly;
 				if (flag25 && projectile.ai[1] == 0f)
 				{
 					projectile.ai[1] += 1f;
@@ -268,6 +268,8 @@ namespace CalamityMod.Projectiles.Summon
 						value19 *= scaleFactor3;
 						int num659 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[num659].timeLeft = 300;
+						Main.projectile[num659].usesLocalNPCImmunity = true;
+						Main.projectile[num659].localNPCHitCooldown = 10;
 						projectile.netUpdate = true;
 					}
 				}

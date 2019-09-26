@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -71,6 +72,12 @@ namespace CalamityMod.Projectiles.Melee.Spears
 			{
 				projectile.rotation -= 1.57f;
 			}
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 origin = new Vector2(0f, 0f);
+			spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/Spears/StreamGougeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

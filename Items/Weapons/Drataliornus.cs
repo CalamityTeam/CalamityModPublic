@@ -12,14 +12,14 @@ namespace CalamityMod.Items.Weapons
 			DisplayName.SetDefault("Drataliornus");
 			Tooltip.SetDefault(@"Fires an escalating stream of fireballs.
 Fireballs rain meteors, leave dragon dust trails, and launch additional bolts at max speed.
-Taking damage while firing the stream will interrupt it and heavily debuff your stats.
+Taking damage while firing the stream will interrupt it and reduce your wing flight time.
 Right click to fire two devastating barrages of five empowered fireballs.
 'Just don't get hit'");
 		}
 
 		public override void SetDefaults()
 		{
-            item.damage = 410;
+            item.damage = 620;
 			item.knockBack = 1f;
             item.shootSpeed = 18f;
 			item.useStyle = 5;
@@ -51,9 +51,9 @@ Right click to fire two devastating barrages of five empowered fireballs.
         {
             if (player.altFunctionUse == 2)
             {
-                item.useAnimation = 36;
-                item.useTime = 18;
-                item.reuseDelay = 72;
+                item.useAnimation = 24;
+                item.useTime = 12;
+                item.reuseDelay = 48;
                 item.noUseGraphic = false;
             }
             else

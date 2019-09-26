@@ -1256,7 +1256,7 @@ namespace CalamityMod.Projectiles
 			{
 				Texture2D texture = Main.projectileTexture[projectile.type];
 				SpriteEffects spriteEffects = SpriteEffects.None;
-				if (projectile.spriteDirection == 1)
+				if (projectile.spriteDirection == -1)
 				{
 					spriteEffects = SpriteEffects.FlipHorizontally;
 				}

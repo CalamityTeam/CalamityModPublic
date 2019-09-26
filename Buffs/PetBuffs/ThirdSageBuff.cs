@@ -22,12 +22,6 @@ namespace CalamityMod.Buffs.PetBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-			if (modPlayer.thirdSageH && !player.dead)
-			{
-				player.statLife = player.statLifeMax2;
-				modPlayer.thirdSageH = false;
-			}
 			player.buffTime[buffIndex] = 18000;
 			player.GetCalamityPlayer().thirdSage = true;
 			bool PetProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("ThirdSage")] <= 0;

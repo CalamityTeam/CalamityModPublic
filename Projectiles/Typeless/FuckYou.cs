@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Typeless
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			damage = (int)((double)damage * 0.5);
+			damage = (int)((double)damage * 0.3);
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.shoot = mod.ProjectileType("DiseasedPike");
-            item.shootSpeed = 9f;
+            item.shootSpeed = 10f;
         }
 
         public override bool CanUseItem(Player player)

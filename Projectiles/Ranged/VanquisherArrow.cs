@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,7 +8,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class VanquisherArrow : ModProjectile
     {
-    	public int projCount = 18;
+    	private int projCount = 18;
 
     	public override void SetStaticDefaults()
 		{
@@ -16,8 +17,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 22;
+            projectile.height = 22;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.tileCollide = false;
@@ -41,7 +42,20 @@ namespace CalamityMod.Projectiles.Ranged
         	}
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		/*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 origin = new Vector2(0f, 0f);
+			Color color = Color.White;
+			if (projectile.timeLeft < 85)
+			{
+				byte b2 = (byte)(projectile.timeLeft * 3);
+				byte a2 = (byte)(100f * ((float)b2 / 255f));
+				color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
+			}
+			spriteBatch.Draw(mod.GetTexture("Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+		}*/
+
+		public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.timeLeft < 85)
             {

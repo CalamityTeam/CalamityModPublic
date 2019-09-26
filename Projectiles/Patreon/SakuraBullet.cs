@@ -77,6 +77,8 @@ namespace CalamityMod.Projectiles.Patreon
 		{
 			if (target.type == NPCID.DukeFishron)
 				damage = (int)((double)damage * 2.0);
+			else if (target.type == NPCID.CultistBoss)
+				damage = (int)((double)damage * 0.5);
 		}
 
 		public override void Kill(int timeLeft)

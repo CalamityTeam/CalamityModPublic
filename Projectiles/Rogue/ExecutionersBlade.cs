@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
+            projectile.width = 64;
+            projectile.height = 64;
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
@@ -71,7 +71,13 @@ namespace CalamityMod.Projectiles.Rogue
 			}
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Vector2 origin = new Vector2(32f, 32f);
+			spriteBatch.Draw(mod.GetTexture("Projectiles/Rogue/ExecutionersBladeGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
         }
@@ -79,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
 			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 48);
+			projectile.width = (projectile.height = 128);
 			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 74);

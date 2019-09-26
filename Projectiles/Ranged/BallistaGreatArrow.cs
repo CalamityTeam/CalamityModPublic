@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.arrow = true;
-			projectile.penetrate = 3;
+			projectile.penetrate = 2;
 			projectile.aiStyle = 1;
 			aiType = 1;
 		}
