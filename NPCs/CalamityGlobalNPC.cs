@@ -3304,7 +3304,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GoblinTinkerer:
                     int banditIndex = NPC.FindFirstNPC(mod.NPCType("Bandit"));
-                    if (Main.rand.NextBool(10) && banditIndex != -1 && Main.player.Any(player => player.GetModPlayer<CalamityPlayer>().reforges == 10))
+                    if (Main.rand.NextBool(10) && banditIndex != -1 && Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges >= 10)
                     {
                         var thief = Main.npc[banditIndex];
                         chat = $"Hey, is it just me or have my pockets gotten lighter ever since {thief.GivenName} arrived?";

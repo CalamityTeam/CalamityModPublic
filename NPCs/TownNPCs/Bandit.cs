@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.TownNPCs
             npc.friendly = true;
 			npc.lavaImmune = false;
 			npc.width = 40;
-            npc.height = 58;
+            npc.height = 40;
             npc.aiStyle = 7;
             npc.damage = 10;
             npc.defense = 15;
@@ -72,11 +72,7 @@ namespace CalamityMod.NPCs.TownNPCs
         }
         public bool InventoryHas(Player me, params int[] items)
         {
-            for (int j = 0; j < me.inventory.Length; j++)
-            {
-                return items.Any(itemID => itemID == me.inventory[j].type);
-            }
-            return false;
+            return me.inventory.Any(item => items.Contains(item.type));
         }
         public override string GetChat()
         {
@@ -146,7 +142,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             if (CalamityWorld.downedDoG)
             {
-                PossibleDialogs.Add("I tried looting Storm Weaver's armor once. Before I could get a chunk of the stuff… well let's just say the bigger, fatter cosmic worm arrived and it didn't end well.");
+                PossibleDialogs.Add("I tried looting Storm Weaver's armor once. Before I could get a chunk of the stuff... well let's just say the bigger, fatter cosmic worm arrived and it didn't end well.");
             }
             if (Main.LocalPlayer.ZoneJungle)
             {
