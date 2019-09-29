@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 
@@ -19,7 +20,6 @@ namespace CalamityMod
             {
                 case 1:
                     return player.GetCalamityPlayer().ZoneAbyssLayer1;
-
                 case 2:
                     return player.GetCalamityPlayer().ZoneAbyssLayer2;
 
@@ -62,6 +62,43 @@ namespace CalamityMod
             {
                 npc.lifeMax = revengeance.Value;
             }
+        }
+        /// <summary>
+        /// Detects nearby hostile NPCs from a given point
+        /// </summary>
+        /// <param name="origin">The position where we wish to check for nearby NPCs</param>
+        /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
+        public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck)
+        {
+            NPC closestTarget = null;
+            float distance = maxDistanceToCheck;
+            for (int index = 0; index < Main.npc.Length; index++)
+            {
+                //doesn't matter what the attacker is in CanBeChasedBy? wtf.
+                if (Main.npc[index].CanBeChasedBy(null, false) && Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1))
+                {
+                    if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
+                    {
+                        distance = Vector2.Distance(origin, Main.npc[index].Center);
+                        closestTarget = Main.npc[index];
+                    }
+                }
+            }
+            return closestTarget;
+        }
+        /// <summary>
+        /// Detects nearby hostile NPCs from a given point with minion support
+        /// </summary>
+        /// <param name="origin">The position where we wish to check for nearby NPCs</param>
+        /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
+        /// <param name="owner">Owner of the minion</param>
+        public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner)
+        {
+            if (owner.HasMinionAttackTargetNPC)
+            {
+                return Main.npc[owner.MinionAttackTargetNPC];
+            }
+            return ClosestNPCAt(origin,maxDistanceToCheck);
         }
     }
 
