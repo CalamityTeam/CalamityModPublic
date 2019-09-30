@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
             // ai[1] = 1 means that the projectile is a stealth strike, in which case it pierces infinitely.
             if (projectile.ai[1] == 1f)
                 projectile.penetrate = projectile.maxPenetrate = -1;
-            
+
             // Boomerang rotation
             projectile.rotation += 0.4f * (float)projectile.direction;
 
