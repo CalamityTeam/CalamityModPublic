@@ -44,7 +44,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX * 1.4f, speedY * 1.4f).RotatedBy(MathHelper.ToRadians(spread));
-                    Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, mod.ProjectileType<Projectiles.MonkeyDartproj>(), item.damage, item.knockBack, player.whoAmI,1);
+                    Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, mod.ProjectileType<Projectiles.Rogue.MonkeyDart>(), item.damage, item.knockBack, player.whoAmI,1);
                     spread -= 7;
                 }
                 return false;
