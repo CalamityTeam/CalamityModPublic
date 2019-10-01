@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables
             item.useTime = 10;
             item.autoReuse = true;
             item.consumable = true;
-            item.width = 13;
+            item.width = 12;
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 18);

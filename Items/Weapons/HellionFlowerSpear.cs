@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 74;
+			item.width = 64;
 			item.damage = 67;
 			item.melee = true;
 			item.noMelee = true;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 7.5f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = false;
-			item.height = 74;
+			item.height = 64;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
 			item.shoot = mod.ProjectileType("HellionFlowerSpearProjectile");

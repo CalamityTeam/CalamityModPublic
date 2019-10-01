@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Weapons.Ravager
 			item.damage = 300;
 			item.melee = true;
 			item.rare = 8;
-			item.width = 102;
-			item.height = 82;
+			item.width = 72;
+			item.height = 62;
 			item.useTime = 20;
 			item.useAnimation = 20;
 			item.useStyle = 1;

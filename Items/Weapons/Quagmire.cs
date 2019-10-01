@@ -15,6 +15,8 @@ namespace CalamityMod.Items.Weapons
 	    public override void SetDefaults()
 	    {
 	    	item.CloneDefaults(ItemID.HelFire);
+			item.width = 30;
+			item.height = 36;
 	        item.damage = 52;
 	        item.useTime = 22;
 	        item.useAnimation = 22;

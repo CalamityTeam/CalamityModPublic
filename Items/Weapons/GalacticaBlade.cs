@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 76;
+			item.width = 60;
 			item.damage = 110;
 			item.melee = true;
 			item.useAnimation = 17;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 6f;
 			item.UseSound = SoundID.Item105;
 			item.autoReuse = true;
-			item.height = 68;
+			item.height = 58;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shoot = mod.ProjectileType("GalacticaComet");
