@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Spiteful Candle");
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 34;
         }
