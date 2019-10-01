@@ -13,10 +13,10 @@ namespace CalamityMod.Items.Weapons
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Halley's Inferno"); //if someone could add HalleysInferno to the scopedWeaponList in CalamityMod.cs, that'd be cool
+			DisplayName.SetDefault("Halley's Inferno");
 			Tooltip.SetDefault("Halley came sooner than expected\n" +
-			"50% chance to not consume gel\n" +
-			"Fires a flaming comet");
+			"Fires a flaming comet\n" +
+			"50% chance to not consume gel");
 		}
 
 	    public override void SetDefaults()
