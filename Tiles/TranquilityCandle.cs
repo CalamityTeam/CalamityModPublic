@@ -17,6 +17,7 @@ namespace CalamityMod.Tiles
 			drop = mod.ItemType("TranquilityCandle");
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tranquility Candle");
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 20;
         }
