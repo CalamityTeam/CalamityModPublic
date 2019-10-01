@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 28;
-            item.height = 28;
+            item.width = 26;
+            item.height = 34;
             item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 6;
             item.accessory = true;

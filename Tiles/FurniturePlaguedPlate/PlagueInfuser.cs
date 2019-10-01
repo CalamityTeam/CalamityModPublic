@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -21,6 +23,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             TileObjectData.newTile.Origin = new Point16(0, 3);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 2, 0);
             TileObjectData.addTile(Type);
+
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Plague Infuser");
             AddMapEntry(new Color(191, 142, 111), name);
