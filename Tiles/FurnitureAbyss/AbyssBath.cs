@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
-          		AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+          		AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			name.SetDefault("Abyss Bathtub");
 			AddMapEntry(new Color(191, 142, 111), name);
 			animationFrameHeight = 54;
