@@ -14,6 +14,7 @@ namespace CalamityMod.Tiles
 			Main.tileObsidianKill[Type] = true;
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Lumenyl");
+            		AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
  			AddMapEntry(new Color(0, 150, 200), name);
             soundType = 2;
             soundStyle = 27;
