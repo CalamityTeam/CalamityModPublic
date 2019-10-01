@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -3302,6 +3303,12 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GoblinTinkerer:
+                    int banditIndex = NPC.FindFirstNPC(mod.NPCType("Bandit"));
+                    if (Main.rand.NextBool(10) && banditIndex != -1 && Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges >= 10)
+                    {
+                        var thief = Main.npc[banditIndex];
+                        chat = $"Hey, is it just me or have my pockets gotten lighter ever since {thief.GivenName} arrived?";
+                    }
                     if (Main.rand.NextBool(10) && NPC.downedMoonlord)
                     {
                         chat = "You know...we haven't had an invasion in a while...";

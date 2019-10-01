@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,6 +18,7 @@ namespace CalamityMod.Tiles
 			drop = mod.ItemType("ChaosCandle");
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaos Candle");
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             AddMapEntry(new Color(238, 145, 105), name);
             animationFrameHeight = 20;
         }

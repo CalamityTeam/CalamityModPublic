@@ -1272,6 +1272,10 @@ namespace CalamityMod.NPCs
 		{
             switch (npc.type)
 			{
+                case NPCID.Drippler:
+                    int eyeballDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 300;
+                    DropHelper.DropItemChance(npc, mod.ItemType("BouncingEyeball"), eyeballDropRate, 1, 1);
+                    break;
 				case NPCID.PossessedArmor:
 					int amuletDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 150 : 200;
 					DropHelper.DropItemChance(npc, mod.ItemType("PsychoticAmulet"), amuletDropRate, 1, 1);

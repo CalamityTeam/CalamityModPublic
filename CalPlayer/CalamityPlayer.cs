@@ -49,12 +49,14 @@ namespace CalamityMod.CalPlayer
 		public int packetTimer = 0;
 		public int bloodflareHeartTimer = 180;
 		public int bloodflareManaTimer = 180;
-		public float modStealth = 1f;
+        public int moneyStolenByBandit = 0;
+        public int reforges = 0;
+        public float modStealth = 1f;
 		public float aquaticBoost = 1f;
 		public float shieldInvinc = 5f;
 
-		// Sound
-		public bool playRogueStealthSound = false;
+        // Sound
+        public bool playRogueStealthSound = false;
 		public bool playFullRageSound = true;
 		public bool playFullAdrenalineSound = true;
 		public bool playAdrenalineBurnoutSound = true;
@@ -623,8 +625,10 @@ namespace CalamityMod.CalPlayer
 				{ "rogueLevel", rogueLevel },
 				{ "exactRogueLevel", exactRogueLevel },
 				{ "deathCount", deathCount },
-				{ "radiation", radiation }
-			};
+				{ "radiation", radiation },
+                { "moneyStolenByBandit", moneyStolenByBandit },
+                { "reforges", reforges }
+            };
 		}
 
 		public override void Load(TagCompound tag)
@@ -653,9 +657,11 @@ namespace CalamityMod.CalPlayer
 			sCalDeathCount = tag.GetInt("sCalDeathCount");
 			sCalKillCount = tag.GetInt("sCalKillCount");
 			deathCount = tag.GetInt("deathCount");
-			radiation = tag.GetDouble("radiation");
+            moneyStolenByBandit = tag.GetInt("moneyStolenByBandit");
+            reforges = tag.GetInt("reforges");
+            radiation = tag.GetDouble("radiation");
 
-			meleeLevel = tag.GetInt("meleeLevel");
+            meleeLevel = tag.GetInt("meleeLevel");
 			rangedLevel = tag.GetInt("rangedLevel");
 			magicLevel = tag.GetInt("magicLevel");
 			summonLevel = tag.GetInt("summonLevel");
@@ -675,7 +681,9 @@ namespace CalamityMod.CalPlayer
 			sCalDeathCount = reader.ReadInt32();
 			sCalKillCount = reader.ReadInt32();
 			deathCount = reader.ReadInt32();
-			radiation = reader.ReadDouble();
+            moneyStolenByBandit = reader.ReadInt32();
+            reforges = reader.ReadInt32();
+            radiation = reader.ReadDouble();
 
 			meleeLevel = reader.ReadInt32();
 			rangedLevel = reader.ReadInt32();

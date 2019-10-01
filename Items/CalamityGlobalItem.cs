@@ -1980,21 +1980,37 @@ namespace CalamityMod.Items
 				}
 			}
 		}
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
-		/// </summary>
-		/// <param name="player">The player using the item.</param>
-		/// <param name="dustType">The type of dust to use.</param>
-		/// <param name="chancePerFrame">The chance per frame to spawn the dust (0f-1f)</param>
-		/// <param name="minDistance">The minimum distance between the player and the dust</param>
-		/// <param name="maxDistance">The maximum distance between the player and the dust</param>
-		/// <param name="minRandRot">The minimum random rotation offset for the dust</param>
-		/// <param name="maxRandRot">The maximum random rotation offset for the dust</param>
-		/// <param name="minSpeed">The minimum speed that the dust should travel</param>
-		/// <param name="maxSpeed">The maximum speed that the dust should travel</param>
-		public static Dust MeleeDustHelper(Player player, int dustType, float chancePerFrame, float minDistance, float maxDistance, float minRandRot = -0.2f, float maxRandRot = 0.2f, float minSpeed = 0.9f, float maxSpeed = 1.1f)
+        #region Goblin Money Theft (PostReforge)
+        public override void PostReforge(Item item)
+        {
+            if (NPC.AnyNPCs(mod.NPCType("Bandit")))
+            {
+                int value = item.value;
+                ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
+                if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges <= 9) //to be reset later
+                {
+                    Main.LocalPlayer.GetModPlayer<CalamityPlayer>().moneyStolenByBandit += value / 5;
+                    Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges++;
+                }
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
+        /// </summary>
+        /// <param name="player">The player using the item.</param>
+        /// <param name="dustType">The type of dust to use.</param>
+        /// <param name="chancePerFrame">The chance per frame to spawn the dust (0f-1f)</param>
+        /// <param name="minDistance">The minimum distance between the player and the dust</param>
+        /// <param name="maxDistance">The maximum distance between the player and the dust</param>
+        /// <param name="minRandRot">The minimum random rotation offset for the dust</param>
+        /// <param name="maxRandRot">The maximum random rotation offset for the dust</param>
+        /// <param name="minSpeed">The minimum speed that the dust should travel</param>
+        /// <param name="maxSpeed">The maximum speed that the dust should travel</param>
+        public static Dust MeleeDustHelper(Player player, int dustType, float chancePerFrame, float minDistance, float maxDistance, float minRandRot = -0.2f, float maxRandRot = 0.2f, float minSpeed = 0.9f, float maxSpeed = 1.1f)
 		{
 			if (Main.rand.NextFloat(1f) < chancePerFrame)
 			{
