@@ -35,8 +35,7 @@ namespace CalamityMod.Projectiles.Ranged
 			{
 				projectile.alpha = 0;
 			}
-			Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.7f, 0.3f, 0f);
-			float num55 = 50f;
+			float num55 = 40f;
 			float num56 = 1.5f;
 			if (projectile.ai[1] == 0f)
 			{
@@ -76,7 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
 			if (projectile.getRect().Intersects(value6))
 			{
 				Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
-				float num162 = 50f;
+				float num162 = 40f;
 				float scaleFactor = 1.5f;
 				if (projectile.ai[1] == 1f)
 				{
@@ -138,11 +137,13 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 0, default, 1.5f);
                 Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
+				Main.dust[num195].noLight = true;
+				Main.dust[num195].velocity *= 3f;
                 num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 50, default, 1f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
-            }
+				Main.dust[num195].noLight = true;
+			}
         }
     }
 }

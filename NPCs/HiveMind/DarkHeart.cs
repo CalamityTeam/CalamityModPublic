@@ -17,17 +17,17 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override void SetDefaults()
 		{
-			npc.damage = 10;
-			npc.width = 32; //324
-			npc.height = 32; //216
-			npc.defense = 7;
-			npc.lifeMax = 65;
+			npc.damage = 0;
+			npc.width = 32;
+			npc.height = 32;
+			npc.defense = 2;
+			npc.lifeMax = 80;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 12000;
             }
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
+            npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0.4f;
 			npc.noGravity = true;
 			npc.canGhostHeal = false;
@@ -105,11 +105,7 @@ namespace CalamityMod.NPCs.HiveMind
 					npc.ai[0] = 0f;
 					int num1169 = (int)(npc.position.X + 10f + (float)Main.rand.Next(npc.width - 20));
 					int num1170 = (int)(npc.position.Y + (float)npc.height + 4f);
-					int num184 = 18;
-					if (Main.expertMode)
-					{
-						num184 = 14;
-					}
+					int num184 = Main.expertMode ? 14 : 18;
 					Projectile.NewProjectile((float)num1169, (float)num1170, 0f, 5f, mod.ProjectileType("ShaderainHostile"), num184, 0f, Main.myPlayer, 0f, 0f);
 				}
 			}

@@ -26,10 +26,10 @@ namespace CalamityMod.NPCs.Astrageldon
 		{
 			npc.lavaImmune = true;
 			npc.npcSlots = 15f;
-			npc.damage = 90;
+			npc.damage = 80;
 			npc.width = 400;
 			npc.height = 280;
-			npc.defense = 70;
+			npc.defense = 50;
 			npc.LifeMaxNERD(96000, NPC.downedMoonlord ? 440000 : 122000, 187000, 1400000, 1600000);
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -400,7 +400,7 @@ namespace CalamityMod.NPCs.Astrageldon
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

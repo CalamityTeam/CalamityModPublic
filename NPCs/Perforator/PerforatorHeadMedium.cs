@@ -23,21 +23,21 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override void SetDefaults()
 		{
-			npc.damage = 35; //150
+			npc.damage = 35;
 			npc.npcSlots = 5f;
-			npc.width = 58; //324
-			npc.height = 68; //216
-			npc.defense = 0;
-			npc.lifeMax = 2000; //250000
+			npc.width = 58;
+			npc.height = 68;
+			npc.defense = 2;
+			npc.lifeMax = 2000;
 			if (CalamityWorld.bossRushActive)
 			{
 				npc.lifeMax = CalamityWorld.death ? 900000 : 700000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = 6; //new
-            aiType = -1; //new
-            animationType = 10; //new
+			npc.aiStyle = 6;
+            aiType = -1;
+            animationType = 10;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
@@ -421,7 +421,6 @@ namespace CalamityMod.NPCs.Perforator
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 1.15f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

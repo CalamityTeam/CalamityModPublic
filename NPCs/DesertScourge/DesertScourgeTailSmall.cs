@@ -17,16 +17,16 @@ namespace CalamityMod.NPCs.DesertScourge
 		{
 			npc.damage = 8;
 			npc.npcSlots = 5f;
-			npc.width = 32; //324
-			npc.height = 48; //216
-			npc.defense = 8;
-			npc.lifeMax = 800; //250000
+			npc.width = 32;
+			npc.height = 48;
+			npc.defense = 7;
+			npc.lifeMax = 800;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 350000;
             }
-            npc.aiStyle = 6; //new
-            aiType = -1; //new
+            npc.aiStyle = 6;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;

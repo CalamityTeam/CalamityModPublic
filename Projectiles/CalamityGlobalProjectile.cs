@@ -134,6 +134,7 @@ namespace CalamityMod.Projectiles
 
 					if (projectile.velocity.Y > 16f)
 						projectile.velocity.Y = 16f;
+
 					return false;
 				}
 				else if (projectile.type == ProjectileID.SharknadoBolt)

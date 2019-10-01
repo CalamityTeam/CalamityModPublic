@@ -26,15 +26,15 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.damage = 60;
 			npc.width = 100;
 			npc.height = 150;
-			npc.defense = 20;
+			npc.defense = 15;
 			npc.lifeMax = CalamityWorld.revenge ? 35708 : 26000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 54050;
 			}
 			npc.knockBackResist = 0f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.value = Item.buyPrice(0, 12, 0, 0);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -321,8 +321,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						totalRelativeSpeed = projectileSpeed / totalRelativeSpeed;
 						relativeSpeedX *= totalRelativeSpeed;
 						relativeSpeedY *= totalRelativeSpeed;
-						int projectileDamage = expertMode ? 24 : 32; //projectile damage
-						int projectileType = mod.ProjectileType("BrimstoneHellfireball"); //projectile type
+						int projectileDamage = expertMode ? 28 : 35;
+						int projectileType = mod.ProjectileType("BrimstoneHellfireball");
 						int projectileShot = Projectile.NewProjectile(shootFromVectorX.X, shootFromVectorX.Y, relativeSpeedX, relativeSpeedY, projectileType, projectileDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[projectileShot].timeLeft = 240;
 					}
@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						num183 = projectileSpeed / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = expertMode ? 22 : 30;
+						int num184 = expertMode ? 25 : 30;
 						int num185 = mod.ProjectileType("BrimstoneHellblast");
 						shootFromVector.X += num180;
 						shootFromVector.Y += num182;
@@ -438,13 +438,12 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 						double offsetAngle;
 						float velocity = 6f;
-						int damage = (expertMode ? 22 : 30) + (provy ? 30 : 0);
 						int i;
 						for (i = 0; i < 6; i++)
 						{
 							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
-							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), damage, 0f, Main.myPlayer, 1f, 0f);
-							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), damage, 0f, Main.myPlayer, 1f, 0f);
+							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+							Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
 						}
 					}
 				}

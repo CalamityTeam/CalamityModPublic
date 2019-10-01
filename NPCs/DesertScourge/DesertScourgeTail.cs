@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.npcSlots = 5f;
 			npc.width = 32; //324
 			npc.height = 48; //216
-			npc.defense = 12;
+			npc.defense = 9;
             npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {
@@ -123,8 +123,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

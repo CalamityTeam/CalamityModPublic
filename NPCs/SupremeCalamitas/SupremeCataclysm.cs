@@ -24,18 +24,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			npc.damage = 0;
 			npc.npcSlots = 5f;
-			npc.width = 120; //324
-			npc.height = 120; //216
-			npc.defense = 150;
-            npc.lifeMax = CalamityWorld.revenge ? 1400000 : 1200000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 1000000;
-            }
+			npc.width = 120;
+			npc.height = 120;
+			npc.defense = 100;
+			npc.lifeMax = CalamityWorld.revenge ? 2100000 : 1800000;
+			if (CalamityWorld.death)
+			{
+				npc.lifeMax = 1500000;
+			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
@@ -43,6 +43,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				npc.buffImmune[k] = true;
 			}
+			npc.buffImmune[BuffID.Ichor] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.HitSound = SoundID.NPCHit4;

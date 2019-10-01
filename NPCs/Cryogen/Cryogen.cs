@@ -27,10 +27,10 @@ namespace CalamityMod.NPCs.Cryogen
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 24f;
-			npc.damage = 60;
-			npc.width = 80; //324
-			npc.height = 80; //216
-			npc.defense = 10;
+			npc.damage = 50;
+			npc.width = 80;
+			npc.height = 80;
+			npc.defense = 12;
 			npc.lifeMax = CalamityWorld.revenge ? 26300 : 17900;
 			if (CalamityWorld.death)
 			{
@@ -42,9 +42,9 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
-			animationType = 10; //new
+			npc.aiStyle = -1;
+			aiType = -1;
+			animationType = 10;
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 12, 0, 0);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.Cryogen
 					double deltaAngle = spread / 4f;
 					double offsetAngle;
 					int i;
-					int num184 = 22;
+					int num184 = 25;
 					for (i = 0; i < 2; i++)
 					{
 						offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
@@ -706,6 +706,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
 			else
 			{
+				npc.damage = (int)((float)npc.defDamage * 1.5f);
 				float num1372 = isChill ? 16f : 22f;
 				if (CalamityWorld.bossRushActive)
 				{
@@ -848,7 +849,7 @@ namespace CalamityMod.NPCs.Cryogen
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.9f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

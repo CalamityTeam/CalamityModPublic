@@ -19,12 +19,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void SetDefaults()
 		{
-			npc.damage = 100; //70
-			npc.width = 32; //36
+			npc.damage = 55;
+			npc.width = 32;
 			npc.height = 32;
-			npc.defense = 25;
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.defense = 15;
+            npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
             npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			if ((double)Main.npc[(int)npc.ai[1]].life <= (double)Main.npc[(int)npc.ai[1]].lifeMax * 0.99)
 			{
                 detectsPlayer = true;
-                npc.damage = Main.expertMode ? 104 : 65;
+                npc.damage = npc.defDamage;
                 npc.boss = true;
                 Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
                 if (calamityModMusic != null)
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = mod.ProjectileType("SandBlast");
-                        int damage = (Main.expertMode || CalamityWorld.bossRushActive) ? 30 : 40;
+                        int damage = Main.expertMode ? 23 : 28;
                         float num941 = 8f;
                         num944 = num941 / num944;
                         num942 *= num944;
@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

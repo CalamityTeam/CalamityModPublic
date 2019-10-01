@@ -17,18 +17,18 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			npc.damage = 10;
 			npc.npcSlots = 5f;
-			npc.width = 40; //324
-			npc.height = 34; //216
-			npc.defense = 18;
-			npc.lifeMax = 1250; //250000
+			npc.width = 40;
+			npc.height = 34;
+			npc.defense = 8;
+			npc.lifeMax = 1250;
 			if (CalamityWorld.bossRushActive)
 			{
 				npc.lifeMax = CalamityWorld.death ? 600000 : 500000;
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = 6; //new
-            aiType = -1; //new
+			npc.aiStyle = 6;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.scale = 0.9f;
 			npc.alpha = 255;
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.Perforator
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.7f);
+			npc.damage = (int)(npc.damage * 0.8f);
 		}
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

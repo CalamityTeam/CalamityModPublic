@@ -24,16 +24,16 @@ namespace CalamityMod.NPCs.Calamitas
 		{
 			npc.damage = 65;
 			npc.npcSlots = 5f;
-			npc.width = 120; //324
-			npc.height = 120; //216
+			npc.width = 120;
+			npc.height = 120;
 			npc.defense = 10;
 			npc.lifeMax = CalamityWorld.revenge ? 11025 : 7500;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 13200;
 			}
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -298,8 +298,6 @@ namespace CalamityMod.NPCs.Calamitas
 							num866 = num867 / num866;
 							num864 *= num866;
 							num865 *= num866;
-							num865 += (float)Main.rand.Next(-40, 41) * 0.01f;
-							num864 += (float)Main.rand.Next(-40, 41) * 0.01f;
 							num865 += npc.velocity.Y * 0.5f;
 							num864 += npc.velocity.X * 0.5f;
 							vector86.X -= num864 * 1f;

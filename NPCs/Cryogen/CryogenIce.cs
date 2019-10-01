@@ -20,9 +20,9 @@ namespace CalamityMod.NPCs.Cryogen
 			aiType = -1;
 			npc.canGhostHeal = false;
 			npc.noTileCollide = true;
-            npc.damage = 25;
-			npc.width = 240; //324
-			npc.height = 240; //216
+            npc.damage = 50;
+			npc.width = 240;
+			npc.height = 240;
 			npc.defense = 0;
 			npc.lifeMax = 1400;
             if (CalamityWorld.bossRushActive)
@@ -74,7 +74,6 @@ namespace CalamityMod.NPCs.Cryogen
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
-			npc.damage *= 2;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

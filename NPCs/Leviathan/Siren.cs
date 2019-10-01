@@ -25,11 +25,11 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void SetDefaults()
 		{
-			npc.damage = 70; //150
+			npc.damage = 70;
 			npc.npcSlots = 16f;
-			npc.width = 100; //324
-			npc.height = 100; //216
-			npc.defense = 25;
+			npc.width = 100;
+			npc.height = 100;
+			npc.defense = 20;
 			npc.lifeMax = CalamityWorld.revenge ? 41600 : 27400;
 			if (CalamityWorld.death)
 			{
@@ -42,8 +42,8 @@ namespace CalamityMod.NPCs.Leviathan
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.boss = true;
 			npc.value = Item.buyPrice(0, 15, 0, 0);
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -108,7 +108,6 @@ namespace CalamityMod.NPCs.Leviathan
 			Player player = Main.player[npc.target];
 			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			bool playerWet = player.wet;
 			Vector2 vector = npc.Center;
 			Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);
 			bool isNotOcean = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
@@ -156,13 +155,6 @@ namespace CalamityMod.NPCs.Leviathan
 					}
 				}
 			}
-
-			// Defense adjustments
-			double defenseMult = phase2 ? 2.0 : 1.5;
-			if ((!leviAlive && phase2) || CalamityWorld.death)
-				npc.defense = (int)(25.0 * defenseMult);
-			else
-				npc.defense = 25;
 
 			// Ice Shield
 			if (npc.ai[3] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
@@ -339,7 +331,6 @@ namespace CalamityMod.NPCs.Leviathan
 						Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.01f;
 						Main.npc[num1062].localAI[0] = 60f;
 						Main.npc[num1062].netUpdate = true;
-						Main.npc[num1062].damage = leviAlive ? 100 : 140;
 					}
 				}
 
@@ -425,13 +416,11 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						float num1070 = revenge ? 13f : 11f;
+						float num1070 = revenge ? 15f : 13f;
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							num1070 = 24f;
 						else if (isNotOcean || (!leviAlive && phase2) || CalamityWorld.death || CalamityWorld.bossRushActive)
-							num1070 = revenge ? 19f : 18f;
-						else if (!playerWet)
-							num1070 = revenge ? 16f : 15f;
+							num1070 = revenge ? 17f : 16f;
 						else
 						{
 							if (phase3)
@@ -838,7 +827,7 @@ namespace CalamityMod.NPCs.Leviathan
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 	}
 }

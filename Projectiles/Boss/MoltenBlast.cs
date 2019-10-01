@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Boss
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 121) * 0.1f; //70 101
-					Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, mod.ProjectileType("MoltenBlob"), projectile.damage, 0f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("MoltenBlob"), projectile.damage, 0f, projectile.owner, 0f, 0f);
 				}
 			}
 			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);

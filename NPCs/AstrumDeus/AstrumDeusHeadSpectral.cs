@@ -29,11 +29,11 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 		public override void SetDefaults()
 		{
-			npc.damage = 130; //150
+			npc.damage = 120;
 			npc.npcSlots = 5f;
-			npc.width = 56; //324
-			npc.height = 56; //216
-			npc.defense = 40;
+			npc.width = 56;
+			npc.height = 56;
+			npc.defense = 25;
 			npc.lifeMax = CalamityWorld.revenge ? 53800 : 37500;
 			if (CalamityWorld.death)
 			{
@@ -45,8 +45,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.scale = 1.2f;
 			if (Main.expertMode)
@@ -584,7 +584,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
 		}
 	}
 }

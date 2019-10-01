@@ -19,19 +19,16 @@ namespace CalamityMod.NPCs.Scavenger
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
-			npc.npcSlots = 1f;
-			npc.width = 60; //324
-			npc.height = 300; //216
-			npc.defense = 0;
+			npc.width = 60;
+			npc.height = 300;
 			npc.lifeMax = 100;
             npc.alpha = 255;
-			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
 			}
             npc.dontTakeDamage = true;
 			npc.HitSound = SoundID.NPCHit4;
@@ -77,7 +74,7 @@ namespace CalamityMod.NPCs.Scavenger
                 }
                 else
                 {
-                    npc.damage = Main.expertMode ? 250 : 180;
+                    npc.damage = Main.expertMode ? 200 : 120;
                 }
             }
             else

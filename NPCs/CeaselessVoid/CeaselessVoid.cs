@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		{
 			npc.damage = 150;
 			npc.npcSlots = 36f;
-			npc.width = 100; //324
-			npc.height = 100; //216
+			npc.width = 100;
+			npc.height = 100;
 			npc.defense = 0;
 			npc.lifeMax = 200;
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
@@ -44,8 +44,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				else
 					music = MusicID.Boss3;
 			}
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -210,7 +210,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
-						float num941 = 3f; //speed
+						float num941 = 3f;
 						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 						float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
 						float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
@@ -218,7 +218,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 						num944 = num941 / num944;
 						num942 *= num944;
 						num943 *= num944;
-						int num945 = expertMode ? 42 : 58;
+						int num945 = expertMode ? 50 : 60;
 						int num946 = mod.ProjectileType("DoGBeamPortal");
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
 						double deltaAngle = spread / 8f;
 						double offsetAngle;
-						int damage = expertMode ? 42 : 58;
+						int damage = expertMode ? 50 : 60;
 						int i;
 						float passedVar = 1f;
 						for (i = 0; i < 4; i++)

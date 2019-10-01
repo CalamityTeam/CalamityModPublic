@@ -20,11 +20,11 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void SetDefaults()
 		{
-			npc.damage = 60;
+			npc.damage = 40;
 			npc.npcSlots = 10f;
-			npc.width = 44; //324
-			npc.height = 44; //216
-			npc.defense = 0;
+			npc.width = 44;
+			npc.height = 44;
+			npc.defense = 6;
 			npc.lifeMax = CalamityWorld.revenge ? 3750 : 3000;
             if (CalamityWorld.death)
             {
@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
-			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 			npc.knockBackResist = 0f;
@@ -125,7 +125,6 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
 			if (!flag100)
 			{
-				npc.damage = expertMode ? 128 : 80;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
                     npc.localAI[1] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
@@ -186,7 +185,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							num183 = num179 / num183;
 							num180 *= num183;
 							num182 *= num183;
-							int num184 = expertMode ? 19 : 21;
+							int num184 = expertMode ? 17 : 21;
 							int num185 = Main.rand.Next(2);
 							if (num185 == 0)
 							{
@@ -195,7 +194,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							else
 							{
 								num185 = mod.ProjectileType("AbyssBallVolley2");
-                                num184 = expertMode ? 17 : 19;
+                                num184 = expertMode ? 16 : 19;
                             }
 							value9.X += num180;
 							value9.Y += num182;
@@ -416,7 +415,6 @@ namespace CalamityMod.NPCs.SlimeGod
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -28,15 +28,14 @@ namespace CalamityMod.NPCs.DesertScourge
 
 		public override void SetDefaults()
 		{
-			npc.damage = 20; //66
+			npc.damage = 30;
 			npc.npcSlots = 12f;
-			npc.width = 32; //324
-			npc.height = 80; //216
+			npc.width = 32;
+			npc.height = 80;
 			npc.defense = 0;
             npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {
-                npc.damage = 50;
                 npc.lifeMax = 5100;
             }
             if (CalamityWorld.bossRushActive)
@@ -45,8 +44,8 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = 6; //new
-            aiType = -1; //new
+			npc.aiStyle = 6;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.boss = true;
 			npc.value = Item.buyPrice(0, 2, 0, 0);
@@ -548,7 +547,7 @@ namespace CalamityMod.NPCs.DesertScourge
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 1.8f);
+            npc.damage = (int)(npc.damage * 1.1f);
         }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

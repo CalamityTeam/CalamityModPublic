@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.npcSlots = 1f;
 			npc.aiStyle = -1;
 			npc.damage = 60;
-			npc.width = 30; //324
-			npc.height = 30; //216
+			npc.width = 30;
+			npc.height = 30;
 			npc.lifeMax = 1;
 			aiType = -1;
 			npc.lavaImmune = true;

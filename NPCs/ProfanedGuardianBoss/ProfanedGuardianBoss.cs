@@ -26,9 +26,9 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		{
 			npc.npcSlots = 20f;
 			npc.aiStyle = -1;
-			npc.damage = 100;
-			npc.width = 100; //324
-			npc.height = 80; //216
+			npc.damage = 140;
+			npc.width = 100;
+			npc.height = 80;
 			npc.defense = 50;
 			npc.lifeMax = 102500;
             if (CalamityWorld.bossRushActive)
@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					double offsetAngle = 0D;
 					float velocity = 5f;
 					int i = 0;
-					int damage = expertMode ? 33 : 48;
+					int damage = expertMode ? 50 : 60;
 					int projectileType = mod.ProjectileType("ProfanedSpear");
 
 					switch (spearType)
@@ -251,7 +251,6 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 						spearType = 0;
 				}
 			}
-			npc.damage = expertMode ? 200 : 100;
 			if (npc.ai[0] == 0f)
 			{
 				float scaleFactor6 = num998;
@@ -317,7 +316,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 					if ((lifeRatio < 0.5f || CalamityWorld.death) && dustTimer <= 0)
 					{
 						Main.PlaySound(SoundID.Item20, npc.position);
-						int damage = expertMode ? 38 : 56;
+						int damage = expertMode ? 55 : 70;
 						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, mod.ProjectileType("FlareDust"), damage, 0f, Main.myPlayer, 0f, 0f); //changed
 						Main.projectile[projectile].timeLeft = 120;
@@ -326,7 +325,6 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			       		dustTimer = 3;
 					}
 				}
-				npc.damage = expertMode ? 240 : 120;
 				float num1016 = num1003;
 				npc.ai[1] += 1f;
 				bool flag65 = Vector2.Distance(npc.Center, Main.player[npc.target].Center) > num1004 && npc.Center.Y > Main.player[npc.target].Center.Y;

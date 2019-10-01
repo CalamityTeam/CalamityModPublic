@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons
                 num133 *= num80;
                 float x2 = vector2.X;
                 float y2 = vector2.Y;
-                Projectile.NewProjectile(x2, y2, num132, num133, mod.ProjectileType("IceCluster"), num73, num74, i, 0f, 0f);
+                Projectile.NewProjectile(x2, y2, num132, num133, mod.ProjectileType("IceCluster"), num73, num74, i, 0f, 1f);
             }
             else
             {

@@ -19,10 +19,10 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			npc.lavaImmune = true;
 			npc.aiStyle = -1;
-			npc.damage = 88;
-			npc.width = 80; //324
-			npc.height = 40; //216
-			npc.defense = 50;
+			npc.damage = 80;
+			npc.width = 80;
+			npc.height = 40;
+			npc.defense = 40;
 			npc.lifeMax = 11120;
 			npc.knockBackResist = 0f;
 			aiType = -1;
@@ -45,7 +45,6 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.noGravity = true;
 			npc.canGhostHeal = false;
 			npc.alpha = 255;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
 			if (CalamityWorld.downedProvidence)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +11,8 @@ namespace CalamityMod.Projectiles.Magic
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ice");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
 
         public override void SetDefaults()
@@ -60,7 +63,6 @@ namespace CalamityMod.Projectiles.Magic
 					Vector2 vector80 = projectile.rotation.ToRotationVector2();
 					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector80.X, vector80.Y, mod.ProjectileType("IceCluster"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 				}
-				projectile.rotation += 0.104719758f;
 				Lighting.AddLight(projectile.Center, 0.3f, 0.75f, 0.9f);
 			}
 			else
@@ -101,7 +103,13 @@ namespace CalamityMod.Projectiles.Magic
 			}
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
         	target.immune[projectile.owner] = 5;
         	target.AddBuff(mod.BuffType("GlacialState"), 120);

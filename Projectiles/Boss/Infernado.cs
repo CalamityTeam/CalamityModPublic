@@ -105,16 +105,12 @@ namespace CalamityMod.Projectiles.Boss
 				float num618 = ((float)(num613 + num614) - projectile.ai[1] + 1f) * num615 / (float)(num614 + num613);
 				center.Y -= (float)num617 * num618 / 2f;
 				center.Y += 2f;
+				Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 11f, projectile.ai[1] - 1f);
 				if (projectile.ai[1] % 2 == 0)
 				{
 					projectile.damage = 0;
 					projectile.timeLeft /= 10;
 				}
-				else
-				{
-					projectile.damage = Main.expertMode ? 130 : 150;
-				}
-				Projectile.NewProjectile(center.X, center.Y, projectile.velocity.X, projectile.velocity.Y, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 11f, projectile.ai[1] - 1f);
 			}
 			if (projectile.ai[0] <= 0f)
 			{

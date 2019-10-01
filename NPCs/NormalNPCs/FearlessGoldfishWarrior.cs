@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.damage = Main.hardMode ? 120 : 30;
 			npc.width = 36;
 			npc.height = 32;
-			npc.defense = Main.hardMode ? 20 : 2;
+			npc.defense = Main.hardMode ? 10 : 2;
 			npc.lifeMax = Main.hardMode ? 150 : 50;
 			npc.knockBackResist = Main.hardMode ? 0.2f : 0.5f;
 			npc.value = Item.buyPrice(0, 0, 1, 0);

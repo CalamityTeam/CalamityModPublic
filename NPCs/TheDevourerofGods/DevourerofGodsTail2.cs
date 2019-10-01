@@ -19,12 +19,12 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		{
 			npc.damage = 100;
 			npc.npcSlots = 5f;
-			npc.width = 30; //42
-			npc.height = 50; //42
-			npc.defense = 0;
-            npc.lifeMax = 100000; //192000
-            npc.aiStyle = 6; //new
-            aiType = -1; //new
+			npc.width = 30;
+			npc.height = 50;
+			npc.defense = 70;
+            npc.lifeMax = 100000;
+            npc.aiStyle = 6;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             else
             {
-                npc.damage = Main.expertMode ? 200 : 100;
+                npc.damage = npc.defDamage;
                 npc.dontTakeDamage = false;
             }
             if (!Main.npc[(int)npc.ai[1]].active)

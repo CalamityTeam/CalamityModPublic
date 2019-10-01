@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.npcSlots = 5f;
 			npc.width = 56;
 			npc.height = 56;
-			npc.defense = 0;
+			npc.defense = 70;
 			npc.lifeMax = CalamityWorld.revenge ? 750000 : 675000;
 			if (CalamityWorld.death)
 			{
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			{
 				npc.localAI[0] += (expertMode ? 2f : 1f);
 				int projectileType = mod.ProjectileType("DoGNebulaShot");
-				int damage = expertMode ? 55 : 68;
+				int damage = expertMode ? 58 : 70;
 				float num941 = 5f;
 				if (npc.localAI[0] >= (float)Main.rand.Next(1400, 16000))
 				{
@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

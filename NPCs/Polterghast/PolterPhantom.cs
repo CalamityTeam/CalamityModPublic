@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.damage = 210;
 			npc.width = 90;
 			npc.height = 120;
-			npc.defense = 0;
 			npc.lifeMax = CalamityWorld.revenge ? 150000 : 130000;
 			if (CalamityWorld.death)
 			{
@@ -36,8 +35,8 @@ namespace CalamityMod.NPCs.Polterghast
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.alpha = 255;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -224,15 +223,11 @@ namespace CalamityMod.NPCs.Polterghast
 			float num741 = Main.player[npc.target].Center.Y - vector92.Y;
 			npc.rotation = (float)Math.Atan2((double)num741, (double)num740) + 1.57f;
 
+			npc.damage = npc.defDamage;
+
 			if (speedBoost1)
 			{
-				npc.defense = 400;
-				npc.damage = 1200;
-			}
-			else
-			{
-				npc.damage = expertMode ? 336 : 210;
-				npc.defense = 0;
+				npc.damage *= 2;
 			}
 		}
 

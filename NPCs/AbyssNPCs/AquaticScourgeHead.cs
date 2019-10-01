@@ -30,10 +30,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 16f;
-			npc.damage = 100;
+			npc.damage = 80;
 			npc.width = 100;
 			npc.height = 90;
-			npc.defense = 20;
+			npc.defense = 10;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
@@ -87,7 +87,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			if (npc.justHit || (double)npc.life <= (double)npc.lifeMax * 0.99 || CalamityWorld.bossRushActive)
 			{
 				detectsPlayer = true;
-				npc.damage = Main.expertMode ? 250 : 80;
+				npc.damage = npc.defDamage;
 				npc.boss = true;
 				Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 				if (calamityModMusic != null)
@@ -471,19 +471,19 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				double deltaAngleBoom = spreadBoom / 8f;
 				double offsetAngleBoom;
 				int iBoom;
-				int damageBoom = (Main.expertMode || CalamityWorld.bossRushActive) ? 28 : 33;
+				int damageBoom = Main.expertMode ? 23 : 28;
 				for (iBoom = 0; iBoom < 15; iBoom++)
 				{
 					int projectileType = (Main.rand.NextBool(2) ? mod.ProjectileType("SandTooth") : mod.ProjectileType("SandBlast"));
 					if (projectileType == mod.ProjectileType("SandTooth"))
 					{
-						damageBoom = Main.expertMode ? 24 : 30;
+						damageBoom = Main.expertMode ? 25 : 30;
 					}
 					offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
 					int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6.5f), (float)(Math.Cos(offsetAngleBoom) * 6.5f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
 					int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6.5f), (float)(-Math.Cos(offsetAngleBoom) * 6.5f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
 				}
-				damageBoom = Main.expertMode ? 31 : 36;
+				damageBoom = Main.expertMode ? 28 : 33;
 				int num320 = Main.rand.Next(5, 9);
 				int num3;
 				for (int num321 = 0; num321 < num320; num321 = num3 + 1)
@@ -616,7 +616,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

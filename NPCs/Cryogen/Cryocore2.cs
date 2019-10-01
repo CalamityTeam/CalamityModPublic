@@ -17,18 +17,17 @@ namespace CalamityMod.NPCs.Cryogen
 
 		public override void SetDefaults()
 		{
-			npc.damage = 37;
-			npc.width = 66; //324
-			npc.height = 66; //216
+			npc.damage = 40;
+			npc.width = 66;
+			npc.height = 66;
 			npc.defense = 10;
 			npc.lifeMax = 300;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 40000;
             }
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
-            animationType = 10; //new
+            npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0.5f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

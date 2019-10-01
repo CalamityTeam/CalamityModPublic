@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.noTileCollide = true;
 			npc.canGhostHeal = false;
 			npc.damage = 0;
-			npc.defense = 100;
+			npc.defense = 80;
 			npc.lifeMax = Main.expertMode ? 90000 : 50000;
             if (CalamityWorld.revenge)
             {

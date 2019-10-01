@@ -13,17 +13,17 @@ namespace CalamityMod.NPCs.SlimeGod
 
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Spiked Crimson Slime Spawn");
+			DisplayName.SetDefault("Crimson Slime Spawn");
 			Main.npcFrameCount[npc.type] = 2;
 		}
 
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 1;
-			npc.damage = 30;
-			npc.width = 40; //324
-			npc.height = 30; //216
-			npc.defense = 10;
+			npc.damage = 45;
+			npc.width = 40;
+			npc.height = 30;
+			npc.defense = 6;
 			npc.lifeMax = 130;
             if (CalamityWorld.bossRushActive)
             {

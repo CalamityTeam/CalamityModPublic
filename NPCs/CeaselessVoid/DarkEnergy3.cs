@@ -22,9 +22,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		{
 			npc.damage = 0;
 			npc.dontTakeDamage = true;
-			npc.width = 80; //324
-			npc.height = 80; //216
-			npc.defense = 68;
+			npc.width = 80;
+			npc.height = 80;
+			npc.defense = 50;
             npc.lifeMax = 6000;
             if (CalamityWorld.DoGSecondStageCountdown <= 0)
             {
@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0.3f;
             npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -79,8 +79,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
             else
             {
-                npc.damage = expertMode ? 240 : 120;
-                npc.dontTakeDamage = false;
+				npc.damage = expertMode ? 240 : 120;
+				if (CalamityWorld.revenge)
+					npc.damage = 300;
+				npc.dontTakeDamage = false;
             }
 
 			double mult = 0.5 +

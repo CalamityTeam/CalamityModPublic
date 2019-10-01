@@ -24,10 +24,10 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.lavaImmune = true;
 			npc.npcSlots = 20f;
 			npc.aiStyle = -1;
-			npc.damage = 100;
-			npc.width = 332; //324
-			npc.height = 214; //216
-			npc.defense = 80;
+			npc.damage = 120;
+			npc.width = 332;
+			npc.height = 214;
+			npc.defense = 55;
 			npc.lifeMax = CalamityWorld.revenge ? 53500 : 42700;
 			if (CalamityWorld.death)
 			{
@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.Scavenger
 							double deltaAngle = spread / 8f;
 							double offsetAngle;
 							int i;
-							int laserDamage = expertMode ? 34 : 48;
+							int laserDamage = 45;
 							for (i = 0; i < 4; i++)
 							{
 								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.Scavenger
 						Main.PlaySound(SoundID.Item20, npc.position);
 						npc.localAI[2] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f);
-						int damage = expertMode ? 28 : 40;
+						int damage = 40;
 						int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 12f, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs.Scavenger
 						Main.PlaySound(SoundID.Item20, npc.position);
 						npc.localAI[3] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f);
-						int damage = expertMode ? 28 : 40;
+						int damage = 40;
 						int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, -12f, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -324,7 +324,7 @@ namespace CalamityMod.NPCs.Scavenger
 					{
 						npc.ai[2] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f);
-						int damage = expertMode ? 28 : 40;
+						int damage = 35;
 						int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, 326 + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[fire].timeLeft = 180;
 					}
@@ -360,7 +360,7 @@ namespace CalamityMod.NPCs.Scavenger
 					{
 						npc.ai[3] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f);
-						int damage = expertMode ? 28 : 40;
+						int damage = 35;
 						int fire = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 0f, 2f, 326 + Main.rand.Next(3), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[fire].timeLeft = 180;
 					}

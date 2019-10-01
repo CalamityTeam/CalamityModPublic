@@ -20,9 +20,9 @@ namespace CalamityMod.NPCs.StormWeaver
 			aiType = -1;
 			npc.npcSlots = 10f;
 			npc.damage = 80;
-			npc.width = 30; //324
-			npc.height = 30; //216
-			npc.defense = 10;
+			npc.width = 30;
+			npc.height = 30;
+			npc.defense = 30;
 			npc.lifeMax = 1500;
             if (CalamityWorld.bossRushActive)
             {
@@ -128,13 +128,9 @@ namespace CalamityMod.NPCs.StormWeaver
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					int num8 = 70;
-					if (Main.expertMode)
-					{
-						num8 = 50;
-					}
+					int num8 = Main.expertMode ? 50 : 60;
 					int num9 = 84;
-					int beam = Projectile.NewProjectile(vector.X, vector.Y, num4 * 0.75f, num5 * 0.75f, num9, num8, 0f, Main.myPlayer, 0f, 0f);
+					int beam = Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[beam].timeLeft = 200;
 				}
 			}

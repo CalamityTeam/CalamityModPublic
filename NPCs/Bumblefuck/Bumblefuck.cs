@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs.Bumblefuck
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 160;
-			npc.width = 80; //324
-			npc.height = 80; //216
+			npc.width = 80;
+			npc.height = 80;
 			npc.defense = 40;
 			npc.lifeMax = CalamityWorld.revenge ? 252500 : 227500;
 			if (CalamityWorld.death)
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 					npc.netUpdate = true;
 					while (npc.ai[0] == 0f)
 					{
-						int damage = Main.expertMode ? 45 : 60; //180 120
+						int damage = Main.expertMode ? 50 : 60;
 
 						int num1307 = (phase2 ? Main.rand.Next(2) + 1 : Main.rand.Next(3));
 						if (phase3)

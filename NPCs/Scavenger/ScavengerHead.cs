@@ -18,9 +18,9 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			npc.aiStyle = -1;
 			npc.damage = 0;
-			npc.width = 80; //324
-			npc.height = 80; //216
-			npc.defense = 70;
+			npc.width = 80;
+			npc.height = 80;
+			npc.defense = 50;
 			npc.lifeMax = 32705;
 			npc.knockBackResist = 0f;
 			aiType = -1;
@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.Scavenger
 				totalPlayerDistance = nukeSpeed / totalPlayerDistance;
 				playerDistanceX *= totalPlayerDistance;
 				playerDistanceY *= totalPlayerDistance;
-				int nukeDamage = expertMode ? 40 : 60;
+				int nukeDamage = expertMode ? 45 : 60;
 				int projectileType = mod.ProjectileType("ScavengerNuke");
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{

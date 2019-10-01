@@ -20,10 +20,10 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void SetDefaults()
 		{
-			npc.damage = 70;
+			npc.damage = 55;
 			npc.npcSlots = 14f;
-			npc.width = 120; //324
-			npc.height = 120; //216
+			npc.width = 120;
+			npc.height = 120;
 			npc.defense = 15;
 			npc.value = 0f;
 			npc.lifeMax = CalamityWorld.revenge ? 51750 : 37500;
@@ -31,8 +31,8 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				npc.lifeMax = 82750;
 			}
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
@@ -246,13 +246,13 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 					{
-						npc.localAI[1] += 1f;
+						npc.localAI[1] += 0.5f;
 					}
 					if (npc.localAI[1] > 180f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
 						npc.localAI[1] = 0f;
 						float num828 = expertMode ? 13f : 10.5f;
-						int num829 = expertMode ? 24 : 30;
+						int num829 = expertMode ? 28 : 35;
 						int num830 = mod.ProjectileType("BrimstoneLaser");
 						num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
 						num827 = num828 / num827;
@@ -329,7 +329,7 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 					{
-						npc.localAI[1] += 1f;
+						npc.localAI[1] += 0.5f;
 					}
 					if (Main.expertMode || CalamityWorld.bossRushActive)
 					{
@@ -339,7 +339,7 @@ namespace CalamityMod.NPCs.Calamitas
 					{
 						npc.localAI[1] = 0f;
 						float num837 = 10.5f;
-						int num838 = expertMode ? 15 : 22;
+						int num838 = expertMode ? 20 : 24;
 						int num839 = mod.ProjectileType("BrimstoneLaser");
 						num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
 						num836 = num837 / num836;

@@ -39,9 +39,9 @@ namespace CalamityMod.NPCs.Yharon
 		{
 			npc.npcSlots = 50f;
 			npc.damage = 330;
-			npc.width = 200; //200
-			npc.height = 200; //200
-			npc.defense = 200;
+			npc.width = 200;
+			npc.height = 200;
+			npc.defense = 100;
 			npc.lifeMax = CalamityWorld.revenge ? 2525000 : 2275000;
 			if (CalamityWorld.death)
 			{
@@ -54,8 +54,8 @@ namespace CalamityMod.NPCs.Yharon
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.value = Item.buyPrice(1, 50, 0, 0);
 			npc.boss = true;
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -212,16 +212,6 @@ namespace CalamityMod.NPCs.Yharon
 			// Flare limit
 			int flareCount = 3;
 
-			// Defense changes
-			if (phase4Change)
-				npc.defense = 140;
-			else if (phase3Change)
-				npc.defense = 160;
-			else if (phase2Change)
-				npc.defense = 180;
-			else
-				npc.defense = 200;
-
 			// Velocity and acceleration
 			int aiChangeRate = expertMode ? 36 : 38;
 			float npcVelocity = expertMode ? 0.7f : 0.69f;
@@ -347,7 +337,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			else
 			{
-				npc.damage = expertMode ? 528 : 330;
+				npc.damage = npc.defDamage;
 				protectionBoost = false;
 			}
 
@@ -715,7 +705,7 @@ namespace CalamityMod.NPCs.Yharon
 						{
 							NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, mod.NPCType("DetonatingFlare"), 0, 0f, 0f, 0f, 0f, 255);
 						}
-						int damage = expertMode ? 75 : 90; //700
+						int damage = expertMode ? 75 : 90;
 						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, 0f, 0f, mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -1019,7 +1009,7 @@ namespace CalamityMod.NPCs.Yharon
 						{
 							NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
 						}
-						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-400, 401) * 0.13f, (float)Main.rand.Next(-30, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
+						Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-400, 401) * 0.13f, (float)Main.rand.Next(-30, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num1463 * (float)npc.direction), default);
@@ -1109,7 +1099,7 @@ namespace CalamityMod.NPCs.Yharon
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int damage = expertMode ? 75 : 90; //700
+						int damage = expertMode ? 75 : 90;
 						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						float speed = 0.01f;
 						Vector2 vectorShoot = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f + 30f);
@@ -1488,7 +1478,7 @@ namespace CalamityMod.NPCs.Yharon
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int damage = expertMode ? 75 : 90; //700
+						int damage = expertMode ? 75 : 90;
 						Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 						float speed = 0.01f;
 						Vector2 vectorShoot = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f + 30f);
@@ -1811,7 +1801,6 @@ namespace CalamityMod.NPCs.Yharon
 				phase3 = (double)npc.life <= (double)npc.lifeMax * 0.6;
 				phase4 = (double)npc.life <= (double)npc.lifeMax * 0.1;
 			}
-			npc.defense = 100;
 			if (npc.ai[0] != 8f)
 			{
 				npc.alpha -= 25;
@@ -1882,10 +1871,10 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			else
 			{
-				npc.damage = expertMode ? 528 : 330;
+				npc.damage = npc.defDamage;
 				if (phase4)
 				{
-					npc.damage = (int)((double)npc.damage * 1.25);
+					npc.damage = (int)((float)npc.defDamage * 1.25f);
 				}
 				protectionBoost = false;
 				if (npc.timeLeft < 3600)
@@ -1895,7 +1884,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 			int num = -1;
 			float num2 = 1f;
-			int num4 = expertMode ? 106 : 125;
+			int num4 = expertMode ? 110 : 125;
 			if (phase4)
 			{
 				num4 = (int)((double)num4 * 1.25);

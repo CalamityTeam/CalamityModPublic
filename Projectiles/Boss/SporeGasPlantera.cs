@@ -58,6 +58,15 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.velocity *= 0.98f;
 		}
 
+		public override bool CanDamage()
+		{
+			if (projectile.ai[1] > 570f)
+			{
+				return false;
+			}
+			return true;
+		}
+
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			//Changes the texture of the projectile

@@ -17,11 +17,11 @@ namespace CalamityMod.NPCs.DesertScourge
 
 		public override void SetDefaults()
 		{
-			npc.damage = 16; //70
+			npc.damage = 16;
 			npc.npcSlots = 5f;
-			npc.width = 32; //324
-			npc.height = 36; //216
-			npc.defense = 8;
+			npc.width = 32;
+			npc.height = 36;
+			npc.defense = 6;
             npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {
@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = 6; //new
-            aiType = -1; //new
+			npc.aiStyle = 6;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = mod.ProjectileType("SandBlast");
-                        int damage = 15;
+                        int damage = 12;
                         float num941 = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 15f : 6f);
                         num944 = num941 / num944;
                         num942 *= num944;
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.DesertScourge
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

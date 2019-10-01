@@ -18,13 +18,13 @@ namespace CalamityMod.NPCs.SlimeGod
 			Main.npcFrameCount[npc.type] = 6;
 		}
 
-		public override void SetDefaults() //dust is 173
+		public override void SetDefaults()
 		{
-			npc.damage = 60;
+			npc.damage = 45;
 			npc.width = 150;
 			npc.height = 92;
 			npc.scale = 1.1f;
-			npc.defense = 15;
+			npc.defense = 10;
             npc.lifeMax = CalamityWorld.revenge ? 5500 : 4000;
             if (CalamityWorld.death)
             {
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = expertMode ? 19 : 21;
+						int num184 = expertMode ? 17 : 21;
 						int num185 = mod.ProjectileType("AbyssBallVolley");
 						value9.X += num180;
 						value9.Y += num182;
@@ -569,7 +569,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

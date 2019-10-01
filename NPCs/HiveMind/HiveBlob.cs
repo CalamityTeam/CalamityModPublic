@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.npcSlots = 0.1f;
 			npc.aiStyle = -1;
 			npc.damage = 0;
-			npc.width = 25; //324
-			npc.height = 25; //216
+			npc.width = 25;
+			npc.height = 25;
 			npc.lifeMax = 75;
 			if (CalamityWorld.bossRushActive)
 			{

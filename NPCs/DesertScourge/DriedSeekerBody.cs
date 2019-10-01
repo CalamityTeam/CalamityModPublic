@@ -15,12 +15,12 @@ namespace CalamityMod.NPCs.DesertScourge
 
 		public override void SetDefaults()
 		{
-			npc.damage = 8; //70
+			npc.damage = 8;
 			npc.npcSlots = 5f;
-			npc.width = 18; //324
-			npc.height = 18; //216
-			npc.defense = 4;
-			npc.lifeMax = 100; //250000
+			npc.width = 18;
+			npc.height = 18;
+			npc.defense = 2;
+			npc.lifeMax = 100;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 50000;

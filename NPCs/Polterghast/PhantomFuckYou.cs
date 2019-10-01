@@ -28,7 +28,6 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.damage = 0;
-			npc.defense = 0;
 			npc.lifeMax = 1500;
 			npc.dontTakeDamage = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -87,7 +86,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int damage = expertMode ? 58 : 70;
+                    int damage = expertMode ? 62 : 75;
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 0.05f, direction.Y * 0.05f, mod.ProjectileType("PhantomMine"), damage, 1f, npc.target);
                 }
 
@@ -112,12 +111,6 @@ namespace CalamityMod.NPCs.Polterghast
 		public override bool CheckActive()
 		{
 			return false;
-		}
-
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.5f);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons
             item.useTime = 17;
             item.useTurn = true;
             item.knockBack = 6.25f;
-            item.UseSound = SoundID.Item60;
+            item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 58;
             item.value = Item.buyPrice(0, 80, 0, 0);

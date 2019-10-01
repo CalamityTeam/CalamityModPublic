@@ -21,9 +21,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			npc.npcSlots = 3f;
 			npc.damage = 38;
-			npc.width = 80; //324
-			npc.height = 140; //216
-			npc.defense = 40;
+			npc.width = 80;
+			npc.height = 140;
+			npc.defense = 18;
 			npc.lifeMax = 6000;
 			if (CalamityWorld.downedProvidence)
 			{

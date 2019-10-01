@@ -62,8 +62,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.boss = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -202,7 +202,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 						Vector2 baseVelocity = player.Center - baseSpawn;
 						baseVelocity.Normalize();
 						baseVelocity = baseVelocity * speed2;
-						int damage = expertMode ? 49 : 62; //360 300
+						int damage = expertMode ? 52 : 65;
 						for (int i = 0; i < CosmicProjectiles; i++)
 						{
 							Vector2 spawn2 = baseSpawn;
@@ -431,7 +431,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 						num1073 = num1070 / num1073;
 						num1071 *= num1073;
 						num1072 *= num1073;
-						int num1074 = expertMode ? 49 : 62; //projectile damage
+						int num1074 = expertMode ? 48 : 60; //projectile damage
 						int num1075 = mod.ProjectileType("SignusScythe"); //projectile type
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
 					}
@@ -597,7 +597,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 						if (cosmicDust && dustTimer <= 0)
 						{
 							Main.PlaySound(SoundID.Item73, npc.position);
-							int damage = expertMode ? 49 : 62;
+							int damage = expertMode ? 60 : 70;
 							Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
 							int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, mod.ProjectileType("EssenceDust"), damage, 0f, Main.myPlayer, 0f, 0f);
 							Main.projectile[projectile].timeLeft = 60;
@@ -794,7 +794,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -20,12 +20,11 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		{
 			npc.npcSlots = 3f;
 			npc.aiStyle = -1;
-			npc.damage = 80;
-			npc.width = 100; //324
-			npc.height = 80; //216
-			npc.defense = 40;
+			npc.damage = 110;
+			npc.width = 100;
+			npc.height = 80;
+			npc.defense = 50;
 			npc.lifeMax = 40000;
-            npc.value = 0f;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 400000 : 300000;
@@ -194,7 +193,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				    	double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
 				    	double deltaAngle = spread / 8f;
 				    	double offsetAngle;
-				    	int damage = expertMode ? 33 : 48;
+				    	int damage = expertMode ? 50 : 60;
 				    	int projectileShot = mod.ProjectileType("ProfanedSpear");
 				    	int i;
 				    	for (i = 0; i < 3; i++)
@@ -228,7 +227,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.7f);
+			npc.damage = (int)(npc.damage * 0.8f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -17,12 +17,12 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			npc.npcSlots = 3f;
 			npc.damage = 30;
-			npc.width = 64; //324
-			npc.height = 38; //216
-			npc.defense = 20;
+			npc.width = 64;
+			npc.height = 38;
+			npc.defense = 15;
 			npc.lifeMax = 150;
-			npc.aiStyle = -1; //new multiplayer desync fix
-            aiType = -1; //new multiplayer desync fix
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit4;

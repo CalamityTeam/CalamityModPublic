@@ -19,9 +19,9 @@ namespace CalamityMod.NPCs.Leviathan
 		{
 			npc.aiStyle = -1;
 			npc.damage = 60;
-			npc.width = 70; //324
-			npc.height = 40; //216
-			npc.defense = 18;
+			npc.width = 70;
+			npc.height = 40;
+			npc.defense = 14;
 			npc.lifeMax = CalamityWorld.death ? 2200 : 1100;
             if (CalamityWorld.bossRushActive)
             {

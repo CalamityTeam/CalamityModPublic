@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool CanDamage()
 		{
-			if (projectile.timeLeft > 1100)
+			if (projectile.timeLeft > 1115 || projectile.timeLeft < 85)
 			{
 				return false;
 			}

@@ -49,8 +49,8 @@ namespace CalamityMod.NPCs.Providence
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.knockBackResist = 0f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.value = Item.buyPrice(0, 50, 0, 0);
 			npc.boss = true;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -573,7 +573,7 @@ namespace CalamityMod.NPCs.Providence
 						num857 *= num859;
 						num858 *= num859;
 
-						int holyDamage = expertMode ? 46 : 63;
+						int holyDamage = expertMode ? 52 : 65;
 						Projectile.NewProjectile(vector.X, vector.Y, num857, num858, mod.ProjectileType("HolyBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -616,7 +616,7 @@ namespace CalamityMod.NPCs.Providence
 
 						num865 += expertMode ? 4f : 3f;
 
-						int fireDamage = expertMode ? 40 : 59;
+						int fireDamage = expertMode ? 48 : 60;
 						Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, mod.ProjectileType("HolyFire"), fireDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -767,7 +767,7 @@ namespace CalamityMod.NPCs.Providence
 						num857 *= num859;
 						num858 *= num859;
 
-						int holyDamage = expertMode ? 39 : 55; //280 210
+						int holyDamage = expertMode ? 42 : 55;
 						Projectile.NewProjectile(vector.X, vector.Y, num857 * 0.1f, num858, mod.ProjectileType("MoltenBlast"), holyDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -810,7 +810,7 @@ namespace CalamityMod.NPCs.Providence
 
 						num865 += expertMode ? 4f : 3f;
 
-						int fireDamage = expertMode ? 44 : 60; //260 100
+						int fireDamage = expertMode ? 48 : 60;
 						Projectile.NewProjectile(vector113.X, vector113.Y, npc.velocity.X * 0.25f, num865, mod.ProjectileType("HolyBomb"), fireDamage, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
@@ -857,7 +857,7 @@ namespace CalamityMod.NPCs.Providence
 						vector93.X += num743 * 3f;
 						vector93.Y += num744 * 3f;
 
-						int num746 = expertMode ? 48 : 65; //288 220
+						int num746 = expertMode ? 52 : 65;
 						int num747 = mod.ProjectileType("HolyShot");
 						Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, mod.ProjectileType("HolySpear"), num746, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
@@ -887,7 +887,7 @@ namespace CalamityMod.NPCs.Providence
 					npc.ai[1] += 1f;
 					if (npc.ai[1] >= 60f)
 					{
-						int damage = expertMode ? 52 : 70; //288 220
+						int damage = expertMode ? 57 : 70;
 						Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, mod.ProjectileType("ProvidenceCrystal"), damage, 0f, player.whoAmI, 0f, 0f);
 						npc.ai[0] = -1f;
 					}

@@ -17,10 +17,9 @@ namespace CalamityMod.NPCs.Scavenger
 		public override void SetDefaults()
 		{
 			npc.aiStyle = -1;
-			npc.damage = 88;
-			npc.width = 80; //324
-			npc.height = 80; //216
-			npc.defense = 0;
+			npc.damage = 0;
+			npc.width = 80;
+			npc.height = 80;
 			npc.lifeMax = 100;
 			npc.knockBackResist = 0f;
 			aiType = -1;
@@ -31,15 +30,8 @@ namespace CalamityMod.NPCs.Scavenger
             npc.dontTakeDamage = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
-			if (CalamityWorld.downedProvidence)
-			{
-				npc.damage = 0;
-				npc.defense = 99999;
-				npc.lifeMax = 50000;
-			}
 		}
 
 		public override void AI()
@@ -150,11 +142,11 @@ namespace CalamityMod.NPCs.Scavenger
                 totalPlayerDistance = nukeSpeed / totalPlayerDistance;
                 playerDistanceX *= totalPlayerDistance;
                 playerDistanceY *= totalPlayerDistance;
-                int nukeDamage = Main.expertMode ? 40 : 60;
+                int nukeDamage = Main.expertMode ? 45 : 60;
                 int projectileType = mod.ProjectileType("ScavengerNuke");
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int nuke = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, playerDistanceX, playerDistanceY, projectileType, nukeDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             npc.localAI[0] += 1f;
@@ -180,11 +172,7 @@ namespace CalamityMod.NPCs.Scavenger
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
 					Main.PlaySound(SoundID.Item33, npc.position);
-					int num8 = 42;
-					if (Main.expertMode)
-					{
-						num8 = 30;
-					}
+					int num8 = 40;
 					int num9 = mod.ProjectileType("ScavengerLaser");
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 				}
@@ -194,7 +182,7 @@ namespace CalamityMod.NPCs.Scavenger
 				npc.localAI[1] = 0f;
 				if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					int num8 = 50;
+					int num8 = 45;
 					int num9 = 259;
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 				}

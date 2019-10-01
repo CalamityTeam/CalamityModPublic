@@ -168,7 +168,8 @@ namespace CalamityMod.Projectiles.Boss
 						break;
 					}
 				}
-				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado2"), 0, 4f, Main.myPlayer, 11f, 30f);
+				int damage = Main.expertMode ? 130 : 150;
+				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, mod.ProjectileType("Infernado2"), damage, 4f, Main.myPlayer, 11f, 30f);
 				Main.projectile[num236].netUpdate = true;
 			}
         }

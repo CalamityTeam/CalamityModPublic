@@ -23,9 +23,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 0;
-			npc.width = 60; //324
-			npc.height = 60; //216
-			npc.defense = 0;
+			npc.width = 60;
+			npc.height = 60;
 			npc.lifeMax = 4000;
 			if (CalamityWorld.death)
 			{
@@ -129,12 +128,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					num8 = speed / num8;
 					num6 *= num8;
 					num7 *= num8;
-					int damage = 32;
-					if (Main.expertMode)
-					{
-						damage = 24;
-					}
-					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, mod.ProjectileType("BrimstoneHellfireball"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+					int projectileDamage = Main.expertMode ? 28 : 35;
+					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, mod.ProjectileType("BrimstoneHellfireball"), projectileDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 				}
 			}
 			if (vector251.Length() > 400f || !flag104)

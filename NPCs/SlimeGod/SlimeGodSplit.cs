@@ -31,11 +31,11 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.damage = 50;
+			npc.damage = 40;
 			npc.width = 150;
 			npc.height = 92;
 			npc.scale = 0.8f;
-			npc.defense = 10;
+			npc.defense = 8;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;
@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						num183 = num179 / num183;
 						num180 *= num183;
 						num182 *= num183;
-						int num184 = expertMode ? 19 : 21;
+						int num184 = expertMode ? 17 : 21;
 						int num185 = mod.ProjectileType("AbyssBallVolley");
 						value9.X += num180;
 						value9.Y += num182;
@@ -576,7 +576,7 @@ namespace CalamityMod.NPCs.SlimeGod
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

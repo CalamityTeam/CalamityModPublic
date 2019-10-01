@@ -28,11 +28,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
 		public override void SetDefaults()
 		{
-			npc.damage = 180; //150
+			npc.damage = 180;
 			npc.npcSlots = 5f;
-			npc.width = 74; //324
-			npc.height = 74; //216
-			npc.defense = 0;
+			npc.width = 74;
+			npc.height = 74;
 			npc.lifeMax = 100000;
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 			if (calamityModMusic != null)
@@ -54,8 +53,8 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.boss = true;
 			npc.alpha = 255;
@@ -99,7 +98,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 			else
 			{
-				npc.damage = expertMode ? 360 : 180;
+				npc.damage = npc.defDamage;
 				npc.dontTakeDamage = false;
 			}
 			if (!Main.raining && !CalamityWorld.bossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
@@ -166,13 +165,13 @@ namespace CalamityMod.NPCs.StormWeaver
 					}
 					tail = true;
 				}
+				int damage = expertMode ? 62 : 75;
 				npc.localAI[0] += 1f;
 				if (npc.localAI[0] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 180f : 300f))
 				{
 					npc.localAI[0] = 0f;
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
-					int damage = expertMode ? 50 : 70;
 					float xPos = (Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f);
 					Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
 					Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
@@ -197,7 +196,6 @@ namespace CalamityMod.NPCs.StormWeaver
 						Vector2 baseVelocity = Main.player[npc.target].Center - baseSpawn;
 						baseVelocity.Normalize();
 						baseVelocity = baseVelocity * speed2;
-						int damage = expertMode ? 50 : 70;
 						for (int i = 0; i < BoltProjectiles; i++)
 						{
 							Vector2 spawn2 = baseSpawn;

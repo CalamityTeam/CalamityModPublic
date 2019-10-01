@@ -64,6 +64,15 @@ namespace CalamityMod.Projectiles.Boss
 			}
 		}
 
+		public override bool CanDamage()
+		{
+			if (projectile.timeLeft < 180)
+			{
+				return false;
+			}
+			return true;
+		}
+
 		public override void OnHitPlayer(Player target, int damage, bool crit)
 		{
 			target.AddBuff(BuffID.Venom, 300);

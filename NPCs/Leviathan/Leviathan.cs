@@ -119,14 +119,6 @@ namespace CalamityMod.NPCs.Leviathan
 					((sirenAlive && !CalamityWorld.death && !CalamityWorld.bossRushActive) ? soundChoice : soundChoiceRage));
 			}
 			bool flag6 = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
-			if (flag6 || !sirenAlive || CalamityWorld.death)
-			{
-				npc.defense = 60;
-			}
-			else
-			{
-				npc.defense = 40;
-			}
 			npc.dontTakeDamage = flag6 && !CalamityWorld.bossRushActive;
 			int num1038 = 0;
 			for (int num1039 = 0; num1039 < 255; num1039++)
@@ -249,7 +241,7 @@ namespace CalamityMod.NPCs.Leviathan
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
 								float num418 = sirenAlive ? 13.5f : 16f;
-								int num419 = 48;
+								int num419 = 40;
 								int num420 = mod.ProjectileType("LeviathanBomb");
 								if (expertMode)
 								{
@@ -264,8 +256,6 @@ namespace CalamityMod.NPCs.Leviathan
 								num417 = num418 / num417;
 								num415 *= num417;
 								num416 *= num417;
-								num415 += (float)Main.rand.Next(-5, 6) * 0.05f;
-								num416 += (float)Main.rand.Next(-5, 6) * 0.05f;
 								vector40.X += num415 * 4f;
 								vector40.Y += num416 * 4f;
 								Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, num419, 0f, Main.myPlayer, 0f, 0f);
@@ -690,7 +680,7 @@ namespace CalamityMod.NPCs.Leviathan
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 	}
 }

@@ -18,9 +18,9 @@ namespace CalamityMod.NPCs.SlimeGod
 		{
 			npc.aiStyle = 1;
 			npc.damage = 30;
-			npc.width = 40; //324
-			npc.height = 30; //216
-			npc.defense = 10;
+			npc.width = 40;
+			npc.height = 30;
+			npc.defense = 4;
 			npc.lifeMax = 90;
             if (CalamityWorld.bossRushActive)
             {

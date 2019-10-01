@@ -75,7 +75,6 @@ namespace CalamityMod.NPCs.Crabulon
 				npc.velocity.X = npc.velocity.X * 0.97f;
 			}
 			npc.rotation = npc.velocity.X * 0.1f;
-			return;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -18,9 +18,9 @@ namespace CalamityMod.NPCs.Scavenger
 		{
 			npc.aiStyle = -1;
 			npc.damage = 0;
-			npc.width = 60; //324
-			npc.height = 60; //216
-			npc.defense = 60;
+			npc.width = 60;
+			npc.height = 60;
+			npc.defense = 40;
 			npc.lifeMax = 22010;
 			npc.knockBackResist = 0f;
 			aiType = -1;
@@ -43,7 +43,6 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.canGhostHeal = false;
 			npc.noTileCollide = true;
 			npc.alpha = 255;
-			npc.value = Item.buyPrice(0, 0, 0, 0);
 			npc.HitSound = SoundID.NPCHit41;
 			npc.DeathSound = SoundID.NPCDeath14;
 			if (CalamityWorld.downedProvidence)
@@ -81,16 +80,6 @@ namespace CalamityMod.NPCs.Scavenger
 					npc.alpha = 0;
 				}
 				npc.ai[1] = 0f;
-			}
-			if (Main.npc[CalamityGlobalNPC.scavenger].ai[0] == 1f && Main.npc[CalamityGlobalNPC.scavenger].velocity.Y == 0f)
-			{
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					int smash = Projectile.NewProjectile((float)center.X, (float)center.Y, 0f, 0f, mod.ProjectileType("HiveExplosion"), 35 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-					Main.projectile[smash].timeLeft = 30;
-					Main.projectile[smash].hostile = true;
-					Main.projectile[smash].friendly = false;
-				}
 			}
 			if (npc.ai[0] == 0f)
 			{

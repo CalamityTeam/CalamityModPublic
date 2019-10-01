@@ -20,16 +20,16 @@ namespace CalamityMod.NPCs.AstrumDeus
 
 		public override void SetDefaults()
 		{
-			npc.damage = 90; //70
+			npc.damage = 85;
 			npc.npcSlots = 5f;
-			npc.width = 38; //324
-			npc.height = 44; //216
-			npc.defense = 45;
+			npc.width = 38;
+			npc.height = 44;
+			npc.defense = 40;
             npc.LifeMaxNERD(12000, 18000, 29100, 360000, 420000);
 			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
-			npc.aiStyle = 6; //new
-			aiType = -1; //new
+			npc.aiStyle = 6;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.scale = 1.2f;
 			if (Main.expertMode)
@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 						num944 = num941 / num944;
 						num942 *= num944;
 						num943 *= num944;
-						int num945 = expertMode ? 35 : 45;
+						int num945 = expertMode ? 38 : 45;
 						int num946 = mod.ProjectileType("AstralShot2");
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
@@ -254,7 +254,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 	}
 }

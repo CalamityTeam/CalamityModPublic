@@ -126,6 +126,15 @@ namespace CalamityMod.Projectiles.Boss
 			}
 		}
 
+		public override bool CanDamage()
+		{
+			if (projectile.timeLeft < 85)
+			{
+				return false;
+			}
+			return true;
+		}
+
 		public override Color? GetAlpha(Color lightColor)
 		{
 			if (projectile.timeLeft < 85)

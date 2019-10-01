@@ -17,10 +17,10 @@ namespace CalamityMod.NPCs.SlimeGod
 		public override void SetDefaults()
 		{
 			npc.aiStyle = 14;
-			npc.damage = 30;
-			npc.width = 40; //324
-			npc.height = 30; //216
-			npc.defense = 10;
+			npc.damage = 40;
+			npc.width = 40;
+			npc.height = 30;
+			npc.defense = 6;
 			npc.lifeMax = 160;
             if (CalamityWorld.bossRushActive)
             {

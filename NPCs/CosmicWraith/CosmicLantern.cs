@@ -21,9 +21,9 @@ namespace CalamityMod.NPCs.CosmicWraith
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 110;
-			npc.width = 25; //324
-			npc.height = 25; //216
-			npc.defense = 85;
+			npc.width = 25;
+			npc.height = 25;
+			npc.defense = 50;
 			npc.lifeMax = 25;
             npc.alpha = 255;
 			npc.knockBackResist = 0.85f;

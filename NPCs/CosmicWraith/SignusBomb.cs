@@ -18,12 +18,11 @@ namespace CalamityMod.NPCs.CosmicWraith
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
-			npc.width = 30; //324
-			npc.height = 30; //216
-			npc.defense = 0;
+			npc.width = 30;
+			npc.height = 30;
 			npc.lifeMax = 100;
-			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
@@ -148,7 +147,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.damage = CalamityWorld.death ? 400 : 250;
+            npc.damage = 300;
             npc.width = (npc.height = 256);
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
@@ -174,11 +173,5 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             return true;
         }
-
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = 100;
-			npc.damage = 0;
-		}
 	}
 }

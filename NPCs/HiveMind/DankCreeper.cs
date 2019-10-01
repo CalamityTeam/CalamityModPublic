@@ -16,18 +16,18 @@ namespace CalamityMod.NPCs.HiveMind
 
 		public override void SetDefaults()
 		{
-			npc.damage = 24;
-			npc.width = 74; //324
-			npc.height = 74; //216
-			npc.defense = 5;
+			npc.damage = 25;
+			npc.width = 74;
+			npc.height = 74;
+			npc.defense = 6;
 			npc.lifeMax = 45;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 10000;
             }
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
-            animationType = 10; //new
+            npc.aiStyle = -1;
+            aiType = -1;
+            animationType = 10;
 			npc.knockBackResist = 0.3f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

@@ -21,9 +21,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 0;
-			npc.width = 22; //324
-			npc.height = 22; //216
-			npc.defense = 0;
+			npc.width = 22;
+			npc.height = 22;
 			npc.lifeMax = 999;
 			npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)

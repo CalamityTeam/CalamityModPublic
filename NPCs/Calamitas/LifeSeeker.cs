@@ -16,10 +16,10 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void SetDefaults()
 		{
-			npc.damage = 35;
-			npc.width = 44; //324
-			npc.height = 30; //216
-			npc.defense = 20;
+			npc.damage = 30;
+			npc.width = 44;
+			npc.height = 30;
+			npc.defense = 8;
 			npc.lifeMax = 200;
             if (CalamityWorld.bossRushActive)
             {

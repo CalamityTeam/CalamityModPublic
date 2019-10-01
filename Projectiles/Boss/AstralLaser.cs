@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
 			projectile.penetrate = -1;
-			projectile.timeLeft = 180;
+			projectile.timeLeft = 240;
 		}
 
 		public override void AI()
@@ -66,6 +66,15 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
+		}
+
+		public override bool CanDamage()
+		{
+			if (projectile.timeLeft < 85)
+			{
+				return false;
+			}
+			return true;
 		}
 
 		public override Color? GetAlpha(Color lightColor)

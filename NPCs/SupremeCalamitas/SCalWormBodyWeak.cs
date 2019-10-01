@@ -18,18 +18,17 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 		public override void SetDefaults()
 		{
-			npc.damage = 0; //70
+			npc.damage = 0;
 			npc.npcSlots = 5f;
-			npc.width = 14; //324
-			npc.height = 12; //216
-			npc.defense = 0;
+			npc.width = 14;
+			npc.height = 12;
             npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
             if (CalamityWorld.death)
             {
                 npc.lifeMax = 2000000;
             }
-            npc.aiStyle = 6; //new
-            aiType = -1; //new
+            npc.aiStyle = 6;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.scale = 1.2f;
 			if (Main.expertMode)

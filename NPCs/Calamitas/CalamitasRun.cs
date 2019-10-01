@@ -24,16 +24,16 @@ namespace CalamityMod.NPCs.Calamitas
 		{
 			npc.damage = 60;
 			npc.npcSlots = 5f;
-			npc.width = 120; //324
-			npc.height = 120; //216
+			npc.width = 120;
+			npc.height = 120;
 			npc.defense = 10;
 			npc.lifeMax = CalamityWorld.revenge ? 13200 : 9000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 15000;
 			}
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs.Calamitas
 						{
 							npc.localAI[1] = 0f;
 							float num867 = 6f;
-							int num868 = expertMode ? 26 : 32;
+							int num868 = expertMode ? 30 : 38;
 							int num869 = mod.ProjectileType("BrimstoneFire");
 							vector86 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							num864 = player.position.X + (float)(player.width / 2) - vector86.X;
@@ -298,8 +298,6 @@ namespace CalamityMod.NPCs.Calamitas
 							num866 = num867 / num866;
 							num864 *= num866;
 							num865 *= num866;
-							num865 += (float)Main.rand.Next(-40, 41) * 0.01f;
-							num864 += (float)Main.rand.Next(-40, 41) * 0.01f;
 							num865 += npc.velocity.Y * 0.5f;
 							num864 += npc.velocity.X * 0.5f;
 							vector86.X -= num864 * 1f;

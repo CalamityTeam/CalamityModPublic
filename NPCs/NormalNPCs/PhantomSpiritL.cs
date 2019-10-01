@@ -19,10 +19,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 		{
 			npc.aiStyle = -1;
 			npc.damage = 100;
-			npc.width = 32; //324
-			npc.height = 32; //216
+			npc.width = 32;
+			npc.height = 32;
             npc.scale = 1.2f;
-			npc.defense = 100;
+			npc.defense = 40;
 			npc.lifeMax = 9000;
 			npc.knockBackResist = 0f;
 			aiType = -1;
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                 {
                     float num151 = 5f;
-                    int num152 = 60;
+                    int num152 = Main.expertMode ? 53 : 65;
                     int num153 = mod.ProjectileType("PhantomGhostShot");
                     num149 = num151 / num149;
                     num147 *= num149;

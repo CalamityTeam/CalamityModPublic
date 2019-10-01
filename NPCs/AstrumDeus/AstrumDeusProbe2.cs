@@ -29,7 +29,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.chaseable = false;
 			npc.dontTakeDamage = true;
 			npc.damage = 0;
-			npc.defense = 0;
 			npc.lifeMax = 100;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -60,7 +59,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 360f)
 			{
 				npc.localAI[0] = 0f;
-				int num8 = expertMode ? 42 : 55;
+				int num8 = expertMode ? 45 : 60;
 				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 5f, direction.Y * 5f, mod.ProjectileType("DeusMine"), num8, 0f, Main.myPlayer, 0f, 0f);
 			}
 			bool anySmallDeusHeads = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));

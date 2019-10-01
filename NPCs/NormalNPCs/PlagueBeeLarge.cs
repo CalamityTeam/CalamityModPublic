@@ -17,9 +17,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 		public override void SetDefaults()
 		{
 			npc.damage = 45;
-			npc.width = 36; //324
-			npc.height = 30; //216
-			npc.defense = 23;
+			npc.width = 36;
+			npc.height = 30;
+			npc.defense = 25;
 			npc.scale = 0.75f;
 			npc.lifeMax = 300;
 			npc.aiStyle = 5;

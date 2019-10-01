@@ -65,9 +65,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 		{
 			npc.damage = 350;
 			npc.npcSlots = 50f;
-			npc.width = 120; //324
-			npc.height = 120; //216
-			npc.defense = 0;
+			npc.width = 120;
+			npc.height = 120;
+			npc.defense = 120;
 			npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.lifeMax = CalamityWorld.revenge ? 5500000 : 5000000;
 			if (CalamityWorld.death)
@@ -80,8 +80,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
@@ -1079,7 +1079,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			#region FirstStage
 			if (npc.ai[0] == 0f)
 			{
-				npc.damage = expertMode ? 720 : 450;
+				npc.damage = npc.defDamage;
 				if (wormAlive)
 				{
 					npc.dontTakeDamage = true;
@@ -1563,7 +1563,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			#region LastStage
 			else
 			{
-				npc.damage = expertMode ? 720 : 450;
+				npc.damage = npc.defDamage;
 				if (wormAlive)
 				{
 					npc.dontTakeDamage = true;

@@ -22,9 +22,9 @@ namespace CalamityMod.NPCs.Yharon
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 220;
-			npc.width = 50; //324
-			npc.height = 50; //216
-			npc.defense = 150;
+			npc.width = 50;
+			npc.height = 50;
+			npc.defense = 75;
 			npc.lifeMax = 13000;
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;

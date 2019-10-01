@@ -17,14 +17,14 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override void SetDefaults()
 		{
-			npc.damage = 130; //70
+			npc.damage = 130;
 			npc.npcSlots = 5f;
-			npc.width = 34; //38
-			npc.height = 34; //30
-			npc.defense = 0;
-            npc.lifeMax = 100000; //192000
-            npc.aiStyle = 6; //new
-            aiType = -1; //new
+			npc.width = 34;
+			npc.height = 34;
+			npc.defense = 60;
+            npc.lifeMax = 100000;
+            npc.aiStyle = 6;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             else
             {
-                npc.damage = Main.expertMode ? 260 : 130;
+                npc.damage = npc.defDamage;
                 npc.dontTakeDamage = false;
             }
             if (!Main.npc[(int)npc.ai[1]].active)

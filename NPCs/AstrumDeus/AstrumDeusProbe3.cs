@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			aiType = -1;
 			npc.npcSlots = 2f;
 			npc.damage = 0;
-			npc.width = 30; //324
-			npc.height = 30; //216
+			npc.width = 30;
+			npc.height = 30;
 			npc.defense = 30;
 			npc.lifeMax = 1400;
 			if (CalamityWorld.bossRushActive)
@@ -134,11 +134,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					int num8 = 45;
-					if (Main.expertMode)
-					{
-						num8 = 35;
-					}
+					int num8 = Main.expertMode ? 38 : 45;
 					int num9 = 84;
 					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
 				}

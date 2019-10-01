@@ -20,12 +20,11 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		{
 			npc.npcSlots = 3f;
 			npc.aiStyle = -1;
-			npc.damage = 80;
-			npc.width = 100; //324
-			npc.height = 80; //216
-			npc.defense = 25;
+			npc.damage = 90;
+			npc.width = 100;
+			npc.height = 80;
+			npc.defense = 35;
 			npc.lifeMax = 25000;
-            npc.value = 0f;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 240000 : 200000;
@@ -191,18 +190,18 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 						Main.PlaySound(SoundID.Item20, npc.position);
 						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float spread = 45f * 0.0174f;
-				    	double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y)- spread/2;
-				    	double deltaAngle = spread/8f;
-				    	double offsetAngle;
-				    	int damage = 0;
-				    	int projectileShot = mod.ProjectileType("HealOrbProv");
-				    	int i;
-				    	for (i = 0; i < 3; i++ )
-				    	{
-				   			offsetAngle = (startAngle + deltaAngle * ( i + i * i ) / 2f ) + 32f * i;
-				        	Projectile.NewProjectile(value9.X, value9.Y, (float)( Math.Sin(offsetAngle) * 5f ), (float)( Math.Cos(offsetAngle) * 5f ), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-				        	Projectile.NewProjectile(value9.X, value9.Y, (float)( -Math.Sin(offsetAngle) * 5f ), (float)( -Math.Cos(offsetAngle) * 5f ), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-				    	}
+						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
+						double deltaAngle = spread / 8f;
+						double offsetAngle;
+						int damage = 0;
+						int projectileShot = mod.ProjectileType("HealOrbProv");
+						int i;
+						for (i = 0; i < 3; i++)
+						{
+							offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+							Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
+						}
 					}
 				}
 			}
@@ -228,7 +227,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.7f);
+			npc.damage = (int)(npc.damage * 0.8f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

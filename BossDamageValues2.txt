@@ -1,0 +1,1453 @@
+Boss Damage Values 2.0
+
+KING SLIME
+
+Contact damage:
+King Slime
+N - 40
+E - 67
+R - 83
+D - 95
+
+Projectile damage:
+Crown Jewel Ruby Bolt
+N - NA
+E - NA
+R - 44
+D - 50
+
+DESERT SCOURGE
+
+Contact damage:
+Desert Scourge Head
+N - 30
+E - 66
+R - 82
+D - 94
+Body
+N - 16
+E - 27
+R - 27
+D - 31
+Tail
+N - 12
+E - 20
+R - 20
+D - 23
+Desert Scourge Head Small
+N - NA
+E - NA
+R - 45
+D - 51
+Body
+N - NA
+E - NA
+R - 20
+D - 23
+Tail
+N - NA
+E - NA
+R - 16
+D - 18
+Dried Seeker Head
+N - 14
+E - 28
+R - 35
+D - 40
+Body
+N - 8
+E - 16
+R - 16
+D - 18
+Tail
+N - 6
+E - 12
+R - 12
+D - 13
+
+Projectile damage:
+Sand Blast
+N - NA
+E - NA
+R - 60
+D - 69
+
+EYE OF CTHULHU
+
+Contact damage:
+Eye of Cthulhu
+N - 15 (phase 1), 23 (phase 2)
+E - 30 (phase 1), 36 (phase 2), 40 (berserk phase, below 4%)
+R - 37 (phase 1), 44 (phase 2), 51 (final phase, below 50%)
+D - 42 (phase 1), 50 (phase 2), 58 (final phase, below 70%)
+Servant of Cthulhu
+N - 12
+E - 24
+R - 30
+D - 34
+
+CRABULON
+
+Contact damage:
+Crabulon
+N - 40
+E - 64
+R - 80
+D - 92
+Crab Shroom
+N - 25
+E - 50
+R - 62
+D - 71
+
+Projectile damage:
+Mushroom
+N - 28
+E - 44
+R - 55
+D - 63
+Mushmash (used when Crabulon slams down)
+N - 40
+E - 80
+R - 100
+D - 115
+
+EATER OF WORLDS
+
+Contact damage:
+Eater of Worlds Head
+N - 22
+E - 48
+R - 60 (normal), 66 (less than 40% of EoW parts left), 72 (less than 10% of EoW parts left)
+D - 69 (normal), 75 (less than 40% of EoW parts left), 82 (less than 10% of EoW parts left)
+Body
+N - 13
+E - 20
+R - 25
+D - 28
+Tail
+N - 11
+E - 17
+R - 21
+D - 24
+Vile Spit
+N - NA
+E - 65
+R - 65
+D - 74
+
+Projectile damage:
+Cursed Flame
+N - NA
+E - NA
+R - 60
+D - 69
+
+BRAIN OF CTHULHU
+
+Contact damage:
+Brain of Cthulhu
+N - 30
+E - 54
+R - 67 (normal), 80 (final phase, below 30%)
+D - 77 (normal), 92 (final phase, below 50%)
+Creeper
+N - 20
+E - 40
+R - 50
+D - 57
+
+Projectile damage:
+Blood Geyser
+N - NA
+E - NA
+R - 60
+D - 69
+
+HIVE MIND
+
+Contact damage:
+Hive Mind
+N - 20 (phase 1), 35 (phase 2)
+E - 32 (phase 1), 63 (phase 2)
+R - 40 (phase 1), 78 (phase 2)
+D - 46 (phase 1), 89 (phase 2)
+Dank Creeper
+N - 25
+E - 50
+R - 62
+D - 71
+
+Projectile damage:
+Shaderain
+N - 36
+E - 56
+R - 70
+D - 80
+Vile Clot
+N - 30
+E - 48
+R - 48
+D - 55
+
+PERFORATORS
+
+Contact damage:
+Perforator Hive
+N - 30
+E - 48
+R - 60
+D - 69
+Perf Large Head
+N - 45
+E - 90
+R - 112
+D - 128
+Body
+N - 24
+E - 38
+R - 38
+D - 43
+Tail
+N - 18
+E - 28
+R - 28
+D - 32
+Perf Medium Head
+N - 35
+E - 70
+R - 87
+D - 100
+Body
+N - 21
+E - 33
+R - 33
+D - 37
+Tail
+N - 14
+E - 22
+R - 22
+D - 25
+Perf Small Head
+N - 30
+E - 60
+R - 75
+D - 86
+Body
+N - 18
+E - 28
+R - 28
+D - 32
+Tail
+N - 10
+E - 16
+R - 16
+D - 18
+
+Projectile damage:
+Blood Geyser/Ichor Shot
+N - 36
+E - 56
+R - 70
+D - 80
+Blood Clot
+N - 30
+E - 48
+R - 48
+D - 55
+
+QUEEN BEE
+
+Contact damage:
+Queen Bee
+N - 30
+E - 54
+R - 67 to 87 (depending on life)
+D - 77 to 100 (depending on life)
+Bee
+N - 20 (large), 15 (small)
+E - 24 (large), 18 (small)
+R - 30 (large), 22 (small)
+D - 34 (large), 25 (small)
+
+Projectile damage:
+Stinger
+N - 22
+E - 44
+R - 56 (target is not poison immune), 72 (target is poison immune)
+D - 64 (target is not poison immune), 82 (target is poison immune)
+
+SKELETRON
+
+Contact damage:
+Skeletron Head
+N - 32
+E - 70 (normal), 91 (spin)
+R - 87 (normal), 113 (spin)
+D - 100 (normal), 129 (spin)
+Hand
+N - 20
+E - 44
+R - 55
+D - 63
+
+Projectile damage:
+Skull
+N - NA
+E - 68
+R - 84
+D - 96
+Shadowflames
+N - NA
+E - NA
+R - 76
+D - 87
+
+SLIME GOD
+
+Contact damage:
+Slime God Core
+N - 40
+E - 80
+R - 100
+D - 115
+Ebonian Slime God
+N - 45 (not split), 40 (split)
+E - 76 (not split), 68 (split)
+R - 95 (not split), 85 (split)
+D - 109 (not split), 97 (split)
+Crimulan Slime God
+N - 50 (not split), 45 (split)
+E - 85 (not split), 76 (split)
+R - 106 (not split), 95 (split)
+D - 121 (not split), 109 (split)
+Corrupt Slime Spawn
+N - 40 (wings), 30 (no wings)
+E - 80 (wings), 60 (no wings)
+R - 100 (wings), 60 (no wings)
+D - 115 (wings), 69 (no wings)
+Crimson Slime Spawn
+N - 45 (spikes), 35 (no spikes)
+E - 90 (spikes), 70 (no spikes)
+R - 112 (spikes), 70 (no spikes)
+D - 128 (spikes), 80 (no spikes)
+
+Projectile damage:
+Abyss Ball Volley
+N - 42 (purple), 38 (red)
+E - 68 (purple), 64 (red)
+R - 85 (purple), 80 (red)
+D - 97 (purple), 92 (red)
+Abyss Mine
+N - NA
+E - 96 (purple), 88 (red)
+R - 120 (purple), 110 (red)
+D - 138 (purple), 126 (red)
+
+WALL OF FLESH
+
+Contact damage:
+Wall of Flesh
+N - 50
+E - 150
+R - 187
+D - 215
+Hungry
+N - 30 to 75 (depending on Wall of Flesh life)
+E - 60 to 150 (depending on Wall of Flesh life)
+R - 60 to 150 (depending on Wall of Flesh life)
+D - 69 to 172 (depending on Wall of Flesh life)
+Hungry 2
+N - 30
+E - 60
+R - 75
+D - 86
+Leech Head
+N - 26
+E - 52
+R - 65
+D - 74
+
+Projectile damage:
+Eye Laser
+N - 22 to 30 (depending on life)
+E - 44 to 60 (depending on life)
+R - 68
+D - 78
+Death Laser
+N - NA
+E - NA
+R - 88
+D - 101
+
+CRYOGEN
+
+Contact damage:
+Cryogen
+N - 50 (normal), 75 (derp out phase)
+E - 90 (normal), 135 (derp out phase)
+R - 112 (normal), 168 (derp out phase)
+D - 128 (normal), 193 (derp out phase)
+Ice Shield
+N - 50
+E - 100
+R - 125
+D - 143
+Cryocore
+N - 35 (small), 40 (large)
+E - 70 (small), 80 (large)
+R - 87 (small), 100 (large)
+D - 100 (small), 115 (large)
+Aurora Spirit
+N - 40
+E - 80
+R - 100
+D - 115
+
+Projectile damage:
+Ice Bomb
+N - NA
+E - 100
+R - 125
+D - 143
+Ice Blast
+N - 46
+E - 80
+R - 100
+D - 115
+Ice Rain
+N - 52
+E - 92
+R - 115
+D - 132
+
+THE TWINS
+
+Contact damage:
+Spazmatism
+N - 50 (phase 1), 75 (phase 2)
+E - 85 (phase 1), 127 (phase 2)
+R - 106 (phase 1), 159 (phase 2)
+D - 121 (phase 1), 182 (phase 2)
+Retinazer
+N - 45 (phase 1), 67 (phase 2)
+E - 76 (phase 1), 114 (phase 2)
+R - 95 (phase 1), 142 (phase 2)
+D - 109 (phase 1), 163 (phase 2)
+
+Projectile damage:
+Eye Laser
+N - 40
+E - 76
+R - 92
+D - 105
+Death Laser
+N - 50 (normal), 36 (rapid fire)
+E - 92 (normal), 68 (rapid fire)
+R - 112 (normal), 84 (rapid fire)
+D - 128 (normal), 96 (rapid fire)
+Homing Dart
+N - NA
+E - NA
+R - 120
+D - 138
+Cursed Flame
+N - 50
+E - 88
+R - 108
+D - 124
+Cursed Flamethrower
+N - 60
+E - 108
+R - NA
+D - NA
+Shadow Flamethrower
+N - NA
+E - NA
+R - 132
+D - 151
+Shadow Flame
+N - NA
+E - NA
+R - 124
+D - 142
+
+AQUATIC SCOURGE
+
+Contact damage:
+Aquatic Scourge Head
+N - 80
+E - 160
+R - 200
+D - 230
+Body
+N - 65 (toothy), 55 (not toothy)
+E - 110 (toothy), 93 (not toothy)
+R - 137 (toothy), 116 (not toothy)
+D - 157 (toothy), 133 (not toothy)
+Tail
+N - 45
+E - 76
+R - 95
+D - 109
+
+Projectile damage:
+Sand Blast
+N - 56
+E - 92
+R - 115
+D - 132
+Sand Tooth
+N - 60
+E - 100
+R - 125
+D - 143
+Sand Poison Cloud
+N - 66
+E - 112
+R - 140
+D - 161
+
+THE DESTROYER
+
+Contact damage:
+The Destroyer Head
+N - 70
+E - 280
+R - 350
+D - 402
+Body
+N - 55
+E - 93
+R - 116
+D - 133
+Tail
+N - 40
+E - 68
+R - 85
+D - 97
+Probe
+N - 50
+E - 80
+R - 100
+D - 115
+
+Projectile damage:
+Death Laser
+N - 44
+E - 72
+R - 92
+D - 105
+Frost Beam
+N - NA
+E - NA
+R - 100
+D - 115
+Homing Laser
+N - NA
+E - NA
+R - 108
+D - 124
+Scrap
+N - NA
+E - NA
+R - 92
+D - 105
+Probe Laser
+N - 50
+E - 88
+R - 88
+D - 101
+
+BRIMSTONE ELEMENTAL
+
+Contact damage:
+Brimstone Elemental
+N - 60
+E - 96
+R - 120
+D - 138
+
+Projectile damage:
+Brimstone Hellfireball
+N - 70
+E - 112
+R - 140
+D - 161
+Brimstone Barrage
+N - 60
+E - 100
+R - 125
+D - 143
+Brimstone Hellblast
+N - 60
+E - 100
+R - 125
+D - 143
+
+SKELETRON PRIME
+
+Contact damage:
+Skeletron Prime
+N - 47 (normal), 94 (spin)
+E - 79 (normal), 158 (spin)
+R - 98 (normal), 196 (spin)
+D - 112 (normal), 225 (spin)
+Vice
+N - 52
+E - 88
+R - 110
+D - 126
+Saw
+N - 56
+E - 95
+R - 118
+D - 135
+Cannon
+N - 30
+E - 51
+R - 63
+D - 72
+Laser
+N - 29
+E - 49
+R - 61
+D - 70
+
+Projectile damage:
+Death Laser
+N - 50
+E - 100
+R - 124
+D - 142
+Bomb (why the fuck do these exist)
+N - 40
+E - 40
+R - NA
+D - NA
+Missile
+N - NA
+E - NA
+R - 132
+D - 151
+Skull
+N - NA
+E - NA
+R - 112
+D - 128
+Homing Missile
+N - NA
+E - NA
+R - 132
+D - 151
+
+CALAMITAS CLONE
+
+Contact damage:
+Calamitas
+N - 55 (phase 1), 70 (phase 2)
+E - 88 (phase 1), 112 (phase 2)
+R - 110 (phase 1), 140 (phase 2)
+D - 126 (phase 1), 161 (phase 2)
+Cataclysm
+N - 60
+E - 120
+R - 150
+D - 172
+Catastrophe
+N - 65
+E - 130
+R - 162
+D - 186
+Soul Seeker
+N - 40
+E - 80
+R - 100
+D - 115
+Life Seeker
+N - 30
+E - 60
+R - 75
+D - 86
+
+Projectile damage:
+Brimstone Laser
+N - 70 (normal or phase 2), 48 (rapid fire)
+E - 112 (normal or phase 2), 80 (rapid fire)
+R - 140 (normal or phase 2), 100 (rapid fire)
+D - 161 (normal or phase 2), 115 (rapid fire)
+Brimstone Hellfireball/Explosion
+N - 84
+E - 136
+R - 170
+D - 195
+Brimstone Flamethrower
+N - 76
+E - 120
+R - 150
+D - 172
+Brimstone Ball
+N - 72
+E - 116
+R - 145
+D - 166
+Soul Seeker Barrage
+N - 60
+E - 100
+R - 125
+D - 143
+Life Seeker Laser
+N - 50
+E - 88
+R - 88
+D - 101
+
+PLANTERA
+
+Contact damage:
+Plantera
+N - 50 (phase 1), 70 (phase 2)
+E - 100 (phase 1), 140 (phase 2)
+R - 143 (phase 1), 200 (phase 2)
+D - 164 (phase 1), 230 (phase 2)
+Hook
+N - 60
+E - 120
+R - 0
+D - 0
+Tentacle
+N - 60
+E - 120
+R - 150
+D - 172
+Spore
+N - 70
+E - 126
+R - 157
+D - 180
+
+Projectile damage:
+Seed
+N - 44
+E - 76
+R - 96
+D - 110
+Poison Seed
+N - 54
+E - 96
+R - 120
+D - 138
+Thorn Ball
+N - 62
+E - 108
+R - 136
+D - 156
+Spore Gas
+N - NA
+E - NA
+R - 140
+D - 161
+
+LEVIATHAN AND SIREN
+
+Contact damage:
+Leviathan
+N - 90
+E - 153
+R - 191
+D - 219
+Siren
+N - 70
+E - 119
+R - 148
+D - 170
+Ice Shield
+N - 55
+E - 110
+R - 137
+D - 157
+Bubble
+N - 100
+E - 140
+R - 175
+D - 201
+Aquatic Aberration
+N - 60
+E - 120
+R - 150
+D - 172
+Parasea
+N - 50
+E - 100
+R - 125
+D - 143
+
+Projectile damage:
+Leviathan Bomb
+N - 80
+E - 132
+R - 165
+D - 189
+Water Spear/Frost Mist/Siren Song
+N - 64
+E - 104
+R - 130
+D - 149
+
+ASTRUM AUREUS
+
+Contact damage:
+Astrum Aureus
+N - 80
+E - 136
+R - 170
+D - 195
+Aureus Spawn
+N - NA
+E - NA
+R - 150
+D - 172
+
+Projectile damage:
+Astral Laser/Astral Flame
+N - 74
+E - 128
+R - 160
+D - 184
+
+GOLEM
+
+Contact damage:
+Golem Body
+N - 72
+E - 115
+R - 143 (head attached), 214 (head free)
+D - 164 (head attached), 246 (head free)
+Head
+N - 64 (attached), 80 (free)
+E - 102 (attached), 128 (free)
+R - 127 (attached), 160 (free)
+D - 146 (attached), 184 (free)
+Fist
+N - 59
+E - 94
+R - 117
+D - 134
+
+Projectile damage:
+Fireball
+N - 36 to 58 (depending on life)
+E - 72 to 116 (depending on life)
+R - 148
+D - 170
+Laser
+N - 56
+E - 112
+R - 140
+D - 161
+Inferno Fireball/Explosion
+N - NA
+E - NA
+R - 160
+D - 184
+
+PLAGUEBRINGER GOLIATH
+
+Contact damage:
+Plaguebringer Goliath
+N - 100
+E - 180
+R - 225
+D - 258
+Plaguebringer
+N - 70
+E - 140
+R - 175
+D - 201
+Plague Homing Missile
+N - 90
+E - 180
+R - 225
+D - 258
+Plague Mine
+N - NA
+E - 200
+R - 200
+D - 230
+Plague Charger
+N - 60 (small), 65 (large)
+E - 120 (small), 130 (large)
+R - 150 (small), 162 (large)
+D - 172 (small), 186 (large)
+
+Projectile damage:
+Plague Stinger
+N - 80 (goliath), 52 (shade)
+E - 128 to 152 (goliath, depending on life), 104 (shade)
+R - 160 to 190 (goliath, depending on life), 130 (shade)
+D - 184 to 218 (goliath, depending on life), 149 (shade)
+Plague Missile
+N - 100 (goliath), 66 (shade)
+E - 160 to 184 (goliath, depending on life), 132 (shade)
+R - 200 to 230 (goliath, depending on life), 165 (shade)
+D - 230 to 264 (goliath, depending on life), 189 (shade)
+Plague Nuke Barrage
+N - 120
+E - 192
+R - 240
+D - 276
+
+DUKE FISHRON
+
+Contact damage:
+Duke Fishron
+N - 100 (phase 1), 120 (phase 2)
+E - 140 (phase 1), 201 (phase 2), 184 (phase 3)
+R - 175 (phase 1), 252 (phase 2), 231 (phase 3)
+D - 201 (phase 1), 289 (phase 2), 265 (phase 3)
+Sharkron
+N - 100 (small), 120 (large)
+E - 150 (small), 180 (large)
+R - 187 (small), 225 (large)
+D - 215 (small), 258 (large)
+Bubble
+N - 100
+E - 140
+R - 175
+D - 201
+
+Projectile damage:
+Sharknado
+N - 90
+E - 100
+R - 125
+D - 143
+Cthulhunado
+N - 160
+E - 200
+R - 250
+D - 287
+
+RAVAGER
+
+Contact damage:
+Ravager
+N - 120
+E - 192
+R - 240
+D - 276
+Claws
+N - 80
+E - 160
+R - 200
+D - 230
+Rock Pillar
+N - 120
+E - 200
+R - 200
+D - 230
+Flame Pillar
+N - 100
+E - 180
+R - 180
+D - 207
+
+Projectile damage:
+Laser
+N - 90
+E - 180
+R - 180
+D - 207
+Fireball
+N - 80
+E - 160
+R - 160
+D - 184
+Falling Fire
+N - 70
+E - 140
+R - 140
+D - 161
+Homing Dart
+N - 80
+E - 160
+R - 160
+D - 184
+Homing Nuke
+N - 120
+E - 180
+R - 225
+D - 258
+Blue Flame
+N - 90
+E - 180
+R - 180
+D - 207
+
+LUNATIC CULTIST
+
+Contact damage:
+Cultist
+N - 50
+E - 75
+R - 0
+D - 0
+Dragon Head
+N - 80
+E - 120
+R - 150
+D - 172
+Squid Head
+N - 90
+E - 180
+R - 225
+D - 258
+Ancient Doom
+N - 30
+E - 45
+R - 0
+D - 0
+Ancient Light
+N - 120
+E - 180
+R - 225
+D - 258
+
+Projectile damage:
+Clone Fireball
+N - 36
+E - 72
+R - 108
+D - 124
+Fireball
+N - 60
+E - 80
+R - 120
+D - 138
+Ice Mist
+N - 70
+E - 100
+R - 152
+D - 174
+Lightning
+N - 90
+E - 120
+R - 180
+D - 207
+Ancient Doom Shot
+N - 90
+E - 180
+R - 200
+D - 230
+
+ASTRUM DEUS
+
+Contact damage:
+Astrum Deus Head
+N - 100 (non-boss), 120 (boss)
+E - 200 (non-boss), 240 (boss)
+R - 250 (non-boss), 300 (boss)
+D - 287 (non-boss), 345 (boss)
+Body
+N - 85 (non-boss), 100 (boss)
+E - 144 (non-boss), 170 (boss)
+R - 144 (non-boss), 170 (boss)
+D - 165 (non-boss), 195 (boss)
+Tail
+N - 70 (non-boss), 80 (boss)
+E - 119 (non-boss), 136 (boss)
+R - 119 (non-boss), 136 (boss)
+D - 136 (non-boss), 156 (boss)
+
+Projectile damage:
+Astral Laser
+N - 90
+E - 152
+R - 190
+D - 218
+Deus Mine
+N - 120
+E - 180
+R - 225
+D - 258
+Astrum Deus Probe Laser
+N - 90
+E - 152
+R - 152
+D - 174
+
+MOON LORD
+
+Contact damage:
+Moon Lord Open Hand
+N - 80
+E - 80
+R - 80
+D - 92
+True Eye
+N - 60
+E - 108
+R - 108
+D - 124
+
+Projectile damage:
+Deathray
+N - 150 (moon lord), 100 (true eye)
+E - 300 (moon lord), 200 (true eye)
+R - 375 (moon lord), 250 (true eye)
+D - 431 (moon lord), 287 (true eye)
+Sphere
+N - 100 (moon lord), 110 (true eye)
+E - 200 (moon lord), 220 (true eye)
+R - 250 (moon lord), 275 (true eye)
+D - 287 (moon lord), 316 (true eye)
+Bolt/Eye
+N - 60 (moon lord), 70 (true eye)
+E - 120 (moon lord), 140 (true eye)
+R - 150 (moon lord), 175 (true eye)
+D - 172 (moon lord), 201 (true eye)
+
+PROFANED GUARDIANS
+
+Contact damage:
+Profaned Guardian Boss
+N - 140
+E - 224
+R - 280
+D - 322
+Defender
+N - 110
+E - 176
+R - 220
+D - 253
+Healer
+N - 90
+E - 144
+R - 180
+D - 207
+
+Projectile damage:
+Profaned Spear
+N - 120
+E - 200
+R - 250
+D - 287
+Flare Dust
+N - 140
+E - 220
+R - 275
+D - 316
+Anti-heal Orb (ignores defense and DR)
+N - 32
+E - 32
+R - 32
+D - 32
+
+BUMBLEBIRB
+
+Contact damage:
+Bumblebirb
+N - 160 (normal), 240 (charge)
+E - 256 (normal), 384 (charge)
+R - 320 (normal), 480 (charge)
+D - 368 (normal), 552 (charge)
+Bumblebirb Small
+N - 110 (normal), 165 (charge)
+E - 220 (normal), 330 (charge)
+R - 275 (normal), 412 (charge)
+D - 316 (normal), 474 (charge)
+
+Projectile damage:
+Red Feather
+N - 120
+E - 200
+R - 250
+D - 287
+
+PROVIDENCE
+
+Contact damage:
+Providence (she can't hit the player anyways)
+N - 100
+E - 160
+R - 160
+D - 184
+Profaned Guardian Offense
+N - 120
+E - 240
+R - 300
+D - 345
+Defense
+N - 100
+E - 200
+R - 250
+D - 287
+
+Projectile damage:
+Holy Blast/Holy Spear
+N - 130
+E - 208
+R - 260
+D - 299
+Holy Fire/Holy Bomb/Holy Flare
+N - 120
+E - 192
+R - 240
+D - 276
+Anti-heal Flame (ignores defense and DR)
+N - 100
+E - 150
+R - 150
+D - 200
+Heal Flame (ignores defense and DR)
+N - 35
+E - 50
+R - 50
+D - NA
+Molten Blast/Molten Blob
+N - 110
+E - 168
+R - 210
+D - 241
+Crystal Shards
+N - 140
+E - 228
+R - 285
+D - 327
+Holy Ray
+N - 200
+E - 400
+R - 500
+D - 575
+
+CEASELESS VOID
+
+Contact damage:
+Ceaseless Void
+N - 150
+E - 300
+R - 375
+D - 431
+Dark Energy
+N - 120
+E - 240
+R - 300
+D - 345
+
+Projectile damage:
+Homing Laser/Dark Energy Ball
+N - 120
+E - 200
+R - 250
+D - 287
+
+STORM WEAVER
+
+Contact damage:
+Storm Weaver Head
+N - 140 (phase 1), 180 (phase 2)
+E - 280 (phase 1), 360 (phase 2)
+R - 350 (phase 1), 450 (phase 2)
+D - 402 (phase 1), 517 (phase 2)
+Body
+N - 100 (phase 1), 120 (phase 2)
+E - 170 (phase 1), 204 (phase 2)
+R - 170 (phase 1), 204 (phase 2)
+D - 195 (phase 1), 234 (phase 2)
+Tail
+N - 80 (phase 1), 100 (phase 2)
+E - 136 (phase 1), 170 (phase 2)
+R - 136 (phase 1), 170 (phase 2)
+D - 156 (phase 1), 195 (phase 2)
+Probe
+N - 70 (phase 1), 80 (phase 2)
+E - 140 (phase 1), 160 (phase 2)
+R - 140 (phase 1), 160 (phase 2)
+D - 161 (phase 1), 184 (phase 2)
+
+Projectile damage:
+Lightning
+N - 150
+E - 248
+R - 248
+D - 285
+Probe Laser
+N - 120
+E - 200
+R - 200
+D - 230
+
+SIGNUS
+
+Contact damage:
+Signus
+N - 175
+E - 297
+R - 371
+D - 426
+Cosmic Lantern
+N - 110
+E - 220
+R - 275
+D - 316
+Cosmic Mine
+N - NA
+E - NA
+R - 300
+D - 345
+
+Projectile damage:
+Cosmic Flame Burst
+N - 130
+E - 208
+R - 260
+D - 299
+Homing Scythe
+N - 120
+E - 192
+R - 240
+D - 276
+Essence Dust
+N - 140
+E - 240
+R - 300
+D - 345
+
+POLTERGHAST
+
+Contact damage:
+Polterghast
+N - 150 (phase 1), 180 (phase 2), 210 (phase 3)
+E - 240 (phase 1), 288 (phase 2), 336 (phase 3)
+R - 300 (phase 1), 360 (phase 2), 420 (phase 3)
+D - 345 (phase 1), 414 (phase 2), 483 (phase 3)
+Clone
+N - 210
+E - 336
+R - 420
+D - 483
+
+Projectile damage:
+Phantom Shot
+N - 120 (blue), 130 (red)
+E - 192 (blue), 212 (red)
+R - 240 (blue), 265 (red)
+D - 276 (blue), 304 (red)
+Phantom Blast
+N - 140 (blue), 150 (red)
+E - 240 (blue), 260 (red)
+R - 300 (blue), 325 (red)
+D - 345 (blue), 373 (red)
+Phantom Mine
+N - 150
+E - 248
+R - 310
+D - 356
+
+DEVOURER OF GODS
+
+Contact damage:
+DoG Head
+N - 250 (phase 1), 300 (phase 2)
+E - 500 (phase 1), 600 (phase 2)
+R - 625 (phase 1), 750 (phase 2)
+D - 718 (phase 1), 862 (phase 2) (instant death, but these are the damage values regardless)
+Body
+N - 180 (phase 1), 220 (phase 2)
+E - 306 (phase 1), 374 (phase 2)
+R - 382 (phase 1), 467 (phase 2)
+D - 439 (phase 1), 537 (phase 2)
+Tail
+N - 150 (phase 1), 180 (phase 2)
+E - 255 (phase 1), 306 (phase 2)
+R - 318 (phase 1), 382 (phase 2)
+D - 365 (phase 1), 439 (phase 2)
+Cosmic Guardian Head
+N - 180
+E - 360
+R - 450
+D - 517
+Body
+N - 130
+E - 260
+R - 260
+D - 299
+Tail
+N - 100
+E - 200
+R - 200
+D - 230
+
+Projectile damage:
+Nebula Shot
+N - 140
+E - 232
+R - 290
+D - 333
+Laser Wall/God Slayer Fireball
+N - 160
+E - 276
+R - 345
+D - 396
+
+YHARON
+
+Contact damage:
+Yharon
+N - 330 (normal), 412 (phase 2, low HP)
+E - 528 (normal), 660 (phase 2, low HP)
+R - 660 (normal), 825 (phase 2, low HP)
+D - 759 (normal), 948 (phase 2, low HP)
+Detonating Flame
+N - 100 (ranged flame), 220 (melee flame)
+E - 200 (ranged flame), 440 (melee flame)
+R - 250 (ranged flame), 550 (melee flame)
+D - 287 (ranged flame), 632 (melee flame)
+
+Projectile damage:
+Flare Bomb
+N - 180 (normal), 312 (on death)
+E - 300 (normal), 548 (on death)
+R - 375 (normal), 685 (on death)
+D - 431 (normal), 787 (on death)
+Flarenado
+N - 200
+E - 340
+R - 425
+D - 488
+Infernado
+N - 300
+E - 520
+R - 650
+D - 747
+Flare Dust (type 1 only does damage when it explodes, type 2 does damage at all times)
+N - 180 (normal), 250 (type 2, phase 2), 312 (type 2, phase 2, low HP)
+E - 300 (normal), 440 (type 2, phase 2), 548 (type 2, phase 2, low HP)
+R - 375 (normal), 550 (type 2, phase 2), 685 (type 2, phase 2, low HP)
+D - 431 (normal), 632 (type 2, phase 2), 787 (type 2, phase 2, low HP)
+Splitting Fireballs (these are phase 2 only)
+N - 250 (normal), 312 (low HP)
+E - 440 (normal), 548 (low HP)
+R - 550 (normal), 685 (low HP)
+D - 632 (normal), 787 (low HP)
+
+SUPREME CALAMITAS
+
+Contact damage:
+SCal
+N - 350
+E - 560
+R - 700
+D - 805
+
+Projectile damage:
+All projectiles in bullet hell 1
+N - 500
+E - 800
+R - 1000
+D - 1150
+All other projectiles
+N - 400
+E - 600
+R - 750
+D - 862

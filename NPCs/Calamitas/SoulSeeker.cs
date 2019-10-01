@@ -27,8 +27,8 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.canGhostHeal = false;
-			npc.damage = 60;
-			npc.defense = 20;
+			npc.damage = 40;
+			npc.defense = 10;
 			npc.lifeMax = 2500;
             if (CalamityWorld.bossRushActive)
             {
@@ -73,11 +73,11 @@ namespace CalamityMod.NPCs.Calamitas
 						int num663 = mod.NPCType("LifeSeeker");
 						int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
 					}
-					for (int num621 = 0; num621 < 5; num621++)
+					for (int num621 = 0; num621 < 3; num621++)
 					{
 						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 					}
-					int damage = expertMode ? 22 : 30;
+					int damage = expertMode ? 25 : 30;
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("BrimstoneBarrage"), damage, 1f, npc.target);
 				}
 				timer = 0;

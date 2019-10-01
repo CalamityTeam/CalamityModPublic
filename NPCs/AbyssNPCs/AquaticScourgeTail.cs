@@ -18,12 +18,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void SetDefaults()
 		{
-			npc.damage = 100; //70
-			npc.width = 30; //28
-			npc.height = 50; //28
-			npc.defense = 45;
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.damage = 45;
+			npc.width = 30;
+			npc.height = 50;
+			npc.defense = 25;
+            npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
             npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			if ((double)Main.npc[(int)npc.ai[1]].life <= (double)Main.npc[(int)npc.ai[1]].lifeMax * 0.99)
 			{
                 detectsPlayer = true;
-                npc.damage = Main.expertMode ? 80 : 50;
+                npc.damage = npc.defDamage;
                 npc.boss = true;
                 Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
                 if (calamityModMusic != null)
@@ -205,7 +205,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-            npc.damage = (int)(npc.damage * 0.8f);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

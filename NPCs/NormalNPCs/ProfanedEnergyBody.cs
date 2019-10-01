@@ -17,9 +17,9 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.aiStyle = -1;
 			npc.damage = 0;
 			npc.npcSlots = 3f;
-			npc.width = 72; //324
-			npc.height = 36; //216
-			npc.defense = 58;
+			npc.width = 72;
+			npc.height = 36;
+			npc.defense = 50;
 			npc.lifeMax = 6000;
 			npc.knockBackResist = 0f;
 			aiType = -1;

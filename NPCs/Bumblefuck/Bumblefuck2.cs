@@ -20,10 +20,10 @@ namespace CalamityMod.NPCs.Bumblefuck
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 110;
-			npc.width = 80; //324
-			npc.height = 80; //216
+			npc.width = 80;
+			npc.height = 80;
 			npc.scale = 0.66f;
-			npc.defense = 25;
+			npc.defense = 20;
 			npc.lifeMax = 25000;
             if (CalamityWorld.bossRushActive)
             {

@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.Calamitas
 
 		public override void SetDefaults()
 		{
-			npc.damage = 80;
+			npc.damage = 70;
 			npc.npcSlots = 14f;
 			npc.width = 120;
 			npc.height = 120;
@@ -36,8 +36,8 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				npc.lifeMax = 62062;
 			}
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 15, 0, 0);
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -446,14 +446,6 @@ namespace CalamityMod.NPCs.Calamitas
 						{
 							npc.localAI[1] += 0.5f;
 						}
-						if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-						{
-							npc.localAI[1] += 0.5f;
-						}
-						if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-						{
-							npc.localAI[1] += 0.5f;
-						}
 						if (expertMode)
 						{
 							npc.localAI[1] += 0.5f;
@@ -463,7 +455,7 @@ namespace CalamityMod.NPCs.Calamitas
 					{
 						npc.localAI[1] = 0f;
 						float num837 = 11f;
-						int num838 = expertMode ? 24 : 30;
+						int num838 = expertMode ? 28 : 35;
 						int num839 = mod.ProjectileType("BrimstoneLaser");
 						num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
 						num836 = num837 / num836;

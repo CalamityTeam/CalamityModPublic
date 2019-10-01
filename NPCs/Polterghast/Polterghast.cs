@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.damage = 150;
 			npc.width = 90;
 			npc.height = 120;
-			npc.defense = 150;
+			npc.defense = 90;
 			npc.lifeMax = CalamityWorld.revenge ? 495000 : 412500;
 			if (CalamityWorld.death)
 			{
@@ -335,15 +335,13 @@ namespace CalamityMod.NPCs.Polterghast
 
 			if (!phase2 && !phase3)
 			{
+				npc.damage = npc.defDamage;
+				npc.defense = npc.defDefense;
+
 				if (speedBoost1)
 				{
-					npc.defense = 300;
-					npc.damage = (int)(200f * Main.damageMultiplier);
-				}
-				else
-				{
-					npc.damage = expertMode ? 240 : 150;
-					npc.defense = 150;
+					npc.defense *= 2;
+					npc.damage *= 2;
 				}
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -382,12 +380,12 @@ namespace CalamityMod.NPCs.Polterghast
 							num743 *= num745;
 							num744 *= num745;
 
-							int num746 = expertMode ? 46 : 55;
+							int num746 = expertMode ? 48 : 60;
 							int num747 = mod.ProjectileType("PhantomShot");
 
 							if (Main.rand.NextBool(3))
 							{
-								num746 = expertMode ? 51 : 60;
+								num746 = expertMode ? 60 : 70;
 								npc.localAI[1] = -30f;
 								num747 = mod.ProjectileType("PhantomBlast");
 							}
@@ -420,7 +418,7 @@ namespace CalamityMod.NPCs.Polterghast
 							num743 *= num745;
 							num744 *= num745;
 
-							int num746 = expertMode ? 51 : 60;
+							int num746 = expertMode ? 60 : 70;
 							int num747 = mod.ProjectileType("PhantomBlast");
 							if (speedBoost1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 								num746 *= 2;
@@ -471,15 +469,13 @@ namespace CalamityMod.NPCs.Polterghast
 
 				npc.GivenName = "Necroghast";
 
+				npc.damage = (int)((float)npc.defDamage * 1.2f);
+				npc.defense = (int)((float)npc.defDefense * 0.8f);
+
 				if (speedBoost1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
-					npc.defense = 200;
-					npc.damage = (int)(300f * Main.damageMultiplier);
-				}
-				else
-				{
-					npc.damage = expertMode ? 288 : 180;
-					npc.defense = 100;
+					npc.defense *= 2;
+					npc.damage *= 2;
 				}
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -518,12 +514,12 @@ namespace CalamityMod.NPCs.Polterghast
 							num743 *= num745;
 							num744 *= num745;
 
-							int num746 = expertMode ? 49 : 60;
+							int num746 = expertMode ? 53 : 65;
 							int num747 = mod.ProjectileType("PhantomShot2");
 
 							if (Main.rand.NextBool(3))
 							{
-								num746 = expertMode ? 54 : 65;
+								num746 = expertMode ? 65 : 75;
 								npc.localAI[1] = -30f;
 								num747 = mod.ProjectileType("PhantomBlast2");
 							}
@@ -556,7 +552,7 @@ namespace CalamityMod.NPCs.Polterghast
 							num743 *= num745;
 							num744 *= num745;
 
-							int num746 = expertMode ? 54 : 65;
+							int num746 = expertMode ? 65 : 75;
 							int num747 = mod.ProjectileType("PhantomBlast2");
 
 							if (speedBoost1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
@@ -624,15 +620,13 @@ namespace CalamityMod.NPCs.Polterghast
 
 				npc.GivenName = "Necroplasm";
 
+				npc.damage = (int)((float)npc.defDamage * 1.4f);
+				npc.defense = (int)((float)npc.defDefense * 0.5f);
+
 				if (speedBoost1 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
-					npc.defense = 200;
-					npc.damage = (int)(400f * Main.damageMultiplier);
-				}
-				else
-				{
-					npc.damage = expertMode ? 336 : 210;
-					npc.defense = 0;
+					npc.defense *= 2;
+					npc.damage *= 2;
 				}
 
 				if (phase4)

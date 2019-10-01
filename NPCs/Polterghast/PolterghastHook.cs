@@ -25,9 +25,8 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 0;
-			npc.width = 40; //324
-			npc.height = 40; //216
-			npc.defense = 0;
+			npc.width = 40;
+			npc.height = 40;
 			npc.lifeMax = 50000;
 			npc.dontTakeDamage = true;
 			npc.noGravity = true;
@@ -130,7 +129,7 @@ namespace CalamityMod.NPCs.Polterghast
 					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
 					{
 						float num151 = 5f;
-						int num152 = 60;
+						int num152 = Main.expertMode ? 48 : 60;
 						int num153 = mod.ProjectileType("PhantomHookShot");
 						num149 = num151 / num149;
 						num147 *= num149;
@@ -365,12 +364,6 @@ namespace CalamityMod.NPCs.Polterghast
 		{
 			if (CalamityWorld.revenge)
 				player.AddBuff(mod.BuffType("Horror"), 180, true);
-		}
-
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.5f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.7f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

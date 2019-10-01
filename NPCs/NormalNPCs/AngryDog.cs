@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			if (CalamityWorld.downedCryogen)
 			{
 				npc.damage = 84;
-				npc.defense = 20;
+				npc.defense = 10;
 				npc.lifeMax = 1000;
 			}
 			npc.knockBackResist = 0.3f;

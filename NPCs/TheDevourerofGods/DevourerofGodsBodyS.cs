@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.npcSlots = 5f;
 			npc.width = 70;
 			npc.height = 70;
-			npc.defense = 0;
+			npc.defense = 70;
 			npc.lifeMax = CalamityWorld.revenge ? 1350000 : 1150000;
 			if (CalamityWorld.death)
 			{
@@ -38,7 +38,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
 			npc.aiStyle = -1;
 			aiType = -1;
-			animationType = 10;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.behindTiles = true;
@@ -258,7 +257,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

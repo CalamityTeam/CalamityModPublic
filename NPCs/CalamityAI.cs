@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs
 						npc.localAI[0] = 0f;
 						npc.TargetClosest(true);
 						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
-						int laserDamage = expertMode ? 35 : 45;
+						int laserDamage = expertMode ? 32 : 37;
 						if (NPC.downedMoonlord && revenge && !CalamityWorld.bossRushActive)
 							laserDamage *= 3;
 

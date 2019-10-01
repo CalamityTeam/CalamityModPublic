@@ -19,10 +19,10 @@ namespace CalamityMod.NPCs.Providence
 		{
 			npc.npcSlots = 1f;
 			npc.aiStyle = -1;
-			npc.damage = 80;
-			npc.width = 100; //324
-			npc.height = 80; //216
-			npc.defense = 40;
+			npc.damage = 100;
+			npc.width = 100;
+			npc.height = 80;
+			npc.defense = 50;
 			npc.lifeMax = 25000;
             if (CalamityWorld.bossRushActive)
             {

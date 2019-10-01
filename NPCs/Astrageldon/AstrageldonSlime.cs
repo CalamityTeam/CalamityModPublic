@@ -248,7 +248,7 @@ namespace CalamityMod.NPCs.Astrageldon
 			Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
 			npc.position.X = npc.position.X + (float)(npc.width / 2);
 			npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-			npc.damage = CalamityWorld.death ? 225 : 150;
+			npc.damage = 150;
 			npc.width = (npc.height = 216);
 			npc.position.X = npc.position.X - (float)(npc.width / 2);
 			npc.position.Y = npc.position.Y - (float)(npc.height / 2);

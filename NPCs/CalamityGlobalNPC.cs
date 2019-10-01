@@ -2450,7 +2450,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if ((projectile.type == ProjectileID.HallowStar && projectile.ranged) || projectile.type == mod.ProjectileType("FossilShardThrown") || projectile.type == mod.ProjectileType("FrostShardFriendly"))
+                else if (projectile.type == mod.ProjectileType("FossilShardThrown") || projectile.type == mod.ProjectileType("FrostShardFriendly"))
                 {
                     damage = (int)(damage * 0.75);
                 }

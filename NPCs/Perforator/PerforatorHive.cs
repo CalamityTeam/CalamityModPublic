@@ -26,10 +26,10 @@ namespace CalamityMod.NPCs.Perforator
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 18f;
-			npc.damage = 35;
-			npc.width = 110; //324
-			npc.height = 100; //216
-			npc.defense = 0;
+			npc.damage = 30;
+			npc.width = 110;
+			npc.height = 100;
+			npc.defense = 4;
 			npc.lifeMax = CalamityWorld.revenge ? 5400 : 3750;
 			if (CalamityWorld.death)
 			{
@@ -41,8 +41,8 @@ namespace CalamityMod.NPCs.Perforator
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 			npc.knockBackResist = 0f;

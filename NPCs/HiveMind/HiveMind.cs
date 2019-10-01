@@ -11,7 +11,6 @@ namespace CalamityMod.NPCs.HiveMind
 	public class HiveMind : ModNPC
 	{
 		int burrowTimer = 720;
-        int oldDamage = 10;
 
         public override void SetStaticDefaults()
 		{
@@ -22,9 +21,9 @@ namespace CalamityMod.NPCs.HiveMind
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 5f;
-			npc.damage = 10;
-			npc.width = 150; //324
-			npc.height = 120; //216
+			npc.damage = 20;
+			npc.width = 150;
+			npc.height = 120;
 			npc.defense = 10;
 			npc.lifeMax = CalamityWorld.revenge ? 1800 : 1200;
             if (CalamityWorld.death)
@@ -37,8 +36,8 @@ namespace CalamityMod.NPCs.HiveMind
             }
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 			npc.knockBackResist = 0f;
@@ -192,7 +191,7 @@ namespace CalamityMod.NPCs.HiveMind
 				npc.scale = 1f;
 				npc.alpha = 0;
 				npc.dontTakeDamage = false;
-                npc.damage = oldDamage;
+                npc.damage = npc.defDamage;
             }
 			else if (burrowTimer < -60)
 			{
@@ -264,7 +263,6 @@ namespace CalamityMod.NPCs.HiveMind
 				else
 				{
 					npc.dontTakeDamage = true;
-                    oldDamage = npc.damage;
                     npc.damage = 0;
                 }
 			}

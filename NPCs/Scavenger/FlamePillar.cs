@@ -18,19 +18,16 @@ namespace CalamityMod.NPCs.Scavenger
 		public override void SetDefaults()
 		{
 			npc.damage = 0;
-			npc.npcSlots = 1f;
-			npc.width = 40; //324
-			npc.height = 150; //216
-			npc.defense = 0;
+			npc.width = 40;
+			npc.height = 150;
 			npc.lifeMax = 100;
             npc.alpha = 255;
-			npc.aiStyle = -1; //new
-            aiType = -1; //new
+			npc.aiStyle = -1;
+            aiType = -1;
 			npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
-				npc.buffImmune[BuffID.Ichor] = false;
 			}
             npc.dontTakeDamage = true;
 			npc.HitSound = SoundID.NPCHit4;
@@ -71,7 +68,7 @@ namespace CalamityMod.NPCs.Scavenger
                     }
                     else
                     {
-                        npc.damage = Main.expertMode ? 250 : 180;
+                        npc.damage = Main.expertMode ? 180 : 100;
                     }
                     npc.alpha = 0;
                 }
@@ -98,7 +95,7 @@ namespace CalamityMod.NPCs.Scavenger
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
                             Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            int damage = Main.expertMode ? 32 : 45;
+                            int damage = 45;
                             Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, SpeedX, SpeedY, mod.ProjectileType("RavagerFlame"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                         }
                         npc.localAI[0] = 0f;

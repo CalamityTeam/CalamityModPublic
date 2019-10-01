@@ -22,10 +22,10 @@ namespace CalamityMod.NPCs.Providence
 		{
 			npc.npcSlots = 1f;
 			npc.aiStyle = -1;
-			npc.damage = 100;
-			npc.width = 100; //324
-			npc.height = 80; //216
-			npc.defense = 30;
+			npc.damage = 120;
+			npc.width = 100;
+			npc.height = 80;
+			npc.defense = 40;
 			npc.lifeMax = 42500;
             if (CalamityWorld.bossRushActive)
             {
@@ -112,7 +112,6 @@ namespace CalamityMod.NPCs.Providence
 					Main.dust[num1012].fadeIn = 1f;
 				}
 			}
-			npc.damage = expertMode ? 200 : 100;
 			if (npc.ai[0] == 0f)
 			{
 				npc.knockBackResist = 0f;
@@ -189,7 +188,6 @@ namespace CalamityMod.NPCs.Providence
 				        dustTimer = 3;
 					}
 				}
-				npc.damage = expertMode ? 240 : 120;
 				npc.knockBackResist = 0f;
 				float num1016 = num1003;
 				npc.ai[1] += 1f;

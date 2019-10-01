@@ -17,9 +17,8 @@ namespace CalamityMod.NPCs.StormWeaver
 		{
 			npc.damage = 80;
 			npc.npcSlots = 5f;
-			npc.width = 48; //324
-			npc.height = 80; //216
-			npc.defense = 0;
+			npc.width = 48;
+			npc.height = 80;
 			npc.lifeMax = 20000;
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 			if (calamityModMusic != null)
@@ -40,8 +39,8 @@ namespace CalamityMod.NPCs.StormWeaver
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.knockBackResist = 0f;
 			npc.alpha = 255;
 			npc.boss = true;
@@ -217,7 +216,7 @@ namespace CalamityMod.NPCs.StormWeaver
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.85f);
 		}
 	}
 }

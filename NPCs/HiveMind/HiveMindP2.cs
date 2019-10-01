@@ -44,7 +44,6 @@ namespace CalamityMod.NPCs.HiveMind
 		int previousState = 0;
 		int nextState = 0;
 		int reelCount = 0;
-		int oldDamage = 40;
 		Vector2 deceleration;
 
 		public override void SetStaticDefaults()
@@ -56,9 +55,9 @@ namespace CalamityMod.NPCs.HiveMind
 		public override void SetDefaults()
 		{
 			npc.npcSlots = 5f;
-			npc.damage = 40;
-			npc.width = 150; //324
-			npc.height = 120; //216
+			npc.damage = 35;
+			npc.width = 150;
+			npc.height = 120;
 			npc.defense = 5;
 			npc.lifeMax = CalamityWorld.revenge ? 7560 : 5800;
 			if (CalamityWorld.death)
@@ -71,8 +70,8 @@ namespace CalamityMod.NPCs.HiveMind
 			}
 			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			npc.buffImmune[mod.BuffType("GlacialState")] = true;
 			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
 			npc.knockBackResist = 0f;
@@ -201,7 +200,7 @@ namespace CalamityMod.NPCs.HiveMind
 				bool spawnedSomething = false;
 				int type = NPCID.EaterofSouls;
 				int maxAmount = 0;
-				int random = !CalamityWorld.death && Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height) ? 5 : 3;
+				int random = Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height) ? 6 : 4;
 				switch (Main.rand.Next(random))
 				{
 					case 0:
@@ -279,13 +278,12 @@ namespace CalamityMod.NPCs.HiveMind
 			{
 				if (npc.damage != 0)
 				{
-					oldDamage = npc.damage;
 					npc.damage = 0;
 				}
 			}
 			else
 			{
-				npc.damage = oldDamage;
+				npc.damage = npc.defDamage;
 			}
 			switch (state)
 			{
@@ -609,7 +607,7 @@ namespace CalamityMod.NPCs.HiveMind
 		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
 		{
 			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.8f);
+			npc.damage = (int)(npc.damage * 0.9f);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

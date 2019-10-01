@@ -17,20 +17,20 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 
 		public override void SetDefaults()
 		{
-			npc.damage = 80; //150
+			npc.damage = 70;
 			npc.npcSlots = 8f;
-			npc.width = 66; //324
-			npc.height = 66; //216
+			npc.width = 66;
+			npc.height = 66;
 			npc.defense = 30;
-			npc.lifeMax = CalamityWorld.death ? 4000 : 3000; //250000
+			npc.lifeMax = CalamityWorld.death ? 4000 : 3000;
 			npc.value = Item.buyPrice(0, 1, 50, 0);
 			if (CalamityWorld.bossRushActive)
 			{
 				npc.lifeMax = 200000;
 			}
 			npc.knockBackResist = 0f;
-			npc.aiStyle = -1; //new
-			aiType = -1; //new
+			npc.aiStyle = -1;
+			aiType = -1;
 			animationType = NPCID.QueenBee;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -60,11 +60,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 		public override void AI()
 		{
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.05f, 0.15f, 0.025f);
-			if (Main.expertMode)
-			{
-				int num1041 = (int)(30f * (1f - (float)npc.life / (float)npc.lifeMax));
-				npc.damage = npc.defDamage - num1041;
-			}
 			bool flag113 = false;
 			if (!Main.player[npc.target].ZoneJungle && !CalamityWorld.bossRushActive)
 			{
@@ -459,11 +454,11 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						num1073 = num1070 / num1073;
 						num1071 *= num1073;
 						num1072 *= num1073;
-						int num1074 = 20; //projectile damage
+						int num1074 = 26; //projectile damage
 						int num1075 = mod.ProjectileType("PlagueStingerGoliathV2"); //projectile type
 						if (Main.rand.NextBool(15))
 						{
-							num1074 = 25;
+							num1074 = 33;
 							num1075 = mod.ProjectileType("HiveBombGoliath");
 						}
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, 0f);
