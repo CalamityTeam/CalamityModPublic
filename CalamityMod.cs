@@ -1473,6 +1473,7 @@ namespace CalamityMod
 				scopedWeaponList = new List<int>()
 				{
 					calamity.ItemType("AMR"),
+					calamity.ItemType("HalleysInferno"),
 					calamity.ItemType("Shroomer"),
 					calamity.ItemType("SpectreRifle"),
 					calamity.ItemType("Svantechnical"),
