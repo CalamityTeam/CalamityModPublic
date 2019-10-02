@@ -15,7 +15,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			"Stealth strikes spawn homing blood on enemy hits");
 		}
 
-		public override void SetDefaults()
+		public override void SafeSetDefaults()
 		{
 			item.width = 66;
 			item.damage = 400;

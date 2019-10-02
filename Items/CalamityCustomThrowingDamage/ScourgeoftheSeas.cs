@@ -20,7 +20,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			"Stealth strikes stick to enemies and apply a powerful venom");
 		}
 
-		public override void SetDefaults()
+		public override void SafeSetDefaults()
 		{
 			item.width = 82;
 			item.damage = 45;

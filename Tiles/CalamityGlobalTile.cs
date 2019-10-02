@@ -1,8 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using CalamityMod.World;
 using CalamityMod.Utilities;
 
@@ -24,6 +29,20 @@ namespace CalamityMod.Tiles
 			(ushort)CalamityMod.Instance.TileType("AstralShortPlants"),
 			(ushort)CalamityMod.Instance.TileType("AstralTallPlants")
 		};
+
+		/*#region SetDefaults //it's not working aaaaa
+		public virtual void SetDefaults(Tile tile)
+		{
+			if (CalamityMod.tableList.Contains(tile.type))
+				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
+			else if (CalamityMod.chairList.Contains(tile.type))
+				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
+			else if (CalamityMod.lightList.Contains(tile.type))
+				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
+			else if (CalamityMod.doorList.Contains(tile.type))
+				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
+		}
+		#endregion*/
 
 		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
 		{

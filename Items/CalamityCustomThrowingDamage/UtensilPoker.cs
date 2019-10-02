@@ -15,7 +15,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 				"Stealth strikes launch an additional butcher knife");
         }
 
-        public override void SetDefaults()
+        public override void SafeSetDefaults()
         {
             item.width = 44;
             item.height = 66;
