@@ -17,7 +17,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		{
 			DisplayName.SetDefault("Scourge of the Seas");
 			Tooltip.SetDefault("Snaps apart into a venomous cloud upon striking an enemy\n" +
-			"Stealth strikes increase the strength of the venom");
+			"Stealth strikes stick to enemies and apply a powerful venom");
 		}
 
 		public override void SetDefaults()
