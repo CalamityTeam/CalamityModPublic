@@ -1644,7 +1644,10 @@ namespace CalamityMod.Items
 				player.lavaMax += 180;
 				player.setBonus = "+2 defense\n" +
 							"5% increased rogue damage and critical strike chance\n" +
-							"Grants immunity to fire blocks and temporary immunity to lava";
+							"Grants immunity to fire blocks and temporary immunity to lava\n" +
+							"Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+							"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+							"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
 			}
 		}
 		#endregion

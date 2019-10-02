@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-    public class BloodsoakedCrasher : ModItem //This weapon has been coded by Achilles|Termi|Ben
+    public class BloodsoakedCrasher : CalamityDamageItem //This weapon has been coded by Achilles|Termi|Ben
     {
 		public override void SetStaticDefaults()
 		{

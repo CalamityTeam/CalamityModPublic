@@ -11,7 +11,7 @@ using static CalamityMod.CalPlayer.CalamityPlayer;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-	public class ScourgeoftheSeas : ModItem
+	public class ScourgeoftheSeas : CalamityDamageItem
     {
 		public override void SetStaticDefaults()
 		{

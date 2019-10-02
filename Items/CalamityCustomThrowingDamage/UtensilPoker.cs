@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-    public class UtensilPoker : ModItem
+    public class UtensilPoker : CalamityDamageItem
     {
         public override void SetStaticDefaults()
         {
