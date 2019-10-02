@@ -1526,7 +1526,8 @@ namespace CalamityMod.Items
 					// Wall of Flesh
 					case ItemID.WallOfFleshBossBag:
 						DropHelper.DropItemChance(player, mod.ItemType("Meowthrower"), 3);
-						DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 8);
+						DropHelper.DropItemChance(player, mod.ItemType("BlackHawkRemote"), 3);
+						DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 4);
 						DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
 						DropHelper.DropItem(player, mod.ItemType("MLGRune")); // Demon Trophy
 						break;
@@ -1566,6 +1567,7 @@ namespace CalamityMod.Items
 					// Moon Lord
 					case ItemID.MoonLordBossBag:
 						DropHelper.DropItem(player, mod.ItemType("MLGRune2")); // Celestial Onion
+						DropHelper.DropItemChance(player, mod.ItemType("UtensilPoker"), 8);
 						DropHelper.DropItemChance(player, mod.ItemType("GrandDad"), DropHelper.RareVariantDropRateInt);
 						DropHelper.DropItemChance(player, mod.ItemType("Infinity"), DropHelper.RareVariantDropRateInt);
 						break;

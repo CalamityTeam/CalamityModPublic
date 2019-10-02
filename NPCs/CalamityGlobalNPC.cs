@@ -307,6 +307,15 @@ namespace CalamityMod.NPCs
                         projectileCount++;
                     }
                 }
+                for (int j = 0; j < 1000; j++)
+                {
+                    if (Main.projectile[j].active &&
+                        (Main.projectile[j].type == mod.ProjectileType("ScourgeoftheSeasStealth")) &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
+                    {
+                        projectileCount += 6;
+                    }
+                }
 
                 if (projectileCount > 0)
                 {
