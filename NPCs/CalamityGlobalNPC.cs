@@ -1336,7 +1336,7 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
-                if (newAI[1] < 480f || newAI[2] > 0f)
+                if ((CalamityWorld.revenge || CalamityWorld.bossRushActive) && newAI[1] < 480f || newAI[2] > 0f)
                 {
                     damage *= 0.01;
                 }
