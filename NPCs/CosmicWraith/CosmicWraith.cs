@@ -414,7 +414,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 							scytheSpeed += 1f;
 						}
 						int damage = expertMode ? 48 : 60; //projectile damage
-						Projectile.NewProjectile(projectile.Center, npc.DirectionTo(player.Center) mod.ProjectileType("SignusScythe"), damage, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
+						Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center), mod.ProjectileType("SignusScythe"), damage, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
 					}
 				}
 				if (npc.position.Y > player.position.Y - 200f) //200
