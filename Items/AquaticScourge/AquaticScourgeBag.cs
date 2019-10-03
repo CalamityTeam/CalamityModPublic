@@ -46,6 +46,7 @@ namespace CalamityMod.Items.AquaticScourge
 			DropHelper.DropItemCondition(player, mod.ItemType("Barinautical"), Main.hardMode, 3, 1, 1);
 			DropHelper.DropItemCondition(player, mod.ItemType("Downpour"), Main.hardMode, 3, 1, 1);
 			DropHelper.DropItemCondition(player, mod.ItemType("DeepseaStaff"), Main.hardMode, 3, 1, 1);
+			DropHelper.DropItemCondition(player, mod.ItemType("ScourgeoftheSeas"), Main.hardMode, 3, 1, 1);
 
 			// Equipment (Emblem is Hardmode only)
 			DropHelper.DropItemCondition(player, mod.ItemType("AquaticEmblem"), Main.hardMode);

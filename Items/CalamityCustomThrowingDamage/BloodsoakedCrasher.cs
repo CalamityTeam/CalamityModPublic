@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-    public class BloodsoakedCrasher : ModItem //This weapon has been coded by Achilles|Termi|Ben
+    public class BloodsoakedCrasher : CalamityDamageItem //This weapon has been coded by Achilles|Termi|Ben
     {
 		public override void SetStaticDefaults()
 		{
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			"Stealth strikes spawn homing blood on enemy hits");
 		}
 
-		public override void SetDefaults()
+		public override void SafeSetDefaults()
 		{
 			item.width = 66;
 			item.damage = 400;

@@ -108,14 +108,6 @@ namespace CalamityMod.NPCs
             { NPCID.KingSlime, 500000 },
             { NPCID.BlueSlime, 12000 },
             { NPCID.SlimeSpiked, 24000 },
-			{ NPCID.GreenSlime, 9000 },
-			{ NPCID.RedSlime, 18000 },
-			{ NPCID.PurpleSlime, 24000 },
-			{ NPCID.YellowSlime, 21000 },
-			{ NPCID.IceSlime, 15000 },
-			{ NPCID.UmbrellaSlime, 18000 },
-			{ NPCID.RainbowSlime, 100000 },
-			{ NPCID.Pinky, 50000 },
             { NPCID.EyeofCthulhu, 600000 },
             { NPCID.ServantofCthulhu, 60000 },
             { NPCID.SkeletronPrime, 980000 },
@@ -313,6 +305,15 @@ namespace CalamityMod.NPCs
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
+                    }
+                }
+                for (int j = 0; j < 1000; j++)
+                {
+                    if (Main.projectile[j].active &&
+                        (Main.projectile[j].type == mod.ProjectileType("ScourgeoftheSeasStealth")) &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
+                    {
+                        projectileCount += 6;
                     }
                 }
 
@@ -1344,7 +1345,7 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
-                if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+                if ((CalamityWorld.revenge || CalamityWorld.bossRushActive) && newAI[1] < 480f || newAI[2] > 0f)
                 {
                     damage *= 0.01;
                 }
@@ -1718,7 +1719,7 @@ namespace CalamityMod.NPCs
             switch (CalamityWorld.bossRushStage)
             {
                 case 0:
-                    if (npc.type != NPCID.QueenBee)
+                    if (npc.type != NPCID.QueenBee && npc.type != NPCID.Bee && npc.type != NPCID.BeeSmall)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1736,9 +1737,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 2:
-                    if (npc.type != NPCID.KingSlime && npc.type != NPCID.BlueSlime && npc.type != NPCID.SlimeSpiked && npc.type != mod.NPCType("KingSlimeJewel") &&
-						npc.type != NPCID.YellowSlime && npc.type != NPCID.PurpleSlime && npc.type != NPCID.GreenSlime && npc.type != NPCID.RedSlime &&
-						npc.type != NPCID.IceSlime && npc.type != NPCID.UmbrellaSlime && npc.type != NPCID.RainbowSlime && npc.type != NPCID.Pinky)
+                    if (npc.type != NPCID.KingSlime && npc.type != NPCID.BlueSlime && npc.type != NPCID.SlimeSpiked)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1757,7 +1756,7 @@ namespace CalamityMod.NPCs
 
                 case 4:
                     if (npc.type != NPCID.SkeletronPrime && npc.type != NPCID.PrimeSaw && npc.type != NPCID.PrimeVice &&
-                        npc.type != NPCID.PrimeCannon && npc.type != NPCID.PrimeLaser && npc.type != NPCID.Probe)
+                        npc.type != NPCID.PrimeCannon && npc.type != NPCID.PrimeLaser)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1796,7 +1795,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 8:
-                    if (npc.type != mod.NPCType("Astrageldon") && npc.type != mod.NPCType("AstrageldonSlime"))
+                    if (npc.type != mod.NPCType("Astrageldon") && npc.type != mod.NPCType("AstralSlime"))
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1906,7 +1905,7 @@ namespace CalamityMod.NPCs
                     if (npc.type != NPCID.CultistBoss && npc.type != NPCID.CultistBossClone && npc.type != NPCID.CultistDragonHead &&
                         npc.type != NPCID.CultistDragonBody1 && npc.type != NPCID.CultistDragonBody2 && npc.type != NPCID.CultistDragonBody3 &&
                         npc.type != NPCID.CultistDragonBody4 && npc.type != NPCID.CultistDragonTail && npc.type != NPCID.AncientCultistSquidhead &&
-                        npc.type != NPCID.AncientLight && npc.type != NPCID.AncientDoom)
+                        npc.type != NPCID.AncientLight && npc.type != NPCID.AncientDoom && npc.type != mod.NPCType("Eidolist"))
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -2113,7 +2112,8 @@ namespace CalamityMod.NPCs
 
                 case 37:
                     if (npc.type != mod.NPCType("Yharon") && npc.type != mod.NPCType("DetonatingFlare") &&
-                        npc.type != mod.NPCType("DetonatingFlare2"))
+                        npc.type != mod.NPCType("DetonatingFlare2") && npc.type != mod.NPCType("DetonatingFlare3") &&
+                        npc.type != mod.NPCType("Bumblefuck3") && npc.type != mod.NPCType("Bumblefuck4"))
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -2554,9 +2554,11 @@ namespace CalamityMod.NPCs
         #region On Hit By Projectile
         public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
+			bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type);
+			
             if (Main.player[projectile.owner].GetCalamityPlayer().sGenerator)
             {
-                if (projectile.minion && npc.damage > 0)
+                if (isSummon && npc.damage > 0)
                 {
                     switch (Main.rand.Next(3))
                     {

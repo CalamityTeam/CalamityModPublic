@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void SetDefaults()
 		{
-			item.width = 22;
-			item.height = 20;
+			item.width = 54;
+			item.height = 26;
 			item.value = Item.buyPrice(0, 39, 99, 99);
 			item.rare = 6;
 			item.accessory = true;

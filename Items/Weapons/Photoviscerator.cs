@@ -63,6 +63,7 @@ namespace CalamityMod.Items.Weapons
 	        ModRecipe recipe = new ModRecipe(mod);
 	        recipe.AddIngredient(null, "ElementalEruption");
 	        recipe.AddIngredient(null, "CleansingBlaze");
+	        recipe.AddIngredient(null, "HalleysInferno");
             recipe.AddIngredient(null, "NightmareFuel", 5);
             recipe.AddIngredient(null, "EndothermicEnergy", 5);
             recipe.AddIngredient(null, "CosmiliteBar", 5);

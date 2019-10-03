@@ -86,6 +86,7 @@ namespace CalamityMod.NPCs
 			{
                 DropHelper.DropItemCondition(npc, mod.ItemType("MLGRune"), !Main.expertMode); // Demon Trophy
                 DropHelper.DropItemCondition(npc, mod.ItemType("Meowthrower"), !Main.expertMode, 5, 1, 1);
+                DropHelper.DropItemCondition(npc, mod.ItemType("BlackHawkRemote"), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, mod.ItemType("RogueEmblem"), !Main.expertMode, 8, 1, 1);
 				DropHelper.DropItemChance(npc, mod.ItemType("IbarakiBox"), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
                 DropHelper.DropItemFromSetCondition(npc, !Main.expertMode, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
@@ -251,6 +252,7 @@ namespace CalamityMod.NPCs
 			else if (npc.type == NPCID.MoonLordCore)
 			{
                 DropHelper.DropItemCondition(npc, mod.ItemType("MLGRune2"), true, !Main.expertMode);
+                DropHelper.DropItemCondition(npc, mod.ItemType("UtensilPoker"), !Main.expertMode, 9, 1, 1);
                 DropHelper.DropItemCondition(npc, mod.ItemType("GrandDad"), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
                 DropHelper.DropItemCondition(npc, mod.ItemType("Infinity"), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
 				DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeMoonLord"), true, !NPC.downedMoonlord);

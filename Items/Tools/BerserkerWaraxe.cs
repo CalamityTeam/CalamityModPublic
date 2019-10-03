@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Tools
         {
             item.damage = 51;
             item.melee = true;
-            item.width = 58;
-            item.height = 52;
+            item.width = 66;
+            item.height = 56;
             item.useTime = 27;
             item.useAnimation = 27;
             item.useTurn = true;

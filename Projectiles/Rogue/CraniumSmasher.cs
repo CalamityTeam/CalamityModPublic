@@ -11,18 +11,18 @@ namespace CalamityMod.Projectiles.Rogue
 			DisplayName.SetDefault("Cranium Smasher");
 		}
 
-         public override void SetDefaults()
+        public override void SetDefaults()
         {
             projectile.width = 50;
             projectile.height = 50;
             projectile.friendly = true;
             projectile.penetrate = 5;
             projectile.timeLeft = 300;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 15;
-			projectile.tileCollide = false;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-		}
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 15;
+            projectile.tileCollide = false;
+            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+        }
 
 		public override void AI()
         {

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons
 
 		public override void SetDefaults()
 		{
-			item.width = 86;
+			item.width = 84;
 			item.damage = 640;
 			item.melee = true;
 			item.useAnimation = 25;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.knockBack = 7.75f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.height = 86;
+			item.height = 90;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shootSpeed = 12f;

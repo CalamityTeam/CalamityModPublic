@@ -1,5 +1,6 @@
 ﻿using System;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 using CalamityMod.World;
 
@@ -55,6 +56,7 @@ namespace CalamityMod.MiscModSupport
 			if (censusMod != null)
 			{
 				censusMod.Call("TownNPCCondition", mod.NPCType("SEAHOE"), "Defeat a Giant Clam");
+				censusMod.Call("TownNPCCondition", mod.NPCType("Bandit"), "Have a [i:" + ItemID.PlatinumCoin + "] in your inventory after defeating Skeletron");
 				censusMod.Call("TownNPCCondition", mod.NPCType("FAP"), "Have [i:" + mod.ItemType("FabsolsVodka") + "] in your inventory in Hardmode");
 				censusMod.Call("TownNPCCondition", mod.NPCType("DILF"), "Defeat Cryogen");
 			}
