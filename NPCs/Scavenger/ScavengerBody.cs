@@ -212,11 +212,12 @@ namespace CalamityMod.NPCs.Scavenger
 							double offsetAngle;
 							int i;
 							int laserDamage = 45;
+							float velocity = CalamityWorld.bossRushActive ? 10f : 7f;
 							for (i = 0; i < 4; i++)
 							{
 								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 7f), (float)(Math.Cos(offsetAngle) * 7f), 259, laserDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 7f), (float)(-Math.Cos(offsetAngle) * 7f), 259, laserDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), 259, laserDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), 259, laserDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 							}
 						}
 					}
@@ -254,7 +255,8 @@ namespace CalamityMod.NPCs.Scavenger
 						npc.localAI[2] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f);
 						int damage = 40;
-						int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, 12f, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+						float velocity = CalamityWorld.bossRushActive ? 18f : 12f;
+						int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 			}
@@ -290,7 +292,8 @@ namespace CalamityMod.NPCs.Scavenger
 						npc.localAI[3] = 0f;
 						Vector2 shootFromVector = new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f);
 						int damage = 40;
-						int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, -12f, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+						float velocity = CalamityWorld.bossRushActive ? -18f : -12f;
+						int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 			}
@@ -395,7 +398,7 @@ namespace CalamityMod.NPCs.Scavenger
 						float velocityX = ((enrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
 						npc.velocity.X = velocityX * (float)npc.direction;
 
-						if (CalamityWorld.revenge)
+						if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 						{
 							if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
 								npc.velocity.Y = -15.2f;

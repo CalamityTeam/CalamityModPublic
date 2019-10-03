@@ -62,8 +62,8 @@ namespace CalamityMod.NPCs.SlimeGod
 		public override void AI()
 		{
 			CalamityGlobalNPC.slimeGod = npc.whoAmI;
-			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			Player player = Main.player[npc.target];
 			int randomDust = Main.rand.Next(2);
 			if (randomDust == 0)
@@ -137,6 +137,9 @@ namespace CalamityMod.NPCs.SlimeGod
 							if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 							{
 								float num179 = revenge ? 2f : 3f;
+								if (CalamityWorld.bossRushActive)
+									num179 = 12f;
+
 								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 								float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 								float num181 = Math.Abs(num180) * 0.1f;
@@ -176,6 +179,9 @@ namespace CalamityMod.NPCs.SlimeGod
 						if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 						{
 							float num179 = revenge ? 6f : 5f;
+							if (CalamityWorld.bossRushActive)
+								num179 = 12f;
+
 							Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 							float num181 = Math.Abs(num180) * 0.1f;

@@ -100,65 +100,50 @@ namespace CalamityMod.NPCs.Calamitas
 				npc.netUpdate = true;
 				return;
 			}
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			bool dayTime = Main.dayTime;
-			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
-			Player player = Main.player[npc.target];
-			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
-			{
+
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool dayTime = Main.dayTime && !CalamityWorld.bossRushActive;
+			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
+
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
-			}
+
+			Player player = Main.player[npc.target];
+
 			float num801 = npc.position.X + (float)(npc.width / 2) - player.position.X - (float)(player.width / 2);
 			float num802 = npc.position.Y + (float)npc.height - 59f - player.position.Y - (float)(player.height / 2);
 			float num803 = (float)Math.Atan2((double)num802, (double)num801) + 1.57f;
 			if (num803 < 0f)
-			{
 				num803 += 6.283f;
-			}
 			else if ((double)num803 > 6.283)
-			{
 				num803 -= 6.283f;
-			}
+
 			float num804 = 0.1f;
 			if (npc.rotation < num803)
 			{
 				if ((double)(num803 - npc.rotation) > 3.1415)
-				{
 					npc.rotation -= num804;
-				}
 				else
-				{
 					npc.rotation += num804;
-				}
 			}
 			else if (npc.rotation > num803)
 			{
 				if ((double)(npc.rotation - num803) > 3.1415)
-				{
 					npc.rotation += num804;
-				}
 				else
-				{
 					npc.rotation -= num804;
-				}
 			}
+
 			if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-			{
 				npc.rotation = num803;
-			}
 			if (npc.rotation < 0f)
-			{
 				npc.rotation += 6.283f;
-			}
 			else if ((double)npc.rotation > 6.283)
-			{
 				npc.rotation -= 6.283f;
-			}
 			if (npc.rotation > num803 - num804 && npc.rotation < num803 + num804)
-			{
 				npc.rotation = num803;
-			}
+
 			if (!player.active || player.dead || (dayTime && !Main.eclipse))
 			{
 				npc.TargetClosest(false);
@@ -167,59 +152,57 @@ namespace CalamityMod.NPCs.Calamitas
 				{
 					npc.velocity = new Vector2(0f, -10f);
 					if (npc.timeLeft > 150)
-					{
 						npc.timeLeft = 150;
-					}
+
 					return;
 				}
 			}
 			else if (npc.timeLeft < 1800)
-			{
 				npc.timeLeft = 1800;
-			}
+
 			if (npc.ai[1] == 0f)
 			{
 				float num823 = expertMode ? 9.5f : 8f;
 				float num824 = expertMode ? 0.175f : 0.15f;
+				if (CalamityWorld.bossRushActive)
+				{
+					num823 *= 1.5f;
+					num824 *= 1.5f;
+				}
+
 				Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-				float num826 = player.position.Y + (float)(player.height / 2) - 300f - vector82.Y;
+				float num826 = player.position.Y + (float)(player.height / 2) - (CalamityWorld.bossRushActive ? 400f : 300f) - vector82.Y;
 				float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
 				num827 = num823 / num827;
 				num825 *= num827;
 				num826 *= num827;
+
 				if (npc.velocity.X < num825)
 				{
 					npc.velocity.X = npc.velocity.X + num824;
 					if (npc.velocity.X < 0f && num825 > 0f)
-					{
 						npc.velocity.X = npc.velocity.X + num824;
-					}
 				}
 				else if (npc.velocity.X > num825)
 				{
 					npc.velocity.X = npc.velocity.X - num824;
 					if (npc.velocity.X > 0f && num825 < 0f)
-					{
 						npc.velocity.X = npc.velocity.X - num824;
-					}
 				}
 				if (npc.velocity.Y < num826)
 				{
 					npc.velocity.Y = npc.velocity.Y + num824;
 					if (npc.velocity.Y < 0f && num826 > 0f)
-					{
 						npc.velocity.Y = npc.velocity.Y + num824;
-					}
 				}
 				else if (npc.velocity.Y > num826)
 				{
 					npc.velocity.Y = npc.velocity.Y - num824;
 					if (npc.velocity.Y > 0f && num826 < 0f)
-					{
 						npc.velocity.Y = npc.velocity.Y - num824;
-					}
 				}
+
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= 300f)
 				{
@@ -229,29 +212,22 @@ namespace CalamityMod.NPCs.Calamitas
 					npc.TargetClosest(true);
 					npc.netUpdate = true;
 				}
+
 				vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				num825 = player.position.X + (float)(player.width / 2) - vector82.X;
 				num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
 				npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
+
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (revenge)
-					{
 						npc.localAI[1] += 0.5f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
+
 					if (npc.localAI[1] > 180f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
 						npc.localAI[1] = 0f;
-						float num828 = expertMode ? 13f : 10.5f;
+						float num828 = CalamityWorld.bossRushActive ? 16f : (expertMode ? 13f : 10.5f);
 						int num829 = expertMode ? 28 : 35;
 						int num830 = mod.ProjectileType("BrimstoneLaser");
 						num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
@@ -268,77 +244,64 @@ namespace CalamityMod.NPCs.Calamitas
 			{
 				int num831 = 1;
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
-				{
 					num831 = -1;
-				}
+
 				float num832 = expertMode ? 9.5f : 8f;
 				float num833 = expertMode ? 0.25f : 0.2f;
+				if (CalamityWorld.bossRushActive)
+				{
+					num832 *= 1.5f;
+					num833 *= 1.5f;
+				}
+
 				Vector2 vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * 360) - vector83.X;
+				float num834 = player.position.X + (float)(player.width / 2) + (float)(num831 * (CalamityWorld.bossRushActive ? 460 : 360)) - vector83.X;
 				float num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
 				float num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
 				num836 = num832 / num836;
 				num834 *= num836;
 				num835 *= num836;
+
 				if (npc.velocity.X < num834)
 				{
 					npc.velocity.X = npc.velocity.X + num833;
 					if (npc.velocity.X < 0f && num834 > 0f)
-					{
 						npc.velocity.X = npc.velocity.X + num833;
-					}
 				}
 				else if (npc.velocity.X > num834)
 				{
 					npc.velocity.X = npc.velocity.X - num833;
 					if (npc.velocity.X > 0f && num834 < 0f)
-					{
 						npc.velocity.X = npc.velocity.X - num833;
-					}
 				}
 				if (npc.velocity.Y < num835)
 				{
 					npc.velocity.Y = npc.velocity.Y + num833;
 					if (npc.velocity.Y < 0f && num835 > 0f)
-					{
 						npc.velocity.Y = npc.velocity.Y + num833;
-					}
 				}
 				else if (npc.velocity.Y > num835)
 				{
 					npc.velocity.Y = npc.velocity.Y - num833;
 					if (npc.velocity.Y > 0f && num835 < 0f)
-					{
 						npc.velocity.Y = npc.velocity.Y - num833;
-					}
 				}
+
 				vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				num834 = player.position.X + (float)(player.width / 2) - vector83.X;
 				num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
 				npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
+
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
 					if (revenge)
-					{
 						npc.localAI[1] += 0.5f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
-					if (Main.expertMode || CalamityWorld.bossRushActive)
-					{
-						npc.localAI[1] += 0.5f;
-					}
+
 					if (npc.localAI[1] > 60f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
 						npc.localAI[1] = 0f;
-						float num837 = 10.5f;
+						float num837 = CalamityWorld.bossRushActive ? 14f : 10.5f;
 						int num838 = expertMode ? 20 : 24;
 						int num839 = mod.ProjectileType("BrimstoneLaser");
 						num836 = (float)Math.Sqrt((double)(num834 * num834 + num835 * num835));
@@ -350,6 +313,7 @@ namespace CalamityMod.NPCs.Calamitas
 						Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
+
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= 180f)
 				{

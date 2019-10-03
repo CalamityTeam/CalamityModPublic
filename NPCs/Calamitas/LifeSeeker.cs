@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Calamitas
             }
             npc.aiStyle = 5;
 			aiType = 139;
-			npc.knockBackResist = 0.25f;
+			npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.25f;
 			animationType = 2;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

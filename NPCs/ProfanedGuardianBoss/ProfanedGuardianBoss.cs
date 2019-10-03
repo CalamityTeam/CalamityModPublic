@@ -105,8 +105,8 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 				NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("ProfanedGuardianBoss2"), 0, 0f, 0f, 0f, 0f, 255);
 				NPC.NewNPC((int)vector.X, (int)vector.Y, mod.NPCType("ProfanedGuardianBoss3"), 0, 0f, 0f, 0f, 0f, 255);
 			}
-			bool expertMode = Main.expertMode;
-			bool revenge = CalamityWorld.revenge;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool isHoly = player.ZoneHoly;
 			bool isHell = player.ZoneUnderworldHeight;
 			npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 50 : 99999;
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			float num998 = 8f;
 			float scaleFactor3 = 300f;
 			float num999 = 800f;
-			float num1000 = ((lifeRatio < 0.75f || CalamityWorld.death) ? 14f : 16f);
+			float num1000 = ((lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f);
 			if (revenge)
 			{
 				num1000 *= 1.15f;
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			float scaleFactor5 = 10f;
 			float num1003 = 30f;
 			float num1004 = 150f;
-			float num1005 = ((lifeRatio < 0.75f || CalamityWorld.death) ? 14f : 16f);
+			float num1005 = ((lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f);
 			if (revenge)
 			{
 				num1005 *= 1.15f;
@@ -188,7 +188,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				npc.localAI[0] += 1f + (2f * (1f - lifeRatio));
-				if (npc.localAI[0] >= 240f)
+				if (npc.localAI[0] >= (CalamityWorld.bossRushActive ? 210f : 240f))
 				{
 					npc.localAI[0] = 0f;
 					npc.TargetClosest(true);

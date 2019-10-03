@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && projectile.position.X + (float)projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && projectile.position.Y + (float)projectile.height > Main.player[num487].position.Y)
 			{
 				int num492 = expertMode ? -150 : -100;
-				if (CalamityWorld.death)
+				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
 					num492 = -200;
 				}

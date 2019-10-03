@@ -18,8 +18,8 @@ namespace CalamityMod.NPCs.Crabulon
 		{
 			npc.aiStyle = -1;
 			npc.damage = 25;
-			npc.width = 14; //324
-			npc.height = 14; //216
+			npc.width = 14;
+			npc.height = 14;
 			npc.lifeMax = 25;
             if (CalamityWorld.bossRushActive)
             {
@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Crabulon
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X + 0.1f;
+				npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 			}
 			else if (npc.position.X > player.position.X + (float)player.width)
 			{
@@ -68,9 +68,9 @@ namespace CalamityMod.NPCs.Crabulon
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X - 0.1f;
+				npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 			}
-			if (npc.velocity.X > 5f || npc.velocity.X < -5f)
+			if (npc.velocity.X > (CalamityWorld.bossRushActive ? 15f : 5f) || npc.velocity.X < (CalamityWorld.bossRushActive ? -15f : -5f))
 			{
 				npc.velocity.X = npc.velocity.X * 0.97f;
 			}

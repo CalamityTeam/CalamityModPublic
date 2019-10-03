@@ -121,10 +121,10 @@ namespace CalamityMod.NPCs.CosmicWraith
 				(revenge ? 0.25 : 0.0) -
 				(CalamityWorld.death ? 0.25 : 0.0);
 
-			bool cosmicDust = lifeToAlpha > (int)(15D * mult);
-			bool speedBoost = lifeToAlpha > (int)(25D * mult);
-			bool cosmicRain = lifeToAlpha > (int)(35D * mult);
-			bool cosmicSpeed = lifeToAlpha > (int)(50D * mult);
+			bool cosmicDust = lifeToAlpha > (int)(15D * mult) || CalamityWorld.bossRushActive;
+			bool speedBoost = lifeToAlpha > (int)(25D * mult) || CalamityWorld.bossRushActive;
+			bool cosmicRain = lifeToAlpha > (int)(35D * mult) || CalamityWorld.bossRushActive;
+			bool cosmicSpeed = lifeToAlpha > (int)(50D * mult) || CalamityWorld.bossRushActive;
 
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
@@ -269,8 +269,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 							num1250 = (int)player.Center.X / 16;
 							num1251 = (int)player.Center.Y / 16;
 
-							int min = 20;
-							int max = 23;
+							int min = 23;
+							int max = 26;
 
 							if (Main.rand.NextBool(2))
 								num1250 += Main.rand.Next(min, max);
@@ -404,14 +404,14 @@ namespace CalamityMod.NPCs.CosmicWraith
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						float num1070 = 15f; //changed from 10
+						float num1070 = 15f;
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num1070 += 3f;
 						}
 						if (cosmicRain)
 						{
-							num1070 += 1f; //changed from 3 not a prob
+							num1070 += 1f;
 						}
 						if (cosmicSpeed)
 						{
@@ -431,8 +431,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 						num1073 = num1070 / num1073;
 						num1071 *= num1073;
 						num1072 *= num1073;
-						int num1074 = expertMode ? 48 : 60; //projectile damage
-						int num1075 = mod.ProjectileType("SignusScythe"); //projectile type
+						int num1074 = expertMode ? 48 : 60;
+						int num1075 = mod.ProjectileType("SignusScythe");
 						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
 					}
 				}
@@ -442,7 +442,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					{
 						npc.velocity.Y = npc.velocity.Y * 0.975f;
 					}
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.Y > 4f)
 					{
 						npc.velocity.Y = 4f;
@@ -454,7 +454,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					{
 						npc.velocity.Y = npc.velocity.Y * 0.975f;
 					}
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.Y < -4f)
 					{
 						npc.velocity.Y = -4f;
@@ -466,7 +466,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					{
 						npc.velocity.X = npc.velocity.X * 0.98f;
 					}
-					npc.velocity.X = npc.velocity.X - 0.1f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.X > 15f)
 					{
 						npc.velocity.X = 15f;
@@ -478,7 +478,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					{
 						npc.velocity.X = npc.velocity.X * 0.98f;
 					}
-					npc.velocity.X = npc.velocity.X + 0.1f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.X < -15f)
 					{
 						npc.velocity.X = -15f;

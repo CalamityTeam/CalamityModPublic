@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             npc.aiStyle = -1;
 			aiType = -1;
-			npc.knockBackResist = 0.95f;
+			npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.95f;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.noGravity = true;
@@ -87,6 +87,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			float num1259 = Main.player[npc.target].Center.Y - vector145.Y;
 			float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
 			float num1261 = revenge ? 22f : 20f;
+			if (CalamityWorld.bossRushActive)
+				num1261 = 30f;
+
 			num1260 = num1261 / num1260;
 			num1258 *= num1260;
 			num1259 *= num1260;

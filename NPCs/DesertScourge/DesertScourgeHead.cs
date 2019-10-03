@@ -89,17 +89,16 @@ namespace CalamityMod.NPCs.DesertScourge
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			float speedMult = expertMode ? 1.5f : 1.45f;
 			if (CalamityWorld.death || CalamityWorld.bossRushActive)
-			{
 				speedMult = 1.6f;
-			}
 			if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-			{
 				speedMult = 2f;
-			}
+			if (CalamityWorld.bossRushActive)
+				speedMult *= 2f;
+
 			float life = (float)npc.life;
 			float totalLife = (float)npc.lifeMax;
-			speed = (NPC.downedBoss3 ? 16f : 13f) * (speedMult - (life / totalLife));
-			turnSpeed = (NPC.downedBoss3 ? 0.16f : 0.13f) * (speedMult - (life / totalLife));
+			speed = 13f * (speedMult - (life / totalLife));
+			turnSpeed = 0.13f * (speedMult - (life / totalLife));
 			if (npc.ai[3] > 0f)
 			{
 				npc.realLife = (int)npc.ai[3];
@@ -186,6 +185,9 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.localAI[1] = 1f;
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				int num954 = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000);
+				if (CalamityWorld.bossRushActive)
+					num954 /= 2;
+
 				bool flag95 = true;
 				if (npc.position.Y > player.position.Y)
 				{

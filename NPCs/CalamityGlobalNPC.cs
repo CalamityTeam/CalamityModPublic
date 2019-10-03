@@ -108,6 +108,14 @@ namespace CalamityMod.NPCs
             { NPCID.KingSlime, 500000 },
             { NPCID.BlueSlime, 12000 },
             { NPCID.SlimeSpiked, 24000 },
+			{ NPCID.GreenSlime, 9000 },
+			{ NPCID.RedSlime, 18000 },
+			{ NPCID.PurpleSlime, 24000 },
+			{ NPCID.YellowSlime, 21000 },
+			{ NPCID.IceSlime, 15000 },
+			{ NPCID.UmbrellaSlime, 18000 },
+			{ NPCID.RainbowSlime, 100000 },
+			{ NPCID.Pinky, 50000 },
             { NPCID.EyeofCthulhu, 600000 },
             { NPCID.ServantofCthulhu, 60000 },
             { NPCID.SkeletronPrime, 980000 },
@@ -1336,7 +1344,7 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
-                if (newAI[1] < 480f || newAI[2] > 0f)
+                if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
                 {
                     damage *= 0.01;
                 }
@@ -1710,7 +1718,7 @@ namespace CalamityMod.NPCs
             switch (CalamityWorld.bossRushStage)
             {
                 case 0:
-                    if (npc.type != NPCID.QueenBee && npc.type != NPCID.Bee && npc.type != NPCID.BeeSmall)
+                    if (npc.type != NPCID.QueenBee)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1728,7 +1736,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 2:
-                    if (npc.type != NPCID.KingSlime && npc.type != NPCID.BlueSlime && npc.type != NPCID.SlimeSpiked)
+                    if (npc.type != NPCID.KingSlime && npc.type != NPCID.BlueSlime && npc.type != NPCID.SlimeSpiked && npc.type != mod.NPCType("KingSlimeJewel") &&
+						npc.type != NPCID.YellowSlime && npc.type != NPCID.PurpleSlime && npc.type != NPCID.GreenSlime && npc.type != NPCID.RedSlime &&
+						npc.type != NPCID.IceSlime && npc.type != NPCID.UmbrellaSlime && npc.type != NPCID.RainbowSlime && npc.type != NPCID.Pinky)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1747,7 +1757,7 @@ namespace CalamityMod.NPCs
 
                 case 4:
                     if (npc.type != NPCID.SkeletronPrime && npc.type != NPCID.PrimeSaw && npc.type != NPCID.PrimeVice &&
-                        npc.type != NPCID.PrimeCannon && npc.type != NPCID.PrimeLaser)
+                        npc.type != NPCID.PrimeCannon && npc.type != NPCID.PrimeLaser && npc.type != NPCID.Probe)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1786,7 +1796,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 8:
-                    if (npc.type != mod.NPCType("Astrageldon") && npc.type != mod.NPCType("AstralSlime"))
+                    if (npc.type != mod.NPCType("Astrageldon") && npc.type != mod.NPCType("AstrageldonSlime"))
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -1896,7 +1906,7 @@ namespace CalamityMod.NPCs
                     if (npc.type != NPCID.CultistBoss && npc.type != NPCID.CultistBossClone && npc.type != NPCID.CultistDragonHead &&
                         npc.type != NPCID.CultistDragonBody1 && npc.type != NPCID.CultistDragonBody2 && npc.type != NPCID.CultistDragonBody3 &&
                         npc.type != NPCID.CultistDragonBody4 && npc.type != NPCID.CultistDragonTail && npc.type != NPCID.AncientCultistSquidhead &&
-                        npc.type != NPCID.AncientLight && npc.type != NPCID.AncientDoom && npc.type != mod.NPCType("Eidolist"))
+                        npc.type != NPCID.AncientLight && npc.type != NPCID.AncientDoom)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -2103,8 +2113,7 @@ namespace CalamityMod.NPCs
 
                 case 37:
                     if (npc.type != mod.NPCType("Yharon") && npc.type != mod.NPCType("DetonatingFlare") &&
-                        npc.type != mod.NPCType("DetonatingFlare2") && npc.type != mod.NPCType("DetonatingFlare3") &&
-                        npc.type != mod.NPCType("Bumblefuck3") && npc.type != mod.NPCType("Bumblefuck4"))
+                        npc.type != mod.NPCType("DetonatingFlare2"))
                     {
                         npc.active = false;
                         npc.netUpdate = true;

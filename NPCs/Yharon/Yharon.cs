@@ -192,8 +192,8 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
 			// Phase bools
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			bool expertMode = Main.expertMode;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool phase2Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.85 : 0.7);
 			bool phase3Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.6 : 0.4);
 			bool phase4Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.25 : 0.2);
@@ -1784,12 +1784,12 @@ namespace CalamityMod.NPCs.Yharon
 		#region AI2
 		public void Yharon_AI2()
 		{
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			bool expertMode = Main.expertMode;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.75;
 			bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.5;
 			bool phase4 = (double)npc.life <= (double)npc.lifeMax * 0.05;
-			if (CalamityWorld.death)
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
 				phase2 = (double)npc.life <= (double)npc.lifeMax * 0.95;
 				phase3 = (double)npc.life <= (double)npc.lifeMax * 0.7;
@@ -1909,7 +1909,7 @@ namespace CalamityMod.NPCs.Yharon
 			float num21 = 1f;
 			float num22 = 6.28318548f * (num21 / num20);
 			float scaleFactor5 = revenge ? 38f : 36.5f; //32
-			if (CalamityWorld.death)
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
 				scaleFactor = 10.5f;
 				chargeSpeed = 27f;

@@ -53,12 +53,15 @@ namespace CalamityMod.NPCs.Leviathan
 			float num1259 = Main.player[npc.target].Center.Y - vector145.Y;
 			float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
 			float num1261 = revenge ? 16f : 13f;
+			if (CalamityWorld.bossRushActive)
+				num1261 = 24f;
+
 			num1260 = num1261 / num1260;
 			num1258 *= num1260;
 			num1259 *= num1260;
 			npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
-			npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + 3.14f; //1.57
+			npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + 3.14f;
 		}
 
 		public override void FindFrame(int frameHeight)

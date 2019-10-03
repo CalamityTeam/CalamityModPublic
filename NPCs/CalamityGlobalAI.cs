@@ -167,6 +167,10 @@ namespace CalamityMod.NPCs
 				}
 			}
 
+			// Faster fall
+			if (npc.velocity.Y > 0f && CalamityWorld.bossRushActive)
+				npc.velocity.Y = npc.velocity.Y + 0.1f;
+
 			// Activate teleport
 			if (!Main.player[npc.target].dead && npc.ai[2] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 240f : 300f) && npc.ai[1] < 5f && npc.velocity.Y == 0f)
 			{
@@ -351,7 +355,9 @@ namespace CalamityMod.NPCs
 				if (!flag8)
 				{
 					npc.ai[0] += 2f;
-					if (CalamityWorld.death || CalamityWorld.bossRushActive)
+					if (CalamityWorld.bossRushActive)
+						npc.ai[0] += 9f;
+					else if (CalamityWorld.death)
 						npc.ai[0] += 4f;
 					else
 					{
@@ -362,9 +368,9 @@ namespace CalamityMod.NPCs
 						if ((double)npc.life < (double)npc.lifeMax * 0.4)
 							npc.ai[0] += 2f;
 					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.2)
+					if ((double)npc.life < (double)npc.lifeMax * 0.2 || CalamityWorld.bossRushActive)
 						npc.ai[0] += 3f;
-					if ((double)npc.life < (double)npc.lifeMax * 0.1)
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 						npc.ai[0] += 4f;
 
 					if (npc.ai[0] >= 0f)
@@ -385,6 +391,9 @@ namespace CalamityMod.NPCs
 						{
 							npc.velocity.Y = -13f * speedMult;
 							npc.velocity.X = npc.velocity.X + (phase2 ? 4f : 3.5f) * (float)npc.direction;
+							if (CalamityWorld.bossRushActive)
+								npc.velocity.X *= 2f;
+
 							npc.ai[0] = -200f;
 							npc.ai[1] = 0f;
 						}
@@ -392,6 +401,9 @@ namespace CalamityMod.NPCs
 						{
 							npc.velocity.Y = -6f * speedMult;
 							npc.velocity.X = npc.velocity.X + (phase2 ? 5f : 4.5f) * (float)npc.direction;
+							if (CalamityWorld.bossRushActive)
+								npc.velocity.X *= 2f;
+
 							npc.ai[0] = -120f;
 							npc.ai[1] += 1f;
 						}
@@ -399,6 +411,9 @@ namespace CalamityMod.NPCs
 						{
 							npc.velocity.Y = -8f * speedMult;
 							npc.velocity.X = npc.velocity.X + (phase2 ? 4.5f : 4f) * (float)npc.direction;
+							if (CalamityWorld.bossRushActive)
+								npc.velocity.X *= 2f;
+
 							npc.ai[0] = -120f;
 							npc.ai[1] += 1f;
 						}
@@ -412,9 +427,9 @@ namespace CalamityMod.NPCs
 			else if (npc.target < 255 && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
 			{
 				if ((npc.direction == -1 && (double)npc.velocity.X < 0.1) || (npc.direction == 1 && (double)npc.velocity.X > -0.1))
-					npc.velocity.X = npc.velocity.X + 0.2f * (float)npc.direction;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.4f : 0.2f) * (float)npc.direction;
 				else
-					npc.velocity.X = npc.velocity.X * 0.93f;
+					npc.velocity.X = npc.velocity.X * (CalamityWorld.bossRushActive ? 0.9f : 0.93f);
 			}
 
 			// Spawn dust
@@ -485,7 +500,7 @@ namespace CalamityMod.NPCs
 									break;
 							}
 
-                            if (Main.raining && Main.rand.NextBool(10))
+                            if ((Main.raining || CalamityWorld.bossRushActive) && Main.rand.NextBool(10))
                             {
 								npcType = NPCID.UmbrellaSlime;
 
@@ -607,8 +622,8 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.ai[1] == 0f)
 				{
-					float num11 = ((enraged || configBossRushBoost) ? 10f : 7f);
-					float num12 = ((enraged || configBossRushBoost) ? 0.2f : 0.15f);
+					float num11 = 7f;
+					float num12 = 0.15f;
 
 					Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num13 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector.X;
@@ -702,7 +717,7 @@ namespace CalamityMod.NPCs
 				else if (npc.ai[1] == 1f)
 				{
 					npc.rotation = num8;
-					float num24 = ((enraged || configBossRushBoost) ? 11f : 7.25f);
+					float num24 = 7.25f;
 
 					Vector2 vector4 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num25 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector4.X;
@@ -865,6 +880,11 @@ namespace CalamityMod.NPCs
 				{
 					float num37 = ((enraged || configBossRushBoost) ? 8f : 5.5f) + ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 5f : 3.5f) * (0.85f - lifeRatio);
 					float num38 = ((enraged || configBossRushBoost) ? 0.09f : 0.06f) + ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.04f : 0.025f) * (0.85f - lifeRatio);
+					if (CalamityWorld.bossRushActive)
+					{
+						num37 *= 2f;
+						num38 *= 2f;
+					}
 
 					Vector2 vector8 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num39 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector8.X;
@@ -941,6 +961,8 @@ namespace CalamityMod.NPCs
 						num42 *= 1.15f;
 					if (npc.ai[3] == 2f)
 						num42 *= 1.3f;
+					if (CalamityWorld.bossRushActive)
+						num42 *= 2f;
 
 					Vector2 vector9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num43 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector9.X;
@@ -1017,6 +1039,8 @@ namespace CalamityMod.NPCs
 					{
 						npc.TargetClosest(true);
 						float num48 = ((enraged || configBossRushBoost) ? 26f : 18f) + ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 5f : 3.5f) * (0.7f - lifeRatio);
+						if (CalamityWorld.bossRushActive)
+							num48 *= 1.5f;
 
 						Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num49 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector10.X;
@@ -1134,6 +1158,11 @@ namespace CalamityMod.NPCs
 					float num62 = 600f;
 					float num63 = ((enraged || configBossRushBoost) ? 12f : 8f) + ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 6f : 4f) * (0.4f - lifeRatio);
 					float num64 = ((enraged || configBossRushBoost) ? 0.4f : 0.25f) + ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.15f : 0.1f) * (0.4f - lifeRatio);
+					if (CalamityWorld.bossRushActive)
+					{
+						num63 *= 2f;
+						num64 *= 2f;
+					}
 
 					Vector2 vector11 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num65 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector11.X;
@@ -1184,7 +1213,7 @@ namespace CalamityMod.NPCs
 
 					if (npc.ai[2] % 45f == 0f)
 					{
-						float num19 = 6f;
+						float num19 = CalamityWorld.bossRushActive ? 9f : 6f;
 						Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector.X;
 						float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector.Y;
@@ -1259,6 +1288,8 @@ namespace CalamityMod.NPCs
 					{
 						npc.TargetClosest(true);
 						float num48 = ((enraged || configBossRushBoost) ? 26f : 18f) + ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 6f : 4f) * (0.4f - lifeRatio);
+						if (CalamityWorld.bossRushActive)
+							num48 *= 1.5f;
 
 						Vector2 vector10 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num49 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector10.X;
@@ -1336,9 +1367,9 @@ namespace CalamityMod.NPCs
 			float lifeRatio = segmentCount / (totalSegments + 2);
 
 			// Phases
-			bool phase2 = lifeRatio < 0.9f;
-			bool phase3 = lifeRatio < 0.75f;
-			bool phase4 = lifeRatio < 0.4f;
+			bool phase2 = lifeRatio < 0.9f || CalamityWorld.bossRushActive;
+			bool phase3 = lifeRatio < 0.75f || CalamityWorld.bossRushActive;
+			bool phase4 = lifeRatio < 0.4f || CalamityWorld.bossRushActive;
 			bool phase5 = lifeRatio < 0.1f;
 
 			// Damage
@@ -1382,7 +1413,7 @@ namespace CalamityMod.NPCs
 							num349 *= num351;
 							num350 *= num351;
 
-							float num418 = 12f;
+							float num418 = CalamityWorld.bossRushActive ? 18f : 12f;
 							int num419 = 15;
 							int num420 = ProjectileID.CursedFlameHostile;
 							num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
@@ -1541,6 +1572,9 @@ namespace CalamityMod.NPCs
 			{
 				Rectangle rectangle = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				int num35 = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 750 : 850);
+				if (CalamityWorld.bossRushActive)
+					num35 /= 2;
+
 				bool flag3 = true;
 				for (int num36 = 0; num36 < 255; num36++)
 				{
@@ -1616,7 +1650,7 @@ namespace CalamityMod.NPCs
 					calamityGlobalNPC.newAI[1] += 1f;
 
 					// Set velocity for when a new head spawns
-					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (num37 * 0.4f);
+					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (num37 * (CalamityWorld.bossRushActive ? 0.8f : 0.4f));
 				}
 
 				if (!flag2)
@@ -1673,7 +1707,7 @@ namespace CalamityMod.NPCs
 
 					// Despawn
 					bool flag4 = npc.type == NPCID.EaterofWorldsHead && ((!Main.player[npc.target].ZoneCorrupt && !Main.player[npc.target].ZoneCrimson) || Main.player[npc.target].dead);
-					if (flag4)
+					if (flag4 && !CalamityWorld.bossRushActive)
 					{
 						bool flag5 = true;
 						for (int num58 = 0; num58 < 255; num58++)
@@ -1894,6 +1928,8 @@ namespace CalamityMod.NPCs
 						float num796 = Main.player[npc.target].Center.Y - vector98.Y;
 						float num797 = (float)Math.Sqrt((double)(num795 * num795 + num796 * num796));
 						float num798 = 8f + (2f * (1f - lifeRatio));
+						if (CalamityWorld.bossRushActive)
+							num798 *= 2f;
 
 						if (phase2 && !phase3)
 							num798 *= 0.9f;
@@ -1928,7 +1964,7 @@ namespace CalamityMod.NPCs
 							Main.PlaySound(36, (int)npc.position.X, (int)npc.position.Y, -1, 1f, 0f);
 
 							// Velocity
-							npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * 14f;
+							npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (CalamityWorld.bossRushActive ? 21f : 14f);
 						}
 					}
 
@@ -1983,7 +2019,7 @@ namespace CalamityMod.NPCs
 						if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) < 400f) // 25 tile distance
 						{
 							npc.ai[2] -= 1f;
-							npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * -6f;
+							npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (CalamityWorld.bossRushActive ? -12f : -6f);
 						}
 					}
 
@@ -2088,6 +2124,9 @@ namespace CalamityMod.NPCs
 							npc.localAI[1] -= (float)Main.rand.Next(random);
 
 						float num799 = ((phase2 && !phase3) ? 60f : 90f);
+						if (CalamityWorld.bossRushActive)
+							num799 = 30f;
+
 						if (npc.localAI[1] >= num799)
 						{
 							npc.localAI[1] = 0f;
@@ -2216,7 +2255,10 @@ namespace CalamityMod.NPCs
 				float num803 = Main.player[npc.target].Center.X - vector99.X;
 				float num804 = Main.player[npc.target].Center.Y - vector99.Y;
 				float num805 = (float)Math.Sqrt((double)(num803 * num803 + num804 * num804));
-				float num806 = 1f + ((float)creeperScale * 0.1f);
+				float num806 = (CalamityWorld.bossRushActive ? 5f : 1f) + ((float)creeperScale * 0.1f);
+				if (CalamityWorld.bossRushActive)
+					num806 *= 1.5f;
+
 				if (num805 < num806)
 				{
 					npc.velocity.X = num803;
@@ -2316,7 +2358,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			if (Main.player[npc.target].dead || (!Main.player[npc.target].ZoneCrimson && !Main.player[npc.target].ZoneCorrupt))
+			if ((Main.player[npc.target].dead || (!Main.player[npc.target].ZoneCrimson && !Main.player[npc.target].ZoneCorrupt)) && !CalamityWorld.bossRushActive)
 			{
 				if (npc.localAI[3] < 120f)
 					npc.localAI[3] += 1f;
@@ -2363,6 +2405,8 @@ namespace CalamityMod.NPCs
 				float num813 = Main.npc[NPC.crimsonBoss].Center.Y - vector100.Y;
 				float num814 = (float)Math.Sqrt((double)(num812 * num812 + num813 * num813));
 				float velocity = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 10f : 9f;
+				if (CalamityWorld.bossRushActive)
+					velocity *= 2f;
 
 				// Max distance from Brain
 				if (num814 > 90f)
@@ -2443,7 +2487,7 @@ namespace CalamityMod.NPCs
 			}
 
 			bool enrage = false;
-			if (!Main.player[npc.target].ZoneJungle || (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0 || Main.player[npc.target].position.Y > (float)((Main.maxTilesY - 200) * 16))
+			if (CalamityWorld.bossRushActive || !Main.player[npc.target].ZoneJungle || (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0 || Main.player[npc.target].position.Y > (float)((Main.maxTilesY - 200) * 16))
 				enrage = true;
 
 			// Boost defense and damage as health decreases
@@ -2531,7 +2575,9 @@ namespace CalamityMod.NPCs
 						npc.ai[1] += 1f;
 						npc.ai[2] = 0f;
 						float speed = 16f;
-						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						if (CalamityWorld.bossRushActive)
+							speed += 12f;
+						else if (CalamityWorld.death)
 							speed += 6f;
 						else
 						{
@@ -2564,7 +2610,12 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] = 0f;
 					float num602 = 12f;
 					float num603 = 0.15f;
-					if (CalamityWorld.death || CalamityWorld.bossRushActive)
+					if (CalamityWorld.bossRushActive)
+					{
+						num602 *= 2f;
+						num603 *= 2f;
+					}
+					else if (CalamityWorld.death)
 					{
 						num602 += 4f;
 						num603 += 0.15f;
@@ -2587,7 +2638,7 @@ namespace CalamityMod.NPCs
 							num603 += 0.05f;
 						}
 					}
-					if ((double)npc.life < (double)npc.lifeMax * 0.1)
+					if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
 					{
 						num602 += 2f;
 						num603 += 0.1f;
@@ -2670,7 +2721,7 @@ namespace CalamityMod.NPCs
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
 					}
-					if (npc.life < npc.lifeMax / 5)
+					if (npc.life < npc.lifeMax / 5 || CalamityWorld.bossRushActive)
 					{
 						npc.velocity *= 0.9f;
 						num606 += 0.05f;
@@ -2699,7 +2750,7 @@ namespace CalamityMod.NPCs
 				float num611 = (float)Math.Sqrt((double)(num609 * num609 + num610 * num610));
 
 				// Go to bee spawn phase
-				if (num611 < ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 400f : 300f))
+				if (num611 < (CalamityWorld.death ? 400f : 300f))
 				{
 					npc.ai[0] = 1f;
 					npc.ai[1] = 0f;
@@ -2776,10 +2827,10 @@ namespace CalamityMod.NPCs
 					{
 						int hornetAmt = CalamityMod.hornetList.Count;
 						int spawnType = Main.rand.Next(210, 212);
-						if (npc.life < (double)npc.lifeMax * 0.66 || CalamityWorld.death || CalamityWorld.bossRushActive)
+						if (npc.life < (double)npc.lifeMax * 0.66 || CalamityWorld.death)
 							spawnType = 210;
 
-						int random = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 5 : 6;
+						int random = CalamityWorld.death ? 5 : 6;
 						if (Main.rand.Next(random) == 0)
 							spawnType = CalamityMod.hornetList[Main.rand.Next(hornetAmt)];
 
@@ -2863,7 +2914,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[1] % 15f == 14f)
 						shoot = true;
 				}
-				else if (npc.life < (double)npc.lifeMax * 0.66 || CalamityWorld.death || CalamityWorld.bossRushActive)
+				else if (npc.life < (double)npc.lifeMax * 0.66 || CalamityWorld.death)
 				{
 					if (npc.ai[1] % 25f == 24f)
 						shoot = true;
@@ -2877,8 +2928,8 @@ namespace CalamityMod.NPCs
 					Main.PlaySound(SoundID.Item17, npc.position);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						float num624 = 12f;
-						if ((double)npc.life < (double)npc.lifeMax * 0.33)
+						float num624 = CalamityWorld.bossRushActive ? 16f : 12f;
+						if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.bossRushActive)
 							num624 += 3f;
 						if (CalamityWorld.death || CalamityWorld.bossRushActive)
 							num624 += 1f;
@@ -2898,17 +2949,13 @@ namespace CalamityMod.NPCs
 				}
 
 				// Movement calculations
-				float num619 = 6f;
-				float num620 = 0.075f;
+				float num620 = CalamityWorld.bossRushActive ? 0.15f : 0.075f;
 				if (!Collision.CanHit(new Vector2(vector78.X, vector78.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					num619 = 14f;
-					num620 = 0.1f;
+					num620 = CalamityWorld.bossRushActive ? 0.2f : 0.1f;
 					vector79 = vector78;
 					num621 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector79.X;
 					num622 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector79.Y;
-					num623 = (float)Math.Sqrt((double)(num621 * num621 + num622 * num622));
-					num623 = num619 / num623;
 
 					if (npc.velocity.X < num621)
 					{
@@ -2939,8 +2986,6 @@ namespace CalamityMod.NPCs
 				{
 					npc.TargetClosest(true);
 					npc.spriteDirection = npc.direction;
-					num623 = num619 / num623;
-
 					if (npc.velocity.X < num621)
 					{
 						npc.velocity.X = npc.velocity.X + num620;
@@ -2968,7 +3013,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Go to a random phase
-				if (npc.ai[1] > 400f)
+				if (npc.ai[1] > (CalamityWorld.bossRushActive ? 240f : 400f))
 				{
 					npc.ai[0] = -1f;
 					npc.ai[1] = 3f;
@@ -3046,15 +3091,15 @@ namespace CalamityMod.NPCs
 			float distance = Vector2.Distance(Main.player[npc.target].Center, npc.Center);
 
 			// Despawn
-			if (Main.player[npc.target].dead || distance > 2000f)
+			if (Main.player[npc.target].dead || distance > (CalamityWorld.bossRushActive ? 6000f : 2000f))
 			{
 				npc.TargetClosest(true);
-				if (Main.player[npc.target].dead || distance > 2000f)
+				if (Main.player[npc.target].dead || distance > (CalamityWorld.bossRushActive ? 6000f : 2000f))
 					npc.ai[1] = 3f;
 			}
 
 			// Daytime enrage
-			if (Main.dayTime && npc.ai[1] != 3f && npc.ai[1] != 2f)
+			if (Main.dayTime && !CalamityWorld.bossRushActive && npc.ai[1] != 3f && npc.ai[1] != 2f)
 			{
 				npc.ai[1] = 2f;
 				Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
@@ -3069,7 +3114,7 @@ namespace CalamityMod.NPCs
 			}
 			bool handsDead = num156 == 0;
 			npc.chaseable = handsDead;
-			npc.defense += num156 * 250;
+			npc.defense += num156 * (CalamityWorld.bossRushActive ? 2500 : 250);
 
 			// Teleport
 			if (handsDead || phase2)
@@ -3086,8 +3131,13 @@ namespace CalamityMod.NPCs
 					// Fire magic bolt after teleport
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						float num151 = 2f + (distance * 0.005f);
-						if (num151 > 5f)
+						float num151 = 2f + (distance * (CalamityWorld.bossRushActive ? 0.015f : 0.005f));
+						if (CalamityWorld.bossRushActive)
+						{
+							if (num151 > 10f)
+								num151 = 10f;
+						}
+						else if (num151 > 5f)
 							num151 = 5f;
 
 						int num152 = 19;
@@ -3146,9 +3196,9 @@ namespace CalamityMod.NPCs
 					Vector2 vector251 = Main.player[npc.target].Center - value53;
 					Point point12 = npc.Center.ToTileCoordinates();
 					Point point13 = Main.player[npc.target].Center.ToTileCoordinates();
-					int num1453 = 32;
+					int num1453 = 34;
 					int num1454 = 4;
-					int num1455 = 28;
+					int num1455 = 30;
 					int num1456 = 1;
 					int num1457 = 0;
 
@@ -3214,6 +3264,8 @@ namespace CalamityMod.NPCs
 						float num162 = 3f;
 						if (handsDead)
 							num162 += 2f;
+						if (CalamityWorld.bossRushActive)
+							num162 *= 1.5f;
 
 						float num163 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector18.X + (float)Main.rand.Next(-20, 21);
 						float num164 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector18.Y + (float)Main.rand.Next(-20, 21);
@@ -3258,6 +3310,11 @@ namespace CalamityMod.NPCs
 				float num170 = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 5.5f : 5f;
 				float num171 = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.1f : 0.08f;
 				float num172 = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 11f : 10f;
+				if (CalamityWorld.bossRushActive)
+				{
+					num169 *= 2f;
+					num171 *= 2f;
+				}
 
 				if (npc.position.Y > Main.player[npc.target].position.Y - 250f)
 				{
@@ -3321,7 +3378,7 @@ namespace CalamityMod.NPCs
 
 				// Increase speed while charging
 				npc.damage = (int)((double)npc.defDamage * 1.3);
-				float num176 = (CalamityWorld.bossRushActive ? 10f : 4.5f) + (1f * (1f - lifeRatio));
+				float num176 = (CalamityWorld.bossRushActive ? 12f : 4.5f) + (1f * (1f - lifeRatio));
 				if (enraged || configBossRushBoost)
 					num176 += 3f;
 
@@ -3424,7 +3481,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y - 0.07f;
+						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.14f : 0.07f);
 						if (npc.velocity.Y > 6f)
 							npc.velocity.Y = 6f;
 					}
@@ -3432,7 +3489,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.Y < 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y + 0.07f;
+						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.14f : 0.07f);
 						if (npc.velocity.Y < -6f)
 							npc.velocity.Y = -6f;
 					}
@@ -3441,7 +3498,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.X > 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X - 0.1f;
+						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 						if (npc.velocity.X > 8f)
 							npc.velocity.X = 8f;
 					}
@@ -3450,7 +3507,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.X < 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X + 0.1f;
+						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 						if (npc.velocity.X < -8f)
 							npc.velocity.X = -8f;
 					}
@@ -3469,7 +3526,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y - 0.04f;
+						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.08f : 0.04f);
 						if (npc.velocity.Y > 3f)
 							npc.velocity.Y = 3f;
 					}
@@ -3477,7 +3534,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.Y < 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y + 0.04f;
+						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.08f : 0.04f);
 						if (npc.velocity.Y < -3f)
 							npc.velocity.Y = -3f;
 					}
@@ -3486,7 +3543,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.X > 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X - 0.07f;
+						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.14f : 0.07f);
 						if (npc.velocity.X > 8f)
 							npc.velocity.X = 8f;
 					}
@@ -3495,7 +3552,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.X < 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X + 0.07f;
+						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.14f : 0.07f);
 						if (npc.velocity.X < -8f)
 							npc.velocity.X = -8f;
 					}
@@ -3504,7 +3561,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y - 0.04f;
+						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.08f : 0.04f);
 						if (npc.velocity.Y > 3f)
 							npc.velocity.Y = 3f;
 					}
@@ -3512,7 +3569,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.Y < 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y + 0.04f;
+						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.08f : 0.04f);
 						if (npc.velocity.Y < -3f)
 							npc.velocity.Y = -3f;
 					}
@@ -3521,7 +3578,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.X > 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X - 0.07f;
+						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.14f : 0.07f);
 						if (npc.velocity.X > 8f)
 							npc.velocity.X = 8f;
 					}
@@ -3530,7 +3587,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.velocity.X < 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X + 0.07f;
+						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.14f : 0.07f);
 						if (npc.velocity.X < -8f)
 							npc.velocity.X = -8f;
 					}
@@ -3567,6 +3624,9 @@ namespace CalamityMod.NPCs
 					num187 = (float)Math.Sqrt((double)(num185 * num185 + num186 * num186));
 
 					num187 = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 25f : 23f) / num187;
+					if (CalamityWorld.bossRushActive)
+						num187 *= 1.5f;
+
 					npc.velocity.X = num185 * num187;
 					npc.velocity.Y = num186 * num187;
 					npc.netUpdate = true;
@@ -3603,6 +3663,9 @@ namespace CalamityMod.NPCs
 					num190 = (float)Math.Sqrt((double)(num188 * num188 + num189 * num189));
 
 					num190 = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 26f : 24f) / num190;
+					if (CalamityWorld.bossRushActive)
+						num190 *= 1.5f;
+
 					npc.velocity.X = num188 * num190;
 					npc.velocity.Y = num189 * num190;
 					npc.netUpdate = true;
@@ -3640,8 +3703,8 @@ namespace CalamityMod.NPCs
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
 			// Phases based on HP
-			bool phase2 = lifeRatio < 0.66f;
-			bool phase3 = lifeRatio < 0.33f;
+			bool phase2 = lifeRatio < 0.66f || CalamityWorld.bossRushActive;
+			bool phase3 = lifeRatio < 0.33f || CalamityWorld.bossRushActive;
 
 			// Start leech spawning based on HP
 			npc.ai[1] += 1f;
@@ -3840,14 +3903,14 @@ namespace CalamityMod.NPCs
 
 			if (enraged || configBossRushBoost)
 				speedMult += 0.7f;
-			else if (CalamityWorld.bossRushActive)
-				speedMult += 0.3f;
-			else if (CalamityWorld.death)
+			else if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				speedMult += 0.18f;
 
 			// NOTE: Max velocity is 8 in expert mode
 			float velocityX = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 2.2f : 2f) + (4f * (1f - lifeRatio));
 			velocityX *= speedMult;
+			if (CalamityWorld.bossRushActive)
+				velocityX *= 2f;
 			// NOTE: Values below are based on Rev Mode only!
 			// Max velocity without enrage is 12
 			// Min velocity is 1.5
@@ -4092,8 +4155,11 @@ namespace CalamityMod.NPCs
 
 					if (flag30)
 					{
-						bool phase2 = lifeRatio < 0.5;
+						bool phase2 = lifeRatio < 0.5 || CalamityWorld.bossRushActive;
 						float velocity = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 10f : 9f) + (4f * (1f - lifeRatio));
+						if (CalamityWorld.bossRushActive)
+							velocity *= 1.5f;
+
 						int damage = (phase2 ? 22 : 17);
 						int projectileType = (phase2 ? ProjectileID.DeathLaser : ProjectileID.EyeLaser);
 
@@ -4267,6 +4333,8 @@ namespace CalamityMod.NPCs
 								projectileSpeed += (CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.33f : 0.25f;
 							if (phase3 || CalamityWorld.bossRushActive)
 								projectileSpeed += (CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.33f : 0.25f;
+							if (CalamityWorld.bossRushActive)
+								projectileSpeed *= 1.5f;
 
 							// Set projectile damage and type, set projectile to saucer scrap if probe has been launched
 							int damage = 23;
@@ -4410,6 +4478,12 @@ namespace CalamityMod.NPCs
 			// Speed and movement
 			float speed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.11f : 0.1f) + ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio));
 			float turnSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.165f : 0.15f) + ((targetFloatingUp ? 0.3f : 0.15f) * (1f - lifeRatio));
+			if (CalamityWorld.bossRushActive)
+			{
+				speed *= 1.5f;
+				turnSpeed *= 1.5f;
+			}
+
 			Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 			float num20 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
 			float num21 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -4612,7 +4686,7 @@ namespace CalamityMod.NPCs
 			if (CalamityGlobalNPC.fireEye != -1)
 				spazAlive = Main.npc[CalamityGlobalNPC.fireEye].active;
 
-			bool enrage = (double)npc.life < (double)npc.lifeMax * 0.25;
+			bool enrage = (double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive;
 
 			// I'm not commenting this entire fucking thing, already did spaz, I'm not doing ret
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -4691,6 +4765,11 @@ namespace CalamityMod.NPCs
 				{
 					float num382 = 8.25f;
 					float num383 = 0.115f;
+					if (CalamityWorld.bossRushActive)
+					{
+						num382 *= 1.5f;
+						num383 *= 1.5f;
+					}
 
 					int num384 = 1;
 					if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
@@ -4755,7 +4834,7 @@ namespace CalamityMod.NPCs
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								float num389 = 10.5f;
+								float num389 = CalamityWorld.bossRushActive ? 15f : 10.5f;
 								int num390 = 23;
 								int num391 = ProjectileID.EyeLaser;
 
@@ -4775,8 +4854,7 @@ namespace CalamityMod.NPCs
 				else if (npc.ai[1] == 1f)
 				{
 					npc.rotation = num378;
-					float num393 = 15f;
-
+					float num393 = CalamityWorld.bossRushActive ? 22.5f : 15f;
 					Vector2 vector41 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num394 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector41.X;
 					float num395 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector41.Y;
@@ -4910,6 +4988,11 @@ namespace CalamityMod.NPCs
 				{
 					float num399 = 9.5f;
 					float num400 = 0.175f;
+					if (CalamityWorld.bossRushActive)
+					{
+						num399 *= 1.5f;
+						num400 *= 1.5f;
+					}
 
 					Vector2 vector42 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num401 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector42.X;
@@ -4976,7 +5059,7 @@ namespace CalamityMod.NPCs
 							if (canHit || !spazAlive || enrage)
 							{
 								npc.localAI[1] = 0f;
-								float num404 = 10f;
+								float num404 = CalamityWorld.bossRushActive ? 15f : 10f;
 								int num405 = 28;
 								int num406 = ProjectileID.DeathLaser;
 
@@ -5009,6 +5092,11 @@ namespace CalamityMod.NPCs
 
 						float num409 = 9.5f;
 						float num410 = 0.25f;
+						if (CalamityWorld.bossRushActive)
+						{
+							num409 *= 1.5f;
+							num410 *= 1.5f;
+						}
 
 						Vector2 vector43 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num411 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) + (float)(num408 * 340) - vector43.X;
@@ -5064,7 +5152,7 @@ namespace CalamityMod.NPCs
 								if (canHit || !spazAlive || enrage)
 								{
 									npc.localAI[1] = 0f;
-									float num414 = 9f;
+									float num414 = CalamityWorld.bossRushActive ? 13.5f : 9f;
 									int num415 = 21;
 									int num416 = ProjectileID.DeathLaser;
 
@@ -5112,6 +5200,9 @@ namespace CalamityMod.NPCs
 						if (targetFloatingUp)
 							num450 += 2f;
 
+						if (CalamityWorld.bossRushActive)
+							num450 *= 1.5f;
+
 						Vector2 vector47 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num451 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector47.X;
 						float num452 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector47.Y;
@@ -5126,11 +5217,9 @@ namespace CalamityMod.NPCs
 					{
 						npc.ai[2] += 1f;
 
-						// Enrage
-						if (targetFloatingUp)
-							npc.ai[2] += 0.25f;
-
 						float chargeTime = (spazAlive ? 110f : 75f);
+						if (CalamityWorld.bossRushActive)
+							chargeTime *= 0.8f;
 
 						// Slow down
 						if (npc.ai[2] >= chargeTime)
@@ -5146,6 +5235,9 @@ namespace CalamityMod.NPCs
 							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
 
 							float fireRate = (spazAlive ? 13f : 9f);
+							if (CalamityWorld.bossRushActive)
+								fireRate = 7f;
+
 							if (npc.ai[2] % fireRate == 0f)
 							{
 								Vector2 vector34 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -5199,6 +5291,12 @@ namespace CalamityMod.NPCs
 						{
 							num63 *= 0.75f;
 							num64 *= 0.75f;
+						}
+
+						if (CalamityWorld.bossRushActive)
+						{
+							num63 *= 1.5f;
+							num64 *= 1.5f;
 						}
 
 						int num408 = 1;
@@ -5274,7 +5372,7 @@ namespace CalamityMod.NPCs
 			if (CalamityGlobalNPC.laserEye != -1)
 				retAlive = Main.npc[CalamityGlobalNPC.laserEye].active;
 
-			bool enrage = (double)npc.life < (double)npc.lifeMax * 0.25;
+			bool enrage = (double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.bossRushActive;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -5362,6 +5460,11 @@ namespace CalamityMod.NPCs
 					// Velocity
 					float num424 = 12f;
 					float num425 = 0.4f;
+					if (CalamityWorld.bossRushActive)
+					{
+						num424 *= 1.5f;
+						num425 *= 1.5f;
+					}
 
 					int num426 = 1;
 					if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
@@ -5426,7 +5529,7 @@ namespace CalamityMod.NPCs
 							num428 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector44.Y;
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								float num430 = 15f;
+								float num430 = CalamityWorld.bossRushActive ? 20f : 15f;
 								int num431 = 27;
 								int num432 = ProjectileID.CursedFlameHostile;
 
@@ -5450,7 +5553,7 @@ namespace CalamityMod.NPCs
 				{
 					// Rotation and velocity
 					npc.rotation = num420;
-					float num434 = 16f;
+					float num434 = CalamityWorld.bossRushActive ? 24f : 16f;
 					Vector2 vector45 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num435 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector45.X;
 					float num436 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector45.Y;
@@ -5597,6 +5700,11 @@ namespace CalamityMod.NPCs
 				{
 					float num440 = 6.2f;
 					float num441 = 0.1f;
+					if (CalamityWorld.bossRushActive)
+					{
+						num440 *= 1.5f;
+						num441 *= 1.5f;
+					}
 
 					int num442 = 1;
 					if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
@@ -5680,7 +5788,7 @@ namespace CalamityMod.NPCs
 							{
 								npc.localAI[1] = 0f;
 
-								float num446 = 6f;
+								float num446 = CalamityWorld.bossRushActive ? 9f : 6f;
 
 								int num447 = 33;
 								int num448 = mod.ProjectileType("Shadowflamethrower");
@@ -5728,6 +5836,9 @@ namespace CalamityMod.NPCs
 						if (targetFloatingUp)
 							num450 += 2f;
 
+						if (CalamityWorld.bossRushActive)
+							num450 *= 1.5f;
+
 						Vector2 vector47 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num451 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector47.X;
 						float num452 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector47.Y;
@@ -5746,6 +5857,9 @@ namespace CalamityMod.NPCs
 						// Enrage
 						if (targetFloatingUp)
 							npc.ai[2] += 0.25f;
+
+						if (CalamityWorld.bossRushActive)
+							npc.ai[2] += 0.4f;
 
 						float chargeTime = 50f;
 
@@ -5807,6 +5921,8 @@ namespace CalamityMod.NPCs
 
 							// Velocity
 							float num48 = ((enraged || configBossRushBoost) ? 30f : 20f);
+							if (CalamityWorld.bossRushActive)
+								num48 *= 1.5f;
 							if (npc.ai[2] == -1f || (!retAlive && npc.ai[3] == secondFastCharge))
 								num48 *= 1.3f;
 
@@ -5855,6 +5971,8 @@ namespace CalamityMod.NPCs
 							Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
 
 						float num60 = ((!retAlive && npc.ai[3] == 4f) ? 75f : 50f);
+						if (CalamityWorld.bossRushActive)
+							num60 *= 0.8f;
 
 						npc.ai[2] += 1f;
 
@@ -5899,6 +6017,12 @@ namespace CalamityMod.NPCs
 						{
 							num63 *= 0.75f;
 							num64 *= 0.75f;
+						}
+
+						if (CalamityWorld.bossRushActive)
+						{
+							num63 *= 1.5f;
+							num64 *= 1.5f;
 						}
 
 						Vector2 vector11 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -6074,7 +6198,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Activate daytime enrage
-			if (Main.dayTime && npc.ai[1] != 3f && npc.ai[1] != 2f)
+			if (Main.dayTime && !CalamityWorld.bossRushActive && npc.ai[1] != 3f && npc.ai[1] != 2f)
 			{
 				// Heal
 				if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -6137,7 +6261,7 @@ namespace CalamityMod.NPCs
 							double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 							double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 							double offsetAngle;
-							float velocity = 5f;
+							float velocity = CalamityWorld.bossRushActive ? 7.5f : 5f;
 							int damage = 31;
 							int i;
 							for (i = 0; i < 6; i++)
@@ -6161,7 +6285,7 @@ namespace CalamityMod.NPCs
 						if (npc.localAI[2] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 215f : 240f))
 						{
 							npc.localAI[2] = 0f;
-							float num502 = 8f;
+							float num502 = CalamityWorld.bossRushActive ? 12f : 8f;
 							int num503 = 33;
 							int num504 = ProjectileID.RocketSkeleton;
 							Vector2 value19 = Main.player[npc.target].Center - npc.Center;
@@ -6180,8 +6304,8 @@ namespace CalamityMod.NPCs
 
 				npc.rotation = npc.velocity.X / 15f;
 
-				float velocity2 = 2f;
-				float acceleration = 0.1f;
+				float velocity2 = CalamityWorld.bossRushActive ? 4f : 2f;
+				float acceleration = CalamityWorld.bossRushActive ? 0.2f : 0.1f;
 				if (!cannonAlive)
 				{
 					velocity2 += 1f;
@@ -6266,7 +6390,7 @@ namespace CalamityMod.NPCs
 							double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 							double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 							double offsetAngle;
-							float velocity = 5f;
+							float velocity = CalamityWorld.bossRushActive ? 7.5f : 5f;
 							int damage = 31;
 							int i;
 							for (i = 0; i < 6; i++)
@@ -6302,9 +6426,9 @@ namespace CalamityMod.NPCs
 					float num457 = (float)Math.Sqrt((double)(num455 * num455 + num456 * num456));
 
 					float speed = CalamityWorld.bossRushActive ? 7f : 3f;
-					if (phase2)
+					if (phase2 || CalamityWorld.bossRushActive)
 						speed += 1f;
-					if (phase3)
+					if (phase3 || CalamityWorld.bossRushActive)
 						speed += 1f;
 					if (enraged || configBossRushBoost)
 						speed += 3f;
@@ -6441,7 +6565,7 @@ namespace CalamityMod.NPCs
 									else
 									{
 										Vector2 vector16 = npc.Center;
-										float num159 = 4f;
+										float num159 = CalamityWorld.bossRushActive ? 6f : 4f;
 										float num160 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector16.X + (float)Main.rand.Next(-20, 21);
 										float num161 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector16.Y + (float)Main.rand.Next(-20, 21);
 										float num162 = (float)Math.Sqrt((double)(num160 * num160 + num161 * num161));
@@ -6489,8 +6613,8 @@ namespace CalamityMod.NPCs
 
 					npc.rotation = npc.velocity.X / 15f;
 
-					float flightVelocity = 10f;
-					float fligthAcceleration = 0.12f;
+					float flightVelocity = CalamityWorld.bossRushActive ? 15f : 10f;
+					float fligthAcceleration = CalamityWorld.bossRushActive ? 0.18f : 0.12f;
 
 					// Spit homing missiles and then go to floating phase
 					Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
@@ -6543,9 +6667,9 @@ namespace CalamityMod.NPCs
 						{
 							Vector2 velocity = new Vector2(-1f * (float)Main.rand.NextDouble() * 3f, 1f);
 							velocity = velocity.RotatedBy((Main.rand.NextDouble() - 0.5) * 0.78539818525314331, default);
-							velocity *= 5f;
+							velocity *= (CalamityWorld.bossRushActive ? 7.5f : 5f);
 							int damage = 33;
-							float delayBeforeHoming = 45f;
+							float delayBeforeHoming = CalamityWorld.bossRushActive ? 30f : 45f;
 							Projectile.NewProjectile(npc.Center.X + Main.rand.Next(npc.width / 2), npc.Center.Y + 4f, velocity.X, velocity.Y, ProjectileID.SaucerMissile, damage, 0f, Main.myPlayer, 0f, delayBeforeHoming);
 						}
 
@@ -6639,7 +6763,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 					if (npc.velocity.Y > 3f)
 						npc.velocity.Y = 3f;
@@ -6649,7 +6773,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 					if (npc.velocity.Y < -3f)
 						npc.velocity.Y = -3f;
@@ -6660,7 +6784,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X - 0.14f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.28f : 0.14f);
 
 					if (npc.velocity.X > 8f)
 						npc.velocity.X = 8f;
@@ -6670,7 +6794,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X + 0.14f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.28f : 0.14f);
 
 					if (npc.velocity.X < -8f)
 						npc.velocity.X = -8f;
@@ -6697,7 +6821,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] >= 90f)
 					{
 						npc.localAI[0] = 0f;
-						float num509 = 11f;
+						float num509 = CalamityWorld.bossRushActive ? 16f : 11f;
 						int num510 = 31;
 						int num511 = ProjectileID.DeathLaser;
 						num508 = num509 / num508;
@@ -6737,7 +6861,7 @@ namespace CalamityMod.NPCs
 				float num513 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - 350f - vector63.X;
 				float num514 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 120f - vector63.Y; // Used to be 20f
 				float num515 = (float)Math.Sqrt((double)(num513 * num513 + num514 * num514));
-				num515 = 7f / num515;
+				num515 = (CalamityWorld.bossRushActive ? 10f : 7f) / num515;
 				num513 *= num515;
 				num514 *= num515;
 
@@ -6745,25 +6869,25 @@ namespace CalamityMod.NPCs
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X - 0.1f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 				}
 				if (npc.velocity.X < num513)
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X + 0.1f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 				}
 				if (npc.velocity.Y > num514)
 				{
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y - 0.06f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.12f : 0.06f);
 				}
 				if (npc.velocity.Y < num514)
 				{
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y + 0.06f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.12f : 0.06f);
 				}
 
 				npc.TargetClosest(true);
@@ -6793,7 +6917,7 @@ namespace CalamityMod.NPCs
 						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 						double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 						double offsetAngle;
-						float velocity = 5f;
+						float velocity = CalamityWorld.bossRushActive ? 7.5f : 5f;
 						int damage = 31;
 						int i;
 						for (i = 0; i < 6; i++)
@@ -6915,7 +7039,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - 0.08f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.16f : 0.08f);
 
 					if (npc.velocity.Y > 3f)
 						npc.velocity.Y = 3f;
@@ -6925,7 +7049,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + 0.08f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.16f : 0.08f);
 
 					if (npc.velocity.Y < -3f)
 						npc.velocity.Y = -3f;
@@ -6936,7 +7060,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X - 0.2f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.4f : 0.2f);
 
 					if (npc.velocity.X > 8f)
 						npc.velocity.X = 8f;
@@ -6946,7 +7070,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X + 0.2f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.4f : 0.2f);
 
 					if (npc.velocity.X < -8f)
 						npc.velocity.X = -8f;
@@ -6972,7 +7096,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] >= 120f)
 					{
 						npc.localAI[0] = 0f;
-						float num495 = 8f;
+						float num495 = CalamityWorld.bossRushActive ? 12f : 8f;
 						int num496 = 33;
 						int num497 = ProjectileID.RocketSkeleton;
 						num494 = num495 / num494;
@@ -6992,7 +7116,7 @@ namespace CalamityMod.NPCs
 				float num500 = Main.npc[(int)npc.ai[1]].position.Y - vector61.Y;
 				num500 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - 80f - vector61.Y;
 				float num501 = (float)Math.Sqrt((double)(num499 * num499 + num500 * num500));
-				num501 = 7f / num501;
+				num501 = (CalamityWorld.bossRushActive ? 10f : 7f) / num501;
 				num499 *= num501;
 				num500 *= num501;
 
@@ -7000,25 +7124,25 @@ namespace CalamityMod.NPCs
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X - 0.08f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.16f : 0.08f);
 				}
 				if (npc.velocity.X < num499)
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X + 0.08f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.16f : 0.08f);
 				}
 				if (npc.velocity.Y > num500)
 				{
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y - 0.08f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.16f : 0.08f);
 				}
 				if (npc.velocity.Y < num500)
 				{
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y + 0.08f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.16f : 0.08f);
 				}
 
 				npc.TargetClosest(true);
@@ -7042,7 +7166,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] >= 180f)
 					{
 						npc.localAI[0] = 0f;
-						float num502 = 8f;
+						float num502 = CalamityWorld.bossRushActive ? 12f : 8f;
 						int num503 = 33;
 						int num504 = ProjectileID.RocketSkeleton;
 						Vector2 value19 = Main.player[npc.target].Center - npc.Center;
@@ -7127,7 +7251,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 					if (npc.velocity.Y > 8f)
 						npc.velocity.Y = 8f;
@@ -7137,7 +7261,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 					if (npc.velocity.Y < -8f)
 						npc.velocity.Y = -8f;
@@ -7148,7 +7272,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X - 0.5f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 1f : 0.5f);
 
 					if (npc.velocity.X > 12f)
 						npc.velocity.X = 12f;
@@ -7158,7 +7282,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X + 0.5f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 1f : 0.5f);
 
 					if (npc.velocity.X < -12f)
 						npc.velocity.X = -12f;
@@ -7196,7 +7320,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y - 0.1f;
+						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 						if (npc.velocity.Y > 3f)
 							npc.velocity.Y = 3f;
@@ -7206,7 +7330,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.Y < 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y + 0.1f;
+						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 						if (npc.velocity.Y < -3f)
 							npc.velocity.Y = -3f;
@@ -7217,7 +7341,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.X > 0f)
 							npc.velocity.X = npc.velocity.X * 0.94f;
 
-						npc.velocity.X = npc.velocity.X - 0.3f;
+						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.6f : 0.3f);
 
 						if (npc.velocity.X > 9f)
 							npc.velocity.X = 9f;
@@ -7227,7 +7351,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.X < 0f)
 							npc.velocity.X = npc.velocity.X * 0.94f;
 
-						npc.velocity.X = npc.velocity.X + 0.2f;
+						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.4f : 0.2f);
 
 						if (npc.velocity.X < -8f)
 							npc.velocity.X = -8f;
@@ -7262,7 +7386,7 @@ namespace CalamityMod.NPCs
 
 					if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 280f)
 					{
-						float chargeVelocity = 16f;
+						float chargeVelocity = CalamityWorld.bossRushActive ? 24f : 16f;
 						if (!cannonAlive)
 							chargeVelocity += 1.5f;
 						if (!laserAlive)
@@ -7326,7 +7450,7 @@ namespace CalamityMod.NPCs
 
 					if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 500f || npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) + 500f)
 					{
-						float chargeVelocity = 14f;
+						float chargeVelocity = CalamityWorld.bossRushActive ? 21f : 14f;
 						if (!cannonAlive)
 							chargeVelocity += 1.15f;
 						if (!laserAlive)
@@ -7434,7 +7558,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 					if (npc.velocity.Y > 8f)
 						npc.velocity.Y = 8f;
@@ -7444,7 +7568,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 
 					if (npc.velocity.Y < -8f)
 						npc.velocity.Y = -8f;
@@ -7455,7 +7579,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X - 0.5f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 1f : 0.5f);
 
 					if (npc.velocity.X > 12f)
 						npc.velocity.X = 12f;
@@ -7465,7 +7589,7 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.96f;
 
-					npc.velocity.X = npc.velocity.X + 0.5f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 1f : 0.5f);
 
 					if (npc.velocity.X < -12f)
 						npc.velocity.X = -12f;
@@ -7499,7 +7623,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y - 0.04f;
+						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.08f : 0.04f);
 
 						if (npc.velocity.Y > 3f)
 							npc.velocity.Y = 3f;
@@ -7509,7 +7633,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.Y < 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y + 0.04f;
+						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.08f : 0.04f);
 
 						if (npc.velocity.Y < -3f)
 							npc.velocity.Y = -3f;
@@ -7520,7 +7644,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.X > 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
 
-						npc.velocity.X = npc.velocity.X - 0.3f;
+						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.6f : 0.3f);
 
 						if (npc.velocity.X > 12f)
 							npc.velocity.X = 12f;
@@ -7530,7 +7654,7 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.X < 0f)
 							npc.velocity.X = npc.velocity.X * 0.96f;
 
-						npc.velocity.X = npc.velocity.X + 0.3f;
+						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.6f : 0.3f);
 
 						if (npc.velocity.X < -12f)
 							npc.velocity.X = -12f;
@@ -7559,7 +7683,7 @@ namespace CalamityMod.NPCs
 
 					if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 200f)
 					{
-						float chargeVelocity = 22f;
+						float chargeVelocity = CalamityWorld.bossRushActive ? 33f : 22f;
 						if (!cannonAlive)
 							chargeVelocity += 1.5f;
 						if (!laserAlive)
@@ -7590,7 +7714,7 @@ namespace CalamityMod.NPCs
 				{
 					if (npc.ai[2] == 4f)
 					{
-						float chargeVelocity = 11f;
+						float chargeVelocity = CalamityWorld.bossRushActive ? 16f : 11f;
 						if (!cannonAlive)
 							chargeVelocity += 1.5f;
 						if (!laserAlive)
@@ -7611,25 +7735,25 @@ namespace CalamityMod.NPCs
 						{
 							if (npc.velocity.X > 0f)
 								npc.velocity.X = npc.velocity.X * 0.97f;
-							npc.velocity.X = npc.velocity.X - 0.05f;
+							npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.1f : 0.05f);
 						}
 						if (npc.velocity.X < num474)
 						{
 							if (npc.velocity.X < 0f)
 								npc.velocity.X = npc.velocity.X * 0.97f;
-							npc.velocity.X = npc.velocity.X + 0.05f;
+							npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.1f : 0.05f);
 						}
 						if (npc.velocity.Y > num475)
 						{
 							if (npc.velocity.Y > 0f)
 								npc.velocity.Y = npc.velocity.Y * 0.97f;
-							npc.velocity.Y = npc.velocity.Y - 0.05f;
+							npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.1f : 0.05f);
 						}
 						if (npc.velocity.Y < num475)
 						{
 							if (npc.velocity.Y < 0f)
 								npc.velocity.Y = npc.velocity.Y * 0.97f;
-							npc.velocity.Y = npc.velocity.Y + 0.05f;
+							npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.1f : 0.05f);
 						}
 
 						npc.ai[3] += 1f;
@@ -7681,7 +7805,7 @@ namespace CalamityMod.NPCs
 			npc.TargetClosest(true);
 
 			// Check for Jungle and remaining Tentacles
-			bool surface = (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
+			bool surface = !CalamityWorld.bossRushActive && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
 			int tentacleCount = NPC.CountNPCS(NPCID.PlanterasTentacle);
 			bool tentaclesDead = tentacleCount == 0;
 			bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > (phase3 ? 480f : 640f); // 30 or 40 tile distance
@@ -7784,7 +7908,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Enrage if target is on the surface
-			if (surface || Main.player[npc.target].position.Y > (float)((Main.maxTilesY - 200) * 16))
+			if (!CalamityWorld.bossRushActive && (surface || Main.player[npc.target].position.Y > (float)((Main.maxTilesY - 200) * 16)))
 			{
 				enrage = true;
 				velocity += 8f;
@@ -7795,6 +7919,12 @@ namespace CalamityMod.NPCs
 			{
 				velocity += 1f;
 				acceleration += 0.01f;
+			}
+
+			if (CalamityWorld.bossRushActive)
+			{
+				velocity *= 1.5f;
+				acceleration *= 1.5f;
 			}
 
 			// Detect active tiles around Plantera
@@ -7949,7 +8079,7 @@ namespace CalamityMod.NPCs
 						if (canHit)
 						{
 							Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
-							float num742 = 18f;
+							float num742 = CalamityWorld.bossRushActive ? 27f : 18f;
 							float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
 							float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
 							float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
@@ -8042,7 +8172,7 @@ namespace CalamityMod.NPCs
 
 				if (npc.localAI[1] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 300f : 360f))
 				{
-					float num757 = 8f;
+					float num757 = CalamityWorld.bossRushActive ? 12f : 8f;
 					Vector2 vector94 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num758 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector94.X + (float)Main.rand.Next(-10, 11);
 					float num759 = Math.Abs(num758 * 0.2f);
@@ -8081,6 +8211,8 @@ namespace CalamityMod.NPCs
 						float num742 = 8f - ((float)tentacleScale * 0.25f); // 7.75f to 6f, slower projectiles are harder to avoid
 						if (nearbyActiveTiles < 300)
 							num742 = 8.5f;
+						if (CalamityWorld.bossRushActive)
+							num742 *= 1.5f;
 
 						float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
 						float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
@@ -8118,7 +8250,7 @@ namespace CalamityMod.NPCs
 						Main.PlaySound(SoundID.Item20, npc.position);
 
 						Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
-						float num742 = 7f;
+						float num742 = CalamityWorld.bossRushActive ? 10f : 7f;
 						float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
 						float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
 						float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
@@ -8154,7 +8286,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Heal if on surface and it's daytime, else, gain defense
-			if (surface && !CalamityWorld.bossRushActive)
+			if (surface)
 			{
 				if (Main.dayTime)
 				{
@@ -8225,11 +8357,11 @@ namespace CalamityMod.NPCs
 			float lifeRatio = (float)Main.npc[NPC.plantBoss].life / (float)Main.npc[NPC.plantBoss].lifeMax;
 
 			// Despawn if Plantera's target is dead
-			if (Main.player[Main.npc[NPC.plantBoss].target].dead)
+			if (Main.player[Main.npc[NPC.plantBoss].target].dead && !CalamityWorld.bossRushActive)
 				despawn = true;
 
 			// Enrage if Plantera's target is on the surface
-			if (((double)Main.player[Main.npc[NPC.plantBoss].target].position.Y < Main.worldSurface * 16.0 || Main.player[Main.npc[NPC.plantBoss].target].position.Y > (float)((Main.maxTilesY - 200) * 16)) | despawn)
+			if (!CalamityWorld.bossRushActive && (((double)Main.player[Main.npc[NPC.plantBoss].target].position.Y < Main.worldSurface * 16.0 || Main.player[Main.npc[NPC.plantBoss].target].position.Y > (float)((Main.maxTilesY - 200) * 16)) | despawn))
 			{
 				npc.localAI[0] -= 4f;
 				enrage = true;
@@ -8252,7 +8384,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] = 0f;
 
 				// Timer dictating whether to pick a new location or not
-				npc.localAI[0] -= 1f + (2f * (1f - lifeRatio));
+				npc.localAI[0] -= (CalamityWorld.bossRushActive ? 4f : 1f) + (2f * (1f - lifeRatio));
 				if (enrage)
 					npc.localAI[0] -= 6f;
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
@@ -8322,7 +8454,7 @@ namespace CalamityMod.NPCs
 			if (npc.ai[0] > 0f && npc.ai[1] > 0f)
 			{
 				// Hook movement velocity
-				float velocity = 7f + (3f * (1f - lifeRatio));
+				float velocity = (CalamityWorld.bossRushActive ? 10f : 7f) + (3f * (1f - lifeRatio));
 				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 					velocity += 1f;
 				if (enrage)
@@ -8388,9 +8520,9 @@ namespace CalamityMod.NPCs
 			npc.TargetClosest(true);
 
 			// Velocity and acceleration
-			float num779 = 0.5f;
+			float num779 = CalamityWorld.bossRushActive ? 1f : 0.5f;
 			float num781 = 1f - (float)npc.life / (float)npc.lifeMax;
-			float num780 = 200f + (num781 * 50f);
+			float num780 = (CalamityWorld.bossRushActive ? 300f : 200f) + (num781 * 50f);
 			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				num780 += 25f;
 
@@ -8503,6 +8635,8 @@ namespace CalamityMod.NPCs
 				if (tile.wall == WallID.LihzahrdBrickUnsafe)
 					enrage = false;
 			}
+			if (CalamityWorld.bossRushActive)
+				enrage = true;
 
 			// Alpha
 			if (npc.alpha > 0)
@@ -8624,7 +8758,7 @@ namespace CalamityMod.NPCs
 					if (npc.ai[1] > 0f)
 					{
 						npc.ai[1] += 1f;
-						if (enrage || CalamityWorld.death || CalamityWorld.bossRushActive)
+						if (enrage || CalamityWorld.death)
 							npc.ai[1] += 18f;
 						else
 						{
@@ -8779,7 +8913,7 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest(true);
 
 			// Despawn
-			int num649 = 3000;
+			int num649 = CalamityWorld.bossRushActive ? 4500 : 3000;
 			if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) + Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)num649)
 			{
 				npc.TargetClosest(true);
@@ -8847,6 +8981,8 @@ namespace CalamityMod.NPCs
 				if (tile.wall == WallID.LihzahrdBrickUnsafe)
 					enrage = false;
 			}
+			if (CalamityWorld.bossRushActive)
+				enrage = true;
 
 			// Alpha
 			if (npc.alpha > 0)
@@ -9072,6 +9208,8 @@ namespace CalamityMod.NPCs
 				if (tile.wall == WallID.LihzahrdBrickUnsafe)
 					enrage = false;
 			}
+			if (CalamityWorld.bossRushActive)
+				enrage = true;
 
 			// Move to new location
 			if (npc.ai[3] <= 0f)
@@ -9359,8 +9497,17 @@ namespace CalamityMod.NPCs
 				chargeVelocity = 21f;
 			}
 
+			if (CalamityWorld.bossRushActive)
+			{
+				num2 = 20;
+				num3 *= 1.2f;
+				scaleFactor *= 1.35f;
+				chargeTime -= 3;
+				chargeVelocity *= 1.5f;
+			}
+
 			// Variables
-			int num6 = 80;
+			int num6 = CalamityWorld.bossRushActive ? 40 : 80;
 			int num7 = 4;
 			float num8 = 0.3f;
 			float scaleFactor2 = 5f;
@@ -9368,7 +9515,7 @@ namespace CalamityMod.NPCs
 			int num10 = 180;
 			int num11 = 180;
 			int num12 = 30;
-			int num13 = 120;
+			int num13 = CalamityWorld.bossRushActive ? 60 : 120;
 			int num14 = 4;
 			float scaleFactor3 = 6f;
 			float scaleFactor4 = 20f;
@@ -10381,11 +10528,11 @@ namespace CalamityMod.NPCs
 				(phase4 ? 5 : 0) -
 				(phase5 ? 5 : 0);
 
-			float iceMistSpeed = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 6.5f : 6f;
+			float iceMistSpeed = CalamityWorld.death ? 6.5f : 6f;
 
 			int fireballFireRate = 12;
 
-			float fireballSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 7f : 6.5f) - (isCultist ? 0f : 3f);
+			float fireballSpeed = (CalamityWorld.death ? 7f : 6.5f) - (isCultist ? 0f : 3f);
 
 			int lightningOrbFireRate = 40 -
 				(phase2 ? 5 : 0) -
@@ -10408,6 +10555,16 @@ namespace CalamityMod.NPCs
 				(phase3 ? 60f : 0f) -
 				(phase4 ? 30f : 0f) -
 				(phase5 ? 15f : 0f);
+
+			if (CalamityWorld.bossRushActive)
+			{
+				iceMistFireRate = 30;
+				iceMistSpeed = 9f;
+				fireballSpeed *= 1.5f;
+				lightningOrbFireRate = 20;
+				ancientLightSpawnRate = 10;
+				idleTime = 20;
+			}
 
 			// Center and target
 			Vector2 center = npc.Center;
@@ -11263,6 +11420,9 @@ namespace CalamityMod.NPCs
 						}
 						Vector2 vector18 = npc.Center + new Vector2((float)(npc.direction * 30), 12f);
 						float scaleFactor = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 11f : 10f;
+						if (CalamityWorld.bossRushActive)
+							scaleFactor *= 1.5f;
+
 						float num48 = 0.251327425f;
 						int num49 = 0;
 						while ((float)num49 < 5f)
@@ -11386,6 +11546,9 @@ namespace CalamityMod.NPCs
 			float value57 = 0f;
 			float value58 = 1f;
 			float num1499 = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 5.5f : 5f;
+			if (CalamityWorld.bossRushActive)
+				num1499 *= 1.5f;
+
 			bool flag110 = npc.ai[1] < 0f || !Main.npc[(int)npc.ai[0]].active;
 			if (Main.npc[(int)npc.ai[0]].type == NPCID.CultistBoss)
 			{

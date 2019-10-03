@@ -380,17 +380,6 @@ namespace CalamityMod.NPCs
 			{
 				CalamityWorld.bossRushStage = 26;
 				DespawnProj();
-
-				string key = "Mods.CalamityMod.BossRushTierThreeEndText";
-				Color messageColor = Color.LightCoral;
-				if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
             }
 			else if (npc.type == mod.NPCType("ScavengerBody"))
 			{
@@ -416,17 +405,6 @@ namespace CalamityMod.NPCs
 			{
 				CalamityWorld.bossRushStage = 33;
 				DespawnProj();
-
-				string key = "Mods.CalamityMod.BossRushTierFourEndText";
-				Color messageColor = Color.LightCoral;
-				if (Main.netMode == NetmodeID.SinglePlayer)
-                {
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                }
-                else if (Main.netMode == NetmodeID.Server)
-                {
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                }
             }
 			else if (npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("Leviathan"))
 			{
@@ -462,6 +440,17 @@ namespace CalamityMod.NPCs
 			{
 				CalamityWorld.bossRushStage = 36;
 				DespawnProj();
+
+				string key = "Mods.CalamityMod.BossRushTierFourEndText";
+				Color messageColor = Color.LightCoral;
+				if (Main.netMode == NetmodeID.SinglePlayer)
+				{
+					Main.NewText(Language.GetTextValue(key), messageColor);
+				}
+				else if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				}
 			}
 			else if (npc.type == mod.NPCType("SupremeCalamitas"))
 			{
@@ -597,6 +586,18 @@ namespace CalamityMod.NPCs
 				case NPCID.DukeFishron:
 					CalamityWorld.bossRushStage = 28;
 					DespawnProj();
+
+					string key3 = "Mods.CalamityMod.BossRushTierThreeEndText";
+					Color messageColor3 = Color.LightCoral;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+					{
+						Main.NewText(Language.GetTextValue(key3), messageColor3);
+					}
+					else if (Main.netMode == NetmodeID.Server)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
+					}
+
 					break;
 
 				case NPCID.MoonLordCore:

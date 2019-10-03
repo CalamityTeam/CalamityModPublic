@@ -28,7 +28,6 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.knockBackResist = 0f;
 			npc.aiStyle = 6;
             aiType = -1;
-            animationType = 10;
 			npc.behindTiles = true;
 			npc.noGravity = true;
 			npc.noTileCollide = true;

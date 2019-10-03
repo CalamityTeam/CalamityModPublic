@@ -1430,6 +1430,11 @@ N - 250 (normal), 312 (low HP)
 E - 440 (normal), 548 (low HP)
 R - 550 (normal), 685 (low HP)
 D - 632 (normal), 787 (low HP)
+Detonating Flame Fireball
+N - 180
+E - 300
+R - 300
+D - 345
 
 SUPREME CALAMITAS
 

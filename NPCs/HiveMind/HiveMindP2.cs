@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.HiveMind
 				driftSpeed = 3f;
 				driftBoost = 2f;
 			}
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+			if (CalamityWorld.death)
 			{
 				lungeRots = 0.4;
 				minimumDriftTime = 60;
@@ -111,6 +111,14 @@ namespace CalamityMod.NPCs.HiveMind
 				lungeTime = 20;
 				driftSpeed = 4f;
 				driftBoost = 1f;
+			}
+			if (CalamityWorld.bossRushActive)
+			{
+				lungeRots = 0.4;
+				minimumDriftTime = 20;
+				reelbackFade = 15;
+				lungeTime = 10;
+				driftSpeed = 12f;
 			}
 			phase2timer = minimumDriftTime;
 			rotationIncrement = 0.0246399424 * lungeRots * lungeFade;
@@ -247,7 +255,7 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.alpha = 0;
 			phase2timer = 0;
 			deceleration = npc.velocity / 255f * reelbackFade;
-			if (CalamityWorld.death)
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
 				state = 2;
 				Main.PlaySound(36, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);

@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			bool revenge = CalamityWorld.revenge;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			projectile.frameCounter++;
 			if (projectile.frameCounter > 4)
 			{

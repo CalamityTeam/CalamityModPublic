@@ -47,7 +47,6 @@ namespace CalamityMod.NPCs.Bumblefuck
         public override void AI()
         {
             Player player = Main.player[npc.target];
-            bool revenge = CalamityWorld.revenge;
             Vector2 vector = npc.Center;
             npc.damage = npc.defDamage;
             if (Vector2.Distance(player.Center, vector) > 5600f)
@@ -162,7 +161,6 @@ namespace CalamityMod.NPCs.Bumblefuck
                 {
                     npc.ai[1] = 0f;
                     npc.ai[0] = 2f;
-                    return;
                 }
             }
             else
@@ -245,7 +243,6 @@ namespace CalamityMod.NPCs.Bumblefuck
                         }
                         npc.ai[0] = 2.1f;
                         npc.ai[1] = 0f;
-                        return;
                     }
                 }
                 else if (npc.ai[0] == 2.1f)
@@ -278,7 +275,6 @@ namespace CalamityMod.NPCs.Bumblefuck
                             npc.ai[0] = 1f;
                             npc.ai[1] = 0f;
                             npc.ai[2] = 0f;
-                            return;
                         }
                     }
                 }

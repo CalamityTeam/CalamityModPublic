@@ -118,10 +118,6 @@ namespace CalamityMod.NPCs.Polterghast
 			if (npc.timeLeft < 1500)
 				npc.timeLeft = 1500;
 
-			// Despawn
-			if (Vector2.Distance(Main.player[npc.target].Center, vector) > (despawnBoost ? 1500f : 6000f))
-				npc.active = false;
-
 			// Spawn hooks
 			if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 			{
@@ -168,6 +164,10 @@ namespace CalamityMod.NPCs.Polterghast
 			}
 			else
 				despawnTimer++;
+
+			// Despawn
+			if (Vector2.Distance(Main.player[npc.target].Center, vector) > (despawnBoost ? 1500f : 6000f))
+				npc.active = false;
 
 			if (phase2)
 			{

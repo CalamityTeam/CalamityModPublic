@@ -94,26 +94,30 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 		public override void AI()
 		{
 			CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
+
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 2f, 0f, 0f);
+
+			npc.TargetClosest(true);
+
 			Player player = Main.player[npc.target];
 			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
-			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+
+			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool calamity = modPlayer.ZoneCalamity;
-			npc.TargetClosest(true);
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+
 			Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
 			Vector2 vectorCenter = npc.Center;
 			float xDistance = player.Center.X - center.X;
 			float yDistance = player.Center.Y - center.Y;
 			float totalDistance = (float)Math.Sqrt((double)(xDistance * xDistance + yDistance * yDistance));
+
 			int dustAmt = (npc.ai[0] == 2f) ? 2 : 1;
 			int size = (npc.ai[0] == 2f) ? 50 : 35;
-			float speed = expertMode ? 5f : 4.5f;
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
-			{
-				speed = 5.5f;
-			}
 			for (int num1011 = 0; num1011 < 2; num1011++)
 			{
 				if (Main.rand.Next(3) < dustAmt)
@@ -124,29 +128,26 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					Main.dust[dust].fadeIn = 1f;
 				}
 			}
+
 			if (Vector2.Distance(player.Center, vectorCenter) > 5600f)
 			{
 				if (npc.timeLeft > 10)
-				{
 					npc.timeLeft = 10;
-				}
 			}
 			else if (npc.timeLeft > 1800)
-			{
 				npc.timeLeft = 1800;
-			}
-			if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-			{
-				speed = 11f;
-			}
+
+			float speed = expertMode ? 5f : 4.5f;
+			if (CalamityWorld.bossRushActive)
+				speed = 12f;
 			else if (!calamity)
-			{
 				speed = 7f;
-			}
-			else if ((double)npc.life <= (double)npc.lifeMax * 0.65)
-			{
-				speed = expertMode ? 6f : 5f;
-			}
+			else if (CalamityWorld.death)
+				speed = 6f;
+			else if (revenge)
+				speed = 5.5f;
+			speed += 2f * (1f - lifeRatio);
+
 			if (npc.ai[0] <= 2f)
 			{
 				npc.rotation = npc.velocity.X * 0.04f;
@@ -157,6 +158,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.velocity.X = (npc.velocity.X * 50f + xDistance) / 51f;
 				npc.velocity.Y = (npc.velocity.Y * 50f + yDistance) / 51f;
 			}
+
 			if (npc.ai[0] == 0f)
 			{
 				npc.defense = provy ? 120 : 20;
@@ -164,11 +166,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
-					if (npc.justHit)
-					{
-						npc.localAI[1] += 1f;
-					}
-					if (npc.localAI[1] >= 240f)
+					if (npc.localAI[1] >= (CalamityWorld.bossRushActive ? 90f : 180f))
 					{
 						npc.localAI[1] = 0f;
 						npc.TargetClosest(true);
@@ -181,8 +179,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							playerPosX = (int)player.Center.X / 16;
 							playerPosY = (int)player.Center.Y / 16;
 
-							int min = 16;
-							int max = 19;
+							int min = 19;
+							int max = 22;
 
 							if (Main.rand.NextBool(2))
 								playerPosX += Main.rand.Next(min, max);
@@ -255,127 +253,120 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.chaseable = true;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-				Vector2 shootFromVectorX = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
+				Vector2 shootFromVector = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
 				npc.ai[1] += 1f;
+
 				bool shootProjectile = false;
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				if (lifeRatio < 0.1f || CalamityWorld.bossRushActive)
 				{
-					if (npc.ai[1] % 10f == 9f)
-					{
+					if (npc.ai[1] % 30f == 29f)
 						shootProjectile = true;
-					}
 				}
-				else if (CalamityWorld.bossRushActive)
+				else if (lifeRatio < 0.5f || CalamityWorld.death)
 				{
-					if (npc.ai[1] % 15f == 14f)
-					{
+					if (npc.ai[1] % 35f == 34f)
 						shootProjectile = true;
-					}
 				}
-				else if ((double)npc.life < (double)npc.lifeMax * 0.1)
-				{
-					if (npc.ai[1] % 20f == 19f)
-					{
-						shootProjectile = true;
-					}
-				}
-				else if ((double)npc.life < (double)npc.lifeMax * 0.5)
-				{
-					if (npc.ai[1] % 25f == 24f)
-					{
-						shootProjectile = true;
-					}
-				}
-				else if (npc.ai[1] % 30f == 29f)
-				{
+				else if (npc.ai[1] % 40f == 39f)
 					shootProjectile = true;
-				}
-				if (shootProjectile && Collision.CanHit(shootFromVectorX, 1, 1, player.position, player.width, player.height))
+
+				if (shootProjectile)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						float projectileSpeed = 6f; //changed from 10
+						float projectileSpeed = CalamityWorld.bossRushActive ? 7f : 5f;
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						{
 							projectileSpeed += 4f;
-						}
 						if (revenge)
-						{
 							projectileSpeed += 1f;
-						}
-						if ((double)npc.life <= (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-						{
-							projectileSpeed += 1f; //changed from 3 not a prob
-						}
-						if ((double)npc.life <= (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-						{
-							projectileSpeed += 1f;
-						}
 						if (!calamity)
-						{
 							projectileSpeed += 2f;
+						projectileSpeed += 3f * (1f - lifeRatio);
+
+						Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
+						float num742 = CalamityWorld.bossRushActive ? 6f : 4f;
+						float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
+						float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+						float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+
+						num745 = num742 / num745;
+						num743 *= num745;
+						num744 *= num745;
+						vector93.X += num743 * 3f;
+						vector93.Y += num744 * 3f;
+
+						int damage = expertMode ? 25 : 30;
+						int numProj = 4;
+						int spread = 45;
+						float rotation = MathHelper.ToRadians(spread);
+						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+						double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+						double deltaAngle = rotation / (float)numProj;
+						double offsetAngle;
+
+						for (int i = 0; i < numProj; i++)
+						{
+							offsetAngle = startAngle + deltaAngle * i;
+							Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("BrimstoneBarrage"), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
 						}
-						float relativeSpeedX = player.position.X + (float)player.width * 0.5f - shootFromVectorX.X;
-						float relativeSpeedY = player.position.Y + (float)player.height * 0.5f - shootFromVectorX.Y;
+
+						float relativeSpeedX = player.position.X + (float)player.width * 0.5f - shootFromVector.X;
+						float relativeSpeedY = player.position.Y + (float)player.height * 0.5f - shootFromVector.Y;
 						float totalRelativeSpeed = (float)Math.Sqrt((double)(relativeSpeedX * relativeSpeedX + relativeSpeedY * relativeSpeedY));
 						totalRelativeSpeed = projectileSpeed / totalRelativeSpeed;
 						relativeSpeedX *= totalRelativeSpeed;
 						relativeSpeedY *= totalRelativeSpeed;
+						shootFromVector.X += relativeSpeedX * 3f;
+						shootFromVector.Y += relativeSpeedY * 3f;
 						int projectileDamage = expertMode ? 28 : 35;
 						int projectileType = mod.ProjectileType("BrimstoneHellfireball");
-						int projectileShot = Projectile.NewProjectile(shootFromVectorX.X, shootFromVectorX.Y, relativeSpeedX, relativeSpeedY, projectileType, projectileDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+						int projectileShot = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, relativeSpeedX, relativeSpeedY, projectileType, projectileDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[projectileShot].timeLeft = 240;
 					}
 				}
+
 				if (npc.position.Y > player.position.Y - 150f) //200
 				{
 					if (npc.velocity.Y > 0f)
-					{
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					}
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+
 					if (npc.velocity.Y > 3f)
-					{
 						npc.velocity.Y = 3f;
-					}
 				}
 				else if (npc.position.Y < player.position.Y - 350f) //500
 				{
 					if (npc.velocity.Y < 0f)
-					{
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					}
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+
 					if (npc.velocity.Y < -3f)
-					{
 						npc.velocity.Y = -3f;
-					}
 				}
 				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 150f) //100
 				{
 					if (npc.velocity.X > 0f)
-					{
 						npc.velocity.X = npc.velocity.X * 0.985f;
-					}
-					npc.velocity.X = npc.velocity.X - 0.1f;
+
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+
 					if (npc.velocity.X > 8f)
-					{
 						npc.velocity.X = 8f;
-					}
 				}
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 150f) //100
 				{
 					if (npc.velocity.X < 0f)
-					{
 						npc.velocity.X = npc.velocity.X * 0.985f;
-					}
-					npc.velocity.X = npc.velocity.X + 0.1f;
+
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+
 					if (npc.velocity.X < -8f)
-					{
 						npc.velocity.X = -8f;
-					}
 				}
-				if (npc.ai[1] > 300f)
+
+				if (npc.ai[1] >= 300f)
 				{
 					npc.ai[0] = 4f;
 					npc.ai[1] = 0f;
@@ -390,20 +381,22 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.chaseable = false;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.localAI[0] += (float)Main.rand.Next(4);
+					npc.localAI[0] += 1f + 2f * (1f - lifeRatio);
 					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-					{
-						npc.localAI[0] += 3f;
-					}
-					if (CalamityWorld.death || !calamity)
-					{
 						npc.localAI[0] += 2f;
-					}
+					if (CalamityWorld.death || !calamity)
+						npc.localAI[0] += 1f;
+
 					if (npc.localAI[0] >= 140f)
 					{
 						npc.localAI[0] = 0f;
+
 						npc.TargetClosest(true);
+
 						float projectileSpeed = revenge ? 8f : 6f;
+						if (CalamityWorld.bossRushActive)
+							projectileSpeed = 12f;
+
 						Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num180 = player.position.X + (float)player.width * 0.5f - shootFromVector.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -413,10 +406,12 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						num183 = projectileSpeed / num183;
 						num180 *= num183;
 						num182 *= num183;
+
 						int num184 = expertMode ? 25 : 30;
 						int num185 = mod.ProjectileType("BrimstoneHellblast");
 						shootFromVector.X += num180;
 						shootFromVector.Y += num182;
+
 						for (int num186 = 0; num186 < 6; num186++)
 						{
 							num180 = player.position.X + (float)player.width * 0.5f - shootFromVector.X;
@@ -437,7 +432,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 						double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 						double offsetAngle;
-						float velocity = 6f;
+						float velocity = CalamityWorld.bossRushActive ? 9f : 6f;
+
 						int i;
 						for (i = 0; i < 6; i++)
 						{
@@ -447,12 +443,15 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 						}
 					}
 				}
+
 				npc.TargetClosest(true);
-				npc.ai[1] += 1f;
+
 				npc.velocity *= 0.95f;
 				npc.rotation = npc.velocity.X * 0.04f;
 				npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-				if (npc.ai[1] > 300f)
+
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 300f)
 				{
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;

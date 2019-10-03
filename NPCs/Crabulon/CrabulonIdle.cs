@@ -215,18 +215,15 @@ namespace CalamityMod.NPCs.Crabulon
 			{
 				float num823 = 1.25f;
 				bool flag51 = false;
-				if ((double)npc.life < (double)npc.lifeMax * 0.5 || CalamityWorld.bossRushActive)
-				{
+				if ((double)npc.life < (double)npc.lifeMax * 0.5)
 					num823 = 1.5f;
-				}
-				if ((double)npc.life < (double)npc.lifeMax * 0.1 || CalamityWorld.bossRushActive)
-				{
+				if ((double)npc.life < (double)npc.lifeMax * 0.1)
 					num823 = 2f;
-				}
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-				{
+				if (CalamityWorld.bossRushActive)
 					num823 = 8f;
-				}
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					num823 = 12f;
+
 				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f)
 				{
 					flag51 = true;
@@ -335,8 +332,8 @@ namespace CalamityMod.NPCs.Crabulon
 					else if (npc.ai[1] == -1f)
 					{
 						npc.TargetClosest(true);
-						npc.velocity.X = (float)(4 * npc.direction);
-						npc.velocity.Y = -12.1f;
+						npc.velocity.X = (float)((CalamityWorld.bossRushActive ? 12 : 4) * npc.direction);
+						npc.velocity.Y = CalamityWorld.bossRushActive ? -16f : -12.1f;
 						npc.ai[0] = 4f;
 						npc.ai[1] = 0f;
 					}
@@ -386,7 +383,7 @@ namespace CalamityMod.NPCs.Crabulon
 					if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
 					{
 						npc.velocity.X = npc.velocity.X * 0.9f;
-						npc.velocity.Y = npc.velocity.Y + 0.15f; //0.2
+						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.3f : 0.15f);
 					}
 					else
 					{
@@ -398,7 +395,7 @@ namespace CalamityMod.NPCs.Crabulon
 						{
 							npc.velocity.X = npc.velocity.X + 0.2f;
 						}
-						float num626 = 2.5f; //4
+						float num626 = CalamityWorld.bossRushActive ? 5f : 2.5f;
 						if (revenge)
 						{
 							num626 += 1f;

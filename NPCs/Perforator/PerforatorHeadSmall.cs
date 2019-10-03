@@ -27,7 +27,6 @@ namespace CalamityMod.NPCs.Perforator
 			npc.npcSlots = 5f;
 			npc.width = 42;
 			npc.height = 62;
-			npc.defense = 0;
 			npc.lifeMax = 1250;
 			if (CalamityWorld.bossRushActive)
 			{
@@ -53,6 +52,9 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			float speedMult = expertMode ? 1.5f : 1.425f;
+			if (CalamityWorld.bossRushActive)
+				speedMult = 3f;
+
 			float life = (float)npc.life;
 			float totalLife = (float)npc.lifeMax;
 			speed = 13f * (speedMult - (life / totalLife));

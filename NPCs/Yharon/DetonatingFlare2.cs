@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Yharon
 
 		public override void AI()
 		{
-			bool revenge = CalamityWorld.revenge;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			npc.alpha -= 3;
 			npc.TargetClosest(true);
 			Vector2 vector98 = new Vector2(npc.Center.X, npc.Center.Y);
@@ -64,7 +64,6 @@ namespace CalamityMod.NPCs.Yharon
 			npc.velocity.X = (npc.velocity.X * 100f + num790) / 101f;
 			npc.velocity.Y = (npc.velocity.Y * 100f + num791) / 101f;
 			npc.rotation = (float)Math.Atan2((double)num791, (double)num790) - 1.57f;
-			return;
 		}
 
 		public override Color? GetAlpha(Color drawColor)

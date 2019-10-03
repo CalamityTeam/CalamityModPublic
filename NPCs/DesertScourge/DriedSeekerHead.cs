@@ -21,7 +21,6 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.npcSlots = 5f;
 			npc.width = 18;
 			npc.height = 18;
-			npc.defense = 0;
 			npc.lifeMax = 100;
             if (CalamityWorld.bossRushActive)
             {
@@ -29,7 +28,6 @@ namespace CalamityMod.NPCs.DesertScourge
             }
             npc.aiStyle = 6;
             aiType = -1;
-            animationType = 10;
 			npc.knockBackResist = 0f;
 			npc.behindTiles = true;
 			npc.noGravity = true;

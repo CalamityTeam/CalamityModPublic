@@ -84,8 +84,8 @@ namespace CalamityMod.NPCs.Perforator
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1.5f, 0f, 0f);
 			Player player = Main.player[npc.target];
 			bool isCrimson = player.ZoneCrimson || CalamityWorld.bossRushActive;
-			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			if (Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{
 				if (npc.timeLeft > 10)
@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.98f;
 				}
-				npc.velocity.Y = npc.velocity.Y - 0.1f;
+				npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 				if (npc.velocity.Y > 3f)
 				{
 					npc.velocity.Y = 3f;
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.98f;
 				}
-				npc.velocity.Y = npc.velocity.Y + 0.1f;
+				npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 				if (npc.velocity.Y < -3f)
 				{
 					npc.velocity.Y = -3f;
@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X - 0.1f;
+				npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 				if (npc.velocity.X > 8f)
 				{
 					npc.velocity.X = 8f;
@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X + 0.1f;
+				npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 				if (npc.velocity.X < -8f)
 				{
 					npc.velocity.X = -8f;

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
 {
@@ -19,9 +20,8 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 0;
-			npc.width = 70; //324
-			npc.height = 120; //216
-			npc.defense = 0;
+			npc.width = 70;
+			npc.height = 120;
 			npc.lifeMax = 3000;
 			npc.knockBackResist = 0f;
 			npc.noGravity = true;
@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Leviathan
 			}
 			Vector2 direction = Main.player[npc.target].Center - center;
 			direction.Normalize();
-			direction *= 11f;
+			direction *= (CalamityWorld.bossRushActive ? 16f : 11f);
 			npc.ai[0] += 1f;
 			if (npc.ai[0] > 45f)
 			{

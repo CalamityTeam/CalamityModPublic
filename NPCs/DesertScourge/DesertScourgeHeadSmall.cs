@@ -9,10 +9,10 @@ namespace CalamityMod.NPCs.DesertScourge
     public class DesertScourgeHeadSmall : ModNPC
 	{
 		public bool flies = false;
-		public float speed = 12.5f;
-		public float turnSpeed = 0.125f;
-		public int minLength = NPC.downedBoss3 ? 20 : 12;
-		public int maxLength = NPC.downedBoss3 ? 21 : 13;
+		public float speed = CalamityWorld.bossRushActive ? 20f : 12.5f;
+		public float turnSpeed = CalamityWorld.bossRushActive ? 0.2f : 0.125f;
+		public int minLength = 12;
+		public int maxLength = 13;
 		bool TailSpawned = false;
 
 		public override void SetStaticDefaults()
@@ -136,6 +136,9 @@ namespace CalamityMod.NPCs.DesertScourge
 				npc.localAI[1] = 1f;
 				Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
 				int num954 = CalamityWorld.death ? 300 : 1000;
+				if (CalamityWorld.bossRushActive)
+					num954 = 150;
+
 				bool flag95 = true;
 				if (npc.position.Y > player.position.Y)
 				{

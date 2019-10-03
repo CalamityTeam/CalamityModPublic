@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
             CalamityMod.StopRain();
 
-			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			Player player = Main.player[npc.target];
 
 			if (!startText)
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				spawnArena = true;
 				Vector2 vectorPlayer = new Vector2(player.position.X, player.position.Y);
-				if (CalamityWorld.death)
+				if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				{
 					safeBox.X = spawnX = spawnXReset = (int)(vectorPlayer.X - 1000f);
 					spawnX2 = spawnXReset2 = (int)(vectorPlayer.X + 1000f);
@@ -439,7 +439,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					spawnY += 250;
-					if (CalamityWorld.death)
+					if (CalamityWorld.death || CalamityWorld.bossRushActive)
 					{
 						spawnY -= 50;
 					}
@@ -900,7 +900,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						spawnY += 250;
-						if (CalamityWorld.death)
+						if (CalamityWorld.death || CalamityWorld.bossRushActive)
 						{
 							spawnY -= 50;
 						}

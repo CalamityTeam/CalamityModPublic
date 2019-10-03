@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 60;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.timeLeft = Main.expertMode ? 3000 : 2400;
+            projectile.timeLeft = (Main.expertMode || CalamityWorld.bossRushActive) ? 3000 : 2400;
         }
 
         public override void AI()

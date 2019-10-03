@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.HiveMind
             }
             npc.aiStyle = -1;
             aiType = -1;
-			npc.knockBackResist = 0.4f;
+			npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.4f;
 			npc.noGravity = true;
 			npc.canGhostHeal = false;
 			npc.chaseable = false;
@@ -50,6 +50,12 @@ namespace CalamityMod.NPCs.HiveMind
 			npc.TargetClosest(true);
 			float num1164 = revenge ? 4.5f : 4f;
 			float num1165 = revenge ? 0.8f : 0.75f;
+			if (CalamityWorld.bossRushActive)
+			{
+				num1164 *= 2f;
+				num1165 *= 2f;
+			}
+
 			Vector2 vector133 = new Vector2(npc.Center.X, npc.Center.Y);
 			float num1166 = Main.player[npc.target].Center.X - vector133.X;
 			float num1167 = Main.player[npc.target].Center.Y - vector133.Y - 300f;

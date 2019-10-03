@@ -121,9 +121,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			// Variables
 			Vector2 vector = npc.Center;
 			bool flies = npc.ai[2] == 0f;
-			bool expertMode = Main.expertMode;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool speedBoost = lifeRatio < 0.6 || (CalamityWorld.bossRushActive && lifeRatio < 0.9);
-			bool speedBoost2 = lifeRatio < 0.2 && !CalamityWorld.bossRushActive;
+			bool speedBoost2 = lifeRatio < 0.2;
 			bool breathFireMore = lifeRatio < 0.15;
 
 			// Laser walls
@@ -308,7 +308,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 						shotSpacing[1] = 1050;
 
 						// Upper wall
-						if (lifeRatio < 0.4f && CalamityWorld.revenge)
+						if (lifeRatio < 0.4f && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
 						{
 							if (shotSpacing[2] < 2100)
 								shotSpacing[2] = 2100;
@@ -356,7 +356,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 					}
 				}
 			}
-			fallSpeed += (CalamityWorld.death ? 5f : 3.5f) * (1f - lifeRatio);
+			fallSpeed += ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 5f : 3.5f) * (1f - lifeRatio);
 
 			// Movement
 			int num180 = (int)(npc.position.X / 16f) - 1;
@@ -396,10 +396,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 				npc.localAI[1] = 0f;
 
-				float speed = (CalamityWorld.death ? 18f : 15f) + (3f * (1f - lifeRatio));
-				float turnSpeed = (CalamityWorld.death ? 0.33f : 0.3f) + (0.06f * (1f - lifeRatio));
-				float homingSpeed = (CalamityWorld.death ? 28f : 24f) + (12f * (1f - lifeRatio));
-				float homingTurnSpeed = (CalamityWorld.death ? 0.36f : 0.33f) + (0.15f * (1f - lifeRatio));
+				float speed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 18f : 15f) + (3f * (1f - lifeRatio));
+				float turnSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.33f : 0.3f) + (0.06f * (1f - lifeRatio));
+				float homingSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 28f : 24f) + (12f * (1f - lifeRatio));
+				float homingTurnSpeed = ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.36f : 0.33f) + (0.15f * (1f - lifeRatio));
 
 				// Go to ground phase sooner
 				if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5600f)
@@ -415,7 +415,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
 
 				// Charge at target for 1.5 seconds
-				bool flyAtTarget = (!speedBoost || speedBoost2) && phaseSwitch > phaseLimit - 90 && CalamityWorld.revenge;
+				bool flyAtTarget = (!speedBoost || speedBoost2) && phaseSwitch > phaseLimit - 90 && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
 
 				for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
 				{
@@ -613,7 +613,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 				phaseSwitch += 1;
 
-				float turnSpeed = 0.18f + ((CalamityWorld.death ? 0.14f : 0.12f) * (1f - lifeRatio));
+				float turnSpeed = 0.18f + (((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.14f : 0.12f) * (1f - lifeRatio));
 				bool increaseSpeed = Vector2.Distance(Main.player[npc.target].Center, vector) > 3200f;
 
 				// Enrage
@@ -720,8 +720,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 				else
 				{
-					double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)((CalamityWorld.death ? 0.14f : 0.12f) * (1f - lifeRatio));
-					double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)((CalamityWorld.death ? 0.3f : 0.25f) * (1f - lifeRatio));
+					double maximumSpeed1 = (increaseSpeed ? 1.2 : 0.4) + (double)(((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.14f : 0.12f) * (1f - lifeRatio));
+					double maximumSpeed2 = (increaseSpeed ? 3.0 : 1.0) + (double)(((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.3f : 0.25f) * (1f - lifeRatio));
 
 					num193 = (float)Math.Sqrt((double)(num191 * num191 + num192 * num192));
 					float num25 = Math.Abs(num191);
