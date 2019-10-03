@@ -1526,7 +1526,8 @@ namespace CalamityMod.Items
 					// Wall of Flesh
 					case ItemID.WallOfFleshBossBag:
 						DropHelper.DropItemChance(player, mod.ItemType("Meowthrower"), 3);
-						DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 8);
+						DropHelper.DropItemChance(player, mod.ItemType("BlackHawkRemote"), 3);
+						DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 4);
 						DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
 						DropHelper.DropItem(player, mod.ItemType("MLGRune")); // Demon Trophy
 						break;
@@ -1566,6 +1567,7 @@ namespace CalamityMod.Items
 					// Moon Lord
 					case ItemID.MoonLordBossBag:
 						DropHelper.DropItem(player, mod.ItemType("MLGRune2")); // Celestial Onion
+						DropHelper.DropItemChance(player, mod.ItemType("UtensilPoker"), 8);
 						DropHelper.DropItemChance(player, mod.ItemType("GrandDad"), DropHelper.RareVariantDropRateInt);
 						DropHelper.DropItemChance(player, mod.ItemType("Infinity"), DropHelper.RareVariantDropRateInt);
 						break;
@@ -1642,7 +1644,10 @@ namespace CalamityMod.Items
 				player.lavaMax += 180;
 				player.setBonus = "+2 defense\n" +
 							"5% increased rogue damage and critical strike chance\n" +
-							"Grants immunity to fire blocks and temporary immunity to lava";
+							"Grants immunity to fire blocks and temporary immunity to lava\n" +
+							"Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+							"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+							"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
 			}
 		}
 		#endregion

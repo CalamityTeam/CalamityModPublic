@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
-    public class UtensilPoker : ModItem
+    public class UtensilPoker : CalamityDamageItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,7 +15,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 				"Stealth strikes launch an additional butcher knife");
         }
 
-        public override void SetDefaults()
+        public override void SafeSetDefaults()
         {
             item.width = 44;
             item.height = 66;

@@ -307,6 +307,15 @@ namespace CalamityMod.NPCs
                         projectileCount++;
                     }
                 }
+                for (int j = 0; j < 1000; j++)
+                {
+                    if (Main.projectile[j].active &&
+                        (Main.projectile[j].type == mod.ProjectileType("ScourgeoftheSeasStealth")) &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
+                    {
+                        projectileCount += 6;
+                    }
+                }
 
                 if (projectileCount > 0)
                 {
@@ -2545,9 +2554,11 @@ namespace CalamityMod.NPCs
         #region On Hit By Projectile
         public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
+			bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type);
+			
             if (Main.player[projectile.owner].GetCalamityPlayer().sGenerator)
             {
-                if (projectile.minion && npc.damage > 0)
+                if (isSummon && npc.damage > 0)
                 {
                     switch (Main.rand.Next(3))
                     {
