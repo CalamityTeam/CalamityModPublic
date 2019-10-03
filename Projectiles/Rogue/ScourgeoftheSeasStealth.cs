@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
     	public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Moist Scourge");
+			DisplayName.SetDefault("Stealthy Scourge");
 		}
     	
         public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 1200;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+			projectile.localNPCHitCooldown = 60;
 		}
         
         public override void AI()
@@ -133,7 +133,6 @@ namespace CalamityMod.Projectiles.Rogue
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
                                 projectile.StatusNPC(i);
-                                projectile.damage = 0;
                                 int num28 = 1;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
