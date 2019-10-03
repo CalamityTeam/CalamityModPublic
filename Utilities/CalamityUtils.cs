@@ -20,6 +20,7 @@ namespace CalamityMod
             {
                 case 1:
                     return player.GetCalamityPlayer().ZoneAbyssLayer1;
+                    
                 case 2:
                     return player.GetCalamityPlayer().ZoneAbyssLayer2;
 
@@ -61,6 +62,11 @@ namespace CalamityMod
             else if (revengeance.HasValue && CalamityWorld.revenge)
             {
                 npc.lifeMax = revengeance.Value;
+            }
+            if (npc.boss)
+            {
+                double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+			    npc.lifeMax += (int)((double)npc.lifeMax * HPBoost); 
             }
         }
         /// <summary>
