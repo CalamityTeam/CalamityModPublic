@@ -2778,8 +2778,11 @@ namespace CalamityMod.NPCs.Yharon
                 int soulFragMax = Main.expertMode ? 28 : 22;
                 DropHelper.DropItem(npc, mod.ItemType("HellcasterFragment"), true, soulFragMin, soulFragMax);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, mod.ItemType("VoidVortex"), DropHelper.RareVariantDropRateInt);
+				// Equipment
+				DropHelper.DropItem(npc, mod.ItemType("DrewsWings"));
+
+				// Weapons
+				DropHelper.DropItemChance(npc, mod.ItemType("VoidVortex"), DropHelper.RareVariantDropRateInt);
                 DropHelper.DropItemChance(npc, mod.ItemType("YharimsCrystal"), DropHelper.LegendaryDropRateInt);
 
                 // Vanity

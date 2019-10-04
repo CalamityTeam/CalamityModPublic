@@ -28,7 +28,6 @@ namespace CalamityMod.CalPlayer
 		public bool drawBossHPBar = true;
 		public bool shouldDrawSmallText = true;
 		private const int saveVersion = 0;
-		public const float defEndurance = 0.33f;
 		//public int distanceFromBoss = -1;
 		public int dashMod;
 		public int projTypeJustHitBy;
@@ -4462,12 +4461,8 @@ namespace CalamityMod.CalPlayer
 				double multiplier = (double)player.statLife / (double)player.statLifeMax2;
 				player.meleeDamage += (float)(multiplier * 0.2); //ranges from 1.2 times to 1 times
 			}
-			if (player.endurance > defEndurance) //0.33
-			{
-				float damageReductionAboveCap = player.endurance - defEndurance; //0.6 - 0.33 = 0.27
-				player.statDefense += (int)((double)damageReductionAboveCap * 100.0);
-				player.endurance = defEndurance + (damageReductionAboveCap * 0.1f); //0.33 + (0.27 * 0.1) = 0.357
-			}
+			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
+			player.endurance = 1f - (1f / (1f + player.endurance));
 			if (vHex)
 			{
 				player.endurance -= 0.3f;
@@ -6402,7 +6397,7 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By NPC
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
-			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 5);
+			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 2);
 			if (CalamityWorld.bossRushActive)
 			{
 				if (damage < bossRushDamage)
@@ -6472,7 +6467,7 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By Proj
 		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
 		{
-			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 5);
+			int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
 			if (CalamityWorld.bossRushActive)
 			{
 				if (damage < bossRushDamage)

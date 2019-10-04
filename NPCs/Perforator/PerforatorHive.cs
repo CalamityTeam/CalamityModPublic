@@ -82,6 +82,7 @@ namespace CalamityMod.NPCs.Perforator
 		{
 			CalamityGlobalNPC.perfHive = npc.whoAmI;
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1.5f, 0f, 0f);
+			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 			bool isCrimson = player.ZoneCrimson || CalamityWorld.bossRushActive;
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -109,7 +110,6 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				npc.timeLeft = 1800;
 			}
-			npc.TargetClosest(true);
 			bool wormAlive = false;
 			if (NPC.AnyNPCs(mod.NPCType("PerforatorHeadLarge")))
 			{
@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.98f;
 				}
-				npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+				npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 				if (npc.velocity.Y > 3f)
 				{
 					npc.velocity.Y = 3f;
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.Y = npc.velocity.Y * 0.98f;
 				}
-				npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+				npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 				if (npc.velocity.Y < -3f)
 				{
 					npc.velocity.Y = -3f;
@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+				npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 				if (npc.velocity.X > 8f)
 				{
 					npc.velocity.X = 8f;
@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.Perforator
 				{
 					npc.velocity.X = npc.velocity.X * 0.98f;
 				}
-				npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+				npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 				if (npc.velocity.X < -8f)
 				{
 					npc.velocity.X = -8f;

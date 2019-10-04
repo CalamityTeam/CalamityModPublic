@@ -434,7 +434,7 @@ namespace CalamityMod.NPCs.Leviathan
 							}
 							if (CalamityWorld.bossRushActive)
 							{
-								num1044 *= 1.5f;
+								num1044 *= 1.25f;
 							}
 
 							Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -468,8 +468,8 @@ namespace CalamityMod.NPCs.Leviathan
 						}
 						if (CalamityWorld.bossRushActive)
 						{
-							num1048 *= 1.5f;
-							num1049 *= 1.5f;
+							num1048 *= 1.25f;
+							num1049 *= 1.25f;
 						}
 
 						if (npc.position.Y + (float)(npc.height / 2) < (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2)))

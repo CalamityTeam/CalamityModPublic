@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
-			projectile.timeLeft = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 2100 : 1500;
+			projectile.timeLeft = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 2100 : 1800;
 		}
 
 		public override void AI()

@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					{
 						npc.localAI[1] += 2f;
 					}
-					if (npc.localAI[1] >= ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 300f : 450f))
+					if (npc.localAI[1] >= (CalamityWorld.bossRushActive ? 270f : 390f))
 					{
 						int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 						int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -283,16 +283,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			}
 			if (detectsPlayer)
 			{
-				num188 = 8f;
-				num189 = 0.12f;
-				if (!Main.player[npc.target].wet)
-				{
-					num188 = 13f;
-					num189 = 0.16f;
-				}
+				num188 = CalamityWorld.revenge ? 15f : 13f;
+				num189 = 0.16f;
 				if (notOcean)
 				{
-					num188 = 15f;
+					num188 = 17f;
 					num189 = 0.18f;
 				}
 				if (Main.player[npc.target].gravDir == -1f)

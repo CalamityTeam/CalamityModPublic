@@ -15,8 +15,7 @@ namespace CalamityMod.Items.Accessories.Wings
 				"Horizontal speed: 12\n" +
 				"Acceleration multiplier: 3\n" +
 				"Excellent vertical speed\n" +
-				"Flight time: 361\n" +
-				"Revengeance drop");
+				"Flight time: 361");
 		}
 
 		public override void SetDefaults()
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Accessories.Wings
 			item.width = 22;
 			item.height = 20;
 			item.value = Item.buyPrice(1, 0, 0, 0);
-			item.expert = true;
+			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 			item.accessory = true;
 		}
 

@@ -47,7 +47,6 @@ namespace CalamityMod.Items.Yharon
 
 			// Equipment
 			DropHelper.DropItem(player, mod.ItemType("YharimsGift"));
-			DropHelper.DropItemCondition(player, mod.ItemType("DrewsWings"), CalamityWorld.revenge);
 
 			// Vanity
 			DropHelper.DropItemChance(player, mod.ItemType("YharonMask"), 7);

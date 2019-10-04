@@ -434,8 +434,8 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			}
 			else if (npc.ai[0] == 3f)
 			{
-				float num1065 = 7f; //changed from 4
-				float num1066 = 0.075f; //changed from 0.05
+				float num1065 = 7f;
+				float num1066 = 0.075f;
 				if (flag113)
 				{
 					num1066 = 0.09f;
@@ -473,8 +473,8 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						num1073 = num1070 / num1073;
 						num1071 *= num1073;
 						num1072 *= num1073;
-						int num1074 = 26; //projectile damage
-						int num1075 = mod.ProjectileType("PlagueStingerGoliathV2"); //projectile type
+						int num1074 = 26;
+						int num1075 = mod.ProjectileType("PlagueStingerGoliathV2");
 						if (Main.rand.NextBool(15))
 						{
 							num1074 = 33;
@@ -485,7 +485,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				}
 				if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					num1066 = CalamityWorld.bossRushActive ? 0.15f : 0.105f;
+					num1066 = CalamityWorld.bossRushActive ? 0.12f : 0.105f;
 					vector122 = vector121;
 					num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
 					num1068 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector122.Y;

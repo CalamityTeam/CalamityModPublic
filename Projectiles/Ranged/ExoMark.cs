@@ -36,27 +36,24 @@ namespace CalamityMod.Projectiles.Ranged
 			}
 			if (projectile.localAI[1] < 30f)
 			{
-				for (int num1134 = 0; num1134 < 1; num1134++)
+				float value79 = -0.5f;
+				float value80 = 0.9f;
+				float amount4 = Main.rand.NextFloat();
+				Vector2 value81 = new Vector2(MathHelper.Lerp(0.1f, 1f, Main.rand.NextFloat()), MathHelper.Lerp(value79, value80, amount4));
+				value81.X *= MathHelper.Lerp(2.2f, 0.6f, amount4);
+				value81.X *= -1f;
+				Vector2 value82 = new Vector2(2f, 10f);
+				Vector2 position4 = projectile.Center + new Vector2(60f, 200f) * value81 * 0.5f + value82;
+				Dust dust34 = Main.dust[Dust.NewDust(position4, 0, 0, 107, 0f, 0f, 0, default, 0.5f)];
+				dust34.position = position4;
+				dust34.customData = projectile.Center + value82;
+				dust34.fadeIn = 1f;
+				dust34.scale = 0.3f;
+				if (value81.X > -1.2f)
 				{
-					float value79 = -0.5f;
-					float value80 = 0.9f;
-					float amount4 = Main.rand.NextFloat();
-					Vector2 value81 = new Vector2(MathHelper.Lerp(0.1f, 1f, Main.rand.NextFloat()), MathHelper.Lerp(value79, value80, amount4));
-					value81.X *= MathHelper.Lerp(2.2f, 0.6f, amount4);
-					value81.X *= -1f;
-					Vector2 value82 = new Vector2(2f, 10f);
-					Vector2 position4 = projectile.Center + new Vector2(60f, 200f) * value81 * 0.5f + value82;
-					Dust dust34 = Main.dust[Dust.NewDust(position4, 0, 0, 107, 0f, 0f, 0, default, 0.5f)];
-					dust34.position = position4;
-					dust34.customData = projectile.Center + value82;
-					dust34.fadeIn = 1f;
-					dust34.scale = 0.3f;
-					if (value81.X > -1.2f)
-					{
-						dust34.velocity.X = 1f + Main.rand.NextFloat();
-					}
-					dust34.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
+					dust34.velocity.X = 1f + Main.rand.NextFloat();
 				}
+				dust34.velocity.Y = Main.rand.NextFloat() * -0.5f - 1f;
 			}
 			if (projectile.localAI[0] == 0f)
 			{
