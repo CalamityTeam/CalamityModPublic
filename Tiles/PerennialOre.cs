@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -13,7 +14,10 @@ namespace CalamityMod.Tiles
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileValue[Type] = 690;
-			dustType = mod.DustType("CESparkle");
+
+            TileMerge.MergeGeneralTiles(Type);
+
+            dustType = mod.DustType("CESparkle");
 			drop = mod.ItemType("PerennialOre");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Perennial Ore");

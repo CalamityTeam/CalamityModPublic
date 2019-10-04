@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             name.SetDefault("Abyss Lantern");
             AddMapEntry(new Color(191, 142, 111), name);
 
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
         }

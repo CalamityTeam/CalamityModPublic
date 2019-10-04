@@ -24,7 +24,6 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
 			TileObjectData.addAlternate(1);
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Plagued Plate Chair");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
 			TileObjectData.newTile.CoordinateHeights = new int[]{ 16, 18 };
 			TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
             ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Eutrophic Bed");
             AddMapEntry(new Color(191, 142, 111), name);

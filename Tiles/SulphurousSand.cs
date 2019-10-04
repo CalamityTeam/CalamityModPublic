@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -12,7 +13,11 @@ namespace CalamityMod.Tiles
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			dustType = 32;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeAbyssTiles(Type);
+
+            dustType = 32;
 			drop = mod.ItemType("SulphurousSand");
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Sulphurous Sand");
@@ -117,13 +122,13 @@ namespace CalamityMod.Tiles
 				if (!Main.tile[i, tileLocationY].active())
 				{
 					if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
-						Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != NetmodeID.MultiplayerClient)
+						Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
 					{
 						Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, mod.ProjectileType("SulphuricAcidCannon"), 0, 2f, Main.myPlayer, 0f, 0f);
 					}
 					if (i < 250 || i > Main.maxTilesX - 250)
 					{
-						if (Main.rand.NextBool(400))
+						if (Main.rand.Next(400) == 0)
 						{
 							if (Main.tile[i, tileLocationY].liquid == 255)
 							{
@@ -145,7 +150,7 @@ namespace CalamityMod.Tiles
 									Main.tile[i, tileLocationY - 4].liquid == 255)
 								{
 									WorldGen.PlaceTile(i, tileLocationY, 81, true, false, -1, 0);
-									if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].active())
+									if (Main.netMode == 2 && Main.tile[i, tileLocationY].active())
 									{
 										NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
 									}
@@ -169,7 +174,7 @@ namespace CalamityMod.Tiles
 								if (num15 < num14)
 								{
 									WorldGen.PlaceTile(i, tileLocationY, 324, true, false, -1, Main.rand.Next(2));
-									if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].active())
+									if (Main.netMode == 2 && Main.tile[i, tileLocationY].active())
 									{
 										NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
 									}
@@ -179,6 +184,12 @@ namespace CalamityMod.Tiles
 					}
 				}
 			}
-		}
-	}
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AbyssGravel"), false, false, false, false, resetFrame);
+            return false;
+        }
+    }
 }

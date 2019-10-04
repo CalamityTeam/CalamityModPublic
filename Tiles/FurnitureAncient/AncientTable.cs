@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureAncient
             Main.tileTable[Type] = true;
             Main.tileLavaDeath[Type] = false;
 
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);

@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Sofa");
             AddMapEntry(new Color(191, 142, 111), name);

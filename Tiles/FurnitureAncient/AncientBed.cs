@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureAncient
             TileObjectData.newTile.CoordinateHeights = new int[]{ 16, 18 };
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
             ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ancient Bed");
             AddMapEntry(new Color(191, 142, 111), name);

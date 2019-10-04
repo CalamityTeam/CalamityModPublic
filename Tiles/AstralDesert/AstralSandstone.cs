@@ -12,7 +12,10 @@ namespace CalamityMod.Tiles.AstralDesert
 		{
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileBrick[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDesertTiles(Type);
+            TileMerge.MergeAstralTiles(Type);
 
             dustType = mod.DustType("AstralBasic");
 			drop = mod.ItemType("AstralSandstone");

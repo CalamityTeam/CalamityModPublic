@@ -20,7 +20,6 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Plate Candle");
             AddMapEntry(new Color(191, 142, 111), name);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
             drop = mod.ItemType("PlaguedPlateCandle");

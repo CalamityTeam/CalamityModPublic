@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
@@ -11,9 +12,13 @@ namespace CalamityMod.Tiles.SunkenSea
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			dustType = 33;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDesertTiles(Type);
+
+            TileID.Sets.ChecksForMerge[Type] = true;
+            dustType = 33;
 			drop = mod.ItemType("SeaPrism");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Sea Prism");
@@ -41,7 +46,7 @@ namespace CalamityMod.Tiles.SunkenSea
 
 		public override void RandomUpdate(int i, int j)
 		{
-			if (Main.rand.NextBool(50))
+			if (Main.rand.Next(25) == 0)
 			{
 				int random = WorldGen.genRand.Next(4);
 				if (random == 0)
@@ -86,7 +91,7 @@ namespace CalamityMod.Tiles.SunkenSea
 							}
 							Main.tile[i, j].frameX = (short)(WorldGen.genRand.Next(18) * 18);
 							WorldGen.SquareTileFrame(i, j, true);
-							if (Main.netMode == NetmodeID.Server)
+							if (Main.netMode == 2)
 							{
 								NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
 							}
@@ -94,6 +99,12 @@ namespace CalamityMod.Tiles.SunkenSea
 					}
 				}
 			}
-		}
-	}
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("Navystone"), false, false, false, false, resetFrame);
+            return false;
+        }
+    }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
@@ -11,7 +12,12 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			drop = mod.ItemType("StatigelBlock");
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDecorativeTiles(Type);
+            TileMerge.MergeSmoothTiles(Type);
+
+            drop = mod.ItemType("StatigelBlock");
 			AddMapEntry(new Color(215, 74, 121));
         }
 

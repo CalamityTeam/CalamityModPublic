@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureAncient
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Pipe Organ");
             AddMapEntry(new Color(191, 142, 111), name);

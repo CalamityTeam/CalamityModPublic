@@ -1,5 +1,4 @@
-﻿
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Tiles
@@ -8,12 +7,12 @@ namespace CalamityMod.Tiles
     {
         public override Texture2D GetTexture()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralPalmTree");
+            return CalamityMod.Instance.GetTexture("Tiles/AstralDesert/AstralPalmTree");
         }
 
         public override Texture2D GetTopTextures()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralPalmTree_Tops");
+            return CalamityMod.Instance.GetTexture("Tiles/AstralDesert/AstralPalmTree_Tops");
         }
 
         public override int DropWood()

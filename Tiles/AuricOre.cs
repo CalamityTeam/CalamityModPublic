@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -15,6 +16,9 @@ namespace CalamityMod.Tiles
 			Main.tileBlockLight[Type] = true;
 			Main.tileSpelunker[Type] = true;
 			Main.tileValue[Type] = 810;
+
+            TileMerge.MergeGeneralTiles(Type);
+
             dustType = 55;
 			drop = mod.ItemType("AuricOre");
 			ModTranslation name = CreateMapEntryName();

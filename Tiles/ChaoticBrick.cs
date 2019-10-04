@@ -10,7 +10,6 @@ namespace CalamityMod.Tiles
 		{
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-            Main.tileBlendAll[this.Type] = true;
             Main.tileBlockLight[Type] = true;
             dustType = 105;
 			drop = mod.ItemType("ChaoticBrick");

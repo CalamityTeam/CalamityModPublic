@@ -31,7 +31,6 @@ namespace CalamityMod.Tiles.FurnitureStratus
 			TileObjectData.newTile.LavaDeath = false;
 			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Stratus Dresser");
             AddMapEntry(new Color(191, 142, 111), name);

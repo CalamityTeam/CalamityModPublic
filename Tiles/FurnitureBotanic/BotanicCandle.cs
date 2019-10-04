@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Candle");
             AddMapEntry(new Color(191, 142, 111), name);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
             drop = mod.ItemType("BotanicCandle");

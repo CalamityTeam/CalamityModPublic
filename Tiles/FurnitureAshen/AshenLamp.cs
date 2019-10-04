@@ -22,7 +22,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
 
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
         }

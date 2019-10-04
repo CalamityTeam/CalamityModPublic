@@ -28,7 +28,6 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 			TileObjectData.newTile.UsesCustomCanPlace = false;
 			TileObjectData.newTile.LavaDeath = true;
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
             AddMapEntry(new Color(191, 142, 111));
 			drop = mod.ItemType("SmoothAbyssGravelPlatform");
 			disableSmartCursor = true;

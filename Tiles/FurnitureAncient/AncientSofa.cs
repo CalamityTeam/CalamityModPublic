@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureAncient
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Sofa");
             AddMapEntry(new Color(191, 142, 111), name);

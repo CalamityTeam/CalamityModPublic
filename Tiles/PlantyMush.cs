@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -12,7 +13,11 @@ namespace CalamityMod.Tiles
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			dustType = 2;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeAbyssTiles(Type);
+
+            dustType = 2;
 			drop = mod.ItemType("PlantyMush");
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Planty Mush");
@@ -71,7 +76,7 @@ namespace CalamityMod.Tiles
 							Main.tile[num53, num54].type = (ushort)mod.TileType("ViperVines");
 							Main.tile[num53, num54].active(true);
 							WorldGen.SquareTileFrame(num53, num54, true);
-							if (Main.netMode == NetmodeID.Server)
+							if (Main.netMode == 2)
 							{
 								NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
 							}
@@ -79,6 +84,12 @@ namespace CalamityMod.Tiles
 					}
 				}
 			}
-		}
-	}
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AbyssGravel"), false, false, false, false, resetFrame);
+            return false;
+        }
+    }
 }

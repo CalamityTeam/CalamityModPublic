@@ -29,7 +29,6 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 			name.SetDefault("Eutrophic Shelf");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             adjTiles = new int[] { TileID.Torches };
         }
 

@@ -18,7 +18,6 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
 
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

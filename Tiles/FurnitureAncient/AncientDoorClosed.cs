@@ -37,7 +37,6 @@ namespace CalamityMod.Tiles.FurnitureAncient
 			TileObjectData.newAlternate.Origin = new Point16(0, 2);
 			TileObjectData.addAlternate(0);
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Ancient Door");
             AddMapEntry(new Color(191, 142, 111), name);

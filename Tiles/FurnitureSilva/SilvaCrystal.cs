@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
@@ -12,7 +13,6 @@ namespace CalamityMod.Tiles.FurnitureSilva
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = false;
 			Main.tileBlockLight[Type] = true;
-            TileID.Sets.NeedsGrassFraming[Type] = true;
             soundType = 21;
             mineResist = 2f;
             minPick = 275;
@@ -25,6 +25,11 @@ namespace CalamityMod.Tiles.FurnitureSilva
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, mod.DustType("SilvaTileGold"), 0f, 0f, 1, new Color(255, 255, 255), 1f);
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 157, 0f, 0f, 1, new Color(255, 255, 255), 1f);
             return false;
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            return CustomTileFraming.BetterGemsparkFraming(i, j, resetFrame);
         }
     }
 }

@@ -1,24 +1,35 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
 	public class ProfanedCrystal : ModTile
-	{
-		public override void SetDefaults()
+    {
+        int subsheetWidth = 324;
+        int subsheetHeight = 90;
+        public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
 			Main.tileNoAttach[Type] = true;
 			Main.tileBlockLight[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDecorativeTiles(Type);
+            TileMerge.MergeSmoothTiles(Type);
+
             soundType = 13;
             mineResist = 1f;
             minPick = 225;
             drop = mod.ItemType("ProfanedCrystal");
 			AddMapEntry(new Color(181, 136, 177));
-            animationFrameHeight = 90;
         }
-        int animationFrameWidth = 234;
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            return CustomTileFraming.BetterGemsparkFraming(i, j, resetFrame);
+        }
 
         public override bool CreateDust(int i, int j, ref int type)
         {
@@ -28,8 +39,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameXOffset = i % 2 * animationFrameWidth;
-            frameYOffset = j % 2 * animationFrameHeight;
+            frameXOffset = i % 2 * subsheetWidth;
+            frameYOffset = j % 2 * subsheetHeight;
         }
     }
 }

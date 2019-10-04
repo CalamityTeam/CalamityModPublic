@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 			name.SetDefault("Profaned Crucible");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             adjTiles = new int[] { TileID.Torches };
         }
 

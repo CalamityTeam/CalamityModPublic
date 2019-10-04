@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -13,12 +14,14 @@ namespace CalamityMod.Tiles.Astral
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
 
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeAstralTiles(Type);
+            TileMerge.MergeOreTiles(Type);
+
             dustType = mod.DustType("AstralBasic");
 			drop = mod.ItemType("AstralDirt");
 
-            SetModTree(new AstralTree());
-
- 			AddMapEntry(new Color(133, 109, 140));
+            AddMapEntry(new Color(133, 109, 140));
 
             TileID.Sets.Grass[Type] = true;
             TileID.Sets.Conversion.Grass[Type] = true;
@@ -26,6 +29,8 @@ namespace CalamityMod.Tiles.Astral
             //Grass framing (<3 terraria devs)
             TileID.Sets.NeedsGrassFraming[Type] = true;
             TileID.Sets.NeedsGrassFramingDirt[Type] = mod.TileType("AstralDirt");
+
+            SetModTree(new AstralTree());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int Type)
@@ -39,6 +44,12 @@ namespace CalamityMod.Tiles.Astral
             {
                 Main.tile[i, j].type = (ushort)mod.TileType("AstralDirt");
             }
+        }
+
+        public override int SaplingGrowthType(ref int style)
+        {
+            style = 0;
+            return mod.TileType("AstralTreeSapling");
         }
     }
 }

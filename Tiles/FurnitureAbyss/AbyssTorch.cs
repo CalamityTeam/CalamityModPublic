@@ -37,7 +37,6 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             TileObjectData.newAlternate.AnchorWall = true;
 			TileObjectData.addAlternate(0);
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Abyss Torch");
 			AddMapEntry(new Color(253, 221, 3), name);

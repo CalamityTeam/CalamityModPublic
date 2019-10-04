@@ -20,7 +20,6 @@ namespace CalamityMod.Tiles.FurnitureStatigel
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Statigel Candle");
             AddMapEntry(new Color(191, 142, 111), name);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
             drop = mod.ItemType("StatigelCandle");

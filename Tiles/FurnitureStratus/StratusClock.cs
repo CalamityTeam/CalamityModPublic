@@ -16,7 +16,6 @@ namespace CalamityMod.Tiles.FurnitureStratus
 			Main.tileLavaDeath[Type] = true;
             animationFrameHeight = 90;
             TileID.Sets.HasOutlines[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
 			TileObjectData.newTile.Height = 5;
 			TileObjectData.newTile.CoordinateHeights = new int[]
 			{

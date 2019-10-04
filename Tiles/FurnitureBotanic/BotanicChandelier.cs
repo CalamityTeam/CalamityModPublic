@@ -27,7 +27,6 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 3, 0);
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -218,7 +219,10 @@ namespace CalamityMod.Tiles.FurnitureAshen
             {
                 if (xOffset != -1)
                 {
-                    uniqueAnimationFrameX = GetTileVariant(i, j);
+                    if (j % 3 < 2)
+                    {
+                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].frameNumber();
+                    }
                     if (uniqueAnimationFrameX != 0)
                     {
                         uniqueAnimationFrameX += xOffset;
@@ -454,7 +458,10 @@ namespace CalamityMod.Tiles.FurnitureAshen
             {
                 if (xOffset != -1)
                 {
-                    uniqueAnimationFrameX = GetTileVariant(i, j);
+                    if (j % 3 < 2)
+                    {
+                        uniqueAnimationFrameX = Main.tile[i - (i % 2), j - (j % 3)].frameNumber();
+                    }
                     if (uniqueAnimationFrameX != 0)
                     {
                         uniqueAnimationFrameX += xOffset;
@@ -504,7 +511,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Texture2D glowmask = mod.GetTexture("Tiles/FurnitureAshen/AshenSlab_Glowmask");
-            Color drawColour = new Color(64, 64, 64, 64);
+            Color drawColour = GetDrawColour(i, j, new Color(64, 64, 64, 64));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
             if (!trackTile.halfBrick() && trackTile.slope() == 0)
@@ -517,6 +524,20 @@ namespace CalamityMod.Tiles.FurnitureAshen
             }
         }
 
+        private Color GetDrawColour(int i, int j, Color colour)
+        {
+            int colType = Main.tile[i, j].color();
+            Color paintCol = WorldGen.paintColor(colType);
+            if (colType >= 13 && colType <= 24)
+            {
+                colour.R = (byte)((paintCol.R / 255f) * colour.R);
+                colour.G = (byte)((paintCol.G / 255f) * colour.G);
+                colour.B = (byte)((paintCol.B / 255f) * colour.B);
+            }
+            return colour;
+        }
+
+        /*
         /// <summary>
         /// Gets the tile variant to use. Returns -1 by default
         /// </summary>
@@ -631,5 +652,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             }
             return (variant);
         }
+        */
     }
 }
