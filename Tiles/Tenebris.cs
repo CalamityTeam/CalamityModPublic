@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -13,7 +14,11 @@ namespace CalamityMod.Tiles
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			dustType = 44;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeAbyssTiles(Type);
+
+            dustType = 44;
 			drop = mod.ItemType("Tenebris");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Tenebris");
@@ -74,7 +79,7 @@ namespace CalamityMod.Tiles
                         {
                             Main.tile[i, j].type = (ushort)mod.TileType("Tenebris");
                             WorldGen.SquareTileFrame(i, j, true);
-                            if (Main.netMode == NetmodeID.Server)
+                            if (Main.netMode == 2)
                             {
                                 NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
                             }
@@ -82,6 +87,12 @@ namespace CalamityMod.Tiles
                     }
                 }
             }
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AbyssGravel"), false, false, false, false, resetFrame);
+            return false;
         }
     }
 }

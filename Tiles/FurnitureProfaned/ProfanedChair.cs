@@ -24,7 +24,6 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight; //allows me to place example chairs facing the same way as the player
 			TileObjectData.addAlternate(1); //facing right will use the second texture style
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Profaned Chair");
             AddMapEntry(new Color(191, 142, 111), name);

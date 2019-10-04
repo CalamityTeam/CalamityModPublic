@@ -26,7 +26,6 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 1);
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);

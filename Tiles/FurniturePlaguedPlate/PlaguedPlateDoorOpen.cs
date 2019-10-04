@@ -55,7 +55,6 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceLeft;
 			TileObjectData.addAlternate(1);
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			TileID.Sets.HousingWalls[Type] = true;
 			TileID.Sets.HasOutlines[Type] = true;
 			ModTranslation name = CreateMapEntryName();

@@ -18,7 +18,6 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
 			TileObjectData.newTile.CoordinateHeights = new int[]{ 18 };
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Profaned Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);

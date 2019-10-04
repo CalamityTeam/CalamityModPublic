@@ -1,5 +1,4 @@
-﻿
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Tiles

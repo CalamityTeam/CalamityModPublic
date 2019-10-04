@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -11,7 +12,11 @@ namespace CalamityMod.Tiles
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = false;
 			Main.tileBlockLight[Type] = true;
-			drop = mod.ItemType("PerennialBrick");
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDecorativeTiles(Type);
+
+            drop = mod.ItemType("PerennialBrick");
 			soundType = 21;
 			minPick = 150;
 			AddMapEntry(new Color(17, 133, 46));

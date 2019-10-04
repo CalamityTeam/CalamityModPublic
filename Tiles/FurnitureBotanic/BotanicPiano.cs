@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Piano");
             AddMapEntry(new Color(191, 142, 111), name);

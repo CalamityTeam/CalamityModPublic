@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -11,10 +13,13 @@ namespace CalamityMod.Tiles
 		{
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileValue[Type] = 675;
-			dustType = mod.DustType("MSparkle");
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeSnowTiles(Type);
+
+            dustType = mod.DustType("MSparkle");
 			drop = mod.ItemType("CryonicOre");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Cryonic Ore");
@@ -34,6 +39,12 @@ namespace CalamityMod.Tiles
 		{
 			num = fail ? 1 : 3;
 		}
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, TileID.SnowBlock);
+            return false;
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

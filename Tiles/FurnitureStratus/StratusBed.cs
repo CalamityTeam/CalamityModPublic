@@ -18,7 +18,6 @@ namespace CalamityMod.Tiles.FurnitureStratus
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Stratus Bed");
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
 			adjTiles = new int[]{ TileID.Beds };

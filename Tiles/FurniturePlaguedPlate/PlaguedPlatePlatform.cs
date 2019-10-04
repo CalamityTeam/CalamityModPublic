@@ -28,7 +28,6 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 			TileObjectData.newTile.UsesCustomCanPlace = false;
 			TileObjectData.newTile.LavaDeath = true;
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
             AddMapEntry(new Color(191, 142, 111));
             dustType = mod.DustType("Sparkle");
 			drop = mod.ItemType("PlaguedPlatePlatform");

@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -9,10 +11,12 @@ namespace CalamityMod.Tiles
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileValue[Type] = 805;
-			dustType = mod.DustType("TCESparkle");
+
+            TileMerge.MergeGeneralTiles(Type);
+
+            dustType = mod.DustType("TCESparkle");
 			drop = mod.ItemType("UelibloomOre");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Uelibloom Ore");
@@ -31,6 +35,12 @@ namespace CalamityMod.Tiles
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = fail ? 1 : 3;
-		}
-	}
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, TileID.Mud, false, false, false, false, resetFrame);
+            return false;
+        }
+    }
 }

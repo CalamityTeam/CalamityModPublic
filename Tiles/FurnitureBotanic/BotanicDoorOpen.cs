@@ -56,7 +56,6 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceLeft;
 			TileObjectData.addAlternate(1);
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
 			TileID.Sets.HousingWalls[Type] = true; //needed for non-solid blocks to count as walls
 			TileID.Sets.HasOutlines[Type] = true;
 			ModTranslation name = CreateMapEntryName();

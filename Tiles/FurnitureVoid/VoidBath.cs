@@ -19,7 +19,6 @@ namespace CalamityMod.Tiles.FurnitureVoid
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Bathtub");
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
         }

@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.FurnitureAshen
             name.SetDefault("Ashen Candelabra");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 36;
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
         }

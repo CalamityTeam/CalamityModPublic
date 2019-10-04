@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 			TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2); //this style already takes care of direction for us
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
 			TileObjectData.addTile(Type);
-			AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Abyss Bed");
 			AddMapEntry(new Color(191, 142, 111), name);

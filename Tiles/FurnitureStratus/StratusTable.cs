@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Main.tileTable[Type] = true;
             Main.tileLavaDeath[Type] = true;
 
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

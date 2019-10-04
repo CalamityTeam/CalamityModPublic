@@ -34,13 +34,6 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             recipe.SetResult(this, 1);
             recipe.AddTile(null, "AshenAltar");
             recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.GetItem("LockedAshenChest"), 1);
-            recipe.AddIngredient(mod.GetItem("AshenKey"), 1);
-            recipe.anyIronBar = true;
-            recipe.SetResult(this, 1);
-            recipe.AddTile(null, "AshenAltar");
-            recipe.AddRecipe();
         }
     }
 }

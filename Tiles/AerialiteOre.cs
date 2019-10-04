@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -12,7 +13,10 @@ namespace CalamityMod.Tiles
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			dustType = mod.DustType("AHSparkle");
+
+            TileMerge.MergeGeneralTiles(Type);
+
+            dustType = mod.DustType("AHSparkle");
 			drop = mod.ItemType("AerialiteOre");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Aerialite Ore");

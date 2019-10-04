@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
@@ -9,8 +10,13 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-            Main.tileNoAttach[Type] = true;
 			Main.tileBlockLight[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDecorativeTiles(Type);
+            TileMerge.MergeSmoothTiles(Type);
+            TileMerge.MergeTile(Type, mod.TileType("ProfanedRock"));
+
             soundType = 21;
             mineResist = 10f;
             minPick = 225;

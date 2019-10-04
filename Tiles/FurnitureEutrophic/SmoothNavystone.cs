@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
@@ -11,6 +13,13 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeSmoothTiles(Type);
+            TileMerge.MergeDecorativeTiles(Type);
+            TileMerge.MergeDesertTiles(Type);
+
+            TileID.Sets.ChecksForMerge[Type] = true;
             soundType = 21;
             minPick = 55;
             drop = mod.ItemType("SmoothNavystone");

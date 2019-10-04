@@ -1,8 +1,7 @@
-﻿
-using Microsoft.Xna.Framework;
-
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -12,6 +11,9 @@ namespace CalamityMod.Tiles
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exodium Ore");
             AddMapEntry(new Color(51, 48, 68), name);

@@ -15,7 +15,6 @@ namespace CalamityMod.Tiles.FurnitureBotanic
 			Main.tileLavaDeath[Type] = true;
 			Main.tileWaterDeath[Type] = false;
 
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Botanic Sink");

@@ -1,22 +1,25 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class BrimstoneSlag : ModTile
 	{
-        private const short subsheetWidth = 288;
-        private const short subsheetHeight = 396;
+        private const short subsheetWidth = 450;
+        private const short subsheetHeight = 198;
 
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = false;
 			Main.tileBlockLight[Type] = true;
-            TileID.Sets.NeedsGrassFraming[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeHellTiles(Type);
+            TileMerge.MergeTile(Type, mod.TileType("CharredOre"));
+
             soundType = 21;
             mineResist = 3f;
             minPick = 180;
@@ -36,6 +39,11 @@ namespace CalamityMod.Tiles
             frameYOffset = (j % 2) * subsheetHeight;
         }
 
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            return CustomTileFraming.BrimstoneFraming(i, j, resetFrame);
+        }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
@@ -43,15 +51,16 @@ namespace CalamityMod.Tiles
             int frameXOffset = (i % 2) * subsheetWidth;
             int frameYOffset = (j % 2) * subsheetHeight;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
             if (Main.drawToScreen)
             {
                 zero = Vector2.Zero;
             }
             if (tile.slope() == (byte)0 && !tile.halfBrick())
-                Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 16), new Color(50, 50, 50, 50), 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y)) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 16), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             else if (tile.halfBrick())
             {
-                Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y + 10) + 8) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 8), new Color(50, 50, 50, 50), 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X), (float)(j * 16 - (int)Main.screenPosition.Y + 10) + 8) + zero, new Rectangle(tile.frameX + frameXOffset, tile.frameY + frameYOffset, 16, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
             else
             {
@@ -76,9 +85,22 @@ namespace CalamityMod.Tiles
                             num10 = width2 + 2;
                             break;
                     }
-                    Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X) + (float)num10, (float)(j * 16 - (int)Main.screenPosition.Y + index4 * 2)) + zero, drawRectangle, new Color(50, 50, 50, 50), 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                    Main.spriteBatch.Draw(sprite, new Vector2((float)(i * 16 - (int)Main.screenPosition.X) + (float)num10, (float)(j * 16 - (int)Main.screenPosition.Y + index4 * 2)) + zero, drawRectangle, drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                 }
             }
+        }
+
+        private Color GetDrawColour(int i, int j, Color colour)
+        {
+            int colType = Main.tile[i, j].color();
+            Color paintCol = WorldGen.paintColor(colType);
+            if (colType >= 13 && colType <= 24)
+            {
+                colour.R = (byte)((paintCol.R / 255f) * colour.R);
+                colour.G = (byte)((paintCol.G / 255f) * colour.G);
+                colour.B = (byte)((paintCol.B / 255f) * colour.B);
+            }
+            return colour;
         }
     }
 }

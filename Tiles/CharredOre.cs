@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -12,10 +13,13 @@ namespace CalamityMod.Tiles
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLighted[Type] = true;
             Main.tileValue[Type] = 710;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeHellTiles(Type);
+
             drop = mod.ItemType("CharredOre");
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Charred Ore");
@@ -48,6 +52,12 @@ namespace CalamityMod.Tiles
             r = 0.50f;
             g = 0.00f;
             b = 0.00f;
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("BrimstoneSlag"), false, false, false, false, resetFrame);
+            return false;
         }
     }
 }

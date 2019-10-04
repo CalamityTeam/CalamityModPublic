@@ -16,6 +16,10 @@ namespace CalamityMod.Tiles.AstralDesert
             Main.tileSand[Type] = true;
             Main.tileBrick[Type] = true;
 
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDesertTiles(Type);
+            TileMerge.MergeAstralTiles(Type);
+
             dustType = 108;
 			drop = mod.ItemType("AstralSand");
 
@@ -25,6 +29,8 @@ namespace CalamityMod.Tiles.AstralDesert
             TileID.Sets.Conversion.Sand[Type] = true;
 
             SetModCactus(new AstralCactus());
+
+            SetModPalmTree(new AstralPalmTree());
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -47,12 +53,18 @@ namespace CalamityMod.Tiles.AstralDesert
 
         public override bool HasWalkDust()
         {
-            return Main.rand.NextBool(3);
+            return Main.rand.Next(3) == 0;
         }
 
         public override void WalkDust(ref int dustType, ref bool makeDust, ref Color color)
         {
             dustType = 108;
+        }
+
+        public override int SaplingGrowthType(ref int style)
+        {
+            style = 0;
+            return mod.TileType("AstralPalmSapling");
         }
     }
 

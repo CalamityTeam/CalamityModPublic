@@ -1,7 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -11,10 +11,13 @@ namespace CalamityMod.Tiles
 		{
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
 			Main.tileValue[Type] = 750;
-			dustType = 105;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeAbyssTiles(Type);
+
+            dustType = 105;
 			drop = mod.ItemType("ChaoticOre");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Chaotic Ore");
@@ -38,14 +41,14 @@ namespace CalamityMod.Tiles
             {
                 return;
             }
-            if (closer && Main.rand.NextBool(300))
+            if (closer && Main.rand.Next(300) == 0)
             {
                 int tileLocationY = j + 1;
                 if (Main.tile[i, tileLocationY] != null)
                 {
                     if (!Main.tile[i, tileLocationY].active())
                     {
-                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                        if (Main.netMode != 1)
                         {
                             Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, 0.1f, mod.ProjectileType("LavaChunk"), 25, 2f, Main.myPlayer, 0f, 0f);
                         }
@@ -69,6 +72,12 @@ namespace CalamityMod.Tiles
             r = 0.04f;
             g = 0.00f;
             b = 0.00f;
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AbyssGravel"), false, false, false, false, resetFrame);
+            return false;
         }
     }
 }

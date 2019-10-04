@@ -1,17 +1,26 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
-namespace CalamityMod.Tiles
+namespace CalamityMod.Tiles.Astral
 {
     public class AstralMonolith : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeAstralTiles(Type);
+            TileMerge.MergeTile(Type, TileID.LeafBlock);
+            TileMerge.MergeTile(Type, TileID.LivingMahoganyLeaves);
+            TileMerge.MergeTile(Type, TileID.LivingWood);
+            TileMerge.MergeTile(Type, TileID.LivingMahogany);
+
             drop = mod.ItemType("AstralMonolith");
             AddMapEntry(new Color(45, 36, 63));
             animationFrameHeight = 270;
@@ -42,10 +51,10 @@ namespace CalamityMod.Tiles
             yOffset = yOffset * 270;
             xPos += xOffset;
             yPos += yOffset;
-            Texture2D glowmask = mod.GetTexture("Tiles/AstralMonolith_Glowmask");
+            Texture2D glowmask = mod.GetTexture("Tiles/Astral/AstralMonolith_Glowmask");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = new Color(50, 50, 50, 50);
+            Color drawColour = GetDrawColour (i, j, new Color(50, 50, 50, 50));
             Tile trackTile = Main.tile[i, j];
             Texture2D texture3 = glowmask;
             double num6 = Main.time * 0.08;
@@ -57,6 +66,25 @@ namespace CalamityMod.Tiles
             {
                 Main.spriteBatch.Draw(texture3, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, mod.TileType("AstralDirt"), false, false, false, false, resetFrame);
+            return false;
+        }
+
+        private Color GetDrawColour(int i, int j, Color colour)
+        {
+            int colType = Main.tile[i, j].color();
+            Color paintCol = WorldGen.paintColor(colType);
+            if (colType >= 13 && colType <= 24)
+            {
+                colour.R = (byte)((paintCol.R / 255f) * colour.R);
+                colour.G = (byte)((paintCol.G / 255f) * colour.G);
+                colour.B = (byte)((paintCol.B / 255f) * colour.B);
+            }
+            return colour;
         }
     }
 }

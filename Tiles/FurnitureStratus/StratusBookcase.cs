@@ -17,7 +17,6 @@ namespace CalamityMod.Tiles.FurnitureStratus
             Main.tileTable[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
             TileObjectData.addTile(Type);
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);

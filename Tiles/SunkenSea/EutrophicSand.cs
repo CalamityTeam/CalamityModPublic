@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.SunkenSea
 {
@@ -10,9 +12,13 @@ namespace CalamityMod.Tiles.SunkenSea
 		public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			dustType = 108;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDesertTiles(Type);
+
+            TileID.Sets.ChecksForMerge[Type] = true;
+            dustType = 108;
 			drop = mod.ItemType("EutrophicSand");
 			ModTranslation name = CreateMapEntryName();
  			name.SetDefault("Eutrophic Sand");
@@ -33,6 +39,12 @@ namespace CalamityMod.Tiles.SunkenSea
 		public override void NumDust(int i, int j, bool fail, ref int num)
 		{
 			num = fail ? 1 : 3;
-		}
-	}
+        }
+
+        public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
+        {
+            CustomTileFraming.FrameTileForCustomMerge(i, j, Type, TileID.Sandstone, false, false, false, false, resetFrame);
+            return false;
+        }
+    }
 }

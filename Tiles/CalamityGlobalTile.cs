@@ -30,21 +30,39 @@ namespace CalamityMod.Tiles
 			(ushort)CalamityMod.Instance.TileType("AstralTallPlants")
 		};
 
-		/*#region SetDefaults //it's not working aaaaa
-		public virtual void SetDefaults(Tile tile)
-		{
-			if (CalamityMod.tableList.Contains(tile.type))
-				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
-			else if (CalamityMod.chairList.Contains(tile.type))
-				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
-			else if (CalamityMod.lightList.Contains(tile.type))
-				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-			else if (CalamityMod.doorList.Contains(tile.type))
-				AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
-		}
-		#endregion*/
+        public override void SetDefaults()
+        {
+            if (CalamityMod.chairList != null)
+            {
+                foreach (int i in CalamityMod.chairList)
+                {
+                    AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair, i);
+                }
+            }
+            if (CalamityMod.doorList != null)
+            {
+                foreach (int i in CalamityMod.doorList)
+                {
+                    AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor, i);
+                }
+            }
+            if (CalamityMod.lightList != null)
+            {
+                foreach (int i in CalamityMod.lightList)
+            {
+                AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch, i);
+                }
+            }
+            if (CalamityMod.tableList != null)
+            {
+                foreach (int i in CalamityMod.tableList)
+                {
+                    AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable, i);
+                }
+            }
+        }
 
-		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
+        public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
 		{
 			for (int k = 0; k < PlantTypes.Length; k++)
 			{

@@ -19,6 +19,9 @@ namespace CalamityMod.Tiles.Astral
             Main.tileSpelunker[Type] = true;
             Main.tileShine2[Type] = true;
 
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeAstralTiles(Type);
+
             minPick = 200;
 			dustType = 173;
 			drop = mod.ItemType("AstralOre");
@@ -65,6 +68,12 @@ namespace CalamityMod.Tiles.Astral
             float bonusStrength = 0.5f;
             float strength = minStrength + (float)Math.Sin(MathHelper.ToRadians((float)(Main.time / 6.0))) * bonusStrength;
             Lighting.AddLight(new Vector2(i * 16 + 8f, j * 16 + 8f), r * strength, g * strength, b * strength);
+        }
+
+        public override void FloorVisuals(Player player)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 1);
+            base.FloorVisuals(player);
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

@@ -1,21 +1,26 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
 	public class CryonicBrick : ModTile
 	{
-		public override void SetDefaults()
+        int subsheetHeight = 90;
+        int subsheetWidth = 234;
+        public override void SetDefaults()
 		{
 			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
-			soundType = 21;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeDecorativeTiles(Type);
+
+            soundType = 21;
 			minPick = 100;
 			drop = mod.ItemType("CryonicBrick");
 			AddMapEntry(new Color(99, 131, 199));
-			animationFrameHeight = 270;
 		}
 
 		public override bool CreateDust(int i, int j, ref int type)
@@ -28,8 +33,9 @@ namespace CalamityMod.Tiles
 		{
 			int xPos = i % 2;
 			int yPos = j % 4;
-			frameXOffset = xPos * 288;
-			frameYOffset = yPos * animationFrameHeight;
-		}
+			frameXOffset = xPos * subsheetWidth;
+			frameYOffset = yPos * subsheetHeight;
+            ;
+        }
 	}
 }

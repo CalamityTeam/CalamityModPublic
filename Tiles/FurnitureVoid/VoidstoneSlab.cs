@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
@@ -157,7 +158,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                 Texture2D glowmask = mod.GetTexture("Tiles/FurnitureVoid/VoidstoneSlab_Glowmask");
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
                 Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-                Color drawColour = new Color(75, 75, 75, 75);
+                Color drawColour = GetDrawColour(i, j, new Color(75, 75, 75, 75));
                 Tile trackTile = Main.tile[i, j];
                 double num6 = Main.time * 0.08;
                 if (!trackTile.halfBrick() && trackTile.slope() == 0)
@@ -169,6 +170,19 @@ namespace CalamityMod.Tiles.FurnitureVoid
                     Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
                 }
             }
+        }
+
+        private Color GetDrawColour(int i, int j, Color colour)
+        {
+            int colType = Main.tile[i, j].color();
+            Color paintCol = WorldGen.paintColor(colType);
+            if (colType >= 13 && colType <= 24)
+            {
+                colour.R = (byte)((paintCol.R / 255f) * colour.R);
+                colour.G = (byte)((paintCol.G / 255f) * colour.G);
+                colour.B = (byte)((paintCol.B / 255f) * colour.B);
+            }
+            return colour;
         }
     }
 }

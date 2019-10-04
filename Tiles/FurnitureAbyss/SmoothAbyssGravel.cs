@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
@@ -11,6 +12,12 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 			Main.tileSolid[Type] = true;
 			Main.tileMergeDirt[Type] = true;
 			Main.tileBlockLight[Type] = true;
+
+            TileMerge.MergeGeneralTiles(Type);
+            TileMerge.MergeSmoothTiles(Type);
+            TileMerge.MergeDecorativeTiles(Type);
+            TileMerge.MergeAbyssTiles(Type);
+
             soundType = 21;
             mineResist = 2f;
             minPick = 65;
