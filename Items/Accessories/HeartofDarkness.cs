@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Heart of Darkness");
             Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
-                "Increases your chance of getting the heart attack debuff\n" +
+                "Increases your chance of getting the absolute rage buff\n" +
                 "Rage mode does more damage\n" +
                 "You gain rage over time\n" +
                 "Revengeance drop");
