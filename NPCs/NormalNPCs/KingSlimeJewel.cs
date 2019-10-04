@@ -54,8 +54,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
 			npc.TargetClosest(true);
 
-			float velocity = 2f;
-			float acceleration = 0.1f;
+			float velocity = CalamityWorld.bossRushActive ? 8f : 2f;
+			float acceleration = CalamityWorld.bossRushActive ? 0.4f : 0.1f;
 
 			if (npc.position.Y > Main.player[npc.target].position.Y - 350f)
 			{
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				if (npc.velocity.X > 0f)
 					npc.velocity.X = npc.velocity.X * 0.98f;
 
-				npc.velocity.X = npc.velocity.X - 0.1f;
+				npc.velocity.X = npc.velocity.X - acceleration;
 
 				if (npc.velocity.X > 8f)
 					npc.velocity.X = 8f;
@@ -93,7 +93,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 				if (npc.velocity.X < 0f)
 					npc.velocity.X = npc.velocity.X * 0.98f;
 
-				npc.velocity.X = npc.velocity.X + 0.1f;
+				npc.velocity.X = npc.velocity.X + acceleration;
 
 				if (npc.velocity.X < -8f)
 					npc.velocity.X = -8f;
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			if (Main.netMode != NetmodeID.MultiplayerClient)
 			{
 				// Fire bolt every 1.5 seconds
-				npc.localAI[0] += 1f;
+				npc.localAI[0] += (CalamityWorld.bossRushActive ? 2f : 1f);
 				if (npc.localAI[0] >= (CalamityWorld.death ? 60f : 75f))
 				{
 					npc.localAI[0] = 0f;
@@ -113,7 +113,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 					float num507 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector62.Y;
 					float num508 = (float)Math.Sqrt((double)(num506 * num506 + num507 * num507));
 
-					float num509 = 9f;
+					float num509 = CalamityWorld.bossRushActive ? 18f : 9f;
 					int num510 = 11;
 					int num511 = ProjectileID.RubyBolt;
 

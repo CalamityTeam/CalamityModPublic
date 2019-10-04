@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						npc.TargetClosest(true);
                         if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
-                            float num179 = (CalamityWorld.bossRushActive ? 18f : 8f);
+                            float num179 = (CalamityWorld.bossRushActive ? 12f : 8f);
                             Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                             float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
                             float num181 = Math.Abs(num180) * 0.1f;
@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 					{
-						float num179 = (CalamityWorld.bossRushActive ? 18f : 8f);
+						float num179 = (CalamityWorld.bossRushActive ? 12f : 8f);
 						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -199,9 +199,9 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X * 0.8f;
                     npc.ai[1] += flag100 ? 1f : 3f;
-                    float num1879 = 15f + 30f * ((float)npc.life / (float)npc.lifeMax);
-                    float num1880 = 3f + 4f * (1f - (float)npc.life / (float)npc.lifeMax);
-                    float num1881 = 8f;
+                    float num1879 = 15f - 5f * ((float)npc.life / (float)npc.lifeMax);
+                    float num1880 = (CalamityWorld.bossRushActive ? 12f : 3f) + 4f * (1f - (float)npc.life / (float)npc.lifeMax);
+                    float num1881 = 9f;
                     if (!Collision.CanHit(vector, 1, 1, Main.player[npc.target].Center, 1, 1))
                     {
                         num1881 += 2f;
@@ -212,8 +212,8 @@ namespace CalamityMod.NPCs.SlimeGod
                         if (npc.ai[3] >= 1f)
                         {
                             npc.ai[3] = 0f;
-                            num1881 *= 2f;
-                            num1880 /= 2f;
+                            num1881 *= 1.5f;
+                            num1880 *= 0.75f;
                         }
                         npc.ai[1] = 0f;
                         npc.velocity.Y = npc.velocity.Y - num1881;
@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
                 }
                 npc.ai[2] += 1f;
-                if ((double)npc.ai[2] > 150.0 && npc.velocity.Y == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+                if (npc.ai[2] > 150f && npc.velocity.Y == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int num1882 = Main.rand.Next(3);
                     if (num1882 == 0)
@@ -245,7 +245,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         npc.ai[0] = 4f;
                         npc.noTileCollide = true;
-                        npc.velocity.Y = -8f;
+                        npc.velocity.Y = (CalamityWorld.bossRushActive ? -12f : -8f);
                     }
                     else if (num1882 == 2)
                     {
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] += 1f;
                     vector272 = Main.player[npc.target].Center - vector;
                     vector272.Normalize();
-                    vector272 *= 8f;
+                    vector272 *= (CalamityWorld.bossRushActive ? 12f : 8f);
                     npc.velocity = (npc.velocity * 4f + vector272) / 5f;
                     if (npc.ai[1] > 6f)
                     {
@@ -312,7 +312,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         return;
                     }
                     vector272.Normalize();
-                    vector272 *= 12f;
+                    vector272 *= (CalamityWorld.bossRushActive ? 18f : 12f);
                     npc.velocity = (npc.velocity * 5f + vector272) / 6f;
                 }
             }
@@ -379,9 +379,9 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (value74.Length() > 10f)
                     {
                         value74.Normalize();
-                        value74 *= 10f;
+                        value74 *= (CalamityWorld.bossRushActive ? 24f : 14f);
                     }
-                    npc.velocity = (npc.velocity * 4f + value74) / 4.7f;
+                    npc.velocity = (npc.velocity * 4f + value74) / 5f;
                     return;
                 }
                 if (npc.ai[0] == 6f)

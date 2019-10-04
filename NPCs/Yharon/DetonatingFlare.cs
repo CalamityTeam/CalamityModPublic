@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Yharon
 
 		public override void AI()
 		{
-			bool revenge = CalamityWorld.revenge;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			npc.alpha -= 3;
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
 			{
@@ -138,11 +138,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    int num8 = 90;
-                    if (Main.expertMode)
-                    {
-                        num8 = 75; //600
-                    }
+                    int num8 = Main.expertMode ? 75 : 90;
                     int num9 = 467;
                     Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                 }

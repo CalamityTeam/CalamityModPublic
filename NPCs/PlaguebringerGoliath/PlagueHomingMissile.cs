@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.width = 22;
 			npc.height = 22;
 			npc.defense = 10;
-			npc.lifeMax = 200;
+			npc.lifeMax = CalamityWorld.bossRushActive ? 20000 : 200;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.knockBackResist = 0f;

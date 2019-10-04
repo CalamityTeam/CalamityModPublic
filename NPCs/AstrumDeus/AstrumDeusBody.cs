@@ -122,14 +122,18 @@ namespace CalamityMod.NPCs.AstrumDeus
 					npc.TargetClosest(true);
 					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 					{
-						float num941 = revenge ? 13f : 12f; //speed
-						if (CalamityWorld.death || CalamityWorld.bossRushActive)
+						float num941 = revenge ? 13f : 12f;
+						if (CalamityWorld.death)
 						{
-							num941 = 18f;
+							num941 = 15f;
+						}
+						if (CalamityWorld.bossRushActive)
+						{
+							num941 = 20f;
 						}
 						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-						float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
-						float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
+						float num942 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector104.X;
+						float num943 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector104.Y;
 						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
 						num944 = num941 / num944;
 						num942 *= num944;

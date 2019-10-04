@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             npc.aiStyle = -1;
 			aiType = -1;
-			npc.knockBackResist = 0.9f;
+			npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.9f;
 			animationType = 210;
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
@@ -59,6 +59,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			}
 			float num = revenge ? 8f : 7f;
 			float num2 = revenge ? 0.2f : 0.15f;
+			if (CalamityWorld.bossRushActive)
+			{
+				num *= 1.5f;
+				num2 *= 1.5f;
+			}
+
 			npc.localAI[0] += 1f;
 			float num3 = (npc.localAI[0] - 60f) / 60f;
 			if (num3 > 1f)

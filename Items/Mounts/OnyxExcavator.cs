@@ -145,7 +145,7 @@ namespace CalamityMod.Items.Mounts
 									((tile.type != (ushort)mod.TileType("Tenebris") && tile.type != (ushort)mod.TileType("PlantyMush")) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
 									(!player.GetCalamityPlayer().ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
 									(Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
-									!player.noBuilding && tile.type != TileID.ElderCrystalStand)
+									!player.noBuilding && tile.type != TileID.ElderCrystalStand && tile.type != TileID.Containers)
 								{
 									WorldGen.KillTile(num824, num825, false, false, false);
 									if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)

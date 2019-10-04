@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles
 		#region PreAI
 		public override bool PreAI(Projectile projectile)
 		{
-			if (CalamityWorld.revenge)
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 			{
 				if (projectile.type == ProjectileID.PoisonSeedPlantera)
 				{
@@ -137,9 +137,10 @@ namespace CalamityMod.Projectiles
 
 					return false;
 				}
+
+				// Phase 1 sharknado
 				else if (projectile.type == ProjectileID.SharknadoBolt)
 				{
-					// Phase 1 sharknado
 					if (projectile.ai[1] < 0f)
 					{
 						float num623 = 0.209439516f;

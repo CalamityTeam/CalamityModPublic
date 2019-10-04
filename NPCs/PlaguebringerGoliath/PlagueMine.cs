@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.width = 42;
 			npc.height = 42;
 			npc.defense = 10;
-			npc.lifeMax = 100;
+			npc.lifeMax = CalamityWorld.bossRushActive ? 10000 : 100;
 			npc.aiStyle = -1;
             aiType = -1;
 			npc.knockBackResist = 0f;
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 return;
             }
 			npc.TargetClosest(true);
-			float num1372 = 7f;
+			float num1372 = CalamityWorld.bossRushActive ? 10f : 7f;
 			Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
 			float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
 			float num1374 = player.Center.Y - vector167.Y;

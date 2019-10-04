@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			float speedMult = expertMode ? 1.8f : 1.6f;
 			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
-				speedMult = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2.8f : 2.5f);
+				speedMult = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 3f : 2.5f);
 			}
 			float life = (float)npc.life;
 			float totalLife = (float)npc.lifeMax;

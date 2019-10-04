@@ -48,7 +48,6 @@ namespace CalamityMod.NPCs.Leviathan
 
 		public override void AI()
 		{
-			bool revenge = CalamityWorld.revenge;
 			if (CalamityGlobalNPC.leviathan < 0 || !Main.npc[CalamityGlobalNPC.leviathan].active)
 			{
 				npc.active = false;

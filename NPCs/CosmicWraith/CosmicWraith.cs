@@ -128,33 +128,29 @@ namespace CalamityMod.NPCs.CosmicWraith
 
 			Player player = Main.player[npc.target];
 			npc.TargetClosest(true);
-			Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
 			Vector2 vectorCenter = npc.Center;
-			float num1243 = player.Center.X - vector142.X;
-			float num1244 = player.Center.Y - vector142.Y;
-			float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
-			float num998 = 8f;
-			float scaleFactor3 = 300f;
-			float num999 = 800f;
-			float num1000 = cosmicSpeed ? 12f : 15f;
-			float num1001 = 5f;
-			float scaleFactor4 = 0.75f;
-			int num1002 = 0;
-			float scaleFactor5 = 10f;
-			float num1003 = 30f;
-			float num1004 = 150f;
-			float num1005 = cosmicSpeed ? 12f : 15f;
-			float num1006 = 0.333333343f;
-			float num1007 = 10f;
+			float lineUpVelocityMult = 8f;
+			float lineUpYAdditive = 300f;
+			float lineUpMaxChargeDist = 800f;
+			float pauseTime = 5f;
+			float upwardChangeSpeedMult = 0.75f;
+			int num1002 = 0; //dunno wtf this is for. It's never changed from 0
+			float pauseVelocityMult = 10f;
+			float maxChargeTime = 30f;
+			float minChargeDistance = 150f;
+			float maxChargeDistance = 10f;
+			float velocityChargeAdditive = cosmicSpeed ? 12f : 15f;
+			float velocityChargeAdditive2 = 0.333333343f; //same as above but divided by 3?
+			float chargeSpeedDividend = cosmicSpeed ? 12f : 15f;
 			float chargeSpeedDivisor = cosmicSpeed ? 11.85f : 14.85f;
-			num1006 *= num1005;
+			velocityChargeAdditive2 *= velocityChargeAdditive;
 			if (lifeToAlpha < 50)
 			{
 				for (int num1011 = 0; num1011 < 2; num1011++)
 				{
 					if (Main.rand.Next(3) < 1)
 					{
-						int num1012 = Dust.NewDust(npc.Center - new Vector2(70f), 70 * 2, 70 * 2, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+						int num1012 = Dust.NewDust(vectorCenter - new Vector2(70f), 70 * 2, 70 * 2, 173, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
 						Main.dust[num1012].noGravity = true;
 						Main.dust[num1012].velocity *= 0.2f;
 						Main.dust[num1012].fadeIn = 1f;
@@ -237,15 +233,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				{
 					speed += 3f;
 				}
-				Vector2 vector98 = new Vector2(npc.Center.X, npc.Center.Y);
-				float num795 = player.Center.X - vector98.X;
-				float num796 = player.Center.Y - vector98.Y;
-				float num797 = (float)Math.Sqrt((double)(num795 * num795 + num796 * num796));
-				num797 = speed / num797;
-				num795 *= num797;
-				num796 *= num797;
-				npc.velocity.X = (npc.velocity.X * 50f + num795) / 51f;
-				npc.velocity.Y = (npc.velocity.Y * 50f + num796) / 51f;
+				npc.velocity = (npc.velocity * 50f + npc.DirectionTo(player.Center) * speed) / 51f;
 			}
 			else
 			{
@@ -260,37 +248,37 @@ namespace CalamityMod.NPCs.CosmicWraith
 					{
 						npc.localAI[1] = 0f;
 						npc.TargetClosest(true);
-						int num1249 = 0;
-						int num1250;
-						int num1251;
+						int counter = 0;
+						int playerTileCoordsX;
+						int playerTileCoordsY;
 						while (true)
 						{
-							num1249++;
-							num1250 = (int)player.Center.X / 16;
-							num1251 = (int)player.Center.Y / 16;
+							counter++;
+							playerTileCoordsX = (int)player.Center.X / 16;
+							playerTileCoordsY = (int)player.Center.Y / 16;
 
 							int min = 20;
-							int max = 23;
+							int max = 23; //actually 22 because of how randomizers work
 
 							if (Main.rand.NextBool(2))
-								num1250 += Main.rand.Next(min, max);
+								playerTileCoordsX += Main.rand.Next(min, max);
 							else
-								num1250 -= Main.rand.Next(min, max);
+								playerTileCoordsX -= Main.rand.Next(min, max);
 
 							if (Main.rand.NextBool(2))
-								num1251 += Main.rand.Next(min, max);
+								playerTileCoordsY += Main.rand.Next(min, max);
 							else
-								num1251 -= Main.rand.Next(min, max);
+								playerTileCoordsY -= Main.rand.Next(min, max);
 
-							if (!WorldGen.SolidTile(num1250, num1251))
+							if (!WorldGen.SolidTile(playerTileCoordsX, playerTileCoordsY))
 								break;
 
-							if (num1249 > 100)
+							if (counter > 100)
 								return;
 						}
 						npc.ai[0] = 1f;
-						npc.ai[1] = (float)num1250;
-						npc.ai[2] = (float)num1251;
+						npc.ai[1] = (float)playerTileCoordsX;
+						npc.ai[2] = (float)playerTileCoordsY;
 						npc.netUpdate = true;
 						return;
 					}
@@ -301,7 +289,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				npc.alpha += 25;
 				if (npc.alpha >= 255)
 				{
-					Main.PlaySound(SoundID.Item8, npc.Center);
+					Main.PlaySound(SoundID.Item8, vectorCenter);
 					npc.alpha = 255;
 					npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
 					npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
@@ -317,15 +305,15 @@ namespace CalamityMod.NPCs.CosmicWraith
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
 					if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
 					{
-						int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
+						int bombIndex = NPC.NewNPC((int)(Main.player[npc.target].position.X + 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
 						if (Main.netMode == NetmodeID.Server)
 						{
-							NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(23, -1, -1, null, bombIndex, 0f, 0f, 0f, 0, 0, 0);
 						}
-						int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
+						int bombIndex2 = NPC.NewNPC((int)(Main.player[npc.target].position.X - 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
 						if (Main.netMode == NetmodeID.Server)
 						{
-							NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(23, -1, -1, null, bombIndex2, 0f, 0f, 0f, 0, 0, 0);
 						}
 						for (int num621 = 0; num621 < 5; num621++)
 						{
@@ -404,36 +392,29 @@ namespace CalamityMod.NPCs.CosmicWraith
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						float num1070 = 15f; //changed from 10
+						float scytheSpeed = 15f; //changed from 10
 						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
-							num1070 += 3f;
+							scytheSpeed += 3f;
 						}
 						if (cosmicRain)
 						{
-							num1070 += 1f; //changed from 3 not a prob
+							scytheSpeed += 1f; //changed from 3 not a prob
 						}
 						if (cosmicSpeed)
 						{
-							num1070 += 1f;
+							scytheSpeed += 1f;
 						}
 						if (revenge)
 						{
-							num1070 += 1f;
+							scytheSpeed += 1f;
 						}
 						if (CalamityWorld.death || CalamityWorld.bossRushActive)
 						{
-							num1070 += 1f;
+							scytheSpeed += 1f;
 						}
-						float num1071 = player.position.X + (float)player.width * 0.5f - vector121.X;
-						float num1072 = player.position.Y + (float)player.height * 0.5f - vector121.Y;
-						float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
-						num1073 = num1070 / num1073;
-						num1071 *= num1073;
-						num1072 *= num1073;
-						int num1074 = expertMode ? 48 : 60; //projectile damage
-						int num1075 = mod.ProjectileType("SignusScythe"); //projectile type
-						Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
+						int damage = expertMode ? 48 : 60; //projectile damage
+						Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center), mod.ProjectileType("SignusScythe"), damage, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
 					}
 				}
 				if (npc.position.Y > player.position.Y - 200f) //200
@@ -501,15 +482,15 @@ namespace CalamityMod.NPCs.CosmicWraith
 					{
 						for (int x = 0; x < 5; x++)
 						{
-							int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
+							int bombIndex = NPC.NewNPC((int)(Main.player[npc.target].position.X + (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
 							if (Main.netMode == NetmodeID.Server)
 							{
-								NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(23, -1, -1, null, bombIndex, 0f, 0f, 0f, 0, 0, 0);
 							}
-							int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
+							int bombIndex2 = NPC.NewNPC((int)(Main.player[npc.target].position.X - (float)spawnX), (int)(Main.player[npc.target].position.Y + (float)spawnY), mod.NPCType("CosmicLantern"), 0, 0f, 0f, 0f, 0f, 255);
 							if (Main.netMode == NetmodeID.Server)
 							{
-								NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(23, -1, -1, null, bombIndex2, 0f, 0f, 0f, 0, 0, 0);
 							}
 							spawnY -= 60;
 						}
@@ -534,25 +515,22 @@ namespace CalamityMod.NPCs.CosmicWraith
 				phaseSwitch += 1;
 				if (chargeSwitch == 0) //line up the charge
 				{
-					float scaleFactor6 = num998;
-					Vector2 center4 = npc.Center;
-					Vector2 center5 = player.Center;
-					Vector2 vector126 = center5 - center4;
-					Vector2 vector127 = vector126 - Vector2.UnitY * scaleFactor3;
-					float num1013 = vector126.Length();
-					vector126 = Vector2.Normalize(vector126) * scaleFactor6;
-					vector127 = Vector2.Normalize(vector127) * scaleFactor6;
-					bool flag64 = Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1);
+					Vector2 playerDistVector = player.Center - vectorCenter;
+					Vector2 playerDistVectorAdditive = playerDistVector - Vector2.UnitY * lineUpYAdditive;
+					float distanceToPlayer = playerDistVector.Length();
+					playerDistVector = Vector2.Normalize(playerDistVector) * lineUpVelocityMult;
+					playerDistVectorAdditive = Vector2.Normalize(playerDistVectorAdditive) * lineUpVelocityMult;
+					bool flag64 = Collision.CanHit(vectorCenter, 1, 1, player.Center, 1, 1);
 					if (npc.ai[3] >= 120f)
 					{
 						flag64 = true;
 					}
 					float num1014 = 8f;
-					flag64 = (flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014);
-					if (num1013 > num999 || !flag64)
+					flag64 = (flag64 && playerDistVector.ToRotation() > 3.14159274f / num1014 && playerDistVector.ToRotation() < 3.14159274f - 3.14159274f / num1014);
+					if (distanceToPlayer > lineUpMaxChargeDist || !flag64)
 					{
-						npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / chargeSpeedDivisor;
-						npc.velocity.Y = (npc.velocity.Y * (num1000 - 1f) + vector127.Y) / chargeSpeedDivisor;
+						npc.velocity.X = (npc.velocity.X * (chargeSpeedDividend - 1f) + playerDistVectorAdditive.X) / chargeSpeedDivisor;
+						npc.velocity.Y = (npc.velocity.Y * (chargeSpeedDividend - 1f) + playerDistVectorAdditive.Y) / chargeSpeedDivisor;
 						if (!flag64)
 						{
 							npc.ai[3] += 1f;
@@ -569,23 +547,23 @@ namespace CalamityMod.NPCs.CosmicWraith
 					else
 					{
 						chargeSwitch = 1;
-						npc.ai[2] = vector126.X;
-						npc.ai[3] = vector126.Y;
+						npc.ai[2] = playerDistVector.X;
+						npc.ai[3] = playerDistVector.Y;
 						npc.netUpdate = true;
 					}
 				}
 				else if (chargeSwitch == 1) //pause before charge
 				{
-					npc.velocity *= scaleFactor4;
+					npc.velocity *= upwardChangeSpeedMult;
 					npc.ai[1] += 1f;
-					if (npc.ai[1] >= num1001)
+					if (npc.ai[1] >= pauseTime)
 					{
 						chargeSwitch = 2;
 						npc.ai[1] = 0f;
 						npc.netUpdate = true;
 						Vector2 velocity = new Vector2(npc.ai[2], npc.ai[3]) + new Vector2((float)Main.rand.Next(-num1002, num1002 + 1), (float)Main.rand.Next(-num1002, num1002 + 1)) * 0.04f;
 						velocity.Normalize();
-						velocity *= scaleFactor5;
+						velocity *= pauseVelocityMult;
 						npc.velocity = velocity;
 					}
 				}
@@ -606,10 +584,9 @@ namespace CalamityMod.NPCs.CosmicWraith
 							dustTimer = 3;
 						}
 					}
-					float num1016 = num1003;
 					npc.ai[1] += 1f;
-					bool flag65 = Vector2.Distance(npc.Center, player.Center) > num1004 && npc.Center.Y > player.Center.Y;
-					if ((npc.ai[1] >= num1016 && flag65) || npc.velocity.Length() < num1007)
+					bool flag65 = Vector2.Distance(vectorCenter, player.Center) > minChargeDistance && vectorCenter.Y > player.Center.Y;
+					if ((npc.ai[1] >= maxChargeTime && flag65) || npc.velocity.Length() < maxChargeDistance)
 					{
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
@@ -621,15 +598,9 @@ namespace CalamityMod.NPCs.CosmicWraith
 					}
 					else
 					{
-						Vector2 center6 = npc.Center;
-						Vector2 center7 = player.Center;
-						Vector2 vec2 = center7 - center6;
-						vec2.Normalize();
-						if (vec2.HasNaNs())
-						{
-							vec2 = new Vector2((float)npc.direction, 0f);
-						}
-						npc.velocity = (npc.velocity * (num1005 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / chargeSpeedDivisor;
+						Vector2 vec2 = player.Center - vectorCenter;
+						vec2.SafeNormalize(Vector2.UnitX * (float)npc.direction);
+						npc.velocity = (npc.velocity * (velocityChargeAdditive - 1f) + vec2 * (npc.velocity.Length() + velocityChargeAdditive2)) / chargeSpeedDivisor;
 					}
 				}
 				else if (chargeSwitch == 3) //slow down after charging and reset
@@ -733,14 +704,14 @@ namespace CalamityMod.NPCs.CosmicWraith
 				NPCTexture = Main.npcTexture[npc.type];
 			}
 			Microsoft.Xna.Framework.Rectangle frame2 = npc.frame;
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
+			Vector2 spriteOutline = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
 			Main.spriteBatch.Draw(NPCTexture,
-				new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
-				npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)frameCount + 4f + vector11.Y * scale + 0f + offsetY),
+				new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + spriteOutline.X * scale,
+				npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)frameCount + 4f + spriteOutline.Y * scale + 0f + offsetY),
 				new Microsoft.Xna.Framework.Rectangle?(frame2),
 				npc.GetAlpha(drawColor),
 				rotation,
-				vector11,
+				spriteOutline,
 				scale,
 				spriteEffects,
 				0f);

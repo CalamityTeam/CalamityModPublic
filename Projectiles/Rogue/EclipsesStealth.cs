@@ -1,58 +1,76 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ScourgeoftheSeasStealth : ModProjectile
-    {
-    	public override void SetStaticDefaults()
+    public class EclipsesStealth : ModProjectile
+	{
+		private int deadinside = 0; //used to know when to drop spears from the sky
+		
+		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Stealthy Scourge");
-		}
-    	
-        public override void SetDefaults()
-        {
-            projectile.width = 26;
-            projectile.height = 26;
+			DisplayName.SetDefault("Eclipse's Stealth");
+        }
+
+		public override void SetDefaults()
+		{
+			projectile.width = 25;
+			projectile.height = 25;
             projectile.friendly = true;
-            projectile.aiStyle = 113;
-            aiType = 598;
-            projectile.penetrate = -1;
-			projectile.extraUpdates = 1;
-			projectile.timeLeft = 1200;
+			projectile.penetrate = -1;
+            projectile.timeLeft = 300;
+            projectile.ignoreWater = true;
+            projectile.tileCollide = false;
+            projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 30;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 60;
 		}
-        
-        public override void AI()
-        {
-			if (Main.rand.Next(5) == 0 && projectile.ai[0] != 1f)
+		
+		public override void AI()
+		{
+			deadinside++; //congrats Pinkie
+			if (deadinside >= 5) //every 5 ticks
 			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				deadinside = 0;
+				if (Main.rand.Next(2) == 0)
+				{
+					int spearAmt = Main.rand.Next(1,4); //1 to 3 spears
+					for (int n = 0; n < spearAmt; n++)
+					{
+						float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
+						float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
+						Vector2 vector = new Vector2(x, y);
+						float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
+						float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
+							num13 += (float)Main.rand.Next(-100, 101);
+						int num15 = 29;
+						float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
+						num16 = (float)num15 / num16;
+						num13 *= num16;
+						num14 *= num16;
+						Projectile.NewProjectile(x, y, num13, num14, mod.ProjectileType("EclipsesSmol"), (int)((double)projectile.damage * 0.1 * Main.rand.Next(7, 10)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+					} //very complicated and painful
+				}
 			}
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            if (projectile.ai[0] != 1f)
+            if (projectile.ai[0] == 0f)
             {
-				projectile.velocity.X *= 1.015f;
-				projectile.velocity.Y *= 1.015f;
-			}
-			if (projectile.velocity.X > 16f)
-			{
-				projectile.velocity.X = 16f;
-			}
-			if (projectile.velocity.Y > 16f)
-			{
-				projectile.velocity.Y = 16f;
-			}
-            if (projectile.ai[0] == 1f)
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+				if (Main.rand.Next(5) == 0) //dust
+				{
+					Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+				}
+            }
+            if (projectile.ai[0] == 1f) //sticking to enemies
             {
-                projectile.tileCollide = false;
                 int num988 = 15;
                 bool flag54 = false;
                 bool flag55 = false;
@@ -93,6 +111,12 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
+		#region SpearBarrage
+		public void SpearBarrage(Player player)
+		{
+		}
+		#endregion
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
@@ -129,10 +153,12 @@ namespace CalamityMod.Projectiles.Rogue
                                     return;
                                 }
                                 projectile.ai[0] = 1f;
+								projectile.timeLeft = 900; //increase lifetime if sticking to something
                                 projectile.ai[1] = (float)i;
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
                                 projectile.StatusNPC(i);
+                                //projectile.damage = 0; //aaaaaaa
                                 int num28 = 1;
                                 Point[] array2 = new Point[num28];
                                 int num29 = 0;
@@ -175,46 +201,10 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (target.type != mod.NPCType("Cryogen") || target.type != mod.NPCType("Brimstone Elemental") || target.type != NPCID.SkeletronPrime)
-			{
-                target.buffImmune[BuffID.Venom] = false;
-			}
-			else if (target.buffImmune[BuffID.Venom] && !target.boss && target.aiStyle != 6 && target.type != mod.NPCType("EidolonWyrmHeadHuge"))
-			{
-                target.buffImmune[BuffID.Venom] = false;
-			}
-			target.AddBuff(BuffID.Venom, 600);
-		}
-
-        public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			for (int num621 = 0; num621 < 8; num621++)
-			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default(Color), 1f);
-				Main.dust[num622].velocity *= 1f;
-			}
-            if (projectile.owner == Main.myPlayer)
-            {                
-				int num320 = Main.rand.Next(2, 6);
-                int num3;
-                for (int num321 = 0; num321 < num320; num321 = num3 + 1)
-                {
-                    Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    vector15.Normalize();
-                    vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("ScourgeVenomCloud"), (int)((double)projectile.damage * 0.50), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
-                    num3 = num321;
-                }
-            }
-		}
-
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
 		}
-    }
+	}
 }

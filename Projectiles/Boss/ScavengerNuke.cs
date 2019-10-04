@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
-			bool revenge = CalamityWorld.revenge;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			projectile.ai[1] += 1f;
 			if (projectile.ai[1] > 480)
 			{
@@ -45,8 +45,8 @@ namespace CalamityMod.Projectiles.Boss
 				projectile.frame = 0;
 			}
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-			float num953 = revenge ? 75f : 60f; //100
-			float scaleFactor12 = revenge ? 15f : 12f; //5
+			float num953 = revenge ? 75f : 60f;
+			float scaleFactor12 = revenge ? 15f : 12f;
 			float num954 = 40f;
 			if (projectile.alpha > 0)
 			{

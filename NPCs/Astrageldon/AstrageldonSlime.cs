@@ -23,12 +23,11 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.damage = 0;
-			npc.width = 90; //324
-			npc.height = 60; //216
-			npc.defense = 0;
+			npc.width = 90;
+			npc.height = 60;
 			npc.alpha = 255;
 			npc.lifeMax = Main.expertMode ? 1007 : 1012;
-			if (CalamityWorld.death)
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
 				npc.lifeMax = 1002;
 			}
@@ -88,7 +87,7 @@ namespace CalamityMod.NPCs.Astrageldon
 					npc.life = 0;
 					return;
 				}
-				float num1372 = 18f;
+				float num1372 = CalamityWorld.bossRushActive ? 24f : 18f;
 				Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
 				float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
 				float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
@@ -100,7 +99,7 @@ namespace CalamityMod.NPCs.Astrageldon
 				npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
 				return;
 			}
-			float num1446 = 7f;
+			float num1446 = CalamityWorld.bossRushActive ? 10f : 7f;
 			int num1447 = 480;
 			float num244;
 			if (npc.localAI[1] == 1f)

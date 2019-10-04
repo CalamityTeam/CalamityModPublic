@@ -16,8 +16,8 @@ namespace CalamityMod.NPCs
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
 			// Phases
-			bool phase2 = lifeRatio < 0.75f;
-			bool phase3 = lifeRatio < 0.5f;
+			bool phase2 = lifeRatio < 0.75f || CalamityWorld.bossRushActive;
+			bool phase3 = lifeRatio < 0.5f || CalamityWorld.bossRushActive;
 
 			// Variables
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
@@ -80,20 +80,21 @@ namespace CalamityMod.NPCs
 							double deltaAngle = spread / 8f;
 							double offsetAngle;
 							int i;
+							float velocity = CalamityWorld.bossRushActive ? 10f : 7f;
 							for (i = 0; i < 4; i++)
 							{
 								offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
-								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 7f),
-									(float)(Math.Cos(offsetAngle) * 7f), mod.ProjectileType("AstralFlame"), laserDamage, 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 7f),
-									(float)(-Math.Cos(offsetAngle) * 7f), mod.ProjectileType("AstralFlame"), laserDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity),
+									(float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("AstralFlame"), laserDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity),
+									(float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("AstralFlame"), laserDamage, 0f, Main.myPlayer, 0f, 0f);
 							}
 						}
 
 						// Fire astral lasers while falling or walking
 						else if ((npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode) || npc.ai[0] == 2f)
 						{
-							float num179 = 18.5f;
+							float num179 = CalamityWorld.bossRushActive ? 24f : 18.5f;
 							Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 							float num181 = Math.Abs(num180) * 0.1f;
@@ -169,7 +170,7 @@ namespace CalamityMod.NPCs
 			else if (npc.ai[0] == 2f)
 			{
 				// Set walking speed
-				float num823 = 5f + (3f * (1f - lifeRatio));
+				float num823 = (CalamityWorld.bossRushActive ? 8f : 5f) + (3f * (1f - lifeRatio));
 
 				// Set walking direction
 				if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
@@ -261,10 +262,10 @@ namespace CalamityMod.NPCs
 						// Set jump velocity, reset and set AI to next phase (Stomp)
 						npc.TargetClosest(true);
 
-						float velocityX = 6f + (6f * (1f - lifeRatio));
+						float velocityX = (CalamityWorld.bossRushActive ? 9f : 6f) + (6f * (1f - lifeRatio));
 						npc.velocity.X = velocityX * (float)npc.direction;
 
-						if (CalamityWorld.revenge)
+						if (revenge)
 						{
 							if (Main.player[npc.target].position.Y < npc.position.Y + (float)npc.height)
 								npc.velocity.Y = -14.5f;
@@ -338,7 +339,7 @@ namespace CalamityMod.NPCs
 						else if (npc.direction > 0)
 							npc.velocity.X = npc.velocity.X + 0.2f;
 
-						float num626 = 9f + (6f * (1f - lifeRatio));
+						float num626 = (CalamityWorld.bossRushActive ? 12f : 9f) + (6f * (1f - lifeRatio));
 						if (npc.velocity.X < -num626)
 							npc.velocity.X = -num626;
 						if (npc.velocity.X > num626)
@@ -351,8 +352,7 @@ namespace CalamityMod.NPCs
 			else if (npc.ai[0] == 5f)
 			{
 				// Slow down
-				npc.velocity.X *= 0.95f;
-				npc.velocity.Y *= 0.95f;
+				npc.velocity *= 0.95f;
 
 				// Spawn slimes and start teleport
 				if (Main.netMode != NetmodeID.MultiplayerClient)

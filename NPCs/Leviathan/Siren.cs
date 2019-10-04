@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.Y > 4f)
 						npc.velocity.Y = 4f;
 				}
@@ -272,7 +272,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.Y < -4f)
 						npc.velocity.Y = -4f;
 				}
@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.98f;
-					npc.velocity.X = npc.velocity.X - 0.1f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.X > 8f)
 						npc.velocity.X = 8f;
 				}
@@ -288,7 +288,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.98f;
-					npc.velocity.X = npc.velocity.X + 0.1f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.X < -8f)
 						npc.velocity.X = -8f;
 				}
@@ -327,8 +327,8 @@ namespace CalamityMod.NPCs.Leviathan
 					{
 						int num1061 = 371;
 						int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y - 30, num1061, 0, 0f, 0f, 0f, 0f, 255);
-						Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.01f;
-						Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.01f;
+						Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
+						Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
 						Main.npc[num1062].localAI[0] = 60f;
 						Main.npc[num1062].netUpdate = true;
 					}
@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.Leviathan
 					{
 						if (npc.velocity.Y > 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.98f;
-						npc.velocity.Y = npc.velocity.Y - 0.1f;
+						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 						if (npc.velocity.Y > 4f)
 							npc.velocity.Y = 4f;
 					}
@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.Leviathan
 					{
 						if (npc.velocity.Y < 0f)
 							npc.velocity.Y = npc.velocity.Y * 0.98f;
-						npc.velocity.Y = npc.velocity.Y + 0.1f;
+						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 						if (npc.velocity.Y < -4f)
 							npc.velocity.Y = -4f;
 					}
@@ -356,7 +356,7 @@ namespace CalamityMod.NPCs.Leviathan
 					{
 						if (npc.velocity.X > 0f)
 							npc.velocity.X = npc.velocity.X * 0.98f;
-						npc.velocity.X = npc.velocity.X - 0.1f;
+						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 						if (npc.velocity.X > 8f)
 							npc.velocity.X = 8f;
 					}
@@ -364,7 +364,7 @@ namespace CalamityMod.NPCs.Leviathan
 					{
 						if (npc.velocity.X < 0f)
 							npc.velocity.X = npc.velocity.X * 0.98f;
-						npc.velocity.X = npc.velocity.X + 0.1f;
+						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 						if (npc.velocity.X < -8f)
 							npc.velocity.X = -8f;
 					}
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Leviathan
 				}
 				else
 				{
-					if ((phase3 || CalamityWorld.death) && !leviAlive)
+					if (((phase3 || CalamityWorld.death) && !leviAlive) || CalamityWorld.bossRushActive)
 					{
 						if (npc.ai[1] % 20f == 19f)
 							flag104 = true;
@@ -456,7 +456,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.Y > 4f)
 						npc.velocity.Y = 4f;
 				}
@@ -464,7 +464,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.Y < 0f)
 						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.Y < -4f)
 						npc.velocity.Y = -4f;
 				}
@@ -472,7 +472,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X = npc.velocity.X * 0.98f;
-					npc.velocity.X = npc.velocity.X - 0.1f;
+					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.X > 8f)
 						npc.velocity.X = 8f;
 				}
@@ -480,7 +480,7 @@ namespace CalamityMod.NPCs.Leviathan
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X = npc.velocity.X * 0.98f;
-					npc.velocity.X = npc.velocity.X + 0.1f;
+					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
 					if (npc.velocity.X < -8f)
 						npc.velocity.X = -8f;
 				}
@@ -513,6 +513,9 @@ namespace CalamityMod.NPCs.Leviathan
 
 					// Velocity and rotation
 					float chargeVelocity = leviAlive ? 16f : 21f;
+					if (CalamityWorld.bossRushActive)
+						chargeVelocity = 26f;
+
 					npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
 					npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
 
@@ -638,6 +641,9 @@ namespace CalamityMod.NPCs.Leviathan
 
 			Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.localAI[0], -distance) - vector - npc.velocity) * 9f;
 			float acceleration = expertMode ? 0.75f : 0.5f;
+			if (CalamityWorld.bossRushActive)
+				acceleration = 1f;
+
 			if (npc.velocity.X < vector3.X)
 			{
 				npc.velocity.X = npc.velocity.X + acceleration;

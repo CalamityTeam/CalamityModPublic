@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Boss
 			else
 			{
 				projectile.velocity.Y *= 1.06f;
-				float fallSpeed = CalamityWorld.revenge ? 3.5f : 3f;
+				float fallSpeed = (CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 3.5f : 3f;
 				if (projectile.velocity.Y > fallSpeed)
 				{
 					projectile.velocity.Y = fallSpeed;

@@ -300,6 +300,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					num188 = 20f;
 					num189 = 0.2f;
 				}
+				if (CalamityWorld.bossRushActive)
+				{
+					num188 = 22f;
+					num189 = 0.24f;
+				}
 			}
 			float num48 = num188 * 1.3f;
 			float num49 = num188 * 0.7f;
@@ -324,12 +329,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)
 					{
 						Vector2 vector3 = Main.npc[num51].Center - npc.Center;
-						if (vector3.Length() < 400f) //400
+						if (vector3.Length() < 400f)
 						{
 							vector3.Normalize();
 							vector3 *= 1000f;
-							num191 -= vector3.X; //-
-							num192 -= vector3.Y; //-
+							num191 -= vector3.X;
+							num192 -= vector3.Y;
 						}
 					}
 				}
@@ -341,7 +346,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
 					{
 						Vector2 vector4 = Main.npc[num52].Center - npc.Center;
-						if (vector4.Length() < 60f) //60
+						if (vector4.Length() < 60f)
 						{
 							vector4.Normalize();
 							vector4 *= 200f;
@@ -402,11 +407,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					if (npc.velocity.X > 0f)
 					{
-						npc.velocity.X = npc.velocity.X + num189 * 2f; //changed from 2
+						npc.velocity.X = npc.velocity.X + num189 * 2f;
 					}
 					else
 					{
-						npc.velocity.X = npc.velocity.X - num189 * 2f; //changed from 2
+						npc.velocity.X = npc.velocity.X - num189 * 2f;
 					}
 				}
 			}
@@ -416,11 +421,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					if (npc.velocity.X < num191)
 					{
-						npc.velocity.X = npc.velocity.X + num189 * 1.1f; //changed from 1.1
+						npc.velocity.X = npc.velocity.X + num189 * 1.1f;
 					}
 					else if (npc.velocity.X > num191)
 					{
-						npc.velocity.X = npc.velocity.X - num189 * 1.1f; //changed from 1.1
+						npc.velocity.X = npc.velocity.X - num189 * 1.1f;
 					}
 					if ((double)(System.Math.Abs(npc.velocity.X) + System.Math.Abs(npc.velocity.Y)) < (double)num188 * 0.5)
 					{
@@ -472,6 +477,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				double offsetAngleBoom;
 				int iBoom;
 				int damageBoom = Main.expertMode ? 23 : 28;
+				float velocity = CalamityWorld.revenge ? 7.5f : 6.5f;
+				if (CalamityWorld.bossRushActive)
+					velocity = 11f;
+
 				for (iBoom = 0; iBoom < 15; iBoom++)
 				{
 					int projectileType = (Main.rand.NextBool(2) ? mod.ProjectileType("SandTooth") : mod.ProjectileType("SandBlast"));
@@ -480,8 +489,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						damageBoom = Main.expertMode ? 25 : 30;
 					}
 					offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
-					int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6.5f), (float)(Math.Cos(offsetAngleBoom) * 6.5f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
-					int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6.5f), (float)(-Math.Cos(offsetAngleBoom) * 6.5f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+					int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * velocity), (float)(Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+					int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * velocity), (float)(-Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
 				}
 				damageBoom = Main.expertMode ? 28 : 33;
 				int num320 = Main.rand.Next(5, 9);
@@ -490,7 +499,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					vector15.Normalize();
-					vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
+					vector15 *= (float)Main.rand.Next(50, 401) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
 					Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("SandPoisonCloud"), damageBoom, 0f, Main.myPlayer, 0f, (float)Main.rand.Next(-45, 1));
 					num3 = num321;
 				}

@@ -6402,6 +6402,12 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By NPC
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
+			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 5);
+			if (CalamityWorld.bossRushActive)
+			{
+				if (damage < bossRushDamage)
+					damage = bossRushDamage;
+			}
 			if (triumph)
 			{
 				double HPMultiplier = 0.15 * (1.0 - ((double)npc.life / (double)npc.lifeMax));
@@ -6466,6 +6472,12 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By Proj
 		public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
 		{
+			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 5);
+			if (CalamityWorld.bossRushActive)
+			{
+				if (damage < bossRushDamage)
+					damage = bossRushDamage;
+			}
 			if (projRefRare)
 			{
 				if (proj.type == projTypeJustHitBy)
@@ -6843,129 +6855,6 @@ namespace CalamityMod.CalPlayer
 					damageMult += 0.2;
 			}
 
-			if (CalamityWorld.bossRushActive)
-			{
-				switch (CalamityWorld.bossRushStage)
-				{
-					case 0:
-						damageMult += 4.0; //Tier 1 Queen Bee values adjusted for a median of 250 damage
-						break;
-					case 1:
-						damageMult += 3.0; //BoC
-						break;
-					case 2:
-						damageMult += 3.0; //King Slime
-						break;
-					case 3:
-						damageMult += 5.0; //EoC
-						break;
-					case 4:
-						damageMult += 1.5; //Prime
-						break;
-					case 5:
-						damageMult += 1.5; //Golem
-						break;
-					case 6:
-						damageMult += 0.75; //Guardians
-						break;
-					case 7:
-						damageMult += 4.0; //EoW
-						break;
-					case 8:
-						damageMult += 1.0; //Tier 2 Astrageldon values adjusted for a median of 300 damage
-						break;
-					case 9:
-						damageMult += 2.0; //Destroyer
-						break;
-					case 10:
-						damageMult += 2.0; //Twins
-						break;
-					case 11:
-						//Birb
-						break;
-					case 12:
-						damageMult += 3.0; //WoF
-						break;
-					case 13:
-						damageMult += 3.5; //Hive Mind
-						break;
-					case 14:
-						damageMult += 3.0; //Skeletron
-						break;
-					case 15:
-						damageMult += 0.25; //Storm Weaver
-						break;
-					case 16:
-						damageMult += 2.0; //Tier 3 Aquatic Scourge values adjusted for a median of 350 damage
-						break;
-					case 17:
-						damageMult += 5.0; //Desert Scourge
-						break;
-					case 18:
-						damageMult += 2.5; //Cultist
-						break;
-					case 19:
-						damageMult += 3.5; //Crabulon
-						break;
-					case 20:
-						damageMult += 2.5; //Plantera
-						break;
-					case 21:
-						damageMult += 1.0; //Void
-						break;
-					case 22:
-						damageMult += 4.0; //Perfs
-						break;
-					case 23:
-						damageMult += 3.0; //Cryogen
-						break;
-					case 24:
-						damageMult += 3.0; //Tier 4 Brimstone Elemental values adjusted for a median of 400 damage
-						break;
-					case 25:
-						damageMult += 1.0; //Signus
-						break;
-					case 26:
-						damageMult += 1.5; //Ravager
-						break;
-					case 27:
-						damageMult += 1.0; //Fishron
-						break;
-					case 28:
-						damageMult += 1.5; //Moon Lord
-						break;
-					case 29:
-						damageMult += 1.75; //Astrum Deus
-						break;
-					case 30:
-						damageMult += 1.0; //Polter
-						break;
-					case 31:
-						damageMult += 1.5; //Plaguebringer
-						break;
-					case 32:
-						damageMult += 3.0; //Tier 5 Calamitas values adjusted for a median of 450 to 500 damage
-						break;
-					case 33:
-						damageMult += 2.75; //Levi and Siren
-						break;
-					case 34:
-						damageMult += 4.25; //Slime God
-						break;
-					case 35:
-						damageMult += 1.5; //Providence
-						break;
-					case 36:
-						//SCal
-						break;
-					case 37:
-						damageMult += 0.1; //Yharon
-						break;
-					case 38:
-						damageMult += 1.0; //DoG
-						break;
-				}
-			}
 			damage = (int)((double)damage * damageMult);
 			#endregion
 
@@ -8763,7 +8652,8 @@ namespace CalamityMod.CalPlayer
 					Main.playerDrawData.Add(data);
 				}
 
-				else if (item.type == mod.ItemType("Deathwind") || item.type == mod.ItemType("Apotheosis") || item.type == mod.ItemType("CleansingBlaze") || item.type == mod.ItemType("SubsumingVortex"))
+				else if (item.type == mod.ItemType("Deathwind") || item.type == mod.ItemType("Apotheosis") || item.type == mod.ItemType("CleansingBlaze") ||
+				item.type == mod.ItemType("SubsumingVortex"))
 				{
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/DeathwindGlow");
 					int offsetX = 10;
@@ -8805,13 +8695,16 @@ namespace CalamityMod.CalPlayer
 					Main.playerDrawData.Add(data);
 				}
 
-				else if (item.type == mod.ItemType("Excelsus") || item.type == mod.ItemType("EssenceFlayer") || item.type == mod.ItemType("TheEnforcer"))
+				else if (item.type == mod.ItemType("Excelsus") || item.type == mod.ItemType("EssenceFlayer") || item.type == mod.ItemType("TheEnforcer") ||
+				item.type == mod.ItemType("ElementalExcalibur"))
 				{
 					Texture2D texture = mod.GetTexture("Items/Weapons/DevourerofGods/ExcelsusGlow");
 					if (item.type == mod.ItemType("EssenceFlayer"))
 						texture = mod.GetTexture("Items/Weapons/EssenceFlayerGlow");
 					else if (item.type == mod.ItemType("TheEnforcer"))
 						texture = mod.GetTexture("Items/Weapons/TheEnforcerGlow");
+					else if (item.type == mod.ItemType("ElementalExcalibur"))
+						texture = mod.GetTexture("Items/Weapons/ElementalExcaliburGlow");
 
 					float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
 

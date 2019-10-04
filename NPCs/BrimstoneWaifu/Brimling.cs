@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.netUpdate = true;
 				return;
 			}
-			bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.2;
+			bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.1;
 			bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
 			if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
 			{
@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				boostDR = false;
 				npc.chaseable = true;
 			}
-			float num1446 = goIntoShell ? 1f : 6f;
+			float num1446 = goIntoShell ? 1f : (CalamityWorld.bossRushActive ? 12f : 6f);
 			int num1447 = 480;
 			float num244;
 			if (npc.localAI[1] == 1f)
@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				npc.localAI[0] = 0f;
 				if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					float speed = 5f;
+					float speed = CalamityWorld.bossRushActive ? 7.5f : 5f;
 					Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
 					float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-10, 11);
 					float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-10, 11);

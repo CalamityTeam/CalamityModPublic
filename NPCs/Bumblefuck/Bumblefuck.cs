@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.Bumblefuck
 		{
 			// Variables
 			Player player = Main.player[npc.target];
-			bool revenge = CalamityWorld.revenge;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			Vector2 vector = npc.Center;
 
 			// Percent life remaining
@@ -80,13 +80,13 @@ namespace CalamityMod.NPCs.Bumblefuck
 			// Phases
 			float mult = 1f +
 				(revenge ? 0.25f : 0f) +
-				(CalamityWorld.death ? 0.25f : 0f);
+				((CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.25f : 0f);
 			bool phase2 = lifeRatio < 0.5f * mult;
 			bool phase3 = lifeRatio < 0.1f * mult;
 
 			// Max spawn amount
 			int num1305 = revenge ? 4 : 3;
-			if (CalamityWorld.death)
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				num1305 = 5;
 			if (phase2)
 				num1305 = 2;

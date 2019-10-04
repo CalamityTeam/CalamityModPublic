@@ -707,7 +707,7 @@ namespace CalamityMod.World
 					if (bossRushSpawnCountdown > 0)
 					{
 						bossRushSpawnCountdown--;
-						if (bossRushSpawnCountdown == 180 && bossRushStage == 26)
+						if (bossRushSpawnCountdown == 180 && bossRushStage == 28)
 						{
 							string key = "Mods.CalamityMod.BossRushTierThreeEndText2";
 							Color messageColor = Color.LightCoral;
@@ -720,7 +720,7 @@ namespace CalamityMod.World
 								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 							}
 						}
-						if (bossRushSpawnCountdown == 210 && bossRushStage == 33)
+						if (bossRushSpawnCountdown == 210 && bossRushStage == 36)
 						{
 							string key = "Mods.CalamityMod.BossRushTierFourEndText2";
 							Color messageColor = Color.LightCoral;
@@ -737,11 +737,11 @@ namespace CalamityMod.World
 					if (bossRushSpawnCountdown <= 0)
 					{
 						bossRushSpawnCountdown = 60;
-						if (bossRushStage > 25)
+						if (bossRushStage > 27)
 						{
 							bossRushSpawnCountdown += 120; //3 seconds
 						}
-						if (bossRushStage > 32)
+						if (bossRushStage > 35)
 						{
 							bossRushSpawnCountdown += 180; //6 seconds
 						}

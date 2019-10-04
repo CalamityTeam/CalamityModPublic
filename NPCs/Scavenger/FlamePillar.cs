@@ -90,6 +90,11 @@ namespace CalamityMod.NPCs.Scavenger
                     npc.localAI[0] += 1f;
                     float SpeedX = (float)Main.rand.Next(-6, 7);
                     float SpeedY = (float)Main.rand.Next(-12, -8);
+					if (CalamityWorld.bossRushActive)
+					{
+						SpeedX *= 1.5f;
+						SpeedY *= 1.5f;
+					}
                     if (npc.localAI[0] >= 60f)
                     {
                         if (Main.netMode != NetmodeID.MultiplayerClient)

@@ -53,14 +53,14 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.TargetClosest(true);
 			Vector2 direction = Main.player[npc.target].Center - npc.Center;
 			direction.Normalize();
-			direction *= 9f;
+			direction *= 40f;
 			npc.rotation = direction.ToRotation();
 			npc.localAI[0] += 1f;
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 360f)
 			{
 				npc.localAI[0] = 0f;
 				int num8 = expertMode ? 45 : 60;
-				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X * 5f, direction.Y * 5f, mod.ProjectileType("DeusMine"), num8, 0f, Main.myPlayer, 0f, 0f);
+				Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, mod.ProjectileType("DeusMine"), num8, 0f, Main.myPlayer, 0f, 0f);
 			}
 			bool anySmallDeusHeads = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
 			if (CalamityGlobalNPC.astrumDeusHeadMain < 0 || !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)

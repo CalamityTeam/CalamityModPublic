@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.TargetClosest(true);
 			Vector2 direction = Main.player[npc.target].Center - npc.Center;
 			direction.Normalize();
-			direction *= 9f;
+			direction *= (CalamityWorld.bossRushActive ? 13f : 9f);
 			npc.rotation = direction.ToRotation();
 			npc.localAI[0] += 1f;
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 720f)

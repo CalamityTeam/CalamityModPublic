@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void AI()
 		{
-            bool expertMode = Main.expertMode;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			double mult = 0.5 +
 				(CalamityWorld.revenge ? 0.2 : 0.0) +
 				(CalamityWorld.death ? 0.2 : 0.0);
-			if ((double)npc.life < (double)npc.lifeMax * mult)
+			if ((double)npc.life < (double)npc.lifeMax * mult || CalamityWorld.bossRushActive)
 			{
 				npc.knockBackResist = 0f;
 			}
@@ -135,9 +135,9 @@ namespace CalamityMod.NPCs.CeaselessVoid
             }
 
             float num1372 = expertMode ? 10f : 8f;
-			if (CalamityWorld.revenge)
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 				num1372 += 2f;
-			if (CalamityWorld.death)
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 				num1372 += 2f;
 
 			Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);

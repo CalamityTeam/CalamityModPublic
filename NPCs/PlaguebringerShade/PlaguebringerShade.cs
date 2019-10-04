@@ -157,10 +157,14 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						npc.localAI[0] = 1f;
 						npc.ai[1] += 1f;
 						npc.ai[2] = 0f;
-						float num1044 = 15f; //12
+						float num1044 = 15f;
 						if (flag113)
 						{
 							num1044 += 2f;
+						}
+						if (CalamityWorld.bossRushActive)
+						{
+							num1044 *= 1.5f;
 						}
 						Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num1045 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector117.X;
@@ -174,12 +178,17 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						return;
 					}
 					npc.localAI[0] = 0f;
-					float num1048 = 12.25f; //12
-					float num1049 = 0.155f; //0.15
+					float num1048 = 12.25f;
+					float num1049 = 0.155f;
 					if (flag113)
 					{
-						num1048 += 1f; //2
-						num1049 += 0.075f; //0.1
+						num1048 += 1f;
+						num1049 += 0.075f;
+					}
+					if (CalamityWorld.bossRushActive)
+					{
+						num1048 *= 1.5f;
+						num1049 *= 1.5f;
 					}
 					if (npc.position.Y + (float)(npc.height / 2) < Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))
 					{
@@ -218,7 +227,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						npc.velocity.X = 16f;
 					}
 					npc.spriteDirection = npc.direction;
-					return;
 				}
 				else
 				{
@@ -231,7 +239,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 						npc.direction = 1;
 					}
 					npc.spriteDirection = npc.direction;
-					int num1050 = 500; //600
+					int num1050 = CalamityWorld.bossRushActive ? 400 : 500;
 					int num1051 = 1;
 					if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
 					{
@@ -250,8 +258,8 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					npc.spriteDirection = npc.direction;
 					npc.localAI[0] = 0f;
 					npc.velocity *= 0.9f;
-					float num1052 = 0.105f; //0.1
-					if (flag113)
+					float num1052 = 0.105f;
+					if (flag113 || CalamityWorld.bossRushActive)
 					{
 						npc.velocity *= 0.9f;
 						num1052 += 0.075f;
@@ -260,7 +268,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					{
 						npc.ai[2] = 0f;
 						npc.ai[1] += 1f;
-						return;
 					}
 				}
 			}
@@ -268,11 +275,16 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 			{
 				npc.TargetClosest(true);
 				npc.spriteDirection = npc.direction;
-				float num1053 = 12f; //12
-				float num1054 = 0.1f; //0.07
+				float num1053 = 12f;
+				float num1054 = 0.1f;
 				if (flag113)
 				{
 					num1054 = 0.12f;
+				}
+				if (CalamityWorld.bossRushActive)
+				{
+					num1053 *= 1.5f;
+					num1054 *= 1.5f;
 				}
 				Vector2 vector118 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num1055 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector118.X;
@@ -308,7 +320,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					if (npc.velocity.Y < 0f && num1056 > 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y + num1054;
-						return;
 					}
 				}
 				else if (npc.velocity.Y > num1056)
@@ -317,7 +328,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					if (npc.velocity.Y > 0f && num1056 < 0f)
 					{
 						npc.velocity.Y = npc.velocity.Y - num1054;
-						return;
 					}
 				}
 			}
@@ -365,8 +375,13 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				}
 				if (num1060 > 400f || !Collision.CanHit(new Vector2(vector119.X, vector119.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					float num1063 = 14.5f; //changed from 14
-					float num1064 = 0.105f; //changed from 0.1
+					float num1063 = 14.5f;
+					float num1064 = 0.105f;
+					if (CalamityWorld.bossRushActive)
+					{
+						num1063 *= 1.5f;
+						num1064 *= 1.5f;
+					}
 					vector120 = vector119;
 					num1058 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector120.X;
 					num1059 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector120.Y;
@@ -415,7 +430,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					npc.ai[0] = -1f;
 					npc.ai[1] = 1f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 			else if (npc.ai[0] == 3f)
@@ -426,6 +440,11 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				{
 					num1066 = 0.09f;
 					num1065 = 8f;
+				}
+				if (CalamityWorld.bossRushActive)
+				{
+					num1065 *= 1.5f;
+					num1066 *= 1.5f;
 				}
 				Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(40 * npc.direction), npc.position.Y + (float)npc.height * 0.8f);
 				Vector2 vector122 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -443,7 +462,7 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						float num1070 = 6f; //changed from 8
+						float num1070 = 6f;
 						if (flag113)
 						{
 							num1070 += 2f;
@@ -466,13 +485,10 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 				}
 				if (!Collision.CanHit(new Vector2(vector121.X, vector121.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
 				{
-					num1065 = 14.5f; //changed from 14
-					num1066 = 0.105f; //changed from 0.1
+					num1066 = CalamityWorld.bossRushActive ? 0.15f : 0.105f;
 					vector122 = vector121;
 					num1067 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector122.X;
 					num1068 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector122.Y;
-					num1069 = (float)Math.Sqrt((double)(num1067 * num1067 + num1068 * num1068));
-					num1069 = num1065 / num1069;
 					if (npc.velocity.X < num1067)
 					{
 						npc.velocity.X = npc.velocity.X + num1066;
@@ -549,7 +565,6 @@ namespace CalamityMod.NPCs.PlaguebringerShade
 					npc.ai[0] = -1f;
 					npc.ai[1] = 3f;
 					npc.netUpdate = true;
-					return;
 				}
 			}
 		}

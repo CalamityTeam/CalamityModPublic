@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			}
 			float num823 = 7.5f;
 			float num824 = 0.08f;
-			if (!player.ZoneDungeon)
+			if (!player.ZoneDungeon || CalamityWorld.bossRushActive)
 			{
 				num823 = 25f;
 			}

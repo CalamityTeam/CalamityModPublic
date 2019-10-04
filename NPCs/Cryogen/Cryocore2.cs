@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Cryogen
             }
             npc.aiStyle = -1;
             aiType = -1;
-			npc.knockBackResist = 0.5f;
+			npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.5f;
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.canGhostHeal = false;
@@ -50,6 +50,8 @@ namespace CalamityMod.NPCs.Cryogen
 			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
 			npc.TargetClosest(true);
 			float num1372 = revenge ? 14f : 12f;
+			if (CalamityWorld.bossRushActive)
+				num1372 = 28f;
 			Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
 			float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
 			float num1374 = Main.player[npc.target].Center.Y - vector167.Y;

@@ -132,10 +132,15 @@ namespace CalamityMod.NPCs.AstrumDeus
 			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
 			float speedLimit = CalamityWorld.revenge ? 7f : 6f;
 			float turnSpeedLimit = CalamityWorld.revenge ? 0.11f : 0.1f;
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+			if (CalamityWorld.death)
 			{
-				speedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 15f : 8f);
-				turnSpeedLimit = ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 0.2f : 0.12f);
+				speedLimit = 8f;
+				turnSpeedLimit = 0.12f;
+			}
+			if (CalamityWorld.bossRushActive)
+			{
+				speedLimit *= 1.5f;
+				turnSpeedLimit *= 1.5f;
 			}
 			float speedBoost = speedLimit * (1f - (float)mainDeusHPRatio);
 			float turnSpeedBoost = turnSpeedLimit * (1f - (float)mainDeusHPRatio);

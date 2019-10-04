@@ -113,13 +113,13 @@ namespace CalamityMod.NPCs.DesertScourge
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = mod.ProjectileType("SandBlast");
                         int damage = 12;
-                        float num941 = (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged ? 15f : 6f);
+                        float num941 = CalamityWorld.bossRushActive ? 12f : 6f;
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
-                        if (Main.rand.NextBool(2))
+                        if (Main.rand.NextBool(2) || CalamityWorld.bossRushActive)
                         {
                             Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                         }

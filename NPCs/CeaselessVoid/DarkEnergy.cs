@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void AI()
 		{
-			bool expertMode = Main.expertMode;
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			double mult = 0.5 +
 				(CalamityWorld.revenge ? 0.2 : 0.0) +
 				(CalamityWorld.death ? 0.2 : 0.0);
-            if ((double)npc.life < (double)npc.lifeMax * mult)
+            if ((double)npc.life < (double)npc.lifeMax * mult || CalamityWorld.bossRushActive)
             {
                 npc.knockBackResist = 0f;
             }
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
 				if (num786 > 90f)
 				{
-					num786 = 16f / num786;
+					num786 = (CalamityWorld.bossRushActive ? 24f : 16f) / num786;
 					num784 *= num786;
 					num785 *= num786;
 					npc.velocity.X = (npc.velocity.X * 15f + num784) / 16f;
@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					num784 = player.Center.X - vector96.X;
 					num785 = player.Center.Y - vector96.Y;
 					num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
-					num786 = 12f / num786;
+					num786 = (CalamityWorld.bossRushActive ? 16f : 12f) / num786;
 					npc.velocity.X = num784 * num786;
 					npc.velocity.Y = num785 * num786;
 					npc.ai[0] = 1f;
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			{
 				Vector2 value4 = player.Center - npc.Center;
 				value4.Normalize();
-				value4 *= 11f;
+				value4 *= (CalamityWorld.bossRushActive ? 16f : 11f);
 				npc.velocity = (npc.velocity * 99f + value4) / 100f;
 				Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
 				float num787 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector97.X;

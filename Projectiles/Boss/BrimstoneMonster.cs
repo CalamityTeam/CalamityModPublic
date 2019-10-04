@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Boss
 			{
 				speedAdd += 0.04f;
 			}
-			bool revenge = CalamityWorld.revenge;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 3f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
 			float num953 = (revenge ? 5f : 4.5f) + speedAdd; //100
 			float scaleFactor12 = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f); //5
