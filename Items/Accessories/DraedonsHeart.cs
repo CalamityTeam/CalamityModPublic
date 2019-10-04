@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Draedon's Heart");
             Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
-                "Increases your chance of getting the heart attack debuff\n" +
+                "Increases your chance of getting the absolute rage buff\n" +
 				"Boosts your damage by 10% and max movement speed and acceleration by 5%\n" +
                 "Rage mode does more damage\n" +
                 "You gain rage over time\n" +
