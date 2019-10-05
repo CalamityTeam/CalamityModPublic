@@ -4341,7 +4341,7 @@ namespace CalamityMod.NPCs
 							if (phase3 || CalamityWorld.bossRushActive)
 								projectileSpeed += (CalamityWorld.death || CalamityWorld.bossRushActive) ? 0.33f : 0.25f;
 							if (CalamityWorld.bossRushActive)
-								projectileSpeed *= 1.5f;
+								projectileSpeed *= 1.25f;
 
 							// Set projectile damage and type, set projectile to saucer scrap if probe has been launched
 							int damage = 23;
@@ -4841,7 +4841,7 @@ namespace CalamityMod.NPCs
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								float num389 = CalamityWorld.bossRushActive ? 15f : 10.5f;
+								float num389 = CalamityWorld.bossRushActive ? 12f : 10.5f;
 								int num390 = 23;
 								int num391 = ProjectileID.EyeLaser;
 
@@ -5066,7 +5066,7 @@ namespace CalamityMod.NPCs
 							if (canHit || !spazAlive || enrage)
 							{
 								npc.localAI[1] = 0f;
-								float num404 = CalamityWorld.bossRushActive ? 15f : 10f;
+								float num404 = CalamityWorld.bossRushActive ? 12f : 10f;
 								int num405 = 28;
 								int num406 = ProjectileID.DeathLaser;
 
@@ -5159,7 +5159,7 @@ namespace CalamityMod.NPCs
 								if (canHit || !spazAlive || enrage)
 								{
 									npc.localAI[1] = 0f;
-									float num414 = CalamityWorld.bossRushActive ? 13.5f : 9f;
+									float num414 = CalamityWorld.bossRushActive ? 11f : 9f;
 									int num415 = 21;
 									int num416 = ProjectileID.DeathLaser;
 
@@ -6268,7 +6268,7 @@ namespace CalamityMod.NPCs
 							double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 							double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 							double offsetAngle;
-							float velocity = CalamityWorld.bossRushActive ? 7.5f : 5f;
+							float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
 							int damage = 31;
 							int i;
 							for (i = 0; i < 6; i++)
@@ -6397,7 +6397,7 @@ namespace CalamityMod.NPCs
 							double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 							double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 							double offsetAngle;
-							float velocity = CalamityWorld.bossRushActive ? 7.5f : 5f;
+							float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
 							int damage = 31;
 							int i;
 							for (i = 0; i < 6; i++)
@@ -6828,7 +6828,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] >= 90f)
 					{
 						npc.localAI[0] = 0f;
-						float num509 = CalamityWorld.bossRushActive ? 16f : 11f;
+						float num509 = CalamityWorld.bossRushActive ? 13f : 11f;
 						int num510 = 31;
 						int num511 = ProjectileID.DeathLaser;
 						num508 = num509 / num508;
@@ -6924,7 +6924,7 @@ namespace CalamityMod.NPCs
 						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 						double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
 						double offsetAngle;
-						float velocity = CalamityWorld.bossRushActive ? 7.5f : 5f;
+						float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
 						int damage = 31;
 						int i;
 						for (i = 0; i < 6; i++)
@@ -9506,11 +9506,11 @@ namespace CalamityMod.NPCs
 
 			if (CalamityWorld.bossRushActive)
 			{
-				num2 = 20;
-				num3 *= 1.2f;
-				scaleFactor *= 1.35f;
-				chargeTime -= 3;
-				chargeVelocity *= 1.5f;
+				num2 = 25;
+				num3 *= 1.1f;
+				scaleFactor *= 1.15f;
+				chargeTime -= 2;
+				chargeVelocity *= 1.25f;
 			}
 
 			// Variables

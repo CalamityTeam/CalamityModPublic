@@ -220,9 +220,9 @@ namespace CalamityMod.NPCs.Crabulon
 				if ((double)npc.life < (double)npc.lifeMax * 0.1)
 					num823 = 2f;
 				if (CalamityWorld.bossRushActive)
-					num823 = 8f;
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					num823 = 12f;
+				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					num823 = 16f;
 
 				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 50f)
 				{

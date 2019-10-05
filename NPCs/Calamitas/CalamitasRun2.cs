@@ -338,7 +338,7 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if (CalamityWorld.bossRushActive)
 					{
-						num870 *= 1.5f;
+						num870 *= 1.25f;
 					}
 
 					Vector2 vector87 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -364,7 +364,7 @@ namespace CalamityMod.NPCs.Calamitas
 					}
 					if (CalamityWorld.bossRushActive)
 					{
-						npc.ai[2] += 0.5f;
+						npc.ai[2] += 0.25f;
 					}
 
 					if (npc.ai[2] >= 60f) //50
