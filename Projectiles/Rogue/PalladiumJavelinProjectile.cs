@@ -28,11 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-        	if(projectile.spriteDirection == -1)
-        	{
-        		projectile.rotation -= 1.57f;
-        	}
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
