@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.penetrate = 1;
-			projectile.alpha = 255;
 			projectile.timeLeft = 600;
 			projectile.extraUpdates = 1;
 			aiType = ProjectileID.Bullet;
@@ -42,21 +41,15 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override bool PreAI()
         {
-			projectile.localAI[1] += 1f;
-        	if (projectile.localAI[1] >= 6f)
-        	{
-				for (int num136 = 0; num136 < 10; num136++)
-				{
-					float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
-					float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
-					int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, 182, 0f, 0f, 0, default, 0.5f);
-					Main.dust[num137].alpha = projectile.alpha;
-					Main.dust[num137].position.X = x2;
-					Main.dust[num137].position.Y = y2;
-					Main.dust[num137].velocity *= 0f;
-					Main.dust[num137].noGravity = true;
-				}
-        	}
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+			projectile.spriteDirection = projectile.direction;
+            if (Main.rand.NextBool(3))
+            {
+				int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 70, 0f, 0f, 0, default, 0.5f);
+				Main.dust[num137].alpha = projectile.alpha;
+				Main.dust[num137].velocity *= 0f;
+				Main.dust[num137].noGravity = true;
+			}
 			float num138 = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));
 			float num139 = projectile.localAI[0];
 			if (num139 == 0f)
