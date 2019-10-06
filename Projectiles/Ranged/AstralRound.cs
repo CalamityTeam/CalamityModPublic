@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.friendly = true;
 			projectile.ranged = true;
 			projectile.penetrate = 1;
-			projectile.alpha = 255;
 			projectile.timeLeft = 600;
 			projectile.light = 0.25f;
 			projectile.extraUpdates = 1;
@@ -52,8 +51,10 @@ namespace CalamityMod.Projectiles.Ranged
 
 		public override bool PreAI()
         {
-			for (int num136 = 0; num136 < 6; num136++)
-			{
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+			projectile.spriteDirection = projectile.direction;
+            if (Main.rand.NextBool(2))
+            {
 				int randomDust = Main.rand.Next(2);
 				if (randomDust == 0)
 				{
@@ -63,11 +64,8 @@ namespace CalamityMod.Projectiles.Ranged
 				{
 					randomDust = mod.DustType("AstralBlue");
 				}
-				float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
-				float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
-				int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, randomDust, 0f, 0f, 0, default, 1.5f);
-				Main.dust[num137].position.X = x2;
-				Main.dust[num137].position.Y = y2;
+				int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
+				Main.dust[num137].alpha = projectile.alpha;
 				Main.dust[num137].velocity *= 0f;
 				Main.dust[num137].noGravity = true;
 			}
