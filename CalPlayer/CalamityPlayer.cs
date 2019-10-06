@@ -4463,7 +4463,7 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[mod.NPCType("PerennialSlime")] = true;
 				player.npcTypeNoAggro[mod.NPCType("PlaguedJungleSlime")] = true;
 				player.npcTypeNoAggro[mod.NPCType("AstralSlime")] = true;
-				//player.npcTypeNoAggro[mod.NPCType("WulfrumSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("WulfrumSlime")] = true;
 			}
 			#endregion
 
