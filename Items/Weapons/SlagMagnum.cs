@@ -1,6 +1,11 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -30,6 +35,11 @@ namespace CalamityMod.Items.Weapons
             item.shootSpeed = 22f;
             item.shoot = mod.ProjectileType("SlagRound");
             item.useAmmo = 97;
+        }
+	    
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

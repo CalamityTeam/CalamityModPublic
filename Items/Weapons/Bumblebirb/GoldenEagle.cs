@@ -1,6 +1,11 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons.Bumblebirb
 {
@@ -32,6 +37,11 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 			item.useAmmo = 97;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
 		}
+	    
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-5, 0);
+        }
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
