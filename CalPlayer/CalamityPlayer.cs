@@ -288,6 +288,7 @@ namespace CalamityMod.CalPlayer
 		public bool normalityRelocator = false;
 		public bool fabledTortoise = false;
 		public bool manaOverloader = false;
+		public bool royalGel = false;
 		public bool sandWaifu = false;
 		public bool sandBoobWaifu = false;
 		public bool cloudWaifu = false;
@@ -934,6 +935,7 @@ namespace CalamityMod.CalPlayer
 			normalityRelocator = false;
 			fabledTortoise = false;
 			manaOverloader = false;
+			royalGel = false;
 			lol = false;
 			raiderTalisman = false;
 			sGenerator = false;
@@ -4448,6 +4450,20 @@ namespace CalamityMod.CalPlayer
 			if (plaguebringerGoliathLore)
 			{
 				player.lifeRegen /= 2;
+			}
+			if (royalGel)
+			{
+				player.npcTypeNoAggro[mod.NPCType("AeroSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("BloomSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("CharredSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("CrimulanBlightSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("CryoSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("EbonianBlightSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("IrradiatedSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("PerennialSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("PlaguedJungleSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("AstralSlime")] = true;
+				//player.npcTypeNoAggro[mod.NPCType("WulfrumSlime")] = true;
 			}
 			#endregion
 

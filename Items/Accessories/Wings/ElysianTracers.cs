@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Accessories.Wings
 			player.fireWalk = true;
 			player.lavaMax += 240;
 			player.wingTimeMax = 160;
+			player.noFallDmg = true;
 			modPlayer.IBoots = !hideVisual;
 			modPlayer.elysianFire = !hideVisual;
 			modPlayer.eTracers = true;

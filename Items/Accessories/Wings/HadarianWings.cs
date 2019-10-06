@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Accessories.Wings
 				}
 			}
 			player.wingTimeMax = 120;
+			player.noFallDmg = true;
 		}
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)

@@ -1803,6 +1803,9 @@ namespace CalamityMod.Items
 
 			if (item.type == ItemID.WormScarf)
 				player.endurance -= 0.07f;
+			
+			if (item.type == ItemID.RoyalGel)
+				modPlayer.royalGel = true;
 
 			if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
 				(item.type == ItemID.SunStone && Main.dayTime))
