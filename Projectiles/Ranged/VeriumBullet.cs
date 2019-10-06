@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
 			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
 			projectile.spriteDirection = projectile.direction;
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(2))
             {
 				int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 70, 0f, 0f, 0, default, 0.5f);
 				Main.dust[num137].alpha = projectile.alpha;

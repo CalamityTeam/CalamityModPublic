@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void AI()
 		{
 			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(2))
             {
 				int dustType = Main.rand.Next(3);
 				if (dustType == 0)
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Ranged
 				}
 				else if (dustType == 1)
 				{
-					dustType = 128;
+					dustType = 61;
 				}
 				else
 				{
