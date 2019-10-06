@@ -417,6 +417,10 @@ namespace CalamityMod.Projectiles
 					}
 				}
 			}
+			else if (projectile.type == ProjectileID.FallingStar)
+				projectile.ranged = true;
+			else if (projectile.type == ProjectileID.SoulDrain)
+				projectile.magic = true;
 
 			if (Main.player[projectile.owner].GetCalamityPlayer().eQuiver && projectile.ranged &&
 				projectile.friendly && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))

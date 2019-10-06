@@ -72,6 +72,7 @@ namespace CalamityMod.Items.Weapons
 		            int flare = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
 		            Main.projectile[flare].penetrate = 1;
 		            Main.projectile[flare].timeLeft = 600;
+					Main.projectile[flare].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
 		        }
 		        return false;
 			}
@@ -85,6 +86,7 @@ namespace CalamityMod.Items.Weapons
 			        float SpeedX = speedX + (float) Main.rand.Next(-40, 41) * 0.05f;
 			        float SpeedY = speedY + (float) Main.rand.Next(-40, 41) * 0.05f;
 			        int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+					Main.projectile[projectile].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
 			        Main.projectile[projectile].timeLeft = 200;
 			    }
 			    return false;
