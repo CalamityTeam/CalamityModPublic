@@ -103,6 +103,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			item.maxStack = 999;
 			item.consumable = true;
 			item.noUseGraphic = true;
+			item.value = Item.buyPrice(0, 0, 40, 0);
 			//item.CloneDefaults(2004); //Lightning Bug item
 			item.width = 26;
 			item.height = 24;
