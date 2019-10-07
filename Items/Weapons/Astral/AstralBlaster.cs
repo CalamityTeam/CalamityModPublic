@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Astral
 	        item.shoot = mod.ProjectileType("AstralRound");
 	        item.useAmmo = 97;
 	    }
-	    
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-5, 0);

@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.alpha += 5;
             if (projectile.timeLeft < 75)
                 projectile.velocity *= 0.95f;
-        }   
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

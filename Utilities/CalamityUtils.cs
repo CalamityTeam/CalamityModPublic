@@ -1,4 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.NPCs;
+using CalamityMod.Projectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -20,7 +22,7 @@ namespace CalamityMod
             {
                 case 1:
                     return player.GetCalamityPlayer().ZoneAbyssLayer1;
-                    
+
                 case 2:
                     return player.GetCalamityPlayer().ZoneAbyssLayer2;
 
@@ -38,6 +40,8 @@ namespace CalamityMod
 
     public static class CNPCUtils
     {
+        public static CalamityGlobalNPC GetCalamityNPC(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
+
         /// <summary>
         /// Allows you to set the lifeMax value of a NPC to different values based on the mode. Called instead of npc.lifeMax = X.
         /// </summary>
@@ -66,7 +70,7 @@ namespace CalamityMod
             if (npc.boss)
             {
                 double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			    npc.lifeMax += (int)((double)npc.lifeMax * HPBoost); 
+			    npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             }
         }
         /// <summary>
@@ -106,6 +110,11 @@ namespace CalamityMod
             }
             return ClosestNPCAt(origin,maxDistanceToCheck);
         }
+    }
+
+    public static class CProjectileUtils
+    {
+        public static CalamityGlobalProjectile GetCalamityProj(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
     }
 
     public static class CMiscUtils

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Perforators
 	        item.shootSpeed = 22f;
 	        item.useAmmo = 97;
 	    }
-	    
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-7, 0);

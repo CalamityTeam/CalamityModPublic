@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("SlagRound");
             item.useAmmo = 97;
         }
-	    
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);

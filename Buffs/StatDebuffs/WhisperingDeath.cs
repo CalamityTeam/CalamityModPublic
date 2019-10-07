@@ -1,13 +1,14 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.StatDebuffs
 {
     public class WhisperingDeath : ModBuff
 	{
-		public override void SetDefaults()
+        public static int DefenseReduction = 50;
+
+        public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Whispering Death");
 			Description.SetDefault("Death approaches; defense, attack power, and life regen reduced");

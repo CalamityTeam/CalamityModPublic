@@ -20,6 +20,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 26; //324
 			npc.height = 46; //216
 			npc.defense = 0;
+            npc.takenDamageMultiplier = 1E-6f;
             npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
             if (CalamityWorld.death)
             {

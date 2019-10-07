@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 			item.shoot = mod.ProjectileType("SlimeBolt");
 			item.useAmmo = 23;
 		}
-	    
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-4, 0);

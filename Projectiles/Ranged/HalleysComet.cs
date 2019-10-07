@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 		{
 			DisplayName.SetDefault("Halley's Comet");
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 20;

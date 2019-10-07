@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Ruin Medallion");
-			Tooltip.SetDefault("Stealth strikes only expend 50% of your max stealth\n" + 
+			Tooltip.SetDefault("Stealth strikes only expend 50% of your max stealth\n" +
                 "6% increased rogue damage, and 6% increased rogue crit chance");
 		}
 

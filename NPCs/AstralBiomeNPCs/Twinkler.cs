@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			//banner = npc.type;
 			//bannerItem = mod.ItemType("TwinklerBanner");
 		}
-		
+
 
 		public override bool? CanBeHitByItem(Player player, Item item) {
 			return true;
@@ -68,10 +68,10 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
 		public virtual void OnCatchNPC(Player player, Item item)
 		{
-			try 
+			try
 			{
 				var npcCenter = npc.Center.ToTileCoordinates();
-				if (!WorldGen.SolidTile(npcCenter.X, npcCenter.Y) && Main.tile[npcCenter.X, npcCenter.Y].liquid == 0) 
+				if (!WorldGen.SolidTile(npcCenter.X, npcCenter.Y) && Main.tile[npcCenter.X, npcCenter.Y].liquid == 0)
 				{
 					Main.tile[npcCenter.X, npcCenter.Y].liquid = (byte)Main.rand.Next(50, 150);
 					Main.tile[npcCenter.X, npcCenter.Y].lava(true);
@@ -79,13 +79,13 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 					WorldGen.SquareTileFrame(npcCenter.X, npcCenter.Y, true);
 				}
 			}
-			catch 
+			catch
 			{
 				return;
 			}
 		}
 	}
-	
+
 	internal class TwinklerItem : ModItem
 	{
 		public override void SetStaticDefaults()

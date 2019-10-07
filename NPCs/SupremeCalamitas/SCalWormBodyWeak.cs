@@ -30,7 +30,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.aiStyle = 6;
             aiType = -1;
 			npc.knockBackResist = 0f;
-			npc.scale = 1.2f;
+            npc.takenDamageMultiplier = 1E-6f;
+            npc.scale = 1.2f;
 			if (Main.expertMode)
 			{
 				npc.scale = 1.35f;
