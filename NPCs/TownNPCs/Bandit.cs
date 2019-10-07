@@ -116,12 +116,9 @@ namespace CalamityMod.NPCs.TownNPCs
             PossibleDialogs.Add("Maybe I'm bitter. It's been a long time, so whatever. Just do a good job out there.");
             PossibleDialogs.Add("It's not stealing! I'm just borrowing it until I die!");
 
-            for (int j = 0; j < Main.LocalPlayer.inventory.Length; j++)
+            if (InventoryHas(Main.LocalPlayer, ItemID.BoneGlove))
             {
-                if (Main.LocalPlayer.inventory[j].type == ItemID.BoneGlove)
-                {
-                    PossibleDialogs.Add("Wouldn't be the first time I used my friends' remains as weapons.");
-                }
+                PossibleDialogs.Add("Wouldn't be the first time I used my friends' remains as weapons.");
             }
             if (Main.hardMode)
             {
@@ -135,7 +132,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add("Providence HATES it when you take her stuff. I learned that the hard way.");
                 PossibleDialogs.Add("You think I can get away with looting from ghosts? It ain't like they can pick things up.");
             }
-            if (InventoryHas(Main.LocalPlayer,mod.ItemType("Valediction")) ||
+            if (InventoryHas(Main.LocalPlayer, mod.ItemType("Valediction")) ||
                 InventoryHas(Main.LocalPlayer, mod.ItemType("TheReaper")))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
