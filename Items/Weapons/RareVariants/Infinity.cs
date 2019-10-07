@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 	public class Infinity : ModItem
 	{
         internal int rotation = 0;
-        internal int limit = 1;
+        internal bool limit = true;
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Infinity");
@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
                 int shot2 = Projectile.NewProjectile(position.X, position.Y, num8.X, num8.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[shot2].timeLeft = 180;
                 //Code to constantly make the shooting go side to side to make the helix
-                if (limit == 1)
+                if (limit)
                 {
                     rotation += 2;
                 }
@@ -73,11 +73,11 @@ namespace CalamityMod.Items.Weapons.RareVariants
                 }
                 if (rotation >= 15)
                 {
-                    limit = 0;
+                    limit = false;
                 }
                 else if (rotation <= -15)
                 {
-                    limit = 1;
+                    limit = true;
                 }
                 return false;
 			}
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
                 Main.projectile[shot1].timeLeft = 180;
                 int shot2 = Projectile.NewProjectile(position.X, position.Y, num8.X, num8.Y, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[shot2].timeLeft = 180;
-                if (limit == 1)
+                if (limit)
                 {
                     rotation += 2;
                 }
@@ -100,11 +100,11 @@ namespace CalamityMod.Items.Weapons.RareVariants
                 }
                 if (rotation >= 15)
                 {
-                    limit = 0;
+                    limit = false;
                 }
                 else if (rotation <= -15)
                 {
-                    limit = 1;
+                    limit = true;
                 }
                 return false;
 			}
