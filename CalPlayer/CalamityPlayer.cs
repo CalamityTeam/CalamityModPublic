@@ -305,6 +305,8 @@ namespace CalamityMod.CalPlayer
         public bool eclipseMirror = false;
         public bool eclipseMirrorCooldown = false;
         public bool oldDie = false;
+        public bool featherCrown = false;
+        public bool moonCrown = false;
 
         // Armor Set
         public bool victideSet = false;
@@ -1012,6 +1014,8 @@ namespace CalamityMod.CalPlayer
             abyssalMirrorCooldown = false;
             eclipseMirror = false;
             eclipseMirrorCooldown = false;
+            featherCrown = false;
+            moonCrown = false;
 
             shadowflame = false;
 			wDeath = false;
@@ -4790,23 +4794,9 @@ namespace CalamityMod.CalPlayer
 
                 for (int i = 0; i < 50; i++)
                 {
-                    //Get which projectile to use
-                    int projType = Main.rand.Next(0, 3);
-                    int lumenylType;
-                    switch (projType)
-                    {
-                        case 0:
-                            lumenylType = mod.ProjectileType("AbyssalMirrorProjectile1");
-                            break;
-                        case 1:
-                            lumenylType = mod.ProjectileType("AbyssalMirrorProjectile2");
-                            break;
-                        default:
-                            lumenylType = mod.ProjectileType("AbyssalMirrorProjectile3");
-                            break;
-                    }
-                    int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), lumenylType, 55, 0, player.whoAmI);
+                    int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), mod.ProjectileType("AbyssalMirrorProjectile"), 55, 0, player.whoAmI);
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
+                    Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
                 }
             }
         }
