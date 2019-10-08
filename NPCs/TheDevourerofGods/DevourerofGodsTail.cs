@@ -192,13 +192,8 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-			if (damage > npc.lifeMax / 2)
-			{
-				damage = 0;
-				return false;
-			}
-			return true;
-		}
+            return !CNPCUtils.DoGAntiButcher(npc, ref damage);
+        }
 
 		public override bool CheckActive()
 		{

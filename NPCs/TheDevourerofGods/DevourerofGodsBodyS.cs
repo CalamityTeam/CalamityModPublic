@@ -25,7 +25,10 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 70;
 			npc.height = 70;
 			npc.defense = 70;
-			npc.lifeMax = CalamityWorld.revenge ? 1350000 : 1150000;
+            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            global.DR = CalamityWorld.death ? 0.97f : 0.955f;
+            global.unbreakableDR = true;
+            npc.lifeMax = CalamityWorld.revenge ? 1350000 : 1150000;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 2100000;
@@ -199,14 +202,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-			if (damage > npc.lifeMax / 2)
-			{
-				damage = 0;
-				return false;
-			}
-			double protection = CalamityWorld.death ? 0.03 : 0.045;
-			damage = (int)((double)damage * protection);
-			return true;
+            return !CNPCUtils.DoGAntiButcher(npc, ref damage);
 		}
 
 		public override bool CheckActive()

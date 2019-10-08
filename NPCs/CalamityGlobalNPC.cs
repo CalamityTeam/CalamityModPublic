@@ -22,15 +22,15 @@ namespace CalamityMod.NPCs
         public float DR { get; set; } = 0f;
 
         /// <summary>
-        /// Overrides the normal DR math and uses custom DR reductions for each debuff, registered separately.<br></br>
-        /// Used for post ML bosses.
-        /// </summary>
-        public bool customDR = false;
-
-        /// <summary>
-        /// If custom DR is enabled and this is set to true, the NPC's DR cannot be reduced via any means.
+        /// If this is set to true, the NPC's DR cannot be reduced via any means. This applies regardless of whether customDR is true or false.
         /// </summary>
         public bool unbreakableDR = false;
+
+        /// <summary>
+        /// Overrides the normal DR math and uses custom DR reductions for each debuff, registered separately.<br></br>
+        /// Used primarily by post-Moon Lord bosses.
+        /// </summary>
+        public bool customDR = false;
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 

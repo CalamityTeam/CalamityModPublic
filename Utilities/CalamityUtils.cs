@@ -110,6 +110,20 @@ namespace CalamityMod
             }
             return ClosestNPCAt(origin,maxDistanceToCheck);
         }
+
+        /// <summary>
+        /// DoG's anti-butcher logic, which spouts an edgy quote if the player attempts to butcher the boss.
+        /// </summary>
+        /// <param name="npc">The DoG segment which the player has attacked.</param>
+        /// <param name="damage">How much damage the attack would deal.</param>
+        /// <returns>Whether or not the antibutcher was triggered.</returns>
+        public static bool DoGAntiButcher(NPC npc, ref double damage)
+        {
+            if (damage <= npc.lifeMax * 0.5)
+                return false;
+            damage = 0D;
+            return true;
+        }
     }
 
     public static class CProjectileUtils
