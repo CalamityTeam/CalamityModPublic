@@ -11,6 +11,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
     public class Brimling : ModNPC
 	{
 		private bool boostDR = false;
+        public static float normalDR = 0.2f;
+        public static float boostedDR = 0.8f;
 
 		public override void SetStaticDefaults()
 		{
@@ -25,6 +27,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.damage = 0;
 			npc.width = 60;
 			npc.height = 60;
+            npc.defense = 0;
+            npc.GetCalamityNPC().DR = normalDR;
 			npc.lifeMax = 4000;
 			if (CalamityWorld.death)
 			{
@@ -97,6 +101,10 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				boostDR = false;
 				npc.chaseable = true;
 			}
+
+            // Set DR based on boost status
+            npc.GetCalamityNPC().DR = boostDR ? boostedDR : normalDR;
+
 			float num1446 = goIntoShell ? 1f : (CalamityWorld.bossRushActive ? 12f : 6f);
 			int num1447 = 480;
 			float num244;
@@ -224,17 +232,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				}
 				npc.netUpdate = true;
 			}
-		}
-
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			double multiplier = 0.8;
-			if (boostDR)
-			{
-				multiplier = 0.2;
-			}
-			damage = (int)((double)damage * multiplier);
-			return true;
 		}
 
 		public override void FindFrame(int frameHeight)
