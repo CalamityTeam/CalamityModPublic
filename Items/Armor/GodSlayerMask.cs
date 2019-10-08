@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.godSlayer = true;
             modPlayer.godSlayerThrowing = true;
 			modPlayer.rogueStealthMax = 1.4f;
+            modPlayer.wearingRogueArmor = true;
 			player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
                 "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +

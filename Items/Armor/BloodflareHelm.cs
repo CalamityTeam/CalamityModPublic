@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareThrowing = true;
 			modPlayer.rogueStealthMax = 1.35f;
+            modPlayer.wearingRogueArmor = true;
 			player.setBonus = "Greatly increases life regen\n" +
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
                 "Enemies above 50% life have a chance to drop mana stars when struck\n" +

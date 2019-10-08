@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Armor
             {
                 player.statDefense += 5; //14
             }
+            player.GetCalamityPlayer().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

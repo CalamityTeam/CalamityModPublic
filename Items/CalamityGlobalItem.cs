@@ -1624,6 +1624,7 @@ namespace CalamityMod.Items
 			{
 				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.rogueStealthMax = 1f;
+                modPlayer.wearingRogueArmor = true;
 				player.GetCalamityPlayer().throwingDamage += 0.1f;
 				player.GetCalamityPlayer().throwingVelocity += 0.1f;
 				player.statDefense += 5;
@@ -1637,6 +1638,7 @@ namespace CalamityMod.Items
 			{
 				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.rogueStealthMax = 1f;
+                modPlayer.wearingRogueArmor = true;
 				player.GetCalamityPlayer().throwingDamage += 0.05f;
 				player.GetCalamityPlayer().throwingCrit += 5;
 				player.statDefense += 2;
