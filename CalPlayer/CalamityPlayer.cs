@@ -88,6 +88,7 @@ namespace CalamityMod.CalPlayer
 		private bool stealthStrikeThisFrame = false;
 		public bool stealthStrikeHalfCost = false;
 		public bool stealthStrikeAlwaysCrits = false;
+        public bool wearingRogueArmor = false;
 
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
@@ -295,6 +296,7 @@ namespace CalamityMod.CalPlayer
 		public bool brimstoneWaifu = false;
 		public bool sirenWaifu = false;
 		public bool fungalClump = false;
+        public bool oldDie = false;
 
 		// Armor Set
 		public bool victideSet = false;
@@ -841,6 +843,7 @@ namespace CalamityMod.CalPlayer
 
 			shadowSpeed = false;
 			dsSetBonus = false;
+            wearingRogueArmor = false;
 
 			desertScourgeLore = false;
 			eaterOfWorldsLore = false;
@@ -947,6 +950,7 @@ namespace CalamityMod.CalPlayer
 			sTracers = false;
 			eTracers = false;
 			cTracers = false;
+            oldDie = false;
 
 			daedalusReflect = false;
 			daedalusSplit = false;
@@ -5826,9 +5830,20 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 			damage = (int)((double)damage * damageMult);
-			#endregion
 
-			if (yharonLore)
+            if (oldDie)
+            {
+                float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
+                if (item.GetGlobalItem<CalamityGlobalItem>(mod).rogue || wearingRogueArmor)
+                {
+                    float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
+                    diceMult = roll2 > diceMult ? roll2 : diceMult;
+                }
+                damage = (int)(damage * diceMult);
+            }
+            #endregion
+
+            if (yharonLore)
 				damage = (int)((double)damage * 0.75);
 
 			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
@@ -6084,10 +6099,21 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 			damage = (int)((double)damage * damageMult);
-			#endregion
 
-			#region AdditiveBoosts
-			if (theBee && !isSummon)
+            if (oldDie)
+            {
+                float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
+                if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue || wearingRogueArmor)
+                {
+                    float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
+                    diceMult = roll2 > diceMult ? roll2 : diceMult;
+                }
+                damage = (int)(damage * diceMult);
+            }
+            #endregion
+
+            #region AdditiveBoosts
+            if (theBee && !isSummon)
 			{
 				if (hasClassType)
 					damage += theBeeDamage;

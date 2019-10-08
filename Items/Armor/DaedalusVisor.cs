@@ -53,6 +53,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.daedalusSplit = true;
 			modPlayer.rogueStealthMax = 1.1f;
 			player.GetCalamityPlayer().throwingDamage += 0.05f;
+            player.GetCalamityPlayer().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

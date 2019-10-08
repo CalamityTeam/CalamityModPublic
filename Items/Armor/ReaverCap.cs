@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Armor
 				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
 				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             player.GetCalamityPlayer().throwingDamage += 0.05f;
+            player.GetCalamityPlayer().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

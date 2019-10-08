@@ -44,7 +44,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;
 			modPlayer.rogueStealthMax = 1.3f;
-			player.setBonus = "Reduces enemy spawn rates\n" +
+            modPlayer.wearingRogueArmor = true;
+            player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "After every 25 rogue critical hits you will gain 5 seconds of damage immunity\n" +

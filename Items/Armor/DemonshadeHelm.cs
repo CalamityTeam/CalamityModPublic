@@ -43,6 +43,7 @@ namespace CalamityMod.Items.Armor
 				"This makes them do 25% more damage but they also take 125% more damage";
 			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.dsSetBonus = true;
+            modPlayer.wearingRogueArmor = true;
 			if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)
 			{
 				modPlayer.redDevil = true;

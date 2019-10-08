@@ -57,6 +57,7 @@ Abyssal madness increases damage, critical strike chance, and tentacle aggressio
 This effect has a 30 second cooldown";
 
             player.armorPenetration += 50;
+            player.GetCalamityPlayer().wearingRogueArmor = true;
 
             //raise rev caps
             player.GetModPlayer<CalamityPlayer>().omegaBlueSet = true;

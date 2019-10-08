@@ -54,6 +54,7 @@ namespace CalamityMod.Items.Armor
 			player.noFallDmg = true;
             player.moveSpeed += 0.05f;
             player.GetCalamityPlayer().throwingCrit += 5;
+            player.GetCalamityPlayer().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

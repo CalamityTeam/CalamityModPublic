@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.victideSet = true;
 			modPlayer.rogueStealthMax = 1f;
+            modPlayer.wearingRogueArmor = true;
 			player.ignoreWater = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {

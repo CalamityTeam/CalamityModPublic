@@ -56,7 +56,8 @@ namespace CalamityMod.Items.Armor
 					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("Shellfish"), (int)((double)1500 * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
 				}
 			}
-		}
+            player.GetCalamityPlayer().wearingRogueArmor = true;
+        }
 
 		public override void AddRecipes()
 		{
