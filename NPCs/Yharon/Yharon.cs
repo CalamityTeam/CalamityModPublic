@@ -2840,8 +2840,10 @@ namespace CalamityMod.NPCs.Yharon
 		#region StrikeNPC
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-            // 10% max health antibutcher. Also prevents hits which would allow skipping phase 2.
-            if (damage > npc.lifeMax / 10 || (!startSecondAI && dropLoot))
+            if (CNPCUtils.AntiButcher(npc, ref damage, 0.1f)) return false;
+
+            // Safeguard to prevent damage which would allow skipping phase 2.
+            if (!startSecondAI && dropLoot)
 			{
 				damage = 0;
 				return false;
