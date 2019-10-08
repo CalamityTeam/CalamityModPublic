@@ -20,7 +20,9 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.width = 48;
 			npc.height = 80;
 			npc.lifeMax = 20000;
-			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            npc.defense = 0;
+            npc.takenDamageMultiplier = CalamityWorld.death ? 3f : 10f;
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 			if (calamityModMusic != null)
 				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
 			else
@@ -51,7 +53,6 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.HitSound = SoundID.NPCHit4;
 			npc.DeathSound = SoundID.NPCDeath14;
 			npc.netAlways = true;
-			npc.takenDamageMultiplier = CalamityWorld.death ? 3f : 10f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
