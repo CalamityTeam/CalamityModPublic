@@ -4,17 +4,18 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AbyssalMirrorProjectile2 : ModProjectile
+    public class AbyssalMirrorProjectile : ModProjectile
     {
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Lumenyl Fluid");
-		}
+            Main.projFrames[projectile.type] = 3;
+        }
 
         public override void SetDefaults()
         {
             projectile.width = 12;
-            projectile.height = 12;
+            projectile.height = 14;
             projectile.friendly = true;
             projectile.alpha = 0;
             projectile.penetrate = -1;
@@ -22,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ignoreWater = true;
             projectile.timeLeft = 50;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = -1;
             Mod calamity = ModLoader.GetMod("CalamityMod");
             projectile.GetGlobalProjectile<CalamityGlobalProjectile>(calamity).rogue = true;
         }
