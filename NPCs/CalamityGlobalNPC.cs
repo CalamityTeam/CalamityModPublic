@@ -18,8 +18,21 @@ namespace CalamityMod.NPCs
 {
     public class CalamityGlobalNPC : GlobalNPC
 	{
-		#region Variables
-		private float DR = 0f;
+        #region Variables
+        public float DR { get; set; } = 0f;
+
+        /// <summary>
+        /// Overrides the normal DR math and uses custom DR reductions for each debuff, registered separately.<br></br>
+        /// Used for post ML bosses.
+        /// </summary>
+        public bool customDR = false;
+
+        /// <summary>
+        /// If custom DR is enabled and this is set to true, the NPC's DR cannot be reduced via any means.
+        /// </summary>
+        public bool unbreakableDR = false;
+        public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
+        public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
 		// Iron Heart
 		private int ironHeartDamage = 0;
@@ -1406,19 +1419,9 @@ namespace CalamityMod.NPCs
             if (DR <= 0f || damage <= 1.0)
                 return damage;
 
-            float effectiveDR = DR;
-            if (marked)
-                effectiveDR *= 0.5f;
-            if (npc.betsysCurse)
-                effectiveDR *= 0.66f;
-            if (wCleave)
-                effectiveDR *= 0.75f;
-
-            // Ichor and Cursed Flames are mutually exclusive
-            if (npc.ichor)
-                effectiveDR *= 0.75f;
-            else if (npc.onFire2)
-                effectiveDR *= 0.8f;
+            // If the NPC currently has unbreakable DR, it cannot be reduced by any means.
+            // If custom DR is enabled, use that instead of normal DR.
+            float effectiveDR = unbreakableDR ? DR : (customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR));
 
             // DR floor is 0%. Nothing can have negative DR.
             if (effectiveDR <= 0f)
@@ -1426,6 +1429,85 @@ namespace CalamityMod.NPCs
 
             double newDamage = (1f - effectiveDR) * damage;
             return newDamage < 1.0 ? 1.0 : newDamage;
+        }
+
+        private float DefaultDRMath(NPC npc, float DR)
+        {
+            float calcDR = DR;
+            if (marked)
+                calcDR *= 0.5f;
+            if (npc.betsysCurse)
+                calcDR *= 0.66f;
+            if (wCleave)
+                calcDR *= 0.75f;
+
+            // Ichor supersedes Cursed Inferno if both are applied.
+            if (npc.ichor)
+                calcDR *= 0.75f;
+            else if (npc.onFire2)
+                calcDR *= 0.8f;
+
+            return calcDR;
+        }
+
+        private float CustomDRMath(NPC npc, float DR)
+        {
+            void FlatEditDR(ref float theDR, bool npcHasDebuff, int buffID)
+            {
+                if (npcHasDebuff && flatDRReductions.TryGetValue(buffID, out float reduction))
+                    theDR -= reduction;
+            }
+            void MultEditDR(ref float theDR, bool npcHasDebuff, int buffID)
+            {
+                if (npcHasDebuff && multDRReductions.TryGetValue(buffID, out float multiplier))
+                    theDR *= multiplier;
+            }
+
+            float calcDR = DR;
+
+            // Apply flat reductions first. All vanilla debuffs check their internal booleans.
+            FlatEditDR(ref calcDR, npc.poisoned, BuffID.Poisoned);
+            FlatEditDR(ref calcDR, npc.onFire, BuffID.OnFire);
+            FlatEditDR(ref calcDR, npc.venom, BuffID.Venom);
+            FlatEditDR(ref calcDR, npc.onFrostBurn, BuffID.Frostburn);
+            FlatEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
+            FlatEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
+            FlatEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
+
+            // Ichor supersedes Cursed Inferno if both are applied.
+            FlatEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
+            FlatEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+
+            // Modded debuffs are handled modularly and use HasBuff.
+            foreach (KeyValuePair<int, float> entry in flatDRReductions)
+            {
+                int buffID = entry.Key;
+                if (buffID >= BuffID.Count && npc.HasBuff(buffID))
+                    calcDR -= entry.Value;
+            }
+
+            // Apply multiplicative reductions second. All vanilla debuffs check their internal booleans.
+            MultEditDR(ref calcDR, npc.poisoned, BuffID.Poisoned);
+            MultEditDR(ref calcDR, npc.onFire, BuffID.OnFire);
+            MultEditDR(ref calcDR, npc.venom, BuffID.Venom);
+            MultEditDR(ref calcDR, npc.onFrostBurn, BuffID.Frostburn);
+            MultEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
+            MultEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
+            MultEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
+
+            // Ichor supersedes Cursed Inferno if both are applied.
+            MultEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
+            MultEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+
+            // Modded debuffs are handled modularly and use HasBuff.
+            foreach (KeyValuePair<int, float> entry in multDRReductions)
+            {
+                int buffID = entry.Key;
+                if (buffID >= BuffID.Count && npc.HasBuff(buffID))
+                    calcDR *= entry.Value;
+            }
+
+            return calcDR;
         }
         #endregion
 
