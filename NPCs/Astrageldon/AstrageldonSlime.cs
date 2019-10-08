@@ -10,7 +10,8 @@ namespace CalamityMod.NPCs.Astrageldon
 {
     public class AstrageldonSlime : ModNPC
 	{
-		private bool boostDR = false;
+        // TODO -- This value is never set, but is read and written by the network. Remove it?
+        private bool boostDR = false;
 
 		public override void SetStaticDefaults()
 		{
@@ -26,6 +27,8 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.width = 90;
 			npc.height = 60;
 			npc.alpha = 255;
+            npc.defense = 0;
+            npc.takenDamageMultiplier = 1E-6f;
 			npc.lifeMax = Main.expertMode ? 1007 : 1012;
 			if (CalamityWorld.death || CalamityWorld.bossRushActive)
 			{
@@ -201,12 +204,6 @@ namespace CalamityMod.NPCs.Astrageldon
 				}
 				npc.netUpdate = true;
 			}
-		}
-
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			damage = (crit ? 2 : 1);
-			return false;
 		}
 
 		public override Color? GetAlpha(Color drawColor)
