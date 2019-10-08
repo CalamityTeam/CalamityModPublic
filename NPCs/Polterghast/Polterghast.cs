@@ -15,7 +15,12 @@ namespace CalamityMod.NPCs.Polterghast
 	{
 		private int despawnTimer = 600;
 		private bool spawnGhost = false;
+
 		private bool boostDR = false;
+        public static float phase1DR = 0.1f;
+        public static float phase2DR = 0.15f;
+        public static float phase3DR = 0.2f;
+        public static float cloneDRBoost = 0.6f;
 
 		public override void SetStaticDefaults()
 		{
@@ -30,6 +35,11 @@ namespace CalamityMod.NPCs.Polterghast
 			npc.width = 90;
 			npc.height = 120;
 			npc.defense = 90;
+            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            global.DR = 0.1f;
+            global.customDR = true;
+            global.multDRReductions.Add(BuffID.Ichor, 0.88f);
+            global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.lifeMax = CalamityWorld.revenge ? 495000 : 412500;
 			if (CalamityWorld.death)
 			{
@@ -250,6 +260,11 @@ namespace CalamityMod.NPCs.Polterghast
 					}
 				}
 			}
+
+            // Set DR based on phase and boostDR variable
+            float dr = phase3 ? phase3DR : phase2 ? phase2DR : phase1DR;
+            if (boostDR) dr += cloneDRBoost;
+            npc.GetCalamityNPC().DR = dr;
 
 			if (expertMode)
 			{
@@ -707,37 +722,6 @@ namespace CalamityMod.NPCs.Polterghast
             CalamityWorld.downedPolterghast = true;
             CalamityMod.UpdateServerBoolean();
         }
-
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			double newDamage = (damage + (int)((double)defense * 0.25));
-			float protection = 0.1f + //.1
-					((double)npc.life < (double)npc.lifeMax * 0.75 ? 0.05f : 0f) + //.15
-					((double)npc.life < (double)npc.lifeMax * (CalamityWorld.revenge ? 0.5 : 0.33) ? 0.05f : 0f) + //.2
-					(boostDR ? 0.6f : 0f); //.8
-			if (npc.ichor)
-			{
-				protection *= 0.88f;
-			}
-			else if (npc.onFire2)
-			{
-				protection *= 0.9f;
-			}
-			if (newDamage < 1.0)
-			{
-				newDamage = 1.0;
-			}
-			if (newDamage >= 1.0)
-			{
-				newDamage = (double)((int)((double)(1f - protection) * newDamage));
-				if (newDamage < 1.0)
-				{
-					newDamage = 1.0;
-				}
-			}
-			damage = newDamage;
-			return true;
-		}
 
 		public override void FindFrame(int frameHeight)
 		{
