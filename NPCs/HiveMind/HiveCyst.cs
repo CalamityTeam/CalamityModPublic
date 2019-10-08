@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.HiveMind
 {
@@ -42,6 +43,10 @@ namespace CalamityMod.NPCs.HiveMind
 			if (spawnInfo.playerSafe || NPC.AnyNPCs(mod.NPCType("HiveCyst")) || NPC.AnyNPCs(mod.NPCType("HiveMind")) || NPC.AnyNPCs(mod.NPCType("HiveMindP2")))
 			{
 				return 0f;
+			}
+			else if (NPC.downedBoss2 && !CalamityWorld.downedHiveMind)
+			{
+				return SpawnCondition.Corruption.Chance * 1.5f;
 			}
 			return SpawnCondition.Corruption.Chance * (Main.hardMode ? 0.05f : 0.5f);
 		}

@@ -6,7 +6,9 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class WarCleave : ModBuff
 	{
-		public override void SetDefaults()
+        public static int DefenseReduction = 15;
+
+        public override void SetDefaults()
 		{
 			DisplayName.SetDefault("War Cleave");
 			Description.SetDefault("Defense and protection reduced");

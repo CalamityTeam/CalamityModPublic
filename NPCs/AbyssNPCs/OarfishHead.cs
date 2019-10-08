@@ -131,9 +131,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				num42 *= 16;
 				float num47 = (float)(num42 - 200); //800
-				if ((Main.player[npc.target].Center - npc.Center).Length() > ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-					Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 250f) *
-					(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
+				//if ((Main.player[npc.target].Center - npc.Center).Length() > ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+				//	Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 250f) *
+				//	(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
+                if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(250f, 150f))
 				{
 					num192 = num47;
 					if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
@@ -165,10 +166,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 					npc.velocity *= num49;
 				}
 			}
-			if ((Main.player[npc.target].Center - npc.Center).Length() > ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-				Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 250f) *
-				(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
-			{
+            //if ((Main.player[npc.target].Center - npc.Center).Length() > ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+            //	Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 250f) *
+            //	(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
+            if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(250f, 150f))
+            {
 				for (int num51 = 0; num51 < 200; num51++)
 				{
 					if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)

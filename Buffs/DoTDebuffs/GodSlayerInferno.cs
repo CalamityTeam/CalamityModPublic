@@ -1,13 +1,14 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.DoTDebuffs
 {
     public class GodSlayerInferno : ModBuff
 	{
-		public override void SetDefaults()
+        public static int DefenseReduction = 20;
+
+        public override void SetDefaults()
 		{
 			DisplayName.SetDefault("God Slayer Inferno");
 			Description.SetDefault("Your flesh is burning off");

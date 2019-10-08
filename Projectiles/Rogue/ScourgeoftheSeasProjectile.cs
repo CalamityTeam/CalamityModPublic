@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 1200;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-        
+
         public override void AI()
         {
 			if (Main.rand.Next(5) == 0)
@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
 				Main.dust[num622].velocity *= 1f;
 			}
             if (projectile.owner == Main.myPlayer)
-            {                
+            {
 				int num320 = Main.rand.Next(2, 6);
                 int num3;
                 for (int num321 = 0; num321 < num320; num321 = num3 + 1)

@@ -40,19 +40,19 @@ namespace CalamityMod.Items.Weapons
 			item.shootSpeed = 14.6f;
 			item.useAmmo = 23;
 		}
-	    
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-15, 0);
         }
-		
+
 	    public override bool ConsumeAmmo(Player player)
 	    {
 	    	if (Main.rand.Next(0, 100) < 50)
 	    		return false;
 	    	return true;
 	    }
-	    
+
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);

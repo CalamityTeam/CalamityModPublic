@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class BlastBarrelProjectile : ModProjectile
     {
         public float cooldown = 0f;
-        public float oldVelocityX = 0f; 
+        public float oldVelocityX = 0f;
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Barrel");
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
                     int fireIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + fireVelocity,
-                        Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1), 
+                        Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
                         BlastBarrel.BaseDamage, 1f, projectile.owner);
                     Main.projectile[fireIndex].thrown = false;
                     Main.projectile[fireIndex].GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;

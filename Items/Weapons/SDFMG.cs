@@ -39,12 +39,12 @@ namespace CalamityMod.Items.Weapons
 			item.useAmmo = 97;
 			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
 		}
-	    
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-10, 0);
         }
-		
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;

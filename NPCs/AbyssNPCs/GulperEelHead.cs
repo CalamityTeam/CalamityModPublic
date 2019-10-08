@@ -63,9 +63,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override void AI()
 		{
-			if ((Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-				Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 100f : 600f) *
-				(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f) ||
+            //if ((Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+            //	Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 100f : 600f) *
+            //	(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f) ||
+            if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(600f, 100f) ||
 				npc.justHit)
 			{
 				detectsPlayer = true;
