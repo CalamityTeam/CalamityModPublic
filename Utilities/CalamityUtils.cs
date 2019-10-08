@@ -112,14 +112,14 @@ namespace CalamityMod
         }
 
         /// <summary>
-        /// DoG's anti-butcher logic, which spouts an edgy quote if the player attempts to butcher the boss.
+        /// Crude anti-butcher logic based on % max health.
         /// </summary>
-        /// <param name="npc">The DoG segment which the player has attacked.</param>
+        /// <param name="npc">The NPC attacked.</param>
         /// <param name="damage">How much damage the attack would deal.</param>
-        /// <returns>Whether or not the antibutcher was triggered.</returns>
-        public static bool DoGAntiButcher(NPC npc, ref double damage)
+        /// <returns>Whether or not the anti-butcher was triggered.</returns>
+        public static bool AntiButcher(NPC npc, ref double damage, float healthPercent)
         {
-            if (damage <= npc.lifeMax * 0.5)
+            if (damage <= npc.lifeMax * healthPercent)
                 return false;
             damage = 0D;
             return true;
