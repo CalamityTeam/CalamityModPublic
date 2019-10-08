@@ -55,6 +55,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 		private Rectangle safeBox = default;
 
+        public static float normalDR = 0.7f;
+        public static float deathDR = 0.75f;
+        public static float bossRushDR = 0.6f;
+        public static float enragedDR = 0.99f;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Supreme Calamitas");
@@ -68,7 +73,12 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 120;
 			npc.height = 120;
 			npc.defense = 120;
-			npc.value = Item.buyPrice(10, 0, 0, 0);
+            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            global.DR = CalamityWorld.bossRushActive ? bossRushDR : CalamityWorld.death ? deathDR : normalDR;
+            global.customDR = true;
+            global.multDRReductions.Add(BuffID.Ichor, 0.9f);
+            global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
+            npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.lifeMax = CalamityWorld.revenge ? 5500000 : 5000000;
 			if (CalamityWorld.death)
 			{
@@ -337,7 +347,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					}
 				}
 			}
-			if (!player.Hitbox.Intersects(safeBox))
+            #endregion
+            #region Enrage and DR
+            if (!player.Hitbox.Intersects(safeBox))
 			{
 				if (uDieLul < 3f)
 				{
@@ -361,6 +373,21 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				}
 				protectionBoost = false;
 			}
+
+            // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
+            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            if(protectionBoost)
+            {
+                global.DR = enragedDR;
+                global.unbreakableDR = true;
+            }
+            else
+            {
+                global.DR = CalamityWorld.bossRushActive ? bossRushDR : CalamityWorld.death ? deathDR : normalDR;
+                global.unbreakableDR = false;
+                if (startFifthAttack)
+                    global.DR *= 1.2f;
+            }
 			#endregion
 			#region Despawn
 			if (!player.active || player.dead)
@@ -2089,55 +2116,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			{
 				damage /= 2;
 			}
-			if (projectile.type == mod.ProjectileType("ApothMark") || projectile.type == mod.ProjectileType("ApothJaws"))
-			{
-				damage /= 3;
-			}
 		}
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-			if (damage > npc.lifeMax / 10)
-			{
-				damage = 0;
-				return false;
-			}
-			double newDamage = (damage + (int)((double)defense * 0.25));
-			float protection = (CalamityWorld.death ? 0.75f : 0.7f); //45%
-			if (CalamityWorld.bossRushActive)
-			{
-				protection = 0.6f;
-			}
-			if (newDamage < 1.0)
-			{
-				newDamage = 1.0;
-			}
-			if (npc.ichor)
-			{
-				protection *= 0.9f; //41%
-			}
-			else if (npc.onFire2)
-			{
-				protection *= 0.91f;
-			}
-			if (startFifthAttack)
-			{
-				protection *= 1.2f; //90% or 84%
-			}
-			if (protectionBoost)
-			{
-				protection = 0.99f; //99%
-			}
-			if (newDamage >= 1.0)
-			{
-				newDamage = (double)((int)((double)(1f - protection) * newDamage));
-				if (newDamage < 1.0)
-				{
-					newDamage = 1.0;
-				}
-			}
-			damage = newDamage;
-			return true;
+            return !CNPCUtils.AntiButcher(npc, ref damage, 0.1f);
 		}
 
 		public override bool CheckActive()
