@@ -475,10 +475,19 @@ namespace CalamityMod.MiscModSupport
 
 			return false;
 		}
-		#endregion
+        #endregion
 
-		#region Call
-		public static object Call(params object[] args)
+        #region Set Damage Reduction
+
+        // TODO -- There isn't a DR map yet, so this can't be implemented until that is done
+        public static bool SetDamageReduction(string npcName, float DR)
+        {
+            return false;
+        }
+        #endregion
+
+        #region Call
+        public static object Call(params object[] args)
 		{
 			if (args is null || args.Length <= 0) return new ArgumentNullException("ERROR: No function name specified. First argument must be a function name.");
 			if (!(args[0] is string)) return new ArgumentException("ERROR: First argument must be a string function name.");
@@ -536,7 +545,19 @@ namespace CalamityMod.MiscModSupport
 						p = (Player)args[1];
 					return GetSetBonus(p, args[2].ToString());
 
-				default:
+                case "DR":
+                case "DamageReduction":
+                case "SetDR":
+                case "SetDamageReduction":
+                    if (args.Length < 2) return new ArgumentNullException("ERROR: Must specify both NPC name as a string and damage reduction as a float or double.");
+                    if (args.Length < 3) return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
+                    if (!(args[2] is float) && !(args[2] is double)) return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
+                    if (!(args[1] is string)) return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be a string.");
+
+                    float DR = (float)args[2];
+                    return SetDamageReduction(args[1].ToString(), DR);
+
+                default:
 					return new ArgumentException("ERROR: Invalid method name.");
 			}
 		}
