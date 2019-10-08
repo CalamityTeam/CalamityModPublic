@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			npc.width = 100;
 			npc.height = 100;
 			npc.defense = 0;
+            npc.takenDamageMultiplier = 1E-6f;
 			npc.lifeMax = 200;
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 			if (calamityModMusic != null)
@@ -314,12 +315,6 @@ namespace CalamityMod.NPCs.CeaselessVoid
 					}
 				}
 			}
-		}
-
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			damage = (crit ? 2 : 1);
-			return false;
 		}
 
 		public override void NPCLoot()
