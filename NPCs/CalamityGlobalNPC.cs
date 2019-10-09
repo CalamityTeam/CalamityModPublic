@@ -435,31 +435,26 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (eFreeze && !CalamityWorld.bossRushActive)
+            // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
+            if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
             {
-                npc.velocity.X = 0f;
-                npc.velocity.Y += 0.1f;
-
-                if (npc.velocity.Y > 15f)
+                if (eFreeze && !CalamityWorld.bossRushActive)
                 {
-                    npc.velocity.Y = 15f;
+                    npc.velocity.X = 0f;
+                    npc.velocity.Y += 0.1f;
+                    if (npc.velocity.Y > 15f)
+                        npc.velocity.Y = 15f;
                 }
-            }
-
-            if (tSad)
-            {
-                npc.velocity.Y /= 2;
-                npc.velocity.X /= 2;
-            }
-
-            if (gState)
-            {
-                npc.velocity.X = 0f;
-                npc.velocity.Y += 0.05f;
-
-                if (npc.velocity.Y > 15f)
+                else if (gState)
                 {
-                    npc.velocity.Y = 15f;
+                    npc.velocity.X = 0f;
+                    npc.velocity.Y += 0.05f;
+                    if (npc.velocity.Y > 15f)
+                        npc.velocity.Y = 15f;
+                }
+                if (tSad)
+                {
+                    npc.velocity /= 2f;
                 }
             }
 
@@ -2030,24 +2025,19 @@ namespace CalamityMod.NPCs
 		#region Post AI
 		public override void PostAI(NPC npc)
 		{
-			if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
-			{
-				npc.velocity.X *= 0.95f;
-				npc.velocity.Y *= 0.95f;
-			}
+            // Bosses and any specific other NPCs are completely immune to having their movement impaired.
+            if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
+                return;
 
-			if (!CalamityWorld.bossRushActive)
+            if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
+                npc.velocity *= 0.95f;
+
+            if (!CalamityWorld.bossRushActive)
 			{
 				if (silvaStun)
-				{
-					npc.velocity.X = 0f;
-					npc.velocity.Y = 0f;
-				}
+                    npc.velocity = Vector2.Zero;
 				else if (timeSlow)
-				{
-					npc.velocity.X *= 0.85f;
-					npc.velocity.Y *= 0.85f;
-				}
+                    npc.velocity *= 0.85f;
 			}
 		}
         #endregion
