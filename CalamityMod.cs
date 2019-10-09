@@ -2209,7 +2209,8 @@ namespace CalamityMod
 			{
 				if (Main.myPlayer != -1 && !Main.gameMenu && Main.LocalPlayer.active)
 				{
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneCalamity)
+                    Player p = Main.LocalPlayer;
+                    if (p.InCalamity())
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
@@ -2220,7 +2221,7 @@ namespace CalamityMod
 							priority = MusicPriority.Environment;
 						}
 					}
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneSunkenSea)
+					if (p.InSunkenSea())
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
@@ -2231,7 +2232,7 @@ namespace CalamityMod
 							priority = MusicPriority.Environment;
 						}
 					}
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAstral)
+					if (p.InAstral())
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
@@ -2242,7 +2243,7 @@ namespace CalamityMod
 							priority = MusicPriority.Environment;
 						}
 					}
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer1 || Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer2)
+					if (p.InAbyss(1) || p.InAbyss(2))
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
@@ -2253,7 +2254,7 @@ namespace CalamityMod
 							priority = MusicPriority.BiomeHigh;
 						}
 					}
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer3)
+					if (p.InAbyss(3))
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
@@ -2264,7 +2265,7 @@ namespace CalamityMod
 							priority = MusicPriority.BiomeHigh;
 						}
 					}
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneAbyssLayer4)
+					if (p.InAbyss(4))
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
@@ -2275,7 +2276,7 @@ namespace CalamityMod
 							priority = MusicPriority.BiomeHigh;
 						}
 					}
-					if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>(this).ZoneSulphur)
+					if (p.InSulphur())
 					{
 						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
