@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 180;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.GetCalamityProj().rogue = true;
 		}
 
         public override void AI()
@@ -57,10 +57,11 @@ namespace CalamityMod.Projectiles.Rogue
 						Main.dust[num249].noGravity = true;
 					}
 				}
-				if (Math.Abs(projectile.velocity.X) < 15f && Math.Abs(projectile.velocity.Y) < 15f)
-				{
+
+                // Almost instantly accelerate to very high speed
+				if (projectile.velocity.Length() <= 23f)
 					projectile.velocity *= 2f;
-				}
+
 				else if (Main.rand.NextBool(2))
 				{
 					int num252 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 0.5f);
