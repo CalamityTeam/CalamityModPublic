@@ -30,7 +30,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.aiStyle = -1;
 			npc.damage = 55;
 			npc.defense = 15;
-			npc.lifeMax = 470;
+            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.lifeMax = 470;
 			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 0, 15, 0);

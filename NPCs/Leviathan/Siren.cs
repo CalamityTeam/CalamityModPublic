@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.width = 100;
 			npc.height = 100;
 			npc.defense = 20;
+            npc.GetCalamityNPC().RevPlusDR(0.05f);
 			npc.lifeMax = CalamityWorld.revenge ? 41600 : 27400;
 			if (CalamityWorld.death)
 			{

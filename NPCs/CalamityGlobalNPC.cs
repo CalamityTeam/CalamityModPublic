@@ -503,6 +503,14 @@ namespace CalamityMod.NPCs
                 newAI[m] = 0f;
             }
 
+            // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
+            // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
+            if (CalamityWorld.revenge)
+            {
+                CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
+                DR = revDR;
+            }
+
             if (npc.boss && CalamityWorld.revenge)
             {
                 if (npc.type != mod.NPCType("HiveMindP2") && npc.type != mod.NPCType("Leviathan") && npc.type != mod.NPCType("StormWeaverHeadNaked") &&
@@ -826,75 +834,18 @@ namespace CalamityMod.NPCs
             {
                 npc.canGhostHeal = false;
             }
-
-            RevengeanceDamageReduction(npc, mod);
         }
-        #endregion
 
-        #region Revengeance Damage Reduction
-        private void RevengeanceDamageReduction(NPC npc, Mod mod)
-		{
-			if (npc.type == mod.NPCType("Cnidrion") || npc.type == mod.NPCType("DesertScourgeBody") || npc.type == mod.NPCType("ColossalSquid") ||
-				npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu") || npc.type == mod.NPCType("ProfanedGuardianBoss3") ||
-				npc.type == mod.NPCType("ScornEater") || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") ||
-				npc.type == mod.NPCType("Mauler") || npc.type == mod.NPCType("EutrophicRay"))
-			{
-				DR = 0.05f;
-			}
-			else if (npc.type == mod.NPCType("AstrumDeusBody") || npc.type == mod.NPCType("SoulSeeker") || npc.type == mod.NPCType("DesertScourgeTail") ||
-				npc.type == mod.NPCType("Horse") || npc.type == mod.NPCType("ProfanedEnergyBody") || npc.type == mod.NPCType("ScavengerClawLeft") ||
-				npc.type == mod.NPCType("ScavengerClawRight") || npc.type == mod.NPCType("ScavengerHead") || npc.type == mod.NPCType("MantisShrimp") ||
-				npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("AstrumDeusHead") || npc.type == mod.NPCType("AquaticScourgeHead") ||
-				npc.type == mod.NPCType("Cryon") || npc.type == mod.NPCType("Cryogen"))
-			{
-				DR = 0.1f;
-			}
-			else if (npc.type == mod.NPCType("ArmoredDiggerHead") || npc.type == mod.NPCType("AstralProbe") || npc.type == mod.NPCType("Calamitas") ||
-				npc.type == mod.NPCType("CalamitasRun") || npc.type == mod.NPCType("CalamitasRun2") || npc.type == mod.NPCType("CalamitasRun3") ||
-				npc.type == mod.NPCType("SoulSlurper") || npc.type == mod.NPCType("ProvSpawnHealer") || npc.type == mod.NPCType("Gnasher") ||
-				npc.type == mod.NPCType("ScavengerLegLeft") || npc.type == mod.NPCType("ScavengerLegRight") || npc.type == mod.NPCType("ShockstormShuttle") ||
-				npc.type == mod.NPCType("Reaper") || npc.type == mod.NPCType("OverloadedSoldier") || npc.type == mod.NPCType("AquaticScourgeTail") ||
-				npc.type == mod.NPCType("EidolonWyrmHead") || npc.type == mod.NPCType("Aries") || npc.type == mod.NPCType("AstralachneaGround") ||
-				npc.type == mod.NPCType("AstralachneaWall") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("Atlas") ||
-				npc.type == mod.NPCType("BigSightseer") || npc.type == mod.NPCType("FusionFeeder") || npc.type == mod.NPCType("Hadarian") ||
-				npc.type == mod.NPCType("Hive") || npc.type == mod.NPCType("Mantis") || npc.type == mod.NPCType("Nova") || npc.type == mod.NPCType("SmallSightseer") ||
-				npc.type == mod.NPCType("StellarCulex"))
-			{
-				DR = 0.15f;
-			}
-			else if (npc.type == mod.NPCType("AstrumDeusProbe3") || npc.type == mod.NPCType("PlaguebringerShade") || npc.type == mod.NPCType("BlindedAngler"))
-			{
-				DR = 0.2f;
-			}
-			else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("ProfanedGuardianBoss2") || npc.type == mod.NPCType("SandTortoise") ||
-				npc.type == mod.NPCType("StasisProbe") || npc.type == mod.NPCType("BobbitWormHead") || npc.type == mod.NPCType("GreatSandShark") ||
-				npc.type == mod.NPCType("Clam") || npc.type == mod.NPCType("PrismTurtle"))
-			{
-				DR = 0.25f;
-			}
-			else if (npc.type == mod.NPCType("ProvSpawnOffense") || npc.type == mod.NPCType("GiantClam"))
-			{
-				DR = 0.3f;
-			}
-			else if (npc.type == mod.NPCType("ArmoredDiggerBody") || npc.type == mod.NPCType("AstrumDeusTail") || npc.type == mod.NPCType("DespairStone") ||
-				npc.type == mod.NPCType("SoulSeekerSupreme") || npc.type == mod.NPCType("Leviathan"))
-			{
-				DR = 0.35f;
-			}
-			else if (npc.type == mod.NPCType("CryogenIce") || npc.type == mod.NPCType("ProfanedGuardianBoss") || npc.type == mod.NPCType("ProvSpawnDefense") ||
-				npc.type == mod.NPCType("ScavengerBody"))
-			{
-				DR = 0.4f;
-			}
-			else if (npc.type == mod.NPCType("ArmoredDiggerTail"))
-			{
-				DR = 0.45f;
-			}
-			else if (npc.type == mod.NPCType("SirenIce"))
-			{
-				DR = 0.5f;
-			}
-		}
+        /// <summary>
+        /// Sets the DR of this NPC only if Revengeance Mode is enabled. Otherwise sets DR to zero.
+        /// </summary>
+        /// <param name="dr">The DR to set, assuming Rev+ difficulty.</param>
+        /// <returns>Whether Revengeance Mode is currently enabled.</returns>
+        public bool RevPlusDR(float dr)
+        {
+            DR = CalamityWorld.revenge ? dr : 0f;
+            return CalamityWorld.revenge;
+        }
         #endregion
 
         #region Other Stat Changes

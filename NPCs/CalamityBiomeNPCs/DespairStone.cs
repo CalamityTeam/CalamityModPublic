@@ -23,7 +23,8 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.width = 72; //324
 			npc.height = 72; //216
 			npc.defense = 38;
-			npc.lifeMax = 120;
+            npc.GetCalamityNPC().RevPlusDR(0.35f);
+            npc.lifeMax = 120;
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 0, 5, 0);
 			npc.HitSound = SoundID.NPCHit41;

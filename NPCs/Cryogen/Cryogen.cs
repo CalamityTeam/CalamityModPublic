@@ -31,6 +31,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.width = 80;
 			npc.height = 80;
 			npc.defense = 12;
+            npc.GetCalamityNPC().RevPlusDR(0.1f);
 			npc.lifeMax = CalamityWorld.revenge ? 26300 : 17900;
 			if (CalamityWorld.death)
 			{

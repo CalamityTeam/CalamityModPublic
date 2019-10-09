@@ -25,6 +25,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.width = 38;
 			npc.height = 44;
 			npc.defense = 40;
+            npc.GetCalamityNPC().RevPlusDR(0.1f);
             npc.LifeMaxNERD(12000, 18000, 29100, 360000, 420000);
 			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
 			npc.lifeMax += (int)(npc.lifeMax * HPBoost);

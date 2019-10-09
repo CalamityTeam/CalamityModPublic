@@ -26,7 +26,8 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.width = 56;
 			npc.height = 44;
 			npc.defense = 30;
-			npc.lifeMax = 750;
+            npc.GetCalamityNPC().RevPlusDR(0.2f);
+            npc.lifeMax = 750;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.value = Item.buyPrice(0, 0, 40, 0);

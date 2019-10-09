@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.width = 56;
 			npc.height = 56;
 			npc.defense = 20;
+            npc.GetCalamityNPC().RevPlusDR(0.1f);
 			npc.lifeMax = CalamityWorld.revenge ? 18000 : 12000;
 			if (CalamityWorld.death)
 			{

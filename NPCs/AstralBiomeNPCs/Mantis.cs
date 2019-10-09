@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.height = 58;
             npc.aiStyle = -1;
             npc.defense = 6;
+            npc.GetCalamityNPC().RevPlusDR(0.15f);
             npc.lifeMax = 340;
             npc.knockBackResist = 0.2f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
