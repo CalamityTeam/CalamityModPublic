@@ -13,9 +13,6 @@ namespace CalamityMod.NPCs.CosmicWraith
     [AutoloadBossHead]
 	public class CosmicWraith : ModNPC
 	{
-		private const int CosmicProjectiles = 3;
-		private const float CosmicAngleSpread = 170;
-		private int CosmicCountdown = 0;
 		private int phaseSwitch = 0;
 		private int chargeSwitch = 0;
 		private int dustTimer = 3;
@@ -89,7 +86,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 
 		public override void SendExtraAI(BinaryWriter writer)
 		{
-			writer.Write(CosmicCountdown);
 			writer.Write(phaseSwitch);
 			writer.Write(chargeSwitch);
 			writer.Write(dustTimer);
@@ -100,7 +96,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
-			CosmicCountdown = reader.ReadInt32();
 			phaseSwitch = reader.ReadInt32();
 			chargeSwitch = reader.ReadInt32();
 			dustTimer = reader.ReadInt32();
@@ -179,41 +174,6 @@ namespace CalamityMod.NPCs.CosmicWraith
 			else if (npc.timeLeft < 1800)
 			{
 				npc.timeLeft = 1800;
-			}
-			if (cosmicRain && CosmicCountdown == 0)
-			{
-				CosmicCountdown = 300;
-			}
-			if (CosmicCountdown > 0)
-			{
-				CosmicCountdown--;
-				if (CosmicCountdown == 0)
-				{
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						int speed2 = revenge ? 13 : 12;
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
-						{
-							speed2 += 3;
-						}
-						float spawnX2 = Main.rand.Next(1000) - 500 + player.Center.X;
-						float spawnY2 = -1000 + player.Center.Y;
-						Vector2 baseSpawn = new Vector2(spawnX2, spawnY2);
-						Vector2 baseVelocity = player.Center - baseSpawn;
-						baseVelocity.Normalize();
-						baseVelocity = baseVelocity * speed2;
-						int damage = expertMode ? 52 : 65;
-						for (int i = 0; i < CosmicProjectiles; i++)
-						{
-							Vector2 spawn2 = baseSpawn;
-							spawn2.X = spawn2.X + i * 30 - (CosmicProjectiles * 15);
-							Vector2 velocity = baseVelocity;
-							velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-CosmicAngleSpread / 2 + (CosmicAngleSpread * i / (float)CosmicProjectiles)));
-							velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-							Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, mod.ProjectileType("CosmicFlameBurst"), damage, 0f, Main.myPlayer, 0f, 0f);
-						}
-					}
-				}
 			}
 			if (npc.ai[0] <= 2f)
 			{

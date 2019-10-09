@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs
             { NPCID.MoonLordCore, 1400000 },
             { NPCID.MoonLordHand, 450000 },
             { NPCID.MoonLordHead, 600000 },
-            { NPCID.MoonLordFreeEye, 1000 }
+			{ NPCID.MoonLordLeechBlob, 8000 }
         };
 
         public SortedDictionary<int, int> BossValues = new SortedDictionary<int, int>
@@ -461,7 +461,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
-        }
+		}
 
         public void ApplyDPSDebuff(bool debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
         {
@@ -658,11 +658,7 @@ namespace CalamityMod.NPCs
         {
             npc.value = (int)(npc.value * 1.5);
 
-            if (npc.type == NPCID.MoonLordFreeEye)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 150.0);
-            }
-            else if (npc.type == NPCID.Mothron)
+            if (npc.type == NPCID.Mothron)
             {
                 npc.scale = 1.25f;
             }
@@ -671,7 +667,7 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.4) : (int)(npc.lifeMax * 1.9);
                 npc.npcSlots = 12f;
             }
-            else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
+            else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 12f;
@@ -935,7 +931,6 @@ namespace CalamityMod.NPCs
 					case NPCID.MoonLordHead:
 					case NPCID.MoonLordHand:
 					case NPCID.MoonLordCore:
-					case NPCID.MoonLordFreeEye:
 					case NPCID.CultistBoss:
 					case NPCID.Crab:
 					case NPCID.SeaSnail:
@@ -1351,7 +1346,7 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
+			if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
 				if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
 				{
@@ -1445,7 +1440,24 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            return true; //vanilla defense calc 78 - (180 / 2 = 90) = 0, boosted to 1 by calc
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
+				{
+					if (npc.life - (int)damage <= 0)
+					{
+						if (newAI[0] != 1f)
+						{
+							newAI[0] = 1f;
+							npc.life = npc.lifeMax;
+							npc.netUpdate = true;
+							npc.dontTakeDamage = true;
+						}
+					}
+				}
+			}
+
+			return true; //vanilla defense calc 78 - (180 / 2 = 90) = 0, boosted to 1 by calc
         }
 		#endregion
 
@@ -1500,6 +1512,15 @@ namespace CalamityMod.NPCs
                     return false;
                 }
             }
+
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				if (npc.type == NPCID.MoonLordFreeEye)
+				{
+					npc.active = false;
+					npc.netUpdate = true;
+				}
+			}
 
             if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
             {
@@ -1614,6 +1635,12 @@ namespace CalamityMod.NPCs
 						return CalamityGlobalAI.BuffedCultistAI(npc, enraged, mod);
 					case NPCID.AncientDoom:
 						return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
+
+					case NPCID.MoonLordCore:
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordHead:
+					case NPCID.MoonLordLeechBlob:
+						return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged, mod);
 
 					default:
                         break;
@@ -2020,7 +2047,7 @@ namespace CalamityMod.NPCs
 
                 case 28:
                     if (npc.type != NPCID.MoonLordCore && npc.type != NPCID.MoonLordHead && npc.type != NPCID.MoonLordHand &&
-                        npc.type != NPCID.MoonLordFreeEye && npc.type != mod.NPCType("Eidolist"))
+                        npc.type != NPCID.MoonLordLeechBlob)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -2165,19 +2192,6 @@ namespace CalamityMod.NPCs
 
 				switch (npc.type)
 				{
-					case NPCID.MoonLordFreeEye:
-						CalamityGlobalAI.RevengeanceMoonLordFreeEyeAI(npc);
-						break;
-
-					case NPCID.MoonLordCore:
-						CalamityGlobalAI.RevengeanceMoonLordCoreAI(npc);
-						break;
-
-					case NPCID.MoonLordHand:
-					case NPCID.MoonLordHead:
-						CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
-						break;
-
 					case NPCID.DungeonGuardian:
 						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
 						break;
@@ -2386,7 +2400,6 @@ namespace CalamityMod.NPCs
                     case NPCID.GiantCursedSkull:
                     case NPCID.Butcher:
                     case NPCID.Psycho:
-                    case NPCID.MoonLordFreeEye:
                         target.AddBuff(mod.BuffType("Horror"), 180);
                         target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
                         break;

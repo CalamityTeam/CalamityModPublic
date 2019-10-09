@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -16,7 +17,8 @@ namespace CalamityMod.Items.Accessories.Wings
 				"Horizontal speed: 7.5\n" +
 				"Acceleration multiplier: 1\n" +
 				"Average vertical speed\n" +
-				"Flight time: 150");
+				"Flight time: 150\n" +
+				"5% increased damage and critical strike chance while wearing the Daedalus Armor");
 		}
 
 		public override void SetDefaults()
@@ -51,6 +53,14 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+
+			if (modPlayer.daedalusReflect || modPlayer.daedalusCrystal || modPlayer.daedalusAbsorb || modPlayer.daedalusShard || modPlayer.daedalusSplit)
+			{
+				player.allDamage += 0.05f;
+				modPlayer.AllCritBoost(5);
+			}
+
 			ascentWhenFalling = 0.5f;
 			ascentWhenRising = 0.1f;
 			maxCanAscendMultiplier = 0.5f;

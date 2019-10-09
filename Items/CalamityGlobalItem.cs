@@ -718,6 +718,16 @@ namespace CalamityMod.Items
 					}
 				}
 			}
+			if (item.type == ItemID.FireGauntlet)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text = "14% increased melee damage and speed";
+					}
+				}
+			}
 			if (item.type == ItemID.SpectreHood)
 			{
 				foreach (TooltipLine line2 in tooltips)
@@ -1168,7 +1178,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (item.type == ItemID.AngelWings || item.type == ItemID.DemonWings)
+			if (item.type == ItemID.AngelWings)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1178,7 +1188,23 @@ namespace CalamityMod.Items
 							"Horizontal speed: 6.25\n" +
 							"Acceleration multiplier: 1\n" +
 							"Average vertical speed\n" +
-							"Flight time: 100";
+							"Flight time: 100\n" +
+							"+20 max life, +15 defense and +3 life regen";
+					}
+				}
+			}
+			if (item.type == ItemID.DemonWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 6.25\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 100\n" +
+							"10% increased damage and critical strike chance";
 					}
 				}
 			}
@@ -1196,7 +1222,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (item.type == ItemID.ButterflyWings || item.type == ItemID.FairyWings || item.type == ItemID.BeeWings)
+			if (item.type == ItemID.ButterflyWings)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1206,11 +1232,43 @@ namespace CalamityMod.Items
 							"Horizontal speed: 6.75\n" +
 							"Acceleration multiplier: 1\n" +
 							"Average vertical speed\n" +
-							"Flight time: 130";
+							"Flight time: 130\n" +
+							"+50 max mana, 5% decreased mana usage,\n" +
+							"10% increased magic damage and 5% increased magic critical strike chance";
 					}
 				}
 			}
-			if (item.type == ItemID.HarpyWings || item.type == ItemID.BoneWings)
+			if (item.type == ItemID.FairyWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 6.75\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 130\n" +
+							"+80 max life";
+					}
+				}
+			}
+			if (item.type == ItemID.BeeWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 6.75\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 130\n" +
+							"Honey buff at all times";
+					}
+				}
+			}
+			if (item.type == ItemID.HarpyWings)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1220,12 +1278,29 @@ namespace CalamityMod.Items
 							"Horizontal speed: 7\n" +
 							"Acceleration multiplier: 1\n" +
 							"Average vertical speed\n" +
-							"Flight time: 140";
+							"Flight time: 140\n" +
+							"30% increased movement speed";
 					}
 				}
 			}
-			if (item.type == ItemID.FlameWings || item.type == ItemID.FrozenWings || item.type == ItemID.GhostWings ||
-				item.type == ItemID.BeetleWings)
+			if (item.type == ItemID.BoneWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 7\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 140\n" +
+							"15% increased movement speed, 12% increased ranged damage,\n" +
+							"16% increased ranged critical strike chance\n" +
+							"and +30 defense while wearing the Necro Armor";
+					}
+				}
+			}
+			if (item.type == ItemID.FlameWings)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1235,7 +1310,59 @@ namespace CalamityMod.Items
 							"Horizontal speed: 7.5\n" +
 							"Acceleration multiplier: 1\n" +
 							"Average vertical speed\n" +
-							"Flight time: 160";
+							"Flight time: 160\n" +
+							"10% increased melee damage\n" +
+							"and 5% increased melee critical strike chance";
+					}
+				}
+			}
+			if (item.type == ItemID.FrozenWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 7.5\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 160\n" +
+							"7% increased melee and ranged damage\n" +
+							"and 3% increased melee and ranged critical strike chance\n" +
+							"while wearing the Frost Armor";
+					}
+				}
+			}
+			if (item.type == ItemID.GhostWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 7.5\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 160\n" +
+							"+10 defense and 5% increased damage reduction while wearing the Spectre Armor and Hood\n" +
+							"+20 max mana, 5% increased magic damage and critical strike chance,\n" +
+							"and 5% decreased mana usage while wearing the Spectre Armor and Mask";
+					}
+				}
+			}
+			if (item.type == ItemID.BeetleWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 7.5\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 160\n" +
+							"+15 defense and 10% increased damage reduction while wearing the Beetle Armor and Shell\n" +
+							"10% increased melee damage and critical strike chance while wearing the Beetle Armor and Scale Mail";
 					}
 				}
 			}
@@ -1249,7 +1376,10 @@ namespace CalamityMod.Items
 							"Horizontal speed: 0\n" +
 							"Acceleration multiplier: 0\n" +
 							"Average vertical speed\n" +
-							"Flight time: 100";
+							"Flight time: 100\n" +
+							"Gills effect and you can move freely through liquids\n" +
+							"You fall faster while submerged in liquid\n" +
+							"20% increased movement speed and 180% increased jump speed";
 					}
 				}
 			}
@@ -1277,7 +1407,9 @@ namespace CalamityMod.Items
 							"Horizontal speed: 7.75\n" +
 							"Acceleration multiplier: 1\n" +
 							"Average vertical speed\n" +
-							"Flight time: 180";
+							"Flight time: 180\n" +
+							"+10 defense, 10% increased movement speed,\n" +
+							"and 5% increased damage and critical strike chance";
 					}
 				}
 			}
@@ -1305,7 +1437,10 @@ namespace CalamityMod.Items
 							"Horizontal speed: 0\n" +
 							"Acceleration multiplier: 0\n" +
 							"Average vertical speed\n" +
-							"Flight time: 140";
+							"Flight time: 140\n" +
+							"10% increased movement speed and 100% increased jump speed\n" +
+							"+20 defense, 15% increased damage, 7% increased critical strike chance\n" +
+							"and 10% increased movement speed at night";
 					}
 				}
 			}
@@ -1326,7 +1461,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (item.type == ItemID.TatteredFairyWings || item.type == ItemID.SpookyWings)
+			if (item.type == ItemID.TatteredFairyWings)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1336,7 +1471,23 @@ namespace CalamityMod.Items
 							"Horizontal speed: 7.5\n" +
 							"Acceleration multiplier: 1\n" +
 							"Average vertical speed\n" +
-							"Flight time: 180";
+							"Flight time: 180\n" +
+							"5% increased damage and critical strike chance";
+					}
+				}
+			}
+			if (item.type == ItemID.SpookyWings)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 7.5\n" +
+							"Acceleration multiplier: 1\n" +
+							"Average vertical speed\n" +
+							"Flight time: 180\n" +
+							"+1 max minion and 10% increased minion damage while wearing the Spooky Armor";
 					}
 				}
 			}
@@ -1364,7 +1515,8 @@ namespace CalamityMod.Items
 							"Horizontal speed: 7.5\n" +
 							"Acceleration multiplier: 1\n" +
 							"Average vertical speed\n" +
-							"Flight time: 170";
+							"Flight time: 170\n" +
+							"+50 max life";
 					}
 				}
 			}
@@ -1378,11 +1530,14 @@ namespace CalamityMod.Items
 							"Horizontal speed: 0\n" +
 							"Acceleration multiplier: 0\n" +
 							"Average vertical speed\n" +
-							"Flight time: 160";
+							"Flight time: 160\n" +
+							"+10 defense, 10% increased damage," +
+							"5% increased critical strike chance," +
+							"10% increased movement speed and 120% increased jump speed";
 					}
 				}
 			}
-			if (item.type == ItemID.WingsSolar || item.type == ItemID.WingsStardust)
+			if (item.type == ItemID.WingsSolar)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1392,11 +1547,28 @@ namespace CalamityMod.Items
 							"Horizontal speed: 9\n" +
 							"Acceleration multiplier: 2.5\n" +
 							"Great vertical speed\n" +
-							"Flight time: 180";
+							"Flight time: 180\n" +
+							"7% increased melee damage and 3% increased melee critical strike chance\n" +
+							"while wearing the Solar Flare Armor";
 					}
 				}
 			}
-			if (item.type == ItemID.WingsVortex || item.type == ItemID.WingsNebula)
+			if (item.type == ItemID.WingsStardust)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 9\n" +
+							"Acceleration multiplier: 2.5\n" +
+							"Great vertical speed\n" +
+							"Flight time: 180\n" +
+							"+1 max minion and 5% increased minion damage while wearing the Stardust Armor";
+					}
+				}
+			}
+			if (item.type == ItemID.WingsVortex)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1406,7 +1578,25 @@ namespace CalamityMod.Items
 							"Horizontal speed: 6.5\n" +
 							"Acceleration multiplier: 1.5\n" +
 							"Good vertical speed\n" +
-							"Flight time: 160";
+							"Flight time: 160\n" +
+							"3% increased ranged damage and 7% increased ranged critical strike chance\n" +
+							"while wearing the Vortex Armor";
+					}
+				}
+			}
+			if (item.type == ItemID.WingsNebula)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Allows flight and slow fall\n" +
+							"Horizontal speed: 6.5\n" +
+							"Acceleration multiplier: 1.5\n" +
+							"Good vertical speed\n" +
+							"Flight time: 160\n" +
+							"+20 max mana, 5% increased magic damage and critical strike chance,\n" +
+							"and 5% decreased mana usage while wearing the Nebula Armor";
 					}
 				}
 			}
@@ -1655,6 +1845,12 @@ namespace CalamityMod.Items
 		#region Equip Changes
 		public override void UpdateEquip(Item item, Player player)
 		{
+			if (item.type == ItemID.FireGauntlet)
+			{
+				player.meleeDamage += 0.04f;
+				player.meleeSpeed += 0.04f;
+			}
+
 			#region Head
 			if (item.type == ItemID.SpectreHood)
 				player.magicDamage += 0.2f;
@@ -1797,6 +1993,187 @@ namespace CalamityMod.Items
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
 			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+
+			if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
+			{
+				player.statLifeMax2 += 20;
+				player.statDefense += 15;
+				player.lifeRegen += 3;
+			}
+			else if (item.type == ItemID.DemonWings) // Boost to all damage and crit
+			{
+				player.allDamage += 0.1f;
+				modPlayer.AllCritBoost(10);
+			}
+			else if (item.type == ItemID.FinWings) // Boosted water abilities, faster fall in water
+			{
+				player.moveSpeed += 0.2f;
+				player.jumpSpeedBoost += 1.8f;
+				player.gills = true;
+				player.ignoreWater = true;
+				if (!player.mount.Active)
+				{
+					if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+						player.maxFallSpeed = 12f;
+				}
+			}
+			else if (item.type == ItemID.BeeWings) // Honey buff
+			{
+				player.AddBuff(BuffID.Honey, 2);
+			}
+			else if (item.type == ItemID.ButterflyWings) // Boost to magic stats
+			{
+				player.statManaMax2 += 50;
+				player.magicDamage += 0.1f;
+				player.manaCost *= 0.95f;
+				player.magicCrit += 5;
+			}
+			else if (item.type == ItemID.FairyWings) // Boost to max life
+			{
+				player.statLifeMax2 += 80;
+			}
+			else if (item.type == ItemID.BatWings) // Stronger at night
+			{
+				player.moveSpeed += 0.1f;
+				player.jumpSpeedBoost += 1.0f;
+				if (!Main.dayTime)
+				{
+					player.statDefense += 20;
+					player.allDamage += 0.15f;
+					modPlayer.AllCritBoost(7);
+					player.moveSpeed += 0.1f;
+				}
+			}
+			else if (item.type == ItemID.HarpyWings)
+			{
+				player.moveSpeed += 0.3f;
+			}
+			else if (item.type == ItemID.BoneWings) // Bonus to ranged and defense stats while wearing necro armor
+			{
+				if ((player.head == ArmorIDs.Head.NecroHelmet || player.head == ArmorIDs.Head.AncientNecroHelmet) &&
+					player.body == ArmorIDs.Body.NecroBreastplate && player.legs == ArmorIDs.Legs.NecroGreaves)
+				{
+					player.moveSpeed += 0.15f;
+					player.rangedDamage += 0.12f;
+					player.rangedCrit += 16;
+					player.statDefense += 30;
+				}
+			}
+			else if (item.type == ItemID.MothronWings) // Spawn baby mothrons over time to attack enemies, max of 3
+			{
+				player.statDefense += 10;
+				player.allDamage += 0.1f;
+				modPlayer.AllCritBoost(5);
+				player.moveSpeed += 0.1f;
+				player.jumpSpeedBoost += 1.2f;
+			}
+			else if (item.type == ItemID.FrozenWings) // Bonus to melee and ranged stats while wearing frost armor
+			{
+				if (player.head == ArmorIDs.Head.FrostHelmet && player.body == ArmorIDs.Body.FrostBreastplate && player.legs == ArmorIDs.Legs.FrostLeggings)
+				{
+					player.meleeDamage += 0.07f;
+					player.rangedDamage += 0.07f;
+					player.meleeCrit += 3;
+					player.rangedCrit += 3;
+				}
+			}
+			else if (item.type == ItemID.FlameWings) // Bonus to melee stats
+			{
+				player.meleeDamage += 0.1f;
+				player.meleeCrit += 5;
+			}
+			else if (item.type == ItemID.GhostWings) // Bonus to mage stats while wearing spectre armor
+			{
+				if (player.body == ArmorIDs.Body.SpectreRobe && player.legs == ArmorIDs.Legs.SpectrePants)
+				{
+					if (player.head == ArmorIDs.Head.SpectreHood)
+					{
+						player.statDefense += 10;
+						player.endurance += 0.05f;
+					}
+					else if (player.head == ArmorIDs.Head.SpectreMask)
+					{
+						player.statManaMax2 += 20;
+						player.magicDamage += 0.05f;
+						player.manaCost *= 0.95f;
+						player.magicCrit += 5;
+					}
+				}
+			}
+			else if (item.type == ItemID.BeetleWings) // Boosted defense and melee stats while wearing beetle armor
+			{
+				if (player.head == ArmorIDs.Head.BeetleHelmet && player.legs == ArmorIDs.Legs.BeetleLeggings)
+				{
+					if (player.body == ArmorIDs.Body.BeetleShell)
+					{
+						player.statDefense += 15;
+						player.endurance += 0.1f;
+					}
+					else if (player.body == ArmorIDs.Body.BeetleScaleMail)
+					{
+						player.meleeDamage += 0.1f;
+						player.meleeCrit += 10;
+					}
+				}
+			}
+			else if (item.type == ItemID.FestiveWings) // Drop powerful homing christmas tree bulbs while in flight
+			{
+				player.statLifeMax2 += 50;
+			}
+			else if (item.type == ItemID.SpookyWings) // Bonus to summon stats while wearing spooky armor
+			{
+				if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
+				{
+					player.maxMinions++;
+					player.minionDamage += 0.1f;
+				}
+			}
+			else if (item.type == ItemID.TatteredFairyWings)
+			{
+				player.allDamage += 0.05f;
+				modPlayer.AllCritBoost(5);
+			}
+			else if (item.type == ItemID.SteampunkWings)
+			{
+				player.statDefense += 10;
+				player.allDamage += 0.05f;
+				modPlayer.AllCritBoost(5);
+				player.moveSpeed += 0.1f;
+			}
+			else if (item.type == ItemID.WingsSolar) // Bonus to melee stats while wearing solar flare armor
+			{
+				if (player.head == ArmorIDs.Head.SolarFlareHelmet && player.body == ArmorIDs.Body.SolarFlareBreastplate && player.legs == ArmorIDs.Legs.SolarFlareLeggings)
+				{
+					player.meleeDamage += 0.07f;
+					player.meleeCrit += 3;
+				}
+			}
+			else if (item.type == ItemID.WingsVortex) // Bonus to ranged stats while wearing vortex armor
+			{
+				if (player.head == ArmorIDs.Head.VortexHelmet && player.body == ArmorIDs.Body.VortexBreastplate && player.legs == ArmorIDs.Legs.VortexLeggings)
+				{
+					player.rangedDamage += 0.03f;
+					player.rangedCrit += 7;
+				}
+			}
+			else if (item.type == ItemID.WingsNebula) // Bonus to magic stats while wearing nebula armor
+			{
+				if (player.head == ArmorIDs.Head.NebulaHelmet && player.body == ArmorIDs.Body.NebulaBreastplate && player.legs == ArmorIDs.Legs.NebulaLeggings)
+				{
+					player.magicDamage += 0.05f;
+					player.magicCrit += 5;
+					player.statManaMax2 += 20;
+					player.manaCost *= 0.95f;
+				}
+			}
+			else if (item.type == ItemID.WingsStardust) // Bonus to summon stats while wearing stardust armor
+			{
+				if (player.head == ArmorIDs.Head.StardustHelmet && player.body == ArmorIDs.Body.StardustPlate && player.legs == ArmorIDs.Legs.StardustLeggings)
+				{
+					player.maxMinions++;
+					player.minionDamage += 0.05f;
+				}
+			}
 
 			if (item.type == ItemID.JellyfishNecklace || item.type == ItemID.JellyfishDivingGear || item.type == ItemID.ArcticDivingGear)
 				modPlayer.jellyfishNecklace = true;

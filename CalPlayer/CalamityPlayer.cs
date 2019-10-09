@@ -3294,16 +3294,9 @@ namespace CalamityMod.CalPlayer
 			if (aquaticScourgeLore && player.wellFed)
 			{
 				player.statDefense += 1;
-				player.meleeCrit += 1;
-				player.meleeDamage += 0.025f;
+				player.allDamage += 0.025f;
+				AllCritBoost(1);
 				player.meleeSpeed += 0.025f;
-				player.magicCrit += 1;
-				player.magicDamage += 0.025f;
-				player.rangedCrit += 1;
-				player.rangedDamage += 0.025f;
-				player.thrownCrit += 1;
-				player.thrownDamage += 0.025f;
-				player.minionDamage += 0.025f;
 				player.minionKB += 0.25f;
 				player.moveSpeed += 0.1f;
 			}

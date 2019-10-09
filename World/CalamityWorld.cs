@@ -707,30 +707,33 @@ namespace CalamityMod.World
 					if (bossRushSpawnCountdown > 0)
 					{
 						bossRushSpawnCountdown--;
-						if (bossRushSpawnCountdown == 180 && bossRushStage == 28)
+						if (bossRushSpawnCountdown == 180)
 						{
-							string key = "Mods.CalamityMod.BossRushTierThreeEndText2";
-							Color messageColor = Color.LightCoral;
-							if (Main.netMode == NetmodeID.SinglePlayer)
+							if (bossRushStage == 28)
 							{
-								Main.NewText(Language.GetTextValue(key), messageColor);
+								string key = "Mods.CalamityMod.BossRushTierThreeEndText2";
+								Color messageColor = Color.LightCoral;
+								if (Main.netMode == NetmodeID.SinglePlayer)
+								{
+									Main.NewText(Language.GetTextValue(key), messageColor);
+								}
+								else if (Main.netMode == NetmodeID.Server)
+								{
+									NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+								}
 							}
-							else if (Main.netMode == NetmodeID.Server)
+							else if (bossRushStage == 36)
 							{
-								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-							}
-						}
-						if (bossRushSpawnCountdown == 210 && bossRushStage == 36)
-						{
-							string key = "Mods.CalamityMod.BossRushTierFourEndText2";
-							Color messageColor = Color.LightCoral;
-							if (Main.netMode == NetmodeID.SinglePlayer)
-							{
-								Main.NewText(Language.GetTextValue(key), messageColor);
-							}
-							else if (Main.netMode == NetmodeID.Server)
-							{
-								NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+								string key = "Mods.CalamityMod.BossRushTierFourEndText2";
+								Color messageColor = Color.LightCoral;
+								if (Main.netMode == NetmodeID.SinglePlayer)
+								{
+									Main.NewText(Language.GetTextValue(key), messageColor);
+								}
+								else if (Main.netMode == NetmodeID.Server)
+								{
+									NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+								}
 							}
 						}
 					}
@@ -739,11 +742,7 @@ namespace CalamityMod.World
 						bossRushSpawnCountdown = 60;
 						if (bossRushStage > 27)
 						{
-							bossRushSpawnCountdown += 120; //3 seconds
-						}
-						if (bossRushStage > 35)
-						{
-							bossRushSpawnCountdown += 180; //6 seconds
+							bossRushSpawnCountdown += 300;
 						}
 						switch (bossRushStage)
 						{
