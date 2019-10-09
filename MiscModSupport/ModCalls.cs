@@ -8,7 +8,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.MiscModSupport
 {
-	public class ModSupport
+	public class ModCalls
 	{
 		#region Boss / Event Downed
 		/// <summary>
@@ -479,10 +479,12 @@ namespace CalamityMod.MiscModSupport
 
         #region Set Damage Reduction
 
-        // TODO -- There isn't a DR map yet, so this can't be implemented until that is done
-        public static bool SetDamageReduction(string npcName, float DR)
+        public static float SetDamageReduction(int npcID, float dr)
         {
-            return false;
+            CalamityMod.DRValues.TryGetValue(npcID, out float oldDR);
+            CalamityMod.DRValues.Remove(npcID);
+            CalamityMod.DRValues.Add(npcID, dr);
+            return oldDR;
         }
         #endregion
 
@@ -549,13 +551,14 @@ namespace CalamityMod.MiscModSupport
                 case "DamageReduction":
                 case "SetDR":
                 case "SetDamageReduction":
-                    if (args.Length < 2) return new ArgumentNullException("ERROR: Must specify both NPC name as a string and damage reduction as a float or double.");
+                    if (args.Length < 2) return new ArgumentNullException("ERROR: Must specify both NPC ID as an int and damage reduction as a float or double.");
                     if (args.Length < 3) return new ArgumentNullException("ERROR: Must specify damage reduction as a float or double.");
                     if (!(args[2] is float) && !(args[2] is double)) return new ArgumentException("ERROR: The second argument to \"SetDamageReduction\" must be a float or a double.");
-                    if (!(args[1] is string)) return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be a string.");
+                    if (!(args[1] is string)) return new ArgumentException("ERROR: The first argument to \"SetDamageReduction\" must be an int.");
 
+                    int npcID = (int)args[1];
                     float DR = (float)args[2];
-                    return SetDamageReduction(args[1].ToString(), DR);
+                    return SetDamageReduction(npcID, DR);
 
                 default:
 					return new ArgumentException("ERROR: Invalid method name.");

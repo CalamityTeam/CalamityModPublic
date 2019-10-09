@@ -56,8 +56,119 @@ namespace CalamityMod
 		public static Texture2D AstralSky;
 		public static Effect CustomShader;
 
-		// Lists
-		public static IList<string> donatorList;
+        // DR data structure
+        public static SortedDictionary<int, float> DRValues = new SortedDictionary<int, float>
+        {
+            { NPCID.AngryBonesBig, 0.2f },
+            { NPCID.AngryBonesBigHelmet, 0.2f },
+            { NPCID.AngryBonesBigMuscle, 0.2f },
+            { NPCID.AnomuraFungus, 0.1f },
+            { NPCID.Antlion, 0.1f },
+            { NPCID.Arapaima, 0.1f },
+            { NPCID.ArmoredSkeleton, 0.15f },
+            { NPCID.ArmoredViking, 0.1f },
+            { NPCID.BigMimicCorruption, 0.3f },
+            { NPCID.BigMimicCrimson, 0.3f },
+            { NPCID.BigMimicHallow, 0.3f },
+            { NPCID.BigMimicJungle, 0.3f }, // unused vanilla enemy
+            { NPCID.BlueArmoredBones, 0.2f },
+            { NPCID.BlueArmoredBonesMace, 0.2f },
+            { NPCID.BlueArmoredBonesNoPants, 0.2f },
+            { NPCID.BlueArmoredBonesSword, 0.2f },
+            { NPCID.BoneLee, 0.2f },
+            { NPCID.Crab, 0.05f },
+            { NPCID.Crawdad, 0.2f },
+            { NPCID.Crawdad2, 0.2f },
+            { NPCID.CultistBoss, 0.05f },
+            { NPCID.DD2Betsy, 0.1f },
+            { NPCID.DD2OgreT2, 0.1f },
+            { NPCID.DD2OgreT3, 0.15f },
+            { NPCID.DeadlySphere, 0.4f },
+            { NPCID.DiabolistRed, 0.2f },
+            { NPCID.DiabolistWhite, 0.2f },
+            { NPCID.DungeonGuardian, 0.999999f },
+            { NPCID.DungeonSpirit, 0.2f },
+            { NPCID.ElfCopter, 0.15f },
+            { NPCID.Everscream, 0.1f },
+            { NPCID.FlyingAntlion, 0.05f },
+            { NPCID.GiantCursedSkull, 0.2f },
+            { NPCID.GiantShelly, 0.2f },
+            { NPCID.GiantShelly2, 0.2f },
+            { NPCID.GiantTortoise, 0.35f },
+            { NPCID.Golem, 0.25f },
+            { NPCID.GolemFistLeft, 0.25f },
+            { NPCID.GolemFistRight, 0.25f },
+            { NPCID.GolemHead, 0.25f },
+            { NPCID.GolemHeadFree, 0.25f },
+            { NPCID.GraniteFlyer, 0.1f },
+            { NPCID.GraniteGolem, 0.15f },
+            { NPCID.GreekSkeleton, 0.1f },
+            { NPCID.HellArmoredBones, 0.2f },
+            { NPCID.HellArmoredBonesMace, 0.2f },
+            { NPCID.HellArmoredBonesSpikeShield, 0.2f },
+            { NPCID.HellArmoredBonesSword, 0.2f },
+            { NPCID.IceGolem, 0.1f },
+            { NPCID.IceQueen, 0.1f },
+            { NPCID.IceTortoise, 0.35f },
+            { NPCID.HeadlessHorseman, 0.05f },
+            { NPCID.MartianDrone, 0.2f },
+            { NPCID.MartianSaucer, 0.2f },
+            { NPCID.MartianSaucerCannon, 0.2f },
+            { NPCID.MartianSaucerCore, 0.2f },
+            { NPCID.MartianSaucerTurret, 0.2f },
+            { NPCID.MartianTurret, 0.2f },
+            { NPCID.MartianWalker, 0.35f },
+            { NPCID.Mimic, 0.3f },
+            { NPCID.MoonLordCore, 0.05f },
+            { NPCID.MoonLordFreeEye, 0.05f },
+            { NPCID.MoonLordHand, 0.05f },
+            { NPCID.MoonLordHead, 0.05f },
+            { NPCID.Mothron, 0.2f },
+            { NPCID.MothronEgg, 0.5f },
+            { NPCID.MourningWood, 0.1f },
+            { NPCID.Necromancer, 0.2f },
+            { NPCID.NecromancerArmored, 0.2f },
+            { NPCID.Paladin, 0.45f },
+            { NPCID.PirateCaptain, 0.05f },
+            { NPCID.PirateShipCannon, 0.15f },
+            { NPCID.PossessedArmor, 0.25f },
+            { NPCID.PresentMimic, 0.3f },
+            { NPCID.PrimeCannon, 0.2f },
+            { NPCID.PrimeLaser, 0.2f },
+            { NPCID.PrimeSaw, 0.25f },
+            { NPCID.PrimeVice, 0.25f },
+            { NPCID.Probe, 0.25f },
+            { NPCID.Pumpking, 0.1f },
+            { NPCID.QueenBee, 0.05f },
+            { NPCID.RaggedCaster, 0.2f },
+            { NPCID.RaggedCasterOpenCoat, 0.2f },
+            { NPCID.Retinazer, 0.2f },
+            { NPCID.RustyArmoredBonesAxe, 0.2f },
+            { NPCID.RustyArmoredBonesFlail, 0.2f },
+            { NPCID.RustyArmoredBonesSword, 0.2f },
+            { NPCID.RustyArmoredBonesSwordNoArmor, 0.2f },
+            { NPCID.SandElemental, 0.1f },
+            { NPCID.SantaNK1, 0.35f },
+            { NPCID.SeaSnail, 0.05f },
+            { NPCID.SkeletonArcher, 0.1f },
+            { NPCID.SkeletonCommando, 0.2f },
+            { NPCID.SkeletonSniper, 0.2f },
+            { NPCID.SkeletronHand, 0.05f },
+            { NPCID.SkeletronHead, 0.05f },
+            { NPCID.SkeletronPrime, 0.25f },
+            { NPCID.Spazmatism, 0.2f },
+            { NPCID.TacticalSkeleton, 0.2f },
+            { NPCID.TheDestroyer, 0.1f },
+            { NPCID.TheDestroyerBody, 0.2f },
+            { NPCID.TheDestroyerTail, 0.35f },
+            { NPCID.TheHungry, 0.1f },
+            { NPCID.UndeadViking, 0.1f },
+            { NPCID.WalkingAntlion, 0.1f },
+            { NPCID.WallofFlesh, 0.5f },
+        };
+
+        // Lists
+        public static IList<string> donatorList;
 		public static List<int> rangedProjectileExceptionList;
 		public static List<int> projectileMinionList;
 		public static List<int> enemyImmunityList;
@@ -138,6 +249,7 @@ namespace CalamityMod
 			Config.Load();
 
 			SetupLists();
+            RegisterThoriumBossDR(ModLoader.GetMod("ThoriumMod"));
 
 			CalamityLocalization.AddLocalizations();
 		}
@@ -2041,10 +2153,41 @@ namespace CalamityMod
 				}
 			}
 		}
-		#endregion
+        #endregion
 
-		#region Music
-		public override void UpdateMusic(ref int music, ref MusicPriority priority)
+        #region Thorium Boss DR
+        private void RegisterThoriumBossDR(Mod thorium)
+        {
+            if (thorium is null || !Config.RevengeanceAndDeathThoriumBossBuff)
+                return;
+
+            void ThoriumDR(string npcName, float dr) { DRValues.Add(thorium.NPCType(npcName), dr); }
+            ThoriumDR("Viscount", 0.05f);
+            ThoriumDR("BoreanStrider", 0.05f);
+            ThoriumDR("FallenDeathBeholder", 0.05f);
+            ThoriumDR("Lich", 0.05f);
+            ThoriumDR("AbyssionReleased", 0.05f);
+            ThoriumDR("CryoCore", 0.1f);
+            ThoriumDR("BioCore", 0.1f);
+            ThoriumDR("PyroCore", 0.1f);
+            ThoriumDR("Aquaius", 0.1f);
+            ThoriumDR("ThePrimeScouter", 0.2f);
+            ThoriumDR("FallenDeathBeholder2", 0.2f);
+            ThoriumDR("SlagFury", 0.2f);
+            ThoriumDR("Aquaius2", 0.2f);
+            ThoriumDR("GraniteEnergyStorm", 0.2f);
+            ThoriumDR("TheBuriedWarrior", 0.25f);
+            ThoriumDR("TheBuriedWarrior1", 0.25f);
+            ThoriumDR("TheBuriedWarrior2", 0.25f);
+            ThoriumDR("LichHeadless", 0.25f);
+            ThoriumDR("AbyssionCracked", 0.25f);
+            ThoriumDR("Omnicide", 0.3f);
+            ThoriumDR("Abyssion", 0.35f);
+        }
+        #endregion
+
+        #region Music
+        public override void UpdateMusic(ref int music, ref MusicPriority priority)
 		{
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 			if (Main.musicVolume != 0)
@@ -2152,7 +2295,7 @@ namespace CalamityMod
 
 		public override object Call(params object[] args)
 		{
-			return ModSupport.Call(args);
+			return ModCalls.Call(args);
 		}
 		#endregion
 

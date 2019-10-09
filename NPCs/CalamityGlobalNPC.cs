@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs
 		public static int SCalWorm = -1;
 
         // Collections
-        public SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
+        public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
             // Tier 1
             { NPCID.QueenBee, 420000 },
@@ -177,7 +177,7 @@ namespace CalamityMod.NPCs
             { NPCID.MoonLordFreeEye, 1000 }
         };
 
-        public SortedDictionary<int, int> BossValues = new SortedDictionary<int, int>
+        public static SortedDictionary<int, int> BossValues = new SortedDictionary<int, int>
         {
             { NPCID.QueenBee, Item.buyPrice(0, 5)},
             { NPCID.SkeletronHead, Item.buyPrice(0, 7) },
@@ -834,42 +834,6 @@ namespace CalamityMod.NPCs
         #region Revengeance Damage Reduction
         private void RevengeanceDamageReduction(NPC npc, Mod mod)
 		{
-			if (Config.RevengeanceAndDeathThoriumBossBuff)
-			{
-				Mod thorium = ModLoader.GetMod("ThoriumMod");
-				if (thorium != null)
-				{
-					if (npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("FallenDeathBeholder") ||
-						npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("AbyssionReleased"))
-					{
-						DR = 0.05f;
-					}
-					else if (npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") || npc.type == thorium.NPCType("PyroCore") ||
-						npc.type == thorium.NPCType("Aquaius"))
-					{
-						DR = 0.1f;
-					}
-					else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("FallenDeathBeholder2") || npc.type == thorium.NPCType("SlagFury") ||
-						npc.type == thorium.NPCType("Aquaius2") || npc.type == thorium.NPCType("GraniteEnergyStorm"))
-					{
-						DR = 0.2f;
-					}
-					else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2") ||
-						npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("AbyssionCracked"))
-					{
-						DR = 0.25f;
-					}
-					else if (npc.type == thorium.NPCType("Omnicide"))
-					{
-						DR = 0.3f;
-					}
-					else if (npc.type == thorium.NPCType("Abyssion"))
-					{
-						DR = 0.35f;
-					}
-				}
-			}
-
 			if (npc.type == mod.NPCType("Cnidrion") || npc.type == mod.NPCType("DesertScourgeBody") || npc.type == mod.NPCType("ColossalSquid") ||
 				npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu") || npc.type == mod.NPCType("ProfanedGuardianBoss3") ||
 				npc.type == mod.NPCType("ScornEater") || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") ||
@@ -929,153 +893,6 @@ namespace CalamityMod.NPCs
 			else if (npc.type == mod.NPCType("SirenIce"))
 			{
 				DR = 0.5f;
-			}
-			else
-			{
-				switch (npc.type)
-				{
-					case NPCID.SkeletronHand:
-					case NPCID.SkeletronHead:
-					case NPCID.QueenBee:
-					case NPCID.HeadlessHorseman:
-					case NPCID.FlyingAntlion:
-					case NPCID.PirateCaptain:
-					case NPCID.MoonLordHead:
-					case NPCID.MoonLordHand:
-					case NPCID.MoonLordCore:
-					case NPCID.MoonLordFreeEye:
-					case NPCID.CultistBoss:
-					case NPCID.Crab:
-					case NPCID.SeaSnail:
-						DR = 0.05f;
-						break;
-
-					case NPCID.Antlion:
-					case NPCID.TheHungry:
-					case NPCID.TheDestroyer:
-					case NPCID.UndeadViking:
-					case NPCID.MourningWood:
-					case NPCID.Everscream:
-					case NPCID.GreekSkeleton:
-					case NPCID.GraniteFlyer:
-					case NPCID.WalkingAntlion:
-					case NPCID.Pumpking:
-					case NPCID.IceQueen:
-					case NPCID.IceGolem:
-					case NPCID.AnomuraFungus:
-					case NPCID.SkeletonArcher:
-					case NPCID.SandElemental:
-					case NPCID.Arapaima:
-					case NPCID.ArmoredViking:
-					case NPCID.DD2Betsy:
-					case NPCID.DD2OgreT2:
-						DR = 0.1f;
-						break;
-
-					case NPCID.ElfCopter:
-					case NPCID.GraniteGolem:
-					case NPCID.ArmoredSkeleton:
-					case NPCID.PirateShipCannon:
-					case NPCID.DD2OgreT3:
-						DR = 0.15f;
-						break;
-
-					case NPCID.Retinazer:
-					case NPCID.Spazmatism:
-					case NPCID.PrimeCannon:
-					case NPCID.PrimeLaser:
-					case NPCID.TheDestroyerBody:
-					case NPCID.RustyArmoredBonesAxe:
-					case NPCID.RustyArmoredBonesFlail:
-					case NPCID.RustyArmoredBonesSword:
-					case NPCID.RustyArmoredBonesSwordNoArmor:
-					case NPCID.BlueArmoredBones:
-					case NPCID.BlueArmoredBonesMace:
-					case NPCID.BlueArmoredBonesNoPants:
-					case NPCID.BlueArmoredBonesSword:
-					case NPCID.HellArmoredBones:
-					case NPCID.HellArmoredBonesSpikeShield:
-					case NPCID.HellArmoredBonesMace:
-					case NPCID.HellArmoredBonesSword:
-					case NPCID.RaggedCaster:
-					case NPCID.RaggedCasterOpenCoat:
-					case NPCID.Necromancer:
-					case NPCID.NecromancerArmored:
-					case NPCID.DiabolistRed:
-					case NPCID.DiabolistWhite:
-					case NPCID.BoneLee:
-					case NPCID.DungeonSpirit:
-					case NPCID.GiantCursedSkull:
-					case NPCID.SkeletonSniper:
-					case NPCID.TacticalSkeleton:
-					case NPCID.SkeletonCommando:
-					case NPCID.AngryBonesBig:
-					case NPCID.AngryBonesBigMuscle:
-					case NPCID.AngryBonesBigHelmet:
-					case NPCID.MartianSaucerTurret:
-					case NPCID.MartianSaucerCannon:
-					case NPCID.MartianTurret:
-					case NPCID.MartianDrone:
-					case NPCID.MartianSaucer:
-					case NPCID.MartianSaucerCore:
-					case NPCID.Crawdad:
-					case NPCID.Crawdad2:
-					case NPCID.GiantShelly:
-					case NPCID.GiantShelly2:
-					case NPCID.Mothron:
-						DR = 0.2f;
-						break;
-
-					case NPCID.PrimeSaw:
-					case NPCID.PrimeVice:
-					case NPCID.SkeletronPrime:
-					case NPCID.Probe:
-					case NPCID.PossessedArmor:
-					case NPCID.Golem:
-					case NPCID.GolemFistLeft:
-					case NPCID.GolemFistRight:
-					case NPCID.GolemHead:
-					case NPCID.GolemHeadFree:
-						DR = 0.25f;
-						break;
-
-					case NPCID.Mimic:
-					case NPCID.PresentMimic:
-					case NPCID.BigMimicCorruption:
-					case NPCID.BigMimicCrimson:
-					case NPCID.BigMimicHallow:
-					case NPCID.BigMimicJungle:
-						DR = 0.3f;
-						break;
-
-					case NPCID.GiantTortoise:
-					case NPCID.IceTortoise:
-					case NPCID.SantaNK1:
-					case NPCID.MartianWalker:
-					case NPCID.TheDestroyerTail:
-						DR = 0.35f;
-						break;
-
-					case NPCID.DeadlySphere:
-						DR = 0.4f;
-						break;
-
-					case NPCID.Paladin:
-						DR = 0.45f;
-						break;
-
-					case NPCID.WallofFlesh:
-					case NPCID.MothronEgg:
-						DR = 0.5f;
-						break;
-
-					case NPCID.DungeonGuardian:
-						DR = 0.999999f;
-						break;
-
-					default:
-						break;
-				}
 			}
 		}
         #endregion
