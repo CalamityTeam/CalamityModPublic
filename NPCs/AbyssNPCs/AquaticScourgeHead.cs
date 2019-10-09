@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 100;
 			npc.height = 90;
 			npc.defense = 10;
+            npc.GetCalamityNPC().RevPlusDR(0.1f);
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;

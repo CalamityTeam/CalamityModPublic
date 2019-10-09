@@ -28,6 +28,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 180;
 			npc.height = 180;
 			npc.defense = 50;
+            npc.GetCalamityNPC().RevPlusDR(0.05f);
 			npc.lifeMax = 220000;
 			npc.aiStyle = -1;
 			aiType = -1;

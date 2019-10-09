@@ -37,7 +37,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			npc.width = 198;
 			npc.height = 198;
 			npc.defense = 40;
-			npc.lifeMax = CalamityWorld.revenge ? 77275 : 58500;
+            npc.GetCalamityNPC().RevPlusDR(0.25f);
+            npc.lifeMax = CalamityWorld.revenge ? 77275 : 58500;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 110000;

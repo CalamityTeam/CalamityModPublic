@@ -27,6 +27,7 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.width = 120;
 			npc.height = 120;
 			npc.defense = 10;
+            npc.GetCalamityNPC().RevPlusDR(0.15f);
 			npc.lifeMax = CalamityWorld.revenge ? 13200 : 9000;
 			if (CalamityWorld.death)
 			{

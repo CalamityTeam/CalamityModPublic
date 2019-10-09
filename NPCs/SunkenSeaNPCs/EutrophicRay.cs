@@ -24,6 +24,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.width = 116;
 			npc.height = 36;
 			npc.defense = Main.hardMode ? 15 : 5;
+            npc.GetCalamityNPC().RevPlusDR(0.05f);
 			npc.lifeMax = Main.hardMode ? 500 : 150;
 			npc.aiStyle = -1;
 			aiType = -1;

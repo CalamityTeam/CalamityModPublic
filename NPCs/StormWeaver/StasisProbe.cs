@@ -22,7 +22,8 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.width = 30;
 			npc.height = 30;
 			npc.defense = 60;
-			npc.lifeMax = 1200;
+            npc.GetCalamityNPC().RevPlusDR(0.25f);
+            npc.lifeMax = 1200;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 25000;

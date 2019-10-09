@@ -28,7 +28,8 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.width = 332;
 			npc.height = 214;
 			npc.defense = 55;
-			npc.lifeMax = CalamityWorld.revenge ? 53500 : 42700;
+            npc.GetCalamityNPC().RevPlusDR(0.4f);
+            npc.lifeMax = CalamityWorld.revenge ? 53500 : 42700;
 			if (CalamityWorld.death)
 			{
 				npc.lifeMax = 90000;

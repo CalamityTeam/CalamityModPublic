@@ -23,7 +23,8 @@ namespace CalamityMod.NPCs.AstrumDeus
 			npc.width = 30;
 			npc.height = 30;
 			npc.defense = 30;
-			npc.lifeMax = 1400;
+            npc.GetCalamityNPC().RevPlusDR(0.2f);
+            npc.lifeMax = 1400;
 			if (CalamityWorld.bossRushActive)
 			{
 				npc.lifeMax = 120000;

@@ -27,7 +27,8 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.width = 72;
 			npc.height = 58;
 			npc.defense = Main.hardMode ? 25 : 10;
-			npc.lifeMax = Main.hardMode ? 1000 : 350;
+            npc.GetCalamityNPC().RevPlusDR(0.25f);
+            npc.lifeMax = Main.hardMode ? 1000 : 350;
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.value = Main.hardMode ? Item.buyPrice(0, 0, 50, 0) : Item.buyPrice(0, 0, 5, 0);
