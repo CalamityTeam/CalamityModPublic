@@ -39,7 +39,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             Vector2 velocity = new Vector2(speedX, speedY);
             float strikeValue = player.GetCalamityPlayer().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            Projectile.NewProjectile(position, velocity, mod.ProjectileType("ConsecratedWaterProjectile"), damage, knockBack, player.whoAmI, ai1:strikeValue);
+            int p = Projectile.NewProjectile(position, velocity, mod.ProjectileType("ConsecratedWaterProjectile"), damage, knockBack, player.whoAmI, ai1:strikeValue);
+            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+                Main.projectile[p].GetCalamityProj().stealthStrike = true;
             return false;
         }
         public override void AddRecipes()

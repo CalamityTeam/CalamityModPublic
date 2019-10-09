@@ -40,7 +40,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             if (player.GetCalamityPlayer().StealthStrikeAvailable()) //setting the stealth strike
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("BloodsoakedCrashax"), damage, knockBack, player.whoAmI, 0f, 1f);
+                int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("BloodsoakedCrashax"), damage, knockBack, player.whoAmI, 0f, 1f);
+                Main.projectile[p].GetCalamityProj().stealthStrike = true;
                 return false;
             }
             return true;

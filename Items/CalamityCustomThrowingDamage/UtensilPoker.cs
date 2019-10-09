@@ -41,8 +41,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		{
 			if (player.GetCalamityPlayer().StealthStrikeAvailable())
 			{
-				Projectile.NewProjectile(position.X, position.Y, (int) ((double)speedX * 1.2), (int) ((double)speedY * 1.2), mod.ProjectileType("ButcherKnife"),  (int) ((double)damage * 3), knockBack, Main.myPlayer);
-				if (Main.rand.NextBool(3))
+				int p = Projectile.NewProjectile(position.X, position.Y, (int) ((double)speedX * 1.2), (int) ((double)speedY * 1.2), mod.ProjectileType("ButcherKnife"),  (int) ((double)damage * 3), knockBack, Main.myPlayer);
+                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                if (Main.rand.NextBool(3))
 				{
 					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Fork"), (int) ((double)damage * 1.1), knockBack * 2f, Main.myPlayer);
 				}
