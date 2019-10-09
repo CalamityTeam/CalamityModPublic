@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Cyclone : ModProjectile
 	{
+        public int dustvortex = 0;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cyclone");
@@ -30,15 +31,37 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.ignoreWater = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 10;
+            projectile.tileCollide = false;
 		}
 
 		public override void AI()
 		{
+            projectile.ai[0]++;
+            projectile.ai[1]++;
+
+            //Code so it doesnt collide on tiles instantly
+            if (projectile.ai[0] >= 12)
+                projectile.tileCollide = true;
+
 			projectile.rotation += 2.5f;
 			projectile.alpha -= 5;
 			if (projectile.alpha < 50)
 			{
 				projectile.alpha = 50;
+                if (projectile.ai[1] >= 15)
+                {
+
+                    for (int i = 1; i <= 6; i++)
+                    {
+                        Vector2 dustspeed = new Vector2(3f, 3f).RotatedBy(MathHelper.ToRadians(dustvortex));
+                        int d = Dust.NewDust(projectile.Center, projectile.width/2, projectile.height/2, 31, dustspeed.X, dustspeed.Y, 200, new Color(232, 251, 250, 200), 1.3f);
+                        Main.dust[d].noGravity = true;
+                        Main.dust[d].velocity = dustspeed;
+                        dustvortex += 60;
+                    }
+                    dustvortex -= 355;
+                    projectile.ai[1] = 0;
+                }
 			}
 			float num472 = projectile.Center.X;
 			float num473 = projectile.Center.Y;
@@ -86,5 +109,19 @@ namespace CalamityMod.Projectiles.Melee
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
 			return false;
 		}
-	}
+
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(2, (int)projectile.Center.X,(int)projectile.Center.Y, 60, 0.6f);
+            
+            for (int i = 0; i <= 360; i += 3)
+            {
+                Vector2 dustspeed = new Vector2(3f, 3f).RotatedBy(MathHelper.ToRadians(i));
+                int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 31, dustspeed.X, dustspeed.Y, 200, new Color(232, 251, 250, 200), 1.4f);
+                Main.dust[d].noGravity = true;
+                Main.dust[d].position = projectile.Center;
+                Main.dust[d].velocity = dustspeed;
+            }
+        }
+    }
 }
