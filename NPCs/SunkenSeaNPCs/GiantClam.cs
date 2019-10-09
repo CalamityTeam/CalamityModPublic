@@ -34,7 +34,8 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.width = 160;
 			npc.height = 120;
 			npc.defense = 9999;
-			npc.lifeMax = Main.hardMode ? 7500 : 1250;
+            npc.GetCalamityNPC().RevPlusDR(0.3f);
+            npc.lifeMax = Main.hardMode ? 7500 : 1250;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;

@@ -19,7 +19,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 34;
 			npc.height = 34;
 			npc.defense = 45;
-			npc.lifeMax = 20000;
+            npc.GetCalamityNPC().RevPlusDR(0.45f);
+            npc.lifeMax = 20000;
 			npc.knockBackResist = 0f;
 			npc.aiStyle = -1;
 			aiType = -1;
