@@ -6810,9 +6810,56 @@ namespace CalamityMod.CalPlayer
 		#region Fishing
 		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
 		{
-			if (ZoneAstral && Main.rand.NextBool(25))
+			if (ZoneAstral)
 			{
-				caughtType = mod.ItemType("UrsaSergeant");
+				if (caughtType == ItemID.WoodenCrate)
+				{
+					caughtType = ItemID.WoodenCrate;
+				}
+				else if (caughtType == ItemID.IronCrate)
+				{
+					caughtType = ItemID.IronCrate;
+				}
+				else if (caughtType == ItemID.GoldenCrate)
+				{
+					caughtType = ItemID.GoldenCrate;
+				}
+				else if (caughtType == ItemID.FrogLeg)
+				{
+					caughtType = ItemID.FrogLeg;
+				}
+				else if (caughtType == ItemID.BalloonPufferfish)
+				{
+					caughtType = ItemID.BalloonPufferfish;
+				}
+				else if (caughtType == ItemID.ZephyrFish)
+				{
+					caughtType = ItemID.ZephyrFish;
+				}
+				else if (Main.rand.NextBool(10))
+				{
+					caughtType = mod.ItemType("ProcyonidPrawn");
+				}
+				else if (Main.rand.NextBool(15))
+				{
+					caughtType = mod.ItemType("ArcturusAstroidean");
+				}
+				else if (player.cratePotion && Main.rand.NextBool(5))
+				{
+					caughtType = mod.ItemType("AstralCrate");
+				}
+				else if (Main.rand.NextBool(10))
+				{
+					caughtType = mod.ItemType("AstralCrate");
+				}
+				else if (Main.rand.NextBool(25))
+				{
+					caughtType = mod.ItemType("UrsaSergeant");
+				}
+				else
+				{
+					caughtType = mod.ItemType("TwinklingPollox");
+				}
 			}
 			Point point = player.Center.ToTileCoordinates();
 			bool abyssPosX = false;

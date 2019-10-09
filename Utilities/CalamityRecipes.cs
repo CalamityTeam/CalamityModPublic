@@ -78,6 +78,20 @@ namespace CalamityMod.Utilities
 			r.AddTile(TileID.MythrilAnvil);
 			r.SetResult(ItemID.LifeFruit);
 			r.AddRecipe();
+
+			// Cooked Fish
+			r = GetNewRecipe();
+			r.AddIngredient(null, "TwinklingPollox");
+			r.AddTile(TileID.CookingPots);
+			r.SetResult(2425);
+			r.AddRecipe();
+
+			// Cooked Shrimp
+			r = GetNewRecipe();
+			r.AddIngredient(null, "ProcyonidPrawn");
+			r.AddTile(TileID.CookingPots);
+			r.SetResult(2426);
+			r.AddRecipe();
 		}
 
 		// Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
