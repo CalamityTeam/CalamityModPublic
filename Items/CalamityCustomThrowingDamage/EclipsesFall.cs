@@ -45,8 +45,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             if (player.GetCalamityPlayer().StealthStrikeAvailable())
 			{
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("EclipsesStealth"), damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("EclipsesStealth"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+            }
 			else
 			{
 				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);

@@ -50,7 +50,9 @@ Stealth strikes are super fast and pierce infinitely");
                 ai1 = 1f;
             }
 
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, ai1);
+            int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, ai1);
+            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+                Main.projectile[p].GetCalamityProj().stealthStrike = true;
             return false;
         }
 

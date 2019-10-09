@@ -31,6 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 		}
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 19, 0.7f);
             Bounces--;
             if (Bounces <= 0)
             {
@@ -60,6 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void Kill(int timeLeft)
         {
+            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 19, 0.7f);
             int dustCount = Main.rand.Next(8, 16);
             for (int index = 0; index < dustCount; index++)
             {
