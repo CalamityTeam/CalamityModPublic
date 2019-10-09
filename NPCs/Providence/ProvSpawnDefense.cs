@@ -23,7 +23,8 @@ namespace CalamityMod.NPCs.Providence
 			npc.width = 100;
 			npc.height = 80;
 			npc.defense = 50;
-			npc.lifeMax = 25000;
+            npc.GetCalamityNPC().RevPlusDR(0.4f);
+            npc.lifeMax = 25000;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 360000 : 300000;

@@ -25,7 +25,8 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.width = 56;
 			npc.height = 38;
 			npc.defense = 9999;
-			npc.lifeMax = Main.hardMode ? 300 : 150;
+            npc.GetCalamityNPC().RevPlusDR(0.25f);
+            npc.lifeMax = Main.hardMode ? 300 : 150;
 			if (Main.expertMode)
 			{
 				npc.lifeMax *= 2;

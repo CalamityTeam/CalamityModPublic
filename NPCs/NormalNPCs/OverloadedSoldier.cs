@@ -22,7 +22,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 18;
 			npc.height = 40;
 			npc.defense = 18;
-			npc.lifeMax = 90;
+            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.lifeMax = 90;
 			npc.knockBackResist = 0.5f;
 			animationType = 77;
 			npc.value = Item.buyPrice(0, 0, 2, 0);

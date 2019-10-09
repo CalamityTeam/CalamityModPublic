@@ -24,6 +24,9 @@ namespace CalamityMod.NPCs.Providence
 		private int frameUsed = 0;
 		private int healTimer = 0;
 
+        public static float normalDR = 0.25f;
+        public static float cocoonDR = 0.9f;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Providence, the Profaned Goddess");
@@ -37,6 +40,11 @@ namespace CalamityMod.NPCs.Providence
 			npc.width = 600;
 			npc.height = 450;
 			npc.defense = 50;
+            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            global.DR = normalDR;
+            global.customDR = true;
+            global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
+            global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
 			npc.lifeMax = CalamityWorld.revenge ? 500000 : 440000;
 			if (CalamityWorld.death)
 			{
@@ -307,8 +315,11 @@ namespace CalamityMod.NPCs.Providence
 				}
 			}
 
-			// Movement
-			if (npc.ai[0] != 2f && npc.ai[0] != 5f)
+            // Set DR based on current attack phase
+            npc.GetCalamityNPC().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f) ? cocoonDR : normalDR;
+
+            // Movement
+            if (npc.ai[0] != 2f && npc.ai[0] != 5f)
 			{
 				// Firing holy ray or not
 				bool firingLaser = npc.ai[0] == 7f;
@@ -1091,27 +1102,6 @@ namespace CalamityMod.NPCs.Providence
 		public override void BossLoot(ref string name, ref int potionType)
 		{
 			potionType = ItemID.SuperHealingPotion;
-		}
-
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			double newDamage = (damage + (int)((double)defense * 0.25));
-			float protection = (((npc.ichor || npc.onFire2) ? 0.2f : 0.25f) +
-					((npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f) ? 0.65f : 0f)); //0.85 or 0.9
-
-			if (newDamage < 1.0)
-				newDamage = 1.0;
-
-			if (newDamage >= 1.0)
-			{
-				newDamage = (double)((int)((double)(1f - protection) * newDamage));
-
-				if (newDamage < 1.0)
-					newDamage = 1.0;
-			}
-
-			damage = newDamage;
-			return true;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

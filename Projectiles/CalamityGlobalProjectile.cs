@@ -39,6 +39,9 @@ namespace CalamityMod.Projectiles
 		public int spawnedPlayerMinionProjectileDamageValue = 0;
 		public int defDamage = 0;
 
+        // Rogue Stuff
+        public bool stealthStrike = false; //Update all existing rogue weapons with this
+
 		// Iron Heart
 		public int ironHeartDamage = 0;
 
@@ -518,6 +521,10 @@ namespace CalamityMod.Projectiles
 					}
 				}
 			}
+			else if (projectile.type == ProjectileID.FallingStar)
+				projectile.ranged = true;
+			else if (projectile.type == ProjectileID.SoulDrain)
+				projectile.magic = true;
 
 			if (Main.player[projectile.owner].GetCalamityPlayer().eQuiver && projectile.ranged &&
 				projectile.friendly && CalamityMod.rangedProjectileExceptionList.TrueForAll(x => projectile.type != x))
@@ -625,6 +632,18 @@ namespace CalamityMod.Projectiles
 				int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
 				Main.dust[dust].noGravity = true;
 			}
+
+            if (rogue)
+            {
+                if (Main.player[projectile.owner].GetCalamityPlayer().moonCrown)
+                {
+                    //Summon moon sigils infrequently
+                    if (Main.rand.NextBool(300))
+                    {
+                        Projectile.NewProjectile(projectile.position, Vector2.Zero, mod.ProjectileType("MoonSigil"), 10, 0);
+                    }
+                }
+            }
 		}
 		#endregion
 
@@ -1192,7 +1211,32 @@ namespace CalamityMod.Projectiles
 						num9 *= num10;
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, mod.ProjectileType("XerocStar"), (int)((double)num * 1.6), 0f, projectile.owner, (float)num6, 0f);
 					}
-				}
+
+                    if (Main.player[projectile.owner].GetCalamityPlayer().featherCrown && stealthStrike)
+                    {
+                        for (int i = 0; i < 10; i++)
+                        {
+                            Vector2 pos = new Vector2(target.position.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+                            float speedX = (target.position.X - pos.X) / 30f;
+                            float speedY = (target.position.Y - pos.Y) * 8;
+                            int feather = Projectile.NewProjectile(pos.X, pos.Y, speedX, speedY, mod.ProjectileType("StickyFeather"), 15, 3, projectile.owner, 0f, (float)Main.rand.Next(15));
+                            Main.projectile[feather].magic = false;
+                            Main.projectile[feather].GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+                        }
+                    }
+
+                    if (Main.player[projectile.owner].GetCalamityPlayer().moonCrown && stealthStrike)
+                    {
+                        for (int i = 0; i < 20; i++)
+                        {
+                            Vector2 pos = new Vector2(target.position.X + (float)target.width * 0.5f + (float)Main.rand.Next(-201, 201), Main.screenPosition.Y - 600f - Main.rand.Next(50));
+                            Vector2 velocity = (target.position - pos) / 10f;
+                            int flare = Projectile.NewProjectile(pos, velocity, ProjectileID.LunarFlare, 50, 3, projectile.owner);
+                            Main.projectile[flare].magic = false;
+                            Main.projectile[flare].GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+                        }
+                    }
+                }
 				else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type))
 				{
 					if (Main.player[projectile.owner].GetCalamityPlayer().pArtifact)

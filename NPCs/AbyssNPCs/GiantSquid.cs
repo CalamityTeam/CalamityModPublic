@@ -97,10 +97,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.TargetClosest(false);
 			if ((Main.player[npc.target].wet && !Main.player[npc.target].dead &&
 				Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) &&
-				(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
-				Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 300f : 500f) *
-				(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f)) ||
-				npc.justHit)
+                //(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+                //Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 300f : 500f) *
+                //(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f)) ||
+                (Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(500f, 300f)) ||
+                npc.justHit)
 			{
 				hasBeenHit = true;
 			}

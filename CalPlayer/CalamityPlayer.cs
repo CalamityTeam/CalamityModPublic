@@ -85,9 +85,11 @@ namespace CalamityMod.CalPlayer
 		public float stealthGenStandstill = 1f;
 		public float stealthGenMoving = 0f;
 		public float stealthGenMultiplier = 1f;
-		private bool stealthStrikeThisFrame = false;
+        private float stealthGenAcceleration = 1f;
+        private bool stealthStrikeThisFrame = false;
 		public bool stealthStrikeHalfCost = false;
 		public bool stealthStrikeAlwaysCrits = false;
+        public bool wearingRogueArmor = false;
 
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
@@ -288,16 +290,28 @@ namespace CalamityMod.CalPlayer
 		public bool normalityRelocator = false;
 		public bool fabledTortoise = false;
 		public bool manaOverloader = false;
+		public bool royalGel = false;
+        public bool oldDie = false;
+        public bool ursaSergeant = false;
 		public bool sandWaifu = false;
 		public bool sandBoobWaifu = false;
 		public bool cloudWaifu = false;
 		public bool brimstoneWaifu = false;
 		public bool sirenWaifu = false;
 		public bool fungalClump = false;
+        public bool darkGodSheath = false;
+        public bool inkBomb = false;
+        public bool inkBombCooldown = false;
+        public bool abyssalMirror = false;
+        public bool abyssalMirrorCooldown = false;
+        public bool eclipseMirror = false;
+        public bool eclipseMirrorCooldown = false;
+        public bool featherCrown = false;
+        public bool moonCrown = false;
 
-		// Armor Set
-		public bool victideSet = false;
-		public bool aeroSet = false;
+        // Armor Set
+        public bool victideSet = false;
+        public bool aeroSet = false;
 		public bool statigelSet = false;
 		public bool tarraSet = false;
 		public bool tarraMelee = false;
@@ -840,6 +854,7 @@ namespace CalamityMod.CalPlayer
 
 			shadowSpeed = false;
 			dsSetBonus = false;
+            wearingRogueArmor = false;
 
 			desertScourgeLore = false;
 			eaterOfWorldsLore = false;
@@ -934,6 +949,7 @@ namespace CalamityMod.CalPlayer
 			normalityRelocator = false;
 			fabledTortoise = false;
 			manaOverloader = false;
+			royalGel = false;
 			lol = false;
 			raiderTalisman = false;
 			sGenerator = false;
@@ -945,6 +961,8 @@ namespace CalamityMod.CalPlayer
 			sTracers = false;
 			eTracers = false;
 			cTracers = false;
+            oldDie = false;
+            ursaSergeant = false;
 
 			daedalusReflect = false;
 			daedalusSplit = false;
@@ -991,7 +1009,17 @@ namespace CalamityMod.CalPlayer
 
 			weakPetrification = false;
 
-			shadowflame = false;
+            inkBomb = false;
+            inkBombCooldown = false;
+            darkGodSheath = false;
+            abyssalMirror = false;
+            abyssalMirrorCooldown = false;
+            eclipseMirror = false;
+            eclipseMirrorCooldown = false;
+            featherCrown = false;
+            moonCrown = false;
+
+            shadowflame = false;
 			wDeath = false;
 			lethalLavaBurn = false;
 			aCrunch = false;
@@ -1211,11 +1239,14 @@ namespace CalamityMod.CalPlayer
 			abyssalDivingSuitCooldown = false;
 			abyssalDivingSuitPlateHits = 0;
 			sirenIceCooldown = false;
-			#endregion
+            inkBombCooldown = false;
+            abyssalMirrorCooldown = false;
+            eclipseMirrorCooldown = false;
+            #endregion
 
-			#region Rogue
+            #region Rogue
             // Stealth
-			rogueStealth = 0f;
+            rogueStealth = 0f;
 			rogueStealthMax = 0f;
 
             throwingDamage = 1f;
@@ -3256,6 +3287,24 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
+			if (ursaSergeant)
+			{
+				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+				{
+					player.lifeRegen += 3;
+					player.lifeRegenTime += 3;
+				}
+				else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.25))
+				{
+					player.lifeRegen += 2;
+					player.lifeRegenTime += 2;
+				}
+				else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				{
+					player.lifeRegen += 1;
+					player.lifeRegenTime += 1;
+				}
+			}
 			if (invincible || lol)
 			{
 				player.thorns = 0f;
@@ -4442,6 +4491,20 @@ namespace CalamityMod.CalPlayer
 			{
 				player.lifeRegen /= 2;
 			}
+			if (royalGel)
+			{
+				player.npcTypeNoAggro[mod.NPCType("AeroSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("BloomSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("CharredSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("CrimulanBlightSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("CryoSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("EbonianBlightSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("IrradiatedSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("PerennialSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("PlaguedJungleSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("AstralSlime")] = true;
+				player.npcTypeNoAggro[mod.NPCType("WulfrumSlime")] = true; //remove when wulfrum slime redesigned
+			}
 			#endregion
 
 			#region LimitsAndOtherShit
@@ -4602,10 +4665,48 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax < 50000)
 					player.wingTimeMax = 50000;
 			}
-			#endregion
-		}
+            #endregion
 
-		public override void PostUpdateRunSpeeds()
+            #region Rogue Mirrors
+            Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+            for (int i = 0; i < 200; i++)
+            {
+                if ((Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0))
+                {
+                    NPC nPC = Main.npc[i];
+                    Rectangle rect = nPC.getRect();
+                    if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+                    {
+                        if (Main.rand.Next(0, 10) == 0)
+                        {
+                            AbyssMirrorEvade();
+                            EclipseMirrorEvade();
+                        }
+                        break;
+                    }
+                }
+            }
+            for (int i = 0; i < 1000; i++)
+            {
+                if ((Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0))
+                {
+                    Projectile proj = Main.projectile[i];
+                    Rectangle rect = proj.getRect();
+                    if (rectangle.Intersects(rect))
+                    {
+                        if (Main.rand.Next(0, 10) == 0)
+                        {
+                            AbyssMirrorEvade();
+                            EclipseMirrorEvade();
+                        }
+                        break;
+                    }
+                }
+            }
+            #endregion
+        }
+
+        public override void PostUpdateRunSpeeds()
 		{
 			#region SpeedBoosts
 			float runAccMult = 1f +
@@ -4650,6 +4751,11 @@ namespace CalamityMod.CalPlayer
 				runAccMult *= 0.5f;
 				runSpeedMult *= 0.5f;
 			}
+			if (ursaSergeant)
+			{
+				runAccMult *= 0.8f;
+				runSpeedMult *= 0.8f;
+			}
 			if (elysianGuard)
 			{
 				runAccMult *= 0.5f;
@@ -4683,12 +4789,61 @@ namespace CalamityMod.CalPlayer
 					player.accRunSpeed = player.maxRunSpeed;
 				}
 			}
-			#endregion
-		}
-		#endregion
+            #endregion
+        }
 
-		#region Pre Kill
-		public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        #region Rogue Mirrors
+        private void AbyssMirrorEvade()
+        {
+            if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown)
+            {
+                player.AddBuff(mod.BuffType("AbyssalMirrorCooldown"), 1200);
+                player.immune = true;
+                player.immuneTime = player.longInvince ? 100 : 60;
+                player.noKnockback = true;
+                rogueStealth += 0.5f;
+
+                for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                {
+                    player.hurtCooldowns[k] = player.immuneTime;
+                }
+
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+
+                for (int i = 0; i < 50; i++)
+                {
+                    int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), mod.ProjectileType("AbyssalMirrorProjectile"), 55, 0, player.whoAmI);
+                    Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
+                    Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
+                }
+            }
+        }
+
+        private void EclipseMirrorEvade()
+        {
+            if (player.whoAmI == Main.myPlayer && eclipseMirror && !eclipseMirrorCooldown)
+            {
+                player.AddBuff(mod.BuffType("EclipseMirrorCooldown"), 1200);
+                player.immune = true;
+                player.immuneTime = player.longInvince ? 100 : 60;
+                player.noKnockback = true;
+                rogueStealth = rogueStealthMax;
+
+                for (int k = 0; k < player.hurtCooldowns.Length; k++)
+                {
+                    player.hurtCooldowns[k] = player.immuneTime;
+                }
+
+                Main.PlaySound(2, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 68);
+                int eclipseBurst = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, mod.ProjectileType("EclipseMirrorBurst"), 8000, 0, player.whoAmI);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Pre Kill
+        public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
 		{
 			if (invincible && player.inventory[player.selectedItem].type != mod.ItemType("ColdheartIcicle"))
 			{
@@ -5803,9 +5958,20 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 			damage = (int)((double)damage * damageMult);
-			#endregion
 
-			if (yharonLore)
+            if (oldDie)
+            {
+                float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
+                if (item.GetGlobalItem<CalamityGlobalItem>(mod).rogue || wearingRogueArmor)
+                {
+                    float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
+                    diceMult = roll2 > diceMult ? roll2 : diceMult;
+                }
+                damage = (int)(damage * diceMult);
+            }
+            #endregion
+
+            if (yharonLore)
 				damage = (int)((double)damage * 0.75);
 
 			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
@@ -6061,10 +6227,21 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 			damage = (int)((double)damage * damageMult);
-			#endregion
 
-			#region AdditiveBoosts
-			if (theBee && !isSummon)
+            if (oldDie)
+            {
+                float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
+                if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue || wearingRogueArmor)
+                {
+                    float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
+                    diceMult = roll2 > diceMult ? roll2 : diceMult;
+                }
+                damage = (int)(damage * diceMult);
+            }
+            #endregion
+
+            #region AdditiveBoosts
+            if (theBee && !isSummon)
 			{
 				if (hasClassType)
 					damage += theBeeDamage;
@@ -6633,6 +6810,10 @@ namespace CalamityMod.CalPlayer
 		#region Fishing
 		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
 		{
+			if (ZoneAstral && Main.rand.NextBool(25))
+			{
+				caughtType = mod.ItemType("UrsaSergeant");
+			}
 			Point point = player.Center.ToTileCoordinates();
 			bool abyssPosX = false;
 			if (CalamityWorld.abyssSide)
@@ -7284,8 +7465,21 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
-			}
-			if (ataxiaBlaze && Main.rand.NextBool(5))
+            }
+            if (inkBomb)
+            {
+                if (player.whoAmI == Main.myPlayer && !inkBombCooldown)
+                {
+                    player.AddBuff(mod.BuffType("InkBombCooldown"), 1200);
+                    rogueStealth += 0.5f;
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Main.PlaySound(2, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 61);
+                        int inkBomb = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), mod.ProjectileType("InkBombProjectile"), 0, 0, player.whoAmI);
+                    }
+                }
+            }
+            if (ataxiaBlaze && Main.rand.NextBool(5))
 			{
 				if (damage > 0)
 				{
@@ -9252,22 +9446,45 @@ namespace CalamityMod.CalPlayer
 					stealthGenMoving += 0.2f;
 				else
 					stealthGenMoving += 0.1f;
-			}
+            }
 
-			//
-			// Other code which affects stealth generation goes here.
-			// Increase stealthGenStandstill (default 1.0) to increase basic "stand still" stealth generation.
-			// Incrase stealthGenMoving (default 0.0) to increase stealth generation while moving.
-			// Increase stealthGenMultiplier (default 1.0) to provide a global % boost to all stealth generation.
-			//
+            bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
 
-			// You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
-			bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
-			if (standstill)
-				return stealthGenStandstill * stealthGenMultiplier;
-			else
-				return stealthGenMoving * stealthGenMultiplier;
-		}
+            // Stealth gen acceleration
+            float stealthScaleCap = eclipseMirror ? 40f : 25f;
+
+            if (standstill && (eclipseMirror || darkGodSheath))
+            {
+                if (eclipseMirror)
+                    stealthGenAcceleration = stealthGenAcceleration < stealthScaleCap ? stealthGenAcceleration * 1.2f : stealthScaleCap;
+                if (darkGodSheath)
+                    stealthGenAcceleration = stealthGenAcceleration < stealthScaleCap ? stealthGenAcceleration + 0.15f : stealthScaleCap;
+            }
+            else
+            {
+                stealthGenAcceleration = 1f;
+            }
+
+            //
+            // Other code which affects stealth generation goes here.
+            // Increase stealthGenStandstill (default 1.0) to increase basic "stand still" stealth generation.
+            // Incrase stealthGenMoving (default 0.0) to increase stealth generation while moving.
+            // Increase stealthGenMultiplier (default 1.0) to provide a global % boost to all stealth generation.
+            //
+
+            // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
+            if (standstill)
+            {
+                if (eclipseMirror || darkGodSheath)
+                    return stealthGenStandstill * stealthGenMultiplier * stealthGenAcceleration;
+                else
+                    return stealthGenStandstill * stealthGenMultiplier;
+            }
+            else
+            {
+                return stealthGenMoving * stealthGenMultiplier;
+            }
+        }
 
 		public bool StealthStrikeAvailable()
 		{
@@ -10418,6 +10635,30 @@ namespace CalamityMod.CalPlayer
 			}
 			return meleeSpeedBonus;
 		}
-		#endregion
-	}
+        #endregion
+
+        #region Misc Stuff
+
+        /// <summary>
+        /// Returns the range at which an abyss enemy can detect the player
+        /// </summary>
+        /// <param name="defaultRange">The default detection range</param>
+        /// <param name="anechoicRange">The detection range set by the player having anechoic plating/coating</param>
+        /// <returns></returns>
+        public float GetAbyssAggro(float defaultRange, float anechoicRange)
+        {
+            /* ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
+                    Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 200f : 600f) *
+                    (Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f) *
+                    (Main.player[npc.target].GetCalamityPlayer().abyssalMirror ? 0.7f : 1f) *
+                    (Main.player[npc.target].GetCalamityPlayer().eclipseMirror ? 0.3f : 1f) */
+            float range = anechoicPlating || anechoicCoating ? anechoicRange : defaultRange;
+            range *= fishAlert ? 3f : 1f;
+            range *= abyssalMirror ? 0.65f : 1f;
+            range *= eclipseMirror ? 0.3f : 1f;
+            return range;
+        }
+
+        #endregion
+    }
 }

@@ -13,8 +13,10 @@ namespace CalamityMod.Projectiles.Rogue
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Stealthy Scourge");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 26;
@@ -29,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 60;
 		}
-        
+
         public override void AI()
         {
 			if (Main.rand.Next(5) == 0 && projectile.ai[0] != 1f)
@@ -177,7 +179,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.type != mod.NPCType("Cryogen") || target.type != mod.NPCType("Brimstone Elemental") || target.type != NPCID.SkeletronPrime)
+			if (target.type == mod.NPCType("Cryogen") || target.type == mod.NPCType("Brimstone Elemental") || target.type == NPCID.SkeletronPrime)
 			{
                 target.buffImmune[BuffID.Venom] = false;
 			}
@@ -197,7 +199,7 @@ namespace CalamityMod.Projectiles.Rogue
 				Main.dust[num622].velocity *= 1f;
 			}
             if (projectile.owner == Main.myPlayer)
-            {                
+            {
 				int num320 = Main.rand.Next(2, 6);
                 int num3;
                 for (int num321 = 0; num321 < num320; num321 = num3 + 1)

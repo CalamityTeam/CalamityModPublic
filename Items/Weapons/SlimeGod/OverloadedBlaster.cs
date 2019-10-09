@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using CalamityMod.Items;
 namespace CalamityMod.Items.Weapons.SlimeGod
 {
     public class OverloadedBlaster : ModItem
@@ -32,6 +36,11 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 			item.shoot = mod.ProjectileType("SlimeBolt");
 			item.useAmmo = 23;
 		}
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-4, 0);
+        }
 
 	    public override bool ConsumeAmmo(Player player)
 	    {

@@ -1,13 +1,14 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.DoTDebuffs
 {
     public class AstralInfectionDebuff : ModBuff
 	{
-		public override void SetDefaults()
+        public static int DefenseReduction = 8;
+
+        public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Astral Infection");
 			Description.SetDefault("Your flesh is melting off");

@@ -1,3 +1,5 @@
+using CalamityMod.Buffs.DoTDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles;
 using CalamityMod.Utilities;
@@ -16,10 +18,21 @@ namespace CalamityMod.NPCs
 {
     public class CalamityGlobalNPC : GlobalNPC
 	{
-		#region Variables
-		// Damage reduction
-		private float protection = 0f;
-		private float defProtection = 0f;
+        #region Variables
+        public float DR { get; set; } = 0f;
+
+        /// <summary>
+        /// If this is set to true, the NPC's DR cannot be reduced via any means. This applies regardless of whether customDR is true or false.
+        /// </summary>
+        public bool unbreakableDR = false;
+
+        /// <summary>
+        /// Overrides the normal DR math and uses custom DR reductions for each debuff, registered separately.<br></br>
+        /// Used primarily by post-Moon Lord bosses.
+        /// </summary>
+        public bool customDR = false;
+        public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
+        public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
 		// Iron Heart
 		private int ironHeartDamage = 0;
@@ -99,7 +112,7 @@ namespace CalamityMod.NPCs
 		public static int SCalWorm = -1;
 
         // Collections
-        public SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
+        public static SortedDictionary<int, int> BossRushHPChanges = new SortedDictionary<int, int>
         {
             // Tier 1
             { NPCID.QueenBee, 420000 },
@@ -161,10 +174,10 @@ namespace CalamityMod.NPCs
             { NPCID.MoonLordCore, 1400000 },
             { NPCID.MoonLordHand, 450000 },
             { NPCID.MoonLordHead, 600000 },
-			{ NPCID.MoonLordLeechBlob, 8000 }
+            { NPCID.MoonLordFreeEye, 1000 }
         };
 
-        public SortedDictionary<int, int> BossValues = new SortedDictionary<int, int>
+        public static SortedDictionary<int, int> BossValues = new SortedDictionary<int, int>
         {
             { NPCID.QueenBee, Item.buyPrice(0, 5)},
             { NPCID.SkeletronHead, Item.buyPrice(0, 7) },
@@ -422,31 +435,26 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (eFreeze && !CalamityWorld.bossRushActive)
+            // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
+            if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
             {
-                npc.velocity.X = 0f;
-                npc.velocity.Y += 0.1f;
-
-                if (npc.velocity.Y > 15f)
+                if (eFreeze && !CalamityWorld.bossRushActive)
                 {
-                    npc.velocity.Y = 15f;
+                    npc.velocity.X = 0f;
+                    npc.velocity.Y += 0.1f;
+                    if (npc.velocity.Y > 15f)
+                        npc.velocity.Y = 15f;
                 }
-            }
-
-            if (tSad)
-            {
-                npc.velocity.Y /= 2;
-                npc.velocity.X /= 2;
-            }
-
-            if (gState)
-            {
-                npc.velocity.X = 0f;
-                npc.velocity.Y += 0.05f;
-
-                if (npc.velocity.Y > 15f)
+                else if (gState)
                 {
-                    npc.velocity.Y = 15f;
+                    npc.velocity.X = 0f;
+                    npc.velocity.Y += 0.05f;
+                    if (npc.velocity.Y > 15f)
+                        npc.velocity.Y = 15f;
+                }
+                if (tSad)
+                {
+                    npc.velocity /= 2f;
                 }
             }
 
@@ -461,7 +469,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
-		}
+        }
 
         public void ApplyDPSDebuff(bool debuff, int lifeRegenValue, int damageValue, ref int lifeRegen, ref int damage)
         {
@@ -488,6 +496,14 @@ namespace CalamityMod.NPCs
             for (int m = 0; m < maxAIMod; m++)
             {
                 newAI[m] = 0f;
+            }
+
+            // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
+            // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
+            if (CalamityWorld.revenge)
+            {
+                CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
+                DR = revDR;
             }
 
             if (npc.boss && CalamityWorld.revenge)
@@ -563,11 +579,6 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.ironHeart)
             {
                 IronHeartChanges(npc);
-            }
-
-            if (protection > 0f)
-            {
-                defProtection = protection;
             }
         }
         #endregion
@@ -658,7 +669,11 @@ namespace CalamityMod.NPCs
         {
             npc.value = (int)(npc.value * 1.5);
 
-            if (npc.type == NPCID.Mothron)
+            if (npc.type == NPCID.MoonLordFreeEye)
+            {
+                npc.lifeMax = (int)(npc.lifeMax * 150.0);
+            }
+            else if (npc.type == NPCID.Mothron)
             {
                 npc.scale = 1.25f;
             }
@@ -667,7 +682,7 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.4) : (int)(npc.lifeMax * 1.9);
                 npc.npcSlots = 12f;
             }
-            else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
+            else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.2);
                 npc.npcSlots = 12f;
@@ -814,257 +829,18 @@ namespace CalamityMod.NPCs
             {
                 npc.canGhostHeal = false;
             }
-
-            RevengeanceDamageReduction(npc, mod);
         }
-        #endregion
 
-        #region Revengeance Damage Reduction
-        private void RevengeanceDamageReduction(NPC npc, Mod mod)
-		{
-			if (Config.RevengeanceAndDeathThoriumBossBuff)
-			{
-				Mod thorium = ModLoader.GetMod("ThoriumMod");
-				if (thorium != null)
-				{
-					if (npc.type == thorium.NPCType("Viscount") || npc.type == thorium.NPCType("BoreanStrider") || npc.type == thorium.NPCType("FallenDeathBeholder") ||
-						npc.type == thorium.NPCType("Lich") || npc.type == thorium.NPCType("AbyssionReleased"))
-					{
-						protection = 0.05f;
-					}
-					else if (npc.type == thorium.NPCType("CryoCore") || npc.type == thorium.NPCType("BioCore") || npc.type == thorium.NPCType("PyroCore") ||
-						npc.type == thorium.NPCType("Aquaius"))
-					{
-						protection = 0.1f;
-					}
-					else if (npc.type == thorium.NPCType("ThePrimeScouter") || npc.type == thorium.NPCType("FallenDeathBeholder2") || npc.type == thorium.NPCType("SlagFury") ||
-						npc.type == thorium.NPCType("Aquaius2") || npc.type == thorium.NPCType("GraniteEnergyStorm"))
-					{
-						protection = 0.2f;
-					}
-					else if (npc.type == thorium.NPCType("TheBuriedWarrior") || npc.type == thorium.NPCType("TheBuriedWarrior1") || npc.type == thorium.NPCType("TheBuriedWarrior2") ||
-						npc.type == thorium.NPCType("LichHeadless") || npc.type == thorium.NPCType("AbyssionCracked"))
-					{
-						protection = 0.25f;
-					}
-					else if (npc.type == thorium.NPCType("Omnicide"))
-					{
-						protection = 0.3f;
-					}
-					else if (npc.type == thorium.NPCType("Abyssion"))
-					{
-						protection = 0.35f;
-					}
-				}
-			}
-
-			if (npc.type == mod.NPCType("Cnidrion") || npc.type == mod.NPCType("DesertScourgeBody") || npc.type == mod.NPCType("ColossalSquid") ||
-				npc.type == mod.NPCType("Siren") || npc.type == mod.NPCType("ThiccWaifu") || npc.type == mod.NPCType("ProfanedGuardianBoss3") ||
-				npc.type == mod.NPCType("ScornEater") || npc.type == mod.NPCType("AquaticScourgeBody") || npc.type == mod.NPCType("AquaticScourgeBodyAlt") ||
-				npc.type == mod.NPCType("Mauler") || npc.type == mod.NPCType("EutrophicRay"))
-			{
-				protection = 0.05f;
-			}
-			else if (npc.type == mod.NPCType("AstrumDeusBody") || npc.type == mod.NPCType("SoulSeeker") || npc.type == mod.NPCType("DesertScourgeTail") ||
-				npc.type == mod.NPCType("Horse") || npc.type == mod.NPCType("ProfanedEnergyBody") || npc.type == mod.NPCType("ScavengerClawLeft") ||
-				npc.type == mod.NPCType("ScavengerClawRight") || npc.type == mod.NPCType("ScavengerHead") || npc.type == mod.NPCType("MantisShrimp") ||
-				npc.type == mod.NPCType("PhantomDebris") || npc.type == mod.NPCType("AstrumDeusHead") || npc.type == mod.NPCType("AquaticScourgeHead") ||
-				npc.type == mod.NPCType("Cryon") || npc.type == mod.NPCType("Cryogen"))
-			{
-				protection = 0.1f;
-			}
-			else if (npc.type == mod.NPCType("ArmoredDiggerHead") || npc.type == mod.NPCType("AstralProbe") || npc.type == mod.NPCType("Calamitas") ||
-				npc.type == mod.NPCType("CalamitasRun") || npc.type == mod.NPCType("CalamitasRun2") || npc.type == mod.NPCType("CalamitasRun3") ||
-				npc.type == mod.NPCType("SoulSlurper") || npc.type == mod.NPCType("ProvSpawnHealer") || npc.type == mod.NPCType("Gnasher") ||
-				npc.type == mod.NPCType("ScavengerLegLeft") || npc.type == mod.NPCType("ScavengerLegRight") || npc.type == mod.NPCType("ShockstormShuttle") ||
-				npc.type == mod.NPCType("Reaper") || npc.type == mod.NPCType("OverloadedSoldier") || npc.type == mod.NPCType("AquaticScourgeTail") ||
-				npc.type == mod.NPCType("EidolonWyrmHead") || npc.type == mod.NPCType("Aries") || npc.type == mod.NPCType("AstralachneaGround") ||
-				npc.type == mod.NPCType("AstralachneaWall") || npc.type == mod.NPCType("Astrageldon") || npc.type == mod.NPCType("Atlas") ||
-				npc.type == mod.NPCType("BigSightseer") || npc.type == mod.NPCType("FusionFeeder") || npc.type == mod.NPCType("Hadarian") ||
-				npc.type == mod.NPCType("Hive") || npc.type == mod.NPCType("Mantis") || npc.type == mod.NPCType("Nova") || npc.type == mod.NPCType("SmallSightseer") ||
-				npc.type == mod.NPCType("StellarCulex"))
-			{
-				protection = 0.15f;
-			}
-			else if (npc.type == mod.NPCType("AstrumDeusProbe3") || npc.type == mod.NPCType("PlaguebringerShade") || npc.type == mod.NPCType("BlindedAngler"))
-			{
-				protection = 0.2f;
-			}
-			else if (npc.type == mod.NPCType("PlaguebringerGoliath") || npc.type == mod.NPCType("ProfanedGuardianBoss2") || npc.type == mod.NPCType("SandTortoise") ||
-				npc.type == mod.NPCType("StasisProbe") || npc.type == mod.NPCType("BobbitWormHead") || npc.type == mod.NPCType("GreatSandShark") ||
-				npc.type == mod.NPCType("Clam") || npc.type == mod.NPCType("PrismTurtle"))
-			{
-				protection = 0.25f;
-			}
-			else if (npc.type == mod.NPCType("ProvSpawnOffense") || npc.type == mod.NPCType("GiantClam"))
-			{
-				protection = 0.3f;
-			}
-			else if (npc.type == mod.NPCType("ArmoredDiggerBody") || npc.type == mod.NPCType("AstrumDeusTail") || npc.type == mod.NPCType("DespairStone") ||
-				npc.type == mod.NPCType("SoulSeekerSupreme") || npc.type == mod.NPCType("Leviathan"))
-			{
-				protection = 0.35f;
-			}
-			else if (npc.type == mod.NPCType("CryogenIce") || npc.type == mod.NPCType("ProfanedGuardianBoss") || npc.type == mod.NPCType("ProvSpawnDefense") ||
-				npc.type == mod.NPCType("ScavengerBody"))
-			{
-				protection = 0.4f;
-			}
-			else if (npc.type == mod.NPCType("ArmoredDiggerTail"))
-			{
-				protection = 0.45f;
-			}
-			else if (npc.type == mod.NPCType("SirenIce"))
-			{
-				protection = 0.5f;
-			}
-			else
-			{
-				switch (npc.type)
-				{
-					case NPCID.SkeletronHand:
-					case NPCID.SkeletronHead:
-					case NPCID.QueenBee:
-					case NPCID.HeadlessHorseman:
-					case NPCID.FlyingAntlion:
-					case NPCID.PirateCaptain:
-					case NPCID.MoonLordHead:
-					case NPCID.MoonLordHand:
-					case NPCID.MoonLordCore:
-					case NPCID.CultistBoss:
-					case NPCID.Crab:
-					case NPCID.SeaSnail:
-						protection = 0.05f;
-						break;
-
-					case NPCID.Antlion:
-					case NPCID.TheHungry:
-					case NPCID.TheDestroyer:
-					case NPCID.UndeadViking:
-					case NPCID.MourningWood:
-					case NPCID.Everscream:
-					case NPCID.GreekSkeleton:
-					case NPCID.GraniteFlyer:
-					case NPCID.WalkingAntlion:
-					case NPCID.Pumpking:
-					case NPCID.IceQueen:
-					case NPCID.IceGolem:
-					case NPCID.AnomuraFungus:
-					case NPCID.SkeletonArcher:
-					case NPCID.SandElemental:
-					case NPCID.Arapaima:
-					case NPCID.ArmoredViking:
-					case NPCID.DD2Betsy:
-					case NPCID.DD2OgreT2:
-						protection = 0.1f;
-						break;
-
-					case NPCID.ElfCopter:
-					case NPCID.GraniteGolem:
-					case NPCID.ArmoredSkeleton:
-					case NPCID.PirateShipCannon:
-					case NPCID.DD2OgreT3:
-						protection = 0.15f;
-						break;
-
-					case NPCID.Retinazer:
-					case NPCID.Spazmatism:
-					case NPCID.PrimeCannon:
-					case NPCID.PrimeLaser:
-					case NPCID.TheDestroyerBody:
-					case NPCID.RustyArmoredBonesAxe:
-					case NPCID.RustyArmoredBonesFlail:
-					case NPCID.RustyArmoredBonesSword:
-					case NPCID.RustyArmoredBonesSwordNoArmor:
-					case NPCID.BlueArmoredBones:
-					case NPCID.BlueArmoredBonesMace:
-					case NPCID.BlueArmoredBonesNoPants:
-					case NPCID.BlueArmoredBonesSword:
-					case NPCID.HellArmoredBones:
-					case NPCID.HellArmoredBonesSpikeShield:
-					case NPCID.HellArmoredBonesMace:
-					case NPCID.HellArmoredBonesSword:
-					case NPCID.RaggedCaster:
-					case NPCID.RaggedCasterOpenCoat:
-					case NPCID.Necromancer:
-					case NPCID.NecromancerArmored:
-					case NPCID.DiabolistRed:
-					case NPCID.DiabolistWhite:
-					case NPCID.BoneLee:
-					case NPCID.DungeonSpirit:
-					case NPCID.GiantCursedSkull:
-					case NPCID.SkeletonSniper:
-					case NPCID.TacticalSkeleton:
-					case NPCID.SkeletonCommando:
-					case NPCID.AngryBonesBig:
-					case NPCID.AngryBonesBigMuscle:
-					case NPCID.AngryBonesBigHelmet:
-					case NPCID.MartianSaucerTurret:
-					case NPCID.MartianSaucerCannon:
-					case NPCID.MartianTurret:
-					case NPCID.MartianDrone:
-					case NPCID.MartianSaucer:
-					case NPCID.MartianSaucerCore:
-					case NPCID.Crawdad:
-					case NPCID.Crawdad2:
-					case NPCID.GiantShelly:
-					case NPCID.GiantShelly2:
-					case NPCID.Mothron:
-						protection = 0.2f;
-						break;
-
-					case NPCID.PrimeSaw:
-					case NPCID.PrimeVice:
-					case NPCID.SkeletronPrime:
-					case NPCID.Probe:
-					case NPCID.PossessedArmor:
-					case NPCID.Golem:
-					case NPCID.GolemFistLeft:
-					case NPCID.GolemFistRight:
-					case NPCID.GolemHead:
-					case NPCID.GolemHeadFree:
-						protection = 0.25f;
-						break;
-
-					case NPCID.Mimic:
-					case NPCID.PresentMimic:
-					case NPCID.BigMimicCorruption:
-					case NPCID.BigMimicCrimson:
-					case NPCID.BigMimicHallow:
-					case NPCID.BigMimicJungle:
-						protection = 0.3f;
-						break;
-
-					case NPCID.GiantTortoise:
-					case NPCID.IceTortoise:
-					case NPCID.SantaNK1:
-					case NPCID.MartianWalker:
-					case NPCID.TheDestroyerTail:
-						protection = 0.35f;
-						break;
-
-					case NPCID.DeadlySphere:
-						protection = 0.4f;
-						break;
-
-					case NPCID.Paladin:
-						protection = 0.45f;
-						break;
-
-					case NPCID.WallofFlesh:
-					case NPCID.MothronEgg:
-						protection = 0.5f;
-						break;
-
-					case NPCID.DungeonGuardian:
-						protection = 0.999999f;
-						break;
-
-					default:
-						break;
-				}
-			}
-		}
+        /// <summary>
+        /// Sets the DR of this NPC only if Revengeance Mode is enabled. Otherwise sets DR to zero.
+        /// </summary>
+        /// <param name="dr">The DR to set, assuming Rev+ difficulty.</param>
+        /// <returns>Whether Revengeance Mode is currently enabled.</returns>
+        public bool RevPlusDR(float dr)
+        {
+            DR = CalamityWorld.revenge ? dr : 0f;
+            return CalamityWorld.revenge;
+        }
         #endregion
 
         #region Other Stat Changes
@@ -1346,123 +1122,160 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-			if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
+            // TODO -- move this to Destroyer's Rev+ AI; either set his DR or modify npc.takenDamageMultiplier
+            if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
 				if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
 				{
 					damage *= 0.01;
 				}
 			}
-            else if (npc.type == mod.NPCType("SCalWormBody") || npc.type == mod.NPCType("SCalWormHead") || npc.type == mod.NPCType("SCalWormBodyWeak") || npc.type == mod.NPCType("SCalWormTail") || npc.type == mod.NPCType("EidolonWyrmHeadHuge"))
-            {
-                damage *= 0.000001;
-            }
 
-            double yellowCandleDamageBoost = damage * 0.05; // Get value before DR
+            // Yellow Candle provides +5% damage which ignores both DR and defense.
+            // However, armor penetration bonus damage has already been applied, so it's slightly higher than it should be.
+            double yellowCandleDamage = 0.05 * damage;
 
-            int newDefense = npc.defense -
-                    (pFlames ? 4 : 0) -
-                    (wDeath ? 50 : 0) -
-                    (gsInferno ? 20 : 0) -
-                    (astralInfection ? 8 : 0) -
-                    (aFlames ? 10 : 0) -
-                    (wCleave ? 15 : 0);
+            // Apply modifications to enemy's current defense based on Calamity debuffs.
+            // As with defense and DR, flat reductions apply first, then multiplicative reductions.
+            int effectiveDefense = npc.defense -
+                    (pFlames ? Plague.DefenseReduction : 0) -
+                    (wDeath ? WhisperingDeath.DefenseReduction : 0) -
+                    (gsInferno ? GodSlayerInferno.DefenseReduction : 0) -
+                    (astralInfection ? AstralInfectionDebuff.DefenseReduction : 0) -
+                    (aFlames ? AbyssalFlames.DefenseReduction : 0) -
+                    (wCleave ? WarCleave.DefenseReduction : 0);
 
             if (gState)
-            {
-                newDefense /= 2;
-            }
-
+                effectiveDefense /= 2;
             if (aCrunch)
-            {
-                newDefense /= 3;
-            }
+                effectiveDefense /= 3;
 
-            if (newDefense < 0)
-            {
-                newDefense = 0;
-            }
+            // Defense can never be negative and has a minimum value of zero.
+            if (effectiveDefense < 0)
+                effectiveDefense = 0;
 
-            defense = newDefense;
+            // Apply vanilla-style defense before DR, using Calamity's reduced defense.
+            damage = Main.CalculateDamage((int)damage, effectiveDefense);
 
-            if (protection > 0f)
-            {
-                double newDamage = damage + (defense * 0.25); //defense damage boost 150 * .25 = 45 + 150 = 195 damage  180 defense
+            // DR applies after vanilla defense.
+            damage = ApplyDR(npc, damage);
 
-                if (marked)
-                {
-                    protection *= 0.5f;
-                }
+            // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
+            if (yellowCandle && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+                damage += yellowCandleDamage;
 
-                if (npc.betsysCurse)
-                {
-                    protection *= 0.66f;
-                }
-
-                if (wCleave)
-                {
-                    protection *= 0.75f;
-                }
-
-                if (npc.ichor)
-                {
-                    protection *= 0.75f;
-                }
-                else if (npc.onFire2)
-                {
-                    protection *= 0.8f;
-                }
-
-                if (protection < 0f)
-                {
-                    protection = 0f;
-                }
-
-                if (newDamage >= 1.0)
-                {
-                    newDamage = (1f - protection) * newDamage; //DR calc 195 * 0.4 = 78 damage 0.6 DR
-
-                    if (newDamage < 1.0)
-                    {
-                        newDamage = 1.0;
-                    }
-                }
-
-                damage = newDamage;
-                protection = defProtection;
-            }
-
-            if (protection < 0.99f)
-            {
-                if (yellowCandle)
-                {
-                    damage += yellowCandleDamageBoost;
-                }
-            }
-
-			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
-			{
-				if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
-				{
-					if (npc.life - (int)damage <= 0)
-					{
-						if (newAI[0] != 1f)
-						{
-							newAI[0] = 1f;
-							npc.life = npc.lifeMax;
-							npc.netUpdate = true;
-							npc.dontTakeDamage = true;
-						}
-					}
-				}
-			}
-
-			return true; //vanilla defense calc 78 - (180 / 2 = 90) = 0, boosted to 1 by calc
+            // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
+            // While roundabout, this is safer than returning false to stop vanilla damage calculations entirely.
+            // Other mods will probably expect the vanilla code to run and may compensate for it themselves.
+            damage = Main.CalculateDamage((int)damage, -defense);
+            return true;
         }
-		#endregion
 
-		#region Boss Head Slot
-		public override void BossHeadSlot(NPC npc, ref int index)
+        /// <summary>
+        /// Modifies damage incoming to an NPC based on their DR (damage reduction) stat added by Calamity.<br></br>
+        /// This is entirely separate from vanilla's takenDamageMultiplier.
+        /// </summary>
+        /// <param name="damage">Incoming damage. Has been modified by Main.DamageVar and boosted by armor penetration, but nothing else.</param>
+        /// <returns></returns>
+        private double ApplyDR(NPC npc, double damage)
+        {
+            if (DR <= 0f || damage <= 1.0)
+                return damage;
+
+            // If the NPC currently has unbreakable DR, it cannot be reduced by any means.
+            // If custom DR is enabled, use that instead of normal DR.
+            float effectiveDR = unbreakableDR ? DR : (customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR));
+
+            // DR floor is 0%. Nothing can have negative DR.
+            if (effectiveDR <= 0f)
+                effectiveDR = 0f;
+
+            double newDamage = (1f - effectiveDR) * damage;
+            return newDamage < 1.0 ? 1.0 : newDamage;
+        }
+
+        private float DefaultDRMath(NPC npc, float DR)
+        {
+            float calcDR = DR;
+            if (marked)
+                calcDR *= 0.5f;
+            if (npc.betsysCurse)
+                calcDR *= 0.66f;
+            if (wCleave)
+                calcDR *= 0.75f;
+
+            // Ichor supersedes Cursed Inferno if both are applied.
+            if (npc.ichor)
+                calcDR *= 0.75f;
+            else if (npc.onFire2)
+                calcDR *= 0.8f;
+
+            return calcDR;
+        }
+
+        private float CustomDRMath(NPC npc, float DR)
+        {
+            void FlatEditDR(ref float theDR, bool npcHasDebuff, int buffID)
+            {
+                if (npcHasDebuff && flatDRReductions.TryGetValue(buffID, out float reduction))
+                    theDR -= reduction;
+            }
+            void MultEditDR(ref float theDR, bool npcHasDebuff, int buffID)
+            {
+                if (npcHasDebuff && multDRReductions.TryGetValue(buffID, out float multiplier))
+                    theDR *= multiplier;
+            }
+
+            float calcDR = DR;
+
+            // Apply flat reductions first. All vanilla debuffs check their internal booleans.
+            FlatEditDR(ref calcDR, npc.poisoned, BuffID.Poisoned);
+            FlatEditDR(ref calcDR, npc.onFire, BuffID.OnFire);
+            FlatEditDR(ref calcDR, npc.venom, BuffID.Venom);
+            FlatEditDR(ref calcDR, npc.onFrostBurn, BuffID.Frostburn);
+            FlatEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
+            FlatEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
+            FlatEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
+
+            // Ichor supersedes Cursed Inferno if both are applied.
+            FlatEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
+            FlatEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+
+            // Modded debuffs are handled modularly and use HasBuff.
+            foreach (KeyValuePair<int, float> entry in flatDRReductions)
+            {
+                int buffID = entry.Key;
+                if (buffID >= BuffID.Count && npc.HasBuff(buffID))
+                    calcDR -= entry.Value;
+            }
+
+            // Apply multiplicative reductions second. All vanilla debuffs check their internal booleans.
+            MultEditDR(ref calcDR, npc.poisoned, BuffID.Poisoned);
+            MultEditDR(ref calcDR, npc.onFire, BuffID.OnFire);
+            MultEditDR(ref calcDR, npc.venom, BuffID.Venom);
+            MultEditDR(ref calcDR, npc.onFrostBurn, BuffID.Frostburn);
+            MultEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
+            MultEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
+            MultEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
+
+            // Ichor supersedes Cursed Inferno if both are applied.
+            MultEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
+            MultEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+
+            // Modded debuffs are handled modularly and use HasBuff.
+            foreach (KeyValuePair<int, float> entry in multDRReductions)
+            {
+                int buffID = entry.Key;
+                if (buffID >= BuffID.Count && npc.HasBuff(buffID))
+                    calcDR *= entry.Value;
+            }
+
+            return calcDR;
+        }
+        #endregion
+
+        #region Boss Head Slot
+        public override void BossHeadSlot(NPC npc, ref int index)
 		{
 			if (CalamityWorld.revenge)
 			{
@@ -1512,15 +1325,6 @@ namespace CalamityMod.NPCs
                     return false;
                 }
             }
-
-			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
-			{
-				if (npc.type == NPCID.MoonLordFreeEye)
-				{
-					npc.active = false;
-					npc.netUpdate = true;
-				}
-			}
 
             if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
             {
@@ -1635,12 +1439,6 @@ namespace CalamityMod.NPCs
 						return CalamityGlobalAI.BuffedCultistAI(npc, enraged, mod);
 					case NPCID.AncientDoom:
 						return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
-
-					case NPCID.MoonLordCore:
-					case NPCID.MoonLordHand:
-					case NPCID.MoonLordHead:
-					case NPCID.MoonLordLeechBlob:
-						return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged, mod);
 
 					default:
                         break;
@@ -2047,7 +1845,7 @@ namespace CalamityMod.NPCs
 
                 case 28:
                     if (npc.type != NPCID.MoonLordCore && npc.type != NPCID.MoonLordHead && npc.type != NPCID.MoonLordHand &&
-                        npc.type != NPCID.MoonLordLeechBlob)
+                        npc.type != NPCID.MoonLordFreeEye && npc.type != mod.NPCType("Eidolist"))
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -2192,6 +1990,19 @@ namespace CalamityMod.NPCs
 
 				switch (npc.type)
 				{
+					case NPCID.MoonLordFreeEye:
+						CalamityGlobalAI.RevengeanceMoonLordFreeEyeAI(npc);
+						break;
+
+					case NPCID.MoonLordCore:
+						CalamityGlobalAI.RevengeanceMoonLordCoreAI(npc);
+						break;
+
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordHead:
+						CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
+						break;
+
 					case NPCID.DungeonGuardian:
 						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
 						break;
@@ -2214,24 +2025,19 @@ namespace CalamityMod.NPCs
 		#region Post AI
 		public override void PostAI(NPC npc)
 		{
-			if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
-			{
-				npc.velocity.X *= 0.95f;
-				npc.velocity.Y *= 0.95f;
-			}
+            // Bosses and any specific other NPCs are completely immune to having their movement impaired.
+            if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
+                return;
 
-			if (!CalamityWorld.bossRushActive)
+            if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
+                npc.velocity *= 0.95f;
+
+            if (!CalamityWorld.bossRushActive)
 			{
 				if (silvaStun)
-				{
-					npc.velocity.X = 0f;
-					npc.velocity.Y = 0f;
-				}
+                    npc.velocity = Vector2.Zero;
 				else if (timeSlow)
-				{
-					npc.velocity.X *= 0.85f;
-					npc.velocity.Y *= 0.85f;
-				}
+                    npc.velocity *= 0.85f;
 			}
 		}
         #endregion
@@ -2400,6 +2206,7 @@ namespace CalamityMod.NPCs
                     case NPCID.GiantCursedSkull:
                     case NPCID.Butcher:
                     case NPCID.Psycho:
+                    case NPCID.MoonLordFreeEye:
                         target.AddBuff(mod.BuffType("Horror"), 180);
                         target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
                         break;
@@ -2577,7 +2384,7 @@ namespace CalamityMod.NPCs
         public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
         {
 			bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type);
-			
+
             if (Main.player[projectile.owner].GetCalamityPlayer().sGenerator)
             {
                 if (isSummon && npc.damage > 0)

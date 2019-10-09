@@ -1,13 +1,14 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.DoTDebuffs
 {
     public class AbyssalFlames : ModBuff
 	{
-		public override void SetDefaults()
+        public static int DefenseReduction = 10;
+
+        public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Abyssal Flames");
 			Description.SetDefault("Your soul is being consumed");

@@ -49,6 +49,7 @@ namespace CalamityMod.Items.Accessories.Wings
 				Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
 			}
 			player.wingTimeMax = 180;
+			player.noFallDmg = true;
 		}
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)

@@ -44,7 +44,8 @@ namespace CalamityMod.Items.Armor
 			player.moveSpeed += 0.25f;
 			player.allDamage += 0.28f;
 			modPlayer.AllCritBoost(21);
-		}
+            player.GetCalamityPlayer().wearingRogueArmor = true;
+        }
 
 		public override void UpdateEquip(Player player)
 		{

@@ -22,6 +22,9 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 34;
 			npc.height = 34;
 			npc.defense = 60;
+            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            global.DR = 0.5f;
+            global.unbreakableDR = true;
             npc.lifeMax = 100000;
             npc.aiStyle = 6;
             aiType = -1;
@@ -93,12 +96,6 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 				}
 			}
 		}
-
-        public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-        {
-            damage = (int)((double)damage * 0.5);
-            return true;
-        }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{

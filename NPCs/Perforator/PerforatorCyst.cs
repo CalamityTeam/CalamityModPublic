@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Perforator
 {
@@ -42,6 +43,10 @@ namespace CalamityMod.NPCs.Perforator
 			if (spawnInfo.playerSafe || NPC.AnyNPCs(mod.NPCType("PerforatorCyst")) || NPC.AnyNPCs(mod.NPCType("PerforatorHive")))
 			{
 				return 0f;
+			}
+			else if (NPC.downedBoss2 && !CalamityWorld.downedPerforator)
+			{
+				return SpawnCondition.Crimson.Chance * 1.5f;
 			}
 			return SpawnCondition.Crimson.Chance * (Main.hardMode ? 0.05f : 0.5f);
 		}

@@ -1,13 +1,14 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.DoTDebuffs
 {
     public class Plague : ModBuff
 	{
-		public override void SetDefaults()
+        public static int DefenseReduction = 4;
+
+        public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Plague");
 			Description.SetDefault("Rotting from the inside");

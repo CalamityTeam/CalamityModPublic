@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
@@ -38,9 +39,11 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             speedY *= 0.7f; //since the barrel is heavy
             Vector2 initialVelocity = new Vector2(speedX, speedY);
-            bool canUseStealthStrike = player.GetCalamityPlayer().StealthStrikeAvailable();
+
             //unitY additive is do it doesn't exploe initially
-            Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type,damage,knockBack,player.whoAmI, canUseStealthStrike.ToInt());
+            int p = Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type,damage,knockBack,player.whoAmI);
+            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+                Main.projectile[p].GetCalamityProj().stealthStrike = true;
             return false;
         }
     }

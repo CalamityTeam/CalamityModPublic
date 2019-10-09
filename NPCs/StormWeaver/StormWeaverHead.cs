@@ -30,8 +30,9 @@ namespace CalamityMod.NPCs.StormWeaver
 			npc.npcSlots = 5f;
 			npc.width = 74;
 			npc.height = 74;
-			npc.defense = 99999;
-			npc.lifeMax = 20000;
+            npc.defense = 0;
+            npc.takenDamageMultiplier = 1E-6f;
+            npc.lifeMax = 20000;
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 			if (calamityModMusic != null)
 				music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -514,12 +515,6 @@ namespace CalamityMod.NPCs.StormWeaver
 		{
 			cooldownSlot = 1;
 			return true;
-		}
-
-		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
-		{
-			damage = 0;
-			return false;
 		}
 
 		public override bool CheckActive()

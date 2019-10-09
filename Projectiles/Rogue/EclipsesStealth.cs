@@ -15,10 +15,12 @@ namespace CalamityMod.Projectiles.Rogue
     public class EclipsesStealth : ModProjectile
 	{
 		private int deadinside = 0; //used to know when to drop spears from the sky
-		
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Eclipse's Stealth");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
 		public override void SetDefaults()
@@ -34,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.localNPCHitCooldown = 30;
 			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
 		}
-		
+
 		public override void AI()
 		{
 			deadinside++; //congrats Pinkie

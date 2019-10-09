@@ -30,7 +30,8 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
 			npc.width = 100;
 			npc.height = 80;
 			npc.defense = 50;
-			npc.lifeMax = 102500;
+            npc.GetCalamityNPC().RevPlusDR(0.4f);
+            npc.lifeMax = 102500;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = CalamityWorld.death ? 600000 : 500000;

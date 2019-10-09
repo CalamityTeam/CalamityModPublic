@@ -42,6 +42,7 @@ namespace CalamityMod.Items.Armor
 			modPlayer.rogueStealthMax = 1.05f;
 			player.doubleJumpSail = true;
             player.jumpBoost = true;
+            player.GetCalamityPlayer().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)

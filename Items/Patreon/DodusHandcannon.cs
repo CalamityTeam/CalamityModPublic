@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items;
 
 namespace CalamityMod.Items.Patreon
 {
@@ -39,7 +43,7 @@ namespace CalamityMod.Items.Patreon
 
 	    public override Vector2? HoldoutOffset()
 		{
-			return new Vector2(-15, 10);
+			return new Vector2(-15, 5);
 		}
 
 		public override bool CanUseItem(Player player)

@@ -31,30 +31,22 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void AI()
 		{
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f);
-        	projectile.localAI[0] += 1f;
-        	if (projectile.localAI[0] >= 4f)
-        	{
-				for (int num136 = 0; num136 < 10; num136++)
+            if (Main.rand.NextBool(2))
+            {
+				int dustType = Main.rand.Next(3);
+				if (dustType == 0)
 				{
-					float x2 = projectile.position.X - projectile.velocity.X / 10f * (float)num136;
-					float y2 = projectile.position.Y - projectile.velocity.Y / 10f * (float)num136;
-					int dustType = Main.rand.Next(2);
-					if (dustType == 0)
-					{
-						dustType = 67;
-					}
-					else
-					{
-						dustType = 6;
-					}
-					int num137 = Dust.NewDust(new Vector2(x2, y2), 1, 1, dustType, 0f, 0f, 0, default, 0.5f);
-					Main.dust[num137].alpha = projectile.alpha;
-					Main.dust[num137].position.X = x2;
-					Main.dust[num137].position.Y = y2;
-					Main.dust[num137].velocity *= 0f;
-					Main.dust[num137].noGravity = true;
+					dustType = 67;
 				}
-        	}
+				else
+				{
+					dustType = 6;
+				}
+				int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, dustType, 0f, 0f, 0, default, 0.5f);
+				Main.dust[num137].alpha = projectile.alpha;
+				Main.dust[num137].velocity *= 0f;
+				Main.dust[num137].noGravity = true;
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

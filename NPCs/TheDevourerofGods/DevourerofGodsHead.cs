@@ -703,22 +703,17 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-			if (damage > npc.lifeMax / 2)
-			{
-				string key = "Mods.CalamityMod.EdgyBossText2";
-				Color messageColor = Color.Cyan;
-				if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(Language.GetTextValue(key), messageColor);
-				}
-				else if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-				}
-				damage = 0;
-				return false;
-			}
-			return true;
+            if(CNPCUtils.AntiButcher(npc, ref damage, 0.5f))
+            {
+                string key = "Mods.CalamityMod.EdgyBossText2";
+                Color messageColor = Color.Cyan;
+                if (Main.netMode == NetmodeID.SinglePlayer)
+                    Main.NewText(Language.GetTextValue(key), messageColor);
+                else if (Main.netMode == NetmodeID.Server)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                return false;
+            }
+            return true;
 		}
 
 		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)

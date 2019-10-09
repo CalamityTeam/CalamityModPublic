@@ -29,6 +29,10 @@ namespace CalamityMod.NPCs.Yharon
 		private bool spawnArena = false;
 		private int invincibilityCounter = 0;
 
+        public static float Phase1_DR = 0.17f;
+        public static float Phase2_DR = 0.22f;
+        public static float EnragedDR = 0.9f;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Jungle Dragon, Yharon");
@@ -60,6 +64,7 @@ namespace CalamityMod.NPCs.Yharon
 			npc.boss = true;
 			NPCID.Sets.TrailCacheLength[npc.type] = 8;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
+
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
 				npc.buffImmune[k] = true;
@@ -68,6 +73,13 @@ namespace CalamityMod.NPCs.Yharon
 			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
 			npc.buffImmune[mod.BuffType("Shred")] = false;
+
+            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            global.DR = Phase1_DR;
+            global.customDR = true;
+            global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
+            global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
+
 			npc.noGravity = true;
 			npc.noTileCollide = true;
 			npc.netAlways = true;
@@ -340,6 +352,9 @@ namespace CalamityMod.NPCs.Yharon
 				npc.damage = npc.defDamage;
 				protectionBoost = false;
 			}
+
+            // Set DR based on protection boost (aka enrage)
+            npc.GetCalamityNPC().DR = protectionBoost ? EnragedDR : Phase1_DR;
 
 			// Trigger spawn effects
 			if (npc.localAI[0] == 0f)
@@ -1882,7 +1897,11 @@ namespace CalamityMod.NPCs.Yharon
 					npc.timeLeft = 3600;
 				}
 			}
-			int num = -1;
+
+            // Set DR based on protection boost (aka enrage)
+            npc.GetCalamityNPC().DR = protectionBoost ? EnragedDR : Phase2_DR;
+
+            int num = -1;
 			float num2 = 1f;
 			int num4 = expertMode ? 110 : 125;
 			if (phase4)
@@ -2818,40 +2837,18 @@ namespace CalamityMod.NPCs.Yharon
 		}
 		#endregion
 
-		#region DamageFormula
+		#region StrikeNPC
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-			if (damage > npc.lifeMax / 10 || (!startSecondAI && dropLoot))
+            if (CNPCUtils.AntiButcher(npc, ref damage, 0.1f)) return false;
+
+            // Safeguard to prevent damage which would allow skipping phase 2.
+            if (!startSecondAI && dropLoot)
 			{
 				damage = 0;
 				return false;
 			}
-			double newDamage = (damage + (int)((double)defense * 0.25));
-			if (newDamage < 1.0)
-			{
-				newDamage = 1.0;
-			}
-			if (newDamage >= 1.0)
-			{
-				if (startSecondAI)
-				{
-					float protection = (((npc.ichor || npc.onFire2) ? 0.17f : 0.22f) +
-					(protectionBoost ? 0.68f : 0f)); //0.85 or 0.9
-					newDamage = (double)((int)((double)(1f - protection) * newDamage));
-				}
-				else
-				{
-					float protection = (((npc.ichor || npc.onFire2) ? 0.12f : 0.17f) +
-					(protectionBoost ? 0.73f : 0f)); //0.85 or 0.9
-					newDamage = (double)((int)((double)(1f - protection) * newDamage));
-				}
-				if (newDamage < 1.0)
-				{
-					newDamage = 1.0;
-				}
-			}
-			damage = newDamage;
-			return true;
+            return true;
 		}
 		#endregion
 

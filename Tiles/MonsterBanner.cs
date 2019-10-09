@@ -356,6 +356,9 @@ namespace CalamityMod.Tiles
 				case 107:
 					item = "GiantClamBanner";
 					break;
+				case 108:
+					item = "PiggyBanner";
+					break;
 				default:
 					return;
 			}
@@ -694,6 +697,9 @@ namespace CalamityMod.Tiles
 						break;
 					case 107:
 						type = "GiantClam";
+						break;
+					case 108:
+						type = "Piggy";
 						break;
 					default:
 						return;

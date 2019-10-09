@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Items;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -36,7 +40,7 @@ namespace CalamityMod.Items.Weapons
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-5, 0);
+            return new Vector2(-10, 0);
         }
 
 	    public override bool ConsumeAmmo(Player player)

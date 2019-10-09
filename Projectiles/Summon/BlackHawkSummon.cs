@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             Main.projFrames[projectile.type] = 3;
         }
-    	
+
         public override void SetDefaults()
         {
             projectile.width = 36;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             target = GetClosestNPCToTarget(maxDistToEnemy, false);
         }
-		
+
         public int GetClosestNPCToTarget(float maxDistance, bool ignoreTiles)
         {
             int closestNPC = -1;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             return closestNPC;
         }
-		
+
         public override void AI()
         {
         	if (projectile.localAI[0] == 0f)
@@ -278,7 +278,7 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.netUpdate = true;
 					}
 				}
-			}            
+			}
 			if (Vector2.Distance(player.Center, projectile.Center) <= 1400 & !returningBackToPlayer) //don't return to player if currently busy dealing with an enemy
             {
                 if (enemyCheckTimer % 240 == 0 & enemyCheckTimer != 0)

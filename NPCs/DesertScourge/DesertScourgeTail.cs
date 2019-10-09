@@ -21,6 +21,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.width = 32; //324
 			npc.height = 48; //216
 			npc.defense = 9;
+            npc.GetCalamityNPC().RevPlusDR(0.1f);
             npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {

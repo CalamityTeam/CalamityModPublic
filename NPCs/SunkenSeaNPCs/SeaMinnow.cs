@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.DeathSound = SoundID.NPCDeath1;
 			banner = npc.type;
 			bannerItem = mod.ItemType("SeaMinnowBanner");
+			npc.chaseable = false;
 		}
 
         public override void AI()

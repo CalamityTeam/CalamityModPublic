@@ -24,6 +24,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.width = 60; //324
 			npc.height = 40; //216
 			npc.defense = 40;
+            npc.GetCalamityNPC().RevPlusDR(0.15f);
 			npc.lifeMax = 60;
 			npc.knockBackResist = 0.65f;
 			npc.value = Item.buyPrice(0, 0, 5, 0);

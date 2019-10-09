@@ -1814,6 +1814,7 @@ namespace CalamityMod.Items
 			{
 				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.rogueStealthMax = 1f;
+                modPlayer.wearingRogueArmor = true;
 				player.GetCalamityPlayer().throwingDamage += 0.1f;
 				player.GetCalamityPlayer().throwingVelocity += 0.1f;
 				player.statDefense += 5;
@@ -1827,6 +1828,7 @@ namespace CalamityMod.Items
 			{
 				CalamityPlayer modPlayer = player.GetCalamityPlayer();
 				modPlayer.rogueStealthMax = 1f;
+                modPlayer.wearingRogueArmor = true;
 				player.GetCalamityPlayer().throwingDamage += 0.05f;
 				player.GetCalamityPlayer().throwingCrit += 5;
 				player.statDefense += 2;
@@ -2180,6 +2182,9 @@ namespace CalamityMod.Items
 
 			if (item.type == ItemID.WormScarf)
 				player.endurance -= 0.07f;
+
+			if (item.type == ItemID.RoyalGel)
+				modPlayer.royalGel = true;
 
 			if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
 				(item.type == ItemID.SunStone && Main.dayTime))

@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Summoner Tarragon, Bloodflare, God Slayer, and Silva armor effects\n" +
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
-                "120% increased minion damage";
+                "+1 max minion and 120% increased minion damage";
             CalamityPlayer modPlayer = player.GetCalamityPlayer();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Armor
 			player.ignoreWater = true;
             player.crimsonRegen = true;
             player.minionDamage += 1.2f;
+			player.maxMinions++;
             if (player.lavaWet)
             {
                 player.statDefense += 30;

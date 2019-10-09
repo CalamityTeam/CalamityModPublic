@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 using CalamityMod.CalPlayer;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
@@ -319,8 +320,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			if (Main.rand.NextBool(2))
 			{
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("CloakingGland"));
-			}
-		}
+            }
+            int inkBombDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 50 : 100;
+            DropHelper.DropItemChance(npc, mod.ItemType("InkBomb"), inkBombDropRate, 1, 1);
+        }
 
 		public override void HitEffect(int hitDirection, double damage)
 		{

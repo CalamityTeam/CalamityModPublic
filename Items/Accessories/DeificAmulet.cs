@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Accessories
 			DisplayName.SetDefault("Deific Amulet");
 			Tooltip.SetDefault("Taking damage makes you move very fast for a short time\n" +
 							   "Increases armor penetration by 10 and immune time after being struck\n" +
-							   "Provides light underwater and causes stars to fall when damaged\n" +
+							   "Provides light underwater and provides a small amount of light in the abyss\n" +
+							   "Causes stars to fall when damaged\n" +
 							   "Reduces the cooldown of healing potions");
 		}
 
@@ -29,6 +30,7 @@ namespace CalamityMod.Items.Accessories
 		{
 			CalamityPlayer modPlayer = player.GetCalamityPlayer();
 			modPlayer.dAmulet = true;
+			modPlayer.jellyfishNecklace = true;
 		}
 
 		public override void AddRecipes()
