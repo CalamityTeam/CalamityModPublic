@@ -33,9 +33,10 @@ namespace CalamityMod.Projectiles.Rogue
         public bool collideX => projectile.oldPosition.X == projectile.position.X;
         public override void AI()
         {
+            bool stealthS = projectile.GetCalamityProj().stealthStrike;
             if (projectile.localAI[0] == 0f)
             {
-                projectile.ai[1] = projectile.ai[0] == 0 ? 1 : 3;
+                projectile.ai[1] = stealthS.ToInt() == 0 ? 1 : 3;
                 projectile.localAI[0] = 1f;
             }
             projectile.rotation += Math.Sign(projectile.velocity.X) * MathHelper.ToRadians(8f);
@@ -60,11 +61,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
         public void BounceEffects()
         {
+            bool stealthS = projectile.GetCalamityProj().stealthStrike;
             int projectileCount = 12;
+            Main.PlaySound(2, projectile.Center, 14);
             //aka can bounce multiple times
-            if (projectile.ai[0] != 0f)
+            if (stealthS)
             {
-                projectileCount += (3 - (int)projectile.ai[0]) * 2; //more shit the closer we are to death
+                projectileCount += (3 - stealthS.ToInt()) * 2; //more shit the closer we are to death
             }
             for (int i = 0; i < projectileCount; i++)
             {
