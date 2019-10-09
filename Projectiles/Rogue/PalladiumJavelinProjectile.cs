@@ -45,10 +45,5 @@ namespace CalamityMod.Projectiles.Rogue
         		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("PalladiumJavelin"));
         	}
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-			target.AddBuff(BuffID.BoneJavelin, 500);
-        }
     }
 }

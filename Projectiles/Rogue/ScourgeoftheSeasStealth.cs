@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Rogue
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			if (target.type != mod.NPCType("Cryogen") || target.type != mod.NPCType("Brimstone Elemental") || target.type != NPCID.SkeletronPrime)
+			if (target.type == mod.NPCType("Cryogen") || target.type == mod.NPCType("Brimstone Elemental") || target.type == NPCID.SkeletronPrime)
 			{
                 target.buffImmune[BuffID.Venom] = false;
 			}

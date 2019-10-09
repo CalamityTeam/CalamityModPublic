@@ -291,6 +291,8 @@ namespace CalamityMod.CalPlayer
 		public bool fabledTortoise = false;
 		public bool manaOverloader = false;
 		public bool royalGel = false;
+        public bool oldDie = false;
+        public bool ursaSergeant = false;
 		public bool sandWaifu = false;
 		public bool sandBoobWaifu = false;
 		public bool cloudWaifu = false;
@@ -304,7 +306,6 @@ namespace CalamityMod.CalPlayer
         public bool abyssalMirrorCooldown = false;
         public bool eclipseMirror = false;
         public bool eclipseMirrorCooldown = false;
-        public bool oldDie = false;
         public bool featherCrown = false;
         public bool moonCrown = false;
 
@@ -961,6 +962,7 @@ namespace CalamityMod.CalPlayer
 			eTracers = false;
 			cTracers = false;
             oldDie = false;
+            ursaSergeant = false;
 
 			daedalusReflect = false;
 			daedalusSplit = false;
@@ -3285,6 +3287,24 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
+			if (ursaSergeant)
+			{
+				if (player.statLife <= (int)((double)player.statLifeMax2 * 0.15))
+				{
+					player.lifeRegen += 3;
+					player.lifeRegenTime += 3;
+				}
+				else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.25))
+				{
+					player.lifeRegen += 2;
+					player.lifeRegenTime += 2;
+				}
+				else if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+				{
+					player.lifeRegen += 1;
+					player.lifeRegenTime += 1;
+				}
+			}
 			if (invincible || lol)
 			{
 				player.thorns = 0f;
@@ -4737,6 +4757,11 @@ namespace CalamityMod.CalPlayer
 			{
 				runAccMult *= 0.5f;
 				runSpeedMult *= 0.5f;
+			}
+			if (ursaSergeant)
+			{
+				runAccMult *= 0.8f;
+				runSpeedMult *= 0.8f;
 			}
 			if (elysianGuard)
 			{
@@ -6792,6 +6817,10 @@ namespace CalamityMod.CalPlayer
 		#region Fishing
 		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
 		{
+			if (ZoneAstral && Main.rand.NextBool(25))
+			{
+				caughtType = mod.ItemType("UrsaSergeant");
+			}
 			Point point = player.Center.ToTileCoordinates();
 			bool abyssPosX = false;
 			if (CalamityWorld.abyssSide)
