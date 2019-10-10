@@ -22,6 +22,12 @@ namespace CalamityMod.Items.Fishing
 			item.height = 32;
 			item.rare = 2;
             item.value = Item.sellPrice(gold: 1);
+			item.createTile = mod.TileType("AstralCrate");
+			item.useTurn = true;
+			item.autoReuse = true;
+			item.useAnimation = 15;
+			item.useTime = 10;
+			item.useStyle = 1;
 		}
 
 		public override bool CanRightClick()
