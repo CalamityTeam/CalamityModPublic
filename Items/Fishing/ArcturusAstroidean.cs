@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Fishing
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcturus Astroidean");
+			Tooltip.SetDefault("Increases fishing power if used in the Astral Infection or Sulphurous Sea");
         }
 
         public override void SetDefaults()

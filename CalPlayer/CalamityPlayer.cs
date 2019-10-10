@@ -6810,7 +6810,7 @@ namespace CalamityMod.CalPlayer
 		#region Fishing
 		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
 		{
-			if (ZoneAstral)
+			if (ZoneAstral && liquidType == 0) //Astral Infection, fishing in water
 			{
 				if (caughtType == ItemID.WoodenCrate)
 				{
@@ -6855,6 +6855,10 @@ namespace CalamityMod.CalPlayer
 				else if (Main.rand.NextBool(25))
 				{
 					caughtType = mod.ItemType("UrsaSergeant");
+				}
+				else if (Main.rand.NextBool(25))
+				{
+					caughtType = mod.ItemType("GacruxianMollusk");
 				}
 				else
 				{
@@ -6944,6 +6948,14 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
+			}
+		}
+
+		public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)
+		{
+			if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type = mod.ItemType("ArcturusAstroidean"))
+			{
+				fishingLevel = (int)(fishingLevel * 1.1f);
 			}
 		}
 		#endregion
