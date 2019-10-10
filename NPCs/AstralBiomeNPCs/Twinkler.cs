@@ -109,6 +109,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			item.height = 24;
 			item.bait = 40;
 			item.makeNPC = (short)mod.NPCType("Twinkler");
+			item.rare = 2;
 		}
     }
 }

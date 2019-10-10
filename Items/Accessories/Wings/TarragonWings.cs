@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -17,7 +18,8 @@ namespace CalamityMod.Items.Accessories.Wings
 				"Horizontal speed: 9.5\n" +
 				"Acceleration multiplier: 2.5\n" +
 				"Great vertical speed\n" +
-				"Flight time: 210");
+				"Flight time: 210\n" +
+				"+15 defense and +2 life regen while wearing the Tarragon Armor");
 		}
 
 		public override void SetDefaults()
@@ -63,6 +65,14 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+
+			if (modPlayer.tarraSet)
+			{
+				player.statDefense += 15;
+				player.lifeRegen += 2;
+			}
+
 			ascentWhenFalling = 0.85f;
 			ascentWhenRising = 0.15f;
 			maxCanAscendMultiplier = 1f;

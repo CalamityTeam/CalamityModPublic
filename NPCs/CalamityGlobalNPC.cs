@@ -174,8 +174,8 @@ namespace CalamityMod.NPCs
             { NPCID.MoonLordCore, 1400000 },
             { NPCID.MoonLordHand, 450000 },
             { NPCID.MoonLordHead, 600000 },
-            { NPCID.MoonLordFreeEye, 1000 }
-        };
+			{ NPCID.MoonLordLeechBlob, 8000 }
+		};
 
         public static SortedDictionary<int, int> BossValues = new SortedDictionary<int, int>
         {
@@ -435,31 +435,26 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (eFreeze && !CalamityWorld.bossRushActive)
+            // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
+            if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
             {
-                npc.velocity.X = 0f;
-                npc.velocity.Y += 0.1f;
-
-                if (npc.velocity.Y > 15f)
+                if (eFreeze && !CalamityWorld.bossRushActive)
                 {
-                    npc.velocity.Y = 15f;
+                    npc.velocity.X = 0f;
+                    npc.velocity.Y += 0.1f;
+                    if (npc.velocity.Y > 15f)
+                        npc.velocity.Y = 15f;
                 }
-            }
-
-            if (tSad)
-            {
-                npc.velocity.Y /= 2;
-                npc.velocity.X /= 2;
-            }
-
-            if (gState)
-            {
-                npc.velocity.X = 0f;
-                npc.velocity.Y += 0.05f;
-
-                if (npc.velocity.Y > 15f)
+                else if (gState)
                 {
-                    npc.velocity.Y = 15f;
+                    npc.velocity.X = 0f;
+                    npc.velocity.Y += 0.05f;
+                    if (npc.velocity.Y > 15f)
+                        npc.velocity.Y = 15f;
+                }
+                if (tSad)
+                {
+                    npc.velocity /= 2f;
                 }
             }
 
@@ -674,25 +669,20 @@ namespace CalamityMod.NPCs
         {
             npc.value = (int)(npc.value * 1.5);
 
-            if (npc.type == NPCID.MoonLordFreeEye)
-            {
-                npc.lifeMax = (int)(npc.lifeMax * 150.0);
-            }
-            else if (npc.type == NPCID.Mothron)
+            if (npc.type == NPCID.Mothron)
             {
                 npc.scale = 1.25f;
             }
             else if (npc.type == NPCID.MoonLordCore)
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 2.4) : (int)(npc.lifeMax * 1.9);
-                npc.npcSlots = 12f;
+                npc.npcSlots = 36f;
             }
-            else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
-            {
-                npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.2);
-                npc.npcSlots = 12f;
-            }
-            else if (npc.type >= NPCID.CultistDragonHead && npc.type <= NPCID.CultistDragonTail)
+			else if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead || npc.type == NPCID.MoonLordLeechBlob)
+			{
+				npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 1.4) : (int)(npc.lifeMax * 1.2);
+			}
+			else if (npc.type >= NPCID.CultistDragonHead && npc.type <= NPCID.CultistDragonTail)
             {
                 npc.lifeMax = CalamityWorld.death ? (int)(npc.lifeMax * 10.0) : (int)(npc.lifeMax * 5.0);
             }
@@ -1136,9 +1126,27 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-            // Yellow Candle provides +5% damage which ignores both DR and defense.
-            // However, armor penetration bonus damage has already been applied, so it's slightly higher than it should be.
-            double yellowCandleDamage = 0.05 * damage;
+			// Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
+				{
+					if (npc.life - (int)damage <= 0)
+					{
+						if (newAI[0] != 1f)
+						{
+							newAI[0] = 1f;
+							npc.life = npc.lifeMax;
+							npc.netUpdate = true;
+							npc.dontTakeDamage = true;
+						}
+					}
+				}
+			}
+
+			// Yellow Candle provides +5% damage which ignores both DR and defense.
+			// However, armor penetration bonus damage has already been applied, so it's slightly higher than it should be.
+			double yellowCandleDamage = 0.05 * damage;
 
             // Apply modifications to enemy's current defense based on Calamity debuffs.
             // As with defense and DR, flat reductions apply first, then multiplicative reductions.
@@ -1331,7 +1339,17 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
+			// Always prevent true eye of cthulhu appearance in rev+
+			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			{
+				if (npc.type == NPCID.MoonLordFreeEye)
+				{
+					npc.active = false;
+					npc.netUpdate = true;
+				}
+			}
+
+			if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
             {
                 BossRushForceDespawnOtherNPCs(npc, mod);
             }
@@ -1444,6 +1462,12 @@ namespace CalamityMod.NPCs
 						return CalamityGlobalAI.BuffedCultistAI(npc, enraged, mod);
 					case NPCID.AncientDoom:
 						return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
+
+					case NPCID.MoonLordCore:
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordHead:
+					case NPCID.MoonLordLeechBlob:
+						return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged, mod);
 
 					default:
                         break;
@@ -1849,14 +1873,14 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 28:
-                    if (npc.type != NPCID.MoonLordCore && npc.type != NPCID.MoonLordHead && npc.type != NPCID.MoonLordHand &&
-                        npc.type != NPCID.MoonLordFreeEye && npc.type != mod.NPCType("Eidolist"))
-                    {
-                        npc.active = false;
-                        npc.netUpdate = true;
-                    }
+					if (npc.type != NPCID.MoonLordCore && npc.type != NPCID.MoonLordHead && npc.type != NPCID.MoonLordHand &&
+						npc.type != NPCID.MoonLordLeechBlob)
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
 
-                    break;
+					break;
 
                 case 29:
                     if (npc.type != mod.NPCType("AstrumDeusHead") && npc.type != mod.NPCType("AstrumDeusBody") &&
@@ -1995,19 +2019,6 @@ namespace CalamityMod.NPCs
 
 				switch (npc.type)
 				{
-					case NPCID.MoonLordFreeEye:
-						CalamityGlobalAI.RevengeanceMoonLordFreeEyeAI(npc);
-						break;
-
-					case NPCID.MoonLordCore:
-						CalamityGlobalAI.RevengeanceMoonLordCoreAI(npc);
-						break;
-
-					case NPCID.MoonLordHand:
-					case NPCID.MoonLordHead:
-						CalamityGlobalAI.RevengeanceMoonLordHandAI(npc, mod);
-						break;
-
 					case NPCID.DungeonGuardian:
 						CalamityGlobalAI.RevengeanceDungeonGuardianAI(npc, configBossRushBoost, enraged);
 						break;
@@ -2030,24 +2041,19 @@ namespace CalamityMod.NPCs
 		#region Post AI
 		public override void PostAI(NPC npc)
 		{
-			if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
-			{
-				npc.velocity.X *= 0.95f;
-				npc.velocity.Y *= 0.95f;
-			}
+            // Bosses and any specific other NPCs are completely immune to having their movement impaired.
+            if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
+                return;
 
-			if (!CalamityWorld.bossRushActive)
+            if (pearlAura && !CalamityPlayer.areThereAnyDamnBosses)
+                npc.velocity *= 0.95f;
+
+            if (!CalamityWorld.bossRushActive)
 			{
 				if (silvaStun)
-				{
-					npc.velocity.X = 0f;
-					npc.velocity.Y = 0f;
-				}
+                    npc.velocity = Vector2.Zero;
 				else if (timeSlow)
-				{
-					npc.velocity.X *= 0.85f;
-					npc.velocity.Y *= 0.85f;
-				}
+                    npc.velocity *= 0.85f;
 			}
 		}
         #endregion
@@ -2216,7 +2222,6 @@ namespace CalamityMod.NPCs
                     case NPCID.GiantCursedSkull:
                     case NPCID.Butcher:
                     case NPCID.Psycho:
-                    case NPCID.MoonLordFreeEye:
                         target.AddBuff(mod.BuffType("Horror"), 180);
                         target.AddBuff(mod.BuffType("MarkedforDeath"), 180);
                         break;

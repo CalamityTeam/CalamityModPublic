@@ -3343,16 +3343,9 @@ namespace CalamityMod.CalPlayer
 			if (aquaticScourgeLore && player.wellFed)
 			{
 				player.statDefense += 1;
-				player.meleeCrit += 1;
-				player.meleeDamage += 0.025f;
+				player.allDamage += 0.025f;
+				AllCritBoost(1);
 				player.meleeSpeed += 0.025f;
-				player.magicCrit += 1;
-				player.magicDamage += 0.025f;
-				player.rangedCrit += 1;
-				player.rangedDamage += 0.025f;
-				player.thrownCrit += 1;
-				player.thrownDamage += 0.025f;
-				player.minionDamage += 0.025f;
 				player.minionKB += 0.25f;
 				player.moveSpeed += 0.1f;
 			}
@@ -6817,9 +6810,60 @@ namespace CalamityMod.CalPlayer
 		#region Fishing
 		public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
 		{
-			if (ZoneAstral && Main.rand.NextBool(25))
+			if (ZoneAstral && liquidType == 0) //Astral Infection, fishing in water
 			{
-				caughtType = mod.ItemType("UrsaSergeant");
+				if (caughtType == ItemID.WoodenCrate)
+				{
+					caughtType = ItemID.WoodenCrate;
+				}
+				else if (caughtType == ItemID.IronCrate)
+				{
+					caughtType = ItemID.IronCrate;
+				}
+				else if (caughtType == ItemID.GoldenCrate)
+				{
+					caughtType = ItemID.GoldenCrate;
+				}
+				else if (caughtType == ItemID.FrogLeg)
+				{
+					caughtType = ItemID.FrogLeg;
+				}
+				else if (caughtType == ItemID.BalloonPufferfish)
+				{
+					caughtType = ItemID.BalloonPufferfish;
+				}
+				else if (caughtType == ItemID.ZephyrFish)
+				{
+					caughtType = ItemID.ZephyrFish;
+				}
+				else if (Main.rand.NextBool(10))
+				{
+					caughtType = mod.ItemType("ProcyonidPrawn");
+				}
+				else if (Main.rand.NextBool(15))
+				{
+					caughtType = mod.ItemType("ArcturusAstroidean");
+				}
+				else if (player.cratePotion && Main.rand.NextBool(5))
+				{
+					caughtType = mod.ItemType("AstralCrate");
+				}
+				else if (Main.rand.NextBool(10))
+				{
+					caughtType = mod.ItemType("AstralCrate");
+				}
+				else if (Main.rand.NextBool(25))
+				{
+					caughtType = mod.ItemType("UrsaSergeant");
+				}
+				else if (Main.rand.NextBool(25))
+				{
+					caughtType = mod.ItemType("GacruxianMollusk");
+				}
+				else
+				{
+					caughtType = mod.ItemType("TwinklingPollox");
+				}
 			}
 			Point point = player.Center.ToTileCoordinates();
 			bool abyssPosX = false;
@@ -6904,6 +6948,14 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
+			}
+		}
+
+		public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)
+		{
+			if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type = mod.ItemType("ArcturusAstroidean"))
+			{
+				fishingLevel = (int)(fishingLevel * 1.1f);
 			}
 		}
 		#endregion

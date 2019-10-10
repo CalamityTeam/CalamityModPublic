@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod.ItemType("AerialiteBar"));
+            recipe.AddIngredient(mod.ItemType("FeatherCrown"));
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddIngredient(mod.ItemType("GalacticaSingularity"), 5);
             recipe.AddTile(TileID.LunarCraftingStation);

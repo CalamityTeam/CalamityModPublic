@@ -20,14 +20,14 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.tileCollide = false;
             projectile.ranged = true;
             projectile.penetrate = -1;
-            projectile.timeLeft = 300; //1200
+            projectile.timeLeft = 240; //1200
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 5;
+			projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
         {
-			float num1125 = 225f; //900
+			float num1125 = 165f; //900
 			if (projectile.soundDelay == 0)
 			{
 				projectile.soundDelay = -1;

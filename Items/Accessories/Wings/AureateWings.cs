@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -16,7 +17,8 @@ namespace CalamityMod.Items.Accessories.Wings
 				"Horizontal speed: 8\n" +
 				"Acceleration multiplier: 1.5\n" +
 				"Good vertical speed\n" +
-				"Flight time: 80");
+				"Flight time: 80\n" +
+				"15% increased movement speed while wearing the Reaver Armor");
 		}
 
 		public override void SetDefaults()
@@ -90,6 +92,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+
+			if (modPlayer.reaverDoubleTap || modPlayer.reaverBurst || modPlayer.reaverOrb || modPlayer.reaverBlast || modPlayer.reaverSpore)
+			{
+				player.moveSpeed += 0.15f;
+			}
+
 			ascentWhenFalling = 0.75f;
 			ascentWhenRising = 0.15f;
 			maxCanAscendMultiplier = 1f;

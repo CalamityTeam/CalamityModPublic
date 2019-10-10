@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items.Fishing
 {
     public class UrsaSergeant : ModItem
     {

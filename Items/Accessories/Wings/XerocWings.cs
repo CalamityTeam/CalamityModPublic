@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
@@ -16,7 +17,8 @@ namespace CalamityMod.Items.Accessories.Wings
 				"Horizontal speed: 8.5\n" +
 				"Acceleration multiplier: 2\n" +
 				"Good vertical speed\n" +
-				"Flight time: 180");
+				"Flight time: 180\n" +
+				"5% increased rogue damage and critical strike chance while wearing the Xeroc Armor");
 		}
 
 		public override void SetDefaults()
@@ -52,6 +54,14 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
+			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+
+			if (modPlayer.xerocSet)
+			{
+				player.GetCalamityPlayer().throwingDamage += 0.05f;
+				player.GetCalamityPlayer().throwingCrit += 5;
+			}
+
 			ascentWhenFalling = 0.75f;
 			ascentWhenRising = 0.15f;
 			maxCanAscendMultiplier = 1f;
