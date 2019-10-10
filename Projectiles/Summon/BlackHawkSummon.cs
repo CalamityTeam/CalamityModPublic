@@ -66,8 +66,8 @@ namespace CalamityMod.Projectiles.Summon
         {
         	if (projectile.localAI[0] == 0f)
         	{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				int num226 = 36;
 				for (int num227 = 0; num227 < num226; num227++)
 				{
@@ -80,10 +80,10 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				projectile.localAI[0] += 1f;
         	}
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
 			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+					projectile.Calamity().spawnedPlayerMinionDamageValue) *
 					Main.player[projectile.owner].minionDamage);
 				projectile.damage = damage2;
 			}

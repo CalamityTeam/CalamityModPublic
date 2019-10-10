@@ -33,7 +33,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 4;
 			item.shoot = mod.ProjectileType("BlastBarrelProjectile");
 			item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -42,8 +42,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
             //unitY additive is do it doesn't exploe initially
             int p = Projectile.NewProjectile(position - Vector2.UnitY * 12f, initialVelocity, type,damage,knockBack,player.whoAmI);
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+            if (player.Calamity().StealthStrikeAvailable())
+                Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }
     }

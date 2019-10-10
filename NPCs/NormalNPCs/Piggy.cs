@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur || spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea)
+			if (spawnInfo.player.Calamity().ZoneSulphur || spawnInfo.player.Calamity().ZoneSunkenSea)
 			{
 				return 0f;
 			}

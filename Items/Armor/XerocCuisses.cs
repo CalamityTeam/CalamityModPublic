@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.GetCalamityPlayer().throwingCrit += 5;
-            player.GetCalamityPlayer().throwingDamage += 0.05f;
+            player.Calamity().throwingCrit += 5;
+            player.Calamity().throwingDamage += 0.05f;
             player.moveSpeed += 0.2f;
         }
 

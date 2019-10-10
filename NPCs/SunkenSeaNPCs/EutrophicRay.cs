@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.width = 116;
 			npc.height = 36;
 			npc.defense = Main.hardMode ? 15 : 5;
-            npc.GetCalamityNPC().RevPlusDR(0.05f);
+            npc.Calamity().RevPlusDR(0.05f);
 			npc.lifeMax = Main.hardMode ? 500 : 150;
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea && spawnInfo.water && !spawnInfo.player.GetCalamityPlayer().clamity)
+			if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && !spawnInfo.player.Calamity().clamity)
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}

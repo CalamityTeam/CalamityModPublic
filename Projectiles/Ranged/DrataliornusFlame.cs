@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector3 = projectile.Center + new Vector2(600, 0).RotatedBy(MathHelper.ToRadians(Main.rand.Next(360)));
                     Vector2 speed = projectile.Center - vector3;
                     speed /= 30f;
-                    Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, mod.ProjectileType<DrataliornusExoArrow>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+                    Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, DragonDust, projectile.damage / 3, projectile.knockBack * 2f, projectile.owner);
                 }

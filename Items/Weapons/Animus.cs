@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.height = 90;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+			item.Calamity().postMoonLordRarity = 16;
 		}
 
 		public override void AddRecipes()

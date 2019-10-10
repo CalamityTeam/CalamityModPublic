@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             	!spawnInfo.player.ZoneTowerVortex &&
             	!spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon &&
-				!spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea &&
+				!spawnInfo.player.Calamity().ZoneSunkenSea &&
 				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
         }
 

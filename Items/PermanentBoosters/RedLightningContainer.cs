@@ -26,12 +26,12 @@ namespace CalamityMod.Items.PermanentBoosters
 			item.UseSound = SoundID.Item122;
 			item.consumable = true;
 			item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (modPlayer.rageBoostThree)
 			{
 				return false;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.PermanentBoosters
 			if (player.itemAnimation > 0 && player.itemTime == 0)
 			{
 				player.itemTime = item.useTime;
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.rageBoostThree = true;
 			}
 			return true;

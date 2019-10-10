@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Providence
 			item.useStyle = 4;
 			item.consumable = true;
 			item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
 		public override bool CanUseItem(Player player)

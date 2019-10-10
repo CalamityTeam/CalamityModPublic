@@ -22,7 +22,7 @@ Stealth strikes are super fast and pierce infinitely");
         {
             item.damage = BaseDamage;
             item.crit = 4;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+            item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.width = 1;
@@ -43,7 +43,7 @@ Stealth strikes are super fast and pierce infinitely");
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float ai1 = 0f;
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
             {
                 speedX *= StealthSpeedMult;
                 speedY *= StealthSpeedMult;
@@ -51,8 +51,8 @@ Stealth strikes are super fast and pierce infinitely");
             }
 
             int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, ai1);
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+            if (player.Calamity().StealthStrikeAvailable())
+                Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }
 

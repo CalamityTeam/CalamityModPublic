@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("BlushieStaffProj");
 			item.mana = 200;
 			item.shootSpeed = 0f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 19;
+			item.Calamity().postMoonLordRarity = 19;
 		}
 
 	    public override void AddRecipes()

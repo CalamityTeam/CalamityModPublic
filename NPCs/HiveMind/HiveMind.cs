@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.HiveMind
 							int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
 							int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
 							int num663 = mod.NPCType("HiveBlob");
-							if (Main.rand.NextBool(3) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (Main.rand.NextBool(3) || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							{
 								num663 = mod.NPCType("DankCreeper");
 							}

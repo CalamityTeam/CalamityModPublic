@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Patreon
 			item.shoot = mod.ProjectileType("KelvinCatalyst");
 			item.shootSpeed = 8f;
 			item.melee = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

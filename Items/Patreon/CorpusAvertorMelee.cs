@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Patreon
 			item.autoReuse = true;
 			item.value = Item.buyPrice(0, 80, 0, 0);
 			item.rare = 8;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 			item.shoot = mod.ProjectileType("CorpusAvertor");
 			item.shootSpeed = 5f;
 			item.melee = true;

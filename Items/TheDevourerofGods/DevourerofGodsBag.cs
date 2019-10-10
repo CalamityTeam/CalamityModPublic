@@ -62,7 +62,7 @@ namespace CalamityMod.Items.TheDevourerofGods
 
 			// Equipment
 			DropHelper.DropItem(player, mod.ItemType("NebulousCore"));
-			bool vodka = player.GetCalamityPlayer().fabsolVodka;
+			bool vodka = player.Calamity().fabsolVodka;
 			DropHelper.DropItemCondition(player, mod.ItemType("Fabsol"), CalamityWorld.revenge && vodka);
 
 			// Vanity

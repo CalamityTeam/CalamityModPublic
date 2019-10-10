@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.aiStyle = 113;
 			projectile.timeLeft = 600;
 			aiType = 598;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()

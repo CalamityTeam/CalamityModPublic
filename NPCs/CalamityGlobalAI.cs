@@ -538,7 +538,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Eye of Cthulhu AI
 		public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			float num5 = 20f;
 
@@ -1355,7 +1355,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Eater of Worlds AI
 		public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// Total body segments
@@ -2474,7 +2474,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Queen Bee AI
 		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Increase bee spawn rate during bee spawning phase based on number of players near the boss
 			int playerNearBoss = 0;
@@ -3032,7 +3032,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Skeletron AI
 		public static bool BuffedSkeletronAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// Percent life remaining
@@ -3702,7 +3702,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Wall of Flesh AI
 		public static bool BuffedWallofFleshAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// Despawn
@@ -4076,7 +4076,7 @@ namespace CalamityMod.NPCs
 
 		public static bool BuffedWallofFleshEyeAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// Despawn
@@ -4205,7 +4205,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Destroyer AI
 		public static bool BuffedDestroyerAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// 8 seconds of reistance to prevent spawn killing
@@ -4690,7 +4690,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Twins AI
 		public static bool BuffedRetinazerAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// Enrage variable if player is floating upside down
@@ -5376,7 +5376,7 @@ namespace CalamityMod.NPCs
 
 		public static bool BuffedSpazmatismAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// Enrage variable if player is floating upside down
@@ -6125,7 +6125,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Skeletron Prime AI
 		public static bool BuffedSkeletronPrimeAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool configBossRushBoost = Config.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
 			// Enrage variable if player is floating upside down
@@ -7808,7 +7808,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Plantera AI
 		public static bool BuffedPlanteraAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Percent life remaining
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
@@ -9183,7 +9183,7 @@ namespace CalamityMod.NPCs
 
 		public static bool BuffedGolemHeadFreeAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Die if body is gone
 			if (NPC.golemBoss < 0)
@@ -9461,7 +9461,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Duke Fishron AI
 		public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Variables
 			float num = 0.6f * Main.damageMultiplier;
@@ -10512,7 +10512,7 @@ namespace CalamityMod.NPCs
 		#region Buffed Cultist AI
 		public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod)
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Set contact damage to 0
 			npc.damage = (npc.defDamage = 0);
@@ -11785,11 +11785,11 @@ namespace CalamityMod.NPCs
 
 						// Take damage if other parts are down
 						bool flag85 = true;
-						if (Main.npc[(int)npc.localAI[0]].GetGlobalNPC<CalamityGlobalNPC>(mod).newAI[0] != 1f)
+						if (Main.npc[(int)npc.localAI[0]].Calamity().newAI[0] != 1f)
 							flag85 = false;
-						if (Main.npc[(int)npc.localAI[1]].GetGlobalNPC<CalamityGlobalNPC>(mod).newAI[0] != 1f)
+						if (Main.npc[(int)npc.localAI[1]].Calamity().newAI[0] != 1f)
 							flag85 = false;
-						if (Main.npc[(int)npc.localAI[2]].GetGlobalNPC<CalamityGlobalNPC>(mod).newAI[0] != 1f)
+						if (Main.npc[(int)npc.localAI[2]].Calamity().newAI[0] != 1f)
 							flag85 = false;
 
 						if (flag85)
@@ -11801,7 +11801,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 
-				// Fly near target, take damage 
+				// Fly near target, take damage
 				else if (npc.ai[0] == 1f)
 				{
 					npc.dontTakeDamage = false;
@@ -12067,7 +12067,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.MoonLordHead)
 			{
-				CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+				CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 				// Despawn
 				if (!Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != NPCID.MoonLordCore)
@@ -12354,7 +12354,7 @@ namespace CalamityMod.NPCs
 			}
 			else if (npc.type == NPCID.MoonLordHand)
 			{
-				CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+				CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 				// Start attack array
 				NPC.InitializeMoonLordAttacks();

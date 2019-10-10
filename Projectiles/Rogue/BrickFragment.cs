@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.width = 13;
             projectile.height = 13;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
         public override void AI()
         {

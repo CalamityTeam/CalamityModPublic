@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).silvaStun = true;
+			npc.Calamity().silvaStun = true;
 		}
 	}
 }

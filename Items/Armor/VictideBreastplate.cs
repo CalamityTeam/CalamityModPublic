@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
             player.endurance += 0.05f;
             player.meleeCrit += 5;
             player.rangedCrit += 5;
-            player.GetCalamityPlayer().throwingCrit += 5;
+            player.Calamity().throwingCrit += 5;
             player.magicCrit += 5;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {

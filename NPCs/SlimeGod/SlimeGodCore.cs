@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-                    npc.localAI[1] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
+                    npc.localAI[1] += ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
                     if (expertMode && Main.rand.NextBool(2))
                     {
                         if (npc.localAI[0] >= 75f)
@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || player.gravDir == -1f || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.Calamity().enraged || player.gravDir == -1f || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num1372 += 8f;
             }
@@ -347,7 +347,7 @@ namespace CalamityMod.NPCs.SlimeGod
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
             // Purified Jam is once per player, but drops for all players.
-            CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].GetCalamityPlayer();
+            CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
                 DropHelper.DropItemCondition(npc, mod.ItemType("PurifiedJam"), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);

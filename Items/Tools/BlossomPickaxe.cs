@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Tools
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.tileBoost += 6;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override void AddRecipes()

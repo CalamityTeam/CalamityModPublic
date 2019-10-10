@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("WhiteFlame");
 	        item.shootSpeed = 30f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+			item.Calamity().postMoonLordRarity = 16;
 		}
 
 	    public override void AddRecipes()

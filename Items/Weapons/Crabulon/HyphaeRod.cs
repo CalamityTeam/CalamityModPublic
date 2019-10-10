@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Crabulon
 				float speedX4 = num78 + (float)Main.rand.Next(-180, 181) * 0.02f;
 				float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
 				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, i, 0f, (float)Main.rand.Next(3));
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
+				Main.projectile[proj].Calamity().forceMagic = true;
 			}
 	    	return false;
 		}

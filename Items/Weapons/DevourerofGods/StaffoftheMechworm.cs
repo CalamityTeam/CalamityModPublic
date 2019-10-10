@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 			item.shoot = mod.ProjectileType("MechwormHead");
 			item.shootSpeed = 10f;
 			item.summon = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override bool CanUseItem(Player player)

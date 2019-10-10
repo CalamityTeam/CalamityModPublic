@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("VenusianBolt");
             item.shootSpeed = 19f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override void AddRecipes()

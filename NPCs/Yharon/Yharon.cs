@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Yharon
 			npc.buffImmune[mod.BuffType("DemonFlames")] = false;
 			npc.buffImmune[mod.BuffType("Shred")] = false;
 
-            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            CalamityGlobalNPC global = npc.Calamity();
             global.DR = Phase1_DR;
             global.customDR = true;
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
@@ -228,7 +228,7 @@ namespace CalamityMod.NPCs.Yharon
 			int aiChangeRate = expertMode ? 36 : 38;
 			float npcVelocity = expertMode ? 0.7f : 0.69f;
 			float scaleFactor = expertMode ? 11f : 10.8f;
-			if (phase4Change || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (phase4Change || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
 				npcVelocity = 0.95f;
 				scaleFactor = 14f;
@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.Yharon
 			int chargeTime2 = expertMode ? 34 : 36;
 			float chargeSpeed = expertMode ? 22f : 20.5f;
 			float chargeSpeed2 = expertMode ? 37f : 34f;
-			if (phase4Change || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (phase4Change || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
 				chargeTime = 28;
 				chargeSpeed = 31f;
@@ -354,7 +354,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
             // Set DR based on protection boost (aka enrage)
-            npc.GetCalamityNPC().DR = protectionBoost ? EnragedDR : Phase1_DR;
+            npc.Calamity().DR = protectionBoost ? EnragedDR : Phase1_DR;
 
 			// Trigger spawn effects
 			if (npc.localAI[0] == 0f)
@@ -1899,7 +1899,7 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
             // Set DR based on protection boost (aka enrage)
-            npc.GetCalamityNPC().DR = protectionBoost ? EnragedDR : Phase2_DR;
+            npc.Calamity().DR = protectionBoost ? EnragedDR : Phase2_DR;
 
             int num = -1;
 			float num2 = 1f;
@@ -1936,7 +1936,7 @@ namespace CalamityMod.NPCs.Yharon
 				scaleFactor4 = 16.5f;
 				scaleFactor5 = 39f;
 			}
-			if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
 				num6 = 0.65f;
 				scaleFactor = 11f;

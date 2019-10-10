@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 
 			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float projectileSpeed = CalamityWorld.bossRushActive ? 7f : 5f;
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							projectileSpeed += 4f;
 						if (revenge)
 							projectileSpeed += 1f;
@@ -382,7 +382,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[0] += 1f + 2f * (1f - lifeRatio);
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						npc.localAI[0] += 2f;
 					if (CalamityWorld.death || !calamity)
 						npc.localAI[0] += 1f;

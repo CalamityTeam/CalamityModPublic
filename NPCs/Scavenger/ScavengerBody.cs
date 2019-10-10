@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.width = 332;
 			npc.height = 214;
 			npc.defense = 55;
-            npc.GetCalamityNPC().RevPlusDR(0.4f);
+            npc.Calamity().RevPlusDR(0.4f);
             npc.lifeMax = CalamityWorld.revenge ? 53500 : 42700;
 			if (CalamityWorld.death)
 			{
@@ -382,11 +382,11 @@ namespace CalamityMod.NPCs.Scavenger
 					npc.ai[1] += 1f;
 					if (npc.ai[1] > 0f)
 					{
-						if ((!rightClawActive && !leftClawActive) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if ((!rightClawActive && !leftClawActive) || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							npc.ai[1] += 1f;
-						if (!headActive || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (!headActive || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							npc.ai[1] += 1f;
-						if ((!rightLegActive && !leftLegActive) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if ((!rightLegActive && !leftLegActive) || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							npc.ai[1] += 1f;
 					}
 
@@ -396,7 +396,7 @@ namespace CalamityMod.NPCs.Scavenger
 					{
 						npc.TargetClosest(true);
 
-						float velocityX = ((enrage || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
+						float velocityX = ((enrage || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + (4f * (1f - lifeRatio));
 						npc.velocity.X = velocityX * (float)npc.direction;
 
 						if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
@@ -480,7 +480,7 @@ namespace CalamityMod.NPCs.Scavenger
 							npc.velocity.X = npc.velocity.X + 0.2f;
 
 						float velocityX = 3f + (4f * (1f - lifeRatio));
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							velocityX += 3f;
 						if (!rightClawActive)
 							velocityX += 1f;

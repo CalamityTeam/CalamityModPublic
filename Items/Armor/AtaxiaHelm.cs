@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor
                 "Inferno effect when below 50% life\n" +
                 "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
             player.meleeDamage += 0.05f;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaFire = true;
 			player.meleeSpeed += 0.12f;
 			player.moveSpeed += 0.12f;

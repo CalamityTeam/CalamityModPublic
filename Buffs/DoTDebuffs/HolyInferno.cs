@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().hInferno = true;
+			player.Calamity().hInferno = true;
 		}
 	}
 }

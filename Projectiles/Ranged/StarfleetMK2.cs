@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Ranged
 						int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
 						Main.projectile[star].penetrate = 1;
 						Main.projectile[star].timeLeft = 300;
-						Main.projectile[star].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+						Main.projectile[star].Calamity().forceRanged = true;
 						Main.projectile[star].netUpdate = true;
                         projectile.netUpdate = true;
                     }

@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Shrines
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().crimEffigy = true;
+			player.Calamity().crimEffigy = true;
 		}
 	}
 }

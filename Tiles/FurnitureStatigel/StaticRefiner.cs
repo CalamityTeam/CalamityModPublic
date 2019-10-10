@@ -126,7 +126,7 @@ namespace CalamityMod.Tiles.FurnitureStatigel
 	//	public override void SetDefaults()
 	//	{
 	//		item.CloneDefaults(ItemID.FireflyinaBottle);
-	//		item.createTile = mod.TileType<ExampleAnimatedTileTile>();
+	//		item.createTile = ModContent.TileType<ExampleAnimatedTileTile>();
 	//	}
 	//}
 }

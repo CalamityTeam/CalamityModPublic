@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 32;
 			npc.height = 32;
 			npc.defense = 15;
-            npc.GetCalamityNPC().RevPlusDR(0.05f);
+            npc.Calamity().RevPlusDR(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
 			npc.knockBackResist = 0f;

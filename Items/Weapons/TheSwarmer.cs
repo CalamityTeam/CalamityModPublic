@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons
                 float SpeedY = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
                 int wasps = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, 0f, player.whoAmI, 0f, 0f);
                 Main.projectile[wasps].penetrate = 1;
-				Main.projectile[wasps].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
+				Main.projectile[wasps].Calamity().forceMagic = true;
 			}
             for (int i = 0; i <= 3; i++)
             {
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons
                 float SpeedY2 = speedY + (float)Main.rand.Next(-35, 36) * 0.05f;
                 int bees = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, player.beeType(), player.beeDamage(item.damage), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bees].penetrate = 1;
-				Main.projectile[bees].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
+				Main.projectile[bees].Calamity().forceMagic = true;
 			}
             return false;
         }

@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Armor
 			item.height = 18;
 			item.value = Item.buyPrice(5, 0, 0, 0);
 			item.defense = 50; //15
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+			item.Calamity().postMoonLordRarity = 16;
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 				"A friendly red devil follows you around\n" +
 				"Press Y to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
 				"This makes them do 25% more damage but they also take 125% more damage";
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.dsSetBonus = true;
             modPlayer.wearingRogueArmor = true;
 			if (player.whoAmI == Main.myPlayer && !modPlayer.chibii)

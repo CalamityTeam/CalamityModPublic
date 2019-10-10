@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 10f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

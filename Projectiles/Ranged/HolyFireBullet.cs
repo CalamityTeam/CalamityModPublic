@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Ranged
         	if (projectile.owner == Main.myPlayer)
         	{
         		int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), (int)((double)projectile.damage * 0.85), projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+				Main.projectile[proj].Calamity().forceRanged = true;
 			}
             for (int k = 0; k < 10; k++)
             {

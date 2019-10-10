@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Yharon
 			item.useTime = 45;
 			item.useStyle = 4;
 			item.consumable = false;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
 		public override bool CanUseItem(Player player)

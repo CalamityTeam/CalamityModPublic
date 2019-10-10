@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Armor
                 "Inferno effect when below 50% life\n" +
                 "You have a 50% chance to fire a homing chaos flare when using ranged weapons\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaBolt = true;
             player.rangedDamage += 0.05f;

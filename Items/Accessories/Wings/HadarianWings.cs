@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 
 			if (modPlayer.astralStarRain)
 			{

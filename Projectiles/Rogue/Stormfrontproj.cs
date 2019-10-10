@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 5;
             projectile.timeLeft = 300;
             projectile.extraUpdates = 1;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()

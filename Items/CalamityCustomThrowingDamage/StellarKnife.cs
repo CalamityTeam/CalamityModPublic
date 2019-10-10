@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.rare = 7;
 			item.shoot = mod.ProjectileType("StellarKnife");
 			item.shootSpeed = 10f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 	}
 }

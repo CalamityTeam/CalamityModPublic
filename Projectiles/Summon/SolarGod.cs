@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
         	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
 			bool flag64 = projectile.type == mod.ProjectileType("SolarGod");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			player.AddBuff(mod.BuffType("SolarSpiritGod"), 3600);
 			if (flag64)
 			{
@@ -67,8 +67,8 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.scale = num395 + 0.95f;
 			if (projectile.localAI[0] == 0f)
         	{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				int num501 = 50;
 				for (int num502 = 0; num502 < num501; num502++)
 				{
@@ -78,10 +78,10 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				projectile.localAI[0] += 1f;
         	}
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
 			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+					projectile.Calamity().spawnedPlayerMinionDamageValue) *
 					Main.player[projectile.owner].minionDamage);
 				projectile.damage = damage2;
 			}

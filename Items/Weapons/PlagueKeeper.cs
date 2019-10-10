@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("PlagueBeeDust");
             item.shootSpeed = 9f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override void AddRecipes()
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
                     player.beeDamage(item.damage / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bee].penetrate = 1;
-				Main.projectile[bee].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Main.projectile[bee].Calamity().forceMelee = true;
 			}
         }
     }

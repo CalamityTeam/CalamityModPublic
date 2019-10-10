@@ -23,12 +23,12 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
 			item.value = Item.buyPrice(0, 60, 0, 0);
 			item.defense = 41;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.godSlayerReflect = true;
             player.thorns += 0.5f;
             player.statLifeMax2 += 60;

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
 			if (projectile.ai[0] == 2f)
 			{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+				projectile.Calamity().rogue = true;
 			}
         	int randomToSubtract = Main.rand.Next(1, 3);
         	noTileHitCounter -= randomToSubtract;

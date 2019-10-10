@@ -37,9 +37,9 @@ namespace CalamityMod.Projectiles.Ranged
 
 			// Force damage type based on AI variable (this is outdated code and the weapons themselves should set the force variables)
 			if (projectile.ai[0] == 1f)
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				projectile.Calamity().forceMelee = true;
 			else if (projectile.ai[0] == 2f)
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+				projectile.Calamity().forceRogue = true;
 
 			if (projectile.alpha > 0)
 			{

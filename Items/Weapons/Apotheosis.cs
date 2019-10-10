@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("ApothMark");
             item.shootSpeed = 15;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+			item.Calamity().postMoonLordRarity = 16;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

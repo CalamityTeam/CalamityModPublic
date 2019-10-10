@@ -32,15 +32,15 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.consumable = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+            item.Calamity().rogue = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             //Check if stealth is full
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Brick"), item.damage, item.knockBack, player.whoAmI, 1);
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

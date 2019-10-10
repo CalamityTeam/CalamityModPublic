@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("FabRay");
 	        item.shootSpeed = 6f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 18;
+			item.Calamity().postMoonLordRarity = 18;
 		}
 
 	    public override void AddRecipes()

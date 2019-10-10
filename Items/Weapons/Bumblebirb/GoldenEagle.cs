@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
 			item.shoot = 10;
 			item.shootSpeed = 20f;
 			item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override Vector2? HoldoutOffset()

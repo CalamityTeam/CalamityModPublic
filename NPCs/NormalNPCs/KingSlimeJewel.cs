@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 					Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 
 					int proj = Projectile.NewProjectile(vector62.X, vector62.Y, num506, num507, num511, num510, 0f, Main.myPlayer, 0f, 0f);
-					Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceHostile = true;
+					Main.projectile[proj].Calamity().forceHostile = true;
 				}
 			}
 		}

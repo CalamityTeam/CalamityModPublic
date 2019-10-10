@@ -22,13 +22,13 @@ namespace CalamityMod.Items.Providence
             item.height = 32;
             item.value = Item.buyPrice(0, 45, 0, 0);
 			item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 			item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             player.moveSpeed += 0.4f;
             player.lavaMax += 240;
             player.wingTimeMax = 180;

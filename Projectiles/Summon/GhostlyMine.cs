@@ -33,16 +33,16 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			if (start)
 			{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				Main.PlaySound(SoundID.Item20, projectile.position);
                 projectile.ai[1] = projectile.ai[0];
                 start = false;
 			}
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
 			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+					projectile.Calamity().spawnedPlayerMinionDamageValue) *
 					Main.player[projectile.owner].minionDamage);
 				projectile.damage = damage2;
 			}

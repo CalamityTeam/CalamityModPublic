@@ -11,7 +11,7 @@ namespace CalamityMod.Buffs
         {
             if (type == BuffID.Shine)
             {
-                player.GetCalamityPlayer().shine = true;
+                player.Calamity().shine = true;
             }
             else if (type == BuffID.IceBarrier)
             {
@@ -23,11 +23,11 @@ namespace CalamityMod.Buffs
 			}
 			else if (type == BuffID.Rage)
             {
-                player.GetCalamityPlayer().throwingCrit += 10;
+                player.Calamity().throwingCrit += 10;
             }
             else if (type == BuffID.WellFed)
             {
-                player.GetCalamityPlayer().throwingCrit += 2;
+                player.Calamity().throwingCrit += 2;
             }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {

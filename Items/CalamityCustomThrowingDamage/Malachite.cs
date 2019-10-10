@@ -31,8 +31,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 8;
             item.shoot = mod.ProjectileType("Malachite");
 			item.shootSpeed = 10f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 17;
 		}
 
 		public override bool AltFunctionUse(Player player)

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 8;
             item.shootSpeed = 20f;
 			item.shoot = mod.ProjectileType("AsteroidMolten");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+			item.Calamity().postMoonLordRarity = 17;
 		}
 
 		public override bool AltFunctionUse(Player player)

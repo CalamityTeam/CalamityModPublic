@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.PetBuffs
 		public override void Update(Player player, ref int buffIndex)
 		{
             player.buffTime[buffIndex] = 18000;
-            player.GetCalamityPlayer().bearPet = true;
+            player.Calamity().bearPet = true;
             bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("Bear")] <= 0;
             if (petProjectileNotSpawned && player.whoAmI == Main.myPlayer)
             {

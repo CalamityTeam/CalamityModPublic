@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons
 			item.rare = 10;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("AzathothProjectile");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+			item.Calamity().postMoonLordRarity = 16;
 		}
 
 	    public override void AddRecipes()

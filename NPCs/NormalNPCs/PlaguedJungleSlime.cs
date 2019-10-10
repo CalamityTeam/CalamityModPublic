@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				spikeTimer -= 1f;
 			}
-			if (!npc.wet && !Main.player[npc.target].GetCalamityPlayer().royalGel)
+			if (!npc.wet && !Main.player[npc.target].Calamity().royalGel)
 			{
 				Vector2 vector3 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 				float num14 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector3.X;
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }

@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (dust > 0)
             {
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
@@ -53,10 +53,10 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust--;
             }
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
 			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+					projectile.Calamity().spawnedPlayerMinionDamageValue) *
 					Main.player[projectile.owner].minionDamage);
 				projectile.damage = damage2;
 			}
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
 			float num636 = 150f;
 			bool flag64 = projectile.type == mod.ProjectileType("IceClasper");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(mod.BuffType("IceClasper"), 3600);
             if (flag64)
 			{

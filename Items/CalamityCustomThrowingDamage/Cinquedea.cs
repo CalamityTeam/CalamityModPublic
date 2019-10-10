@@ -34,15 +34,15 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.shoot = mod.ProjectileType("CinquedeaProj");
             item.shootSpeed = Speed;
             item.value = Item.buyPrice(0, 9, 0, 0);
-            item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+            item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("CinquedeaProj"), damage, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

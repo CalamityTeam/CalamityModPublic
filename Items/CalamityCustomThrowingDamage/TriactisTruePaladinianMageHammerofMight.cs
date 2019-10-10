@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("TriactisOPHammer");
             item.shootSpeed = 25f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 16;
 		}
 
         public override void AddRecipes()

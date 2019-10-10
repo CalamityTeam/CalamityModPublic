@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			npc.width = 60;
 			npc.height = 60;
             npc.defense = 0;
-            npc.GetCalamityNPC().DR = normalDR;
+            npc.Calamity().DR = normalDR;
 			npc.lifeMax = 4000;
 			if (CalamityWorld.death)
 			{
@@ -103,7 +103,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			}
 
             // Set DR based on boost status
-            npc.GetCalamityNPC().DR = boostDR ? boostedDR : normalDR;
+            npc.Calamity().DR = boostDR ? boostedDR : normalDR;
 
 			float num1446 = goIntoShell ? 1f : (CalamityWorld.bossRushActive ? 12f : 6f);
 			int num1447 = 480;

@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 44;
 			npc.height = 22;
 			npc.defense = 20;
-            npc.GetCalamityNPC().RevPlusDR(0.1f);
+            npc.Calamity().RevPlusDR(0.1f);
 			npc.lifeMax = 80;
             npc.aiStyle = 3;
             aiType = 67;
@@ -87,8 +87,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetCalamityPlayer().ZoneAbyss ||
-				spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.Calamity().ZoneAbyss ||
+				spawnInfo.player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }

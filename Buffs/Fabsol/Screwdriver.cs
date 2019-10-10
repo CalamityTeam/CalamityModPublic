@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Fabsol
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().screwdriver = true;
+			player.Calamity().screwdriver = true;
 		}
 	}
 }

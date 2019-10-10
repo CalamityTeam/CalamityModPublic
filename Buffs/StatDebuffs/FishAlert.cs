@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().fishAlert = true;
+			player.Calamity().fishAlert = true;
 		}
 	}
 }

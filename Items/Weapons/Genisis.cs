@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shootSpeed = 6f;
 	        item.shoot = mod.ProjectileType("BigBeamofDeath");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override Vector2? HoldoutOffset()

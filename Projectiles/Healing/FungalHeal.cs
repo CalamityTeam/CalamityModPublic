@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Healing
 					!player.inventory[player.selectedItem].melee &&
 					!player.inventory[player.selectedItem].ranged &&
 					!player.inventory[player.selectedItem].magic &&
-					!player.inventory[player.selectedItem].GetGlobalItem<CalamityGlobalItem>(mod).rogue) ||
+					!player.inventory[player.selectedItem].Calamity().rogue) ||
 					player.inventory[player.selectedItem].hammer > 0 ||
 					player.inventory[player.selectedItem].pick > 0 ||
 					player.inventory[player.selectedItem].axe > 0)

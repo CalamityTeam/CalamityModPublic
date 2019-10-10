@@ -23,7 +23,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().rageMode = true;
+			player.Calamity().rageMode = true;
 		}
 
 		public override void ModifyBuffTip(ref string tip, ref int rare)

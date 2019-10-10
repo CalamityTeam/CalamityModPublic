@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
@@ -87,7 +87,7 @@ namespace CalamityMod.Items.Weapons
 				float num114 = num78;
 				float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
 				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)((double)((float)item.damage * player.meleeDamage) * 0.5), knockback, i, 0f, (float)Main.rand.Next(3));
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Main.projectile[proj].Calamity().forceMelee = true;
 			}
 		}
 

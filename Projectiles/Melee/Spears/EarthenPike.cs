@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 					}
 					int proj = Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
 						projectile.velocity.X * 1.25f, velocityY, mod.ProjectileType("FossilShard"), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
-					Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+					Main.projectile[proj].Calamity().forceMelee = true;
 				}
 			}
 			if (Main.player[projectile.owner].itemAnimation < Main.player[projectile.owner].itemAnimationMax / 3)

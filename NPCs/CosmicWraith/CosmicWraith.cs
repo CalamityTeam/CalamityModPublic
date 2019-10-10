@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 				{
 					speed = expertMode ? 16f : 14f;
 				}
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					speed += 3f;
 				}
@@ -365,7 +365,7 @@ namespace CalamityMod.NPCs.CosmicWraith
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						float num1070 = 15f; //changed from 10
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num1070 += 3f;
 						}

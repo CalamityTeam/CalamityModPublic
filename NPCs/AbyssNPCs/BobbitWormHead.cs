@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 80; //324
 			npc.height = 40; //216
 			npc.defense = 50;
-            npc.GetCalamityNPC().RevPlusDR(0.25f);
+            npc.Calamity().RevPlusDR(0.25f);
             npc.lifeMax = 10000;
 			npc.knockBackResist = 0f;
 			aiType = -1;
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 						npc.TargetClosest(true);
                         //if (npc.Center.Y + ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
                         //	Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 50f : 100f) > Main.player[npc.target].Center.Y &&
-                        if (npc.Center.Y + Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(100f, 50f) > Main.player[npc.target].Center.Y &&
+                        if (npc.Center.Y + Main.player[npc.target].Calamity().GetAbyssAggro(100f, 50f) > Main.player[npc.target].Center.Y &&
                             Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                         {
 							npc.ai[1] = 0f;

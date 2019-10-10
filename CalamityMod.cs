@@ -2328,7 +2328,7 @@ namespace CalamityMod
 			{
 				layers.Insert(index, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
 				{
-					if (Main.LocalPlayer.GetCalamityPlayer().drawBossHPBar)
+					if (Main.LocalPlayer.Calamity().drawBossHPBar)
 					{
 						BossHealthBarManager.Update();
 						BossHealthBarManager.Draw(Main.spriteBatch);

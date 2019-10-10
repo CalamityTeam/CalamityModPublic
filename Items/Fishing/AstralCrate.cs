@@ -52,13 +52,13 @@ namespace CalamityMod.Items.Fishing
 				mod.ItemType("HivePod"),
 				mod.ItemType("AstralScythe"),
 				mod.ItemType("StellarCannon"));
-			
+
 			//Bait
 			DropHelper.DropItemChance(player, mod.ItemType("Twinkler"), 5, 1, 3);
 			DropHelper.DropItemChance(player, ItemID.EnchantedNightcrawler, 5, 1, 3);
 			DropHelper.DropItemChance(player, mod.ItemType("ArcturusAstroidean"), 5, 1, 3);
 			DropHelper.DropItemChance(player, ItemID.Firefly, 3, 1, 3);
-				
+
 			//Potions
 			DropHelper.DropItemChance(player, ItemID.ObsidianSkinPotion, 10, 1, 3);
 			DropHelper.DropItemChance(player, ItemID.SwiftnessPotion, 10, 1, 3);
@@ -81,7 +81,7 @@ namespace CalamityMod.Items.Fishing
 				DropHelper.DropItemChance(player, mod.ItemType("AstralInjection"), 4, 1, 3);
 				DropHelper.DropItemChance(player, mod.ItemType("GravityNormalizerPotion"), 4, 1, 3);
 			}
-			
+
 			//Money
 			DropHelper.DropItem(player, ItemID.SilverCoin, 10, 90);
 			DropHelper.DropItemChance(player, ItemID.GoldCoin, 0.5f, 1, 5);

@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Patreon
 			if (projectile.ai[1] == 1f)
 			{
 				projectile.melee = false;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+				projectile.Calamity().rogue = true;
 			}
 
 			projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.02f;

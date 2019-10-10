@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.FiniteUse
 	        item.useAmmo = mod.ItemType("GrenadeRounds");
 			if (CalamityPlayer.areThereAnyDamnBosses)
 			{
-				item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed = 2;
+				item.Calamity().timesUsed = 2;
 			}
 		}
 
@@ -43,14 +43,14 @@ namespace CalamityMod.Items.Weapons.FiniteUse
 		{
 			if (CalamityPlayer.areThereAnyDamnBosses)
 			{
-				item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed = 2;
+				item.Calamity().timesUsed = 2;
 			}
 			return true;
 		}
 
 		public override bool CanUseItem(Player player)
 		{
-			return item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed < 2;
+			return item.Calamity().timesUsed < 2;
 		}
 
 		public override Vector2? HoldoutOffset()
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.FiniteUse
 		{
 			if (!CalamityPlayer.areThereAnyDamnBosses)
 			{
-				item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed = 0;
+				item.Calamity().timesUsed = 0;
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace CalamityMod.Items.Weapons.FiniteUse
 				{
 					if (player.inventory[i].type == item.type)
 					{
-						player.inventory[i].GetGlobalItem<CalamityGlobalItem>(mod).timesUsed++;
+						player.inventory[i].Calamity().timesUsed++;
 					}
 				}
 			}

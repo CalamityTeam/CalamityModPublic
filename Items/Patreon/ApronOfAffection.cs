@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Patreon
             item.width = 18;
             item.height = 18;
 			item.rare = 5;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 			item.value = Item.buyPrice(0, 15, 0, 0);
 			item.vanity = true;
 		}

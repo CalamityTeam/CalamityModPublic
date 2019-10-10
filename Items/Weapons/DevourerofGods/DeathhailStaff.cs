@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("MagicNebulaShot");
             item.shootSpeed = 18f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

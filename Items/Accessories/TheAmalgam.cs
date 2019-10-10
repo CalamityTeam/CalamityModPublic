@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fungalClump)
             {
                 return false;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aBrain = true;
             modPlayer.fungalClump = true;
             if (player.whoAmI == Main.myPlayer)

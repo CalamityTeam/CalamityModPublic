@@ -41,12 +41,12 @@ namespace CalamityMod.Projectiles.Patreon
 				if (!Main.player[projectile.owner].channel)
 				{
 					projectile.ai[1] = -1f;
-					projectile.damage = projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).defDamage;
+					projectile.damage = projectile.Calamity().defDamage;
 				}
 			}
 
 			if (projectile.ai[1] >= 255f)
-				projectile.damage = (int)((double)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).defDamage * 2.0);
+				projectile.damage = (int)((double)projectile.Calamity().defDamage * 2.0);
 
 			red = 64 + (int)(projectile.ai[1] * 0.75f);
 			if (red > 255)

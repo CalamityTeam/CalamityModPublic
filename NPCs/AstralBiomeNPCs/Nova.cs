@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.height = 50;
             npc.damage = 45;
             npc.defense = 15;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
             npc.lifeMax = 230;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.noGravity = true;

@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.width = 100;
 			npc.height = 100;
 			npc.defense = 10;
-            npc.GetCalamityNPC().RevPlusDR(0.5f);
+            npc.Calamity().RevPlusDR(0.5f);
             npc.lifeMax = 650;
 			if (CalamityWorld.bossRushActive)
             {

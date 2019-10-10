@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 13f;
 	        item.shoot = 10;
 	        item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override Vector2? HoldoutOffset()

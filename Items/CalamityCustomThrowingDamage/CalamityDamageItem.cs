@@ -24,13 +24,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 		// 5E-06 to prevent downrounding is not needed anymore, added by TML itself
 		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
-			add += player.GetCalamityPlayer().throwingDamage - 1f;
+			add += player.Calamity().throwingDamage - 1f;
 		}
 
 		// Calculates a rogue weapon's crit chance using the player's rogue crit chance.
 		public override void GetWeaponCrit(Player player, ref int crit)
 		{
-			crit = (item.crit + player.GetCalamityPlayer().throwingCrit);
+			crit = (item.crit + player.Calamity().throwingCrit);
 		}
 
 		// Not needed because the weapon is now internally thrown instead of ranged
@@ -62,12 +62,12 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
 		public override bool ConsumeItem(Player player)
 		{
-			if (player.GetCalamityPlayer().throwingAmmoCost50)
+			if (player.Calamity().throwingAmmoCost50)
 			{
 				if (Main.rand.Next(1, 101) > 50)
 					return false;
 			}
-			if (player.GetCalamityPlayer().throwingAmmoCost66)
+			if (player.Calamity().throwingAmmoCost66)
 			{
 				if (Main.rand.Next(1, 101) > 66)
 					return false;

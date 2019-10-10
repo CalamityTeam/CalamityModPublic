@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.shoot = mod.ProjectileType("Calamari");
             item.shootSpeed = 10f;
             item.summon = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
 		public override bool AltFunctionUse(Player player)

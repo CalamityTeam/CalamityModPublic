@@ -39,7 +39,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.knockBack = 7f;
             item.shoot = mod.ProjectileType("Stormfrontproj");
             item.shootSpeed = 7f;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+            item.Calamity().rogue = true;
         }
 
         public override void AddRecipes()
@@ -55,10 +55,10 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
             {
                 int p = Projectile.NewProjectile(position, new Vector2(speedX * 1.6f, speedY * 1.6f), mod.ProjectileType("Stormfrontproj"), damage, knockBack, player.whoAmI, 0, 40f);
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             else

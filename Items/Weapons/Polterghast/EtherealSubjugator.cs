@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.shoot = mod.ProjectileType("PhantomGuy");
             item.shootSpeed = 10f;
             item.summon = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

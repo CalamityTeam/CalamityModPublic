@@ -31,12 +31,12 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.shoot = mod.ProjectileType("KylieBoomerang");
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+            item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            CalamityPlayer p = Main.player[Main.myPlayer].GetCalamityPlayer();
+            CalamityPlayer p = Main.player[Main.myPlayer].Calamity();
             //If stealth is full, shoot a spread of 3 boomerangs with reduced range
             if(p.StealthStrikeAvailable())
             {
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
                 {
                     Vector2 perturbedspeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, mod.ProjectileType("Kylieproj"), item.damage, item.knockBack, player.whoAmI,0f,1f);
-                    Main.projectile[proj].GetCalamityProj().stealthStrike = true;
+                    Main.projectile[proj].Calamity().stealthStrike = true;
                     spread -= 10;
                 }
                 return false;

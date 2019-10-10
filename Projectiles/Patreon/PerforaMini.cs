@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Patreon
 				projectile.Kill();
 			}
 
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (player.dead)
 			{
 				modPlayer.perfmini = false;

@@ -24,12 +24,12 @@ namespace CalamityMod.Items.PermanentBoosters
 			item.UseSound = SoundID.Item4;
 			item.consumable = true;
 			item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
 		public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (modPlayer.dFruit || player.statLifeMax < 500)
 			{
 				return false;
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.PermanentBoosters
 				{
 					player.HealEffect(25);
 				}
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.dFruit = true;
 			}
 			return true;

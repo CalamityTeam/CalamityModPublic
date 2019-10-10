@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 			npc.width = 60; //324
 			npc.height = 40; //216
 			npc.defense = 40;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
 			npc.lifeMax = 60;
 			npc.knockBackResist = 0.65f;
 			npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			return spawnInfo.player.GetCalamityPlayer().ZoneCalamity ? 0.25f : 0f;
+			return spawnInfo.player.Calamity().ZoneCalamity ? 0.25f : 0f;
         }
 
 		public override void AI()

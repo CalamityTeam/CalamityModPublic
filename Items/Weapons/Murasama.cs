@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
 			item.rare = 10;
 			item.shoot = mod.ProjectileType("Murasama");
 			item.shootSpeed = 24f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+			item.Calamity().postMoonLordRarity = 15;
 		}
 
 		public override bool CanUseItem(Player player)

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.rare = 7;
 			item.shoot = mod.ProjectileType("HeavenfallenStardisk");
 			item.shootSpeed = 10f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

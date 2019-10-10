@@ -135,7 +135,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
 	//	public override void SetDefaults()
 	//	{
 	//		item.CloneDefaults(ItemID.FireflyinaBottle);
-	//		item.createTile = mod.TileType<ExampleAnimatedTileTile>();
+	//		item.createTile = ModContent.TileType<ExampleAnimatedTileTile>();
 	//	}
 	//}
 }

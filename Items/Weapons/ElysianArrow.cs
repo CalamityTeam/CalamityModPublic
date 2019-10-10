@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("ElysianArrow");
 			item.shootSpeed = 10f;
 			item.ammo = 40;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
 		public override void AddRecipes()

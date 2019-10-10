@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 0;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
+			projectile.Calamity().trueMelee = true;
 		}
 
         public override void AI()

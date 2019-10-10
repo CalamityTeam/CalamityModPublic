@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 80;
 			npc.height = 140;
 			npc.defense = 18;
-            npc.GetCalamityNPC().RevPlusDR(0.05f);
+            npc.Calamity().RevPlusDR(0.05f);
 			npc.lifeMax = 6000;
 			if (CalamityWorld.downedProvidence)
 			{

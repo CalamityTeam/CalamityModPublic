@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Patreon
 			item.UseSound = SoundID.Item102;
 			item.autoReuse = true;
 			item.rare = 8;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 			item.value = Item.buyPrice(0, 80, 0, 0);
 			item.shoot = mod.ProjectileType("KeelhaulBubble");
 			item.shootSpeed = 15f;

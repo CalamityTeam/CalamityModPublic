@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
 			item.UseSound = SoundID.Item34;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("HalleysComet");
 			item.shootSpeed = 14.6f;

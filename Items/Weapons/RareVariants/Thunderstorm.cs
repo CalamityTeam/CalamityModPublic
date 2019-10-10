@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			item.autoReuse = true;
 			item.shootSpeed = 6f;
 			item.shoot = mod.ProjectileType("ThunderstormShot");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
 		public override Vector2? HoldoutOffset()

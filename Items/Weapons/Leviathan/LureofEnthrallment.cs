@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.elementalHeart)
             {
                 return false;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
 
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-	    	CalamityPlayer modPlayer = player.GetCalamityPlayer();
+	    	CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.sirenWaifu = true;
 			if (player.whoAmI == Main.myPlayer)
 			{

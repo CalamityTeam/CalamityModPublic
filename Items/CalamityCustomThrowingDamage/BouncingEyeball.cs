@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.knockBack = 3.5f;
             item.rare = 1;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+            item.Calamity().rogue = true;
             item.noUseGraphic = true;
 			item.UseSound = SoundID.Item1;
             item.shoot = mod.ProjectileType("BouncingEyeballProjectile");
@@ -42,11 +42,11 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             {
                 knockBack *= 3f;
             }
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
             {
                 initialVelocity *= 2f;
                 int p = Projectile.NewProjectile(position, initialVelocity, mod.ProjectileType("BouncingEyeballProjectileStealthStrike"),damage,knockBack,player.whoAmI);
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                Main.projectile[p].Calamity().stealthStrike = true;
             }
             else
             {

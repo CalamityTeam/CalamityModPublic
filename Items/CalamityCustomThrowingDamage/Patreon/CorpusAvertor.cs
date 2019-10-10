@@ -26,17 +26,17 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 			item.autoReuse = true;
 			item.value = Item.buyPrice(0, 80, 0, 0);
 			item.rare = 8;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 			item.shoot = mod.ProjectileType("CorpusAvertor");
 			item.shootSpeed = 5f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 
 		// Gains 20% of missing health as base damage.
 		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
 			int lifeAmount = player.statLifeMax2 - player.statLife;
-			flat += lifeAmount * 0.2f * player.GetCalamityPlayer().throwingDamage;
+			flat += lifeAmount * 0.2f * player.Calamity().throwingDamage;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

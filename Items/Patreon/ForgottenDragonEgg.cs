@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Patreon
             item.shoot = mod.ProjectileType("Akato");
             item.buffType = mod.BuffType("AkatoYharonBuff");
 			item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
         public override void UseStyle(Player player)

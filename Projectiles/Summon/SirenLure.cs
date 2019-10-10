@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
         {
         	bool flag64 = projectile.type == mod.ProjectileType("SirenLure");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (!modPlayer.sirenWaifu && !modPlayer.allWaifus)
         	{
         		projectile.active = false;
@@ -57,8 +57,8 @@ namespace CalamityMod.Projectiles.Summon
 			}
         	if (dust > 0)
         	{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				int num501 = 50;
 				for (int num502 = 0; num502 < num501; num502++)
 				{
@@ -68,10 +68,10 @@ namespace CalamityMod.Projectiles.Summon
 				}
                 dust--;
             }
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
 			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+					projectile.Calamity().spawnedPlayerMinionDamageValue) *
 					Main.player[projectile.owner].minionDamage);
 				projectile.damage = damage2;
 			}

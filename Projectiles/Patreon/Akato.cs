@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Patreon
                 projectile.active = false;
                 return;
             }
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
                 modPlayer.akato = false;

@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur && spawnInfo.water)
+			if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water)
 			{
 				if (!NPC.AnyNPCs(mod.NPCType("AquaticSeekerHead")))
 					return 0.01f;

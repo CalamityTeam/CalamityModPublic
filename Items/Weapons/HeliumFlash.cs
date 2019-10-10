@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item73;
 
             item.rare = 10;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+            item.Calamity().postMoonLordRarity = 14;
             item.value = Item.buyPrice(1, 80, 0, 0);
 
             item.shoot = mod.ProjectileType("VolatileStarcore");

@@ -143,7 +143,7 @@ namespace CalamityMod.Items.Mounts
 									tile.type != TileID.GreenDungeonBrick && tile.type != TileID.PinkDungeonBrick && tile.type != TileID.DemonAltar &&
 									(tile.type != (ushort)mod.TileType("AstralOre") || CalamityWorld.downedStarGod) &&
 									((tile.type != (ushort)mod.TileType("Tenebris") && tile.type != (ushort)mod.TileType("PlantyMush")) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
-									(!player.GetCalamityPlayer().ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
+									(!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
 									(Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
 									!player.noBuilding && tile.type != TileID.ElderCrystalStand && tile.type != TileID.Containers)
 								{

@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Summon
 				runCheck = false;
 				playerMinionSlots = player9.maxMinions;
 			}
-			CalamityPlayer modPlayer = player9.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player9.Calamity();
 			player9.AddBuff(mod.BuffType("Mechworm"), 3600);
 			if ((int)Main.time % 120 == 0)
 			{

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			item.height = 60;
 			item.value = Item.buyPrice(0, 4, 0, 0);
 			item.rare = 3;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)

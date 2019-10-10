@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 300;
 			projectile.localNPCHitCooldown = 15;
 			projectile.tileCollide = false;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()

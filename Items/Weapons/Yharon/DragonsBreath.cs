@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.shoot = 10;
             item.shootSpeed = 12f;
             item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
 		public override Vector2? HoldoutOffset()

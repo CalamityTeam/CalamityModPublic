@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 180;
 			npc.height = 180;
 			npc.defense = 50;
-            npc.GetCalamityNPC().RevPlusDR(0.05f);
+            npc.Calamity().RevPlusDR(0.05f);
 			npc.lifeMax = 220000;
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     //(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
                     //Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 300f) *
                     //(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f)) ||
-                    (Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(300f, 150f)) ||
+                    (Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(300f, 150f)) ||
                     npc.justHit)
 				{
 					hasBeenHit = true;
@@ -534,7 +534,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("ColossalSquid")))
+			if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("ColossalSquid")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}

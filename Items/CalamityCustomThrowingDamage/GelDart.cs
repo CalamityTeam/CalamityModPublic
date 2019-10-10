@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 4;
             item.shoot = mod.ProjectileType("GelDartProjectile");
             item.shootSpeed = 14f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 
         public override void AddRecipes()

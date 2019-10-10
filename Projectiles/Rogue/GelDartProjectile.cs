@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 2;
             projectile.timeLeft = 600;
             aiType = 48;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)

@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.width = 850;
 			npc.height = 450;
 			npc.defense = 40;
-            npc.GetCalamityNPC().RevPlusDR(0.35f);
+            npc.Calamity().RevPlusDR(0.35f);
             npc.lifeMax = CalamityWorld.revenge ? 90700 : 69000;
 			if (CalamityWorld.death)
 			{
@@ -255,7 +255,7 @@ namespace CalamityMod.NPCs.Leviathan
 									num418 = sirenAlive ? 14f : 17f;
 									num419 = 33;
 								}
-								if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 								{
 									num418 = 22f;
 								}
@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs.Leviathan
 							{
 								num1044 += 2f;
 							}
-							if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+							if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							{
 								num1044 += 4f;
 							}
@@ -462,7 +462,7 @@ namespace CalamityMod.NPCs.Leviathan
 							num1048 += 2f;
 							num1049 += 0.1f;
 						}
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							num1048 += 3f;
 							num1049 += 0.2f;

@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverBurst = true;
             player.setBonus = "5% increased magic damage\n" +
                 "Your magic projectiles emit a burst of spore gas on enemy hits";

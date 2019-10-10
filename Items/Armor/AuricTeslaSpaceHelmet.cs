@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
 			item.value = Item.buyPrice(1, 80, 0, 0);
 			item.defense = 12; //132
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+			item.Calamity().postMoonLordRarity = 20;
 		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "+1 max minion and 120% increased minion damage";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
             modPlayer.bloodflareSet = true;
@@ -197,7 +197,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.auricBoost = true;
             player.maxMinions += 7;
         }

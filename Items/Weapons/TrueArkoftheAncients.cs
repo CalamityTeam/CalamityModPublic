@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons
 				float speedX4 = num78 + (float)Main.rand.Next(-160, 161) * 0.02f;
 				float speedY5 = num79 + (float)Main.rand.Next(-160, 161) * 0.02f;
 				int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 92, damage / 3, num74, i, 0f, (float)Main.rand.Next(10));
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Main.projectile[proj].Calamity().forceMelee = true;
 				Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, mod.ProjectileType("TerraBall"), damage / 3, num74, i, 0f, (float)Main.rand.Next(5));
 			}
 			return false;

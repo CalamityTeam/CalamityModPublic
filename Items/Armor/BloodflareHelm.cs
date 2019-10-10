@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
 			item.value = Item.buyPrice(0, 60, 0, 0);
 			item.defense = 28; //85
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareThrowing = true;
 			modPlayer.rogueStealthMax = 1.35f;
@@ -59,8 +59,8 @@ namespace CalamityMod.Items.Armor
         {
 			player.lavaMax += 240;
 			player.ignoreWater = true;
-            player.GetCalamityPlayer().throwingDamage += 0.1f;
-            player.GetCalamityPlayer().throwingCrit += 10;
+            player.Calamity().throwingDamage += 0.1f;
+            player.Calamity().throwingCrit += 10;
 			player.moveSpeed += 0.15f;
         }
 

@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
 			item.rare = 9;
 			item.shoot = mod.ProjectileType("Quasar");
 			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

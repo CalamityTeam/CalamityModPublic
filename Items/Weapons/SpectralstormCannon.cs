@@ -52,10 +52,10 @@ namespace CalamityMod.Items.Weapons
 		        float SpeedY = speedY + (float) Main.rand.Next(-40, 41) * 0.05f;
 		        int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
 		        Main.projectile[projectile].timeLeft = 200;
-				Main.projectile[projectile].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+				Main.projectile[projectile].Calamity().forceRanged = true;
 		    }
 		    int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+			Main.projectile[proj].Calamity().forceRanged = true;
 			return false;
 		}
 

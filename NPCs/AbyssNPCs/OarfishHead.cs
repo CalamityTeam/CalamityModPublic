@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				//if ((Main.player[npc.target].Center - npc.Center).Length() > ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
 				//	Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 250f) *
 				//	(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
-                if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(250f, 150f))
+                if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f))
 				{
 					num192 = num47;
 					if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
@@ -169,7 +169,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             //if ((Main.player[npc.target].Center - npc.Center).Length() > ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
             //	Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 150f : 250f) *
             //	(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
-            if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(250f, 150f))
+            if ((Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(250f, 150f))
             {
 				for (int num51 = 0; num51 < 200; num51++)
 				{
@@ -314,11 +314,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer2 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
+			if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.3f;
 			}
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
+			if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("OarfishHead")))
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}

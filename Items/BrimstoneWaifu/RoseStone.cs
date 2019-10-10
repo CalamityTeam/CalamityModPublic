@@ -25,7 +25,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.elementalHeart)
             {
                 return false;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
 			player.lifeRegen += 1;
 			player.statLifeMax2 += 20;
 			player.allDamage += 0.03f;
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.brimstoneWaifu = true;
 			if (player.whoAmI == Main.myPlayer)
 			{

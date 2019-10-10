@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Pets
 			projectile.type = trueType; //asserts real type after running black Cat AI 26 (ensures chibii pet isnt drawn as black cat and other weird stuff)
 
             Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (player.dead)
 			{
 				modPlayer.chibii = false;

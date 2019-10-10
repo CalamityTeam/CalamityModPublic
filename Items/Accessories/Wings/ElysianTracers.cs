@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories.Wings
 			item.height = 32;
 			item.value = Item.buyPrice(0, 90, 0, 0);
 			item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Accessories.Wings
 				}
 				Main.dust[num60].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
 			}
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			player.accRunSpeed = 10.5f;
 			player.rocketBoots = 3;
 			player.moveSpeed += 0.36f;

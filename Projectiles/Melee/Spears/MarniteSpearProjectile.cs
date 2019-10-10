@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 			projectile.penetrate = -1;
 			projectile.ownerHitCheck = true;
 			projectile.hide = true;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
+			projectile.Calamity().trueMelee = true;
 		}
 
         public override void AI()

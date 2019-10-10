@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.rare = 10;
             item.shoot = mod.ProjectileType("TerrorBeam");
 			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
 	    public override void MeleeEffects(Player player, Rectangle hitbox)

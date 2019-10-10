@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.timeLeft = 180;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()

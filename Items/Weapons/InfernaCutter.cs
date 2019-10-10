@@ -123,7 +123,7 @@ namespace CalamityMod.Items.Weapons
 			if (crit)
 			{
 				int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), (int)((float)item.damage * player.meleeDamage), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[boom].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Main.projectile[boom].Calamity().forceMelee = true;
 			}
 			target.AddBuff(BuffID.OnFire, 300);
 			target.AddBuff(mod.BuffType("BrimstoneFlames"), 300);

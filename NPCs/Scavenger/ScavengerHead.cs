@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.Scavenger
 			npc.width = 80;
 			npc.height = 80;
 			npc.defense = 50;
-            npc.GetCalamityNPC().RevPlusDR(0.1f);
+            npc.Calamity().RevPlusDR(0.1f);
 			npc.lifeMax = 32705;
 			npc.knockBackResist = 0f;
 			aiType = -1;

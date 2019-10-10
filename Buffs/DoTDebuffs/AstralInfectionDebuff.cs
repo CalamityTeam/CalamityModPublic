@@ -20,12 +20,12 @@ namespace CalamityMod.Buffs.DoTDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().astralInfection = true;
+			player.Calamity().astralInfection = true;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).astralInfection = true;
+			npc.Calamity().astralInfection = true;
 		}
 	}
 }

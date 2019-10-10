@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("PlasmaBlast");
 			item.shootSpeed = 12f;
 			item.useAmmo = 75;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override Vector2? HoldoutOffset()

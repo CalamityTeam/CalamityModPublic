@@ -28,19 +28,19 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.tileCollide = false;
 			projectile.timeLeft = 300;
 			projectile.extraUpdates = 1;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
-        
+
 		public override void AI()
 		{
-			CalamityPlayer modPlayer = Main.player[Main.myPlayer].GetCalamityPlayer();
+			CalamityPlayer modPlayer = Main.player[Main.myPlayer].Calamity();
 			Lighting.AddLight(projectile.Center, 0.55f, 0.25f, 0f);
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
 			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 130, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, new Color(255, 255, 255), 0.85f);
 			projectile.ai[0] += 1f;
             if (projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
             {
-                projectile.GetCalamityProj().stealthStrike = true;
+                projectile.Calamity().stealthStrike = true;
                 lifesteal = true;
             }
 			if ((projectile.ai[0] %= 5f) == 0f)

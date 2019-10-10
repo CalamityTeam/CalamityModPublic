@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 5;
             item.shoot = mod.ProjectileType("Icebreaker");
             item.shootSpeed = 16f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 
         public override void AddRecipes()

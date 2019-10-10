@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Armor
             item.height = 18;
 			item.value = Item.buyPrice(0, 75, 0, 0);
 			item.defense = 21; //96
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.godSlayer = true;
             modPlayer.godSlayerMage = true;
             player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +

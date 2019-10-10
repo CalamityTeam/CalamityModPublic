@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Shrines
 		{
 			bool flag64 = projectile.type == mod.ProjectileType("GladiatorSword");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (!modPlayer.gladiatorSword)
 			{
 				projectile.active = false;

@@ -19,12 +19,12 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().gState = true;
+			player.Calamity().gState = true;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).gState = true;
+			npc.Calamity().gState = true;
 		}
 	}
 }

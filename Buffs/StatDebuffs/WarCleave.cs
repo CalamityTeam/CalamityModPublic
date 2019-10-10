@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).wCleave = true;
+			npc.Calamity().wCleave = true;
 		}
 	}
 }

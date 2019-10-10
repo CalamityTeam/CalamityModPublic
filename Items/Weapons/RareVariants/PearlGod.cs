@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 	        item.shootSpeed = 24f;
 	        item.shoot = mod.ProjectileType("ShockblastRound");
 	        item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
 	    public override Vector2? HoldoutOffset()

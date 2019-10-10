@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).tSad = true;
+			npc.Calamity().tSad = true;
 		}
 	}
 }

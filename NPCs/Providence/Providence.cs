@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Providence
 			npc.width = 600;
 			npc.height = 450;
 			npc.defense = 50;
-            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            CalamityGlobalNPC global = npc.Calamity();
             global.DR = normalDR;
             global.customDR = true;
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
@@ -122,7 +122,7 @@ namespace CalamityMod.NPCs.Providence
 
 		public override void AI()
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// whoAmI variable for Guardians and other things
 			CalamityGlobalNPC.holyBoss = npc.whoAmI;
@@ -316,7 +316,7 @@ namespace CalamityMod.NPCs.Providence
 			}
 
             // Set DR based on current attack phase
-            npc.GetCalamityNPC().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f) ? cocoonDR : normalDR;
+            npc.Calamity().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f) ? cocoonDR : normalDR;
 
             // Movement
             if (npc.ai[0] != 2f && npc.ai[0] != 5f)
@@ -558,7 +558,7 @@ namespace CalamityMod.NPCs.Providence
 					npc.ai[3] += 1f;
 
 					int num856 = (expertMode ? 24 : 26) - (int)(4f * (1f - lifeRatio));
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num856 = 19;
 
 					num856 = (int)((double)num856 * attackRateMult);
@@ -574,7 +574,7 @@ namespace CalamityMod.NPCs.Providence
 						float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
 
 						float num860 = (expertMode ? 10.25f : 9f) + (2.5f * (1f - lifeRatio));
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							num860 = 12.75f;
 
 						if (revenge)
@@ -804,7 +804,7 @@ namespace CalamityMod.NPCs.Providence
 					npc.ai[3] += 1f;
 
 					int num864 = (expertMode ? 73 : 77) - (int)(15f * (1f - lifeRatio));
-					if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num864 = 59;
 
 					num864 = (int)((double)num864 * attackRateMult);
@@ -846,7 +846,7 @@ namespace CalamityMod.NPCs.Providence
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.ai[2] += ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + (2f * (1f - lifeRatio));
+					npc.ai[2] += ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f) + (2f * (1f - lifeRatio));
 
 					if (CalamityWorld.bossRushActive)
 						npc.ai[2] += 1f;

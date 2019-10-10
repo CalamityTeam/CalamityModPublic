@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 120;
 			npc.height = 120;
 			npc.defense = 100;
-            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            CalamityGlobalNPC global = npc.Calamity();
             global.DR = CalamityWorld.bossRushActive ? 0.6f : CalamityWorld.death ? 0.75f : 0.7f;
             global.customDR = true;
             global.multDRReductions.Add(BuffID.Ichor, 0.9f);

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.LoreItems
 
 		public override void UpdateInventory(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.wallOfFleshLore = true;
 		}
 	}

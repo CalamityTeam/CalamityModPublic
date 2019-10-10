@@ -20,12 +20,12 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).aCrunch = true;
+			npc.Calamity().aCrunch = true;
 		}
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.GetCalamityPlayer().aCrunch = true;
+            player.Calamity().aCrunch = true;
         }
     }
 }

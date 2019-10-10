@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs
 
 			// Fire projectiles while walking, teleporting, or falling
 			if (npc.ai[0] == 2f || npc.ai[0] >= 5f || (npc.ai[0] == 4f && npc.velocity.Y > 0f) ||
-				npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs
 							laserDamage *= 3;
 
 						// Fire astral flames while teleporting
-						if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							Vector2 shootFromVector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 							float spread = 45f * 0.0174f;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs
 
 				// Stay vulnerable for a maximum of 1.5 or 2.5 seconds
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= ((phase3 || npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
+				if (npc.ai[1] >= ((phase3 || npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 90f : 150f))
 				{
 					// Increase defense
 					npc.defense = 70;

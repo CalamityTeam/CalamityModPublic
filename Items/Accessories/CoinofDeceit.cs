@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
-            player.GetCalamityPlayer().throwingCrit += 6;
+            CalamityPlayer modPlayer = player.Calamity();
+            player.Calamity().throwingCrit += 6;
         }
 
         public override void AddRecipes()

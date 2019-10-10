@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Fabsol
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().fireball = true;
+			player.Calamity().fireball = true;
 		}
 	}
 }

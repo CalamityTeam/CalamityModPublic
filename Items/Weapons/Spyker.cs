@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shootSpeed = 9f;
 	        item.shoot = mod.ProjectileType("Spyker");
 	        item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
 	    public override Vector2? HoldoutOffset()

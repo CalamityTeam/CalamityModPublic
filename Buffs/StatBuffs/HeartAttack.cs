@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().hAttack = true;
+			player.Calamity().hAttack = true;
 		}
 	}
 }

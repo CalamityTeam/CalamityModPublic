@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 2;
             projectile.timeLeft = 600; //10 seconds and counting
             aiType = 48; //Throwing Knife AI
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
             projectile.usesIDStaticNPCImmunity = true; //afaik, no Calamity projectiles use this and only 1 vanilla projectile
 			projectile.idStaticNPCHitCooldown = 5;
             projectile.extraUpdates = 1;
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
         	if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer && grind >= 1) //stealth strike attack
         	{
         		int stealth = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Blood"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[stealth].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+				Main.projectile[stealth].Calamity().forceRogue = true;
 			}
 			if (!target.canGhostHeal) //canGhostHeal be like lol
 			{

@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.StormWeaver
 					if (BoltCountdown == 0)
 					{
 						int speed2 = revenge ? 8 : 7;
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						{
 							speed2 += 1;
 						}

@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.rare = 2;
 			item.shoot = mod.ProjectileType("SnapClamProj");
 			item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 	}
 }

@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Placeables
 			item.value = 5000000;
 			item.rare = 10;
 			item.createTile = mod.TileType("DraedonsForge");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+			item.Calamity().postMoonLordRarity = 20;
 		}
 
 		public override void AddRecipes()

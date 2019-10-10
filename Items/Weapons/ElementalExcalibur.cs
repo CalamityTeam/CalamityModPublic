@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons
 			item.rare = 10;
 			item.shoot = mod.ProjectileType("ElementalExcaliburBeam");
 			item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+			item.Calamity().postMoonLordRarity = 20;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

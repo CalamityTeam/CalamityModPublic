@@ -54,12 +54,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 
 			if (modPlayer.xerocSet)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.05f;
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingDamage += 0.05f;
+				player.Calamity().throwingCrit += 5;
 			}
 
 			ascentWhenFalling = 0.75f;

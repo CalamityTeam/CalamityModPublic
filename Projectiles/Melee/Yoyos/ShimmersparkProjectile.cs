@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 						if (projectile.owner == Main.myPlayer)
 						{
 							int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, 92, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-							Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+							Main.projectile[proj].Calamity().forceMelee = true;
 						}
 					}
 				}

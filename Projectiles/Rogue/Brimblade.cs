@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 3;
             projectile.timeLeft = 300;
             aiType = 52;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

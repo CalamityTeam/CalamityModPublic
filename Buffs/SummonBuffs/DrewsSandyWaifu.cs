@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.SummonBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (player.ownedProjectileCounts[mod.ProjectileType("DrewsSandyWaifu")] > 0)
 			{
 				modPlayer.dWaifu = true;

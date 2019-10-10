@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			projectile.alpha = 255;
 			projectile.scale = 1f;
 			projectile.localNPCHitCooldown = 30;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()

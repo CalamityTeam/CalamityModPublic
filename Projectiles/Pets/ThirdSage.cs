@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Pets
 				projectile.active = false;
 				return;
 			}
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (player.dead)
 			{
 				modPlayer.thirdSage = false;

@@ -39,10 +39,10 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 velocity = new Vector2(speedX, speedY);
-            float strikeValue = player.GetCalamityPlayer().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
+            float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
             int p = Projectile.NewProjectile(position, velocity, mod.ProjectileType("CelestialReaperProjectile"), damage, knockBack, player.whoAmI, strikeValue);
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+            if (player.Calamity().StealthStrikeAvailable())
+                Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }
     }

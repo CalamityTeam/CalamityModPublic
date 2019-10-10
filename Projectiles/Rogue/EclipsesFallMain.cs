@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.extraUpdates = 1;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
         public override void AI()

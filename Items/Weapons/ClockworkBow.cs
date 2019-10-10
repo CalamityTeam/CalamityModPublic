@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
             item.shoot = 10;
             item.shootSpeed = 30f;
             item.useAmmo = 40;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override void AddRecipes()

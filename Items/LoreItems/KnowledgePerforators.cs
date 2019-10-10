@@ -31,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 		{
 			if (player.ZoneCrimson)
 			{
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.perforatorLore = true;
 			}
 		}

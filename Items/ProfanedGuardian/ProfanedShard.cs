@@ -23,7 +23,7 @@ namespace CalamityMod.Items.ProfanedGuardian
 			item.useTime = 45;
 			item.useStyle = 4;
 			item.consumable = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
 		public override bool CanUseItem(Player player)

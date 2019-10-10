@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Summon
         {
         	if (projectile.localAI[0] == 0f)
         	{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				int num501 = 100;
 				for (int num502 = 0; num502 < num501; num502++)
 				{
@@ -51,10 +51,10 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				projectile.localAI[0] += 1f;
         	}
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
+			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
 			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
+				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+					projectile.Calamity().spawnedPlayerMinionDamageValue) *
 					Main.player[projectile.owner].minionDamage);
 				projectile.damage = damage2;
 			}
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
 			Lighting.AddLight(projectile.Center, 1.2f * num, 0.8f * num, 0f * num);
 			bool flag64 = projectile.type == mod.ProjectileType("AngryChicken");
 			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			player.AddBuff(mod.BuffType("AngryChicken"), 3600);
 			if (flag64)
 			{

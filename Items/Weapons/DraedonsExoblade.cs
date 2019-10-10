@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("Exobeam");
             item.shootSpeed = 19f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+			item.Calamity().postMoonLordRarity = 15;
 		}
 
 		// Gains 100% of missing health as base damage.

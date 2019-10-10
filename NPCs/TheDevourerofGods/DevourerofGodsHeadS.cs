@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override void AI()
 		{
-			CalamityGlobalNPC calamityGlobalNPC = npc.GetGlobalNPC<CalamityGlobalNPC>(mod);
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// whoAmI variable
 			CalamityGlobalNPC.DoGHead = npc.whoAmI;

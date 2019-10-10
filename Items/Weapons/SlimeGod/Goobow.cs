@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.SlimeGod
 					value9 -= vector7;
 				}
 				int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 0.6f, speedY * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI, 0f, 0f);
-				Main.projectile[projectile].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+				Main.projectile[projectile].Calamity().forceRanged = true;
 			}
 			return true;
 		}

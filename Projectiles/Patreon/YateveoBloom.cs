@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.penetrate = -1;
 			projectile.melee = true;
 			projectile.alpha = 255;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
+			projectile.Calamity().trueMelee = true;
 		}
 
 		public override void AI()

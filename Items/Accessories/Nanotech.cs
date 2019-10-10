@@ -25,17 +25,17 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
+			item.Calamity().postMoonLordRarity = 20;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nanotech = true;
 			modPlayer.raiderTalisman = true;
-			player.GetCalamityPlayer().throwingDamage += 0.1f;
-            player.GetCalamityPlayer().throwingCrit += 5;
-            player.GetCalamityPlayer().throwingVelocity += 0.15f;
+			player.Calamity().throwingDamage += 0.1f;
+            player.Calamity().throwingCrit += 5;
+            player.Calamity().throwingVelocity += 0.15f;
         }
 
         public override void AddRecipes()

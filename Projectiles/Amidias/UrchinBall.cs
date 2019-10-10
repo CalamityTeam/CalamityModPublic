@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Amidias
 			projectile.alpha = 255;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 3;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
+			projectile.Calamity().trueMelee = true;
 		}
 
 		public override void AI()

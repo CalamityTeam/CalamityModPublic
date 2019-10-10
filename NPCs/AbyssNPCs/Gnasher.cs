@@ -20,7 +20,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 50;
 			npc.height = 36;
 			npc.defense = 30;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
 			npc.lifeMax = 35;
             npc.knockBackResist = 0.25f;
             npc.aiStyle = 3;
@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             {
                 return 0f;
             }
-            if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur)
+            if (spawnInfo.player.Calamity().ZoneSulphur)
             {
                 return 0.2f;
             }

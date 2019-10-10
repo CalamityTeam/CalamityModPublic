@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 			npc.width = 34;
 			npc.height = 34;
 			npc.defense = 60;
-            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.5f;
             global.unbreakableDR = true;
             npc.lifeMax = 100000;

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Potions
 			item.potion = true;
 			item.rare = 10;
 			item.value = Item.buyPrice(0, 7, 0, 0);
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
 		public override void AddRecipes()

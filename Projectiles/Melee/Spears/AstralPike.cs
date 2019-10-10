@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 			projectile.penetrate = -1;
 			projectile.ownerHitCheck = true;
 			projectile.hide = true;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
+			projectile.Calamity().trueMelee = true;
 		}
 
 		public override void AI()
@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
 					if (projectile.owner == Main.myPlayer)
 					{
 						int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, mod.ProjectileType("AstralStar"), (int)((double)projectile.damage * 0.2), 1f, projectile.owner);
-						Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+						Main.projectile[proj].Calamity().forceMelee = true;
 					}
 				}
 			}

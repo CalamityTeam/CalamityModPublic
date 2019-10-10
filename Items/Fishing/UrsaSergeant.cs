@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Fishing
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ursaSergeant = true;
             player.statDefense += 20;
             player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;

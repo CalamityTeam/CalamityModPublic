@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 			if (projectile.owner == Main.myPlayer)
 			{
 				int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[boom].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Main.projectile[boom].Calamity().forceMelee = true;
 			}
 		}
 

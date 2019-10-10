@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.width = 120;
 			npc.height = 120;
 			npc.defense = 120;
-            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            CalamityGlobalNPC global = npc.Calamity();
             global.DR = CalamityWorld.bossRushActive ? bossRushDR : CalamityWorld.death ? deathDR : normalDR;
             global.customDR = true;
             global.multDRReductions.Add(BuffID.Ichor, 0.9f);
@@ -227,7 +227,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 			if (!startText)
 			{
-				if (Main.LocalPlayer.GetCalamityPlayer().sCalKillCount == 4)
+				if (Main.LocalPlayer.Calamity().sCalKillCount == 4)
 				{
 					string key = "Mods.CalamityMod.SupremeBossText12"; //kill SCal 4 times
 					Color messageColor = Color.Orange;
@@ -240,7 +240,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
 				}
-				else if (Main.LocalPlayer.GetCalamityPlayer().sCalKillCount == 1)
+				else if (Main.LocalPlayer.Calamity().sCalKillCount == 1)
 				{
 					string key = "Mods.CalamityMod.SupremeBossText11"; //kill SCal once
 					Color messageColor = Color.Orange;
@@ -253,9 +253,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 					}
 				}
-				if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount < 51)
+				if (Main.LocalPlayer.Calamity().sCalDeathCount < 51)
 				{
-					if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount == 50)
+					if (Main.LocalPlayer.Calamity().sCalDeathCount == 50)
 					{
 						string key = "Mods.CalamityMod.SupremeBossText15"; //die 50 or more times
 						Color messageColor = Color.Orange;
@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
-					else if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount > 19)
+					else if (Main.LocalPlayer.Calamity().sCalDeathCount > 19)
 					{
 						string key = "Mods.CalamityMod.SupremeBossText14"; //die 20 or more times
 						Color messageColor = Color.Orange;
@@ -281,7 +281,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
 						}
 					}
-					else if (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount > 4)
+					else if (Main.LocalPlayer.Calamity().sCalDeathCount > 4)
 					{
 						string key = "Mods.CalamityMod.SupremeBossText13"; //die 5 or more times
 						Color messageColor = Color.Orange;
@@ -375,7 +375,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
 
             // Set DR to be 99% and unbreakable if enraged. Boost DR during the 5th attack.
-            CalamityGlobalNPC global = npc.GetCalamityNPC();
+            CalamityGlobalNPC global = npc.Calamity();
             if(protectionBoost)
             {
                 global.DR = enragedDR;
@@ -427,7 +427,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 4 : 6))
+					if (bulletHellCounter > ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 4 : 6))
 					{
 						bulletHellCounter = 0;
 						int damage = expertMode ? 200 : 250; //800 500
@@ -525,7 +525,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						}
 					}
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 7 : 9))
+					if (bulletHellCounter > ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 7 : 9))
 					{
 						bulletHellCounter = 0;
 						if (bulletHellCounter2 < 1200) //blasts from below
@@ -588,7 +588,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, mod.ProjectileType("BrimstoneFireblast"), damage, 0f, Main.myPlayer, 1f, 0f);
 					}
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 9 : 11))
+					if (bulletHellCounter > ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 9 : 11))
 					{
 						bulletHellCounter = 0;
 						if (bulletHellCounter2 < 2100) //blasts from above
@@ -661,7 +661,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						passedVar += 1f;
 					}
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 13 : 15))
+					if (bulletHellCounter > ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 13 : 15))
 					{
 						bulletHellCounter = 0;
 						if (bulletHellCounter2 < 3000) //blasts from below
@@ -738,7 +738,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -10f * uDieLul, 0f, mod.ProjectileType("BrimstoneWave"), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 					bulletHellCounter += 1;
-					if (bulletHellCounter > ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 16 : 18))
+					if (bulletHellCounter > ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 16 : 18))
 					{
 						bulletHellCounter = 0;
 						if (bulletHellCounter2 < 3900) //blasts from above
@@ -2026,8 +2026,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DeathMessage();
 
             // Incrase the player's SCal kill count
-            if (Main.player[npc.target].GetCalamityPlayer().sCalKillCount < 5)
-				Main.player[npc.target].GetCalamityPlayer().sCalKillCount++;
+            if (Main.player[npc.target].Calamity().sCalKillCount < 5)
+				Main.player[npc.target].Calamity().sCalKillCount++;
 
             // Materials
             int essenceMin = Main.expertMode ? 30 : 20;
@@ -2076,9 +2076,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             string key;
 
             // If the player has never killed SCal before, comment on how many attempts it took
-            if (Main.player[npc.target].GetCalamityPlayer().sCalKillCount == 0)
+            if (Main.player[npc.target].Calamity().sCalKillCount == 0)
             {
-                switch (Main.LocalPlayer.GetCalamityPlayer().sCalDeathCount)
+                switch (Main.LocalPlayer.Calamity().sCalDeathCount)
                 {
                     case 0:
                         key = "Mods.CalamityMod.SupremeBossText16";

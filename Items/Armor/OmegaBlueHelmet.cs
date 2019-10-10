@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Armor
 			item.value = Item.sellPrice(0, 35, 0, 0);
 			item.rare = 10;
 			item.defense = 19;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override void UpdateEquip(Player player)
@@ -57,7 +57,7 @@ Abyssal madness increases damage, critical strike chance, and tentacle aggressio
 This effect has a 30 second cooldown";
 
             player.armorPenetration += 50;
-            player.GetCalamityPlayer().wearingRogueArmor = true;
+            player.Calamity().wearingRogueArmor = true;
 
             //raise rev caps
             player.GetModPlayer<CalamityPlayer>().omegaBlueSet = true;

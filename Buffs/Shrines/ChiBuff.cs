@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Shrines
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().trinketOfChiBuff = true;
+			player.Calamity().trinketOfChiBuff = true;
 		}
 	}
 }

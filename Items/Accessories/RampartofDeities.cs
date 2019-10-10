@@ -27,12 +27,12 @@ namespace CalamityMod.Items.Accessories
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.defense = 12;
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dAmulet = true;
 			modPlayer.rampartOfDeities = true;
 			modPlayer.jellyfishNecklace = true;

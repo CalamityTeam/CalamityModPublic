@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
             item.UseSound = SoundID.Item95;
 	        item.shoot = mod.ProjectileType("SulphuricAcidCannon2");
 	        item.shootSpeed = 16f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override Vector2? HoldoutOffset()

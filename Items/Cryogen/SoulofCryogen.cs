@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Cryogen
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.cryogenSoul = true;
             player.pickSpeed -= 0.05f;
 			player.allDamage += 0.05f;

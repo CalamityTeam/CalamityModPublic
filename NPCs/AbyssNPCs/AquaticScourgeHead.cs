@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 100;
 			npc.height = 90;
 			npc.defense = 10;
-            npc.GetCalamityNPC().RevPlusDR(0.1f);
+            npc.Calamity().RevPlusDR(0.1f);
 			npc.aiStyle = -1;
 			aiType = -1;
 			npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
@@ -145,7 +145,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				if (detectsPlayer)
 				{
 					npc.localAI[0] += 1f;
-					if (npc.localAI[0] >= ((npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
+					if (npc.localAI[0] >= ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 120f : 180f))
 					{
 						int npcPoxX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
 						int npcPoxY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
@@ -540,7 +540,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur && spawnInfo.water)
+			if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water)
 			{
 				if (!NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead")))
 					return 0.01f;

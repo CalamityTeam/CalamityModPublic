@@ -28,8 +28,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("GhoulishGouger");
 			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Patreon
 			item.shoot = mod.ProjectileType("PerforaMini");
 			item.buffType = mod.BuffType("BloodBound");
 			item.rare = 3;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
 		public override void UseStyle(Player player)

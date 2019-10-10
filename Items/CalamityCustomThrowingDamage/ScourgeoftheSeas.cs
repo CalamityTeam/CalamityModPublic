@@ -37,15 +37,15 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 5;
 			item.shoot = mod.ProjectileType("ScourgeoftheSeasProjectile");
 			item.shootSpeed = 8f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
 			{
 				int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("ScourgeoftheSeasStealth"), damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                Main.projectile[p].Calamity().stealthStrike = true;
             }
 			else
 			{

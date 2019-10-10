@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons
 			if (target.life <= 0)
 			{
 				int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), damage, knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[boom].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Main.projectile[boom].Calamity().forceMelee = true;
 				float randomSpeedX = (float)Main.rand.Next(5);
 				float randomSpeedY = (float)Main.rand.Next(3, 7);
 				Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, mod.ProjectileType("PhoenixHeal"), item.damage, knockback, player.whoAmI);

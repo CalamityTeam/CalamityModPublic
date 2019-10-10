@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons
 				float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
 				float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
 				int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
+				Main.projectile[proj].Calamity().forceMelee = true;
 			}
 			return false;
         }

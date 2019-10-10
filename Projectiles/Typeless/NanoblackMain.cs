@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.owner == Main.myPlayer)
             {
 				int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
-				CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
+				CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
 				if (projectile.melee)
 					cgp.forceMelee = true;
 				else

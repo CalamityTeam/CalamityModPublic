@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Accessories
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.elementalHeart)
             {
                 return false;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-	    	CalamityPlayer modPlayer = player.GetCalamityPlayer();
+	    	CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.sandBoobWaifu = true;
 			if (player.whoAmI == Main.myPlayer)
 			{

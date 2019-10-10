@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("AccretionDisk");
 			item.shootSpeed = 13f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override void AddRecipes()

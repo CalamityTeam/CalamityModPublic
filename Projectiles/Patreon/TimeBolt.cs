@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.friendly = true;
 			projectile.penetrate = penetrationAmt;
 			projectile.timeLeft = 600;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 5;
 		}

@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Typeless
                 if (projectile.owner == Main.myPlayer)
                 {
 					int proj = Projectile.NewProjectile(startPoint, velocity, ProjectileID.LunarFlare, flareDamage, flareKB, Main.myPlayer, 0f, AI1);
-					CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
+					CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
 					if (projectile.melee)
 						cgp.forceMelee = true;
 					else

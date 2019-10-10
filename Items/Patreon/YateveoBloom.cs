@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Patreon
 			item.UseSound = SoundID.Item1;
 
 			item.rare = 2;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 			item.value = Item.buyPrice(0, 2, 0, 0);
 
 			item.shoot = mod.ProjectileType("YateveoBloom");

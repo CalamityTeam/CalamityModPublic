@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Pets
 
 		public override void AI()
 		{
-			if (Main.player[projectile.owner].GetCalamityPlayer().chibii)
+			if (Main.player[projectile.owner].Calamity().chibii)
 				projectile.timeLeft = 2;
 
 			int byUuid = (int) projectile.ai[0]; //contains identity of parent projectile in main.projectile array

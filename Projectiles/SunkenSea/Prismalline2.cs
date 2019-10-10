@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 			projectile.aiStyle = 113;
 			projectile.timeLeft = 60;
 			aiType = 598;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()

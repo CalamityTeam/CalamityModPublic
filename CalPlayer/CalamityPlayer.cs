@@ -1,4 +1,6 @@
 using CalamityMod.Items;
+using CalamityMod.Items.Armor;
+using CalamityMod.Items.Permafrost;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.UI;
@@ -1550,7 +1552,7 @@ namespace CalamityMod.CalPlayer
 
 		public override bool CustomBiomesMatch(Player other)
 		{
-			CalamityPlayer modOther = other.GetCalamityPlayer();
+			CalamityPlayer modOther = other.Calamity();
 			return ZoneCalamity == modOther.ZoneCalamity || ZoneAstral == modOther.ZoneAstral || ZoneAbyss == modOther.ZoneAbyss ||
 				ZoneAbyssLayer1 == modOther.ZoneAbyssLayer1 || ZoneAbyssLayer2 == modOther.ZoneAbyssLayer2 ||
 				ZoneAbyssLayer3 == modOther.ZoneAbyssLayer3 || ZoneAbyssLayer4 == modOther.ZoneAbyssLayer4 ||
@@ -1559,7 +1561,7 @@ namespace CalamityMod.CalPlayer
 
 		public override void CopyCustomBiomesTo(Player other)
 		{
-			CalamityPlayer modOther = other.GetCalamityPlayer();
+			CalamityPlayer modOther = other.Calamity();
 			modOther.ZoneCalamity = ZoneCalamity;
 			modOther.ZoneAstral = ZoneAstral;
 			modOther.ZoneSulphur = ZoneSulphur;
@@ -2154,22 +2156,22 @@ namespace CalamityMod.CalPlayer
 			for (int n = 13; n < 18 + player.extraAccessorySlots; n++)
 			{
 				Item item = player.armor[n];
-				if (item.type == mod.ItemType<Items.Permafrost.Popo>())
+				if (item.type == ModContent.ItemType<Popo>())
 				{
 					snowmanHide = false;
 					snowmanForce = true;
 				}
-				else if (item.type == mod.ItemType<Items.Armor.AbyssalDivingSuit>())
+				else if (item.type == ModContent.ItemType<AbyssalDivingSuit>())
 				{
 					abyssalDivingSuitHide = false;
 					abyssalDivingSuitForce = true;
 				}
-				else if (item.type == mod.ItemType<Items.Armor.SirensHeart>())
+				else if (item.type == ModContent.ItemType<SirensHeart>())
 				{
 					sirenBoobsHide = false;
 					sirenBoobsForce = true;
 				}
-				else if (item.type == mod.ItemType<Items.Armor.SirensHeartAlt>())
+				else if (item.type == ModContent.ItemType<SirensHeartAlt>())
 				{
 					sirenBoobsAltHide = false;
 					sirenBoobsAltForce = true;
@@ -2268,12 +2270,12 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer && !snowmanNoseless)
 				{
-					player.AddBuff(mod.BuffType<Buffs.Permafrost.Popo>(), 60, true);
+					player.AddBuff(ModContent.BuffType<Buffs.Permafrost.Popo>(), 60, true);
 				}
 			}
 			if (abyssalDivingSuit)
 			{
-				player.AddBuff(mod.BuffType<Buffs.StatBuffs.AbyssalDivingSuitBuff>(), 60, true);
+				player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.AbyssalDivingSuitBuff>(), 60, true);
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (abyssalDivingSuitCooldown)
@@ -2297,11 +2299,11 @@ namespace CalamityMod.CalPlayer
 			}
 			if (sirenBoobs)
 			{
-				player.AddBuff(mod.BuffType<Buffs.StatBuffs.SirenBobs>(), 60, true);
+				player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.SirenBobs>(), 60, true);
 			}
 			else if (sirenBoobsAlt)
 			{
-				player.AddBuff(mod.BuffType<Buffs.StatBuffs.SirenBobsAlt>(), 60, true);
+				player.AddBuff(ModContent.BuffType<Buffs.StatBuffs.SirenBobsAlt>(), 60, true);
 			}
 			if ((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3)
 			{
@@ -2974,7 +2976,7 @@ namespace CalamityMod.CalPlayer
 						if (!tentaclesPresent[i])
 						{
 							float modifier = player.meleeDamage + player.magicDamage + player.rangedDamage +
-								player.GetCalamityPlayer().throwingDamage + player.minionDamage;
+								player.Calamity().throwingDamage + player.minionDamage;
 							modifier /= 5f;
 							int damage = (int)(666 * modifier);
 							Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
@@ -3130,7 +3132,7 @@ namespace CalamityMod.CalPlayer
 					bool shouldAffect = CalamityMod.debuffList.Contains(hasBuff);
 					if (shouldAffect)
 					{
-						player.GetCalamityPlayer().throwingDamage += 0.1f;
+						player.Calamity().throwingDamage += 0.1f;
 					}
 				}
 			}
@@ -3189,7 +3191,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (raiderTalisman)
 			{
-				player.GetCalamityPlayer().throwingDamage += ((float)raiderStack / 250f) * 0.25f;
+				player.Calamity().throwingDamage += ((float)raiderStack / 250f) * 0.25f;
 			}
 			if (silvaCountdown <= 0 && hasSilvaEffect && silvaSummon)
 			{
@@ -3687,8 +3689,8 @@ namespace CalamityMod.CalPlayer
 					if (player.mount.Active)
 						modStealth = 1f;
 				}
-				player.GetCalamityPlayer().throwingDamage += (1f - modStealth) * 0.2f;
-				player.GetCalamityPlayer().throwingCrit += (int)((1f - modStealth) * 10f);
+				player.Calamity().throwingDamage += (1f - modStealth) * 0.2f;
+				player.Calamity().throwingCrit += (int)((1f - modStealth) * 10f);
 				player.aggro -= (int)((1f - modStealth) * 750f);
 				if (modStealthTimer > 0)
 					modStealthTimer--;
@@ -3810,15 +3812,15 @@ namespace CalamityMod.CalPlayer
 			}
 			if (armorCrumbling)
 			{
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingCrit += 5;
 				player.meleeCrit += 5;
 			}
 			if (armorShattering)
 			{
 				if (player.FindBuffIndex(mod.BuffType("ArmorCrumbling")) > -1) { player.ClearBuff(mod.BuffType("ArmorCrumbling")); }
-				player.GetCalamityPlayer().throwingDamage += 0.08f;
+				player.Calamity().throwingDamage += 0.08f;
 				player.meleeDamage += 0.08f;
-				player.GetCalamityPlayer().throwingCrit += 8;
+				player.Calamity().throwingCrit += 8;
 				player.meleeCrit += 8;
 			}
 			if (holyWrath)
@@ -4344,12 +4346,12 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.statLife > (int)((double)player.statLifeMax2 * 0.8))
 				{
-					player.GetCalamityPlayer().throwingCrit += 5;
+					player.Calamity().throwingCrit += 5;
 					player.statDefense += 30;
 				}
 				else
 				{
-					player.GetCalamityPlayer().throwingDamage += 0.1f;
+					player.Calamity().throwingDamage += 0.1f;
 				}
 			}
 			if (bloodflareSummon)
@@ -4427,9 +4429,9 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.statLife >= player.statLifeMax2)
 				{
-					player.GetCalamityPlayer().throwingCrit += 10;
-					player.GetCalamityPlayer().throwingDamage += 0.1f;
-					player.GetCalamityPlayer().throwingVelocity += 0.1f;
+					player.Calamity().throwingCrit += 10;
+					player.Calamity().throwingDamage += 0.1f;
+					player.Calamity().throwingVelocity += 0.1f;
 				}
 			}
 			if (tarraSummon)
@@ -4581,7 +4583,7 @@ namespace CalamityMod.CalPlayer
 			if (eArtifact)
 			{
 				player.manaCost *= 0.85f;
-				player.GetCalamityPlayer().throwingDamage += 0.15f;
+				player.Calamity().throwingDamage += 0.15f;
 				player.maxMinions += 2;
 			}
 			if (gArtifact)
@@ -5017,13 +5019,13 @@ namespace CalamityMod.CalPlayer
 		{
 			if (silvaRanged)
 			{
-				if (item.ranged && !item.GetGlobalItem<CalamityGlobalItem>(mod).rogue && item.useTime > 3)
+				if (item.ranged && !item.Calamity().rogue && item.useTime > 3)
 					return (auricSet ? 1.2f : 1.1f);
 			}
 			if (silvaThrowing)
 			{
 				if (player.statLife > (int)((double)player.statLifeMax2 * 0.5) &&
-					item.GetGlobalItem<CalamityGlobalItem>(mod).rogue && item.useTime > 3)
+					item.Calamity().rogue && item.useTime > 3)
 					return 1.1f;
 			}
 			return 1f;
@@ -5058,7 +5060,7 @@ namespace CalamityMod.CalPlayer
 
 			if (theBee && player.statLife >= player.statLifeMax2)
 			{
-				if (item.melee || item.ranged || item.magic || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
+				if (item.melee || item.ranged || item.magic || item.Calamity().rogue)
 				{
 					double useTimeBeeMultiplier = (double)(item.useTime * item.useAnimation) / 3600.0; //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 = 21.7% boost
 					if (item.type == mod.ItemType("ScarletDevil"))
@@ -5366,7 +5368,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (armorCrumbling || armorShattering)
 			{
-				if (item.melee || item.GetGlobalItem<CalamityGlobalItem>(mod).rogue)
+				if (item.melee || item.Calamity().rogue)
 				{
 					if (Main.rand.NextBool(4))
 					{
@@ -5530,7 +5532,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (armorCrumbling || armorShattering)
 			{
-				if (proj.melee || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+				if (proj.melee || proj.Calamity().rogue)
 				{
 					if (Main.rand.NextBool(4))
 					{
@@ -5562,7 +5564,7 @@ namespace CalamityMod.CalPlayer
 			{
 				target.AddBuff(mod.BuffType("HolyLight"), 420, false);
 			}
-			if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			if (proj.Calamity().rogue)
 			{
 				if (player.meleeEnchant > 0)
 				{
@@ -5844,7 +5846,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (armorCrumbling || armorShattering)
 			{
-				if (proj.melee || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+				if (proj.melee || proj.Calamity().rogue)
 				{
 					if (Main.rand.NextBool(4))
 					{
@@ -5876,7 +5878,7 @@ namespace CalamityMod.CalPlayer
 			{
 				target.AddBuff(mod.BuffType("HolyLight"), 420, false);
 			}
-			if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			if (proj.Calamity().rogue)
 			{
 				if (player.meleeEnchant > 0)
 				{
@@ -5962,7 +5964,7 @@ namespace CalamityMod.CalPlayer
             if (oldDie)
             {
                 float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
-                if (item.GetGlobalItem<CalamityGlobalItem>(mod).rogue || wearingRogueArmor)
+                if (item.Calamity().rogue || wearingRogueArmor)
                 {
                     float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
                     diceMult = roll2 > diceMult ? roll2 : diceMult;
@@ -6098,13 +6100,13 @@ namespace CalamityMod.CalPlayer
 
 		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			bool isTrueMelee = proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee;
+			bool isTrueMelee = proj.Calamity().trueMelee;
 			bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
-			bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue;
+			bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
 
-			if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			if (proj.Calamity().rogue)
 			{
-				crit = (Main.rand.Next(1, 101) < player.GetCalamityPlayer().throwingCrit);
+				crit = (Main.rand.Next(1, 101) < player.Calamity().throwingCrit);
 			}
 
 			#region MultiplierBoosts
@@ -6117,7 +6119,7 @@ namespace CalamityMod.CalPlayer
 						!player.inventory[player.selectedItem].melee &&
 						!player.inventory[player.selectedItem].ranged &&
 						!player.inventory[player.selectedItem].magic &&
-						!player.inventory[player.selectedItem].GetGlobalItem<CalamityGlobalItem>(mod).rogue) ||
+						!player.inventory[player.selectedItem].Calamity().rogue) ||
 						player.inventory[player.selectedItem].hammer > 0 ||
 						player.inventory[player.selectedItem].pick > 0 ||
 						player.inventory[player.selectedItem].axe > 0)
@@ -6150,7 +6152,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (auricSet)
 			{
-				if (silvaThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue &&
+				if (silvaThrowing && proj.Calamity().rogue &&
 					crit && player.statLife > (int)((double)player.statLifeMax2 * 0.5))
 				{
 					damageMult += 0.25;
@@ -6174,7 +6176,7 @@ namespace CalamityMod.CalPlayer
 			{
 				damageMult += 0.4;
 			}
-			if (silvaCountdown <= 0 && hasSilvaEffect && silvaThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+			if (silvaCountdown <= 0 && hasSilvaEffect && silvaThrowing && proj.Calamity().rogue)
 			{
 				damageMult += 0.1;
 			}
@@ -6231,7 +6233,7 @@ namespace CalamityMod.CalPlayer
             if (oldDie)
             {
                 float diceMult = Main.rand.NextFloat(0.8824f, 1.1565f);
-                if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue || wearingRogueArmor)
+                if (proj.Calamity().rogue || wearingRogueArmor)
                 {
                     float roll2 = Main.rand.NextFloat(0.8824f, 1.1565f);
                     diceMult = roll2 > diceMult ? roll2 : diceMult;
@@ -6266,7 +6268,7 @@ namespace CalamityMod.CalPlayer
 					(player.inventory[player.selectedItem].melee ||
 					player.inventory[player.selectedItem].ranged ||
 					player.inventory[player.selectedItem].magic ||
-					player.inventory[player.selectedItem].GetGlobalItem<CalamityGlobalItem>(mod).rogue) &&
+					player.inventory[player.selectedItem].Calamity().rogue) &&
 					player.inventory[player.selectedItem].hammer == 0 &&
 					player.inventory[player.selectedItem].pick == 0 &&
 					player.inventory[player.selectedItem].axe == 0)
@@ -6303,14 +6305,14 @@ namespace CalamityMod.CalPlayer
 				tarraCrits++;
 			}
 			if (tarraThrowing && tarraThrowingCritTimer <= 0 && tarraThrowingCrits < 25 && crit &&
-				proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue)
+				proj.Calamity().rogue)
 			{
 				tarraThrowingCrits++;
 			}
 
 			if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
 			{
-				if (theBeeDamage > 0 && (proj.melee || proj.ranged || proj.magic || proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue))
+				if (theBeeDamage > 0 && (proj.melee || proj.ranged || proj.magic || proj.Calamity().rogue))
 				{
 					Main.PlaySound(2, (int)proj.position.X, (int)proj.position.Y, 110);
 				}
@@ -6379,7 +6381,7 @@ namespace CalamityMod.CalPlayer
 						Main.projectile[FUCKYOU].netUpdate = true;
 					}
 				}
-				if (bloodflareThrowing && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && crit && Main.rand.NextBool(2))
+				if (bloodflareThrowing && proj.Calamity().rogue && crit && Main.rand.NextBool(2))
 				{
 					if (target.canGhostHeal)
 					{
@@ -6514,7 +6516,7 @@ namespace CalamityMod.CalPlayer
 								LevelPacket(false, 3);
 							}
 						}
-						else if (proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && rogueLevel <= 12500)
+						else if (proj.Calamity().rogue && rogueLevel <= 12500)
 						{
 							if (!Main.hardMode && rogueLevel >= 1500)
 							{
@@ -6535,7 +6537,7 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
-				if (raiderTalisman && raiderStack < 250 && proj.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && crit)
+				if (raiderTalisman && raiderStack < 250 && proj.Calamity().rogue && crit)
 				{
 					raiderStack++;
 				}
@@ -8783,7 +8785,7 @@ namespace CalamityMod.CalPlayer
 			}
 			Player drawPlayer = drawInfo.drawPlayer;
 			Mod mod = ModLoader.GetMod("CalamityMod");
-			CalamityPlayer modPlayer = drawPlayer.GetCalamityPlayer();
+			CalamityPlayer modPlayer = drawPlayer.Calamity();
 			if (modPlayer.sirenIce)
 			{
 				Texture2D texture = mod.GetTexture("ExtraTextures/IceShield");
@@ -8965,8 +8967,8 @@ namespace CalamityMod.CalPlayer
 		{
 			Mod mod = ModLoader.GetMod("CalamityMod");
 			Player drawPlayer = edi.drawPlayer;
-			if (drawPlayer.mount != null && (drawPlayer.GetCalamityPlayer().fab || drawPlayer.GetCalamityPlayer().crysthamyr ||
-				drawPlayer.GetCalamityPlayer().onyxExcavator))
+			if (drawPlayer.mount != null && (drawPlayer.Calamity().fab || drawPlayer.Calamity().crysthamyr ||
+				drawPlayer.Calamity().onyxExcavator))
 			{
 				drawPlayer.mount.Draw(Main.playerDrawData, 3, drawPlayer, edi.position, edi.mountColor, edi.spriteEffects, edi.shadow);
 			}
@@ -9400,7 +9402,7 @@ namespace CalamityMod.CalPlayer
 			player.rangedCrit += boost;
 			player.magicCrit += boost;
 			player.thrownCrit += boost;
-			player.GetCalamityPlayer().throwingCrit += boost;
+			player.Calamity().throwingCrit += boost;
 		}
 		#endregion
 
@@ -9459,7 +9461,7 @@ namespace CalamityMod.CalPlayer
 
 		private void ProvideStealthStatBonuses()
 		{
-			CalamityPlayer roguePlayer = player.GetCalamityPlayer();
+			CalamityPlayer roguePlayer = player.Calamity();
 
 			// At full stealth, you get 100% of the max possible bonus. Partial stealth only gives you 75% of the partial bonus you have.
 			if (rogueStealth >= rogueStealthMax)
@@ -10543,85 +10545,85 @@ namespace CalamityMod.CalPlayer
 			#region RogueLevelBoosts
 			if (rogueLevel >= 12500)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.12f;
-				player.GetCalamityPlayer().throwingVelocity += 0.12f;
-				player.GetCalamityPlayer().throwingCrit += 6;
+				player.Calamity().throwingDamage += 0.12f;
+				player.Calamity().throwingVelocity += 0.12f;
+				player.Calamity().throwingCrit += 6;
 			}
 			else if (rogueLevel >= 10500)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.1f;
-				player.GetCalamityPlayer().throwingVelocity += 0.1f;
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingDamage += 0.1f;
+				player.Calamity().throwingVelocity += 0.1f;
+				player.Calamity().throwingCrit += 5;
 			}
 			else if (rogueLevel >= 9100)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.09f;
-				player.GetCalamityPlayer().throwingVelocity += 0.09f;
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingDamage += 0.09f;
+				player.Calamity().throwingVelocity += 0.09f;
+				player.Calamity().throwingCrit += 5;
 			}
 			else if (rogueLevel >= 7800)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.08f;
-				player.GetCalamityPlayer().throwingVelocity += 0.08f;
-				player.GetCalamityPlayer().throwingCrit += 4;
+				player.Calamity().throwingDamage += 0.08f;
+				player.Calamity().throwingVelocity += 0.08f;
+				player.Calamity().throwingCrit += 4;
 			}
 			else if (rogueLevel >= 6600)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.07f;
-				player.GetCalamityPlayer().throwingVelocity += 0.07f;
-				player.GetCalamityPlayer().throwingCrit += 4;
+				player.Calamity().throwingDamage += 0.07f;
+				player.Calamity().throwingVelocity += 0.07f;
+				player.Calamity().throwingCrit += 4;
 			}
 			else if (rogueLevel >= 5500)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.06f;
-				player.GetCalamityPlayer().throwingVelocity += 0.06f;
-				player.GetCalamityPlayer().throwingCrit += 3;
+				player.Calamity().throwingDamage += 0.06f;
+				player.Calamity().throwingVelocity += 0.06f;
+				player.Calamity().throwingCrit += 3;
 			}
 			else if (rogueLevel >= 4500)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.05f;
-				player.GetCalamityPlayer().throwingVelocity += 0.05f;
-				player.GetCalamityPlayer().throwingCrit += 3;
+				player.Calamity().throwingDamage += 0.05f;
+				player.Calamity().throwingVelocity += 0.05f;
+				player.Calamity().throwingCrit += 3;
 			}
 			else if (rogueLevel >= 3600)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.05f;
-				player.GetCalamityPlayer().throwingVelocity += 0.05f;
-				player.GetCalamityPlayer().throwingCrit += 2;
+				player.Calamity().throwingDamage += 0.05f;
+				player.Calamity().throwingVelocity += 0.05f;
+				player.Calamity().throwingCrit += 2;
 			}
 			else if (rogueLevel >= 2800)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.04f;
-				player.GetCalamityPlayer().throwingVelocity += 0.04f;
-				player.GetCalamityPlayer().throwingCrit += 2;
+				player.Calamity().throwingDamage += 0.04f;
+				player.Calamity().throwingVelocity += 0.04f;
+				player.Calamity().throwingCrit += 2;
 			}
 			else if (rogueLevel >= 2100)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.04f;
-				player.GetCalamityPlayer().throwingVelocity += 0.03f;
-				player.GetCalamityPlayer().throwingCrit += 1;
+				player.Calamity().throwingDamage += 0.04f;
+				player.Calamity().throwingVelocity += 0.03f;
+				player.Calamity().throwingCrit += 1;
 			}
 			else if (rogueLevel >= 1500)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.03f;
-				player.GetCalamityPlayer().throwingVelocity += 0.02f;
-				player.GetCalamityPlayer().throwingCrit += 1;
+				player.Calamity().throwingDamage += 0.03f;
+				player.Calamity().throwingVelocity += 0.02f;
+				player.Calamity().throwingCrit += 1;
 			}
 			else if (rogueLevel >= 1000)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.03f;
-				player.GetCalamityPlayer().throwingVelocity += 0.01f;
-				player.GetCalamityPlayer().throwingCrit += 1;
+				player.Calamity().throwingDamage += 0.03f;
+				player.Calamity().throwingVelocity += 0.01f;
+				player.Calamity().throwingCrit += 1;
 			}
 			else if (rogueLevel >= 600)
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.02f;
-				player.GetCalamityPlayer().throwingVelocity += 0.01f;
+				player.Calamity().throwingDamage += 0.02f;
+				player.Calamity().throwingVelocity += 0.01f;
 			}
 			else if (rogueLevel >= 300)
-				player.GetCalamityPlayer().throwingDamage += 0.02f;
+				player.Calamity().throwingDamage += 0.02f;
 			else if (rogueLevel >= 100)
-				player.GetCalamityPlayer().throwingDamage += 0.01f;
+				player.Calamity().throwingDamage += 0.01f;
 			#endregion
 		}
 

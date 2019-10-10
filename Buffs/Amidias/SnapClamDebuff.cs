@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Amidias
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).clamDebuff = true;
+			npc.Calamity().clamDebuff = true;
 		}
 	}
 }

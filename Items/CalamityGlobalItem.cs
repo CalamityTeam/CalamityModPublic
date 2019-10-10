@@ -117,10 +117,10 @@ namespace CalamityMod.Items
 		{
 			if (rogue)
 			{
-				speedX *= player.GetCalamityPlayer().throwingVelocity;
-				speedY *= player.GetCalamityPlayer().throwingVelocity;
+				speedX *= player.Calamity().throwingVelocity;
+				speedY *= player.Calamity().throwingVelocity;
 			}
-			if (player.GetCalamityPlayer().luxorsGift)
+			if (player.Calamity().luxorsGift)
 			{
 				// useTime 9 = 0.9 useTime 2 = 0.2
 				double damageMult = 1.0;
@@ -147,36 +147,36 @@ namespace CalamityMod.Items
 						Projectile.NewProjectile(position.X, position.Y, 0f, 0f, mod.ProjectileType("LuxorsGiftSummon"), damage, 0f, player.whoAmI, 0f, 0f);
 				}
 			}
-			if (player.GetCalamityPlayer().eArtifact && item.ranged && !rogue)
+			if (player.Calamity().eArtifact && item.ranged && !rogue)
 			{
 				speedX *= 1.25f;
 				speedY *= 1.25f;
 			}
-			if (player.GetCalamityPlayer().bloodflareMage) //0 - 99
+			if (player.Calamity().bloodflareMage) //0 - 99
 			{
 				if (item.magic && Main.rand.Next(0, 100) >= 95)
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GhostlyBolt"), (int)((double)damage * (player.GetCalamityPlayer().auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("GhostlyBolt"), (int)((double)damage * (player.Calamity().auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
 					}
 				}
 			}
-			if (player.GetCalamityPlayer().bloodflareRanged) //0 - 99
+			if (player.Calamity().bloodflareRanged) //0 - 99
 			{
 				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 98)
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
-						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BloodBomb"), (int)((double)damage * (player.GetCalamityPlayer().auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("BloodBomb"), (int)((double)damage * (player.Calamity().auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
 					}
 				}
 			}
-			if (player.GetCalamityPlayer().tarraMage)
+			if (player.Calamity().tarraMage)
 			{
-				if (player.GetCalamityPlayer().tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
+				if (player.Calamity().tarraCrits >= 5 && player.whoAmI == Main.myPlayer)
 				{
-					player.GetCalamityPlayer().tarraCrits = 0;
+					player.Calamity().tarraCrits = 0;
 					int num106 = 9 + Main.rand.Next(3);
 					for (int num107 = 0; num107 < num106; num107++)
 					{
@@ -191,7 +191,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetCalamityPlayer().ataxiaBolt)
+			if (player.Calamity().ataxiaBolt)
 			{
 				if (item.ranged && !rogue && Main.rand.NextBool(2))
 				{
@@ -201,17 +201,17 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetCalamityPlayer().godSlayerRanged) //0 - 99
+			if (player.Calamity().godSlayerRanged) //0 - 99
 			{
 				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 95)
 				{
 					if (player.whoAmI == Main.myPlayer)
 					{
-						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("GodSlayerShrapnelRound"), (int)((double)damage * (player.GetCalamityPlayer().auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(position.X, position.Y, speedX * 1.25f, speedY * 1.25f, mod.ProjectileType("GodSlayerShrapnelRound"), (int)((double)damage * (player.Calamity().auricSet ? 3.2 : 2.1)), 2f, player.whoAmI, 0f, 0f);
 					}
 				}
 			}
-			if (player.GetCalamityPlayer().ataxiaVolley)
+			if (player.Calamity().ataxiaVolley)
 			{
 				if (rogue && Main.rand.NextBool(10))
 				{
@@ -233,7 +233,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetCalamityPlayer().reaverDoubleTap) //0 - 99
+			if (player.Calamity().reaverDoubleTap) //0 - 99
 			{
 				if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 90)
 				{
@@ -243,7 +243,7 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			if (player.GetCalamityPlayer().victideSet)
+			if (player.Calamity().victideSet)
 			{
 				if ((item.ranged || item.melee || item.magic ||
 					rogue || item.summon) && item.rare < 8 && Main.rand.NextBool(10))
@@ -329,7 +329,7 @@ namespace CalamityMod.Items
 		{
 			if (item.type == ItemID.Heart || item.type == ItemID.CandyApple || item.type == ItemID.CandyCane)
 			{
-				bool boostedHeart = player.GetCalamityPlayer().photosynthesis;
+				bool boostedHeart = player.Calamity().photosynthesis;
 				if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
 				{
 					player.statLife -= (boostedHeart ? 5 : 10);
@@ -354,7 +354,7 @@ namespace CalamityMod.Items
 		#region Use Item Changes
 		public override bool CanUseItem(Item item, Player player)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (item.type == ItemID.MonkStaffT1)
 			{
 				for (int i = 0; i < 1000; ++i)
@@ -1812,11 +1812,11 @@ namespace CalamityMod.Items
 				player.pickSpeed -= 0.4f;
 			else if (set == "Gladiator")
 			{
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.rogueStealthMax = 1f;
                 modPlayer.wearingRogueArmor = true;
-				player.GetCalamityPlayer().throwingDamage += 0.1f;
-				player.GetCalamityPlayer().throwingVelocity += 0.1f;
+				player.Calamity().throwingDamage += 0.1f;
+				player.Calamity().throwingVelocity += 0.1f;
 				player.statDefense += 5;
 				player.setBonus = "+5 defense\n" +
 							"10% increased rogue damage and velocity\n" +
@@ -1826,11 +1826,11 @@ namespace CalamityMod.Items
 			}
 			else if (set == "Obsidian")
 			{
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.rogueStealthMax = 1f;
                 modPlayer.wearingRogueArmor = true;
-				player.GetCalamityPlayer().throwingDamage += 0.05f;
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingDamage += 0.05f;
+				player.Calamity().throwingCrit += 5;
 				player.statDefense += 2;
 				player.fireWalk = true;
 				player.lavaMax += 180;
@@ -1857,7 +1857,7 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.SpectreHood)
 				player.magicDamage += 0.2f;
 			else if (item.type == ItemID.GladiatorHelmet || item.type == ItemID.ObsidianHelm)
-				player.GetCalamityPlayer().throwingDamage += 0.05f;
+				player.Calamity().throwingDamage += 0.05f;
 			else if (item.type == ItemID.ApprenticeHat)
 				player.minionDamage += 0.3f;
 			else if (item.type == ItemID.SquireGreatHelm)
@@ -1898,21 +1898,21 @@ namespace CalamityMod.Items
 
 			#region Body
 			if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingCrit += 5;
 			else if (item.type == ItemID.PalladiumBreastplate)
-				player.GetCalamityPlayer().throwingCrit += 2;
+				player.Calamity().throwingCrit += 2;
 			else if (item.type == ItemID.CobaltBreastplate)
-				player.GetCalamityPlayer().throwingCrit += 3;
+				player.Calamity().throwingCrit += 3;
 			else if (item.type == ItemID.OrichalcumBreastplate)
-				player.GetCalamityPlayer().throwingCrit += 6;
+				player.Calamity().throwingCrit += 6;
 			else if (item.type == ItemID.TitaniumBreastplate)
-				player.GetCalamityPlayer().throwingCrit += 3;
+				player.Calamity().throwingCrit += 3;
 			else if (item.type == ItemID.HallowedPlateMail)
-				player.GetCalamityPlayer().throwingCrit += 7;
+				player.Calamity().throwingCrit += 7;
 			else if (item.type == ItemID.ChlorophytePlateMail)
-				player.GetCalamityPlayer().throwingCrit += 7;
+				player.Calamity().throwingCrit += 7;
 			else if (item.type == ItemID.Gi)
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingCrit += 5;
 			else if (item.type == ItemID.ApprenticeRobe)
 				player.minionDamage -= 0.2f;
 			else if (item.type == ItemID.SquirePlating)
@@ -1942,17 +1942,17 @@ namespace CalamityMod.Items
 
 			#region Legs
 			if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
-				player.GetCalamityPlayer().throwingVelocity += 0.05f;
+				player.Calamity().throwingVelocity += 0.05f;
 			else if (item.type == ItemID.PalladiumLeggings)
-				player.GetCalamityPlayer().throwingCrit += 1;
+				player.Calamity().throwingCrit += 1;
 			else if (item.type == ItemID.MythrilGreaves)
-				player.GetCalamityPlayer().throwingCrit += 3;
+				player.Calamity().throwingCrit += 3;
 			else if (item.type == ItemID.AdamantiteLeggings)
-				player.GetCalamityPlayer().throwingCrit += 4;
+				player.Calamity().throwingCrit += 4;
 			else if (item.type == ItemID.TitaniumLeggings)
-				player.GetCalamityPlayer().throwingCrit += 3;
+				player.Calamity().throwingCrit += 3;
 			else if (item.type == ItemID.ChlorophyteGreaves)
-				player.GetCalamityPlayer().throwingCrit += 8;
+				player.Calamity().throwingCrit += 8;
 			else if (item.type == ItemID.ApprenticeTrousers)
 			{
 				player.magicCrit -= 20;
@@ -1994,7 +1994,7 @@ namespace CalamityMod.Items
 		#region Accessory Changes
 		public override void UpdateAccessory(Item item, Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 
 			if (item.type == ItemID.AngelWings) // Boost to max life, defense, and life regen
 			{
@@ -2189,14 +2189,14 @@ namespace CalamityMod.Items
 			if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
 				(item.type == ItemID.SunStone && Main.dayTime))
 			{
-				player.GetCalamityPlayer().throwingCrit += 2;
+				player.Calamity().throwingCrit += 2;
 			}
 			if (item.type == ItemID.DestroyerEmblem)
-				player.GetCalamityPlayer().throwingCrit += 8;
+				player.Calamity().throwingCrit += 8;
 			if (item.type == ItemID.EyeoftheGolem)
-				player.GetCalamityPlayer().throwingCrit += 10;
+				player.Calamity().throwingCrit += 10;
 			if (item.type == ItemID.PutridScent)
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingCrit += 5;
 
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
 			if (item.prefix == 62)
@@ -2215,7 +2215,7 @@ namespace CalamityMod.Items
 				player.rangedCrit -= 1;
 				player.magicCrit -= 1;
                 player.thrownCrit -= 1;
-				player.GetCalamityPlayer().throwingCrit += (item.prefix == 68 ? 3 : 1);
+				player.Calamity().throwingCrit += (item.prefix == 68 ? 3 : 1);
 			}
 		}
 		#endregion
@@ -2223,7 +2223,7 @@ namespace CalamityMod.Items
 		#region WingChanges
 		public override void HorizontalWingSpeeds(Item item, Player player, ref float speed, ref float acceleration)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			float flightSpeedMult = 1f +
 				(modPlayer.soaring ? 0.1f : 0f) +
 				(modPlayer.holyWrath ? 0.05f : 0f) +
@@ -2246,7 +2246,7 @@ namespace CalamityMod.Items
 		#region GrabChanges
 		public override void GrabRange(Item item, Player player, ref int grabRange)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			int itemGrabRangeBoost = 0 +
 				(modPlayer.wallOfFleshLore ? 10 : 0) +
 				(modPlayer.planteraLore ? 20 : 0) +

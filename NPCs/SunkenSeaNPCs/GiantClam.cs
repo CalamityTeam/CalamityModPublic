@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 			npc.width = 160;
 			npc.height = 120;
 			npc.defense = 9999;
-            npc.GetCalamityNPC().RevPlusDR(0.3f);
+            npc.Calamity().RevPlusDR(0.3f);
             npc.lifeMax = Main.hardMode ? 7500 : 1250;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
@@ -348,7 +348,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(mod.NPCType("GiantClam")))
+			if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(mod.NPCType("GiantClam")))
             {
 				return SpawnCondition.CaveJellyfish.Chance * 0.12f;
 			}

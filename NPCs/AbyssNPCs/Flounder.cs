@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur && spawnInfo.water)
+			if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water)
 			{
 				return 0.2f;
 			}

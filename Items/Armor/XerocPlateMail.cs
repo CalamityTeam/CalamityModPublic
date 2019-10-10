@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 20;
             player.moveSpeed += 0.06f;
-            player.GetCalamityPlayer().throwingCrit += 7;
-            player.GetCalamityPlayer().throwingDamage += 0.07f;
+            player.Calamity().throwingCrit += 7;
+            player.Calamity().throwingDamage += 0.07f;
         }
 
         public override void AddRecipes()

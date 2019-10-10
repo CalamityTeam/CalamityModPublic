@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 5;
 			item.shoot = mod.ProjectileType("IchorSpear");
 			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 	}
 }

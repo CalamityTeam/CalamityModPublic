@@ -32,7 +32,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.shootSpeed = 22f;
             item.maxStack = 999;
             item.consumable = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
     }
 }

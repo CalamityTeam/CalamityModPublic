@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
             item.rare = 10;
             item.shoot = mod.ProjectileType("GildedProboscis");
             item.shootSpeed = 13f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override bool CanUseItem(Player player)

@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Patreon
 
 			item.value = Item.buyPrice(0, 36, 0, 0);
 			item.rare = 5;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
 		public override void AddRecipes()

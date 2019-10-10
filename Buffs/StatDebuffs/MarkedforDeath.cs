@@ -19,12 +19,12 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).marked = true;
+			npc.Calamity().marked = true;
 		}
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().marked = true;
+			player.Calamity().marked = true;
 		}
 	}
 }

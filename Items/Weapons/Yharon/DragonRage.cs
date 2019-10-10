@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.rare = 10;
             item.shoot = mod.ProjectileType("DragonRage");
             item.shootSpeed = 14f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 514;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 1;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
         public override void AI()

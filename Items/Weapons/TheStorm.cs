@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("Bolt");
             item.shootSpeed = 28f;
             item.useAmmo = 40;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.xerocSet = true;
 			modPlayer.rogueStealthMax = 1.25f;
 			player.setBonus = "9% increased rogue damage and velocity\n" +
@@ -53,15 +53,15 @@ namespace CalamityMod.Items.Armor
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
             }
-            player.GetCalamityPlayer().throwingDamage += 0.09f;
-            player.GetCalamityPlayer().throwingVelocity += 0.09f;
-            player.GetCalamityPlayer().wearingRogueArmor = true;
+            player.Calamity().throwingDamage += 0.09f;
+            player.Calamity().throwingVelocity += 0.09f;
+            player.Calamity().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetCalamityPlayer().throwingDamage += 0.11f;
-            player.GetCalamityPlayer().throwingCrit += 11;
+            player.Calamity().throwingDamage += 0.11f;
+            player.Calamity().throwingCrit += 11;
 			player.moveSpeed += 0.22f;
 			player.lavaMax += 240;
 			player.buffImmune[BuffID.OnFire] = true;

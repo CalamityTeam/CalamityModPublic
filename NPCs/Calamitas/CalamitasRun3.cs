@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.width = 120;
 			npc.height = 120;
 			npc.defense = 25;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
 			npc.lifeMax = CalamityWorld.revenge ? 38812 : 28125;
 			if (CalamityWorld.death)
 			{
@@ -332,7 +332,7 @@ namespace CalamityMod.NPCs.Calamitas
 					{
 						npc.localAI[1] = 0f;
 						float num828 = CalamityWorld.bossRushActive ? 16f : (expertMode ? 14f : 12.5f);
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							num828 += 5f;
 
 						int num829 = expertMode ? 34 : 42;
@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.Calamitas
 							npc.localAI[1] += 0.5f;
 						if (CalamityWorld.death || CalamityWorld.bossRushActive)
 							npc.localAI[1] += 0.5f;
-						if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							npc.localAI[1] += 0.5f;
 						if (expertMode)
 							npc.localAI[1] += 0.5f;

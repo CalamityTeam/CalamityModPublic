@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.rare = 10;
             item.shoot = mod.ProjectileType("EradicatorMeleeProjectile");
             item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

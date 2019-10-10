@@ -28,7 +28,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.rare = 1;
 			item.shoot = mod.ProjectileType("UrchinStinger");
 			item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 	}
 }

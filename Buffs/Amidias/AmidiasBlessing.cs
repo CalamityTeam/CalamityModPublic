@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.Amidias
 
         public override void Update(Player player, ref int buffIndex)
 		{
-            player.GetCalamityPlayer().amidiasBlessing = true;
+            player.Calamity().amidiasBlessing = true;
             player.breath = player.breathMax + 91;
         }
 	}

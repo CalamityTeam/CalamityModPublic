@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }

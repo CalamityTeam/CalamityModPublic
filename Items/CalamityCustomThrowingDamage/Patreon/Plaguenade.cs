@@ -31,8 +31,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
             item.rare = 8;
 			item.shoot = mod.ProjectileType("Plaguenade");
 			item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
         public override void AddRecipes()

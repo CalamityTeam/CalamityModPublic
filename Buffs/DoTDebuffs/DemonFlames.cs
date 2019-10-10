@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).dFlames = true;
+			npc.Calamity().dFlames = true;
 		}
 	}
 }

@@ -30,18 +30,18 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 			item.height = 64;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 			item.shoot = mod.ProjectileType("BloodsoakedCrashax");
 			item.shootSpeed = 15f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.GetCalamityPlayer().StealthStrikeAvailable()) //setting the stealth strike
+            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int p = Projectile.NewProjectile(position, new Vector2(speedX, speedY), mod.ProjectileType("BloodsoakedCrashax"), damage, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }
             return true;

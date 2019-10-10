@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("Vortex");
 	        item.shootSpeed = 9f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+			item.Calamity().postMoonLordRarity = 15;
 		}
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Patreon
 
 			item.value = Item.buyPrice(1, 80, 0, 0);
 			item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 
 			item.shoot = mod.ProjectileType("KarasawaShot");
 			item.shootSpeed = 1f;

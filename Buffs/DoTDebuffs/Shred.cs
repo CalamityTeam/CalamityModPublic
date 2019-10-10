@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).pShred = true;
+			npc.Calamity().pShred = true;
 		}
 	}
 }

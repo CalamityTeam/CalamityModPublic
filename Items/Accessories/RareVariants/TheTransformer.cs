@@ -22,12 +22,12 @@ namespace CalamityMod.Items.Accessories.RareVariants
 			item.value = Item.buyPrice(0, 3, 0, 0);
 			item.rare = 1;
 			item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.aSparkRare = true;
 			modPlayer.aSpark = true;
 		}

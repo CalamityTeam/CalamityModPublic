@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Patreon
             item.UseSound = SoundID.NPCHit56;
             item.noMelee = true;
             item.mountType = mod.MountType("Crysthamyr");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
 		public override void AddRecipes()

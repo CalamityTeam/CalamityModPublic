@@ -289,7 +289,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer3 && spawnInfo.water)
+			if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water)
 			{
 				return 0.05f;
 			}

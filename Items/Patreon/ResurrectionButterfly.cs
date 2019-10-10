@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Patreon
 			item.knockBack = 1f;
 			item.value = Item.buyPrice(0, 80, 0, 0);
 			item.rare = 8;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 			item.UseSound = SoundID.Item44;
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("PinkButterfly");

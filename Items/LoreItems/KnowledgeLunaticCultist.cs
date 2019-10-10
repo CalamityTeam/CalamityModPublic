@@ -32,7 +32,7 @@ namespace CalamityMod.Items.LoreItems
 		{
 			if (NPC.LunarApocalypseIsUp)
 			{
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.lunaticCultistLore = true;
 			}
 		}

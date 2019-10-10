@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 			projectile.extraUpdates = 2;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
 		public override void AI()
@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.owner == Main.myPlayer)
 			{
 				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+				Main.projectile[proj].Calamity().forceRogue = true;
 			}
 		}
 

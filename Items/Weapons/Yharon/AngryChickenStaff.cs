@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.shoot = mod.ProjectileType("AngryChicken");
             item.shootSpeed = 10f;
             item.summon = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
 		public override bool AltFunctionUse(Player player)

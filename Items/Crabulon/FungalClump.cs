@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Crabulon
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fungalClump)
             {
                 return false;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Crabulon
 
         public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-	    	CalamityPlayer modPlayer = player.GetCalamityPlayer();
+	    	CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.fungalClump = true;
 			if (player.whoAmI == Main.myPlayer)
 			{

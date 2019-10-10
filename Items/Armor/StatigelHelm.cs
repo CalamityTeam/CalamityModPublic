@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                 "Grants an extra jump and increased jump height";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             player.doubleJumpSail = true;
             player.jumpBoost = true;

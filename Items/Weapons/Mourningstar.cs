@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shootSpeed = 24f;
 			item.shoot = mod.ProjectileType("Mourningstar");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
 		public override void AddRecipes()

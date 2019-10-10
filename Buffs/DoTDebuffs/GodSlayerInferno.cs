@@ -20,12 +20,12 @@ namespace CalamityMod.Buffs.DoTDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().gsInferno = true;
+			player.Calamity().gsInferno = true;
 		}
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).gsInferno = true;
+			npc.Calamity().gsInferno = true;
 		}
 	}
 }

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Patreon
 
 			item.value = Item.buyPrice(1, 40, 0, 0);
 			item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 
 			item.shoot = mod.ProjectileType("HandheldTankShell");
 			item.shootSpeed = 6f;

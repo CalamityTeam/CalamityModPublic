@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = true;
             projectile.timeLeft = 300;
             projectile.penetrate = 2;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
 		}
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

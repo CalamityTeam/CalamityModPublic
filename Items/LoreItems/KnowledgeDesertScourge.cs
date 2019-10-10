@@ -30,9 +30,9 @@ namespace CalamityMod.Items.LoreItems
 
 		public override void UpdateInventory(Player player)
 		{
-			if (player.ZoneDesert || player.GetCalamityPlayer().ZoneSunkenSea)
+			if (player.ZoneDesert || player.Calamity().ZoneSunkenSea)
 			{
-				player.GetCalamityPlayer().desertScourgeLore = true;
+				player.Calamity().desertScourgeLore = true;
 			}
 		}
 	}

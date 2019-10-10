@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			npc.width = 30; //324
 			npc.height = 30; //216
 			npc.defense = 10;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
 			npc.lifeMax = 50;
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -302,7 +302,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			return (spawnInfo.player.GetCalamityPlayer().ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.1f : 0f;
+			return (spawnInfo.player.Calamity().ZoneAstral && !spawnInfo.player.ZoneTowerStardust && !spawnInfo.player.ZoneTowerSolar && !spawnInfo.player.ZoneTowerVortex && !spawnInfo.player.ZoneTowerNebula) ? 0.1f : 0f;
         }
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)

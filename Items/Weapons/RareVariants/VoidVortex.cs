@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			item.autoReuse = true;
 			item.shoot = mod.ProjectileType("Climax2");
 			item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

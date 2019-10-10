@@ -31,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 		{
 			if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
 			{
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.dukeFishronLore = true;
 			}
 		}

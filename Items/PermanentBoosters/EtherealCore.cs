@@ -27,7 +27,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
 		public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (modPlayer.eCore)
 			{
 				return false;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.PermanentBoosters
 				{
 					player.ManaEffect(50);
 				}
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.eCore = true;
 			}
 			return true;

@@ -28,8 +28,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
             item.rare = 10;
             item.shoot = mod.ProjectileType("Valediction2");
 			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 	}
 }

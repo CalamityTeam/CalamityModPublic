@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().scarfCooldown = true;
+			player.Calamity().scarfCooldown = true;
 		}
 	}
 }

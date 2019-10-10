@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Astrageldon
 			npc.width = 400;
 			npc.height = 280;
 			npc.defense = 50;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
             npc.LifeMaxNERD(96000, NPC.downedMoonlord ? 440000 : 122000, 187000, 1400000, 1600000);
 			npc.aiStyle = -1;
 			aiType = -1;

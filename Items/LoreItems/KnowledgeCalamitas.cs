@@ -21,7 +21,7 @@ namespace CalamityMod.Items.LoreItems
 			item.height = 20;
 			item.rare = 10;
 			item.consumable = false;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
+			item.Calamity().postMoonLordRarity = 15;
 		}
 
 		public override bool CanUseItem(Player player)
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 
 		public override void UpdateInventory(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.SCalLore = true;
 		}
 	}

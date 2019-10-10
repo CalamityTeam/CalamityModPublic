@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.PetBuffs
 		{
 			player.buffTime[buffIndex] = 18000;
 
-            player.GetCalamityPlayer().chibii = true;
+            player.Calamity().chibii = true;
 
 			bool petProjectileNotSpawned = player.ownedProjectileCounts[mod.ProjectileType("ChibiiDoggo")] <= 0;
 

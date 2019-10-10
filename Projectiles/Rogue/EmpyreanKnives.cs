@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[1] == 1f)
             {
                 projectile.melee = false;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+				projectile.Calamity().rogue = true;
 			}
         	projectile.ai[0] += 1f;
 			if (projectile.ai[0] >= 75f)

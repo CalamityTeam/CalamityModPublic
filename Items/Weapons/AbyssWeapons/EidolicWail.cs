@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
 	        item.autoReuse = true;
 	        item.shootSpeed = 5f;
 	        item.shoot = mod.ProjectileType("EidolicWail");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override Vector2? HoldoutOffset()

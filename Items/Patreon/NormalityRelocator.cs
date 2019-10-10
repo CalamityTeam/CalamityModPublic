@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Patreon
 			item.height = 38;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
 		public override void UpdateInventory(Player player)
 		{
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.normalityRelocator = true;
         }
 

@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().weakPetrification = true;
+			player.Calamity().weakPetrification = true;
 		}
 	}
 }

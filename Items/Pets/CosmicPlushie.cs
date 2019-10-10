@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Pets
             item.buffType = mod.BuffType("ChibiiBuff");
 			item.rare = 10;
 			item.UseSound = new Terraria.Audio.LegacySoundStyle(SoundID.Meowmere, 5);
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
+			item.Calamity().postMoonLordRarity = 14;
 		}
 
         public override void UseStyle(Player player)

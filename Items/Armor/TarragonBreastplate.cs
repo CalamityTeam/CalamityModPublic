@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Armor
             item.lifeRegen = 2;
 			item.value = Item.buyPrice(0, 40, 0, 0);
 			item.defense = 37;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
         public override void UpdateEquip(Player player)

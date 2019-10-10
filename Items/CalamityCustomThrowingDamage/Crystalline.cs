@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 2;
 			item.shoot = mod.ProjectileType("Crystalline");
 			item.shootSpeed = 10f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+			item.Calamity().rogue = true;
 		}
 
 		public override void AddRecipes()

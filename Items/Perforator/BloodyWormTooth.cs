@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Perforator
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.bloodyWormTooth = true;
         }
     }

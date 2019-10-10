@@ -14,7 +14,7 @@ namespace CalamityMod.CalPlayer
 		public static void CalamityUpdateBadLifeRegen(Player player, Mod mod)
 		{
 			Point point = player.Center.ToTileCoordinates();
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 
 			//Initial Debuffs
 
@@ -402,7 +402,7 @@ namespace CalamityMod.CalPlayer
 		#region Update Life Regen
 		public static void CalamityUpdateLifeRegen(Player player, Mod mod)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 
 			if (!player.shinyStone)
 			{

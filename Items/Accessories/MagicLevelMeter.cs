@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            int level = Main.player[Main.myPlayer].GetCalamityPlayer().magicLevel;
-            int exactLevel = Main.player[Main.myPlayer].GetCalamityPlayer().exactMagicLevel;
+            int level = Main.player[Main.myPlayer].Calamity().magicLevel;
+            int exactLevel = Main.player[Main.myPlayer].Calamity().exactMagicLevel;
             int damageGain = 0;
             int manaUsage = 0;
             int critGain = 0;
@@ -122,7 +122,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.fasterMagicLevel = true;
         }
     }

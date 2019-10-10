@@ -26,7 +26,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			npc.width = 180;
 			npc.height = 90;
 			npc.defense = 50;
-            npc.GetCalamityNPC().RevPlusDR(0.05f);
+            npc.Calamity().RevPlusDR(0.05f);
 			npc.lifeMax = 165000;
 			npc.aiStyle = -1;
 			aiType = -1;
@@ -364,7 +364,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 			{
 				return 0f;
 			}
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSulphur && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Mauler")) &&
+			if (spawnInfo.player.Calamity().ZoneSulphur && spawnInfo.water && !NPC.AnyNPCs(mod.NPCType("Mauler")) &&
 				!NPC.AnyNPCs(mod.NPCType("AquaticScourgeHead")))
 			{
 				if (!Main.hardMode)

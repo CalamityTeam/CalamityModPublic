@@ -52,7 +52,7 @@ namespace CalamityMod.Items.HiveMind
                     }
                 }
             }
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.rBrain = true;
         }
     }

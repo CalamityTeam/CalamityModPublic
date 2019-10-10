@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 			projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 120;

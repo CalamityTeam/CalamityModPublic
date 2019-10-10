@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.PotionBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().draconicSurge = true;
+			player.Calamity().draconicSurge = true;
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Amidias
 			projectile.width = 20;
 			projectile.height = 13;
 			projectile.friendly = true;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 			projectile.ignoreWater = true;
 			projectile.penetrate = -1;
 		}

@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Patreon
 			projectile.width = 26;
 			projectile.height = 26;
 			projectile.friendly = true;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 			projectile.ignoreWater = true;
 			projectile.penetrate = 1;
 		}

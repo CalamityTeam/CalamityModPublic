@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons
 						type = mod.ProjectileType("TyphoonArrow");
 					}
 					int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-					Main.projectile[num121].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
+					Main.projectile[num121].Calamity().forceRanged = true;
 					Main.projectile[num121].noDropItem = true;
 				}
 				else

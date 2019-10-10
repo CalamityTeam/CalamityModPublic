@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Leviathan
                 NPC.AnyNPCs(mod.NPCType("LeviathanStart")) ||
                 NPC.AnyNPCs(mod.NPCType("Siren")) ||
                 NPC.AnyNPCs(mod.NPCType("Leviathan")) ||
-                spawnInfo.player.GetCalamityPlayer().ZoneSulphur)
+                spawnInfo.player.Calamity().ZoneSulphur)
 			{
 				return 0f;
 			}

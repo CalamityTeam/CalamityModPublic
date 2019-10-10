@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.width = 50;
 			npc.height = 64;
 			npc.defense = 10;
-            npc.GetCalamityNPC().RevPlusDR(0.1f);
+            npc.Calamity().RevPlusDR(0.1f);
 			npc.lifeMax = 300;
 			npc.knockBackResist = 0f;
 			npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -345,7 +345,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.player.ZoneTowerVortex &&
                 !spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon &&
-				!spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea &&
+				!spawnInfo.player.Calamity().ZoneSunkenSea &&
 				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
         }
 

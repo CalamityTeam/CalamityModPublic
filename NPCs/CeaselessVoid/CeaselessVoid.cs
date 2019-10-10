@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 				{
 					beamPortal += 1;
 				}
-				if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
 				{
 					beamPortal += 2;
 				}

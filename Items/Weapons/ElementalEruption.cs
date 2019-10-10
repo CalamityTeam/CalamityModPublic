@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
 			item.shoot = mod.ProjectileType("TerraFireGreen2");
 			item.shootSpeed = 10f;
 			item.useAmmo = 23;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+			item.Calamity().postMoonLordRarity = 12;
 		}
 
 	    public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

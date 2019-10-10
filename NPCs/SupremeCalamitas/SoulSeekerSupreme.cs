@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			npc.canGhostHeal = false;
 			npc.damage = 0;
 			npc.defense = 80;
-            npc.GetCalamityNPC().RevPlusDR(0.35f);
+            npc.Calamity().RevPlusDR(0.35f);
             npc.lifeMax = Main.expertMode ? 90000 : 50000;
             if (CalamityWorld.revenge)
             {

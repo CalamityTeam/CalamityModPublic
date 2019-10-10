@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 19;
             projectile.height = 19;
             projectile.friendly = true;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
 
                     //Spawn the projectile
-                    Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, mod.ProjectileType<BrickFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
                     split += 1;
                 }
             }

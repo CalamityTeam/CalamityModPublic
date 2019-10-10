@@ -23,7 +23,7 @@ No positive life regen");
 			item.value = Item.sellPrice(0, 38, 0, 0);
 			item.rare = 10;
 			item.defense = 28;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override void UpdateEquip(Player player)

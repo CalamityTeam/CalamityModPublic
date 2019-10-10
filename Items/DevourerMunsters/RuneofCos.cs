@@ -26,7 +26,7 @@ namespace CalamityMod.Items.DevourerMunsters
 			item.UseSound = SoundID.Item44;
 			item.consumable = false;
 			item.shoot = mod.ProjectileType("VoidSpawn");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
 		public override bool CanUseItem(Player player)

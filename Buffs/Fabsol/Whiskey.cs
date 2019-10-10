@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.Fabsol
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().whiskey = true;
+			player.Calamity().whiskey = true;
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.tileCollide = false;
 				projectile.ai[1] = 0f;
 			}
-            projectile.damage += projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).defDamage / 200;
+            projectile.damage += projectile.Calamity().defDamage / 200;
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 25;

@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (projectile.localAI[1] == 0f)
             {
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage; //66% = 1.66
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage; //300 * 1.66 = 498 (new value)
+				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage; //66% = 1.66
+				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage; //300 * 1.66 = 498 (new value)
 				int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
@@ -54,10 +54,10 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[1] += 1f;
             }
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
+			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
 			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue / //498
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) * //1.66 498 / 1.66 = 300 (original value)
+				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / //498
+					projectile.Calamity().spawnedPlayerMinionDamageValue) * //1.66 498 / 1.66 = 300 (original value)
 					Main.player[projectile.owner].minionDamage); //300 * 1.15 = 345 (new value)
 				projectile.damage = damage2;
 			}
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             bool flag64 = projectile.type == mod.ProjectileType("Calamari");
             Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(mod.BuffType("Calamari"), 3600);
             if (flag64)
             {

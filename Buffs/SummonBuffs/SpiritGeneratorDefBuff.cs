@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.SummonBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().sDefense = true;
+			player.Calamity().sDefense = true;
 		}
 	}
 }

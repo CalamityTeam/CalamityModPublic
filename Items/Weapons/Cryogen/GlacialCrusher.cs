@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Cryogen
 				damage *= 2;
 				knockBack *= 2f;
 			}
-			else if (target.GetGlobalNPC<CalamityGlobalNPC>(mod).gState)
+			else if (target.Calamity().gState)
 			{
 				damage *= 3;
 				knockBack *= 3f;

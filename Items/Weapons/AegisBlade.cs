@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons
             item.rare = 7;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.shootSpeed = 14f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+			item.Calamity().postMoonLordRarity = 17;
 		}
 
 		public override bool AltFunctionUse(Player player)

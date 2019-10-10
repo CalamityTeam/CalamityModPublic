@@ -517,7 +517,7 @@ namespace CalamityMod.NPCs
                     {
                         if (!Main.LocalPlayer.dead && Main.LocalPlayer.active)
                         {
-                            Main.LocalPlayer.GetCalamityPlayer().adrenaline = 0;
+                            Main.LocalPlayer.Calamity().adrenaline = 0;
                         }
                     }
                 }
@@ -1104,7 +1104,7 @@ namespace CalamityMod.NPCs
                 damage /= 2;
             }
 
-            if (target.GetCalamityPlayer().beeResist)
+            if (target.Calamity().beeResist)
             {
                 if (CalamityMod.beeEnemyList.Contains(npc.type))
                 {
@@ -1332,7 +1332,7 @@ namespace CalamityMod.NPCs
                 npc.type == NPCID.BigHornetSpikey || npc.type == NPCID.LittleHornetSpikey || npc.type == NPCID.BigHornetLeafy || npc.type == NPCID.LittleHornetLeafy ||
                 npc.type == NPCID.BigHornetHoney || npc.type == NPCID.LittleHornetHoney || npc.type == NPCID.BigHornetFatty || npc.type == NPCID.LittleHornetFatty)
             {
-                if (Main.player[npc.target].GetCalamityPlayer().queenBeeLore)
+                if (Main.player[npc.target].Calamity().queenBeeLore)
                 {
                     CalamityGlobalAI.QueenBeeLoreEffect(npc);
                     return false;
@@ -2061,7 +2061,7 @@ namespace CalamityMod.NPCs
         #region On Hit Player
         public override void OnHitPlayer(NPC npc, Player target, int damage, bool crit)
         {
-            if (target.GetCalamityPlayer().snowman)
+            if (target.Calamity().snowman)
             {
                 if (npc.type == NPCID.Demon || npc.type == NPCID.VoodooDemon || npc.type == NPCID.RedDevil)
                 {
@@ -2317,7 +2317,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].GetCalamityPlayer().eGauntlet)
+            if (Main.player[projectile.owner].Calamity().eGauntlet)
             {
                 if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
                 {
@@ -2328,7 +2328,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].GetCalamityPlayer().eTalisman)
+            if (Main.player[projectile.owner].Calamity().eTalisman)
             {
                 if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
                 {
@@ -2339,9 +2339,9 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].GetCalamityPlayer().nanotech)
+            if (Main.player[projectile.owner].Calamity().nanotech)
             {
-                if (projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses)
                     {
@@ -2350,7 +2350,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].GetCalamityPlayer().eQuiver)
+            if (Main.player[projectile.owner].Calamity().eQuiver)
             {
                 if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
                 {
@@ -2361,7 +2361,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].GetCalamityPlayer().statisBeltOfCurses)
+            if (Main.player[projectile.owner].Calamity().statisBeltOfCurses)
             {
                 if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
                 {
@@ -2377,18 +2377,18 @@ namespace CalamityMod.NPCs
         #region On Hit By Item
         public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
         {
-            if (player.GetCalamityPlayer().bloodflareSet)
+            if (player.Calamity().bloodflareSet)
             {
                 if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
-                    player.GetCalamityPlayer().bloodflareHeartTimer <= 0)
+                    player.Calamity().bloodflareHeartTimer <= 0)
                 {
-                    player.GetCalamityPlayer().bloodflareHeartTimer = 180;
+                    player.Calamity().bloodflareHeartTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Heart);
                 }
                 else if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life > npc.lifeMax * 0.5) &&
-                    player.GetCalamityPlayer().bloodflareManaTimer <= 0)
+                    player.Calamity().bloodflareManaTimer <= 0)
                 {
-                    player.GetCalamityPlayer().bloodflareManaTimer = 180;
+                    player.Calamity().bloodflareManaTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Star);
                 }
             }
@@ -2400,7 +2400,7 @@ namespace CalamityMod.NPCs
         {
 			bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type);
 
-            if (Main.player[projectile.owner].GetCalamityPlayer().sGenerator)
+            if (Main.player[projectile.owner].Calamity().sGenerator)
             {
                 if (isSummon && npc.damage > 0)
                 {
@@ -2424,18 +2424,18 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.player[projectile.owner].GetCalamityPlayer().bloodflareSet)
+            if (Main.player[projectile.owner].Calamity().bloodflareSet)
             {
                 if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
-                    Main.player[projectile.owner].GetCalamityPlayer().bloodflareHeartTimer <= 0)
+                    Main.player[projectile.owner].Calamity().bloodflareHeartTimer <= 0)
                 {
-                    Main.player[projectile.owner].GetCalamityPlayer().bloodflareHeartTimer = 180;
+                    Main.player[projectile.owner].Calamity().bloodflareHeartTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Heart);
                 }
                 else if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life > npc.lifeMax * 0.5) &&
-                    Main.player[projectile.owner].GetCalamityPlayer().bloodflareManaTimer <= 0)
+                    Main.player[projectile.owner].Calamity().bloodflareManaTimer <= 0)
                 {
-                    Main.player[projectile.owner].GetCalamityPlayer().bloodflareManaTimer = 180;
+                    Main.player[projectile.owner].Calamity().bloodflareManaTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Star);
                 }
             }
@@ -2585,7 +2585,7 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Rate
         public override void EditSpawnRate(Player player, ref int spawnRate, ref int maxSpawns)
         {
-            if (player.GetCalamityPlayer().ZoneSulphur)
+            if (player.Calamity().ZoneSulphur)
             {
                 spawnRate = (int)(spawnRate * 1.1);
                 maxSpawns = (int)(maxSpawns * 0.8f);
@@ -2595,28 +2595,28 @@ namespace CalamityMod.NPCs
                     maxSpawns = (int)(maxSpawns * 1.2f);
                 }
             }
-            else if (player.GetCalamityPlayer().ZoneAbyss)
+            else if (player.Calamity().ZoneAbyss)
             {
                 spawnRate = (int)(spawnRate * 0.7);
                 maxSpawns = (int)(maxSpawns * 1.1f);
             }
-            else if (player.GetCalamityPlayer().ZoneCalamity)
+            else if (player.Calamity().ZoneCalamity)
             {
                 spawnRate = (int)(spawnRate * 0.9);
                 maxSpawns = (int)(maxSpawns * 1.1f);
             }
-            else if (player.GetCalamityPlayer().ZoneAstral)
+            else if (player.Calamity().ZoneAstral)
             {
                 spawnRate = (int)(spawnRate * 0.6);
                 maxSpawns = (int)(maxSpawns * 1.2f);
             }
-            else if (player.GetCalamityPlayer().ZoneSunkenSea)
+            else if (player.Calamity().ZoneSunkenSea)
             {
                 spawnRate = (int)(spawnRate * 0.9);
                 maxSpawns = (int)(maxSpawns * 1.1f);
             }
 
-            if (player.GetCalamityPlayer().clamity)
+            if (player.Calamity().clamity)
             {
                 spawnRate = (int)(spawnRate * 0.02);
                 maxSpawns = (int)(maxSpawns * 1.5f);
@@ -2636,36 +2636,36 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 0.75);
             }
 
-            if (player.GetCalamityPlayer().zerg && player.GetCalamityPlayer().chaosCandle)
+            if (player.Calamity().zerg && player.Calamity().chaosCandle)
             {
                 spawnRate = (int)(spawnRate * 0.005);
                 maxSpawns = (int)(maxSpawns * 7.5f);
             }
-            else if (player.GetCalamityPlayer().zerg)
+            else if (player.Calamity().zerg)
             {
                 spawnRate = (int)(spawnRate * 0.01);
                 maxSpawns = (int)(maxSpawns * 5f);
             }
-            else if (player.GetCalamityPlayer().chaosCandle)
+            else if (player.Calamity().chaosCandle)
             {
                 spawnRate = (int)(spawnRate * 0.02);
                 maxSpawns = (int)(maxSpawns * 2.5f);
             }
 
-            if (player.GetCalamityPlayer().zen && player.GetCalamityPlayer().tranquilityCandle)
+            if (player.Calamity().zen && player.Calamity().tranquilityCandle)
             {
-                spawnRate = (int)(spawnRate * (player.GetCalamityPlayer().ZoneAbyss ? 1.75 : 75));
-                maxSpawns = (int)(maxSpawns * (player.GetCalamityPlayer().ZoneAbyss ? 0.625f : 0.005f));
+                spawnRate = (int)(spawnRate * (player.Calamity().ZoneAbyss ? 1.75 : 75));
+                maxSpawns = (int)(maxSpawns * (player.Calamity().ZoneAbyss ? 0.625f : 0.005f));
             }
-            else if (CalamityPlayer.areThereAnyDamnBosses || player.GetCalamityPlayer().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+            else if (CalamityPlayer.areThereAnyDamnBosses || player.Calamity().zen || (Config.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
             {
-                spawnRate = (int)(spawnRate * (player.GetCalamityPlayer().ZoneAbyss ? 1.5 : 50));
-                maxSpawns = (int)(maxSpawns * (player.GetCalamityPlayer().ZoneAbyss ? 0.75f : 0.01f));
+                spawnRate = (int)(spawnRate * (player.Calamity().ZoneAbyss ? 1.5 : 50));
+                maxSpawns = (int)(maxSpawns * (player.Calamity().ZoneAbyss ? 0.75f : 0.01f));
             }
-            else if (player.GetCalamityPlayer().tranquilityCandle)
+            else if (player.Calamity().tranquilityCandle)
             {
-                spawnRate = (int)(spawnRate * (player.GetCalamityPlayer().ZoneAbyss ? 1.25 : 25));
-                maxSpawns = (int)(maxSpawns * (player.GetCalamityPlayer().ZoneAbyss ? 0.875f : 0.02f));
+                spawnRate = (int)(spawnRate * (player.Calamity().ZoneAbyss ? 1.25 : 25));
+                maxSpawns = (int)(maxSpawns * (player.Calamity().ZoneAbyss ? 0.875f : 0.02f));
             }
         }
         #endregion
@@ -2673,7 +2673,7 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Range
         public override void EditSpawnRange(Player player, ref int spawnRangeX, ref int spawnRangeY, ref int safeRangeX, ref int safeRangeY)
         {
-            if (player.GetCalamityPlayer().ZoneAbyss)
+            if (player.Calamity().ZoneAbyss)
             {
                 spawnRangeX = (int)(1920 / 16 * 0.5); //0.7
                 safeRangeX = (int)(1920 / 16 * 0.32); //0.52
@@ -2684,11 +2684,11 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Pool
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyss ||
-				spawnInfo.player.GetCalamityPlayer().ZoneCalamity ||
-				spawnInfo.player.GetCalamityPlayer().ZoneSulphur ||
-				spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea ||
-				(spawnInfo.player.GetCalamityPlayer().ZoneAstral && !NPC.LunarApocalypseIsUp))
+			if (spawnInfo.player.Calamity().ZoneAbyss ||
+				spawnInfo.player.Calamity().ZoneCalamity ||
+				spawnInfo.player.Calamity().ZoneSulphur ||
+				spawnInfo.player.Calamity().ZoneSunkenSea ||
+				(spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
 			{
 				pool[0] = 0f;
 			}
@@ -2913,7 +2913,7 @@ namespace CalamityMod.NPCs
 
         public override Color? GetAlpha(NPC npc, Color drawColor)
         {
-            if (Main.LocalPlayer.GetCalamityPlayer().trippy)
+            if (Main.LocalPlayer.Calamity().trippy)
             {
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
             }
@@ -2936,7 +2936,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (Main.LocalPlayer.GetCalamityPlayer().trippy)
+            if (Main.LocalPlayer.Calamity().trippy)
             {
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (npc.spriteDirection == 1)
@@ -3468,7 +3468,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralSolution"), Main.LocalPlayer.GetCalamityPlayer().ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
+                SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralSolution"), Main.LocalPlayer.Calamity().ZoneAstral && Main.hardMode, Item.buyPrice(0, 0, 5));
             }
 
             if (type == NPCID.Wizard)

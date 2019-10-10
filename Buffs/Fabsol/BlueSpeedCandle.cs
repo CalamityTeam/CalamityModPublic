@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.Fabsol
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetCalamityPlayer().blueCandle = true;
+			player.Calamity().blueCandle = true;
 		}
 	}
 }

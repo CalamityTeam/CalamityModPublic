@@ -21,14 +21,14 @@ namespace CalamityMod.Items.Accessories.RareVariants
             item.rare = 2;
             item.defense = 2;
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.deepDiver = true;
 				modPlayer.dashMod = 5;
             }

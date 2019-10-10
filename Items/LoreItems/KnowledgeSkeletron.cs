@@ -31,7 +31,7 @@ namespace CalamityMod.Items.LoreItems
 		{
 			if (player.ZoneDungeon)
 			{
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.skeletronLore = true;
 			}
 		}

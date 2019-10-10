@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.DesertScourge
 			npc.width = 32;
 			npc.height = 36;
 			npc.defense = 6;
-            npc.GetCalamityNPC().RevPlusDR(0.05f);
+            npc.Calamity().RevPlusDR(0.05f);
             npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {
@@ -98,7 +98,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.netMode != NetmodeID.MultiplayerClient && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.GetGlobalNPC<CalamityGlobalNPC>(mod).enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.localAI[0] += 4f;
                 }

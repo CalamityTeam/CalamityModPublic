@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
 	        item.shoot = mod.ProjectileType("LeafArrow");
 	        item.shootSpeed = 10f;
 	        item.useAmmo = 40;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+			item.Calamity().postMoonLordRarity = 17;
 		}
 
 	    public override bool AltFunctionUse(Player player)

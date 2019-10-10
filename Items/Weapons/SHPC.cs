@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
 	        item.autoReuse = true;
 	        item.shoot = mod.ProjectileType("SHPB");
 	        item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 17;
+			item.Calamity().postMoonLordRarity = 17;
 		}
 
 	    public override Vector2? HoldoutOffset()

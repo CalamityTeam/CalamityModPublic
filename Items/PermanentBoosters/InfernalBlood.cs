@@ -28,7 +28,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
 		public override bool CanUseItem(Player player)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
+			CalamityPlayer modPlayer = player.Calamity();
 			if (modPlayer.rageBoostTwo)
 			{
 				return false;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.PermanentBoosters
 			if (player.itemAnimation > 0 && player.itemTime == 0)
 			{
 				player.itemTime = item.useTime;
-				CalamityPlayer modPlayer = player.GetCalamityPlayer();
+				CalamityPlayer modPlayer = player.Calamity();
 				modPlayer.rageBoostTwo = true;
 			}
 			return true;

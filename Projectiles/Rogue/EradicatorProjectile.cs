@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
             aiType = 52;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 3;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
 
         public override void AI()
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
 						if (projectile.owner == Main.myPlayer)
 						{
 							int proj = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, mod.ProjectileType("NebulaShot"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-							Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRogue = true;
+							Main.projectile[proj].Calamity().forceRogue = true;
 						}
 					}
 				}

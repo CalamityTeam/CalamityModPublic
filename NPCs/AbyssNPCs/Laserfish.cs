@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     //(Main.player[npc.target].Center - npc.Center).Length() < ((Main.player[npc.target].GetCalamityPlayer().anechoicPlating ||
                     //Main.player[npc.target].GetCalamityPlayer().anechoicCoating) ? 200f : 400f) *
                     //(Main.player[npc.target].GetCalamityPlayer().fishAlert ? 3f : 1f))
-                    (Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].GetCalamityPlayer().GetAbyssAggro(400f, 200f))
+                    (Main.player[npc.target].Center - npc.Center).Length() < Main.player[npc.target].Calamity().GetAbyssAggro(400f, 200f))
                 {
 					flag14 = true;
 				}
@@ -275,11 +275,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer2 && spawnInfo.water)
+			if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water)
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 0.6f;
 			}
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer3 && spawnInfo.water)
+			if (spawnInfo.player.Calamity().ZoneAbyssLayer3 && spawnInfo.water)
 			{
 				return SpawnCondition.CaveJellyfish.Chance * 1.2f;
 			}

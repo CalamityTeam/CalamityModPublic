@@ -20,7 +20,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 
 		public override void Update(NPC npc, ref int buffIndex)
 		{
-			npc.GetGlobalNPC<CalamityGlobalNPC>(mod).timeSlow = true;
+			npc.Calamity().timeSlow = true;
 		}
 
         /*public override void Update(Player player, ref int buffIndex)

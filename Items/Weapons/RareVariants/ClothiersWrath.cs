@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			item.autoReuse = true;
 			item.shoot = ProjectileID.ClothiersCurse;
 			item.shootSpeed = 6f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
+			item.Calamity().postMoonLordRarity = 22;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			{
 				Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
 				int proj = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
+				Main.projectile[proj].Calamity().forceMagic = true;
 			}
 			return false;
 		}

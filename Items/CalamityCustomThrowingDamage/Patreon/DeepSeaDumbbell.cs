@@ -34,8 +34,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 			item.rare = 10;
 			item.shoot = mod.ProjectileType("DeepSeaDumbbell1");
 			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().rogue = true;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.Patreon
 			if (player.altFunctionUse == 2)
 				return false;
 
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * player.GetCalamityPlayer().throwingDamage), knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * player.Calamity().throwingDamage), knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

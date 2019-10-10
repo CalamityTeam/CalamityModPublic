@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("BloodfireArrow");
             item.shootSpeed = 30f;
             item.useAmmo = 40;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
+			item.Calamity().postMoonLordRarity = 13;
 		}
 
         public override void AddRecipes()

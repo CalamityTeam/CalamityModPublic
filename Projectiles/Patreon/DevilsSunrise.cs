@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Patreon
             projectile.ownerHitCheck = true;
             projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 5;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).trueMelee = true;
+			projectile.Calamity().trueMelee = true;
 		}
 
         public override void AI()
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Patreon
 				projectile.ai[1] += 1f;
 
 			if (projectile.ai[1] == 255f)
-				projectile.damage = (int)((double)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).defDamage * 2.0);
+				projectile.damage = (int)((double)projectile.Calamity().defDamage * 2.0);
 
 			red = 64 + (int)(projectile.ai[1] * 0.75f);
 			if (red > 255)

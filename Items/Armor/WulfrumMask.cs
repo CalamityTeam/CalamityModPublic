@@ -37,12 +37,12 @@ namespace CalamityMod.Items.Armor
             {
                 player.statDefense += 5; //14
             }
-            player.GetCalamityPlayer().wearingRogueArmor = true;
+            player.Calamity().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetCalamityPlayer().throwingDamage += 0.03f;
+            player.Calamity().throwingDamage += 0.03f;
         }
 
         public override void AddRecipes()

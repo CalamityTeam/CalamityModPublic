@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
 		{
-			if (spawnInfo.player.GetCalamityPlayer().ZoneAbyssLayer4 && spawnInfo.water)
+			if (spawnInfo.player.Calamity().ZoneAbyssLayer4 && spawnInfo.water)
 			{
 				if (!NPC.AnyNPCs(mod.NPCType("BobbitWormSegment")))
 					return SpawnCondition.CaveJellyfish.Chance * 0.3f;

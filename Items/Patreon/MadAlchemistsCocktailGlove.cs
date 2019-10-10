@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Patreon
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("MadAlchemistsCocktailRed");
             item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+			item.Calamity().postMoonLordRarity = 21;
 		}
 
 		public override bool AltFunctionUse(Player player)
