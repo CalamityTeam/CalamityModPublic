@@ -32,15 +32,15 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			if ((player.armor[0].type == mod.ItemType("ReaverCap") || player.armor[0].type == mod.ItemType("ReaverHelm") ||
-				player.armor[0].type == mod.ItemType("ReaverHelmet") || player.armor[0].type == mod.ItemType("ReaverMask") ||
-				player.armor[0].type == mod.ItemType("ReaverVisage")) &&
-				player.armor[1].type == mod.ItemType("ReaverScaleMail") && player.armor[2].type == mod.ItemType("ReaverCuisses"))
-			{
-				player.moveSpeed += 0.15f;
-			}
+            if ((player.armor[0].type == mod.ItemType("ReaverCap") || player.armor[0].type == mod.ItemType("ReaverHelm") ||
+                player.armor[0].type == mod.ItemType("ReaverHelmet") || player.armor[0].type == mod.ItemType("ReaverMask") ||
+                player.armor[0].type == mod.ItemType("ReaverVisage")) &&
+                player.armor[1].type == mod.ItemType("ReaverScaleMail") && player.armor[2].type == mod.ItemType("ReaverCuisses"))
+            {
+                player.moveSpeed += 0.15f;
+            }
 
-			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 player.rocketDelay2--;
                 if (player.rocketDelay2 <= 0)

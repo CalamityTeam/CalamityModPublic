@@ -32,15 +32,15 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			if ((player.armor[0].type == mod.ItemType("AtaxiaHeadgear") || player.armor[0].type == mod.ItemType("AtaxiaHelm") ||
-				player.armor[0].type == mod.ItemType("AtaxiaHelmet") || player.armor[0].type == mod.ItemType("AtaxiaHood") ||
-				player.armor[0].type == mod.ItemType("AtaxiaMask")) &&
-				player.armor[1].type == mod.ItemType("AtaxiaArmor") && player.armor[2].type == mod.ItemType("AtaxiaSubligar"))
-			{
-				player.allDamage += 0.1f;
-			}
+            if ((player.armor[0].type == mod.ItemType("AtaxiaHeadgear") || player.armor[0].type == mod.ItemType("AtaxiaHelm") ||
+                player.armor[0].type == mod.ItemType("AtaxiaHelmet") || player.armor[0].type == mod.ItemType("AtaxiaHood") ||
+                player.armor[0].type == mod.ItemType("AtaxiaMask")) &&
+                player.armor[1].type == mod.ItemType("AtaxiaArmor") && player.armor[2].type == mod.ItemType("AtaxiaSubligar"))
+            {
+                player.allDamage += 0.1f;
+            }
 
-			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)

@@ -258,28 +258,28 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             else if (npc.ai[0] == 1f)
             {
-				Vector2 position = new Vector2(npc.ai[1] * 16f - (float)(npc.width / 2), npc.ai[2] * 16f - (float)(npc.height / 2));
-				for (int m = 0; m < 10; m++)
-				{
-					int dust = Dust.NewDust(position, npc.width, npc.height, 173, 0f, 0f, 90, default, 1f);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].fadeIn = 1f;
-				}
-				npc.alpha += 2;
-				if (npc.alpha >= 255)
-				{
-					Main.PlaySound(SoundID.Item8, npc.Center);
-					npc.alpha = 255;
-					npc.position = position;
-					for (int n = 0; n < 50; n++)
-					{
-						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 90, default, 1f);
-						Main.dust[num39].noGravity = true;
-					}
-					npc.ai[0] = 2f;
-					npc.netUpdate = true;
-				}
-			}
+                Vector2 position = new Vector2(npc.ai[1] * 16f - (float)(npc.width / 2), npc.ai[2] * 16f - (float)(npc.height / 2));
+                for (int m = 0; m < 10; m++)
+                {
+                    int dust = Dust.NewDust(position, npc.width, npc.height, 173, 0f, 0f, 90, default, 1f);
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].fadeIn = 1f;
+                }
+                npc.alpha += 2;
+                if (npc.alpha >= 255)
+                {
+                    Main.PlaySound(SoundID.Item8, npc.Center);
+                    npc.alpha = 255;
+                    npc.position = position;
+                    for (int n = 0; n < 50; n++)
+                    {
+                        int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 90, default, 1f);
+                        Main.dust[num39].noGravity = true;
+                    }
+                    npc.ai[0] = 2f;
+                    npc.netUpdate = true;
+                }
+            }
             else if (npc.ai[0] == 2f)
             {
                 npc.alpha -= 50;

@@ -28,114 +28,114 @@ namespace CalamityMod.CalPlayer
                 player.lifeRegen -= 30;
             }
 
-			if (modPlayer.wDeath)
-			{
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
+            if (modPlayer.wDeath)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
 
-				player.lifeRegenTime = 0;
-				player.statDefense -= WhisperingDeath.DefenseReduction;
-				player.allDamage -= 0.1f;
-			}
+                player.lifeRegenTime = 0;
+                player.statDefense -= WhisperingDeath.DefenseReduction;
+                player.allDamage -= 0.1f;
+            }
 
-			if (modPlayer.bFlames || modPlayer.aFlames)
-			{
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
+            if (modPlayer.bFlames || modPlayer.aFlames)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
 
-				player.lifeRegenTime = 0;
-				player.lifeRegen -= 16;
-				player.statDefense -= AbyssalFlames.DefenseReduction;
-			}
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 16;
+                player.statDefense -= AbyssalFlames.DefenseReduction;
+            }
 
-			if (modPlayer.gsInferno || (modPlayer.ZoneCalamity && player.lavaWet))
-			{
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
+            if (modPlayer.gsInferno || (modPlayer.ZoneCalamity && player.lavaWet))
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
 
-				player.lifeRegenTime = 0;
-				player.lifeRegen -= 30;
-				player.statDefense -= GodSlayerInferno.DefenseReduction;
-			}
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 30;
+                player.statDefense -= GodSlayerInferno.DefenseReduction;
+            }
 
-			if (modPlayer.astralInfection)
-			{
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
+            if (modPlayer.astralInfection)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
 
-				player.lifeRegenTime = 0;
-				player.lifeRegen -= 20;
-				player.statDefense -= AstralInfectionDebuff.DefenseReduction;
-			}
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 20;
+                player.statDefense -= AstralInfectionDebuff.DefenseReduction;
+            }
 
-			if (modPlayer.ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && !modPlayer.aquaticScourgeLore)
-			{
-				player.AddBuff(BuffID.Poisoned, 2, true);
-				modPlayer.pissWaterBoost++;
+            if (modPlayer.ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && !modPlayer.aquaticScourgeLore)
+            {
+                player.AddBuff(BuffID.Poisoned, 2, true);
+                modPlayer.pissWaterBoost++;
 
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
 
-				player.lifeRegenTime = 0;
-				player.lifeRegen -= modPlayer.pissWaterBoost / 200;
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= modPlayer.pissWaterBoost / 200;
 
-				if (player.lifeRegen < -8)
-					player.lifeRegen = -8;
-			}
-			else
-				modPlayer.pissWaterBoost = 0;
+                if (player.lifeRegen < -8)
+                    player.lifeRegen = -8;
+            }
+            else
+                modPlayer.pissWaterBoost = 0;
 
-			if (modPlayer.hFlames)
-			{
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
+            if (modPlayer.hFlames)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
 
-				player.lifeRegenTime = 0;
-				player.lifeRegen -= 20;
-			}
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 20;
+            }
 
-			if (modPlayer.pFlames)
-			{
-				if (player.lifeRegen > 0)
-					player.lifeRegen = 0;
+            if (modPlayer.pFlames)
+            {
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
 
-				player.lifeRegenTime = 0;
-				player.lifeRegen -= 20;
-				player.blind = true;
-				player.statDefense -= Plague.DefenseReduction;
-				player.moveSpeed -= 0.15f;
-			}
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 20;
+                player.blind = true;
+                player.statDefense -= Plague.DefenseReduction;
+                player.moveSpeed -= 0.15f;
+            }
 
-			if (modPlayer.bBlood)
-			{
-				if (player.lifeRegen > 0)
-				{
-					player.lifeRegen = 0;
-				}
-				player.lifeRegenTime = 0;
-				player.lifeRegen -= 8;
-				player.blind = true;
-				player.statDefense -= 3;
-				player.moveSpeed += 0.2f;
-				player.meleeDamage += 0.05f;
-				player.rangedDamage -= 0.1f;
-				player.magicDamage -= 0.1f;
-			}
+            if (modPlayer.bBlood)
+            {
+                if (player.lifeRegen > 0)
+                {
+                    player.lifeRegen = 0;
+                }
+                player.lifeRegenTime = 0;
+                player.lifeRegen -= 8;
+                player.blind = true;
+                player.statDefense -= 3;
+                player.moveSpeed += 0.2f;
+                player.meleeDamage += 0.05f;
+                player.rangedDamage -= 0.1f;
+                player.magicDamage -= 0.1f;
+            }
 
-			if (modPlayer.horror)
-			{
-				player.blind = true;
-				player.statDefense -= 15;
-				player.moveSpeed -= 0.15f;
-			}
+            if (modPlayer.horror)
+            {
+                player.blind = true;
+                player.statDefense -= 15;
+                player.moveSpeed -= 0.15f;
+            }
 
-			if (modPlayer.aCrunch)
-			{
-				player.statDefense -= ArmorCrunch.DefenseReduction;
-				player.endurance *= 0.33f;
-			}
+            if (modPlayer.aCrunch)
+            {
+                player.statDefense -= ArmorCrunch.DefenseReduction;
+                player.endurance *= 0.33f;
+            }
 
-			if (modPlayer.vHex)
+            if (modPlayer.vHex)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -356,14 +356,14 @@ namespace CalamityMod.CalPlayer
             else
                 modPlayer.hInfernoBoost = 0;
 
-			if (modPlayer.gState)
-			{
-				player.statDefense -= GlacialState.DefenseReduction;
-				player.velocity.Y = 0f;
-				player.velocity.X = 0f;
-			}
+            if (modPlayer.gState)
+            {
+                player.statDefense -= GlacialState.DefenseReduction;
+                player.velocity.Y = 0f;
+                player.velocity.X = 0f;
+            }
 
-			if (modPlayer.eGravity)
+            if (modPlayer.eGravity)
             {
                 if (player.wingTimeMax < 0)
                     player.wingTimeMax = 0;

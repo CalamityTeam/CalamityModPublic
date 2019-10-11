@@ -32,13 +32,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			if (player.armor[0].type == mod.ItemType("XerocMask") && player.armor[1].type == mod.ItemType("XerocPlateMail") && player.armor[2].type == mod.ItemType("XerocCuisses"))
-			{
-				player.Calamity().throwingDamage += 0.05f;
-				player.Calamity().throwingCrit += 5;
-			}
+            if (player.armor[0].type == mod.ItemType("XerocMask") && player.armor[1].type == mod.ItemType("XerocPlateMail") && player.armor[2].type == mod.ItemType("XerocCuisses"))
+            {
+                player.Calamity().throwingDamage += 0.05f;
+                player.Calamity().throwingCrit += 5;
+            }
 
-			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)

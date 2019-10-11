@@ -32,16 +32,16 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			if ((player.armor[0].type == mod.ItemType("DaedalusHat") || player.armor[0].type == mod.ItemType("DaedalusHeadgear") ||
-				player.armor[0].type == mod.ItemType("DaedalusHelm") || player.armor[0].type == mod.ItemType("DaedalusHelmet") ||
-				player.armor[0].type == mod.ItemType("DaedalusVisor")) &&
-				player.armor[1].type == mod.ItemType("DaedalusBreastplate") && player.armor[2].type == mod.ItemType("DaedalusLeggings"))
-			{
-				player.allDamage += 0.05f;
-				player.Calamity().AllCritBoost(5);
-			}
+            if ((player.armor[0].type == mod.ItemType("DaedalusHat") || player.armor[0].type == mod.ItemType("DaedalusHeadgear") ||
+                player.armor[0].type == mod.ItemType("DaedalusHelm") || player.armor[0].type == mod.ItemType("DaedalusHelmet") ||
+                player.armor[0].type == mod.ItemType("DaedalusVisor")) &&
+                player.armor[1].type == mod.ItemType("DaedalusBreastplate") && player.armor[2].type == mod.ItemType("DaedalusLeggings"))
+            {
+                player.allDamage += 0.05f;
+                player.Calamity().AllCritBoost(5);
+            }
 
-			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)

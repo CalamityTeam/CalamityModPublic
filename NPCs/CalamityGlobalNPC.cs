@@ -1158,8 +1158,8 @@ namespace CalamityMod.NPCs
                     (astralInfection ? AstralInfectionDebuff.DefenseReduction : 0) -
                     (aFlames ? AbyssalFlames.DefenseReduction : 0) -
                     (wCleave ? WarCleave.DefenseReduction : 0) -
-					(gState ? GlacialState.DefenseReduction : 0) -
-					(aCrunch ? ArmorCrunch.DefenseReduction : 0);
+                    (gState ? GlacialState.DefenseReduction : 0) -
+                    (aCrunch ? ArmorCrunch.DefenseReduction : 0);
 
             // Defense can never be negative and has a minimum value of zero.
             if (effectiveDefense < 0)

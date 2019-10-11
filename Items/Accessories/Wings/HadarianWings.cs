@@ -33,13 +33,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			if (player.armor[0].type == mod.ItemType("AstralHelm") && player.armor[1].type == mod.ItemType("AstralBreastplate") && player.armor[2].type == mod.ItemType("AstralLeggings"))
-			{
-				player.moveSpeed += 0.2f;
-				player.jumpSpeedBoost += 0.4f;
-			}
+            if (player.armor[0].type == mod.ItemType("AstralHelm") && player.armor[1].type == mod.ItemType("AstralBreastplate") && player.armor[2].type == mod.ItemType("AstralLeggings"))
+            {
+                player.moveSpeed += 0.2f;
+                player.jumpSpeedBoost += 0.4f;
+            }
 
-			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0)
+            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0)
             {
                 if (player.controlDown && !player.merman)
                 {
