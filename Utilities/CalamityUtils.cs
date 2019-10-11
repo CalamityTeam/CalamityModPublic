@@ -12,7 +12,7 @@ namespace CalamityMod
     public static class CalamityUtils
     {
         #region Object Extensions
-        public static CalamityPlayer Calamity(this Player player) => player.Calamity();
+        public static CalamityPlayer Calamity(this Player player) => player.GetModPlayer<CalamityPlayer>();
         public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
         public static CalamityGlobalItem Calamity(this Item item) => item.GetGlobalItem<CalamityGlobalItem>();
         public static CalamityGlobalProjectile Calamity(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
