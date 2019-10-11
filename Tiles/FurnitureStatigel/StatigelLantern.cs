@@ -47,7 +47,8 @@ namespace CalamityMod.Tiles.FurnitureStatigel
                 r = 0.8f;
                 g = 0.9f;
                 b = 1f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

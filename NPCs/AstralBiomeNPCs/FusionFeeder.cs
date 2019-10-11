@@ -1,14 +1,10 @@
-﻿using System;
-
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -39,16 +35,16 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.behindTiles = true;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             animationType = NPCID.SandShark;
-			banner = npc.type;
-			bannerItem = mod.ItemType("FusionFeederBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 65;
-				npc.defense = 22;
-				npc.knockBackResist = 0.7f;
-				npc.lifeMax = 600;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("FusionFeederBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 65;
+                npc.defense = 22;
+                npc.knockBackResist = 0.7f;
+                npc.lifeMax = 600;
+            }
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -115,12 +111,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
             if (Main.expertMode)

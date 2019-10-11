@@ -6,30 +6,30 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class IcyBullet : ModProjectile
-	{
-		public override void SetDefaults()
-		{
-			projectile.width = 4;
-			projectile.height = 4;
-			projectile.aiStyle = 1;
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 4;
+            projectile.height = 4;
+            projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
             projectile.timeLeft = 600;
-			projectile.friendly = true;
+            projectile.friendly = true;
             projectile.ranged = true;
             projectile.coldDamage = true;
             projectile.penetrate = 3;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-		}
+        }
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Icy Bullet");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Icy Bullet");
+        }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             if (Main.rand.NextBool(3))
             {
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88, projectile.velocity.X, projectile.velocity.Y, 0, default, 1f);
@@ -37,8 +37,8 @@ namespace CalamityMod.Projectiles.Permafrost
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             target.AddBuff(BuffID.Frostburn, 300);
             target.AddBuff(mod.BuffType("GlacialState"), 120);
         }
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Permafrost
         }
 
         public override void Kill(int timeLeft)
-		{
+        {
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (int index1 = 0; index1 < 5; ++index1)
             {
@@ -67,5 +67,5 @@ namespace CalamityMod.Projectiles.Permafrost
                 }
             }
         }
-	}
+    }
 }

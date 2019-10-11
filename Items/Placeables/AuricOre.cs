@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Placeables
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(gold: 2);
-			item.Calamity().postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
     }
 }

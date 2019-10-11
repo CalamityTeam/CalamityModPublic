@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Waters
 {
@@ -27,7 +26,7 @@ namespace CalamityMod.Waters
             return 708;
         }
 
-		public override Color BiomeHairColor()
+        public override Color BiomeHairColor()
         {
             return Color.Turquoise;
         }

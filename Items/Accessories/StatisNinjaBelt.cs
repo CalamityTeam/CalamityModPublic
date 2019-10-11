@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {

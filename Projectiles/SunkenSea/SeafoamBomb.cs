@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.SunkenSea
 {
     public class SeafoamBomb : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Seafoam Bomb");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Seafoam Bomb");
+        }
 
         public override void SetDefaults()
         {
@@ -18,30 +18,30 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 240;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
-		public override void AI()
+        public override void AI()
         {
-			projectile.rotation += projectile.velocity.X * 0.1f;
-			projectile.velocity.Y = projectile.velocity.Y + 0.15f;
-			projectile.velocity.X = projectile.velocity.X * 0.99f;
+            projectile.rotation += projectile.velocity.X * 0.1f;
+            projectile.velocity.Y = projectile.velocity.Y + 0.15f;
+            projectile.velocity.X = projectile.velocity.X * 0.99f;
         }
 
         public override void Kill(int timeLeft)
         {
-			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 128);
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SeafoamBubble"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
-        	for (int num625 = 0; num625 < 3; num625++)
+            projectile.position = projectile.Center;
+            projectile.width = (projectile.height = 128);
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
+            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("SeafoamBubble"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+            for (int num625 = 0; num625 < 3; num625++)
             {
                 float scaleFactor10 = 0.33f;
                 if (num625 == 1)

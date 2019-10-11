@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,9 +7,9 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class BlackAnurianPlankton : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Plankton");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Plankton");
             Main.projFrames[projectile.type] = 5;
         }
 

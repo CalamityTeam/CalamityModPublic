@@ -7,9 +7,9 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class LavaChunk : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Lava Chunk");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Lava Chunk");
             Main.projFrames[projectile.type] = 6;
         }
 

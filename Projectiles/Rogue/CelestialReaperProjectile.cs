@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Projectiles.Rogue
 {

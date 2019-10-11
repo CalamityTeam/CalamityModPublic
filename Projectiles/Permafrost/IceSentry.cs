@@ -6,43 +6,43 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class IceSentry : ModProjectile
-	{
-		private bool setDamage = true;
+    {
+        private bool setDamage = true;
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ice Sentry");
+        {
+            DisplayName.SetDefault("Ice Sentry");
             Main.projFrames[projectile.type] = 18;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 102;
+        public override void SetDefaults()
+        {
+            projectile.width = 102;
             projectile.height = 94;
             projectile.timeLeft = Projectile.SentryLifeTime;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.sentry = true;
-		}
+        }
 
-		public override void AI()
+        public override void AI()
         {
-			if (setDamage)
-			{
-				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-				setDamage = false;
-			}
-			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
-			{
-				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-					projectile.Calamity().spawnedPlayerMinionDamageValue) *
-					Main.player[projectile.owner].minionDamage);
-				projectile.damage = damage2;
-			}
+            if (setDamage)
+            {
+                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                setDamage = false;
+            }
+            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                    Main.player[projectile.owner].minionDamage);
+                projectile.damage = damage2;
+            }
 
-			projectile.velocity = Vector2.Zero;
+            projectile.velocity = Vector2.Zero;
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
@@ -165,9 +165,9 @@ namespace CalamityMod.Projectiles.Permafrost
             }
         }
 
-		public override bool CanDamage()
-		{
-			return false;
-		}
-	}
+        public override bool CanDamage()
+        {
+            return false;
+        }
+    }
 }

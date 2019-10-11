@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.fBulwark = true;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.fBulwark = true;
         }
 
         public override void AddRecipes()

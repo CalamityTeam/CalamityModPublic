@@ -1,16 +1,16 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Typeless
 {
     public class MagnumRound : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Magnum Round");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Magnum Round");
+        }
 
         public override void SetDefaults()
         {
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.height = 4;
             projectile.light = 0.5f;
             projectile.alpha = 255;
-			projectile.extraUpdates = 10;
+            projectile.extraUpdates = 10;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;

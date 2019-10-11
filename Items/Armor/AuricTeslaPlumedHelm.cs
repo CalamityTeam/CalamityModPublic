@@ -1,7 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,10 +18,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.defense = 34; //132
-			item.Calamity().postMoonLordRarity = 20;
-		}
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.defense = 34; //132
+            item.Calamity().postMoonLordRarity = 20;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -40,9 +39,9 @@ namespace CalamityMod.Items.Armor
                 "All projectiles spawn healing auric orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 10%\n" +
                 "Rogue weapon critical strikes will do 1.25 times damage while you are above 50% HP\n" +
-				"Rogue stealth builds while not attacking and not moving, up to a max of 160\n" +
-				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue stealth builds while not attacking and not moving, up to a max of 160\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;
@@ -53,11 +52,11 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaSet = true;
             modPlayer.silvaThrowing = true;
             modPlayer.auricSet = true;
-			modPlayer.rogueStealthMax = 1.6f;
+            modPlayer.rogueStealthMax = 1.6f;
             modPlayer.wearingRogueArmor = true;
-			player.thorns += 3f;
-			player.lavaMax += 240;
-			player.ignoreWater = true;
+            player.thorns += 3f;
+            player.lavaMax += 240;
+            player.ignoreWater = true;
             player.crimsonRegen = true;
             if (player.lavaWet)
             {
@@ -72,7 +71,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.auricBoost = true;
             player.Calamity().throwingDamage += 0.2f;
             player.Calamity().throwingCrit += 20;
-			player.moveSpeed += 0.25f;
+            player.moveSpeed += 0.25f;
         }
 
         public override void AddRecipes()

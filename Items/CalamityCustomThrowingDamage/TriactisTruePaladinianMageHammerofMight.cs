@@ -9,8 +9,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Triactis' True Paladinian Mage-Hammer of Might");
-			Tooltip.SetDefault("Explodes on enemy hits");
-		}
+            Tooltip.SetDefault("Explodes on enemy hits");
+        }
 
         public override void SafeSetDefaults()
         {
@@ -29,9 +29,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("TriactisOPHammer");
             item.shootSpeed = 25f;
-			item.Calamity().rogue = true;
-			item.Calamity().postMoonLordRarity = 16;
-		}
+            item.Calamity().rogue = true;
+            item.Calamity().postMoonLordRarity = 16;
+        }
 
         public override void AddRecipes()
         {

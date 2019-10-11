@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FlameScytheProjectile : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Scythe");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Scythe");
+        }
 
         public override void SetDefaults()
         {
@@ -24,15 +24,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             projectile.alpha = 55;
             aiType = 52;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override void AI()
         {
-			Lighting.AddLight(projectile.Center, 0.25f, 0.15f, 0f);
-			if (Main.rand.NextBool(5))
+            Lighting.AddLight(projectile.Center, 0.25f, 0.15f, 0f);
+            if (Main.rand.NextBool(5))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -45,13 +45,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 6;
-			target.AddBuff(BuffID.OnFire, 300);
-			if (projectile.owner == Main.myPlayer)
-			{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].Calamity().forceRogue = true;
-			}
+            target.immune[projectile.owner] = 6;
+            target.AddBuff(BuffID.OnFire, 300);
+            if (projectile.owner == Main.myPlayer)
+            {
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[proj].Calamity().forceRogue = true;
+            }
         }
     }
 }

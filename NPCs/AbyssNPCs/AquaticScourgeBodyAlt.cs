@@ -9,74 +9,74 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AbyssNPCs
 {
     public class AquaticScourgeBodyAlt : ModNPC
-	{
+    {
         private bool detectsPlayer = false;
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Aquatic Scourge");
-		}
+        {
+            DisplayName.SetDefault("Aquatic Scourge");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 55;
-			npc.width = 32;
-			npc.height = 32;
-			npc.defense = 15;
+        public override void SetDefaults()
+        {
+            npc.damage = 55;
+            npc.width = 32;
+            npc.height = 32;
+            npc.defense = 15;
             npc.Calamity().RevPlusDR(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
-			npc.knockBackResist = 0f;
-			npc.alpha = 255;
+            npc.knockBackResist = 0f;
+            npc.alpha = 255;
             npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
             if (CalamityWorld.death)
             {
                 npc.lifeMax = 100000;
             }
-			if (CalamityWorld.bossRushActive)
-			{
-				npc.lifeMax = CalamityWorld.death ? 4300000 : 4000000;
-			}
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			for (int k = 0; k < npc.buffImmune.Length; k++)
+            if (CalamityWorld.bossRushActive)
+            {
+                npc.lifeMax = CalamityWorld.death ? 4300000 : 4000000;
+            }
+            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
             }
             npc.behindTiles = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
-			npc.dontCountMe = true;
+            npc.dontCountMe = true;
             npc.chaseable = false;
-			npc.canGhostHeal = false;
-			if (Main.expertMode)
+            npc.canGhostHeal = false;
+            if (Main.expertMode)
             {
                 npc.scale = 1.15f;
             }
         }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(detectsPlayer);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(detectsPlayer);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			detectsPlayer = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            detectsPlayer = reader.ReadBoolean();
+        }
 
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-		{
-			return false;
-		}
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            return false;
+        }
 
-		public override void AI()
-		{
-			if ((double)Main.npc[(int)npc.ai[1]].life <= (double)Main.npc[(int)npc.ai[1]].lifeMax * 0.99)
-			{
+        public override void AI()
+        {
+            if ((double)Main.npc[(int)npc.ai[1]].life <= (double)Main.npc[(int)npc.ai[1]].lifeMax * 0.99)
+            {
                 detectsPlayer = true;
                 npc.damage = npc.defDamage;
                 npc.boss = true;
@@ -181,8 +181,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                     num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
                     num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
-                }
-                catch
+                } catch
                 {
                 }
                 npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
@@ -205,13 +204,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
             }
         }
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-				damage = (int)((double)damage * 0.5);
-		}
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
+                damage = (int)((double)damage * 0.5);
+        }
 
-		public override bool? CanBeHitByProjectile(Projectile projectile)
+        public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion)
             {
@@ -226,9 +225,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
         }
 
         public override bool PreNPCLoot()
-		{
-			return false;
-		}
+        {
+            return false;
+        }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -237,7 +236,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
+        {
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
@@ -248,10 +247,10 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
                 }
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt3"), 1f);
-			}
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASBodyAlt3"), 1f);
+            }
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

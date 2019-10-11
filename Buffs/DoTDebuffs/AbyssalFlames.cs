@@ -1,32 +1,31 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Buffs.DoTDebuffs
 {
     public class AbyssalFlames : ModBuff
-	{
+    {
         public static int DefenseReduction = 10;
 
         public override void SetDefaults()
-		{
-			DisplayName.SetDefault("Abyssal Flames");
-			Description.SetDefault("Your soul is being consumed");
-			Main.debuff[Type] = true;
-			Main.pvpBuff[Type] = true;
-			Main.buffNoSave[Type] = true;
-			longerExpertDebuff = false;
-			canBeCleared = false;
-		}
+        {
+            DisplayName.SetDefault("Abyssal Flames");
+            Description.SetDefault("Your soul is being consumed");
+            Main.debuff[Type] = true;
+            Main.pvpBuff[Type] = true;
+            Main.buffNoSave[Type] = true;
+            longerExpertDebuff = false;
+            canBeCleared = false;
+        }
 
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.Calamity().aFlames = true;
-		}
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.Calamity().aFlames = true;
+        }
 
-		public override void Update(NPC npc, ref int buffIndex)
-		{
-			npc.Calamity().aFlames = true;
-		}
-	}
+        public override void Update(NPC npc, ref int buffIndex)
+        {
+            npc.Calamity().aFlames = true;
+        }
+    }
 }

@@ -1,12 +1,9 @@
-﻿using System;
-
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -34,16 +31,16 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.2f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-			banner = npc.type;
-			bannerItem = mod.ItemType("MantisBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 85;
-				npc.defense = 16;
-				npc.knockBackResist = 0.1f;
-				npc.lifeMax = 510;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("MantisBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 85;
+                npc.defense = 16;
+                npc.knockBackResist = 0.1f;
+                npc.lifeMax = 510;
+            }
+        }
 
         public override void AI()
         {
@@ -111,7 +108,8 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                 }
 
 
-                if (npc.ai[1] < 0) npc.ai[1] = 0f;
+                if (npc.ai[1] < 0)
+                    npc.ai[1] = 0f;
             }
             else
             {
@@ -122,7 +120,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 71);
                     Vector2 vector = Main.player[npc.target].Center - npc.Center;
                     vector.Normalize();
-					int damage = CalamityWorld.downedAstrageldon ? 45 : 55;
+                    int damage = CalamityWorld.downedAstrageldon ? 45 : 55;
                     Projectile.NewProjectile(npc.Center + (npc.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, mod.ProjectileType("MantisRing"), damage, 0f);
                 }
             }
@@ -231,12 +229,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
             if (Main.expertMode)

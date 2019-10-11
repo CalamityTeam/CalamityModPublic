@@ -1,14 +1,10 @@
-﻿using System;
-
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -36,16 +32,16 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0.75f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
-			banner = npc.type;
-			bannerItem = mod.ItemType("HadarianBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 80;
-				npc.defense = 18;
-				npc.knockBackResist = 0.65f;
-				npc.lifeMax = 490;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("HadarianBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 80;
+                npc.defense = 18;
+                npc.knockBackResist = 0.65f;
+                npc.lifeMax = 490;
+            }
+        }
 
         public override void AI()
         {
@@ -188,22 +184,22 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
             if (Main.expertMode)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"));
             }
-			if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(2))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HadarianMembrane"), Main.rand.Next(1, 3));
-			}
-		}
+            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("HadarianMembrane"), Main.rand.Next(1, 3));
+            }
+        }
     }
 }

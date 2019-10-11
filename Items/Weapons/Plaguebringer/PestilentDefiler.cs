@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pestilent Defiler");
-			Tooltip.SetDefault("Fires a plague round that explodes and splits on death");
-		}
+            Tooltip.SetDefault("Fires a plague round that explodes and splits on death");
+        }
 
         public override void SetDefaults()
         {

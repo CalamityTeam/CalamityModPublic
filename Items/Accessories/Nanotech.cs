@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -14,9 +13,9 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Rogue projectiles create nanoblades as they travel\n" +
                 "Rogue weapons have a chance to instantly kill normal enemies\n" +
                 "10% increased rogue damage, 5% increased rogue crit chance, and 15% increased rogue velocity\n" +
-				"Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
-				"This effect can stack up to 250 times\n" +
-				"Max rogue damage boost is 25%");
+                "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
+                "This effect can stack up to 250 times\n" +
+                "Max rogue damage boost is 25%");
         }
 
         public override void SetDefaults()
@@ -25,15 +24,15 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-			item.Calamity().postMoonLordRarity = 20;
-		}
+            item.Calamity().postMoonLordRarity = 20;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nanotech = true;
-			modPlayer.raiderTalisman = true;
-			player.Calamity().throwingDamage += 0.1f;
+            modPlayer.raiderTalisman = true;
+            player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 5;
             player.Calamity().throwingVelocity += 0.15f;
         }
@@ -41,9 +40,9 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "RogueEmblem");
-			recipe.AddIngredient(null, "RaidersTalisman");
-			recipe.AddIngredient(ItemID.MartianConduitPlating, 250);
+            recipe.AddIngredient(null, "RogueEmblem");
+            recipe.AddIngredient(null, "RaidersTalisman");
+            recipe.AddIngredient(ItemID.MartianConduitPlating, 250);
             recipe.AddIngredient(ItemID.Nanites, 500);
             recipe.AddIngredient(null, "Phantoplasm", 20);
             recipe.AddIngredient(null, "NightmareFuel", 20);

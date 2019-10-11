@@ -33,8 +33,10 @@ namespace CalamityMod.World
                 {
                     for (int j = y - 1; j <= y + 1; j++)
                     {
-                        if (j != y && i != x && !_useDiagonals) continue;
-                        if (!WorldGen.InWorld(i, j)) continue;
+                        if (j != y && i != x && !_useDiagonals)
+                            continue;
+                        if (!WorldGen.InWorld(i, j))
+                            continue;
                         if (!_tiles[i, j].active())
                         {
                             return false;

@@ -1,18 +1,18 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
-	public class SmoothNavystone : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    public class SmoothNavystone : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeSmoothTiles(Type);
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             soundType = 21;
             minPick = 55;
             drop = mod.ItemType("SmoothNavystone");
-			AddMapEntry(new Color(39, 48, 53));
+            AddMapEntry(new Color(39, 48, 53));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

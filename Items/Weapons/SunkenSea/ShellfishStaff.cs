@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
         {
             DisplayName.SetDefault("Shellfish Staff");
             Tooltip.SetDefault("Summons a shellfish to fight for you\n" +
-							   "Takes up 2 minion slots");
+                               "Takes up 2 minion slots");
         }
 
         public override void SetDefaults()
@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 2f;
-			item.value = Item.buyPrice(0, 36, 0, 0);
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
             item.UseSound = SoundID.Item44;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("Shellfish");
@@ -34,30 +34,30 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             item.summon = true;
         }
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (player.altFunctionUse != 2)
-			{
-				position = Main.MouseWorld;
-				speedX = 0;
-				speedY = 0;
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			}
-			return false;
-		}
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse != 2)
+            {
+                position = Main.MouseWorld;
+                speedX = 0;
+                speedY = 0;
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            }
+            return false;
+        }
 
-		public override bool UseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				player.MinionNPCTargetAim();
-			}
-			return base.UseItem(player);
-		}
-	}
+        public override bool UseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                player.MinionNPCTargetAim();
+            }
+            return base.UseItem(player);
+        }
+    }
 }

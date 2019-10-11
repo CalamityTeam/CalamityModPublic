@@ -1,22 +1,22 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class Calamari : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Calamari");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Calamari");
             Main.projFrames[projectile.type] = 5;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-		}
+            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+        }
 
         public override void SetDefaults()
         {
@@ -32,16 +32,16 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 30;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
         {
             if (projectile.localAI[1] == 0f)
             {
-				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage; //66% = 1.66
-				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage; //300 * 1.66 = 498 (new value)
-				int num226 = 36;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage; //66% = 1.66
+                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage; //300 * 1.66 = 498 (new value)
+                int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
@@ -54,14 +54,14 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[1] += 1f;
             }
-			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
-			{
-				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / //498
-					projectile.Calamity().spawnedPlayerMinionDamageValue) * //1.66 498 / 1.66 = 300 (original value)
-					Main.player[projectile.owner].minionDamage); //300 * 1.15 = 345 (new value)
-				projectile.damage = damage2;
-			}
-			projectile.frameCounter++;
+            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
+            {
+                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / //498
+                    projectile.Calamity().spawnedPlayerMinionDamageValue) * //1.66 498 / 1.66 = 300 (original value)
+                    Main.player[projectile.owner].minionDamage); //300 * 1.15 = 345 (new value)
+                projectile.damage = damage2;
+            }
+            projectile.frameCounter++;
             if (projectile.frameCounter > 8)
             {
                 projectile.frame++;
@@ -163,19 +163,19 @@ namespace CalamityMod.Projectiles.Summon
             value.Y = 0f;
             if (player.HasMinionAttackTargetNPC)
             {
-				NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				if (npc.CanBeChasedBy(projectile, false))
-				{
-					Vector2 vector2 = npc.position + npc.Size * value;
-					float num12 = Vector2.Distance(vector2, center);
-					if (((Vector2.Distance(center, vector) > num12 && num12 < num10) || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-					{
-						num10 = num12;
-						vector = vector2;
-						flag = true;
-						num11 = npc.whoAmI;
-					}
-				}
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                if (npc.CanBeChasedBy(projectile, false))
+                {
+                    Vector2 vector2 = npc.position + npc.Size * value;
+                    float num12 = Vector2.Distance(vector2, center);
+                    if (((Vector2.Distance(center, vector) > num12 && num12 < num10) || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                    {
+                        num10 = num12;
+                        vector = vector2;
+                        flag = true;
+                        num11 = npc.whoAmI;
+                    }
+                }
             }
             else
             {
@@ -360,9 +360,9 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-		public override bool CanDamage()
-		{
-			return false;
-		}
-	}
+        public override bool CanDamage()
+        {
+            return false;
+        }
+    }
 }

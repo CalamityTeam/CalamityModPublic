@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Warblade");
-			Tooltip.SetDefault("Critical hits cleave enemy armor, reducing their defense by 15 and protection by 25%");
-		}
+            Tooltip.SetDefault("Critical hits cleave enemy armor, reducing their defense by 15 and protection by 25%");
+        }
 
         public override void SetDefaults()
         {
@@ -29,12 +29,12 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
         }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			if (crit)
-			{
-				target.AddBuff(mod.BuffType("WarCleave"), 450);
-			}
-		}
-	}
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            if (crit)
+            {
+                target.AddBuff(mod.BuffType("WarCleave"), 450);
+            }
+        }
+    }
 }

@@ -1,8 +1,7 @@
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -20,8 +19,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 22;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.accessory = true;
-			item.rare = 1;
-		}
+            item.rare = 1;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -32,25 +31,25 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.GoldBar, 4);
+            recipe.AddIngredient(ItemID.GoldBar, 4);
             recipe.AddIngredient(ItemID.CopperBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.GoldBar, 4);
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.GoldBar, 4);
             recipe.AddIngredient(ItemID.TinBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.PlatinumBar, 4);
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.PlatinumBar, 4);
             recipe.AddIngredient(ItemID.CopperBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.PlatinumBar, 4);
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.PlatinumBar, 4);
             recipe.AddIngredient(ItemID.TinBar, 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

@@ -1,39 +1,39 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Localization;
-using Terraria.ID;
 using Terraria.DataStructures;
+using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.DifficultyItems
 {
     public class Death : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Death");
-			Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
-				"Allows certain bosses to spawn naturally.\n" +
-				"Increases enemy damage by 15% and spawn rates by 25%.\n" +
-				"Nerfs the effectiveness of life steal.\n" +
-				"Greatly increases the effectiveness of Rage and Adrenaline.\n" +
-				"Effect can be toggled on and off.\n" +
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Death");
+            Tooltip.SetDefault("Makes bosses even more EXTREME.\n" +
+                "Allows certain bosses to spawn naturally.\n" +
+                "Increases enemy damage by 15% and spawn rates by 25%.\n" +
+                "Nerfs the effectiveness of life steal.\n" +
+                "Greatly increases the effectiveness of Rage and Adrenaline.\n" +
+                "Effect can be toggled on and off.\n" +
                 "Effect will only work if Revengeance Mode is active.\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss.");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.rare = 11;
-			item.width = 28;
-			item.height = 28;
-			item.useAnimation = 45;
-			item.useTime = 45;
-			item.useStyle = 4;
-			item.UseSound = SoundID.Item119;
-			item.consumable = false;
-		}
+            item.width = 28;
+            item.height = 28;
+            item.useAnimation = 45;
+            item.useTime = 45;
+            item.useStyle = 4;
+            item.UseSound = SoundID.Item119;
+            item.consumable = false;
+        }
 
         public override bool CanUseItem(Player player)
         {
@@ -45,11 +45,11 @@ namespace CalamityMod.Items.DifficultyItems
         }
 
         public override bool UseItem(Player player)
-		{
+        {
             for (int doom = 0; doom < 200; doom++)
             {
                 if (Main.npc[doom].active && (Main.npc[doom].boss || Main.npc[doom].type == NPCID.EaterofWorldsHead || Main.npc[doom].type == NPCID.EaterofWorldsTail || Main.npc[doom].type == mod.NPCType("SlimeGodRun") ||
-					Main.npc[doom].type == mod.NPCType("SlimeGodRunSplit") || Main.npc[doom].type == mod.NPCType("SlimeGod") || Main.npc[doom].type == mod.NPCType("SlimeGodSplit")))
+                    Main.npc[doom].type == mod.NPCType("SlimeGodRunSplit") || Main.npc[doom].type == mod.NPCType("SlimeGod") || Main.npc[doom].type == mod.NPCType("SlimeGodSplit")))
                 {
                     player.KillMe(PlayerDeathReason.ByOther(12), 1000.0, 0, false);
                     Main.npc[doom].active = false;
@@ -87,7 +87,7 @@ namespace CalamityMod.Items.DifficultyItems
 
             CalamityMod.UpdateServerBoolean();
             return true;
-		}
+        }
 
         public override void AddRecipes()
         {

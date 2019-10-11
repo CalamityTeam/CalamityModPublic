@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -11,8 +10,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Trinity");
-			Tooltip.SetDefault("Fires a spread of energy bolts");
-		}
+            Tooltip.SetDefault("Fires a spread of energy bolts");
+        }
 
         public override void SetDefaults()
         {
@@ -37,18 +36,25 @@ namespace CalamityMod.Items.Weapons
         {
             switch (Main.rand.Next(3))
             {
-                case 0: type = 125; break;
-                case 1: type = 123; break;
-                case 2: type = 121; break;
-                default: break;
+                case 0:
+                    type = 125;
+                    break;
+                case 1:
+                    type = 123;
+                    break;
+                case 2:
+                    type = 121;
+                    break;
+                default:
+                    break;
             }
             for (int projectiles = 0; projectiles <= 3; projectiles++)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
                 int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.6), knockBack, Main.myPlayer, 0f, 0f);
-				Main.projectile[proj].Calamity().forceMelee = true;
-			}
+                Main.projectile[proj].Calamity().forceMelee = true;
+            }
             return false;
         }
 

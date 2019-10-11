@@ -1,42 +1,40 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class WulfrumDrone : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Wulfrum Drone");
-			Main.npcFrameCount[npc.type] = 5;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Wulfrum Drone");
+            Main.npcFrameCount[npc.type] = 5;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 10;
-			npc.aiStyle = 3;
-			aiType = 73;
-			npc.width = 40;
-			npc.height = 30;
-			npc.defense = 4;
-			npc.lifeMax = 22;
-			npc.knockBackResist = 0.35f;
-			npc.value = Item.buyPrice(0, 0, 0, 50);
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			banner = npc.type;
-			bannerItem = mod.ItemType("WulfrumDroneBanner");
-		}
+        public override void SetDefaults()
+        {
+            npc.damage = 10;
+            npc.aiStyle = 3;
+            aiType = 73;
+            npc.width = 40;
+            npc.height = 30;
+            npc.defense = 4;
+            npc.lifeMax = 22;
+            npc.knockBackResist = 0.35f;
+            npc.value = Item.buyPrice(0, 0, 0, 50);
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
+            banner = npc.type;
+            bannerItem = mod.ItemType("WulfrumDroneBanner");
+        }
 
-		public override void AI()
-		{
-			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-		}
+        public override void AI()
+        {
+            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+        }
 
-		public override void FindFrame(int frameHeight)
+        public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -44,37 +42,37 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.frame.Y = frame * frameHeight;
         }
 
-		public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
-			if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
-			{
-				return 0f;
-			}
-			return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.05f : 0.2f);
-		}
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
+            {
+                return 0f;
+            }
+            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.05f : 0.2f);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 3, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 15; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 3, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 3, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 15; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 3, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
 
-		public override void NPCLoot()
-		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WulfrumShard"), Main.rand.Next(1, 4));
-			if (Main.expertMode && Main.rand.NextBool(2))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WulfrumShard"));
-			}
-		}
-	}
+        public override void NPCLoot()
+        {
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WulfrumShard"), Main.rand.Next(1, 4));
+            if (Main.expertMode && Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("WulfrumShard"));
+            }
+        }
+    }
 }

@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,9 +8,9 @@ namespace CalamityMod.Items.Weapons
 {
     public class DraedonsExoblade : ModItem
     {
-		private static int BaseDamage = 6700;
+        private static int BaseDamage = 6700;
 
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exoblade");
             Tooltip.SetDefault("Ancient blade of Yharim's weapons and armors expert, Draedon\n" +
@@ -38,17 +38,17 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("Exobeam");
             item.shootSpeed = 19f;
-			item.Calamity().postMoonLordRarity = 15;
-		}
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
-		// Gains 100% of missing health as base damage.
-		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			int lifeAmount = player.statLifeMax2 - player.statLife;
-			flat += lifeAmount * player.meleeDamage;
-		}
+        // Gains 100% of missing health as base damage.
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+            int lifeAmount = player.statLifeMax2 - player.statLife;
+            flat += lifeAmount * player.meleeDamage;
+        }
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
             {
@@ -62,16 +62,16 @@ namespace CalamityMod.Items.Weapons
             {
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, mod.ProjectileType("Exoboom"), (int)((float)item.damage * player.meleeDamage), knockback, Main.myPlayer);
             }
-			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-			target.AddBuff(mod.BuffType("GlacialState"), 120);
-			target.AddBuff(mod.BuffType("Plague"), 120);
-			target.AddBuff(mod.BuffType("HolyLight"), 120);
-			target.AddBuff(BuffID.CursedInferno, 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(BuffID.OnFire, 120);
-			target.AddBuff(BuffID.Ichor, 120);
-			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
+            target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Ichor, 120);
+            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
             float xPos = (Main.rand.NextBool(2)) ? player.position.X + 800 : player.position.X - 800;
             Vector2 vector2 = new Vector2(xPos, player.position.Y + Main.rand.Next(-800, 801));
             float num80 = xPos;

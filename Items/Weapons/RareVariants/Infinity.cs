@@ -5,56 +5,56 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.RareVariants
 {
-	public class Infinity : ModItem
-	{
+    public class Infinity : ModItem
+    {
         internal int rotation = 0;
         internal bool limit = true;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Infinity");
-			Tooltip.SetDefault("Bad PC\n" +
-				"Fires a barrage of energy bolts that split and bounce\n" +
-				"Right click to fire a barrage of normal bullets\n" +
+        {
+            DisplayName.SetDefault("Infinity");
+            Tooltip.SetDefault("Bad PC\n" +
+                "Fires a barrage of energy bolts that split and bounce\n" +
+                "Right click to fire a barrage of normal bullets\n" +
                 "They say infinity is neverending, yet you hold it in your hands");
-		}
+        }
 
-	    public override void SetDefaults()
-	    {
-			item.damage = 30;
-			item.ranged = true;
-			item.width = 56;
-			item.height = 24;
-			item.useTime = 2;
-			item.reuseDelay = 6;
-			item.useAnimation = 1800;
-			item.useStyle = 5;
-			item.noMelee = true;
-			item.knockBack = 1f;
+        public override void SetDefaults()
+        {
+            item.damage = 30;
+            item.ranged = true;
+            item.width = 56;
+            item.height = 24;
+            item.useTime = 2;
+            item.reuseDelay = 6;
+            item.useAnimation = 1800;
+            item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 1f;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item31;
-			item.autoReuse = true;
-			item.shoot = 10;
-			item.shootSpeed = 12f;
-			item.useAmmo = 97;
-			item.Calamity().postMoonLordRarity = 22;
-		}
+            item.autoReuse = true;
+            item.shoot = 10;
+            item.shootSpeed = 12f;
+            item.useAmmo = 97;
+            item.Calamity().postMoonLordRarity = 22;
+        }
 
-	    public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-5, 0);
-		}
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-5, 0);
+        }
 
-	    public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
 
-			if (player.altFunctionUse == 2)
-    		{
+            if (player.altFunctionUse == 2)
+            {
                 //If you right click, shoots an helix of normal bullets
                 Vector2 num7 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(rotation));
                 Vector2 num8 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(-rotation));
@@ -80,9 +80,9 @@ namespace CalamityMod.Items.Weapons.RareVariants
                     limit = true;
                 }
                 return false;
-			}
-			else
-			{
+            }
+            else
+            {
                 //If left click, do the same as above but spawn Charged Blasts instead
                 Vector2 num7 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(rotation));
                 Vector2 num8 = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(-rotation));
@@ -107,7 +107,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
                     limit = true;
                 }
                 return false;
-			}
-		}
-	}
+            }
+        }
+    }
 }

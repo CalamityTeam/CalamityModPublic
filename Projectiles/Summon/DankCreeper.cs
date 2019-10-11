@@ -1,21 +1,21 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class DankCreeper : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Dank Creeper");
-			ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dank Creeper");
+            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-		}
+        }
 
         public override void SetDefaults()
         {
@@ -33,50 +33,50 @@ namespace CalamityMod.Projectiles.Summon
             aiType = 317;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-        	if (projectile.localAI[0] == 0f)
-        	{
-				projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-				int num226 = 36;
-				for (int num227 = 0; num227 < num226; num227++)
-				{
-					Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-					vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-					Vector2 vector7 = vector6 - projectile.Center;
-					int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 14, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
-					Main.dust[num228].noGravity = true;
-					Main.dust[num228].noLight = true;
-					Main.dust[num228].velocity = vector7;
-				}
-				projectile.localAI[0] += 1f;
-        	}
-			if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
-			{
-				int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-					projectile.Calamity().spawnedPlayerMinionDamageValue) *
-					Main.player[projectile.owner].minionDamage);
-				projectile.damage = damage2;
-			}
-			bool flag64 = projectile.type == mod.ProjectileType("DankCreeper");
-			Player player = Main.player[projectile.owner];
-			CalamityPlayer modPlayer = player.Calamity();
-			player.AddBuff(mod.BuffType("DankCreeper"), 3600);
-			if (flag64)
-			{
-				if (player.dead)
-				{
-					modPlayer.dCreeper = false;
-				}
-				if (modPlayer.dCreeper)
-				{
-					projectile.timeLeft = 2;
-				}
-			}
+            if (projectile.localAI[0] == 0f)
+            {
+                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                int num226 = 36;
+                for (int num227 = 0; num227 < num226; num227++)
+                {
+                    Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
+                    Vector2 vector7 = vector6 - projectile.Center;
+                    int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 14, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                    Main.dust[num228].noGravity = true;
+                    Main.dust[num228].noLight = true;
+                    Main.dust[num228].velocity = vector7;
+                }
+                projectile.localAI[0] += 1f;
+            }
+            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                    Main.player[projectile.owner].minionDamage);
+                projectile.damage = damage2;
+            }
+            bool flag64 = projectile.type == mod.ProjectileType("DankCreeper");
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+            player.AddBuff(mod.BuffType("DankCreeper"), 3600);
+            if (flag64)
+            {
+                if (player.dead)
+                {
+                    modPlayer.dCreeper = false;
+                }
+                if (modPlayer.dCreeper)
+                {
+                    projectile.timeLeft = 2;
+                }
+            }
             int num3;
             for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
             {
@@ -118,26 +118,26 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.ai[0] == 0f)
             {
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						float num539 = npc.position.X + (float)(npc.width / 2);
-						float num540 = npc.position.Y + (float)(npc.height / 2);
-						float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
-						if (num541 < num537 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
-						{
-							num537 = num541;
-							num535 = num539;
-							num536 = num540;
-							flag19 = true;
-						}
-					}
-				}
-				else
-				{
-					for (int num542 = 0; num542 < 200; num542 = num3 + 1)
+                if (player.HasMinionAttackTargetNPC)
+                {
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float num539 = npc.position.X + (float)(npc.width / 2);
+                        float num540 = npc.position.Y + (float)(npc.height / 2);
+                        float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
+                        if (num541 < num537 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        {
+                            num537 = num541;
+                            num535 = num539;
+                            num536 = num540;
+                            flag19 = true;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int num542 = 0; num542 < 200; num542 = num3 + 1)
                     {
                         if (Main.npc[num542].CanBeChasedBy(projectile, false))
                         {

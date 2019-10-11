@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wrath of the Ancients");
-			Tooltip.SetDefault("Casts a granite energy pulse");
-		}
+            Tooltip.SetDefault("Casts a granite energy pulse");
+        }
 
         public override void SetDefaults()
         {

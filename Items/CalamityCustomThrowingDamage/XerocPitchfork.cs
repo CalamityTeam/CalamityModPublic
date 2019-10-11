@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 9;
             item.shoot = mod.ProjectileType("XerocPitchforkProjectile");
             item.shootSpeed = 16f;
-			item.Calamity().rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

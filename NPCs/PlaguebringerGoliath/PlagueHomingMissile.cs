@@ -1,51 +1,51 @@
-﻿using System;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueHomingMissile : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Plague Homing Missile");
-			Main.npcFrameCount[npc.type] = 4;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Plague Homing Missile");
+            Main.npcFrameCount[npc.type] = 4;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 90;
-			npc.width = 22;
-			npc.height = 22;
-			npc.defense = 10;
-			npc.lifeMax = CalamityWorld.bossRushActive ? 20000 : 200;
-			npc.aiStyle = -1;
-			aiType = -1;
-			npc.knockBackResist = 0f;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
-			npc.noGravity = true;
-			npc.canGhostHeal = false;
-			npc.noTileCollide = true;
-			npc.buffImmune[189] = true;
-			npc.buffImmune[153] = true;
-			npc.buffImmune[70] = true;
-			npc.buffImmune[69] = true;
-			npc.buffImmune[44] = true;
-			npc.buffImmune[39] = true;
-			npc.buffImmune[24] = true;
-			npc.buffImmune[20] = true;
-			npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
-			npc.buffImmune[mod.BuffType("HolyLight")] = true;
-			npc.buffImmune[mod.BuffType("Plague")] = true;
-		}
+        public override void SetDefaults()
+        {
+            npc.damage = 90;
+            npc.width = 22;
+            npc.height = 22;
+            npc.defense = 10;
+            npc.lifeMax = CalamityWorld.bossRushActive ? 20000 : 200;
+            npc.aiStyle = -1;
+            aiType = -1;
+            npc.knockBackResist = 0f;
+            npc.HitSound = SoundID.NPCHit4;
+            npc.DeathSound = SoundID.NPCDeath14;
+            npc.noGravity = true;
+            npc.canGhostHeal = false;
+            npc.noTileCollide = true;
+            npc.buffImmune[189] = true;
+            npc.buffImmune[153] = true;
+            npc.buffImmune[70] = true;
+            npc.buffImmune[69] = true;
+            npc.buffImmune[44] = true;
+            npc.buffImmune[39] = true;
+            npc.buffImmune[24] = true;
+            npc.buffImmune[20] = true;
+            npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
+            npc.buffImmune[mod.BuffType("HolyLight")] = true;
+            npc.buffImmune[mod.BuffType("Plague")] = true;
+        }
 
-		public override void AI()
-		{
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.015f, 0.1f, 0f);
+        public override void AI()
+        {
+            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.015f, 0.1f, 0f);
             if (Math.Abs(npc.velocity.X) >= 3f || Math.Abs(npc.velocity.Y) >= 3f)
             {
                 float num247 = 0f;
@@ -188,28 +188,28 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         }
 
         public override bool PreNPCLoot()
-		{
-			return false;
-		}
+        {
+            return false;
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("Plague"), 180, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("Plague"), 180, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 10; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 10; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+    }
 }

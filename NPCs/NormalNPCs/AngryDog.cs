@@ -1,59 +1,58 @@
-﻿using System;
-using System.IO;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class AngryDog : ModNPC
-	{
+    {
         private bool reset = false;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Angry Dog");
-			Main.npcFrameCount[npc.type] = 9;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Angry Dog");
+            Main.npcFrameCount[npc.type] = 9;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.aiStyle = -1;
-			npc.damage = 10;
-			npc.width = 56;
-			npc.height = 56;
-			npc.defense = 4;
-			npc.lifeMax = 50;
-			if (CalamityWorld.downedCryogen)
-			{
-				npc.damage = 84;
-				npc.defense = 10;
-				npc.lifeMax = 1000;
-			}
-			npc.knockBackResist = 0.3f;
-			animationType = 329;
-			aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 3, 0);
-			npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
-			npc.DeathSound = SoundID.NPCDeath5;
-			banner = npc.type;
-			bannerItem = mod.ItemType("AngryDogBanner");
-		}
+        public override void SetDefaults()
+        {
+            npc.aiStyle = -1;
+            npc.damage = 10;
+            npc.width = 56;
+            npc.height = 56;
+            npc.defense = 4;
+            npc.lifeMax = 50;
+            if (CalamityWorld.downedCryogen)
+            {
+                npc.damage = 84;
+                npc.defense = 10;
+                npc.lifeMax = 1000;
+            }
+            npc.knockBackResist = 0.3f;
+            animationType = 329;
+            aiType = -1;
+            npc.value = Item.buyPrice(0, 0, 3, 0);
+            npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
+            npc.DeathSound = SoundID.NPCDeath5;
+            banner = npc.type;
+            bannerItem = mod.ItemType("AngryDogBanner");
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(reset);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(reset);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			reset = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            reset = reader.ReadBoolean();
+        }
 
-		public override void AI()
+        public override void AI()
         {
             if (Main.rand.NextBool(900))
             {
@@ -353,7 +352,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             int num19 = 30;
             int num20 = 10;
-            bool flag19= false;
+            bool flag19 = false;
             bool flag20 = false;
             bool flag30 = false;
             if (npc.velocity.Y == 0f && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
@@ -421,7 +420,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             float num6 = 6f;
             float num70 = 0.07f;
-            if (!flag19&& (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
+            if (!flag19 && (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
             {
                 if (npc.velocity.X < -num6 || npc.velocity.X > num6)
                 {
@@ -622,45 +621,45 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return spawnInfo.player.ZoneSnow &&
-            	!spawnInfo.player.ZoneTowerStardust &&
-            	!spawnInfo.player.ZoneTowerSolar &&
-            	!spawnInfo.player.ZoneTowerVortex &&
-            	!spawnInfo.player.ZoneTowerNebula &&
+                !spawnInfo.player.ZoneTowerStardust &&
+                !spawnInfo.player.ZoneTowerSolar &&
+                !spawnInfo.player.ZoneTowerVortex &&
+                !spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon &&
-				!spawnInfo.player.Calamity().ZoneSunkenSea &&
-				!spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
+                !spawnInfo.player.Calamity().ZoneSunkenSea &&
+                !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(BuffID.Bleeding, 180, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Bleeding, 180, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 20; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 20; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
 
-		public override void NPCLoot()
-		{
-			if (Main.rand.NextBool(2))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Leather, Main.rand.Next(1, 3));
-			}
-			if (Main.rand.NextBool(100))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Cryophobia"));
-			}
-		}
-	}
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Leather, Main.rand.Next(1, 3));
+            }
+            if (Main.rand.NextBool(100))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Cryophobia"));
+            }
+        }
+    }
 }

@@ -8,10 +8,10 @@ namespace CalamityMod.Walls
     public class AshenSlabWall : ModWall
     {
         public override void SetDefaults()
-		{
-			Main.wallHouse[Type] = true;
-			dustType = mod.DustType("Sparkle");
-			drop = mod.ItemType("AshenSlabWall");
+        {
+            Main.wallHouse[Type] = true;
+            dustType = mod.DustType("Sparkle");
+            drop = mod.ItemType("AshenSlabWall");
             AddMapEntry(new Color(30, 18, 36));
         }
 
@@ -23,9 +23,9 @@ namespace CalamityMod.Walls
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {

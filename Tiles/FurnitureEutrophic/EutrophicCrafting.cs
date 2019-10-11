@@ -9,11 +9,11 @@ using Terraria.ObjectData;
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
     class EutrophicCrafting : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.None, 0, 0);
@@ -26,7 +26,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
             TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Eutrophic Shelf");
+            name.SetDefault("Eutrophic Shelf");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };
@@ -55,8 +55,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("EutrophicCrafting"));
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("EutrophicCrafting"));
         }
     }
 }

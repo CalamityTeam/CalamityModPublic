@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Fishing
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Items.Fishing
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arcturus Astroidean");
-			Tooltip.SetDefault("Increases fishing power if used in the Astral Infection or Sulphurous Sea");
+            Tooltip.SetDefault("Increases fishing power if used in the Astral Infection or Sulphurous Sea");
         }
 
         public override void SetDefaults()
@@ -18,8 +17,8 @@ namespace CalamityMod.Items.Fishing
             item.height = 20;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 10);
-			item.rare = 3;
-			item.bait = 40;
+            item.rare = 3;
+            item.bait = 40;
         }
     }
 }

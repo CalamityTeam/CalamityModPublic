@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TemporalFloeSwordProjectile : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Floe");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Floe");
+        }
 
         public override void SetDefaults()
         {
@@ -26,10 +26,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f);
+            Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f);
             if (Main.rand.NextBool(2))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, 0f, 0f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, 0f, 0f);
             }
         }
 
@@ -66,11 +66,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	if (Main.rand.NextBool(3))
-	    	{
-	    		target.AddBuff(mod.BuffType("GlacialState"), 120);
-	    	}
-			target.AddBuff(BuffID.Frostburn, 240);
+            if (Main.rand.NextBool(3))
+            {
+                target.AddBuff(mod.BuffType("GlacialState"), 120);
+            }
+            target.AddBuff(BuffID.Frostburn, 240);
         }
     }
 }

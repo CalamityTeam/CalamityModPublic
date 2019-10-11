@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class UrchinSpikeFugu : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Urchin Spike");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Urchin Spike");
+        }
 
         public override void SetDefaults()
         {
@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.ai[0] == 0f)
             {
                 float num695 = 100f;
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(BuffID.Venom, 180);
         }
     }
 }

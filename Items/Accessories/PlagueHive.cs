@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.CalPlayer;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 38;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.expert = true;
-			item.rare = 9;
-			item.accessory = true;
+            item.rare = 9;
+            item.accessory = true;
         }
 
         public override void AddRecipes()

@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Leviathan
         {
             float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-			float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
+            float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
             Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, soundPitch, 0f);
             return false;
         }

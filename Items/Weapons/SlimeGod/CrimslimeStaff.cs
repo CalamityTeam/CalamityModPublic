@@ -44,30 +44,30 @@ namespace CalamityMod.Items.Weapons.SlimeGod
             recipe.AddRecipe();
         }
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (player.altFunctionUse != 2)
-			{
-				position = Main.MouseWorld;
-				speedX = 0;
-				speedY = 0;
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			}
-			return false;
-		}
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse != 2)
+            {
+                position = Main.MouseWorld;
+                speedX = 0;
+                speedY = 0;
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            }
+            return false;
+        }
 
-		public override bool UseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				player.MinionNPCTargetAim();
-			}
-			return base.UseItem(player);
-		}
-	}
+        public override bool UseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                player.MinionNPCTargetAim();
+            }
+            return base.UseItem(player);
+        }
+    }
 }

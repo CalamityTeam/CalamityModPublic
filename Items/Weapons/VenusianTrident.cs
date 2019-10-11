@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Weapons
 {
     public class VenusianTrident : ModItem
     {
-		public static int BaseDamage = 450;
+        public static int BaseDamage = 450;
 
         public override void SetStaticDefaults()
         {
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("VenusianBolt");
             item.shootSpeed = 19f;
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override void AddRecipes()
         {

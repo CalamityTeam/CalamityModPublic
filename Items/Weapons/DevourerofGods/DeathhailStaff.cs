@@ -1,6 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
         {
             DisplayName.SetDefault("Deathhail Staff");
             Tooltip.SetDefault("Rain death upon your foes!\n" +
-				"Casts a storm of nebula shots from the sky");
+                "Casts a storm of nebula shots from the sky");
             Item.staff[item.type] = true;
         }
 
@@ -35,16 +35,16 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("MagicNebulaShot");
             item.shootSpeed = 18f;
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(40f, 42f);
-			spriteBatch.Draw(mod.GetTexture("Items/Weapons/DevourerofGods/DeathhailStaffGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Vector2 origin = new Vector2(40f, 42f);
+            spriteBatch.Draw(mod.GetTexture("Items/Weapons/DevourerofGods/DeathhailStaffGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int i = Main.myPlayer;
             float num72 = item.shootSpeed;

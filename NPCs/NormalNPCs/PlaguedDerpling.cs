@@ -1,34 +1,33 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class PlaguedDerpling : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Viruling");
-			Main.npcFrameCount[npc.type] = 5;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Viruling");
+            Main.npcFrameCount[npc.type] = 5;
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             npc.noGravity = true;
             npc.aiStyle = -1;
             aiType = -1;
-			npc.damage = 60;
-			npc.width = 58;
-			npc.height = 44;
-			npc.defense = 18;
-			npc.lifeMax = 400;
-			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 10, 0);
-			npc.HitSound = SoundID.NPCHit22;
-			npc.DeathSound = SoundID.NPCDeath25;
+            npc.damage = 60;
+            npc.width = 58;
+            npc.height = 44;
+            npc.defense = 18;
+            npc.lifeMax = 400;
+            npc.knockBackResist = 0f;
+            npc.value = Item.buyPrice(0, 0, 10, 0);
+            npc.HitSound = SoundID.NPCHit22;
+            npc.DeathSound = SoundID.NPCDeath25;
             npc.buffImmune[189] = true;
             npc.buffImmune[153] = true;
             npc.buffImmune[70] = true;
@@ -40,19 +39,19 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
             npc.buffImmune[mod.BuffType("HolyLight")] = true;
             npc.buffImmune[mod.BuffType("Plague")] = true;
-			banner = npc.type;
-			bannerItem = mod.ItemType("VirulingBanner");
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("VirulingBanner");
+        }
 
-		public override void FindFrame(int frameHeight)
-		{
-			npc.frameCounter += 0.15f;
-			npc.frameCounter %= Main.npcFrameCount[npc.type];
-			int frame = (int)npc.frameCounter;
-			npc.frame.Y = frame * frameHeight;
-		}
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.15f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
+        }
 
-		public override void AI()
+        public override void AI()
         {
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
@@ -153,7 +152,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
-		{
+        {
             if (spawnInfo.playerSafe || !NPC.downedGolemBoss || spawnInfo.player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
@@ -161,32 +160,32 @@ namespace CalamityMod.NPCs.NormalNPCs
             return SpawnCondition.HardmodeJungle.Chance * 0.09f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
             player.AddBuff(mod.BuffType("Plague"), 300, true);
         }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 20; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
-				}
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling3"), 1f);
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 20; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Viruling3"), 1f);
+            }
+        }
 
-		public override void NPCLoot()
-		{
+        public override void NPCLoot()
+        {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("PlagueCellCluster"), Main.rand.Next(1, 3));
         }
-	}
+    }
 }

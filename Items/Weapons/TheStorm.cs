@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Storm");
-			Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
-				"Wooden arrows are converted to lightning bolts");
-		}
+            Tooltip.SetDefault("Fires a spread of arrows from the sky\n" +
+                "Wooden arrows are converted to lightning bolts");
+        }
 
         public override void SetDefaults()
         {
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("Bolt");
             item.shootSpeed = 28f;
             item.useAmmo = 40;
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

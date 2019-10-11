@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class MangroveChakramProjectile : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Chakram");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Chakram");
+        }
 
         public override void SetDefaults()
         {
@@ -22,15 +22,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 3;
             projectile.timeLeft = 600;
             aiType = 52;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
+            Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
             if (Main.rand.NextBool(5))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.immune[projectile.owner] = 6;
-			target.AddBuff(BuffID.CursedInferno, 240);
+            target.immune[projectile.owner] = 6;
+            target.AddBuff(BuffID.CursedInferno, 240);
         }
     }
 }

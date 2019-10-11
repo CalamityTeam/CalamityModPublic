@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-	public class CosmiliteChest : ModTile
+    public class CosmiliteChest : ModTile
     {
         public override void SetDefaults()
         {
@@ -49,8 +49,8 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         }
 
         public override bool HasSmartInteract()
-		{
-			return true;
+        {
+            return true;
         }
 
         public string MapChestName(string name, int i, int j)
@@ -83,10 +83,10 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
-			Chest.DestroyChest(i, j);
-		}
+        {
+            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Chest.DestroyChest(i, j);
+        }
 
         public override bool NewRightClick(int i, int j)
         {
@@ -163,47 +163,47 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         }
 
         public override void MouseOver(int i, int j)
-		{
-			Player player = Main.LocalPlayer;
-			Tile tile = Main.tile[i, j];
-			int left = i;
-			int top = j;
-			if (tile.frameX % 36 != 0)
-			{
-				left--;
-			}
-			if (tile.frameY != 0)
-			{
-				top--;
-			}
-			int chest = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
-			if (chest < 0)
-			{
-				player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
-			}
-			else
-			{
-				player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Cosmilite Chest";
-				if (player.showItemIconText == "Cosmilite Chest")
-				{
-					player.showItemIcon2 = mod.ItemType("CosmiliteChest");
-					player.showItemIconText = "";
-				}
-			}
-			player.noThrow = 2;
-			player.showItemIcon = true;
-		}
+        {
+            Player player = Main.LocalPlayer;
+            Tile tile = Main.tile[i, j];
+            int left = i;
+            int top = j;
+            if (tile.frameX % 36 != 0)
+            {
+                left--;
+            }
+            if (tile.frameY != 0)
+            {
+                top--;
+            }
+            int chest = Chest.FindChest(left, top);
+            player.showItemIcon2 = -1;
+            if (chest < 0)
+            {
+                player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
+            }
+            else
+            {
+                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Cosmilite Chest";
+                if (player.showItemIconText == "Cosmilite Chest")
+                {
+                    player.showItemIcon2 = mod.ItemType("CosmiliteChest");
+                    player.showItemIconText = "";
+                }
+            }
+            player.noThrow = 2;
+            player.showItemIcon = true;
+        }
 
-		public override void MouseOverFar(int i, int j)
-		{
-			MouseOver(i, j);
-			Player player = Main.LocalPlayer;
-			if (player.showItemIconText == "")
-			{
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
-			}
-		}
-	}
+        public override void MouseOverFar(int i, int j)
+        {
+            MouseOver(i, j);
+            Player player = Main.LocalPlayer;
+            if (player.showItemIconText == "")
+            {
+                player.showItemIcon = false;
+                player.showItemIcon2 = 0;
+            }
+        }
+    }
 }

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crushsaw Crasher");
-			Tooltip.SetDefault("Throws bouncing axes");
-		}
+            Tooltip.SetDefault("Throws bouncing axes");
+        }
 
         public override void SafeSetDefaults()
         {
@@ -26,8 +26,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 7;
             item.shoot = mod.ProjectileType("Crushax");
             item.shootSpeed = 11f;
-			item.Calamity().rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {

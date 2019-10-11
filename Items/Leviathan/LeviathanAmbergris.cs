@@ -23,26 +23,26 @@ namespace CalamityMod.Items.Leviathan
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.accessory = true;
             item.expert = true;
-			item.rare = 9;
-		}
+            item.rare = 9;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.ignoreWater = true;
-			if (!player.lavaWet && !player.honeyWet)
-			{
-				if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-				{
-					player.endurance += 0.05f;
-					player.allDamage += 0.05f;
-				}
-				else
-				{
-					player.allDamage += 0.1f;
-					player.statDefense += 20;
-					player.moveSpeed += 0.75f;
-				}
-			}
+            if (!player.lavaWet && !player.honeyWet)
+            {
+                if (!Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+                {
+                    player.endurance += 0.05f;
+                    player.allDamage += 0.05f;
+                }
+                else
+                {
+                    player.allDamage += 0.1f;
+                    player.statDefense += 20;
+                    player.moveSpeed += 0.75f;
+                }
+            }
             if (((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1))
             {
                 if (player.whoAmI == Main.myPlayer)

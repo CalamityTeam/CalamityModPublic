@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ShortNightBeam : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Beam");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Beam");
+        }
 
         public override void SetDefaults()
         {
@@ -26,11 +26,11 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.1f) / 255f);
+            Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.1f) / 255f);
             projectile.velocity.Y += projectile.ai[0];
             if (Main.rand.NextBool(5))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 21, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 21, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -45,13 +45,13 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 5; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 21, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 21, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 7;
+            target.immune[projectile.owner] = 7;
         }
     }
 }

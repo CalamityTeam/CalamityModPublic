@@ -1,23 +1,23 @@
-﻿using Terraria;
+﻿using CalamityMod.World;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
     public class SCalWormHeart : ModNPC
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Brimstone Heart");
-		}
+        {
+            DisplayName.SetDefault("Brimstone Heart");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 0; //70
-			npc.width = 24; //324
-			npc.height = 24; //216
-			npc.defense = 0;
+        public override void SetDefaults()
+        {
+            npc.damage = 0; //70
+            npc.width = 24; //324
+            npc.height = 24; //216
+            npc.defense = 0;
             npc.lifeMax = CalamityWorld.revenge ? 180000 : 160000;
             if (CalamityWorld.death)
             {
@@ -29,18 +29,18 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             npc.aiStyle = -1; //new
             aiType = -1; //new
-			npc.knockBackResist = 0f;
-			npc.alpha = 255;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.canGhostHeal = false;
-			npc.HitSound = SoundID.NPCHit13;
-			npc.DeathSound = SoundID.NPCDeath1;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
-		}
+            npc.knockBackResist = 0f;
+            npc.alpha = 255;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.canGhostHeal = false;
+            npc.HitSound = SoundID.NPCHit13;
+            npc.DeathSound = SoundID.NPCDeath1;
+            for (int k = 0; k < npc.buffImmune.Length; k++)
+            {
+                npc.buffImmune[k] = true;
+            }
+        }
 
         public override void AI()
         {
@@ -66,13 +66,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         }
 
         public override bool CheckActive()
-		{
-			return false;
-		}
+        {
+            return false;
+        }
 
-		public override bool PreNPCLoot()
-		{
-			return false;
-		}
-	}
+        public override bool PreNPCLoot()
+        {
+            return false;
+        }
+    }
 }

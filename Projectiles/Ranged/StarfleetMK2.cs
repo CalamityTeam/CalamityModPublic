@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,21 +7,21 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class StarfleetMK2 : ModProjectile
-	{
+    {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Starmada");
         }
 
         public override void SetDefaults()
-		{
-			projectile.width = 122;
-			projectile.height = 50;
+        {
+            projectile.width = 122;
+            projectile.height = 50;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-			projectile.ranged = true;
-			projectile.ignoreWater = true;
+            projectile.ranged = true;
+            projectile.ignoreWater = true;
         }
 
         public override void AI()
@@ -38,7 +38,9 @@ namespace CalamityMod.Projectiles.Ranged
                     case 180:
                     case 270:
                     case 360:
-                    case 450: projectile.localAI[0] += 1f; break;
+                    case 450:
+                        projectile.localAI[0] += 1f;
+                        break;
                     case 540:
                         projectile.localAI[0] += 1f;
                         projectile.ai[0] = -1f;
@@ -96,17 +98,26 @@ namespace CalamityMod.Projectiles.Ranged
                         Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
                         switch (Main.rand.Next(5))
                         {
-                            case 0: type = mod.ProjectileType("PlasmaBlast"); break;
-                            case 1: type = mod.ProjectileType("AstralStar"); break;
-                            case 2: type = mod.ProjectileType("GalacticaComet"); break;
-                            case 3: break;
-                            case 4: type = 9; break;
+                            case 0:
+                                type = mod.ProjectileType("PlasmaBlast");
+                                break;
+                            case 1:
+                                type = mod.ProjectileType("AstralStar");
+                                break;
+                            case 2:
+                                type = mod.ProjectileType("GalacticaComet");
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                type = 9;
+                                break;
                         }
-						int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
-						Main.projectile[star].penetrate = 1;
-						Main.projectile[star].timeLeft = 300;
-						Main.projectile[star].Calamity().forceRanged = true;
-						Main.projectile[star].netUpdate = true;
+                        int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
+                        Main.projectile[star].penetrate = 1;
+                        Main.projectile[star].timeLeft = 300;
+                        Main.projectile[star].Calamity().forceRanged = true;
+                        Main.projectile[star].netUpdate = true;
                         projectile.netUpdate = true;
                     }
                 }
@@ -129,7 +140,7 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
         }
 
-		public override bool CanDamage()
+        public override bool CanDamage()
         {
             return false;
         }

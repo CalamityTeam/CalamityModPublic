@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons.Plaguebringer
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Virulence");
-			Tooltip.SetDefault("Fires a plague cloud");
-		}
+            Tooltip.SetDefault("Fires a plague cloud");
+        }
 
         public override void SetDefaults()
         {

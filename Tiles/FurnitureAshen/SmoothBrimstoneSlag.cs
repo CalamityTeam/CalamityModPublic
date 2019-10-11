@@ -1,18 +1,18 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class SmoothBrimstoneSlag : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = false;
-			Main.tileBlockLight[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = false;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeSmoothTiles(Type);
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             mineResist = 5f;
             minPick = 180;
             drop = mod.ItemType("SmoothBrimstoneSlag");
-			AddMapEntry(new Color(61, 40, 61));
+            AddMapEntry(new Color(61, 40, 61));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

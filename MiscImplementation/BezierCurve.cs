@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace CalamityMod.MiscImplementation
 {
@@ -15,8 +14,10 @@ namespace CalamityMod.MiscImplementation
 
         public Vector2 Evaluate(float T)
         {
-            if (T < 0f) T = 0f;
-            if (T > 1f) T = 1f;
+            if (T < 0f)
+                T = 0f;
+            if (T > 1f)
+                T = 1f;
 
             return PrivateEvaluate(ControlPoints, T);
         }

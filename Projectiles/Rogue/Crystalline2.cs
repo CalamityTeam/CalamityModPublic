@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Crystalline2 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crystalline");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Crystalline");
+        }
 
         public override void SetDefaults()
         {
@@ -22,16 +22,16 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 113;
             projectile.timeLeft = 30;
             aiType = 598;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
-        	if(projectile.spriteDirection == -1)
-        	{
-        		projectile.rotation -= 1.57f;
-        	}
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            if (projectile.spriteDirection == -1)
+            {
+                projectile.rotation -= 1.57f;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -43,9 +43,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-        	for (int k = 0; k < 5; k++)
+            for (int k = 0; k < 5; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 154, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 154, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -20,10 +19,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.defense = 32;
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.defense = 32;
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override void UpdateEquip(Player player)
         {
@@ -32,9 +31,9 @@ namespace CalamityMod.Items.Armor
             {
                 player.moveSpeed += 0.15f;
             }
-			player.allDamage += 0.06f;
-			player.Calamity().AllCritBoost(6);
-		}
+            player.allDamage += 0.06f;
+            player.Calamity().AllCritBoost(6);
+        }
 
         public override void AddRecipes()
         {

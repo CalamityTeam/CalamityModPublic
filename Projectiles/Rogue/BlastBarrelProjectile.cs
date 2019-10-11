@@ -1,10 +1,10 @@
 ﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Rogue
         public float cooldown = 0f;
         public float oldVelocityX = 0f;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Barrel");
+        {
+            DisplayName.SetDefault("Barrel");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 480;
-			projectile.Calamity().rogue = true;
+            projectile.Calamity().rogue = true;
         }
         //Jesus christ, why isn't this in the Entity class instead of just NPC???
         //Negative check is so that it doesn't register a bounce as a collision
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (Main.rand.NextBool(4))
                 {
-                    Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3,12f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
+                    Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
                     Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
                         mod.ProjectileType("BarrelShrapnel"), BlastBarrel.BaseDamage, 3f, projectile.owner);
                 }

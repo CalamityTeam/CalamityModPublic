@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GelDartProjectile : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Dart");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dart");
+        }
 
         public override void SetDefaults()
         {
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 2;
             projectile.timeLeft = 600;
             aiType = 48;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -47,24 +47,24 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-			return false;
-		}
-
-		public override void Kill(int timeLeft)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-        	if (Main.rand.NextBool(2))
-        	{
-        		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("GelDart"));
-        	}
+            Texture2D tex = Main.projectileTexture[projectile.type];
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("GelDart"));
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-	    {
-			target.AddBuff(BuffID.Slimed, 120);
-		}
+        {
+            target.AddBuff(BuffID.Slimed, 120);
+        }
     }
 }

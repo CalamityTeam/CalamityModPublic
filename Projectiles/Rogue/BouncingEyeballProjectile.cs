@@ -1,10 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 using static System.Math;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -13,11 +11,11 @@ namespace CalamityMod.Projectiles.Rogue
     {
         private int Bounces = 5;
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eyeball");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        {
+            DisplayName.SetDefault("Eyeball");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
@@ -28,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 300;
             projectile.penetrate = 2;
             projectile.Calamity().rogue = true;
-		}
+        }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 19, 0.7f);
@@ -70,9 +68,9 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
-			return false;
-		}
-	}
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
+        }
+    }
 }

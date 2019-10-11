@@ -5,11 +5,11 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class MechanicalBarracuda : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Barracuda");
-			Main.projFrames[projectile.type] = 4;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Barracuda");
+            Main.projFrames[projectile.type] = 4;
+        }
 
         public override void SetDefaults()
         {
@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.immune[projectile.owner] = 5;
-		}
-	}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.immune[projectile.owner] = 5;
+        }
+    }
 }

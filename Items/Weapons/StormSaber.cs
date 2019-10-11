@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Saber");
-			Tooltip.SetDefault("Fires a storm beam");
-		}
+            Tooltip.SetDefault("Fires a storm beam");
+        }
 
         public override void SetDefaults()
         {

@@ -1,17 +1,16 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class MoonSigil : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Moon Sigil");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Moon Sigil");
+        }
 
         public override void SetDefaults()
         {
@@ -31,7 +30,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (projectile.timeLeft < 25) { projectile.alpha += 10; }
+            if (projectile.timeLeft < 25)
+            { projectile.alpha += 10; }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

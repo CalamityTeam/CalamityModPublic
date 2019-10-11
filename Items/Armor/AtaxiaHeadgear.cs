@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 8;
             item.defense = 15; //53
         }
 
@@ -57,8 +57,8 @@ namespace CalamityMod.Items.Armor
             player.ammoCost75 = true;
             player.rangedDamage += 0.12f;
             player.rangedCrit += 10;
-			player.lavaMax += 240;
-			player.buffImmune[BuffID.OnFire] = true;
+            player.lavaMax += 240;
+            player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()

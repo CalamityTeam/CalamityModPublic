@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Patreon
 {
@@ -35,7 +35,7 @@ Fighting 'til the war's won");
             item.UseSound = SoundID.Item38;
             item.useStyle = 5;
 
-			item.rare = 10;
+            item.rare = 10;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.Calamity().postMoonLordRarity = 21;
 

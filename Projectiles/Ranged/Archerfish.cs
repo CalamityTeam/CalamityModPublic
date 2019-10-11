@@ -6,26 +6,26 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class Archerfish : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Water Round");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Water Round");
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 8;
-			projectile.height = 8;
-			projectile.friendly = true;
-			projectile.ranged = true;
+        public override void SetDefaults()
+        {
+            projectile.width = 8;
+            projectile.height = 8;
+            projectile.friendly = true;
+            projectile.ranged = true;
             projectile.ignoreWater = true;
-			projectile.penetrate = 2;
-			projectile.alpha = 255;
-			projectile.timeLeft = 600;
-			projectile.extraUpdates = 2;
-		}
+            projectile.penetrate = 2;
+            projectile.alpha = 255;
+            projectile.timeLeft = 600;
+            projectile.extraUpdates = 2;
+        }
 
-		public override void AI()
+        public override void AI()
         {
             if (projectile.localAI[0] < 5f)
             {
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.Wet, 240);
+            target.AddBuff(BuffID.Wet, 240);
         }
-	}
+    }
 }

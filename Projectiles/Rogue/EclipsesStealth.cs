@@ -1,75 +1,70 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.GameInput;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class EclipsesStealth : ModProjectile
-	{
-		private int deadinside = 0; //used to know when to drop spears from the sky
+    {
+        private int deadinside = 0; //used to know when to drop spears from the sky
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eclipse's Stealth");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Eclipse's Stealth");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 25;
-			projectile.height = 25;
+        public override void SetDefaults()
+        {
+            projectile.width = 25;
+            projectile.height = 25;
             projectile.friendly = true;
-			projectile.penetrate = -1;
+            projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 30;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.localNPCHitCooldown = 30;
+            projectile.Calamity().rogue = true;
+        }
 
-		public override void AI()
-		{
-			deadinside++; //congrats Pinkie
-			if (deadinside >= 5) //every 5 ticks
-			{
-				deadinside = 0;
-				if (Main.rand.Next(2) == 0)
-				{
-					int spearAmt = Main.rand.Next(1,4); //1 to 3 spears
-					for (int n = 0; n < spearAmt; n++)
-					{
-						float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
-						float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
-						Vector2 vector = new Vector2(x, y);
-						float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
-						float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
-							num13 += (float)Main.rand.Next(-100, 101);
-						int num15 = 29;
-						float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-						num16 = (float)num15 / num16;
-						num13 *= num16;
-						num14 *= num16;
-						Projectile.NewProjectile(x, y, num13, num14, mod.ProjectileType("EclipsesSmol"), (int)((double)projectile.damage * 0.1 * Main.rand.Next(7, 10)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
-					} //very complicated and painful
-				}
-			}
+        public override void AI()
+        {
+            deadinside++; //congrats Pinkie
+            if (deadinside >= 5) //every 5 ticks
+            {
+                deadinside = 0;
+                if (Main.rand.Next(2) == 0)
+                {
+                    int spearAmt = Main.rand.Next(1, 4); //1 to 3 spears
+                    for (int n = 0; n < spearAmt; n++)
+                    {
+                        float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
+                        float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
+                        Vector2 vector = new Vector2(x, y);
+                        float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
+                        float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
+                        num13 += (float)Main.rand.Next(-100, 101);
+                        int num15 = 29;
+                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
+                        num16 = (float)num15 / num16;
+                        num13 *= num16;
+                        num14 *= num16;
+                        Projectile.NewProjectile(x, y, num13, num14, mod.ProjectileType("EclipsesSmol"), (int)((double)projectile.damage * 0.1 * Main.rand.Next(7, 10)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+                    } //very complicated and painful
+                }
+            }
             if (projectile.ai[0] == 0f)
             {
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-				if (Main.rand.Next(5) == 0) //dust
-				{
-					Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-				}
+                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+                if (Main.rand.Next(5) == 0) //dust
+                {
+                    Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                }
             }
             if (projectile.ai[0] == 1f) //sticking to enemies
             {
@@ -113,11 +108,11 @@ namespace CalamityMod.Projectiles.Rogue
             }
         }
 
-		#region SpearBarrage
-		public void SpearBarrage(Player player)
-		{
-		}
-		#endregion
+        #region SpearBarrage
+        public void SpearBarrage(Player player)
+        {
+        }
+        #endregion
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
@@ -155,7 +150,7 @@ namespace CalamityMod.Projectiles.Rogue
                                     return;
                                 }
                                 projectile.ai[0] = 1f;
-								projectile.timeLeft = 900; //increase lifetime if sticking to something
+                                projectile.timeLeft = 900; //increase lifetime if sticking to something
                                 projectile.ai[1] = (float)i;
                                 projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
                                 projectile.netUpdate = true;
@@ -203,10 +198,10 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+    }
 }

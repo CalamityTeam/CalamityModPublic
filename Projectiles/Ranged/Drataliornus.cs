@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,21 +7,21 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class Drataliornus : ModProjectile
-	{
+    {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus");
         }
 
         public override void SetDefaults()
-		{
-			projectile.width = 64;
-			projectile.height = 84;
+        {
+            projectile.width = 64;
+            projectile.height = 84;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-			projectile.ranged = true;
-			projectile.ignoreWater = true;
+            projectile.ranged = true;
+            projectile.ignoreWater = true;
         }
 
         public override void AI() //mostly phangasm code
@@ -45,7 +45,9 @@ namespace CalamityMod.Projectiles.Ranged
                     case 216:
                     case 252:
                     case 288:
-                    case 324: projectile.localAI[0]++; break;
+                    case 324:
+                        projectile.localAI[0]++;
+                        break;
 
                     case 360:
                         projectile.localAI[0]++;

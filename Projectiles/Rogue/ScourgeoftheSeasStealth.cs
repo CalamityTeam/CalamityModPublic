@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,12 +9,12 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScourgeoftheSeasStealth : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Stealthy Scourge");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Stealthy Scourge");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
@@ -25,33 +24,33 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 113;
             aiType = 598;
             projectile.penetrate = -1;
-			projectile.extraUpdates = 1;
-			projectile.timeLeft = 1200;
-			projectile.Calamity().rogue = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 60;
-		}
+            projectile.extraUpdates = 1;
+            projectile.timeLeft = 1200;
+            projectile.Calamity().rogue = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 60;
+        }
 
         public override void AI()
         {
-			if (Main.rand.Next(5) == 0 && projectile.ai[0] != 1f)
-			{
-				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-			}
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            if (Main.rand.Next(5) == 0 && projectile.ai[0] != 1f)
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+            }
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
             if (projectile.ai[0] != 1f)
             {
-				projectile.velocity.X *= 1.015f;
-				projectile.velocity.Y *= 1.015f;
-			}
-			if (projectile.velocity.X > 16f)
-			{
-				projectile.velocity.X = 16f;
-			}
-			if (projectile.velocity.Y > 16f)
-			{
-				projectile.velocity.Y = 16f;
-			}
+                projectile.velocity.X *= 1.015f;
+                projectile.velocity.Y *= 1.015f;
+            }
+            if (projectile.velocity.X > 16f)
+            {
+                projectile.velocity.X = 16f;
+            }
+            if (projectile.velocity.Y > 16f)
+            {
+                projectile.velocity.Y = 16f;
+            }
             if (projectile.ai[0] == 1f)
             {
                 projectile.tileCollide = false;
@@ -177,30 +176,30 @@ namespace CalamityMod.Projectiles.Rogue
             return null;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (target.type == mod.NPCType("Cryogen") || target.type == mod.NPCType("Brimstone Elemental") || target.type == NPCID.SkeletronPrime)
-			{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (target.type == mod.NPCType("Cryogen") || target.type == mod.NPCType("Brimstone Elemental") || target.type == NPCID.SkeletronPrime)
+            {
                 target.buffImmune[BuffID.Venom] = false;
-			}
-			else if (target.buffImmune[BuffID.Venom] && !target.boss && target.aiStyle != 6 && target.type != mod.NPCType("EidolonWyrmHeadHuge"))
-			{
+            }
+            else if (target.buffImmune[BuffID.Venom] && !target.boss && target.aiStyle != 6 && target.type != mod.NPCType("EidolonWyrmHeadHuge"))
+            {
                 target.buffImmune[BuffID.Venom] = false;
-			}
-			target.AddBuff(BuffID.Venom, 600);
-		}
+            }
+            target.AddBuff(BuffID.Venom, 600);
+        }
 
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			for (int num621 = 0; num621 < 8; num621++)
-			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
-				Main.dust[num622].velocity *= 1f;
-			}
+            for (int num621 = 0; num621 < 8; num621++)
+            {
+                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
+                Main.dust[num622].velocity *= 1f;
+            }
             if (projectile.owner == Main.myPlayer)
             {
-				int num320 = Main.rand.Next(2, 6);
+                int num320 = Main.rand.Next(2, 6);
                 int num3;
                 for (int num321 = 0; num321 < num320; num321 = num3 + 1)
                 {
@@ -211,12 +210,12 @@ namespace CalamityMod.Projectiles.Rogue
                     num3 = num321;
                 }
             }
-		}
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
     }
 }

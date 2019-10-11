@@ -6,23 +6,23 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-	public class CosmiliteWorkbench: ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolidTop[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
-			Main.tileTable[Type] = true;
-			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
-			TileObjectData.newTile.CoordinateHeights = new int[]{ 18 };
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Cosmilite Work Bench");
+    public class CosmiliteWorkbench : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolidTop[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileTable[Type] = true;
+            Main.tileLavaDeath[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Cosmilite Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
-			adjTiles = new int[]{ TileID.WorkBenches };
+            adjTiles = new int[] { TileID.WorkBenches };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -33,13 +33,13 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 32, 16, mod.ItemType("CosmiliteWorkbench"));
-		}
-	}
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 32, 16, mod.ItemType("CosmiliteWorkbench"));
+        }
+    }
 }

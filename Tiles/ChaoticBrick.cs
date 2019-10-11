@@ -5,24 +5,24 @@ using Terraria.ModLoader;
 namespace CalamityMod.Tiles
 {
     public class ChaoticBrick : ModTile
-	{
-		public override void SetDefaults()
-		{
+    {
+        public override void SetDefaults()
+        {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             dustType = 105;
-			drop = mod.ItemType("ChaoticBrick");
+            drop = mod.ItemType("ChaoticBrick");
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaotic Brick");
             AddMapEntry(new Color(255, 0, 0), name);
-			soundType = 21;
-		}
+            soundType = 21;
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

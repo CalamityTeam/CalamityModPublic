@@ -1,16 +1,14 @@
-﻿using System;
+﻿using CalamityMod.MiscImplementation;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using Microsoft.Xna.Framework;
-
-using CalamityMod.MiscImplementation;
 
 namespace CalamityMod.World.Planets
 {
@@ -18,8 +16,8 @@ namespace CalamityMod.World.Planets
     {
         public override bool Place(Point origin, StructureMap structures)
         {
-			float scale = (float)Main.maxTilesX / 4200f;
-			int radius = (int)((float)_random.Next(30, 36) * scale); //50 to 65
+            float scale = (float)Main.maxTilesX / 4200f;
+            int radius = (int)((float)_random.Next(30, 36) * scale); //50 to 65
 
             if (!CheckIfPlaceable(origin, radius, structures))
             {
@@ -151,7 +149,7 @@ namespace CalamityMod.World.Planets
 
             //PLACE BEAMS BELOW CIRCLE
             HashSet<Point16> bottomMostTiles = bottomTiles.GetData();
-            foreach(Point16 p in bottomMostTiles)
+            foreach (Point16 p in bottomMostTiles)
             {
                 int tileX = origin.X + p.X;
                 int tileY = origin.Y + p.Y;
@@ -167,7 +165,8 @@ namespace CalamityMod.World.Planets
                 for (int y = origin.Y - 4; y <= origin.Y + 4; y++)
                 {
                     int distFromOriginX = Math.Abs(origin.X - x);
-                    if (distFromOriginX <= cinderRadius + 1) continue;
+                    if (distFromOriginX <= cinderRadius + 1)
+                        continue;
 
                     if (x == origin.X - corridorLength || x == origin.X + corridorLength)
                     {
@@ -180,7 +179,8 @@ namespace CalamityMod.World.Planets
                         if (distFromOriginX < cinderRadius + 9 && !_tiles[x, y].active())
                         {
                             _tiles[x, y].active(false);
-                            if (bottom) WorldGen.PlaceTile(x, y, TileID.Platforms, true);
+                            if (bottom)
+                                WorldGen.PlaceTile(x, y, TileID.Platforms, true);
                         }
                         else
                         {

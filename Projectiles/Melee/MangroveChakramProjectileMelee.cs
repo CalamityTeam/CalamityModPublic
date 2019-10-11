@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class MangroveChakramProjectileMelee : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Chakram");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Chakram");
+        }
 
         public override void SetDefaults()
         {
@@ -27,10 +27,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
+            Lighting.AddLight(projectile.Center, 0f, 0.25f, 0f);
             if (Main.rand.NextBool(5))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 44, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.immune[projectile.owner] = 6;
-			target.AddBuff(BuffID.CursedInferno, 240);
+            target.immune[projectile.owner] = 6;
+            target.AddBuff(BuffID.CursedInferno, 240);
         }
     }
 }

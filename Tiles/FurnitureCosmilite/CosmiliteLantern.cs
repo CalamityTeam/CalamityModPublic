@@ -48,7 +48,8 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
                 r = 1f;
                 g = 0.6f;
                 b = 1f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

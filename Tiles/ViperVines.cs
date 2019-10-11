@@ -5,20 +5,20 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
-	public class ViperVines : ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class ViperVines : ModTile
+    {
+        public override void SetDefaults()
+        {
             Main.tileCut[Type] = true;
-			Main.tileBlockLight[Type] = true;
+            Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileNoFail[Type] = true;
             ModTranslation name = CreateMapEntryName();
- 			name.SetDefault("Viper Vines");
- 			AddMapEntry(new Color(0, 50, 0), name);
+            name.SetDefault("Viper Vines");
+            AddMapEntry(new Color(0, 50, 0), name);
             soundType = 6;
             dustType = 2;
-		}
+        }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
@@ -32,21 +32,21 @@ namespace CalamityMod.Tiles
             {
                 Item.NewItem(new Vector2(i * 16 + 8f, j * 16 + 8f), ItemID.VineRope);
             }
-			if (Main.tile[i, j + 1] != null)
-			{
-				if (Main.tile[i, j + 1].active())
-				{
-					if (Main.tile[i, j + 1].type == mod.TileType("ViperVines"))
-					{
-						WorldGen.KillTile(i, j + 1, false, false, false);
-						if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
-						{
-							NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
-						}
-					}
-				}
-			}
-		}
+            if (Main.tile[i, j + 1] != null)
+            {
+                if (Main.tile[i, j + 1].active())
+                {
+                    if (Main.tile[i, j + 1].type == mod.TileType("ViperVines"))
+                    {
+                        WorldGen.KillTile(i, j + 1, false, false, false);
+                        if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
+                        {
+                            NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
+                        }
+                    }
+                }
+            }
+        }
 
         public override void RandomUpdate(int i, int j)
         {
@@ -75,18 +75,18 @@ namespace CalamityMod.Tiles
                             int num53 = i;
                             int num54 = j + 1;
                             Main.tile[num53, num54].type = (ushort)mod.TileType("ViperVines");
-							Main.tile[num53, num54].frameX = (short)(WorldGen.genRand.Next(8) * 18);
-							Main.tile[num53, num54].frameY = (short)(4 * 18);
-							Main.tile[num53, num54 - 1].frameX = (short)(WorldGen.genRand.Next(12) * 18);
-							Main.tile[num53, num54 - 1].frameY = (short)(WorldGen.genRand.Next(4) * 18);
-							Main.tile[num53, num54].active(true);
+                            Main.tile[num53, num54].frameX = (short)(WorldGen.genRand.Next(8) * 18);
+                            Main.tile[num53, num54].frameY = (short)(4 * 18);
+                            Main.tile[num53, num54 - 1].frameX = (short)(WorldGen.genRand.Next(12) * 18);
+                            Main.tile[num53, num54 - 1].frameY = (short)(WorldGen.genRand.Next(4) * 18);
+                            Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
-							WorldGen.SquareTileFrame(num53, num54 - 1, true);
-							if (Main.netMode == NetmodeID.Server)
+                            WorldGen.SquareTileFrame(num53, num54 - 1, true);
+                            if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
-								NetMessage.SendTileSquare(-1, num53, num54 - 1, 3, TileChangeType.None);
-							}
+                                NetMessage.SendTileSquare(-1, num53, num54 - 1, 3, TileChangeType.None);
+                            }
                         }
                     }
                 }

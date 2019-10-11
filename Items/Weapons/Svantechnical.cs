@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Svantechnical");
-			Tooltip.SetDefault("Fires several barrages of bullets");
-		}
+            Tooltip.SetDefault("Fires several barrages of bullets");
+        }
 
         public override void SetDefaults()
         {
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.shootSpeed = 12f;
             item.shoot = 10;
             item.useAmmo = 97;
-			item.Calamity().postMoonLordRarity = 16;
-		}
+            item.Calamity().postMoonLordRarity = 16;
+        }
 
         public override Vector2? HoldoutOffset()
         {

@@ -1,41 +1,40 @@
-﻿using System;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class IceClasper : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ice Clasper");
-			Main.npcFrameCount[npc.type] = 6;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ice Clasper");
+            Main.npcFrameCount[npc.type] = 6;
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             npc.npcSlots = 3f;
             npc.noGravity = true;
-			npc.damage = 32;
-			npc.width = 40;
-			npc.height = 40;
-			npc.defense = 12;
-			npc.lifeMax = 600;
-			npc.knockBackResist = 0.35f;
+            npc.damage = 32;
+            npc.width = 40;
+            npc.height = 40;
+            npc.defense = 12;
+            npc.lifeMax = 600;
+            npc.knockBackResist = 0.35f;
             npc.aiStyle = -1;
-			aiType = -1;
-			npc.value = Item.buyPrice(0, 0, 25, 0);
-			npc.HitSound = SoundID.NPCHit5;
-			npc.DeathSound = SoundID.NPCDeath7;
-			npc.coldDamage = true;
+            aiType = -1;
+            npc.value = Item.buyPrice(0, 0, 25, 0);
+            npc.HitSound = SoundID.NPCHit5;
+            npc.DeathSound = SoundID.NPCDeath7;
+            npc.coldDamage = true;
             npc.rarity = 2;
-			banner = npc.type;
-			bannerItem = mod.ItemType("IceClasperBanner");
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("IceClasperBanner");
+        }
 
         public override void AI()
         {
@@ -234,13 +233,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return spawnInfo.player.ZoneSnow &&
-            	!spawnInfo.player.ZoneTowerStardust &&
-            	!spawnInfo.player.ZoneTowerSolar &&
-            	!spawnInfo.player.ZoneTowerVortex &&
-            	!spawnInfo.player.ZoneTowerNebula &&
+                !spawnInfo.player.ZoneTowerStardust &&
+                !spawnInfo.player.ZoneTowerSolar &&
+                !spawnInfo.player.ZoneTowerVortex &&
+                !spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon &&
-				!spawnInfo.player.Calamity().ZoneSunkenSea &&
-				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
+                !spawnInfo.player.Calamity().ZoneSunkenSea &&
+                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.007f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -252,24 +251,24 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 15; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 15; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
 
-		public override void NPCLoot()
-		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
+        public override void NPCLoot()
+        {
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
             if (Main.rand.NextBool(10))
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("FrostBarrier"));
@@ -279,5 +278,5 @@ namespace CalamityMod.NPCs.NormalNPCs
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientIceChunk"));
             }
         }
-	}
+    }
 }

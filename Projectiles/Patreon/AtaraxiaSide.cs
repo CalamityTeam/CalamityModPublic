@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Patreon;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Patreon;
 
 namespace CalamityMod.Projectiles.Patreon
 {
@@ -12,8 +12,8 @@ namespace CalamityMod.Projectiles.Patreon
         private static int AnimationFrameTime = 9;
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Also Not Exoblade");
+        {
+            DisplayName.SetDefault("Also Not Exoblade");
             Main.projFrames[projectile.type] = NumAnimationFrames;
         }
 
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.ShadowFlame, 180);
+            target.AddBuff(BuffID.ShadowFlame, 180);
             target.AddBuff(BuffID.Ichor, 180);
         }
 
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Patreon
             for (int i = 0; i < numSplits; ++i)
             {
                 projVec = projVec.RotatedBy(angleVariance);
-                if(projectile.owner == Main.myPlayer)
+                if (projectile.owner == Main.myPlayer)
                     Projectile.NewProjectile(projectile.Center, projVec, splitID, damage, 1.5f, Main.myPlayer, 0.0f, 0.0f);
             }
         }

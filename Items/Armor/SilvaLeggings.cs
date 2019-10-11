@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,17 +17,17 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 54, 0, 0);
-			item.defense = 39;
-			item.Calamity().postMoonLordRarity = 15;
-		}
+            item.value = Item.buyPrice(0, 54, 0, 0);
+            item.defense = 39;
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
         public override void UpdateEquip(Player player)
         {
             player.moveSpeed += 0.45f;
-			player.allDamage += 0.12f;
-			player.Calamity().AllCritBoost(7);
-		}
+            player.allDamage += 0.12f;
+            player.Calamity().AllCritBoost(7);
+        }
 
         public override void AddRecipes()
         {
@@ -36,8 +35,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(null, "DarksunFragment", 7);
             recipe.AddIngredient(null, "EffulgentFeather", 7);
             recipe.AddIngredient(null, "CosmiliteBar", 7);
-			recipe.AddIngredient(null, "Tenebris", 9);
-			recipe.AddIngredient(null, "NightmareFuel", 15);
+            recipe.AddIngredient(null, "Tenebris", 9);
+            recipe.AddIngredient(null, "NightmareFuel", 15);
             recipe.AddIngredient(null, "EndothermicEnergy", 15);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);

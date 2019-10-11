@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("LaceratorProjectile");
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override void AddRecipes()
         {

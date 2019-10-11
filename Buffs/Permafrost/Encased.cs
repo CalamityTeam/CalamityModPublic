@@ -5,18 +5,18 @@ using Terraria.ModLoader;
 namespace CalamityMod.Buffs.Permafrost
 {
     public class Encased : ModBuff
-	{
-		public override void SetDefaults()
-		{
-			DisplayName.SetDefault("Encased");
-			Description.SetDefault("30 defense and +30% damage reduction, but...");
-			Main.debuff[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Encased");
+            Description.SetDefault("30 defense and +30% damage reduction, but...");
+            Main.debuff[Type] = true;
             Main.buffNoSave[Type] = true;
             longerExpertDebuff = false;
             canBeCleared = false;
-		}
+        }
 
-		public override void Update(Player player, ref int buffIndex)
+        public override void Update(Player player, ref int buffIndex)
         {
             player.statDefense += 30;
             player.endurance += 0.3f;
@@ -36,5 +36,5 @@ namespace CalamityMod.Buffs.Permafrost
                 player.immuneTime = 90;
             }
         }
-	}
+    }
 }

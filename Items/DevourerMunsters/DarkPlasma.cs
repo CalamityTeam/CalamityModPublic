@@ -17,9 +17,9 @@ namespace CalamityMod.Items.DevourerMunsters
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-			item.value = Item.buyPrice(0, 7, 0, 0);
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.value = Item.buyPrice(0, 7, 0, 0);
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

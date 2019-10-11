@@ -23,13 +23,13 @@ namespace CalamityMod.Items.Placeables
             item.maxStack = 999;
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "EutrophicSandWallSafe", 4);
-			recipe.AddTile(18);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "EutrophicSandWallSafe", 4);
+            recipe.AddTile(18);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gel Dart");
-			Tooltip.SetDefault("Throws bouncing darts");
-		}
+            Tooltip.SetDefault("Throws bouncing darts");
+        }
 
         public override void SafeSetDefaults()
         {
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 4;
             item.shoot = mod.ProjectileType("GelDartProjectile");
             item.shootSpeed = 14f;
-			item.Calamity().rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

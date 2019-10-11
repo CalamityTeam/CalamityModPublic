@@ -1,13 +1,11 @@
-﻿using System;
+﻿using CalamityMod.MiscImplementation;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
-
 using Terraria;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using Microsoft.Xna.Framework;
-
-using CalamityMod.MiscImplementation;
 
 namespace CalamityMod.World.Planets
 {

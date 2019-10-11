@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.SunkenSea
 {
@@ -11,15 +11,15 @@ namespace CalamityMod.Items.SunkenSea
             DisplayName.SetDefault("Giant Pearl");
             Tooltip.SetDefault("You have a light aura around you\n" +
                 "Enemies within the aura are slowed down\n" +
-				"Does not work on bosses");
+                "Does not work on bosses");
         }
 
         public override void SetDefaults()
         {
             item.width = 42;
             item.height = 32;
-			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = 2;
+            item.value = Item.buyPrice(0, 3, 0, 0);
+            item.rare = 2;
             item.accessory = true;
         }
 
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.SunkenSea
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.giantPearl = true;
-			Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 0.45f, 0.8f, 0.8f);
+            Lighting.AddLight((int)(player.position.X + (float)(player.width / 2)) / 16, (int)(player.position.Y + (float)(player.height / 2)) / 16, 0.45f, 0.8f, 0.8f);
         }
     }
 }

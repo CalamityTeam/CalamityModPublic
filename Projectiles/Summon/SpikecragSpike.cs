@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SpikecragSpike : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("SpikecragSpike");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("SpikecragSpike");
+        }
 
         public override void SetDefaults()
         {
@@ -24,8 +24,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-			projectile.velocity.Y += 0.1f;
-		}
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.velocity.Y += 0.1f;
+        }
     }
 }

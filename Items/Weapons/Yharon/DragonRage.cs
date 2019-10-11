@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons.Yharon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Rage");
-			Tooltip.SetDefault("Fires a spread of five fire waves");
-		}
+            Tooltip.SetDefault("Fires a spread of five fire waves");
+        }
 
         public override void SetDefaults()
         {
@@ -30,20 +30,20 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.rare = 10;
             item.shoot = mod.ProjectileType("DragonRage");
             item.shootSpeed = 14f;
-			item.Calamity().postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			for (int index = 0; index < 5; ++index)
-			{
-				float num7 = speedX;
-				float num8 = speedY;
-				float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
-				float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
-			}
-			return false;
+            for (int index = 0; index < 5; ++index)
+            {
+                float num7 = speedX;
+                float num8 = speedY;
+                float SpeedX = speedX + (float)Main.rand.Next(-25, 26) * 0.05f;
+                float SpeedY = speedY + (float)Main.rand.Next(-25, 26) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+            }
+            return false;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

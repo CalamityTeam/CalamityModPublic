@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -20,8 +19,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 22;
             item.height = 22;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 7;
             item.defense = 10; //43
         }
 
@@ -40,12 +39,12 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverSpore = true;
-			modPlayer.rogueStealthMax = 1.15f;
-			player.setBonus = "5% increased rogue damage\n" +
+            modPlayer.rogueStealthMax = 1.15f;
+            player.setBonus = "5% increased rogue damage\n" +
                 "You emit a cloud of spores when you are hit\n" +
-				"Rogue stealth builds while not attacking and not moving, up to a max of 115\n" +
-				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue stealth builds while not attacking and not moving, up to a max of 115\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().wearingRogueArmor = true;
         }

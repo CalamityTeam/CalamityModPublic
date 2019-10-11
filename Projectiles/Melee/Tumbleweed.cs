@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Tumbleweed : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Tumbleweed");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Tumbleweed");
+        }
 
         public override void SetDefaults()
         {
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.melee = true;
             projectile.alpha = 255;
-			projectile.Calamity().trueMelee = true;
-		}
+            projectile.Calamity().trueMelee = true;
+        }
 
         public override void AI()
         {

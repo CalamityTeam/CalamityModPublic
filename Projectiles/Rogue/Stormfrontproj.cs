@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -43,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] >= sparkFreq)
             {
                 Vector2 sparkS = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
-                Projectile.NewProjectile(projectile.Center,sparkS,mod.ProjectileType("Stormfrontspark"),projectile.damage,3f,projectile.owner);
+                Projectile.NewProjectile(projectile.Center, sparkS, mod.ProjectileType("Stormfrontspark"), projectile.damage, 3f, projectile.owner);
                 projectile.ai[0] = 0;
             }
             if (Main.rand.Next(10) == 0)

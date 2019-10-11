@@ -5,17 +5,17 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.FabsolStuff
 {
     public class Vodka : ModItem
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Vodka");
-			Tooltip.SetDefault(@"Boosts damage by 6% and critical strike chance by 2%
+        {
+            DisplayName.SetDefault("Vodka");
+            Tooltip.SetDefault(@"Boosts damage by 6% and critical strike chance by 2%
 Reduces life regen by 1 and defense by 4
 The number one alcohol for creating great mixed drinks");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 28;
             item.height = 18;
             item.useTurn = true;
@@ -29,6 +29,6 @@ The number one alcohol for creating great mixed drinks");
             item.buffType = mod.BuffType("Vodka");
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 3, 30, 0);
-		}
+        }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.CalPlayer;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {

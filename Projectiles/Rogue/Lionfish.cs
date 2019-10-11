@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,10 +9,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Lionfish : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Lionfish");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Lionfish");
+        }
 
         public override void SetDefaults()
         {
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override void AI()
         {

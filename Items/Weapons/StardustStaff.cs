@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Eidolon Staff");
             Tooltip.SetDefault("The power of an ancient cultist resonates within this staff\n" +
-				"Fires a spread of ancient light and has a chance to fire a spinning ice cluster");
+                "Fires a spread of ancient light and has a chance to fire a spinning ice cluster");
             Item.staff[item.type] = true;
         }
 

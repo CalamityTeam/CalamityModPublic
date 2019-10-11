@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Fishing
             item.height = 28;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 5);
-			item.rare = 1;
+            item.rare = 1;
         }
     }
 }

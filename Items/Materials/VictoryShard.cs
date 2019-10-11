@@ -4,19 +4,19 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Materials
 {
     public class VictoryShard : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Victory Shard");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Victory Shard");
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 14;
-			item.height = 14;
-			item.maxStack = 999;
+        public override void SetDefaults()
+        {
+            item.width = 14;
+            item.height = 14;
+            item.maxStack = 999;
             item.value = Item.sellPrice(silver: 3);
-			item.rare = 1;
-		}
-	}
+            item.rare = 1;
+        }
+    }
 }

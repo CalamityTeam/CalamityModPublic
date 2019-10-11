@@ -6,23 +6,23 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-	public class ProfanedWorkbench: ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolidTop[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
-			Main.tileTable[Type] = true;
-			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
-			TileObjectData.newTile.CoordinateHeights = new int[]{ 18 };
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Profaned Work Bench");
+    public class ProfanedWorkbench : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolidTop[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileTable[Type] = true;
+            Main.tileLavaDeath[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Profaned Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
-			adjTiles = new int[]{ TileID.WorkBenches };
+            adjTiles = new int[] { TileID.WorkBenches };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -38,8 +38,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 32, 16, mod.ItemType("ProfanedWorkbench"));
-		}
-	}
+        {
+            Item.NewItem(i * 16, j * 16, 32, 16, mod.ItemType("ProfanedWorkbench"));
+        }
+    }
 }

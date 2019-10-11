@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
                     float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
                     //Prevents the projectile speed from being too low
-                    if (shardspeedX < 2f && shardspeedX > -2f )
+                    if (shardspeedX < 2f && shardspeedX > -2f)
                     {
                         shardspeedX += -projectile.velocity.X;
                     }

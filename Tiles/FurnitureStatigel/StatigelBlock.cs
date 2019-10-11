@@ -1,24 +1,24 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
-	public class StatigelBlock : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    public class StatigelBlock : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeDecorativeTiles(Type);
             TileMerge.MergeSmoothTiles(Type);
 
             drop = mod.ItemType("StatigelBlock");
-			AddMapEntry(new Color(215, 74, 121));
+            AddMapEntry(new Color(215, 74, 121));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -24,9 +24,9 @@ namespace CalamityMod.Items.Placeables
             item.width = 10;
             item.height = 10;
             item.maxStack = 999;
-			item.rare = 10;
+            item.rare = 10;
             item.value = Item.sellPrice(silver: 50);
-		}
+        }
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {

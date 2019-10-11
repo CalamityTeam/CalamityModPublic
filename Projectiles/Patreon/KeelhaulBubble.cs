@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Patreon
 {
     public class KeelhaulBubble : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bubble");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bubble");
+        }
 
         public override void SetDefaults()
         {
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void Kill(int timeLeft)
         {
-        	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, mod.ProjectileType("KeelhaulGeyserBottom"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, mod.ProjectileType("KeelhaulGeyserTop"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, mod.ProjectileType("KeelhaulGeyserBottom"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y - 80f, 0f, 0f, mod.ProjectileType("KeelhaulGeyserTop"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         }
     }
 }

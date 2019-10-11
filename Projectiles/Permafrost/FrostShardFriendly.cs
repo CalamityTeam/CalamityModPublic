@@ -6,27 +6,27 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class FrostShardFriendly : ModProjectile
-	{
-		public override void SetDefaults()
-		{
-			projectile.width = 12;
-			projectile.height = 12;
-			projectile.aiStyle = 1;
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 12;
+            projectile.height = 12;
+            projectile.aiStyle = 1;
             projectile.coldDamage = true;
             projectile.friendly = true;
             projectile.minion = true;
-			projectile.penetrate = 1;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.penetrate = 1;
+            projectile.Calamity().rogue = true;
+        }
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Frost Shard");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Frost Shard");
             Main.projFrames[projectile.type] = 5;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Permafrost
         }
 
         public override void Kill(int timeLeft)
-		{
+        {
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (int index1 = 0; index1 < 3; ++index1)
             {
@@ -76,5 +76,5 @@ namespace CalamityMod.Projectiles.Permafrost
                 Main.dust[index2].scale = 0.7f;
             }
         }
-	}
+    }
 }

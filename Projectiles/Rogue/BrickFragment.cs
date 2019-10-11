@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -37,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, (int) projectile.position.X, (int) projectile.position.Y);
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
             //Dust effect
             int splash = 0;
             while (splash < 4)

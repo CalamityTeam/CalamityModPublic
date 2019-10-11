@@ -32,33 +32,33 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.shoot = mod.ProjectileType("AngryChicken");
             item.shootSpeed = 10f;
             item.summon = true;
-			item.Calamity().postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (player.altFunctionUse != 2)
-			{
-				position = Main.MouseWorld;
-				speedX = 0;
-				speedY = 0;
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
-			}
-			return false;
-		}
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse != 2)
+            {
+                position = Main.MouseWorld;
+                speedX = 0;
+                speedY = 0;
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            }
+            return false;
+        }
 
-		public override bool UseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				player.MinionNPCTargetAim();
-			}
-			return base.UseItem(player);
-		}
-	}
+        public override bool UseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                player.MinionNPCTargetAim();
+            }
+            return base.UseItem(player);
+        }
+    }
 }

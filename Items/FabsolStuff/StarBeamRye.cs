@@ -5,18 +5,18 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.FabsolStuff
 {
     public class StarBeamRye : ModItem
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Star Beam Rye");
-			Tooltip.SetDefault(@"Boosts max mana by 50, magic damage by 8%,
+        {
+            DisplayName.SetDefault("Star Beam Rye");
+            Tooltip.SetDefault(@"Boosts max mana by 50, magic damage by 8%,
 and reduces mana usage by 10%
 Reduces defense by 6 and life regen by 1
 Made from some stuff I found near the Astral Meteor crash site, don't worry it's safe, trust me");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 28;
             item.height = 18;
             item.useTurn = true;
@@ -30,6 +30,6 @@ Made from some stuff I found near the Astral Meteor crash site, don't worry it's
             item.buffType = mod.BuffType("StarBeamRye");
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 13, 30, 0);
-		}
+        }
     }
 }

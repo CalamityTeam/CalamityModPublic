@@ -1,6 +1,4 @@
-﻿using System;
-using Terraria;
-using Microsoft.Xna.Framework;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Patreon
@@ -47,7 +45,7 @@ namespace CalamityMod.Projectiles.Patreon
             }
 
             // Sparkles "burning off" of the laser beam
-            if(Main.rand.NextBool())
+            if (Main.rand.NextBool())
             {
                 int dustType = Main.rand.NextBool() ? 244 : 246;
                 int idx = Dust.NewDust(projectile.position, 1, 1, dustType);

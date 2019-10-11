@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -22,10 +21,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 50, 0, 0);
-			item.defense = 15; //98
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.value = Item.buyPrice(0, 50, 0, 0);
+            item.defense = 15; //98
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -43,7 +42,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraThrowing = true;
-			modPlayer.rogueStealthMax = 1.3f;
+            modPlayer.rogueStealthMax = 1.3f;
             modPlayer.wearingRogueArmor = true;
             player.setBonus = "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
@@ -51,19 +50,19 @@ namespace CalamityMod.Items.Armor
                 "After every 25 rogue critical hits you will gain 5 seconds of damage immunity\n" +
                 "This effect can only occur once every 30 seconds\n" +
                 "While under the effects of a debuff you gain 10% increased rogue damage\n" +
-				"Rogue stealth builds while not attacking and not moving, up to a max of 130\n" +
-				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue stealth builds while not attacking and not moving, up to a max of 130\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
         }
 
         public override void UpdateEquip(Player player)
         {
             player.Calamity().throwingDamage += 0.1f;
             player.Calamity().throwingCrit += 10;
-			player.moveSpeed += 0.12f;
+            player.moveSpeed += 0.12f;
             player.endurance += 0.05f;
-			player.lavaMax += 240;
-			player.ignoreWater = true;
+            player.lavaMax += 240;
+            player.ignoreWater = true;
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Cursed] = true;

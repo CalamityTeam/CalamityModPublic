@@ -1,18 +1,18 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedRock : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeDecorativeTiles(Type);
@@ -21,8 +21,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             soundType = 21;
             mineResist = 15f;
             minPick = 225;
-			drop = mod.ItemType("ProfanedRock");
-			AddMapEntry(new Color(84, 38, 33));
+            drop = mod.ItemType("ProfanedRock");
+            AddMapEntry(new Color(84, 38, 33));
         }
         int animationFrameWidth = 288;
 

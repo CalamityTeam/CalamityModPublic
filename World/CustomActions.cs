@@ -57,7 +57,7 @@ namespace CalamityMod.World
                 {
                     WorldGen.PlaceTile(x, y, _random.Next(new ushort[] { TileID.JunglePlants, TileID.JunglePlants2 }), true, false, -1, 0);
                 }
-                else if (_tryMushrooms && _tiles[x, y+1].type == TileID.MushroomGrass)
+                else if (_tryMushrooms && _tiles[x, y + 1].type == TileID.MushroomGrass)
                 {
                     WorldGen.PlaceTile(x, y, TileID.MushroomPlants);
                 }
@@ -114,7 +114,7 @@ namespace CalamityMod.World
                 {
                     return base.UnitApply(origin, x, y, args);
                 }
-                else if(distance < _distance)
+                else if (distance < _distance)
                 {
                     return base.UnitApply(origin, x, y, args);
                 }

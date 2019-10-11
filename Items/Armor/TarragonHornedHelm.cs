@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -20,10 +20,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 50, 0, 0);
-			item.defense = 3; //98
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.value = Item.buyPrice(0, 50, 0, 0);
+            item.defense = 3; //98
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -47,15 +47,15 @@ namespace CalamityMod.Items.Armor
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "Summons a life aura around you that damages nearby enemies";
             player.minionDamage += 0.55f;
-			player.maxMinions++;
-		}
+            player.maxMinions++;
+        }
 
         public override void UpdateEquip(Player player)
         {
             player.maxMinions += 3;
             player.endurance += 0.05f;
-			player.lavaMax += 240;
-			player.ignoreWater = true;
+            player.lavaMax += 240;
+            player.ignoreWater = true;
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Cursed] = true;

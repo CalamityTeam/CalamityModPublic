@@ -1,15 +1,15 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.AstralSnow
 {
-	public class AstralIce : ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class AstralIce : ModTile
+    {
+        public override void SetDefaults()
+        {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.AstralSnow
             TileMerge.MergeAstralTiles(Type);
 
             dustType = 173;
-			drop = mod.ItemType("AstralIce");
+            drop = mod.ItemType("AstralIce");
 
             soundType = 2;
             soundStyle = 50;
@@ -35,9 +35,9 @@ namespace CalamityMod.Tiles.AstralSnow
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override void FloorVisuals(Player player)
         {

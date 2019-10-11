@@ -9,8 +9,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestus");
-			Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits");
-		}
+            Tooltip.SetDefault("Throws a scythe that splits into multiple scythes on enemy hits");
+        }
 
         public override void SafeSetDefaults()
         {
@@ -29,9 +29,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("Celestus");
             item.shootSpeed = 25f;
-			item.Calamity().rogue = true;
-			item.Calamity().postMoonLordRarity = 15;
-		}
+            item.Calamity().rogue = true;
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
         public override void AddRecipes()
         {

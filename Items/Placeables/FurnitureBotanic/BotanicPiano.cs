@@ -3,28 +3,28 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureBotanic
 {
-	public class BotanicPiano : ModItem
-	{
-		public override void SetStaticDefaults()
+    public class BotanicPiano : ModItem
+    {
+        public override void SetStaticDefaults()
         {
         }
 
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             item.width = 28;
-			item.height = 20;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
+            item.height = 20;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
             item.value = 0;
             item.consumable = true;
-			item.createTile = mod.TileType("BotanicPiano");
-		}
+            item.createTile = mod.TileType("BotanicPiano");
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "UelibloomBrick", 15);
@@ -34,5 +34,5 @@ namespace CalamityMod.Items.Placeables.FurnitureBotanic
             recipe.AddTile(null, "BotanicPlanter");
             recipe.AddRecipe();
         }
-	}
+    }
 }

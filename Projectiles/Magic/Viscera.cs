@@ -7,12 +7,12 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Viscera : ModProjectile
     {
-    	public float healAmt = 1f;
+        public float healAmt = 1f;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Viscera");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Viscera");
+        }
 
         public override void SetDefaults()
         {
@@ -24,13 +24,13 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 5;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	healAmt *= 1.4f;
-        	projectile.penetrate--;
+            healAmt *= 1.4f;
+            projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
                 projectile.Kill();
@@ -52,32 +52,32 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
-			{
-				return;
-			}
-        	healAmt *= 1.4f;
-        	Player player = Main.player[projectile.owner];
-        	player.statLife += (int)healAmt;
-        	player.HealEffect((int)healAmt);
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            {
+                return;
+            }
+            healAmt *= 1.4f;
+            Player player = Main.player[projectile.owner];
+            player.statLife += (int)healAmt;
+            player.HealEffect((int)healAmt);
         }
 
         public override void AI()
         {
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 9f)
-			{
-				for (int num447 = 0; num447 < 4; num447++)
-				{
-					Vector2 vector33 = projectile.position;
-					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-					projectile.alpha = 255;
-					int num448 = Dust.NewDust(vector33, 1, 1, 5, 0f, 0f, 0, default, 1f);
-					Main.dust[num448].position = vector33;
-					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-					Main.dust[num448].velocity *= 0.2f;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 9f)
+            {
+                for (int num447 = 0; num447 < 4; num447++)
+                {
+                    Vector2 vector33 = projectile.position;
+                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
+                    projectile.alpha = 255;
+                    int num448 = Dust.NewDust(vector33, 1, 1, 5, 0f, 0f, 0, default, 1f);
+                    Main.dust[num448].position = vector33;
+                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+                    Main.dust[num448].velocity *= 0.2f;
+                }
+            }
         }
     }
 }

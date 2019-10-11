@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -44,8 +43,8 @@ namespace CalamityMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			Main.projectile[proj].Calamity().forceMelee = true;
-			return false;
+            Main.projectile[proj].Calamity().forceMelee = true;
+            return false;
         }
 
         public override void AddRecipes()

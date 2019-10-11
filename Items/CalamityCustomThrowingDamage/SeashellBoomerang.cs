@@ -27,8 +27,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 2;
             item.shoot = mod.ProjectileType("SeashellBoomerangProjectile");
             item.shootSpeed = 11.5f;
-			item.Calamity().rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

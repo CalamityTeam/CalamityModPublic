@@ -1,32 +1,32 @@
+using CalamityMod.Utilities;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
-	public class Tenebris : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    public class Tenebris : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 44;
-			drop = mod.ItemType("Tenebris");
-			ModTranslation name = CreateMapEntryName();
- 			name.SetDefault("Tenebris");
- 			AddMapEntry(new Color(0, 100, 100), name);
-			mineResist = 3f;
-			minPick = 200;
-			soundType = 21;
-		}
+            drop = mod.ItemType("Tenebris");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Tenebris");
+            AddMapEntry(new Color(0, 100, 100), name);
+            mineResist = 3f;
+            minPick = 200;
+            soundType = 21;
+        }
 
         public override bool CanExplode(int i, int j)
         {
@@ -34,23 +34,23 @@ namespace CalamityMod.Tiles
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
 
-		public override void NearbyEffects(int i, int j, bool closer)
-		{
-			if (!closer && j < Main.maxTilesY - 205)
-			{
-				if (Main.tile[i, j].liquid <= 0)
-				{
-					Main.tile[i, j].liquid = 255;
-					Main.tile[i, j].lava(false);
-				}
-			}
-		}
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (!closer && j < Main.maxTilesY - 205)
+            {
+                if (Main.tile[i, j].liquid <= 0)
+                {
+                    Main.tile[i, j].liquid = 255;
+                    Main.tile[i, j].lava(false);
+                }
+            }
+        }
 
-		public override void RandomUpdate(int i, int j)
+        public override void RandomUpdate(int i, int j)
         {
             if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
             {

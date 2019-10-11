@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,12 +9,12 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SandstormBullet : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sandstorm");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sandstorm");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
@@ -27,11 +27,11 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 1;
             projectile.aiStyle = 1;
             projectile.alpha = 255;
-		}
+        }
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
@@ -64,11 +64,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -80,10 +80,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+    }
 }

@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 22;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 7;
             item.defense = 7; //40
         }
 
@@ -51,8 +51,8 @@ namespace CalamityMod.Items.Armor
             player.magicCrit += 5;
             player.manaCost *= 0.88f;
             player.moveSpeed += 0.1f;
-			player.statManaMax2 += 80;
-		}
+            player.statManaMax2 += 80;
+        }
 
         public override void AddRecipes()
         {

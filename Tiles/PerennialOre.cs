@@ -1,42 +1,42 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class PerennialOre : ModTile
-	{
-		public override void SetDefaults()
-		{
+    {
+        public override void SetDefaults()
+        {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
-			Main.tileValue[Type] = 690;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileValue[Type] = 690;
 
             TileMerge.MergeGeneralTiles(Type);
 
             dustType = mod.DustType("CESparkle");
-			drop = mod.ItemType("PerennialOre");
-			ModTranslation name = CreateMapEntryName();
- 			name.SetDefault("Perennial Ore");
- 			AddMapEntry(new Color(200, 250, 100), name);
-			mineResist = 3f;
-			minPick = 200;
-			soundType = 21;
-			Main.tileSpelunker[Type] = true;
-		}
+            drop = mod.ItemType("PerennialOre");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Perennial Ore");
+            AddMapEntry(new Color(200, 250, 100), name);
+            mineResist = 3f;
+            minPick = 200;
+            soundType = 21;
+            Main.tileSpelunker[Type] = true;
+        }
 
-		public override bool CanExplode(int i, int j)
-		{
-			return NPC.downedPlantBoss;
-		}
+        public override bool CanExplode(int i, int j)
+        {
+            return NPC.downedPlantBoss;
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

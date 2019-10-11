@@ -1,44 +1,44 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.ID;
+using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.DataStructures;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
-	public class SilvaDresser : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolidTop[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
-			Main.tileTable[Type] = true;
-			Main.tileContainer[Type] = true;
-			Main.tileLavaDeath[Type] = true;
+    public class SilvaDresser : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolidTop[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileTable[Type] = true;
+            Main.tileContainer[Type] = true;
+            Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
             TileID.Sets.HasOutlines[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-			TileObjectData.newTile.Origin = new Point16(1, 1);
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
-			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
-			TileObjectData.newTile.StyleHorizontal = true;
-			TileObjectData.newTile.LavaDeath = false;
-			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Silva Dresser");
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.Origin = new Point16(1, 1);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
+            TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+            TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Silva Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Dressers };
-			dresser = "Silva Dresser";
-			dresserDrop = mod.ItemType("SilvaDresser");
+            adjTiles = new int[] { TileID.Dressers };
+            dresser = "Silva Dresser";
+            dresserDrop = mod.ItemType("SilvaDresser");
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -49,9 +49,9 @@ namespace CalamityMod.Tiles.FurnitureSilva
         }
 
         public override bool HasSmartInteract()
-		{
-			return true;
-		}
+        {
+            return true;
+        }
 
         public override bool NewRightClick(int i, int j)
         {
@@ -151,97 +151,97 @@ namespace CalamityMod.Tiles.FurnitureSilva
         }
 
         public override void MouseOverFar(int i, int j)
-		{
-			Player player = Main.LocalPlayer;
-			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
-			int left = Player.tileTargetX;
-			int top = Player.tileTargetY;
-			left -= (int)(tile.frameX % 54 / 18);
-			if (tile.frameY % 36 != 0)
-			{
-				top--;
-			}
-			int chestIndex = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
-			if (chestIndex < 0)
-			{
-				player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
-			}
-			else
-			{
-				if (Main.chest[chestIndex].name != "")
-				{
-					player.showItemIconText = Main.chest[chestIndex].name;
-				}
-				else
-				{
-					player.showItemIconText = chest;
-				}
-				if (player.showItemIconText == chest)
-				{
-					player.showItemIcon2 = mod.ItemType("SilvaDresser");
-					player.showItemIconText = "";
-				}
-			}
-			player.noThrow = 2;
-			player.showItemIcon = true;
-			if (player.showItemIconText == "")
-			{
-				player.showItemIcon = false;
-				player.showItemIcon2 = 0;
-			}
-		}
+        {
+            Player player = Main.LocalPlayer;
+            Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
+            int left = Player.tileTargetX;
+            int top = Player.tileTargetY;
+            left -= (int)(tile.frameX % 54 / 18);
+            if (tile.frameY % 36 != 0)
+            {
+                top--;
+            }
+            int chestIndex = Chest.FindChest(left, top);
+            player.showItemIcon2 = -1;
+            if (chestIndex < 0)
+            {
+                player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
+            }
+            else
+            {
+                if (Main.chest[chestIndex].name != "")
+                {
+                    player.showItemIconText = Main.chest[chestIndex].name;
+                }
+                else
+                {
+                    player.showItemIconText = chest;
+                }
+                if (player.showItemIconText == chest)
+                {
+                    player.showItemIcon2 = mod.ItemType("SilvaDresser");
+                    player.showItemIconText = "";
+                }
+            }
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            if (player.showItemIconText == "")
+            {
+                player.showItemIcon = false;
+                player.showItemIcon2 = 0;
+            }
+        }
 
-		public override void MouseOver(int i, int j)
-		{
-			Player player = Main.LocalPlayer;
-			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
-			int left = Player.tileTargetX;
-			int top = Player.tileTargetY;
-			left -= (int)(tile.frameX % 54 / 18);
-			if (tile.frameY % 36 != 0)
-			{
-				top--;
-			}
-			int num138 = Chest.FindChest(left, top);
-			player.showItemIcon2 = -1;
-			if (num138 < 0)
-			{
-				player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
-			}
-			else
-			{
-				if (Main.chest[num138].name != "")
-				{
-					player.showItemIconText = Main.chest[num138].name;
-				}
-				else
-				{
-					player.showItemIconText = chest;
-				}
-				if (player.showItemIconText == chest)
-				{
-					player.showItemIcon2 = mod.ItemType("SilvaDresser");
-					player.showItemIconText = "";
-				}
-			}
-			player.noThrow = 2;
-			player.showItemIcon = true;
-			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY > 0)
-			{
-				player.showItemIcon2 = ItemID.FamiliarShirt;
-			}
-		}
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
+            int left = Player.tileTargetX;
+            int top = Player.tileTargetY;
+            left -= (int)(tile.frameX % 54 / 18);
+            if (tile.frameY % 36 != 0)
+            {
+                top--;
+            }
+            int num138 = Chest.FindChest(left, top);
+            player.showItemIcon2 = -1;
+            if (num138 < 0)
+            {
+                player.showItemIconText = Language.GetTextValue("LegacyDresserType.0");
+            }
+            else
+            {
+                if (Main.chest[num138].name != "")
+                {
+                    player.showItemIconText = Main.chest[num138].name;
+                }
+                else
+                {
+                    player.showItemIconText = chest;
+                }
+                if (player.showItemIconText == chest)
+                {
+                    player.showItemIcon2 = mod.ItemType("SilvaDresser");
+                    player.showItemIconText = "";
+                }
+            }
+            player.noThrow = 2;
+            player.showItemIcon = true;
+            if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY > 0)
+            {
+                player.showItemIcon2 = ItemID.FamiliarShirt;
+            }
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 32, dresserDrop);
-			Chest.DestroyChest(i, j);
-		}
-	}
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 48, 32, dresserDrop);
+            Chest.DestroyChest(i, j);
+        }
+    }
 }

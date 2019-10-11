@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class FlareExplosion : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosion");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion");
+        }
 
         public override void SetDefaults()
         {
@@ -24,22 +24,22 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 3f) / 255f, ((255 - projectile.alpha) * 3f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 3f) / 255f, ((255 - projectile.alpha) * 3f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
             projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				for (int num468 = 0; num468 < 5; num468++)
-				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 0.5f);
-					Main.dust[num469].noGravity = true;
-					Main.dust[num469].velocity *= 0f;
-				}
-			}
+            if (projectile.localAI[0] > 4f)
+            {
+                for (int num468 = 0; num468 < 5; num468++)
+                {
+                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[num469].noGravity = true;
+                    Main.dust[num469].velocity *= 0f;
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("HolyLight"), 60);
+            target.AddBuff(mod.BuffType("HolyLight"), 60);
         }
     }
 }

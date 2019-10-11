@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -10,9 +10,9 @@ namespace CalamityMod.Projectiles.Melee
     {
         private int bounce = 3;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cosmic Scourge Mini");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cosmic Scourge Mini");
             Main.projFrames[projectile.type] = 2;
         }
 
@@ -33,8 +33,8 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[1] == 1f)
             {
                 projectile.melee = false;
-				projectile.Calamity().rogue = true;
-			}
+                projectile.Calamity().rogue = true;
+            }
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 50;
@@ -168,13 +168,13 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-			int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-			int y6 = num214 * projectile.frame;
-			Vector2 origin = new Vector2(9f, 10f);
-			spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/ScourgeoftheCosmosMiniGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
-		}
-	}
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
+            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+            int y6 = num214 * projectile.frame;
+            Vector2 origin = new Vector2(9f, 10f);
+            spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/ScourgeoftheCosmosMiniGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y6, texture2D13.Width, num214)), Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+        }
+    }
 }

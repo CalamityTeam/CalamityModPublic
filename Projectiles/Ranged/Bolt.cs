@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,12 +9,12 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class Bolt : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bolt");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bolt");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
@@ -26,14 +26,14 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
-		}
+        }
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.65f);
-        	projectile.velocity.X *= 1.015f;
-        	projectile.velocity.Y *= 1.015f;
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Lighting.AddLight(projectile.Center, 0f, 0.5f, 0.65f);
+            projectile.velocity.X *= 1.015f;
+            projectile.velocity.Y *= 1.015f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 30f)
             {
@@ -64,10 +64,10 @@ namespace CalamityMod.Projectiles.Ranged
             return new Color(255, 255, 255, 100);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
+    }
 }

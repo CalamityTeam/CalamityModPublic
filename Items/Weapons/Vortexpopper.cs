@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vortexpopper");
-			Tooltip.SetDefault("Fires bubbles everywhere that pop into bullets");
-		}
+            Tooltip.SetDefault("Fires bubbles everywhere that pop into bullets");
+        }
 
         public override void SetDefaults()
         {

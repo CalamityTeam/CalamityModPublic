@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -10,38 +10,38 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-	public class AshenChest : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSpelunker[Type] = true;
-			Main.tileContainer[Type] = true;
-			Main.tileShine2[Type] = true;
-			Main.tileShine[Type] = 1200;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
-			Main.tileValue[Type] = 500;
+    public class AshenChest : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSpelunker[Type] = true;
+            Main.tileContainer[Type] = true;
+            Main.tileShine2[Type] = true;
+            Main.tileShine[Type] = 1200;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileValue[Type] = 500;
             TileID.Sets.HasOutlines[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-			TileObjectData.newTile.Origin = new Point16(0, 1);
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-			TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-			TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
-			TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
-			TileObjectData.newTile.StyleHorizontal = true;
-			TileObjectData.newTile.LavaDeath = false;
-			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Ashen Chest");
-			AddMapEntry(new Color(191, 142, 111), name, MapChestName);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.Origin = new Point16(0, 1);
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
+            TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+            TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Ashen Chest");
+            AddMapEntry(new Color(191, 142, 111), name, MapChestName);
             name = CreateMapEntryName(Name + "_Locked"); // With multiple map entries, you need unique translation keys.
             name.SetDefault("Locked Ashen Chest");
             AddMapEntry(new Color(174, 129, 92), name, MapChestName);
             disableSmartCursor = true;
-			adjTiles = new int[] { TileID.Containers };
-			chest = "Ashen Chest";
-			chestDrop = mod.ItemType("AshenChest");
+            adjTiles = new int[] { TileID.Containers };
+            chest = "Ashen Chest";
+            chestDrop = mod.ItemType("AshenChest");
         }
 
         public override bool CreateDust(int i, int j, ref int type)

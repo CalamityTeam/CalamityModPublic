@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons.RareVariants
             item.shoot = 10;
             item.shootSpeed = 12f;
             item.useAmmo = 97;
-			item.Calamity().postMoonLordRarity = 22;
-		}
+            item.Calamity().postMoonLordRarity = 22;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -42,13 +42,13 @@ namespace CalamityMod.Items.Weapons.RareVariants
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			for (int index = 0; index < 5; ++index)
-			{
-				float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
-				float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AMR"), damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+            for (int index = 0; index < 5; ++index)
+            {
+                float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
+                float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("AMR"), damage, knockBack, player.whoAmI, 0f, 0f);
+            }
             return false;
         }
-	}
+    }
 }

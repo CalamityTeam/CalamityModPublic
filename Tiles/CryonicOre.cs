@@ -1,44 +1,44 @@
+using CalamityMod.Utilities;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class CryonicOre : ModTile
-	{
-		public override void SetDefaults()
-		{
+    {
+        public override void SetDefaults()
+        {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;
-			Main.tileValue[Type] = 675;
+            Main.tileBlockLight[Type] = true;
+            Main.tileValue[Type] = 675;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeSnowTiles(Type);
 
             dustType = mod.DustType("MSparkle");
-			drop = mod.ItemType("CryonicOre");
-			ModTranslation name = CreateMapEntryName();
- 			name.SetDefault("Cryonic Ore");
- 			AddMapEntry(new Color(0, 0, 150), name);
-			mineResist = 3f;
-			minPick = 180;
-			soundType = 21;
-			Main.tileSpelunker[Type] = true;
-		}
+            drop = mod.ItemType("CryonicOre");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Cryonic Ore");
+            AddMapEntry(new Color(0, 0, 150), name);
+            mineResist = 3f;
+            minPick = 180;
+            soundType = 21;
+            Main.tileSpelunker[Type] = true;
+        }
 
-		public override bool CanExplode(int i, int j)
-		{
-			return CalamityWorld.downedCryogen;
-		}
+        public override bool CanExplode(int i, int j)
+        {
+            return CalamityWorld.downedCryogen;
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {

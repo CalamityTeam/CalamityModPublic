@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria.World.Generation;
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
+using Terraria.World.Generation;
 
 namespace CalamityMod.World.Planets
 {

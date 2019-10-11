@@ -7,12 +7,12 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class Pwnagehammer : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Hammer");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Hammer");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 
         public override void SetDefaults()
         {
@@ -24,19 +24,19 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 120;
             projectile.extraUpdates = 3;
             aiType = 301;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override void AI()
         {
-        	projectile.velocity.X *= 1.06f;
-        	projectile.velocity.Y *= 1.06f;
+            projectile.velocity.X *= 1.06f;
+            projectile.velocity.Y *= 1.06f;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
     }
 }

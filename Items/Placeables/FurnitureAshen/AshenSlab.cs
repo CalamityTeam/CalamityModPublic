@@ -4,24 +4,24 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenSlab : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 12;
-			item.height = 12;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
+        public override void SetDefaults()
+        {
+            item.width = 12;
+            item.height = 12;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
             item.rare = 3;
             item.consumable = true;
-			item.createTile = mod.TileType("AshenSlab");
+            item.createTile = mod.TileType("AshenSlab");
         }
 
         public override void AddRecipes()

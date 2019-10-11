@@ -4,27 +4,27 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
     public class StratusSink : ModItem
-	{
-		public override void SetStaticDefaults()
+    {
+        public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Counts as a water source");
         }
 
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             item.width = 26;
-			item.height = 26;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.createTile = mod.TileType("StratusSink");
-		}
+            item.height = 26;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createTile = mod.TileType("StratusSink");
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "StratusBricks", 6);
@@ -33,5 +33,5 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             recipe.AddTile(412);
             recipe.AddRecipe();
         }
-	}
+    }
 }

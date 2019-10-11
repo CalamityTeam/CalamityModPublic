@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class CursedDagger : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cursed Dagger");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cursed Dagger");
+        }
 
         public override void SetDefaults()
         {
@@ -22,8 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 2;
             projectile.timeLeft = 600;
             aiType = 48;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -47,16 +47,16 @@ namespace CalamityMod.Projectiles.Rogue
             return false;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Texture2D tex = Main.projectileTexture[projectile.type];
-			spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-			return false;
-		}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D tex = Main.projectileTexture[projectile.type];
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-	    {
-			target.AddBuff(BuffID.CursedInferno, 120);
-		}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.CursedInferno, 120);
+        }
     }
 }

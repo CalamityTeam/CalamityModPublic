@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class StarCrystal : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Star");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Star");
+        }
 
         public override void SetDefaults()
         {
@@ -26,15 +26,15 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-        	if (projectile.owner == Main.myPlayer)
-        	{
-	            for (int k = 0; k < 3; k++)
-	            {
-	            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 227, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-	            	Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("TinyCrystal"),
-	            	(int)((double)projectile.damage * 0.5), projectile.knockBack * 0.15f, Main.myPlayer, 0f, 0f);
-	            }
-        	}
+            if (projectile.owner == Main.myPlayer)
+            {
+                for (int k = 0; k < 3; k++)
+                {
+                    Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 227, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                    Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-35, 36) * 0.2f, (float)Main.rand.Next(-35, 36) * 0.2f, mod.ProjectileType("TinyCrystal"),
+                    (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.15f, Main.myPlayer, 0f, 0f);
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

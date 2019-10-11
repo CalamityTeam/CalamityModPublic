@@ -1,84 +1,84 @@
-﻿using System;
-using System.IO;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
     public class DesertScourgeBody : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Desert Scourge");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Desert Scourge");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 16;
-			npc.npcSlots = 5f;
-			npc.width = 32;
-			npc.height = 36;
-			npc.defense = 6;
+        public override void SetDefaults()
+        {
+            npc.damage = 16;
+            npc.npcSlots = 5f;
+            npc.width = 32;
+            npc.height = 36;
+            npc.defense = 6;
             npc.Calamity().RevPlusDR(0.05f);
             npc.lifeMax = CalamityWorld.revenge ? 2650 : 2300;
             if (CalamityWorld.death)
             {
                 npc.lifeMax = 5100;
             }
-			if (CalamityWorld.bossRushActive)
-			{
-				npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
-			}
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = 6;
+            if (CalamityWorld.bossRushActive)
+            {
+                npc.lifeMax = CalamityWorld.death ? 4500000 : 4100000;
+            }
+            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            npc.aiStyle = 6;
             aiType = -1;
-			npc.knockBackResist = 0f;
-			npc.alpha = 255;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
-			npc.boss = true;
+            npc.knockBackResist = 0f;
+            npc.alpha = 255;
+            for (int k = 0; k < npc.buffImmune.Length; k++)
+            {
+                npc.buffImmune[k] = true;
+            }
+            npc.boss = true;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/DesertScourge");
             else
                 music = MusicID.Boss1;
             npc.behindTiles = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.canGhostHeal = false;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.netAlways = true;
-			npc.dontCountMe = true;
-			if (Main.expertMode)
-			{
-				npc.scale = 1.15f;
-			}
-		}
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.canGhostHeal = false;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
+            npc.netAlways = true;
+            npc.dontCountMe = true;
+            if (Main.expertMode)
+            {
+                npc.scale = 1.15f;
+            }
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(npc.dontTakeDamage);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.dontTakeDamage);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			npc.dontTakeDamage = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.dontTakeDamage = reader.ReadBoolean();
+        }
 
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-		{
-			return false;
-		}
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            return false;
+        }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             Player player = Main.player[npc.target];
             npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
@@ -87,14 +87,14 @@ namespace CalamityMod.NPCs.DesertScourge
                 npc.HitEffect(0, 10.0);
                 npc.active = false;
             }
-			if (Main.npc[(int)npc.ai[1]].alpha < 128)
-			{
-				npc.alpha -= 42;
-				if (npc.alpha < 0)
-				{
-					npc.alpha = 0;
-				}
-			}
+            if (Main.npc[(int)npc.ai[1]].alpha < 128)
+            {
+                npc.alpha -= 42;
+                if (npc.alpha < 0)
+                {
+                    npc.alpha = 0;
+                }
+            }
             if (Main.netMode != NetmodeID.MultiplayerClient && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
@@ -130,58 +130,58 @@ namespace CalamityMod.NPCs.DesertScourge
             }
         }
 
-		public override bool CheckActive()
-		{
-			return false;
-		}
+        public override bool CheckActive()
+        {
+            return false;
+        }
 
-		public override bool PreNPCLoot()
-		{
-			return false;
-		}
+        public override bool PreNPCLoot()
+        {
+            return false;
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			int wormCount = 5;
-			if (npc.life <= (npc.lifeMax * 0.75f) && NPC.CountNPCS(mod.NPCType("DriedSeekerHead")) < wormCount)
-			{
-				if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
-					int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("DriedSeekerHead"));
-					if (Main.netMode == NetmodeID.Server && seeker < 200)
-					{
-						NetMessage.SendData(23, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
-					}
-					npc.netUpdate = true;
-				}
-			}
-			for (int k = 0; k < 3; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/ScourgeBody"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/ScourgeBody2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/ScourgeBody3"), 1f);
-				for (int k = 0; k < 10; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            int wormCount = 5;
+            if (npc.life <= (npc.lifeMax * 0.75f) && NPC.CountNPCS(mod.NPCType("DriedSeekerHead")) < wormCount)
+            {
+                if (Main.rand.NextBool(10) && Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+                    int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, mod.NPCType("DriedSeekerHead"));
+                    if (Main.netMode == NetmodeID.Server && seeker < 200)
+                    {
+                        NetMessage.SendData(23, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
+                    }
+                    npc.netUpdate = true;
+                }
+            }
+            for (int k = 0; k < 3; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                float randomSpread = (float)(Main.rand.Next(-100, 100) / 100);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/ScourgeBody"), 1f);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/ScourgeBody2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/ScourgeBody3"), 1f);
+                for (int k = 0; k < 10; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.85f);
-		}
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(BuffID.Bleeding, 120, true);
-		}
-	}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Bleeding, 120, true);
+        }
+    }
 }

@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 1, 50, 0);
-			item.rare = 2;
+            item.value = Item.buyPrice(0, 1, 50, 0);
+            item.rare = 2;
             item.defense = 1; //8
         }
 

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Calamitas
 {
@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Calamitas
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
-			player.allDamage += 0.15f;
-			player.endurance -= 0.3f;
+            player.allDamage += 0.15f;
+            player.endurance -= 0.3f;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.immune)

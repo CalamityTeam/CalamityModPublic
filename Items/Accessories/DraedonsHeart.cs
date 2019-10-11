@@ -1,8 +1,8 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Draedon's Heart");
             Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
                 "Increases your chance of getting the absolute rage buff\n" +
-				"Boosts your damage by 10% and max movement speed and acceleration by 5%\n" +
+                "Boosts your damage by 10% and max movement speed and acceleration by 5%\n" +
                 "Rage mode does more damage\n" +
                 "You gain rage over time\n" +
                 "Gives immunity to the horror debuff\n" +
@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
-			item.Calamity().postMoonLordRarity = 15;
-		}
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -44,9 +44,9 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(null, "HeartofDarkness");
             recipe.AddIngredient(null, "StressPills");
             recipe.AddIngredient(null, "Laudanum");
-			recipe.AddIngredient(null, "CosmiliteBar", 5);
-			recipe.AddIngredient(null, "Phantoplasm", 5);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "CosmiliteBar", 5);
+            recipe.AddIngredient(null, "Phantoplasm", 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

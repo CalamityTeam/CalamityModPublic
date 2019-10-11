@@ -1,7 +1,6 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing
 {

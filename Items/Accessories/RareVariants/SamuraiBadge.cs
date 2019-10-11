@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories.RareVariants
 {
@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories.RareVariants
         {
             DisplayName.SetDefault("Samurai Badge");
             Tooltip.SetDefault("20% increased melee damage and speed\n" +
-								"Reduces max life by 25%");
+                                "Reduces max life by 25%");
         }
 
         public override void SetDefaults()
@@ -19,13 +19,13 @@ namespace CalamityMod.Items.Accessories.RareVariants
             item.height = 30;
             item.value = Item.buyPrice(0, 21, 0, 0);
             item.accessory = true;
-			item.Calamity().postMoonLordRarity = 22;
-		}
+            item.Calamity().postMoonLordRarity = 22;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.badgeOfBraveryRare = true;
+            modPlayer.badgeOfBraveryRare = true;
         }
-	}
+    }
 }

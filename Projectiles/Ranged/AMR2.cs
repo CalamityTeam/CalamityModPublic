@@ -4,10 +4,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AMR2 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("AMR");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("AMR");
+        }
 
         public override void SetDefaults()
         {
@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 4;
             projectile.light = 0.5f;
             projectile.alpha = 255;
-			projectile.extraUpdates = 5;
-			projectile.scale = 1.18f;
+            projectile.extraUpdates = 5;
+            projectile.scale = 1.18f;
             projectile.tileCollide = false;
             projectile.friendly = true;
             projectile.ranged = true;

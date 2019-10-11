@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class SilvaCrystalExplosion : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosion");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion");
+        }
 
         public override void SetDefaults()
         {
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.scale = projectile.Opacity / 2f * projectile.localAI[0];
             projectile.velocity = Vector2.Zero;
-			projectile.localAI[1] += 1f;
+            projectile.localAI[1] += 1f;
             if (projectile.localAI[1] >= 60f)
             {
                 projectile.Kill();
@@ -212,9 +212,9 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Center = projectile.position;
                 projectile.penetrate = -1;
                 projectile.maxPenetrate = -1;
-				projectile.usesLocalNPCImmunity = true;
-				projectile.localNPCHitCooldown = 10;
-				projectile.Damage();
+                projectile.usesLocalNPCImmunity = true;
+                projectile.localNPCHitCooldown = 10;
+                projectile.Damage();
                 projectile.penetrate = num75;
                 projectile.position = projectile.Center;
                 projectile.width = width;

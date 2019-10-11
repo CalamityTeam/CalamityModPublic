@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Lance");
-			Tooltip.SetDefault("Fires a lance beam");
-		}
+            Tooltip.SetDefault("Fires a lance beam");
+        }
 
         public override void SetDefaults()
         {

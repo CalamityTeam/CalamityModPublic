@@ -1,17 +1,17 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
-	public class SmoothAbyssGravel : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    public class SmoothAbyssGravel : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeSmoothTiles(Type);
@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             mineResist = 2f;
             minPick = 65;
             drop = mod.ItemType("SmoothAbyssGravel");
-			AddMapEntry(new Color(49, 56, 77));
+            AddMapEntry(new Color(49, 56, 77));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

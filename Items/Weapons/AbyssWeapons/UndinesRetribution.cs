@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,36 +7,36 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.AbyssWeapons
 {
     public class UndinesRetribution : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Undine's Retribution");
-			Tooltip.SetDefault("Casts a swarm of homing spears");
-			Item.staff[item.type] = true;
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Undine's Retribution");
+            Tooltip.SetDefault("Casts a swarm of homing spears");
+            Item.staff[item.type] = true;
         }
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 30;
-	        item.magic = true;
-	        item.mana = 15;
-	        item.width = 64;
-	        item.height = 64;
-	        item.useTime = 18;
-	        item.useAnimation = 18;
-	        item.useStyle = 5;
-	        item.noMelee = true;
-	        item.knockBack = 3.5f;
+        public override void SetDefaults()
+        {
+            item.damage = 30;
+            item.magic = true;
+            item.mana = 15;
+            item.width = 64;
+            item.height = 64;
+            item.useTime = 18;
+            item.useAnimation = 18;
+            item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-	        item.UseSound = SoundID.Item66;
-	        item.autoReuse = true;
-	        item.shootSpeed = 12f;
-	        item.shoot = mod.ProjectileType("UndinesRetribution");
-	    }
+            item.UseSound = SoundID.Item66;
+            item.autoReuse = true;
+            item.shootSpeed = 12f;
+            item.shoot = mod.ProjectileType("UndinesRetribution");
+        }
 
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-	    {
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;

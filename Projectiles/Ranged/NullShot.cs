@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class NullShot : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Null");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Null");
+        }
 
         public override void SetDefaults()
         {
@@ -43,46 +43,46 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	if (target.type == NPCID.TargetDummy)
-			{
-				return;
-			}
-        	int nullBuff = Main.rand.Next(7);
-        	if (!target.boss)
-        	{
-        		if (nullBuff == 0)
-        		{
-        			target.scale *= 2f;
-        		}
-        		else if (nullBuff == 1)
-        		{
-        			target.scale *= 0.5f;
-        		}
-        		else if (nullBuff == 2)
-        		{
-        			target.damage += 100;
-        		}
-        		else if (nullBuff == 3)
-        		{
-        			target.damage -= 100;
-        		}
-        		else if (nullBuff == 4)
-        		{
-        			target.knockBackResist = 0f;
-        		}
-        		else if (nullBuff == 5)
-        		{
-        			target.knockBackResist = 1f;
-        		}
-        		else if (nullBuff == 6)
-        		{
-        			target.defense += 10;
-        		}
-        		else
-        		{
-        			target.defense -= 10;
-        		}
-        	}
+            if (target.type == NPCID.TargetDummy)
+            {
+                return;
+            }
+            int nullBuff = Main.rand.Next(7);
+            if (!target.boss)
+            {
+                if (nullBuff == 0)
+                {
+                    target.scale *= 2f;
+                }
+                else if (nullBuff == 1)
+                {
+                    target.scale *= 0.5f;
+                }
+                else if (nullBuff == 2)
+                {
+                    target.damage += 100;
+                }
+                else if (nullBuff == 3)
+                {
+                    target.damage -= 100;
+                }
+                else if (nullBuff == 4)
+                {
+                    target.knockBackResist = 0f;
+                }
+                else if (nullBuff == 5)
+                {
+                    target.knockBackResist = 1f;
+                }
+                else if (nullBuff == 6)
+                {
+                    target.defense += 10;
+                }
+                else
+                {
+                    target.defense -= 10;
+                }
+            }
         }
     }
 }

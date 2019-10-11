@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Cryogen
 {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Cryogen
                 "Average vertical speed\n" +
                 "Flight time: 100\n" +
                 "5% increase to all damage and pick speed\n" +
-				"All melee attacks and projectiles inflict frostburn");
+                "All melee attacks and projectiles inflict frostburn");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Cryogen
             item.height = 26;
             item.value = Item.buyPrice(0, 39, 99, 99);
             item.expert = true;
-			item.rare = 9;
-			item.accessory = true;
+            item.rare = 9;
+            item.accessory = true;
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
@@ -59,8 +59,8 @@ namespace CalamityMod.Items.Cryogen
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.cryogenSoul = true;
             player.pickSpeed -= 0.05f;
-			player.allDamage += 0.05f;
-			player.wingTimeMax = 100;
+            player.allDamage += 0.05f;
+            player.wingTimeMax = 100;
         }
     }
 }

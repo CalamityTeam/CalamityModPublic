@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Viscera");
             Tooltip.SetDefault("Fires a blood beam that heals you on enemy hits\n" +
-				"The more tiles and enemies the beam bounces off of or travels through the more healing the beam does");
+                "The more tiles and enemies the beam bounces off of or travels through the more healing the beam does");
             Item.staff[item.type] = true;
         }
 
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("Viscera");
             item.shootSpeed = 6f;
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override void AddRecipes()
         {

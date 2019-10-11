@@ -1,12 +1,11 @@
 ﻿
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-using Microsoft.Xna.Framework;
-
 namespace CalamityMod.Tiles.AstralDesert
 {
-    public class AstralDesertSmallPiles: ModTile
+    public class AstralDesertSmallPiles : ModTile
     {
         public override void SetDefaults()
         {

@@ -12,9 +12,9 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
 
             TileObjectData.newTile.Width = 3;

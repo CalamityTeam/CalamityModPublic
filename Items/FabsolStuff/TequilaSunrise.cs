@@ -5,17 +5,17 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.FabsolStuff
 {
     public class TequilaSunrise : ModItem
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Tequila Sunrise");
-			Tooltip.SetDefault(@"Boosts damage, damage reduction, and knockback by 7%, crit chance by 3%, and defense by 15 during daytime
+        {
+            DisplayName.SetDefault("Tequila Sunrise");
+            Tooltip.SetDefault(@"Boosts damage, damage reduction, and knockback by 7%, crit chance by 3%, and defense by 15 during daytime
 Reduces life regen by 1
 The greatest daytime drink I've ever had");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 28;
             item.height = 18;
             item.useTurn = true;
@@ -29,6 +29,6 @@ The greatest daytime drink I've ever had");
             item.buffType = mod.BuffType("TequilaSunrise");
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 20, 0, 0);
-		}
+        }
     }
 }

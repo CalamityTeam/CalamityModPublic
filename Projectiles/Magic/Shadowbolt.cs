@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Shadowbolt : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bolt");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bolt");
+        }
 
         public override void SetDefaults()
         {
@@ -22,13 +22,13 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 100;
             projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 4;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	projectile.damage = (int)((double)projectile.damage * 1.25);
-        	projectile.penetrate--;
+            projectile.damage = (int)((double)projectile.damage * 1.25);
+            projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
                 projectile.Kill();
@@ -50,29 +50,29 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	if (target.type == NPCID.TargetDummy)
-			{
-				return;
-			}
-        	projectile.damage = (int)((double)projectile.damage * 1.1);
+            if (target.type == NPCID.TargetDummy)
+            {
+                return;
+            }
+            projectile.damage = (int)((double)projectile.damage * 1.1);
         }
 
         public override void AI()
         {
-			projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 9f)
-			{
-				for (int num447 = 0; num447 < 4; num447++)
-				{
-					Vector2 vector33 = projectile.position;
-					vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-					projectile.alpha = 255;
-					int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 1f);
-					Main.dust[num448].position = vector33;
-					Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-					Main.dust[num448].velocity *= 0.2f;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 9f)
+            {
+                for (int num447 = 0; num447 < 4; num447++)
+                {
+                    Vector2 vector33 = projectile.position;
+                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
+                    projectile.alpha = 255;
+                    int num448 = Dust.NewDust(vector33, 1, 1, 173, 0f, 0f, 0, default, 1f);
+                    Main.dust[num448].position = vector33;
+                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+                    Main.dust[num448].velocity *= 0.2f;
+                }
+            }
         }
     }
 }

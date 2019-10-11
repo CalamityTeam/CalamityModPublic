@@ -1,13 +1,10 @@
 ﻿
+using CalamityMod.Utilities;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
-
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -33,15 +30,15 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             animationType = NPCID.BlueSlime;
-			banner = npc.type;
-			bannerItem = mod.ItemType("AstralSlimeBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 65;
-				npc.defense = 18;
-				npc.lifeMax = 310;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("AstralSlimeBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 65;
+                npc.defense = 18;
+                npc.lifeMax = 310;
+            }
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -67,16 +64,16 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+        }
 
-		public override void NPCLoot()
-		{
-			int oreMin = Main.expertMode ? 11 : 8;
-			int oreMax = Main.expertMode ? 16 : 12;
-			DropHelper.DropItemCondition(npc, mod.ItemType("AstralOre"), CalamityWorld.downedStarGod, oreMin, oreMax);
-		}
-	}
+        public override void NPCLoot()
+        {
+            int oreMin = Main.expertMode ? 11 : 8;
+            int oreMax = Main.expertMode ? 16 : 12;
+            DropHelper.DropItemCondition(npc, mod.ItemType("AstralOre"), CalamityWorld.downedStarGod, oreMin, oreMax);
+        }
+    }
 }

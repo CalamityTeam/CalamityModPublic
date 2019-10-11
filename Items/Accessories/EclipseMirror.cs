@@ -1,15 +1,15 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
     public class EclipseMirror : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eclipse Mirror");
-			Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Eclipse Mirror");
+            Tooltip.SetDefault("Its reflection shows naught but darkness\n" +
                 "+100 maximum stealth\n" +
                 "8% increased rogue damage, and 8% increased rogue crit chance\n" +
                 "Vastly reduces enemy aggression, even in the abyss\n" +
@@ -20,19 +20,19 @@ namespace CalamityMod.Items.Accessories
                 "Grants a small chance to evade attacks in a blast of darksun light, which inflicts extreme damage in a wide area\n" +
                 "Evading an attack grants full stealth\n" +
                 "This evade has a 20s cooldown before it can occur again");
-		}
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 20;
-			item.height = 20;
+        public override void SetDefaults()
+        {
+            item.width = 20;
+            item.height = 20;
             item.value = Item.buyPrice(0, 22, 0, 0);
             item.Calamity().postMoonLordRarity = 15;
-			item.accessory = true;
-		}
+            item.accessory = true;
+        }
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.stealthGenMoving += 0.2f;
             modPlayer.rogueStealthMax += 1;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.throwingCrit += 8;
             modPlayer.throwingDamage += 0.08f;
             player.aggro -= 700;
-		}
+        }
 
         public override void AddRecipes()
         {

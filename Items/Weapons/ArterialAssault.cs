@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Arterial Assault");
             Tooltip.SetDefault("Fires a chain of arrows from the sky\n" +
-				"Wooden arrows are converted to bloodfire arrows");
+                "Wooden arrows are converted to bloodfire arrows");
         }
 
         public override void SetDefaults()
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("BloodfireArrow");
             item.shootSpeed = 30f;
             item.useAmmo = 40;
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override void AddRecipes()
         {

@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BlueFlamePillar : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Flame Pillar");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Flame Pillar");
+        }
 
         public override void SetDefaults()
         {
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.Calamity().rogue = true;
-		}
+        }
         /// <summary>
         /// Checks if a tile is below a designated Vector2
         /// </summary>
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             int x = (int)position.X;
             int y = (int)position.Y;
-            return Main.tile[x,y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].type];
+            return Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].type];
         }
         public override void AI()
         {

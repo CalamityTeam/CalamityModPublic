@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 50, 0, 0);
-			item.defense = 10; //98
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.value = Item.buyPrice(0, 50, 0, 0);
+            item.defense = 10; //98
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -52,13 +52,13 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.manaCost *= 0.85f;
-			player.magicDamage += 0.1f;
+            player.manaCost *= 0.85f;
+            player.magicDamage += 0.1f;
             player.magicCrit += 10;
             player.endurance += 0.05f;
-			player.lavaMax += 240;
-			player.statManaMax2 += 100;
-			player.ignoreWater = true;
+            player.lavaMax += 240;
+            player.statManaMax2 += 100;
+            player.ignoreWater = true;
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Cursed] = true;

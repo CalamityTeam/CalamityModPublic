@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Pike");
-			Tooltip.SetDefault("Summons astral star swarms on critical hits");
-		}
+            Tooltip.SetDefault("Summons astral star swarms on critical hits");
+        }
 
         public override void SetDefaults()
         {

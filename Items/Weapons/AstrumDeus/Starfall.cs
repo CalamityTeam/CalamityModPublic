@@ -6,36 +6,36 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.AstrumDeus
 {
     public class Starfall : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Starfall");
-			Tooltip.SetDefault("Casts a spread of astral stars at the mouse cursor");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Starfall");
+            Tooltip.SetDefault("Casts a spread of astral stars at the mouse cursor");
+        }
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 59;
+        public override void SetDefaults()
+        {
+            item.damage = 59;
             item.crit += 25;
             item.magic = true;
-	        item.mana = 15;
+            item.mana = 15;
             item.rare = 9;
-	        item.width = 28;
-	        item.height = 30;
-	        item.useTime = 14;
-	        item.useAnimation = 14;
-	        item.useStyle = 5;
-	        item.noMelee = true;
-	        item.knockBack = 3.25f;
+            item.width = 28;
+            item.height = 30;
+            item.useTime = 14;
+            item.useAnimation = 14;
+            item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 3.25f;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.UseSound = SoundID.Item105;
-	        item.autoReuse = true;
-	        item.shoot = mod.ProjectileType("AstralStarMagic");
-	        item.shootSpeed = 12f;
-	    }
+            item.autoReuse = true;
+            item.shoot = mod.ProjectileType("AstralStarMagic");
+            item.shootSpeed = 12f;
+        }
 
-	    public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-	    {
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
             float num72 = item.shootSpeed;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
@@ -61,6 +61,6 @@ namespace CalamityMod.Items.Weapons.AstrumDeus
                 int star = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
-	    }
-	}
+        }
+    }
 }

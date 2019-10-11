@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class StormBolt : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bolt");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bolt");
+        }
 
         public override void SetDefaults()
         {
@@ -22,15 +22,15 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f);
+            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.velocity.X * 0.15f, projectile.velocity.Y * 0.15f);
         }
 
         public override void Kill(int timeLeft)
         {
-        	if (projectile.owner == Main.myPlayer)
-        	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("StormMarkSummon"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	}
+            if (projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("StormMarkSummon"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,15 +12,15 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Daedalus Hood");
             Tooltip.SetDefault("13% increased magic damage and 7% increased magic critical strike chance\n" +
-				"10% decreased mana usage and +60 max mana");
+                "10% decreased mana usage and +60 max mana");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 25, 0, 0);
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.rare = 5;
             item.defense = 5; //35
         }
 
@@ -47,11 +47,11 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.manaCost *= 0.9f;
-			player.magicDamage += 0.13f;
+            player.manaCost *= 0.9f;
+            player.magicDamage += 0.13f;
             player.magicCrit += 7;
-			player.statManaMax2 += 60;
-		}
+            player.statManaMax2 += 60;
+        }
 
         public override void AddRecipes()
         {

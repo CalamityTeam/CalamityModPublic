@@ -7,45 +7,45 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AbyssNPCs
 {
     public class EidolonWyrmBodyHuge : ModNPC
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eidolon Wyrm");
-		}
+        {
+            DisplayName.SetDefault("Eidolon Wyrm");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 100; //70
-			npc.width = 60; //36
-			npc.height = 88;
-			npc.defense = 0;
+        public override void SetDefaults()
+        {
+            npc.damage = 100; //70
+            npc.width = 60; //36
+            npc.height = 88;
+            npc.defense = 0;
             npc.lifeMax = 1000000;
             npc.aiStyle = -1; //new
             aiType = -1; //new
-			npc.knockBackResist = 0f;
-			npc.alpha = 255;
+            npc.knockBackResist = 0f;
+            npc.alpha = 255;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
             }
             npc.behindTiles = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath6;
             npc.netAlways = true;
-			npc.dontCountMe = true;
+            npc.dontCountMe = true;
             npc.dontTakeDamage = true;
             npc.chaseable = false;
         }
 
-		public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
-		{
-			return false;
-		}
+        public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+        {
+            return false;
+        }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             npc.damage = 0;
             if (npc.ai[3] > 0f)
             {
@@ -112,8 +112,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                     num191 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - vector18.X;
                     num192 = Main.npc[(int)npc.ai[1]].position.Y + (float)(Main.npc[(int)npc.ai[1]].height / 2) - vector18.Y;
-                }
-                catch
+                } catch
                 {
                 }
                 npc.rotation = (float)System.Math.Atan2((double)num192, (double)num191) + 1.57f;
@@ -159,12 +158,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
         }
 
         public override bool PreNPCLoot()
-		{
-			return false;
-		}
+        {
+            return false;
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
+        public override void HitEffect(int hitDirection, double damage)
+        {
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);

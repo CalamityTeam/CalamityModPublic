@@ -1,8 +1,8 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using CalamityMod.Items.Weapons;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             int coreDustCount = 2; //3
             int coreDustType = 262;
-            for(int i = 0; i < coreDustCount; ++i)
+            for (int i = 0; i < coreDustCount; ++i)
             {
                 float scale = Main.rand.NextFloat(1.0f, 1.4f);
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, coreDustType);
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Magic
 
             int trailDustCount = 4; //5
             int trailDustType = 264;
-            for(int i = 0; i < trailDustCount; ++i)
+            for (int i = 0; i < trailDustCount; ++i)
             {
                 float scale = Main.rand.NextFloat(1.0f, 1.4f);
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, trailDustType, 0f, 0f);

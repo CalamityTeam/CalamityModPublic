@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,17 +18,17 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 24, 0, 0);
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 24, 0, 0);
+            item.rare = 8;
             item.defense = 20;
         }
 
         public override void UpdateEquip(Player player)
         {
             player.statLifeMax2 += 20;
-			player.allDamage += 0.08f;
-			player.Calamity().AllCritBoost(4);
-		}
+            player.allDamage += 0.08f;
+            player.Calamity().AllCritBoost(4);
+        }
 
         public override void AddRecipes()
         {

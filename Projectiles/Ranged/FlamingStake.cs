@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FlamingStake : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Stake");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Stake");
+        }
 
         public override void SetDefaults()
         {
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.rand.NextBool(5))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -43,22 +43,22 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-        	if (Main.rand.NextBool(2))
-        	{
-        		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.Stake);
-        	}
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.Stake);
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 5;
-        	target.AddBuff(BuffID.OnFire, 300);
+            target.immune[projectile.owner] = 5;
+            target.AddBuff(BuffID.OnFire, 300);
         }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
-				damage += target.lifeMax * 3;
-		}
-	}
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
+                damage += target.lifeMax * 3;
+        }
+    }
 }

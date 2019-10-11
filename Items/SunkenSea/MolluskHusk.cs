@@ -16,8 +16,8 @@ namespace CalamityMod.Items.SunkenSea
             item.width = 30;
             item.height = 28;
             item.maxStack = 999;
-			item.value = Item.buyPrice(0, 3, 0, 0);
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 3, 0, 0);
+            item.rare = 5;
         }
     }
 }

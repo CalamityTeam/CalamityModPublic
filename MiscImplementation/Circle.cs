@@ -1,7 +1,6 @@
-﻿using System;
-
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.MiscImplementation
 {

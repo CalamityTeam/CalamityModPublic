@@ -2,39 +2,38 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
     public class OmegaBlueHelmet : ModItem
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Omega Blue Helmet");
+        {
+            DisplayName.SetDefault("Omega Blue Helmet");
             Tooltip.SetDefault(@"You can move freely through liquids
 12% increased damage and 8% increased critical strike chance
 +2 max minions");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 18;
             item.height = 18;
-			item.value = Item.sellPrice(0, 35, 0, 0);
-			item.rare = 10;
-			item.defense = 19;
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.value = Item.sellPrice(0, 35, 0, 0);
+            item.rare = 10;
+            item.defense = 19;
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
 
-			player.allDamage += 0.12f;
-			player.Calamity().AllCritBoost(8);
+            player.allDamage += 0.12f;
+            player.Calamity().AllCritBoost(8);
 
-			player.maxMinions += 2;
+            player.maxMinions += 2;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -91,15 +90,15 @@ This effect has a 30 second cooldown";
         }
 
         public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
+        {
+            ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(mod.ItemType("ReaperTooth"), 11);
             recipe.AddIngredient(mod.ItemType("Lumenite"), 5);
             recipe.AddIngredient(mod.ItemType("Tenebris"), 5);
             recipe.AddIngredient(mod.ItemType("RuinousSoul"), 2);
             recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

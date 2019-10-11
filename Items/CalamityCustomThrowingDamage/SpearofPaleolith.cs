@@ -10,7 +10,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             DisplayName.SetDefault("Spear of Paleolith");
             Tooltip.SetDefault("Throws an ancient spear that shatters enemy armor\n" +
-				"Spears rain fossil shards as they travel");
+                "Spears rain fossil shards as they travel");
         }
 
         public override void SafeSetDefaults()
@@ -30,8 +30,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 5;
             item.shoot = mod.ProjectileType("SpearofPaleolith");
             item.shootSpeed = 35f;
-			item.Calamity().rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

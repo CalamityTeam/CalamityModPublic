@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -21,8 +20,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 8;
             item.defense = 12; //49
         }
 
@@ -42,13 +41,13 @@ namespace CalamityMod.Items.Armor
                 "Inferno effect when below 50% life\n" +
                 "Rogue weapons have a 10% chance to unleash a volley of chaos flames around the player that chase enemies when used\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit\n" +
-				"Rogue stealth builds while not attacking and not moving, up to a max of 120\n" +
-				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue stealth builds while not attacking and not moving, up to a max of 120\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaVolley = true;
-			modPlayer.rogueStealthMax = 1.2f;
+            modPlayer.rogueStealthMax = 1.2f;
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().wearingRogueArmor = true;
         }
@@ -58,9 +57,9 @@ namespace CalamityMod.Items.Armor
             player.Calamity().throwingAmmoCost50 = true;
             player.Calamity().throwingDamage += 0.12f;
             player.Calamity().throwingCrit += 10;
-			player.moveSpeed += 0.15f;
-			player.lavaMax += 240;
-			player.buffImmune[BuffID.OnFire] = true;
+            player.moveSpeed += 0.15f;
+            player.lavaMax += 240;
+            player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()

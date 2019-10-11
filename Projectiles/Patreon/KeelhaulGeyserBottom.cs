@@ -5,11 +5,11 @@ namespace CalamityMod.Projectiles.Patreon
 {
     public class KeelhaulGeyserBottom : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Geyser");
-			Main.projFrames[projectile.type] = 4;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Geyser");
+            Main.projFrames[projectile.type] = 4;
+        }
 
         public override void SetDefaults()
         {
@@ -18,26 +18,26 @@ namespace CalamityMod.Projectiles.Patreon
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-			projectile.magic = true;
-			projectile.penetrate = -1;
+            projectile.magic = true;
+            projectile.penetrate = -1;
             projectile.timeLeft = 360;
-			projectile.alpha = 90;
+            projectile.alpha = 90;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 6)
-			{
-				projectile.frame++;
-				projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 3)
-			{
-				projectile.frame = 0;
-			}
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 6)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 3)
+            {
+                projectile.frame = 0;
+            }
         }
     }
 }

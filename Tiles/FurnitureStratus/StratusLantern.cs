@@ -48,7 +48,8 @@ namespace CalamityMod.Tiles.FurnitureStratus
                 r = 0.6f;
                 g = 0.8f;
                 b = 1f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

@@ -17,10 +17,10 @@ namespace CalamityMod.Items.Materials
             item.width = 15;
             item.height = 12;
             item.maxStack = 999;
-			item.rare = 10;
+            item.rare = 10;
             item.value = Item.sellPrice(gold: 27, silver: 50);
-			item.Calamity().postMoonLordRarity = 15;
-		}
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
         public override void AddRecipes()
         {

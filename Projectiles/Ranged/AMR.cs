@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class AMR : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("AMR");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("AMR");
+        }
 
         public override void SetDefaults()
         {
@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 4;
             projectile.light = 0.5f;
             projectile.alpha = 255;
-			projectile.extraUpdates = 10;
-			projectile.scale = 1.18f;
+            projectile.extraUpdates = 10;
+            projectile.scale = 1.18f;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.ignoreWater = true;
@@ -29,14 +29,14 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.timeLeft = 600;
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-			return true;
-		}
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            return true;
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (crit)
             {

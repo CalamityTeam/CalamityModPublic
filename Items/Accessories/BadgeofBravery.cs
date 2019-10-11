@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 30;
             item.value = Item.buyPrice(0, 21, 0, 0);
             item.accessory = true;
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -38,12 +38,12 @@ namespace CalamityMod.Items.Accessories
             recipe.AddRecipe();
         }
 
-		public override void OnCraft(Recipe recipe)
-		{
-			if (Main.rand.NextBool(40))
-				recipe.createItem.type = mod.ItemType("SamuraiBadge");
-			else
-				recipe.createItem.type = item.type;
-		}
-	}
+        public override void OnCraft(Recipe recipe)
+        {
+            if (Main.rand.NextBool(40))
+                recipe.createItem.type = mod.ItemType("SamuraiBadge");
+            else
+                recipe.createItem.type = item.type;
+        }
+    }
 }

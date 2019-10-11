@@ -1,19 +1,19 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-	public class ProfanedCrystal : ModTile
+    public class ProfanedCrystal : ModTile
     {
         int subsheetWidth = 324;
         int subsheetHeight = 90;
         public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileNoAttach[Type] = true;
-			Main.tileBlockLight[Type] = true;
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeDecorativeTiles(Type);
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             mineResist = 1f;
             minPick = 225;
             drop = mod.ItemType("ProfanedCrystal");
-			AddMapEntry(new Color(181, 136, 177));
+            AddMapEntry(new Color(181, 136, 177));
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Soul Piercer");
-			Tooltip.SetDefault("Casts a powerful ray that summons extra rays on enemy hits");
-			Item.staff[item.type] = true;
+            Tooltip.SetDefault("Casts a powerful ray that summons extra rays on enemy hits");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
@@ -33,29 +33,29 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("SoulPiercer");
             item.shootSpeed = 6f;
-			item.Calamity().postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(32f, 30f);
-			spriteBatch.Draw(mod.GetTexture("Items/Weapons/SoulPiercerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Vector2 origin = new Vector2(32f, 30f);
+            spriteBatch.Draw(mod.GetTexture("Items/Weapons/SoulPiercerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "CosmiliteBar", 12);
-			recipe.AddIngredient(null, "NightmareFuel", 6);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "NightmareFuel", 6);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "CosmiliteBar", 12);
-			recipe.AddIngredient(null, "EndothermicEnergy", 6);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "CosmiliteBar", 12);
+            recipe.AddIngredient(null, "EndothermicEnergy", 6);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

@@ -1,18 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class ConsecratedWaterProjectile : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Consecrated Water");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Consecrated Water");
+        }
 
         public override void SetDefaults()
         {
@@ -23,8 +22,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 200;
             projectile.tileCollide = true;
             projectile.alpha = 0;
-			projectile.Calamity().rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
         public override void AI()
         {
             projectile.ai[0] += 1f; //arbitrary timer
@@ -40,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item107,projectile.Bottom);
+            Main.PlaySound(SoundID.Item107, projectile.Bottom);
             //normal
             if (projectile.ai[1] == 0f)
             {
@@ -52,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
                 //3 pillars instead of 1
                 for (float i = -1f; i <= 1f; i += 1f)
                 {
-                    Projectile.NewProjectile(projectile.Bottom + i * Main.rand.NextFloat(56f,108f) * Vector2.UnitX, Vector2.Zero, mod.ProjectileType("BlueFlamePillar"), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Bottom + i * Main.rand.NextFloat(56f, 108f) * Vector2.UnitX, Vector2.Zero, mod.ProjectileType("BlueFlamePillar"), ConsecratedWater.BaseDamage, 2f, projectile.owner);
                 }
             }
         }

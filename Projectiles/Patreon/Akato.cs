@@ -1,16 +1,16 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Patreon
 {
     public class Akato : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Akato");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Akato");
             Main.projFrames[projectile.type] = 6;
             Main.projPet[projectile.type] = true;
         }

@@ -4,14 +4,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-	public class StatigelWall : ModWall
-	{
-		public override void SetDefaults()
-		{
-			Main.wallHouse[Type] = true;
-			dustType = mod.DustType("Sparkle");
-			drop = mod.ItemType("StatigelWall");
-			AddMapEntry(new Color(162, 54, 90));
+    public class StatigelWall : ModWall
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = true;
+            dustType = mod.DustType("Sparkle");
+            drop = mod.ItemType("StatigelWall");
+            AddMapEntry(new Color(162, 54, 90));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -21,8 +21,8 @@ namespace CalamityMod.Walls
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-	}
+        {
+            num = fail ? 1 : 3;
+        }
+    }
 }

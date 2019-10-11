@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             projectile.ai[0]++;
             //Dust trail
-            if(Main.rand.Next(15) == 0)
+            if (Main.rand.Next(15) == 0)
             {
                 int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 7, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 100, default, 0f);
                 Main.dust[d].position = projectile.Center;

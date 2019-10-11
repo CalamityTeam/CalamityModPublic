@@ -1,39 +1,39 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.TheDevourerofGods
 {
     public class CosmicWorm : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cosmic Worm");
-			Tooltip.SetDefault("Summons the Devourer of Gods\n" +
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cosmic Worm");
+            Tooltip.SetDefault("Summons the Devourer of Gods\n" +
                 "Not consumable");
-		}
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 28;
-			item.height = 18;
-			item.useAnimation = 45;
-			item.useTime = 45;
-			item.useStyle = 4;
-			item.consumable = false;
-			item.Calamity().postMoonLordRarity = 13;
-		}
+        public override void SetDefaults()
+        {
+            item.width = 28;
+            item.height = 18;
+            item.useAnimation = 45;
+            item.useTime = 45;
+            item.useStyle = 4;
+            item.consumable = false;
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
-		public override bool CanUseItem(Player player)
-		{
-			return !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")) && !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")) && CalamityWorld.DoGSecondStageCountdown <= 0 && CalamityWorld.downedBossAny;
-		}
+        public override bool CanUseItem(Player player)
+        {
+            return !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHead")) && !NPC.AnyNPCs(mod.NPCType("DevourerofGodsHeadS")) && CalamityWorld.DoGSecondStageCountdown <= 0 && CalamityWorld.downedBossAny;
+        }
 
-		public override bool UseItem(Player player)
-		{
+        public override bool UseItem(Player player)
+        {
             string key = "Mods.CalamityMod.EdgyBossText12";
             Color messageColor = Color.Cyan;
             if (Main.netMode == NetmodeID.SinglePlayer)
@@ -45,19 +45,19 @@ namespace CalamityMod.Items.TheDevourerofGods
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
             NPC.SpawnOnPlayer(player.whoAmI, mod.NPCType("DevourerofGodsHead"));
-			Main.PlaySound(SoundID.Roar, player.position, 0);
-			return true;
-		}
+            Main.PlaySound(SoundID.Roar, player.position, 0);
+            return true;
+        }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "ArmoredShell", 3);
-			recipe.AddIngredient(null, "TwistingNether");
-			recipe.AddIngredient(null, "DarkPlasma");
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "ArmoredShell", 3);
+            recipe.AddIngredient(null, "TwistingNether");
+            recipe.AddIngredient(null, "DarkPlasma");
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

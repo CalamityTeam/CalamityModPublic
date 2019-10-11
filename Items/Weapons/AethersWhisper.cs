@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Aether's Whisper");
             Tooltip.SetDefault("Inflicts several long-lasting debuffs and splits on tile hits\n" +
-				"Projectiles gain damage as they travel\n" +
+                "Projectiles gain damage as they travel\n" +
                 "Right click to change from magic to ranged damage");
         }
 
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = mod.ProjectileType("AetherBeam");
-			item.Calamity().postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -63,14 +63,14 @@ namespace CalamityMod.Items.Weapons
             return base.CanUseItem(player);
         }
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			float ai0 = (player.altFunctionUse == 2 ? 1f : 0f);
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai0, 0f);
-			return false;
-		}
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            float ai0 = (player.altFunctionUse == 2 ? 1f : 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai0, 0f);
+            return false;
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "PlasmaRod");

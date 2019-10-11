@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,47 +7,47 @@ using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Sunskater : ModNPC
-	{
+    {
         private bool hasBeenHit = false;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sunskater");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sunskater");
             Main.npcFrameCount[npc.type] = 4;
         }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             npc.noGravity = true;
-			npc.lavaImmune = true;
-			npc.damage = 20;
-			npc.width = 58;
-			npc.height = 22;
-			npc.defense = 4;
-			npc.lifeMax = 100;
+            npc.lavaImmune = true;
+            npc.damage = 20;
+            npc.width = 58;
+            npc.height = 22;
+            npc.defense = 4;
+            npc.lifeMax = 100;
             npc.aiStyle = -1;
-			aiType = -1;
+            aiType = -1;
             npc.value = Item.buyPrice(0, 0, 5, 0);
-			npc.HitSound = SoundID.NPCHit50;
-			npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
+            npc.HitSound = SoundID.NPCHit50;
+            npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/Sunskater");
             npc.knockBackResist = 0.7f;
-			banner = npc.type;
-			bannerItem = mod.ItemType("SunskaterBanner");
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("SunskaterBanner");
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(hasBeenHit);
-			writer.Write(npc.chaseable);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(hasBeenHit);
+            writer.Write(npc.chaseable);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			hasBeenHit = reader.ReadBoolean();
-			npc.chaseable = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            hasBeenHit = reader.ReadBoolean();
+            npc.chaseable = reader.ReadBoolean();
+        }
 
-		public override void AI()
+        public override void AI()
         {
             npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
             npc.noGravity = true;
@@ -240,18 +239,18 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 25; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
-	}
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 25; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 64, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+    }
 }

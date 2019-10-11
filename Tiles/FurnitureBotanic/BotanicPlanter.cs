@@ -7,17 +7,17 @@ using Terraria.ObjectData;
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
     class BotanicPlanter : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Botanic Planter");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Botanic Planter");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };
@@ -48,8 +48,8 @@ namespace CalamityMod.Tiles.FurnitureBotanic
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("BotanicPlanter"));
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("BotanicPlanter"));
         }
 
         public override void HitWire(int i, int j)

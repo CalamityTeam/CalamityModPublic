@@ -5,10 +5,10 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Astral
 {
-	public class AstralVines: ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class AstralVines : ModTile
+    {
+        public override void SetDefaults()
+        {
             Main.tileCut[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;

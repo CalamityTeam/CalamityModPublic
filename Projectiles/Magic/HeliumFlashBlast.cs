@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
@@ -93,9 +93,12 @@ namespace CalamityMod.Projectiles.Magic
             float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
 
             float minDist = dist1;
-            if (dist2 < minDist) minDist = dist2;
-            if (dist3 < minDist) minDist = dist3;
-            if (dist4 < minDist) minDist = dist4;
+            if (dist2 < minDist)
+                minDist = dist2;
+            if (dist3 < minDist)
+                minDist = dist3;
+            if (dist4 < minDist)
+                minDist = dist4;
 
             return minDist <= ExplosionRadius;
         }

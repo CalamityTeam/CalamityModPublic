@@ -1,6 +1,6 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.ShrineItems
 {
@@ -19,11 +19,11 @@ namespace CalamityMod.Items.ShrineItems
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 4;
-			item.rare = 3;
-			item.value = Item.buyPrice(0, 9, 0, 0);
+            item.rare = 3;
+            item.value = Item.buyPrice(0, 9, 0, 0);
             item.UseSound = SoundID.NPCHit56;
             item.noMelee = true;
             item.mountType = mod.MountType("AngryDog");
-		}
-	}
+        }
+    }
 }

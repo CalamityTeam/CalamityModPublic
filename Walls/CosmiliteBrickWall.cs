@@ -4,14 +4,14 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-	public class CosmiliteBrickWall : ModWall
-	{
-		public override void SetDefaults()
-		{
-			Main.wallHouse[Type] = true;
-			dustType = mod.DustType("Sparkle");
-			drop = mod.ItemType("CosmiliteBrickWall");
-			AddMapEntry(new Color(34, 33, 59));
+    public class CosmiliteBrickWall : ModWall
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = true;
+            dustType = mod.DustType("Sparkle");
+            drop = mod.ItemType("CosmiliteBrickWall");
+            AddMapEntry(new Color(34, 33, 59));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -22,8 +22,8 @@ namespace CalamityMod.Walls
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-	}
+        {
+            num = fail ? 1 : 3;
+        }
+    }
 }

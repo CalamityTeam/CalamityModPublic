@@ -1,7 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,10 +17,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 75, 0, 0);
-			item.defense = 29; //96
-			item.Calamity().postMoonLordRarity = 14;
-		}
+            item.value = Item.buyPrice(0, 75, 0, 0);
+            item.defense = 29; //96
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -38,23 +37,23 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.godSlayer = true;
             modPlayer.godSlayerThrowing = true;
-			modPlayer.rogueStealthMax = 1.4f;
+            modPlayer.rogueStealthMax = 1.4f;
             modPlayer.wearingRogueArmor = true;
-			player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
+            player.setBonus = "You will survive fatal damage and will be healed 150 HP if an attack would have killed you\n" +
                 "This effect can only occur once every 45 seconds\n" +
                 "While the cooldown for this effect is active you gain a 10% increase to all damage\n" +
                 "While at full HP all of your rogue stats are boosted by 10%\n" +
                 "If you take over 80 damage in one hit you will be given extra immunity frames\n" +
-				"Rogue stealth builds while not attacking and not moving, up to a max of 140\n" +
-				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue stealth builds while not attacking and not moving, up to a max of 140\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
         }
 
         public override void UpdateEquip(Player player)
         {
             player.Calamity().throwingDamage += 0.14f;
             player.Calamity().throwingCrit += 14;
-			player.moveSpeed += 0.18f;
+            player.moveSpeed += 0.18f;
         }
 
         public override void AddRecipes()

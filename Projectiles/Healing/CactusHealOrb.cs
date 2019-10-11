@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Healing
 {
     public class CactusHealOrb : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Heal");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Heal");
+        }
 
         public override void SetDefaults()
         {

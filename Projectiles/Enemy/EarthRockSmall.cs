@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class EarthRockSmall : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rock");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Rock");
+        }
 
         public override void SetDefaults()
         {

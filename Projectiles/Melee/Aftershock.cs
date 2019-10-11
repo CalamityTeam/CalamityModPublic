@@ -4,10 +4,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Aftershock : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rock");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Rock");
+        }
 
         public override void SetDefaults()
         {

@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Permafrost
 {
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Permafrost
         }
     }
 
-	public class PopoNoselessHead : EquipTexture
+    public class PopoNoselessHead : EquipTexture
     {
         public override bool DrawHead()
         {

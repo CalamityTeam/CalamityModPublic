@@ -1,13 +1,9 @@
-﻿using System;
-
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 using Terraria;
 using Terraria.ModLoader;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -37,16 +33,16 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.58f;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.aiStyle = -1;
-			banner = npc.type;
-			bannerItem = mod.ItemType("SmallSightseerBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 58;
-				npc.defense = 26;
-				npc.knockBackResist = 0.48f;
-				npc.lifeMax = 460;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("SmallSightseerBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 58;
+                npc.defense = 26;
+                npc.knockBackResist = 0.48f;
+                npc.lifeMax = 460;
+            }
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -116,17 +112,17 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
             if (spawnInfo.player.Calamity().ZoneAstral && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneDirtLayerHeight))
             {
-                return spawnInfo.player.ZoneDesert ? 0.16f : (spawnInfo.player.ZoneRockLayerHeight ? 0.08f :  0.2f);
+                return spawnInfo.player.ZoneDesert ? 0.16f : (spawnInfo.player.ZoneRockLayerHeight ? 0.08f : 0.2f);
             }
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 60, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 60, true);
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             if (Main.rand.NextBool(2))
             {

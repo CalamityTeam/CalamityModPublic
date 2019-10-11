@@ -7,9 +7,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BarrelShrapnel : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Shrapnel");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Shrapnel");
             Main.projFrames[projectile.type] = 3;
         }
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.timeLeft = 160;
             projectile.tileCollide = true;
-			projectile.Calamity().rogue = true;
+            projectile.Calamity().rogue = true;
         }
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
 

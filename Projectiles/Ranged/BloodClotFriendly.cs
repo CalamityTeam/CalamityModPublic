@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BloodClotFriendly : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blood Clot");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Blood Clot");
+        }
 
         public override void SetDefaults()
         {
@@ -25,16 +25,16 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-        	projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				for (int num468 = 0; num468 < 3; num468++)
-				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 2f);
-					Main.dust[num469].noGravity = true;
-					Main.dust[num469].velocity *= 0f;
-				}
-			}
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 4f)
+            {
+                for (int num468 = 0; num468 < 3; num468++)
+                {
+                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 2f);
+                    Main.dust[num469].noGravity = true;
+                    Main.dust[num469].velocity *= 0f;
+                }
+            }
         }
     }
 }

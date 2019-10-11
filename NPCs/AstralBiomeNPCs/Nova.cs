@@ -1,15 +1,11 @@
-﻿using System;
-
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.DataStructures;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -45,16 +41,16 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.knockBackResist = 0.5f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
             npc.aiStyle = -1;
-			banner = npc.type;
-			bannerItem = mod.ItemType("NovaBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 75;
-				npc.defense = 25;
-				npc.knockBackResist = 0.4f;
-				npc.lifeMax = 350;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("NovaBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 75;
+                npc.defense = 25;
+                npc.knockBackResist = 0.4f;
+                npc.lifeMax = 350;
+            }
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -261,12 +257,12 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(2, 4));
             if (Main.expertMode)

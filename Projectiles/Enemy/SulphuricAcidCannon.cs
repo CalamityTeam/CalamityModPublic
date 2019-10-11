@@ -8,9 +8,9 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class SulphuricAcidCannon : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Acid Bubble");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[projectile.type] = 7;
         }
 

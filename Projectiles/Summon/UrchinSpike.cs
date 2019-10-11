@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class UrchinSpike : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Urchin Spike");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Urchin Spike");
+        }
 
         public override void SetDefaults()
         {
@@ -26,12 +26,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.Poisoned, 180);
+            target.AddBuff(BuffID.Poisoned, 180);
         }
     }
 }

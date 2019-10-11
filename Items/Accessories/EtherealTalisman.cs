@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Ethereal Talisman");
             Tooltip.SetDefault("15% increased magic damage, 5% increased magic critical strike chance, and 10% decreased mana usage\n" +
-				"+150 max mana and reveals treasure locations\n" +
-				"Increases pickup range for mana stars and you restore mana when damaged\n" +
-				"You automatically use mana potions when needed if visibility is on\n" +
+                "+150 max mana and reveals treasure locations\n" +
+                "Increases pickup range for mana stars and you restore mana when damaged\n" +
+                "You automatically use mana potions when needed if visibility is on\n" +
                 "Magic attacks have a chance to instantly kill normal enemies");
         }
 
@@ -23,19 +23,19 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-			item.Calamity().postMoonLordRarity = 20;
-		}
+            item.Calamity().postMoonLordRarity = 20;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eTalisman = true;
             player.findTreasure = true;
-			if (!hideVisual)
-				player.manaFlower = true;
-			player.magicCuffs = true;
-			player.manaMagnet = true;
-			player.statManaMax2 += 150;
+            if (!hideVisual)
+                player.manaFlower = true;
+            player.magicCuffs = true;
+            player.manaMagnet = true;
+            player.statManaMax2 += 150;
             player.magicDamage += 0.15f;
             player.manaCost *= 0.9f;
             player.magicCrit += 5;

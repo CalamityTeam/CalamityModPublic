@@ -1,69 +1,67 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Patreon
 {
     public class DeepSeaDumbbellWeight : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Deep Sea Dumbbell");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Deep Sea Dumbbell");
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 14;
-			projectile.height = 14;
-			projectile.friendly = true;
-			projectile.Calamity().rogue = true;
-			projectile.ignoreWater = true;
-			projectile.penetrate = 1;
-		}
+        public override void SetDefaults()
+        {
+            projectile.width = 14;
+            projectile.height = 14;
+            projectile.friendly = true;
+            projectile.Calamity().rogue = true;
+            projectile.ignoreWater = true;
+            projectile.penetrate = 1;
+        }
 
-		public override void AI()
-		{
-			projectile.rotation += Math.Abs(projectile.velocity.X) * 0.04f * (float)projectile.direction;
-			projectile.velocity.Y = projectile.velocity.Y + 0.4f;
-			projectile.velocity.X = projectile.velocity.X * 0.99f;
-			if (projectile.velocity.Y > 16f)
-			{
-				projectile.velocity.Y = 16f;
-			}
-		}
+        public override void AI()
+        {
+            projectile.rotation += Math.Abs(projectile.velocity.X) * 0.04f * (float)projectile.direction;
+            projectile.velocity.Y = projectile.velocity.Y + 0.4f;
+            projectile.velocity.X = projectile.velocity.X * 0.99f;
+            if (projectile.velocity.Y > 16f)
+            {
+                projectile.velocity.Y = 16f;
+            }
+        }
 
-		public override void Kill(int timeLeft)
-		{
-			Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 1f, 0f);
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 1f, 0f);
 
-			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 36);
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position = projectile.Center;
+            projectile.width = (projectile.height = 36);
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
-			int num226 = 36;
-			for (int num227 = 0; num227 < num226; num227++)
-			{
-				Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.25f;
-				vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
-				Vector2 vector7 = vector6 - projectile.Center;
-				int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 33, vector7.X, vector7.Y, 100, default, 1f);
-				Main.dust[num228].noGravity = true;
-				Main.dust[num228].velocity = vector7;
-			}
+            int num226 = 36;
+            for (int num227 = 0; num227 < num226; num227++)
+            {
+                Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.25f;
+                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
+                Vector2 vector7 = vector6 - projectile.Center;
+                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 33, vector7.X, vector7.Y, 100, default, 1f);
+                Main.dust[num228].noGravity = true;
+                Main.dust[num228].velocity = vector7;
+            }
 
-			projectile.Damage();
-		}
+            projectile.Damage();
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			if (target.defense > 0)
-				target.defense -= 15;
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            if (target.defense > 0)
+                target.defense -= 15;
 
-			target.AddBuff(mod.BuffType("CrushDepth"), 600);
-		}
-	}
+            target.AddBuff(mod.BuffType("CrushDepth"), 600);
+        }
+    }
 }

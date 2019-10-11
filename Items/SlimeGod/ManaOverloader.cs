@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.SlimeGod
 {
@@ -26,9 +26,9 @@ namespace CalamityMod.Items.SlimeGod
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.manaOverloader = true;
-			player.statManaMax2 += 50;
-		}
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.manaOverloader = true;
+            player.statManaMax2 += 50;
+        }
     }
 }

@@ -1,21 +1,20 @@
+using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
-using Terraria.Localization;
 using Terraria.DataStructures;
+using Terraria.GameContent.Events;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
     public class FAP : ModNPC
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Drunk Princess");
+        {
+            DisplayName.SetDefault("Drunk Princess");
 
             Main.npcFrameCount[npc.type] = 25;
             NPCID.Sets.ExtraFramesCount[npc.type] = 9;
@@ -26,12 +25,12 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackAverageChance[npc.type] = 15;
         }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             npc.townNPC = true;
             npc.friendly = true;
-			npc.lavaImmune = true;
-			npc.width = 18;
+            npc.lavaImmune = true;
+            npc.width = 18;
             npc.height = 40;
             npc.aiStyle = 7;
             npc.damage = 10;
@@ -197,46 +196,46 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("If I was a magical horse in this reality I'd be out in space swirling cocktails as I watch space worms battle for my enjoyment.");
             }
 
-			int donorAmt = CalamityMod.donatorList.Count;
-			string firstDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+            int donorAmt = CalamityMod.donatorList.Count;
+            string firstDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
 
-			string secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
-			while (secondDonor == firstDonor)
-				secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+            string secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+            while (secondDonor == firstDonor)
+                secondDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
 
-			string thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
-			while (thirdDonor == firstDonor || thirdDonor == secondDonor)
-				thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+            string thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
+            while (thirdDonor == firstDonor || thirdDonor == secondDonor)
+                thirdDonor = CalamityMod.donatorList[Main.rand.Next(donorAmt)];
 
-			dialogue.Add("Hey " + firstDonor + ", " + secondDonor + ", and " + thirdDonor + "! You're all pretty good! ...wait, who are you?");
+            dialogue.Add("Hey " + firstDonor + ", " + secondDonor + ", and " + thirdDonor + "! You're all pretty good! ...wait, who are you?");
 
             return dialogue[Main.rand.Next(dialogue.Count)];
         }
 
-		public string Death()
-		{
-			return "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
-				(Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
-		}
+        public string Death()
+        {
+            return "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
+                (Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
+        }
 
-		public override void SetChatButtons(ref string button, ref string button2)
+        public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
-			button2 = "Death Count";
-		}
+            button2 = "Death Count";
+        }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
-			if (firstButton)
-			{
-				shop = true;
-			}
-			else
-			{
-				shop = false;
-				Main.npcChatText = Death();
-			}
-		}
+            if (firstButton)
+            {
+                shop = true;
+            }
+            else
+            {
+                shop = false;
+                Main.npcChatText = Death();
+            }
+        }
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
         {
@@ -326,26 +325,26 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 35, 0, 0);
             nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(mod.ItemType("BlueCandle"));
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("BlueCandle"));
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(mod.ItemType("PinkCandle"));
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("PinkCandle"));
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(mod.ItemType("PurpleCandle"));
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("PurpleCandle"));
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(mod.ItemType("YellowCandle"));
-			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-			nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("YellowCandle"));
+            shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+            nextSlot++;
 
-			shop.item[nextSlot].SetDefaults(mod.ItemType("OddMushroom"));
+            shop.item[nextSlot].SetDefaults(mod.ItemType("OddMushroom"));
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(3, 0, 0, 0);
             nextSlot++;
-		}
+        }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

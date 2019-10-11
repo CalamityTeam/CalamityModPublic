@@ -3,27 +3,27 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
-	public class SilvaBed : ModItem
-	{
-		public override void SetStaticDefaults()
+    public class SilvaBed : ModItem
+    {
+        public override void SetStaticDefaults()
         {
         }
 
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             item.width = 28;
-			item.height = 20;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.createTile = mod.TileType("SilvaBed");
-		}
+            item.height = 20;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createTile = mod.TileType("SilvaBed");
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "SilvaCrystal", 15);
@@ -32,5 +32,5 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddTile(null, "SilvaBasin");
             recipe.AddRecipe();
         }
-	}
+    }
 }

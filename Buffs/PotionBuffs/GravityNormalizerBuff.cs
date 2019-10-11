@@ -1,24 +1,23 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.PotionBuffs
 {
     public class GravityNormalizerBuff : ModBuff
-	{
-		public override void SetDefaults()
-		{
-			DisplayName.SetDefault("Gravity Normalizer");
-			Description.SetDefault("Gravity is now normal in space, immunity to distorted");
-			Main.debuff[Type] = false;
-			Main.pvpBuff[Type] = true;
-			Main.buffNoSave[Type] = false;
-			longerExpertDebuff = false;
-		}
+    {
+        public override void SetDefaults()
+        {
+            DisplayName.SetDefault("Gravity Normalizer");
+            Description.SetDefault("Gravity is now normal in space, immunity to distorted");
+            Main.debuff[Type] = false;
+            Main.pvpBuff[Type] = true;
+            Main.buffNoSave[Type] = false;
+            longerExpertDebuff = false;
+        }
 
-		public override void Update(Player player, ref int buffIndex)
-		{
-			player.Calamity().gravityNormalizer = true;
-		}
-	}
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.Calamity().gravityNormalizer = true;
+        }
+    }
 }

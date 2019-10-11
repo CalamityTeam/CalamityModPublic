@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
         {
             DisplayName.SetDefault("Gilded Proboscis");
             Tooltip.SetDefault("Ignores immunity frames\n" +
-				"Heals the player on hit");
+                "Heals the player on hit");
         }
 
         public override void SetDefaults()
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons.Bumblebirb
             item.rare = 10;
             item.shoot = mod.ProjectileType("GildedProboscis");
             item.shootSpeed = 13f;
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override bool CanUseItem(Player player)
         {

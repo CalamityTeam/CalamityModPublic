@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using CalamityMod.Tiles;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using CalamityMod.Tiles;
 
 namespace CalamityMod.Utilities
 {
@@ -76,7 +75,8 @@ namespace CalamityMod.Utilities
 
         private static bool PlantNeedsUpdate(int plantType, int checkType)
         {
-            if (PlantCheckAgainst[plantType] == null) return false;
+            if (PlantCheckAgainst[plantType] == null)
+                return false;
             int size = PlantCheckAgainst[plantType].Length;
             for (int i = 0; i < size; i++)
             {
@@ -101,7 +101,8 @@ namespace CalamityMod.Utilities
             if (y + 1 < Main.maxTilesY && below != null && below.nactive() && !below.halfBrick() && below.slope() == 0)
                 checkType = below.type;
 
-            if (checkType == -1) return;
+            if (checkType == -1)
+                return;
 
             //Check if this plant needs an update
             if (PlantNeedsUpdate(plantType, checkType))
@@ -968,13 +969,17 @@ namespace CalamityMod.Utilities
 
             //CARDINAL
             Similarity leftSim = GetSimilarity(tileLeft, myType, mergeType);
-            if (forceSameLeft) leftSim = Similarity.Same;
+            if (forceSameLeft)
+                leftSim = Similarity.Same;
             Similarity rightSim = GetSimilarity(tileRight, myType, mergeType);
-            if (forceSameRight) rightSim = Similarity.Same;
+            if (forceSameRight)
+                rightSim = Similarity.Same;
             Similarity upSim = GetSimilarity(tileUp, myType, mergeType);
-            if (forceSameUp) upSim = Similarity.Same;
+            if (forceSameUp)
+                upSim = Similarity.Same;
             Similarity downSim = GetSimilarity(tileDown, myType, mergeType);
-            if (forceSameDown) downSim = Similarity.Same;
+            if (forceSameDown)
+                downSim = Similarity.Same;
 
             //DIAGONAL
             Similarity topLeftSim = GetSimilarity(tileTopLeft, myType, mergeType);
@@ -1559,7 +1564,8 @@ namespace CalamityMod.Utilities
 
         private static Similarity GetSimilarity(Tile check, int myType, int mergeType)
         {
-            if (!check.active()) return Similarity.None;
+            if (!check.active())
+                return Similarity.None;
 
             if (check.type == myType || Main.tileMerge[myType][check.type])
                 return Similarity.Same;

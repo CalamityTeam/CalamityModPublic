@@ -5,33 +5,33 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.AbyssWeapons
 {
     public class TyphonsGreed : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Typhon's Greed");
-			Tooltip.SetDefault("Summons water spirits while in use");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Typhon's Greed");
+            Tooltip.SetDefault("Summons water spirits while in use");
+        }
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 75;
-	        item.melee = true;
-	        item.width = 16;
-	        item.height = 16;
-	        item.useTime = 30;
-	        item.useAnimation = 30;
-	        item.useStyle = 5;
-	        item.noMelee = true;
+        public override void SetDefaults()
+        {
+            item.damage = 75;
+            item.melee = true;
+            item.width = 16;
+            item.height = 16;
+            item.useTime = 30;
+            item.useAnimation = 30;
+            item.useStyle = 5;
+            item.noMelee = true;
             item.noUseGraphic = true;
-	        item.knockBack = 5f;
+            item.knockBack = 5f;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
-	        item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
-	        item.autoReuse = true;
+            item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
+            item.autoReuse = true;
             item.channel = true;
-	        item.shoot = mod.ProjectileType("TyphonsGreedStaff");
-	        item.shootSpeed = 24f;
-	    }
+            item.shoot = mod.ProjectileType("TyphonsGreedStaff");
+            item.shootSpeed = 24f;
+        }
 
         public override void AddRecipes()
         {

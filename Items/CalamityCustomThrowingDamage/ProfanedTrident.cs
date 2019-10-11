@@ -8,8 +8,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernal Spear");
-			Tooltip.SetDefault("Throws a homing spear that explodes on enemy hits");
-		}
+            Tooltip.SetDefault("Throws a homing spear that explodes on enemy hits");
+        }
 
         public override void SafeSetDefaults()
         {
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("ProfanedTrident");
             item.shootSpeed = 28f;
-			item.Calamity().rogue = true;
-			item.Calamity().postMoonLordRarity = 14;
-		}
+            item.Calamity().rogue = true;
+            item.Calamity().postMoonLordRarity = 14;
+        }
     }
 }

@@ -28,9 +28,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = 25000;
             item.shoot = mod.ProjectileType("TarragonThrowingDartProjectile");
             item.shootSpeed = 24f;
-			item.Calamity().rogue = true;
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.Calamity().rogue = true;
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override void AddRecipes()
         {

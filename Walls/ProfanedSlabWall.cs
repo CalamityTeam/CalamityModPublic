@@ -6,13 +6,13 @@ using Terraria.ModLoader;
 namespace CalamityMod.Walls
 {
     public class ProfanedSlabWall : ModWall
-	{
-		public override void SetDefaults()
-		{
-			Main.wallHouse[Type] = true;
-			dustType = mod.DustType("Sparkle");
-			drop = mod.ItemType("ProfanedSlabWall");
-			AddMapEntry(new Color(59, 27, 23));
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = true;
+            dustType = mod.DustType("Sparkle");
+            drop = mod.ItemType("ProfanedSlabWall");
+            AddMapEntry(new Color(59, 27, 23));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -22,9 +22,9 @@ namespace CalamityMod.Walls
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {

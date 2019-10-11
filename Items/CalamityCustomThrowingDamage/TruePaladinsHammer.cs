@@ -9,8 +9,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fallen Paladin's Hammer");
-			Tooltip.SetDefault("Explodes on enemy hits");
-		}
+            Tooltip.SetDefault("Explodes on enemy hits");
+        }
 
         public override void SafeSetDefaults()
         {
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 8;
             item.shoot = mod.ProjectileType("OPHammer");
             item.shootSpeed = 14f;
-			item.Calamity().rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

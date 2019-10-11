@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Clockwork Bow");
             Tooltip.SetDefault("Fires a storm of arrows in random directions\n" +
-				"All arrows fired will go through blocks");
+                "All arrows fired will go through blocks");
         }
 
         public override void SetDefaults()
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.shoot = 10;
             item.shootSpeed = 30f;
             item.useAmmo = 40;
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override void AddRecipes()
         {

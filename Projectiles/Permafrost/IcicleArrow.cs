@@ -6,27 +6,27 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class IcicleArrow : ModProjectile
-	{
-		public override void SetDefaults()
-		{
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.aiStyle = 1;
+            projectile.friendly = true;
             projectile.ranged = true;
             projectile.arrow = true;
             projectile.coldDamage = true;
-			projectile.penetrate = 1;
-			projectile.extraUpdates = 1;
-		}
+            projectile.penetrate = 1;
+            projectile.extraUpdates = 1;
+        }
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Icicle Arrow");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Icicle Arrow");
+        }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             //icicle dust
             if (Main.rand.NextBool(2))
             {
@@ -35,13 +35,13 @@ namespace CalamityMod.Projectiles.Permafrost
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             target.AddBuff(BuffID.Frostburn, 300);
         }
 
-		public override void Kill(int timeLeft)
-		{
+        public override void Kill(int timeLeft)
+        {
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (int index1 = 0; index1 < 5; ++index1)
             {
@@ -60,5 +60,5 @@ namespace CalamityMod.Projectiles.Permafrost
                 }
             }
         }
-	}
+    }
 }

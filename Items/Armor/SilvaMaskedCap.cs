@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -11,17 +11,17 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Silva Masked Cap");
             Tooltip.SetDefault("13% increased magic damage and critical strike chance\n" +
-				"+100 max mana and 19% reduced mana usage");
+                "+100 max mana and 19% reduced mana usage");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 90, 0, 0);
-			item.defense = 21; //110
-			item.Calamity().postMoonLordRarity = 15;
-		}
+            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.defense = 21; //110
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
                 "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +
-				"This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
+                "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
                 "Your max life will return to normal if you die\n" +
                 "Magic projectiles have a 10% chance to cause a massive explosion on enemy hits\n" +
                 "After the silva invulnerability time your magic weapons will do 10% more damage";
@@ -51,11 +51,11 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.manaCost *= 0.81f;
-			player.magicDamage += 0.13f;
+            player.manaCost *= 0.81f;
+            player.magicDamage += 0.13f;
             player.magicCrit += 13;
-			player.statManaMax2 += 100;
-		}
+            player.statManaMax2 += 100;
+        }
 
         public override void AddRecipes()
         {
@@ -63,8 +63,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(null, "DarksunFragment", 5);
             recipe.AddIngredient(null, "EffulgentFeather", 5);
             recipe.AddIngredient(null, "CosmiliteBar", 5);
-			recipe.AddIngredient(null, "Tenebris", 6);
-			recipe.AddIngredient(null, "NightmareFuel", 14);
+            recipe.AddIngredient(null, "Tenebris", 6);
+            recipe.AddIngredient(null, "NightmareFuel", 14);
             recipe.AddIngredient(null, "EndothermicEnergy", 14);
             recipe.AddTile(null, "DraedonsForge");
             recipe.SetResult(this);

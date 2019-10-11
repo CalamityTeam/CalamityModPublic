@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -24,8 +24,8 @@ namespace CalamityMod.Items.Accessories
             item.height = 38;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-			item.Calamity().postMoonLordRarity = 20;
-		}
+            item.Calamity().postMoonLordRarity = 20;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {

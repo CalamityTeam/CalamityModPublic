@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Patreon
         private static int IntangibleFrames = 12;
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Definitely Not Exoblade");
+        {
+            DisplayName.SetDefault("Definitely Not Exoblade");
             Main.projFrames[projectile.type] = NumAnimationFrames;
         }
 

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Elemental Lance");
             Tooltip.SetDefault("Rend the cosmos asunder!\n" +
-				"Fires a lance beam that splits multiple times as it travels");
+                "Fires a lance beam that splits multiple times as it travels");
         }
 
         public override void SetDefaults()
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("SpatialLanceProjectile");
             item.shootSpeed = 12f;
-			item.Calamity().postMoonLordRarity = 12;
-		}
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override bool CanUseItem(Player player)
         {

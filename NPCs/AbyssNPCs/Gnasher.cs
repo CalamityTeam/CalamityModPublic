@@ -1,40 +1,38 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
     public class Gnasher : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gnasher");
-			Main.npcFrameCount[npc.type] = 5;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gnasher");
+            Main.npcFrameCount[npc.type] = 5;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 25;
-			npc.width = 50;
-			npc.height = 36;
-			npc.defense = 30;
+        public override void SetDefaults()
+        {
+            npc.damage = 25;
+            npc.width = 50;
+            npc.height = 36;
+            npc.defense = 30;
             npc.Calamity().RevPlusDR(0.15f);
-			npc.lifeMax = 35;
+            npc.lifeMax = 35;
             npc.knockBackResist = 0.25f;
             npc.aiStyle = 3;
-			aiType = 67;
-			npc.value = Item.buyPrice(0, 0, 0, 60);
-			npc.HitSound = SoundID.NPCHit50;
-			npc.DeathSound = SoundID.NPCDeath54;
+            aiType = 67;
+            npc.value = Item.buyPrice(0, 0, 0, 60);
+            npc.HitSound = SoundID.NPCHit50;
+            npc.DeathSound = SoundID.NPCDeath54;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
             }
-			banner = npc.type;
-			bannerItem = mod.ItemType("GnasherBanner");
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("GnasherBanner");
+        }
 
         public override void AI()
         {
@@ -116,20 +114,20 @@ namespace CalamityMod.NPCs.AbyssNPCs
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 15; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-				}
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 15; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gnasher"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Gnasher2"), 1f);
             }
-		}
-	}
+        }
+    }
 }

@@ -1,13 +1,10 @@
-using Microsoft.Xna.Framework;
-using System;
+using CalamityMod.World;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.TownNPCs
 {
@@ -24,8 +21,8 @@ namespace CalamityMod.NPCs.TownNPCs
             "Amber", "Anne", "Indiana",
         };
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bandit");
+        {
+            DisplayName.SetDefault("Bandit");
 
             Main.npcFrameCount[npc.type] = 23; //yell at Cobalion about this plz kthx
             NPCID.Sets.ExtraFramesCount[npc.type] = 9;
@@ -36,12 +33,12 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
         }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             npc.townNPC = true;
             npc.friendly = true;
-			npc.lavaImmune = false;
-			npc.width = 40;
+            npc.lavaImmune = false;
+            npc.width = 40;
             npc.height = 40;
             npc.aiStyle = 7;
             npc.damage = 10;
@@ -190,31 +187,31 @@ namespace CalamityMod.NPCs.TownNPCs
             return "Sorry, I got nothing.";
         }
 
-		public override void SetChatButtons(ref string button, ref string button2)
+        public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
-			button2 = "Refund";
-		}
+            button2 = "Refund";
+        }
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
-			if (firstButton)
-			{
-				shop = true;
-			}
-			else
-			{
-				shop = false;
-				Main.npcChatText = Refund();
-			}
-		}
+            if (firstButton)
+            {
+                shop = true;
+            }
+            else
+            {
+                shop = false;
+                Main.npcChatText = Refund();
+            }
+        }
 
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
         {
             shop.item[nextSlot].SetDefaults(mod.ItemType("Cinquedea"));
             shop.item[nextSlot].shopCustomPrice = mod.GetItem("Cinquedea").item.value;
             nextSlot++;
-		}
+        }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

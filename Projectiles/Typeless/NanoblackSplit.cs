@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Typeless
         private static float MaxHomingFactor = 6.6f;
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Nanoblack Blade");
+        {
+            DisplayName.SetDefault("Nanoblack Blade");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ai[1] -= spinReduction;
 
             // If about to disappear, shrink by 8% every frame
-            if(projectile.timeLeft < 15)
+            if (projectile.timeLeft < 15)
                 projectile.scale *= 0.92f;
 
             // Search for and home in on nearby targets
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Typeless
             float dist = (float)Math.Sqrt(xDist * xDist + yDist * yDist);
 
             // If the target is too far away, stop homing in on it.
-            if(dist > HomingBreakRange)
+            if (dist > HomingBreakRange)
             {
                 projectile.ai[0] = 0f;
                 return;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Typeless
             Vector2 newVelocity = projectile.velocity += posDiff;
 
             // Caps speed to make sure it doesn't go too fast.
-            if(newVelocity.Length() >= MaxSpeed)
+            if (newVelocity.Length() >= MaxSpeed)
             {
                 newVelocity = newVelocity.SafeNormalize(Vector2.Zero);
                 newVelocity *= MaxSpeed;

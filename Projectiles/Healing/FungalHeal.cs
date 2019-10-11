@@ -1,17 +1,16 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 
 namespace CalamityMod.Projectiles.Healing
 {
     public class FungalHeal : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Heal");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Heal");
+        }
 
         public override void SetDefaults()
         {
@@ -25,22 +24,22 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void AI()
         {
-			if (projectile.localAI[0] == 0f)
-			{
-				Player player = Main.player[projectile.owner];
-				if ((player.inventory[player.selectedItem].summon &&
-					!player.inventory[player.selectedItem].melee &&
-					!player.inventory[player.selectedItem].ranged &&
-					!player.inventory[player.selectedItem].magic &&
-					!player.inventory[player.selectedItem].Calamity().rogue) ||
-					player.inventory[player.selectedItem].hammer > 0 ||
-					player.inventory[player.selectedItem].pick > 0 ||
-					player.inventory[player.selectedItem].axe > 0)
-				{
-					projectile.timeLeft = 600;
-				}
-				projectile.localAI[0] += 1f;
-			}
+            if (projectile.localAI[0] == 0f)
+            {
+                Player player = Main.player[projectile.owner];
+                if ((player.inventory[player.selectedItem].summon &&
+                    !player.inventory[player.selectedItem].melee &&
+                    !player.inventory[player.selectedItem].ranged &&
+                    !player.inventory[player.selectedItem].magic &&
+                    !player.inventory[player.selectedItem].Calamity().rogue) ||
+                    player.inventory[player.selectedItem].hammer > 0 ||
+                    player.inventory[player.selectedItem].pick > 0 ||
+                    player.inventory[player.selectedItem].axe > 0)
+                {
+                    projectile.timeLeft = 600;
+                }
+                projectile.localAI[0] += 1f;
+            }
             int num487 = (int)projectile.ai[0];
             float num488 = 5f;
             Vector2 vector36 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);

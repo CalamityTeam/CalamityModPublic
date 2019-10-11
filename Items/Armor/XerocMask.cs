@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -21,8 +20,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 40, 0, 0);
-			item.rare = 9;
+            item.value = Item.buyPrice(0, 40, 0, 0);
+            item.rare = 9;
             item.defense = 20; //71
         }
 
@@ -41,13 +40,13 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.xerocSet = true;
-			modPlayer.rogueStealthMax = 1.25f;
-			player.setBonus = "9% increased rogue damage and velocity\n" +
+            modPlayer.rogueStealthMax = 1.25f;
+            player.setBonus = "9% increased rogue damage and velocity\n" +
                 "All projectile types have special effects on enemy hits\n" +
                 "Imbued with cosmic wrath and rage when you are damaged\n" +
-				"Rogue stealth builds while not attacking and not moving, up to a max of 125\n" +
-				"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-				"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+                "Rogue stealth builds while not attacking and not moving, up to a max of 125\n" +
+                "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
             if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Wrath, 2);
@@ -62,9 +61,9 @@ namespace CalamityMod.Items.Armor
         {
             player.Calamity().throwingDamage += 0.11f;
             player.Calamity().throwingCrit += 11;
-			player.moveSpeed += 0.22f;
-			player.lavaMax += 240;
-			player.buffImmune[BuffID.OnFire] = true;
+            player.moveSpeed += 0.22f;
+            player.lavaMax += 240;
+            player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.CursedInferno] = true;
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Chilled] = true;

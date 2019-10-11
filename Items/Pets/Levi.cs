@@ -17,8 +17,8 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.ZephyrFish);
             item.shoot = mod.ProjectileType("Levi");
             item.buffType = mod.BuffType("Levi");
-			item.rare = 10;
-		}
+            item.rare = 10;
+        }
 
         public override void UseStyle(Player player)
         {

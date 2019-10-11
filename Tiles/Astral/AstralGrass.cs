@@ -1,15 +1,15 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.Astral
 {
     public class AstralGrass : ModTile
-	{
-		public override void SetDefaults()
-		{
+    {
+        public override void SetDefaults()
+        {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeOreTiles(Type);
 
             dustType = mod.DustType("AstralBasic");
-			drop = mod.ItemType("AstralDirt");
+            drop = mod.ItemType("AstralDirt");
 
             AddMapEntry(new Color(133, 109, 140));
 
@@ -34,9 +34,9 @@ namespace CalamityMod.Tiles.Astral
         }
 
         public override void NumDust(int i, int j, bool fail, ref int Type)
-		{
-			Type = fail ? 1 : 3;
-		}
+        {
+            Type = fail ? 1 : 3;
+        }
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {

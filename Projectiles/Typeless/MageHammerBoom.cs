@@ -4,10 +4,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class MageHammerBoom : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosion");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion");
+        }
 
         public override void SetDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = -1;
             projectile.timeLeft = 5;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 1;
         }
     }
 }

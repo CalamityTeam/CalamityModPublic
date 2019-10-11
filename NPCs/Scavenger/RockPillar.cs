@@ -1,39 +1,39 @@
-﻿using System;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Scavenger
 {
     public class RockPillar : ModNPC
-	{
+    {
         int tileCollideCounter = 0;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rock Pillar");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Rock Pillar");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 0;
-			npc.width = 60;
-			npc.height = 300;
-			npc.lifeMax = 100;
+        public override void SetDefaults()
+        {
+            npc.damage = 0;
+            npc.width = 60;
+            npc.height = 300;
+            npc.lifeMax = 100;
             npc.alpha = 255;
-			npc.aiStyle = -1;
+            npc.aiStyle = -1;
             aiType = -1;
-			npc.knockBackResist = 0f;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
+            npc.knockBackResist = 0f;
+            for (int k = 0; k < npc.buffImmune.Length; k++)
+            {
+                npc.buffImmune[k] = true;
+            }
             npc.dontTakeDamage = true;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
-		}
+            npc.HitSound = SoundID.NPCHit4;
+            npc.DeathSound = SoundID.NPCDeath14;
+        }
 
         public override void AI()
         {
@@ -166,35 +166,35 @@ namespace CalamityMod.NPCs.Scavenger
             }
         }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 80;
-				npc.height = 360;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 30; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 8, 0f, 0f, 100, default, 2f);
-					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.NextBool(2))
-					{
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-				for (int num623 = 0; num623 < 30; num623++)
-				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 3f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 8, 0f, 0f, 100, default, 2f);
-					Main.dust[num624].velocity *= 2f;
-				}
-			}
-		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
+                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.width = 80;
+                npc.height = 360;
+                npc.position.X = npc.position.X - (float)(npc.width / 2);
+                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                for (int num621 = 0; num621 < 30; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 8, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int num623 = 0; num623 < 30; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 1, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 8, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity *= 2f;
+                }
+            }
+        }
+    }
 }

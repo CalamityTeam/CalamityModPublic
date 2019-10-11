@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Providence
 {
@@ -25,15 +25,16 @@ namespace CalamityMod.Items.Providence
             item.height = 42;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 10;
-			item.Calamity().postMoonLordRarity = 12;
-			item.defense = 8;
+            item.Calamity().postMoonLordRarity = 12;
+            item.defense = 8;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!hideVisual) { modPlayer.dashMod = 3; }
+            if (!hideVisual)
+            { modPlayer.dashMod = 3; }
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Temporal Floe Sword");
             Tooltip.SetDefault("The iceman cometh...\n" +
-				"Fires a frozen sword beam");
+                "Fires a frozen sword beam");
         }
 
         public override void SetDefaults()

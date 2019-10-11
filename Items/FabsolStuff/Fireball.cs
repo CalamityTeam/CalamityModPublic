@@ -5,19 +5,19 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.FabsolStuff
 {
     public class Fireball : ModItem
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Fireball");
-			Tooltip.SetDefault(@"Boosts all fire-based weapon damage by 10%
+        {
+            DisplayName.SetDefault("Fireball");
+            Tooltip.SetDefault(@"Boosts all fire-based weapon damage by 10%
 Cursed flame, shadowflame, god slayer inferno, brimstone flame, and frostburn weapons will not receive this benefit
 The weapon must be more fire-related than anything else
 Reduces life regen by 1
 A great-tasting cinnamon whiskey");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 28;
             item.height = 18;
             item.useTurn = true;
@@ -31,6 +31,6 @@ A great-tasting cinnamon whiskey");
             item.buffType = mod.BuffType("Fireball");
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 6, 60, 0);
-		}
+        }
     }
 }

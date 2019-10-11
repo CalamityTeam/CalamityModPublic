@@ -1,14 +1,14 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-	public class DrataliornusFlame : ModProjectile
-	{
+    public class DrataliornusFlame : ModProjectile
+    {
         private int HolyLight { get { return mod.BuffType("HolyLight"); } }
         private int DragonDust { get { return mod.ProjectileType("DragonDust"); } }
         private int SkyFlareFriendly { get { return mod.ProjectileType("SkyFlareFriendly"); } }
@@ -20,14 +20,14 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public override void SetDefaults()
-		{
-			projectile.width = 18;
-			projectile.height = 18;
+        {
+            projectile.width = 18;
+            projectile.height = 18;
             projectile.scale = 1.5f;
             projectile.friendly = true;
-			projectile.ignoreWater = true;
+            projectile.ignoreWater = true;
             projectile.tileCollide = false;
-			projectile.ranged = true;
+            projectile.ranged = true;
             projectile.hide = true;
             projectile.timeLeft = 180;
         }
@@ -258,5 +258,5 @@ namespace CalamityMod.Projectiles.Ranged
                 }
             }
         }
-	}
+    }
 }

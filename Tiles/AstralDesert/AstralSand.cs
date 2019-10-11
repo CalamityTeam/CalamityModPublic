@@ -1,16 +1,16 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.AstralDesert
 {
-	public class AstralSand : ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class AstralSand : ModTile
+    {
+        public override void SetDefaults()
+        {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileSand[Type] = true;
@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.AstralDesert
             TileMerge.MergeAstralTiles(Type);
 
             dustType = 108;
-			drop = mod.ItemType("AstralSand");
+            drop = mod.ItemType("AstralSand");
 
             AddMapEntry(new Color(149, 156, 155));
 
@@ -34,9 +34,9 @@ namespace CalamityMod.Tiles.AstralDesert
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {

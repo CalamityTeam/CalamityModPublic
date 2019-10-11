@@ -8,12 +8,12 @@ namespace CalamityMod.Projectiles.Shrines
 {
     public class LuxorsGiftMelee : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gift");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gift");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+        }
 
         public override void SetDefaults()
         {
@@ -22,53 +22,53 @@ namespace CalamityMod.Projectiles.Shrines
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 3;
-			projectile.alpha = 255;
-			projectile.timeLeft = 300;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-		}
+            projectile.alpha = 255;
+            projectile.timeLeft = 300;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+        }
 
-		public override void AI()
-		{
-			if (projectile.localAI[0] == 0f)
-			{
-				projectile.scale -= 0.01f;
-				projectile.alpha += 15;
-				if (projectile.alpha >= 250)
-				{
-					projectile.alpha = 255;
-					projectile.localAI[0] = 1f;
-				}
-			}
-			else if (projectile.localAI[0] == 1f)
-			{
-				projectile.scale += 0.01f;
-				projectile.alpha -= 15;
-				if (projectile.alpha <= 0)
-				{
-					projectile.alpha = 0;
-					projectile.localAI[0] = 0f;
-				}
-			}
-			projectile.localAI[1] += 1f;
-			if (projectile.localAI[1] == 3f)
-			{
-				for (int l = 0; l < 12; l++)
-				{
-					Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
-					vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
-					vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
-					int num9 = Dust.NewDust(projectile.Center, 0, 0, 235, 0f, 0f, 160, default, 1f);
-					Main.dust[num9].scale = 1.1f;
-					Main.dust[num9].noGravity = true;
-					Main.dust[num9].position = projectile.Center + vector3;
-					Main.dust[num9].velocity = projectile.velocity * 0.1f;
-					Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
-				}
-			}
-		}
+        public override void AI()
+        {
+            if (projectile.localAI[0] == 0f)
+            {
+                projectile.scale -= 0.01f;
+                projectile.alpha += 15;
+                if (projectile.alpha >= 250)
+                {
+                    projectile.alpha = 255;
+                    projectile.localAI[0] = 1f;
+                }
+            }
+            else if (projectile.localAI[0] == 1f)
+            {
+                projectile.scale += 0.01f;
+                projectile.alpha -= 15;
+                if (projectile.alpha <= 0)
+                {
+                    projectile.alpha = 0;
+                    projectile.localAI[0] = 0f;
+                }
+            }
+            projectile.localAI[1] += 1f;
+            if (projectile.localAI[1] == 3f)
+            {
+                for (int l = 0; l < 12; l++)
+                {
+                    Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
+                    vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
+                    vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
+                    int num9 = Dust.NewDust(projectile.Center, 0, 0, 235, 0f, 0f, 160, default, 1f);
+                    Main.dust[num9].scale = 1.1f;
+                    Main.dust[num9].noGravity = true;
+                    Main.dust[num9].position = projectile.Center + vector3;
+                    Main.dust[num9].velocity = projectile.velocity * 0.1f;
+                    Main.dust[num9].velocity = Vector2.Normalize(projectile.Center - projectile.velocity * 3f - Main.dust[num9].position) * 1.25f;
+                }
+            }
+        }
 
-		public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.timeLeft < 85)
             {
@@ -105,10 +105,10 @@ namespace CalamityMod.Projectiles.Shrines
             return false;
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
-			return false;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
+        }
+    }
 }

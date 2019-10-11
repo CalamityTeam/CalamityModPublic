@@ -14,7 +14,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             DisplayName.SetDefault("Gacruxian Mollusk");
             Tooltip.SetDefault("Releases homing sparks while traveling\n" +
-			"Stealth strikes release homing snails that create even more sparks");
+            "Stealth strikes release homing snails that create even more sparks");
         }
 
         public override void SafeSetDefaults()
@@ -35,8 +35,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.shootSpeed = Speed;
             item.value = Item.buyPrice(0, 0, 20, 0);
             item.Calamity().rogue = true;
-			//item.maxStack = 999; not consumable because imagine knowing how to fish up more than one of an item
-			//item.consumable = true;
+            //item.maxStack = 999; not consumable because imagine knowing how to fish up more than one of an item
+            //item.consumable = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

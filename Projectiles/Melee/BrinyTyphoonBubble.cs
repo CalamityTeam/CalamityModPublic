@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,11 +7,11 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BrinyTyphoonBubble : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bubble");
-			Main.projFrames[projectile.type] = 3;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bubble");
+            Main.projFrames[projectile.type] = 3;
+        }
 
         public override void SetDefaults()
         {
@@ -26,71 +26,71 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-			if (projectile.ai[1] > 0f)
-			{
-				int num625 = (int)projectile.ai[1] - 1;
-				if (num625 < 255)
-				{
-					projectile.localAI[0] += 1f;
-					if (projectile.localAI[0] > 10f)
-					{
-						int num626 = 6;
-						for (int num627 = 0; num627 < num626; num627++)
-						{
-							Vector2 vector45 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-							vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)((float)num626), default) + projectile.Center;
-							Vector2 value15 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-							int num628 = Dust.NewDust(vector45 + value15, 0, 0, 187, value15.X * 2f, value15.Y * 2f, 100, new Color(53, Main.DiscoG, 255), 1.4f);
-							Main.dust[num628].noGravity = true;
-							Main.dust[num628].noLight = true;
-							Main.dust[num628].velocity /= 4f;
-							Main.dust[num628].velocity -= projectile.velocity;
-						}
-						projectile.alpha -= 5;
-						if (projectile.alpha < 100)
-						{
-							projectile.alpha = 100;
-						}
-						projectile.rotation += projectile.velocity.X * 0.1f;
-						projectile.frame = (int)(projectile.localAI[0] / 3f) % 3;
-					}
-					Vector2 value16 = Main.player[num625].Center - projectile.Center;
-					float num629 = 4f;
-					num629 += projectile.localAI[0] / 20f;
-					projectile.velocity = Vector2.Normalize(value16) * num629;
-					if (value16.Length() < 50f)
-					{
-						projectile.Kill();
-					}
-				}
-			}
-			else
-			{
-				float num630 = 0.209439516f;
-				float num631 = 4f;
-				float num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-				projectile.velocity.Y = projectile.velocity.Y - num632;
-				projectile.ai[0] += 1f;
-				num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
-				projectile.velocity.Y = projectile.velocity.Y + num632;
-				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] > 10f)
-				{
-					projectile.alpha -= 5;
-					if (projectile.alpha < 100)
-					{
-						projectile.alpha = 100;
-					}
-					projectile.rotation += projectile.velocity.X * 0.1f;
-					projectile.frame = (int)(projectile.localAI[0] / 3f) % 3;
-				}
-			}
-			if (projectile.wet)
-			{
-				projectile.position.Y = projectile.position.Y - 16f;
-				projectile.Kill();
-				return;
-			}
+            if (projectile.ai[1] > 0f)
+            {
+                int num625 = (int)projectile.ai[1] - 1;
+                if (num625 < 255)
+                {
+                    projectile.localAI[0] += 1f;
+                    if (projectile.localAI[0] > 10f)
+                    {
+                        int num626 = 6;
+                        for (int num627 = 0; num627 < num626; num627++)
+                        {
+                            Vector2 vector45 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
+                            vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)((float)num626), default) + projectile.Center;
+                            Vector2 value15 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                            int num628 = Dust.NewDust(vector45 + value15, 0, 0, 187, value15.X * 2f, value15.Y * 2f, 100, new Color(53, Main.DiscoG, 255), 1.4f);
+                            Main.dust[num628].noGravity = true;
+                            Main.dust[num628].noLight = true;
+                            Main.dust[num628].velocity /= 4f;
+                            Main.dust[num628].velocity -= projectile.velocity;
+                        }
+                        projectile.alpha -= 5;
+                        if (projectile.alpha < 100)
+                        {
+                            projectile.alpha = 100;
+                        }
+                        projectile.rotation += projectile.velocity.X * 0.1f;
+                        projectile.frame = (int)(projectile.localAI[0] / 3f) % 3;
+                    }
+                    Vector2 value16 = Main.player[num625].Center - projectile.Center;
+                    float num629 = 4f;
+                    num629 += projectile.localAI[0] / 20f;
+                    projectile.velocity = Vector2.Normalize(value16) * num629;
+                    if (value16.Length() < 50f)
+                    {
+                        projectile.Kill();
+                    }
+                }
+            }
+            else
+            {
+                float num630 = 0.209439516f;
+                float num631 = 4f;
+                float num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
+                projectile.velocity.Y = projectile.velocity.Y - num632;
+                projectile.ai[0] += 1f;
+                num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
+                projectile.velocity.Y = projectile.velocity.Y + num632;
+                projectile.localAI[0] += 1f;
+                if (projectile.localAI[0] > 10f)
+                {
+                    projectile.alpha -= 5;
+                    if (projectile.alpha < 100)
+                    {
+                        projectile.alpha = 100;
+                    }
+                    projectile.rotation += projectile.velocity.X * 0.1f;
+                    projectile.frame = (int)(projectile.localAI[0] / 3f) % 3;
+                }
+            }
+            if (projectile.wet)
+            {
+                projectile.position.Y = projectile.position.Y - 16f;
+                projectile.Kill();
+                return;
+            }
         }
 
         public override void Kill(int timeLeft)

@@ -7,16 +7,16 @@ using Terraria.ObjectData;
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     class PlaguedPlateBasin : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileLavaDeath[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Plagued Plate Basin");
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Plagued Plate Basin");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };
@@ -56,8 +56,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("PlaguedPlateBasin"));
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("PlaguedPlateBasin"));
         }
 
         public override void HitWire(int i, int j)

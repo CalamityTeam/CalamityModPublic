@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FungiOrb2 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Orb");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Orb");
+        }
 
         public override void SetDefaults()
         {
@@ -25,18 +25,18 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-        	projectile.velocity.Y += 0.1f;
-        	projectile.velocity.X *= 0.95f;
-        	projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				for (int num468 = 0; num468 < 3; num468++)
-				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 1f);
-					Main.dust[num469].noGravity = true;
-					Main.dust[num469].velocity *= 0f;
-				}
-			}
+            projectile.velocity.Y += 0.1f;
+            projectile.velocity.X *= 0.95f;
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] > 4f)
+            {
+                for (int num468 = 0; num468 < 3; num468++)
+                {
+                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 1f);
+                    Main.dust[num469].noGravity = true;
+                    Main.dust[num469].velocity *= 0f;
+                }
+            }
         }
 
         public override void Kill(int timeLeft)

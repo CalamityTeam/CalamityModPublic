@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Perforator
 {
@@ -19,14 +19,14 @@ namespace CalamityMod.Items.Perforator
             item.height = 15;
             item.value = Item.buyPrice(0, 9, 0, 0);
             item.expert = true;
-			item.rare = 9;
-			item.accessory = true;
+            item.rare = 9;
+            item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.bloodyWormTooth = true;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.bloodyWormTooth = true;
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CalamityMod.Items.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             // Produces violet dust constantly while in flight. This lights the hammer.
             int numDust = 2;
-            for(int i = 0; i < numDust; ++i)
+            for (int i = 0; i < numDust; ++i)
             {
                 int dustType = (Main.rand.NextBool(6)) ? 112 : 173;
                 float scale = 0.8f + Main.rand.NextFloat(0.6f);
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Typeless
             int laserDamage = (int)(0.2f * GalaxySmasherMelee.BaseDamage);
             float laserKB = 2.5f;
             int numLasers = 3;
-            for(int i = 0; i < numLasers; ++i)
+            for (int i = 0; i < numLasers; ++i)
             {
                 float startDist = Main.rand.NextFloat(260f, 270f);
                 Vector2 startDir = Main.rand.NextVector2Unit();
@@ -182,14 +182,14 @@ namespace CalamityMod.Projectiles.Typeless
                 float laserSpeed = Main.rand.NextFloat(15f, 18f);
                 Vector2 velocity = startDir * (-laserSpeed);
 
-				// NebulaShot projectile adjusts its own damage type based on ai[0]
-				if (projectile.owner == Main.myPlayer)
+                // NebulaShot projectile adjusts its own damage type based on ai[0]
+                if (projectile.owner == Main.myPlayer)
                 {
                     float damageType = projectile.melee ? 1f : 2f;
                     int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, damageType, 0f);
                     Main.projectile[proj].tileCollide = false;
                     Main.projectile[proj].timeLeft = 30;
-				}
+                }
             }
         }
     }

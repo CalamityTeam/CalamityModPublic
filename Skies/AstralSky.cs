@@ -43,7 +43,8 @@ namespace CalamityMod.Skies
                     for (int i = 0; i < Main.star.Length; i++)
                     {
                         Star star = Main.star[i];
-                        if (star == null) continue;
+                        if (star == null)
+                            continue;
 
                         Texture2D t2D = Main.starTexture[star.type];
                         Vector2 origin = new Vector2(t2D.Width * 0.5f, t2D.Height * 0.5f);

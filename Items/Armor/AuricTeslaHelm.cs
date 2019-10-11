@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,10 +18,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.defense = 54; //132
-			item.Calamity().postMoonLordRarity = 20;
-		}
+            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.defense = 54; //132
+            item.Calamity().postMoonLordRarity = 20;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -50,8 +50,8 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaMelee = true;
             modPlayer.auricSet = true;
             player.thorns += 3f;
-			player.lavaMax += 240;
-			player.ignoreWater = true;
+            player.lavaMax += 240;
+            player.ignoreWater = true;
             player.crimsonRegen = true;
             player.aggro += 1200;
             if (player.lavaWet)

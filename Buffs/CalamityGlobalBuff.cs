@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Buffs
 {
     public class CalamityGlobalBuff : GlobalBuff
-	{
+    {
         public override void Update(int type, Player player, ref int buffIndex)
         {
             if (type == BuffID.Shine)
@@ -17,11 +17,11 @@ namespace CalamityMod.Buffs
             {
                 player.endurance -= 0.1f;
             }
-			else if (type == BuffID.ObsidianSkin)
-			{
-				player.lavaMax += 420;
-			}
-			else if (type == BuffID.Rage)
+            else if (type == BuffID.ObsidianSkin)
+            {
+                player.lavaMax += 420;
+            }
+            else if (type == BuffID.Rage)
             {
                 player.Calamity().throwingCrit += 10;
             }
@@ -33,12 +33,12 @@ namespace CalamityMod.Buffs
             {
                 float nebulaDamage = 0.075f * (float)player.nebulaLevelDamage; //7.5% to 22.5%
                 player.allDamage -= nebulaDamage;
-			}
-			else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
-			{
-				player.lifeRegen -= 5 * player.nebulaLevelLife; //10 to 30 changed to 5 to 15
-			}
-			else if (type == BuffID.Warmth)
+            }
+            else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
+            {
+                player.lifeRegen -= 5 * player.nebulaLevelLife; //10 to 30 changed to 5 to 15
+            }
+            else if (type == BuffID.Warmth)
             {
                 player.buffImmune[mod.BuffType("GlacialState")] = true;
                 player.buffImmune[BuffID.Frozen] = true;
@@ -46,8 +46,8 @@ namespace CalamityMod.Buffs
             }
         }
 
-		public override void ModifyBuffTip(int type, ref string tip, ref int rare)
-		{
+        public override void ModifyBuffTip(int type, ref string tip, ref int rare)
+        {
             if (type == BuffID.NebulaUpDmg1)
                 tip = "7.5% increased damage";
             else if (type == BuffID.NebulaUpDmg2)
@@ -69,8 +69,8 @@ namespace CalamityMod.Buffs
             }
             else if (type == BuffID.CursedInferno && CalamityWorld.revenge)
                 tip += ". All damage taken increased by 20%";
-			else if (type == BuffID.Warmth)
-				tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
-		}
-	}
+            else if (type == BuffID.Warmth)
+                tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+        }
+    }
 }
