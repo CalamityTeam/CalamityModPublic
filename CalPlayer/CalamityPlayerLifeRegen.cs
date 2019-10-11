@@ -1,11 +1,11 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Buffs.DoTDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DoTDebuffs;
-using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.CalPlayer
 {
