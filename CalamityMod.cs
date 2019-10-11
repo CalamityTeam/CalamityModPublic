@@ -2161,8 +2161,7 @@ namespace CalamityMod
             if (thorium is null || !Config.RevengeanceAndDeathThoriumBossBuff)
                 return;
 
-            void ThoriumDR(string npcName, float dr)
-            { DRValues.Add(thorium.NPCType(npcName), dr); }
+            void ThoriumDR(string npcName, float dr) => DRValues.Add(thorium.NPCType(npcName), dr);
             ThoriumDR("Viscount", 0.05f);
             ThoriumDR("BoreanStrider", 0.05f);
             ThoriumDR("FallenDeathBeholder", 0.05f);
@@ -2290,15 +2289,9 @@ namespace CalamityMod
         #endregion
 
         #region ModSupport
-        public override void PostSetupContent()
-        {
-            WeakReferenceSupport.Setup();
-        }
+        public override void PostSetupContent() => WeakReferenceSupport.Setup();
 
-        public override object Call(params object[] args)
-        {
-            return ModCalls.Call(args);
-        }
+        public override object Call(params object[] args) => ModCalls.Call(args);
         #endregion
 
         #region DrawingStuff
@@ -2330,15 +2323,9 @@ namespace CalamityMod
             }, InterfaceScaleType.None));
         }
 
-        public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)
-        {
-            return npc.GetAlpha(BuffEffects(npc, GetLightColor(position != null ? (Vector2)position : npc.Center), (shadowOverride != 0f ? shadowOverride : 0f), effects, npc.poisoned, npc.onFire, npc.onFire2, Main.player[Main.myPlayer].detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor, npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky));
-        }
+        public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f) => npc.GetAlpha(BuffEffects(npc, GetLightColor(position != null ? (Vector2)position : npc.Center), (shadowOverride != 0f ? shadowOverride : 0f), effects, npc.poisoned, npc.onFire, npc.onFire2, Main.player[Main.myPlayer].detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor, npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky));
 
-        public static Color GetLightColor(Vector2 position)
-        {
-            return Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f));
-        }
+        public static Color GetLightColor(Vector2 position) => Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f));
 
         public static Color BuffEffects(Entity codable, Color lightColor, float shadow = 0f, bool effects = true, bool poisoned = false, bool onFire = false, bool onFire2 = false, bool hunter = false, bool noItems = false, bool blind = false, bool bleed = false, bool venom = false, bool midas = false, bool ichor = false, bool onFrostBurn = false, bool burned = false, bool honey = false, bool dripping = false, bool drippingSlime = false, bool loveStruck = false, bool stinky = false)
         {
@@ -2351,7 +2338,7 @@ namespace CalamityMod
                 int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default, 1f);
                 Main.dust[dustID].velocity.Y = 0.3f;
                 Main.dust[dustID].velocity.X *= 0.1f;
-                Main.dust[dustID].scale += (float)Main.rand.Next(3, 4) * 0.1f;
+                Main.dust[dustID].scale += Main.rand.Next(3, 4) * 0.1f;
                 Main.dust[dustID].alpha = 100;
                 Main.dust[dustID].noGravity = true;
                 Main.dust[dustID].velocity += codable.velocity * 0.1f;
@@ -2618,10 +2605,10 @@ namespace CalamityMod
             }
             if (loveStruck && effects && shadow == 0f && Main.instance.IsActive && !Main.gamePaused && Main.rand.NextBool(5))
             {
-                Vector2 value = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+                Vector2 value = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
                 value.Normalize();
                 value.X *= 0.66f;
-                int goreID = Gore.NewGore(codable.position + new Vector2((float)Main.rand.Next(codable.width + 1), (float)Main.rand.Next(codable.height + 1)), value * (float)Main.rand.Next(3, 6) * 0.33f, 331, (float)Main.rand.Next(40, 121) * 0.01f);
+                int goreID = Gore.NewGore(codable.position + new Vector2(Main.rand.Next(codable.width + 1), Main.rand.Next(codable.height + 1)), value * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
                 Main.gore[goreID].sticky = false;
                 Main.gore[goreID].velocity *= 0.4f;
                 Main.gore[goreID].velocity.Y -= 0.6f;
@@ -2636,11 +2623,11 @@ namespace CalamityMod
                 cb *= 0.55f;
                 if (effects && Main.rand.NextBool(5) && Main.instance.IsActive && !Main.gamePaused)
                 {
-                    Vector2 value2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+                    Vector2 value2 = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
                     value2.Normalize();
                     value2.X *= 0.66f;
                     value2.Y = Math.Abs(value2.Y);
-                    Vector2 vector = value2 * (float)Main.rand.Next(3, 5) * 0.25f;
+                    Vector2 vector = value2 * Main.rand.Next(3, 5) * 0.25f;
                     int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 188, vector.X, vector.Y * 0.5f, 100, default, 1.5f);
                     Main.dust[dustID].velocity *= 0.1f;
                     Main.dust[dustID].velocity.Y -= 0.5f;
@@ -2650,10 +2637,10 @@ namespace CalamityMod
                     }
                 }
             }
-            lightColor.R = (byte)((float)lightColor.R * cr);
-            lightColor.G = (byte)((float)lightColor.G * cg);
-            lightColor.B = (byte)((float)lightColor.B * cb);
-            lightColor.A = (byte)((float)lightColor.A * ca);
+            lightColor.R = (byte)(lightColor.R * cr);
+            lightColor.G = (byte)(lightColor.G * cg);
+            lightColor.B = (byte)(lightColor.B * cb);
+            lightColor.A = (byte)(lightColor.A * ca);
             if (codable is NPC)
             {
                 NPCLoader.DrawEffects((NPC)codable, ref lightColor);
@@ -2710,7 +2697,7 @@ namespace CalamityMod
 
         public static void DrawTexture(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, float scale, float rotation, int direction, int framecount, Rectangle frame, Color? overrideColor = null, bool drawCentered = false)
         {
-            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / framecount / 2));
+            Vector2 origin = new Vector2(texture.Width / 2, texture.Height / framecount / 2);
             Color lightColor = overrideColor != null ? (Color)overrideColor : GetLightColor(position + new Vector2(width * 0.5f, height * 0.5f));
             if (sb is List<DrawData>)
             {
@@ -2746,20 +2733,14 @@ namespace CalamityMod
                 Vector2 texHalf = new Vector2(texWidth / 2, texHeight / framecount / 2);
                 return (position + new Vector2(width * 0.5f, height * 0.5f)) - (texHalf * scale) + (origin * scale) - screenPos;
             }
-            return position - screenPos + new Vector2(width * 0.5f, height) - new Vector2(texWidth * scale / 2f, texHeight * scale / (float)framecount) + (origin * scale) + new Vector2(0f, 5f);
+            return position - screenPos + new Vector2(width * 0.5f, height) - new Vector2(texWidth * scale / 2f, texHeight * scale / framecount) + (origin * scale) + new Vector2(0f, 5f);
         }
         #endregion
 
         #region Recipes
-        public override void AddRecipeGroups()
-        {
-            CalamityRecipes.AddRecipeGroups();
-        }
+        public override void AddRecipeGroups() => CalamityRecipes.AddRecipeGroups();
 
-        public override void AddRecipes()
-        {
-            CalamityRecipes.AddRecipes();
-        }
+        public override void AddRecipes() => CalamityRecipes.AddRecipes();
         #endregion
 
         #region Seasons
