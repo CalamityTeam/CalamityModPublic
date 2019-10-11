@@ -110,13 +110,13 @@ namespace CalamityMod.NPCs.TownNPCs
 				dialogue.Add("Oh, Yharim... did he ever realize what he was doing? He seems so...calm, as if his rage had been satiated.");
 			}*/
 
-			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenPet)
+			if (Main.player[Main.myPlayer].Calamity().sirenPet)
 			{
 				dialogue.Add("Ah, nice duds, my child!");
 			}
 
-			if ((Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobs && !Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsHide) ||
-				(Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsAlt && !Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsAltHide))
+			if ((Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide) ||
+				(Main.player[Main.myPlayer].Calamity().sirenBoobsAlt && !Main.player[Main.myPlayer].Calamity().sirenBoobsAltHide))
 			{
 				dialogue.Add("Shouldn't you be wearing a clam bra?");
 			}

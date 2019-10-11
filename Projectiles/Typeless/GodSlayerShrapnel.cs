@@ -57,20 +57,20 @@ namespace CalamityMod.Projectiles.Typeless
 			}
 			int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 100, default, 0.5f);
 			Dust expr_8976_cp_0 = Main.dust[num199];
-			expr_8976_cp_0.position.X = expr_8976_cp_0.position.X - 2f;
+			expr_8976_cp_0.position.X -= 2f;
 			Dust expr_8994_cp_0 = Main.dust[num199];
-			expr_8994_cp_0.position.Y = expr_8994_cp_0.position.Y + 2f;
+			expr_8994_cp_0.position.Y += 2f;
 			Main.dust[num199].scale += (float)Main.rand.Next(50) * 0.01f;
 			Main.dust[num199].noGravity = true;
 			Dust expr_89E7_cp_0 = Main.dust[num199];
-			expr_89E7_cp_0.velocity.Y = expr_89E7_cp_0.velocity.Y - 2f;
+			expr_89E7_cp_0.velocity.Y -= 2f;
 			if (Main.rand.NextBool(2))
 			{
 				int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 100, default, 0.5f);
 				Dust expr_8A4E_cp_0 = Main.dust[num200];
-				expr_8A4E_cp_0.position.X = expr_8A4E_cp_0.position.X - 2f;
+				expr_8A4E_cp_0.position.X -= 2f;
 				Dust expr_8A6C_cp_0 = Main.dust[num200];
-				expr_8A6C_cp_0.position.Y = expr_8A6C_cp_0.position.Y + 2f;
+				expr_8A6C_cp_0.position.Y += 2f;
 				Main.dust[num200].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
 				Main.dust[num200].noGravity = true;
 				Main.dust[num200].velocity *= 0.1f;

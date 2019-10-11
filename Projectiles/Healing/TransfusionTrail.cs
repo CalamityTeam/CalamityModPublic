@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Healing
 				Main.dust[num496].noGravity = true;
 				Main.dust[num496].velocity *= 0f;
 				Dust expr_153E2_cp_0 = Main.dust[num496];
-				expr_153E2_cp_0.position.X = expr_153E2_cp_0.position.X - num494;
+				expr_153E2_cp_0.position.X -= num494;
 				Dust expr_15401_cp_0 = Main.dust[num496];
-				expr_15401_cp_0.position.Y = expr_15401_cp_0.position.Y - num495;
+				expr_15401_cp_0.position.Y -= num495;
 			}
 			for (int num497 = 0; num497 < 2; num497++)
 			{
@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Healing
 				Main.dust[num500].noGravity = true;
 				Main.dust[num500].velocity *= 0f;
 				Dust expr_154F9_cp_0 = Main.dust[num500];
-				expr_154F9_cp_0.position.X = expr_154F9_cp_0.position.X - num498;
+				expr_154F9_cp_0.position.X -= num498;
 				Dust expr_15518_cp_0 = Main.dust[num500];
-				expr_15518_cp_0.position.Y = expr_15518_cp_0.position.Y - num499;
+				expr_15518_cp_0.position.Y -= num499;
 			}
         }
     }

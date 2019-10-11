@@ -52,13 +52,16 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 			return true;
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0)
 			{
 				Main.CancelClothesWindow(true);
-				Main.mouseRightRelease = false;
+
+                // with 0.11.5 changes this should no longer be necessary
+                // Main.mouseRightRelease = false;
+
 				int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameX / 18);
 				left %= 3;
 				left = Player.tileTargetX - left;
@@ -78,7 +81,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 				}
 				if (player.editedChestName)
 				{
-					NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
 					player.editedChestName = false;
 				}
 				if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -91,9 +94,10 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 					}
 					else
 					{
-						NetMessage.SendData(31, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
 						Main.stackSplit = 600;
 					}
+                    return true;
 				}
 				else
 				{
@@ -127,6 +131,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 							player.chestY = top;
 						}
 						Recipe.FindRecipes();
+                        return true;
 					}
 				}
 			}
@@ -138,7 +143,10 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 				Main.dresserX = Player.tileTargetX;
 				Main.dresserY = Player.tileTargetY;
 				Main.OpenClothesWindow();
+                return true;
 			}
+
+            return false;
 		}
 
 		public override void MouseOverFar(int i, int j)

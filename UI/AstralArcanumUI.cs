@@ -168,7 +168,7 @@ namespace CalamityMod.UI
             }
             else
             {
-                Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(ModLoader.GetMod("CalamityMod")).HandleTeleport(circle, false, 0);
+                Main.LocalPlayer.Calamity().HandleTeleport(circle, false, 0);
             }
         }
 

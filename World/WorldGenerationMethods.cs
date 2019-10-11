@@ -932,7 +932,7 @@ namespace CalamityMod.World
 			Tile tile = Main.tile[x, y];
 			int type = tile.type;
 			int wallType = tile.wall;
-			Mod mod = CalamityMod.Instance;
+			Mod mod = ModContent.GetInstance<CalamityMod>();
 
 			if (WorldGen.InWorld(x, y, 1))
 			{

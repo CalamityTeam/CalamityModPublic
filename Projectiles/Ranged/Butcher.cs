@@ -136,8 +136,8 @@ namespace CalamityMod.Projectiles.Ranged
 							vector20 = -Vector2.UnitY;
 						}
 						Vector2 vector21 = vector19 + Utils.RandomVector2(Main.rand, -5f, 5f);
-						vector20.X = vector20.X + (float)Main.rand.Next(-15, 16) * spreadMult;
-						vector20.Y = vector20.Y + (float)Main.rand.Next(-15, 16) * spreadMult;
+						vector20.X += (float)Main.rand.Next(-15, 16) * spreadMult;
+						vector20.Y += (float)Main.rand.Next(-15, 16) * spreadMult;
 						int num44 = Projectile.NewProjectile(vector21.X, vector21.Y, vector20.X, vector20.Y, num42, weaponDamage2, weaponKnockback2, projectile.owner, 0f, 0f);
 						Main.projectile[num44].noDropItem = true;
 						Main.projectile[num44].extraUpdates += num39 / 2; //0 to 4

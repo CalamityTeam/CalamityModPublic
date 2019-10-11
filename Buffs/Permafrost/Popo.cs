@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Permafrost
 
         public override void Update(Player player, ref int buffIndex)
 		{
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.snowmanPrevious)
             {
                 modPlayer.snowmanPower = true;

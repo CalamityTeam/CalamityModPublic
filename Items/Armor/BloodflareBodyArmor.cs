@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Armor
         {
             player.statLifeMax2 += 40;
 			player.allDamage += 0.12f;
-			player.GetModPlayer<CalamityPlayer>().AllCritBoost(8);
+			player.Calamity().AllCritBoost(8);
 			if (player.lavaWet)
             {
                 player.statDefense += 30;

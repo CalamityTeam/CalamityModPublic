@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.stealthStrikeAlwaysCrits = true;
             modPlayer.stealthStrikeHalfCost = true;
             modPlayer.rogueStealthMax += 1;

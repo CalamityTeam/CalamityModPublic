@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 6;
             projectile.tileCollide = false;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(ModLoader.GetMod("CalamityMod")).rogue = true;
+            projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
         }

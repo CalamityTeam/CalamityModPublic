@@ -300,7 +300,7 @@ namespace CalamityMod.Items
 			}
 			else
 			{
-				CalamityMod.Instance.Logger.Error("Unknown loadVersion: " + loadVersion);
+				ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
 
@@ -2376,10 +2376,10 @@ namespace CalamityMod.Items
             {
                 int value = item.value;
                 ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
-                if (Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges <= 9) //to be reset later
+                if (Main.LocalPlayer.Calamity().reforges <= 9) //to be reset later
                 {
-                    Main.LocalPlayer.GetModPlayer<CalamityPlayer>().moneyStolenByBandit += value / 5;
-                    Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges++;
+                    Main.LocalPlayer.Calamity().moneyStolenByBandit += value / 5;
+                    Main.LocalPlayer.Calamity().reforges++;
                 }
             }
         }

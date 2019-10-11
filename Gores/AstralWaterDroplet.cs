@@ -103,7 +103,7 @@ namespace CalamityMod.Gores
             else if (gore.frame <= 9)
             {
                 num = 6;
-                gore.velocity.Y = gore.velocity.Y + 0.2f;
+                gore.velocity.Y += 0.2f;
                 if ((double)gore.velocity.Y < 0.5)
                 {
                     gore.velocity.Y = 0.5f;
@@ -124,7 +124,7 @@ namespace CalamityMod.Gores
             }
             else
             {
-                gore.velocity.Y = gore.velocity.Y + 0.1f;
+                gore.velocity.Y += 0.1f;
                 if ((int)gore.frameCounter >= num)
                 {
                     gore.frameCounter = 0;

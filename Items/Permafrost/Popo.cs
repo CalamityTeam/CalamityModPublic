@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Permafrost
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.snowman = true;
             if (hideVisual)
             {

@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Amidias
 				Main.dust[num102].velocity *= 0.1f;
 				Main.dust[num102].velocity += projectile.velocity * 0.1f;
 				Dust expr_47FA_cp_0 = Main.dust[num102];
-				expr_47FA_cp_0.position.X = expr_47FA_cp_0.position.X - num99;
+				expr_47FA_cp_0.position.X -= num99;
 				Dust expr_4815_cp_0 = Main.dust[num102];
-				expr_4815_cp_0.position.Y = expr_4815_cp_0.position.Y - num100;
+				expr_4815_cp_0.position.Y -= num100;
 			}
 			float[] var_2_2DDF8_cp_0 = projectile.ai;
 			int var_2_2DDF8_cp_1 = 0;

@@ -26,8 +26,8 @@ namespace CalamityMod.Tiles
 			TileID.HallowedPlants,
 			TileID.HallowedPlants2,
 			TileID.FleshWeeds,
-			(ushort)CalamityMod.Instance.TileType("AstralShortPlants"),
-			(ushort)CalamityMod.Instance.TileType("AstralTallPlants")
+			(ushort)ModContent.GetInstance<CalamityMod>().TileType("AstralShortPlants"),
+			(ushort)ModContent.GetInstance<CalamityMod>().TileType("AstralTallPlants")
 		};
 
         public override void SetDefaults()

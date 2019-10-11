@@ -81,7 +81,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
             // Above code works, but since we are just mimicking another tile, we can just use the same value.
         }
 
-        public override void RightClick(int x, int y)
+        public override bool NewRightClick(int x, int y)
 		{
 			{
 				string text = "AM";
@@ -130,6 +130,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
 				//Whack it all together to get a HH:MM format
 				var newText = string.Concat("Time: ", intTime, ":", text2, " ", text);
 				Main.NewText(newText, 255, 240, 20);
+                return true;
 			}
 		}
 

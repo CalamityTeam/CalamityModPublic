@@ -214,7 +214,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                     }
                     break;
             }
-            xOffset = xOffset * 288;
+            xOffset *= 288;
             xPos += xOffset;
             Texture2D glowmask = mod.GetTexture("Tiles/FurnitureVoid/SmoothVoidstone_Glowmask");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);

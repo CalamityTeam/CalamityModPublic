@@ -93,11 +93,13 @@ namespace CalamityMod.Tiles.Astral
 			Chest.DestroyChest(i, j);
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
-			Main.mouseRightRelease = false;
+
+            // with 0.11.5 changes this should no longer be necessary
+			// Main.mouseRightRelease = false;
 
 			int left = i;
 			int top = j;
@@ -106,7 +108,8 @@ namespace CalamityMod.Tiles.Astral
 			if (tile.frameY != 0)
 				top--;
 
-			if (player.sign >= 0)
+            // If the player right clicked the chest while editing a sign, finish that up
+            if (player.sign >= 0)
 			{
 				Main.PlaySound(SoundID.MenuClose);
 				player.sign = -1;
@@ -114,55 +117,73 @@ namespace CalamityMod.Tiles.Astral
 				Main.npcChatText = "";
 			}
 
-			if (Main.editChest)
+            // If the player right clicked the chest while editing a chest, finish that up
+            if (Main.editChest)
 			{
 				Main.PlaySound(SoundID.MenuTick);
 				Main.editChest = false;
 				Main.npcChatText = "";
 			}
 
-			if (player.editedChestName)
+            // If the player right clicked the chest after changing another chest's name, finish that up
+            if (player.editedChestName)
 			{
-				NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+				NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
 				player.editedChestName = false;
 			}
 
 			bool isLocked = IsLockedChest(left, top);
+
+            // Unlocked interactions as a client (have to send messages to the server)
 			if (Main.netMode == NetmodeID.MultiplayerClient && !isLocked)
 			{
-				if (left == player.chestX && top == player.chestY && player.chest >= 0)
+                // If you right click the opened chest, it closes itself. This couns as interaction.
+                if (left == player.chestX && top == player.chestY && player.chest >= 0)
 				{
 					player.chest = -1;
 					Recipe.FindRecipes();
 					Main.PlaySound(SoundID.MenuClose);
-				}
+                    return true;
+                }
+
+                // If you right click the closed chest, it opens. This counts as interaction.
 				else
 				{
-					NetMessage.SendData(31, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
 					Main.stackSplit = 600;
-				}
+                    return true;
+                }
 			}
+
+            // Single player interactions, server interactions, or locked interactions
 			else
 			{
 				if (isLocked)
 				{
-					if (Chest.Unlock(left, top))
+                    // If you right click the locked chest and you can unlock it, it unlocks itself but does not open. This counts as interaction.
+                    if (Chest.Unlock(left, top))
 					{
 						if (Main.netMode == NetmodeID.MultiplayerClient)
 							NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, (float)left, (float)top);
-					}
+                        return true;
+                    }
 				}
+
 				else
 				{
 					int chest = Chest.FindChest(left, top);
 					if (chest >= 0)
 					{
 						Main.stackSplit = 600;
+
+                        // If you right click the same chest you already have open, it closes. This counts as interaction.
 						if (chest == player.chest)
 						{
 							player.chest = -1;
 							Main.PlaySound(SoundID.MenuClose);
 						}
+
+                        // If you right click this chest when you have a different chest selected, that one closes and this one opens. This counts as interaction.
 						else
 						{
 							player.chest = chest;
@@ -173,9 +194,13 @@ namespace CalamityMod.Tiles.Astral
 							Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
 						}
 						Recipe.FindRecipes();
+                        return true;
 					}
 				}
 			}
+
+            // This only occurs when the chest is locked and cannot be unlocked. You did not interact with the chest.
+            return false;
 		}
 
 		public override void MouseOver(int i, int j)

@@ -2840,7 +2840,7 @@ namespace CalamityMod.NPCs.Yharon
 		#region StrikeNPC
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-            if (CNPCUtils.AntiButcher(npc, ref damage, 0.1f)) return false;
+            if (CalamityUtils.AntiButcher(npc, ref damage, 0.1f)) return false;
 
             // Safeguard to prevent damage which would allow skipping phase 2.
             if (!startSecondAI && dropLoot)

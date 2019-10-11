@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables
 
 		public override void HoldItem(Player player)
 		{
-			player.GetModPlayer<CalamityPlayer>().tranquilityCandle = true;
+			player.Calamity().tranquilityCandle = true;
 		}
 
 		public override void AddRecipes()

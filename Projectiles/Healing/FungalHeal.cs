@@ -73,18 +73,18 @@ namespace CalamityMod.Projectiles.Healing
             Main.dust[num496].noGravity = true;
             Main.dust[num496].velocity *= 0f;
             Dust expr_153E2_cp_0 = Main.dust[num496];
-            expr_153E2_cp_0.position.X = expr_153E2_cp_0.position.X - num494;
+            expr_153E2_cp_0.position.X -= num494;
             Dust expr_15401_cp_0 = Main.dust[num496];
-            expr_15401_cp_0.position.Y = expr_15401_cp_0.position.Y - num495;
+            expr_15401_cp_0.position.Y -= num495;
             float num498 = projectile.velocity.X * 0.2f;
             float num499 = -(projectile.velocity.Y * 0.2f);
             int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 0.7f);
             Main.dust[num500].noGravity = true;
             Main.dust[num500].velocity *= 0f;
             Dust expr_154F9_cp_0 = Main.dust[num500];
-            expr_154F9_cp_0.position.X = expr_154F9_cp_0.position.X - num498;
+            expr_154F9_cp_0.position.X -= num498;
             Dust expr_15518_cp_0 = Main.dust[num500];
-            expr_15518_cp_0.position.Y = expr_15518_cp_0.position.Y - num499;
+            expr_15518_cp_0.position.Y -= num499;
         }
     }
 }

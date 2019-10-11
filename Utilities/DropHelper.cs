@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using CalamityMod.World;
 
 namespace CalamityMod.Utilities
@@ -169,7 +170,7 @@ namespace CalamityMod.Utilities
 
 		public static bool DropRevBagAccessories(Player p)
 		{
-			CalamityMod mod = CalamityMod.Instance;
+			CalamityMod mod = ModContent.GetInstance<CalamityMod>();
 			return DropItemFromSetCondition(p, CalamityWorld.revenge, 0.05f, mod.ItemType("StressPills"), mod.ItemType("Laudanum"), mod.ItemType("HeartofDarkness"));
 		}
 
@@ -187,7 +188,7 @@ namespace CalamityMod.Utilities
 			if (alreadyKilled)
 				return 0;
 
-			CalamityMod mod = CalamityMod.Instance;
+			CalamityMod mod = ModContent.GetInstance<CalamityMod>();
 			int dropped = 0;
 			dropped += DropItem(theBoss, mod.ItemType("MagnumRounds"), magnum);
 			dropped += DropItem(theBoss, mod.ItemType("GrenadeRounds"), bazooka);

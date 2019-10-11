@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Polterghast
             int num107 = 5;
 			for (int num108 = 0; num108 < num107; num108++)
 			{
-				vector.X = vector.X + (float)Main.rand.Next(-100, 101);
+				vector.X += (float)Main.rand.Next(-100, 101);
 				vector.Y += (float)(Main.rand.Next(-25, 26) * num108);
                 float spawnX = vector.X;
                 float spawnY = vector.Y;

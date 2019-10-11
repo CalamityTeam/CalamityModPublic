@@ -167,7 +167,7 @@ namespace CalamityMod.Items.Accessories
                         Vector2 baseSpawn = new Vector2(spawnX, spawnY);
                         Vector2 baseVelocity = player.Center - baseSpawn;
                         baseVelocity.Normalize();
-                        baseVelocity = baseVelocity * speed2;
+                        baseVelocity *= speed2;
                         for (int i = 0; i < FireProjectiles; i++)
                         {
                             Vector2 spawn = baseSpawn;

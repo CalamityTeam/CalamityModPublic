@@ -124,7 +124,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 			if (anyHives) return 0f;
 
 			Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-			if (spawnInfo.player.GetModPlayer<CalamityPlayer>().ZoneAstral && (spawnInfo.player.ZoneDirtLayerHeight || spawnInfo.player.ZoneRockLayerHeight))
+			if (spawnInfo.player.Calamity().ZoneAstral && (spawnInfo.player.ZoneDirtLayerHeight || spawnInfo.player.ZoneRockLayerHeight))
 			{
 				return 0.17f;
 			}

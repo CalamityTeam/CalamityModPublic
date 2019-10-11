@@ -21,7 +21,7 @@ namespace CalamityMod.Utilities
 
         private static void Setup()
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
 
             int size = CalamityGlobalTile.PlantTypes.Length;
             PlantCheckAgainst = new int[TileLoader.TileCount][];
@@ -35,8 +35,8 @@ namespace CalamityMod.Utilities
             PlantCheckAgainst[TileID.HallowedPlants] = new int[1] { TileID.HallowedGrass };
             PlantCheckAgainst[TileID.HallowedPlants2] = new int[1] { TileID.HallowedGrass };
             PlantCheckAgainst[TileID.FleshWeeds] = new int[1] { TileID.FleshWeeds };
-            PlantCheckAgainst[CalamityMod.Instance.TileType("AstralShortPlants")] = new int[1] { mod.TileType("AstralGrass") };
-            PlantCheckAgainst[CalamityMod.Instance.TileType("AstralTallPlants")] = new int[1] { mod.TileType("AstralGrass") };
+            PlantCheckAgainst[ModContent.GetInstance<CalamityMod>().TileType("AstralShortPlants")] = new int[1] { mod.TileType("AstralGrass") };
+            PlantCheckAgainst[ModContent.GetInstance<CalamityMod>().TileType("AstralTallPlants")] = new int[1] { mod.TileType("AstralGrass") };
 
             VineToGrass = new Dictionary<ushort, ushort>();
             VineToGrass[TileID.Vines] = TileID.Grass;
@@ -157,17 +157,17 @@ namespace CalamityMod.Utilities
                         Main.tile[x, y].frameX -= 72;
                     }
                 }
-                else if (checkType == CalamityMod.Instance.TileType("AstralGrass")) //ASTRAL
+                else if (checkType == ModContent.GetInstance<CalamityMod>().TileType("AstralGrass")) //ASTRAL
                 {
                     if (plantType == TileID.Plants || plantType == TileID.CorruptPlants ||
                         plantType == TileID.FleshWeeds || plantType == TileID.HallowedPlants ||
                         plantType == TileID.MushroomPlants || plantType == TileID.JunglePlants)
                     {
-                        plantType = CalamityMod.Instance.TileType("AstralShortPlants");
+                        plantType = ModContent.GetInstance<CalamityMod>().TileType("AstralShortPlants");
                     }
                     else
                     {
-                        plantType = CalamityMod.Instance.TileType("AstralTallPlants");
+                        plantType = ModContent.GetInstance<CalamityMod>().TileType("AstralTallPlants");
                     }
                 }
                 if (plantType != Main.tile[x, y].type)

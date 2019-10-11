@@ -68,8 +68,8 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					num440 = num437 / num440;
 					num438 *= num440;
 					num439 *= num440;
-					num438 = num438 + (float)Main.rand.Next(-30, 31) * 0.05f;
-					num439 = num439 + (float)Main.rand.Next(-30, 31) * 0.05f;
+					num438 += (float)Main.rand.Next(-30, 31) * 0.05f;
+					num439 += (float)Main.rand.Next(-30, 31) * 0.05f;
 					if (projectile.owner == Main.myPlayer)
 					{
 						int projectile2 = Projectile.NewProjectile(value10.X, value10.Y, num438, num439, ProjectileID.SlimeGun, (int)((double)projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);

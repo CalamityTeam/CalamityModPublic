@@ -56,18 +56,18 @@ namespace CalamityMod.Projectiles.Magic
 						Main.dust[num299].noGravity = true;
 						Main.dust[num299].scale *= 4f;
 						Dust expr_DBEF_cp_0 = Main.dust[num299];
-						expr_DBEF_cp_0.velocity.X = expr_DBEF_cp_0.velocity.X * 2f;
+						expr_DBEF_cp_0.velocity.X *= 2f;
 						Dust expr_DC0F_cp_0 = Main.dust[num299];
-						expr_DC0F_cp_0.velocity.Y = expr_DC0F_cp_0.velocity.Y * 2f;
+						expr_DC0F_cp_0.velocity.Y *= 2f;
 					}
 					else
 					{
 						Main.dust[num299].scale *= 1.5f;
 					}
 					Dust expr_DC74_cp_0 = Main.dust[num299];
-					expr_DC74_cp_0.velocity.X = expr_DC74_cp_0.velocity.X * 1.2f;
+					expr_DC74_cp_0.velocity.X *= 1.2f;
 					Dust expr_DC94_cp_0 = Main.dust[num299];
-					expr_DC94_cp_0.velocity.Y = expr_DC94_cp_0.velocity.Y * 1.2f;
+					expr_DC94_cp_0.velocity.Y *= 1.2f;
 					Main.dust[num299].scale *= num296;
 				}
 				for (int num298 = 0; num298 < 2; num298++)
@@ -78,18 +78,18 @@ namespace CalamityMod.Projectiles.Magic
 						Main.dust[num299].noGravity = true;
 						Main.dust[num299].scale *= 5f;
 						Dust expr_DBEF_cp_0 = Main.dust[num299];
-						expr_DBEF_cp_0.velocity.X = expr_DBEF_cp_0.velocity.X * 2f;
+						expr_DBEF_cp_0.velocity.X *= 2f;
 						Dust expr_DC0F_cp_0 = Main.dust[num299];
-						expr_DC0F_cp_0.velocity.Y = expr_DC0F_cp_0.velocity.Y * 2f;
+						expr_DC0F_cp_0.velocity.Y *= 2f;
 					}
 					else
 					{
 						Main.dust[num299].scale *= 2.5f;
 					}
 					Dust expr_DC74_cp_0 = Main.dust[num299];
-					expr_DC74_cp_0.velocity.X = expr_DC74_cp_0.velocity.X * 1.2f;
+					expr_DC74_cp_0.velocity.X *= 1.2f;
 					Dust expr_DC94_cp_0 = Main.dust[num299];
-					expr_DC94_cp_0.velocity.Y = expr_DC94_cp_0.velocity.Y * 1.2f;
+					expr_DC94_cp_0.velocity.Y *= 1.2f;
 					Main.dust[num299].scale *= num296;
 				}
 			}

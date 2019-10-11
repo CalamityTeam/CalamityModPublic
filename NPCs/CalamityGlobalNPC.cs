@@ -34,11 +34,11 @@ namespace CalamityMod.NPCs
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
-		// Iron Heart
-		private int ironHeartDamage = 0;
+        // Iron Heart (currently unimplemented)
+        // private int ironHeartDamage = 0;
 
-		// NewAI
-		private const int maxAIMod = 4;
+        // NewAI
+        private const int maxAIMod = 4;
 		public float[] newAI = new float[maxAIMod];
 
 		// Town NPC Patreon
@@ -920,12 +920,12 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        // TODO: Change Iron Heart damage in here for Iron Heart mode
+        // TODO -- Change Iron Heart damage in here for Iron Heart mode
         #region Iron Heart Changes
         private void IronHeartChanges(NPC npc)
 		{
 			// Iron Heart damage variable will scale with npc.damage
-			ironHeartDamage = 0;
+			// ironHeartDamage = 0;
 		}
         #endregion
 
@@ -945,9 +945,12 @@ namespace CalamityMod.NPCs
             if (((npc.boss || CalamityMod.bossScaleList.Contains(npc.type)) && npc.type < NPCID.Count) ||
                 (npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
             {
-                double scalar = 1.0;
+                double scalar;
                 switch (numPlayers) //Decrease HP in multiplayer before vanilla scaling
                 {
+                    case 1:
+                        scalar = 1.0;
+                        break;
                     case 2:
                         scalar = 0.76;
                         break;
@@ -2510,9 +2513,9 @@ namespace CalamityMod.NPCs
                                     Main.npc[num263].velocity.X = npc.velocity.X * 2f;
                                     Main.npc[num263].velocity.Y = npc.velocity.Y;
                                     NPC var_324_BB1A_cp_0_cp_0 = Main.npc[num263];
-                                    var_324_BB1A_cp_0_cp_0.velocity.X = var_324_BB1A_cp_0_cp_0.velocity.X + (Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f);
+                                    var_324_BB1A_cp_0_cp_0.velocity.X += (Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f);
                                     NPC var_324_BB6F_cp_0_cp_0 = Main.npc[num263];
-                                    var_324_BB6F_cp_0_cp_0.velocity.Y = var_324_BB6F_cp_0_cp_0.velocity.Y - (Main.rand.Next(0, 10) * 0.1f + num262);
+                                    var_324_BB6F_cp_0_cp_0.velocity.Y -= (Main.rand.Next(0, 10) * 0.1f + num262);
                                     Main.npc[num263].ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && num263 < 200)
@@ -3159,7 +3162,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GoblinTinkerer:
                     int banditIndex = NPC.FindFirstNPC(mod.NPCType("Bandit"));
-                    if (Main.rand.NextBool(10) && banditIndex != -1 && Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges >= 10)
+                    if (Main.rand.NextBool(10) && banditIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
                     {
                         var thief = Main.npc[banditIndex];
                         chat = $"Hey, is it just me or have my pockets gotten lighter ever since {thief.GivenName} arrived?";
@@ -3875,38 +3878,38 @@ namespace CalamityMod.NPCs
             {
                 if (npc.velocity.X < between.X)
                 {
-                    npc.velocity.X = npc.velocity.X + chaseAcceleration;
+                    npc.velocity.X += chaseAcceleration;
 
                     if (npc.velocity.X < 0f && between.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + chaseAcceleration;
+                        npc.velocity.X += chaseAcceleration;
                     }
                 }
                 else if (npc.velocity.X > between.X)
                 {
-                    npc.velocity.X = npc.velocity.X - chaseAcceleration;
+                    npc.velocity.X -= chaseAcceleration;
 
                     if (npc.velocity.X > 0f && between.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - chaseAcceleration;
+                        npc.velocity.X -= chaseAcceleration;
                     }
                 }
                 if (npc.velocity.Y < between.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y + chaseAcceleration;
+                    npc.velocity.Y += chaseAcceleration;
 
                     if (npc.velocity.Y < 0f && between.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + chaseAcceleration;
+                        npc.velocity.Y += chaseAcceleration;
                     }
                 }
                 else if (npc.velocity.Y > between.Y)
                 {
-                    npc.velocity.Y = npc.velocity.Y - chaseAcceleration;
+                    npc.velocity.Y -= chaseAcceleration;
 
                     if (npc.velocity.Y > 0f && between.Y < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - chaseAcceleration;
+                        npc.velocity.Y -= chaseAcceleration;
                     }
                 }
                 npc.rotation = between.ToRotation();
@@ -4050,11 +4053,11 @@ namespace CalamityMod.NPCs
 
                     if (npc.velocity.X > maxSpeed)
                     {
-                        npc.velocity.X = npc.velocity.X - acceleration;
+                        npc.velocity.X -= acceleration;
                     }
                     else if (npc.velocity.X > 0f)
                     {
-                        npc.velocity.X = npc.velocity.X - acceleration * 0.5f;
+                        npc.velocity.X -= acceleration * 0.5f;
                     }
 
                     if (npc.velocity.X < -maxSpeed)
@@ -4064,15 +4067,15 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.direction == 1 && npc.velocity.X < maxSpeed)
                 {
-                    npc.velocity.X = npc.velocity.X + acceleration;
+                    npc.velocity.X += acceleration;
 
                     if (npc.velocity.X < -maxSpeed)
                     {
-                        npc.velocity.X = npc.velocity.X + acceleration;
+                        npc.velocity.X += acceleration;
                     }
                     else if (npc.velocity.X < 0f)
                     {
-                        npc.velocity.X = npc.velocity.X + acceleration * 0.5f;
+                        npc.velocity.X += acceleration * 0.5f;
                     }
 
                     if (npc.velocity.X > maxSpeed)
@@ -4090,20 +4093,20 @@ namespace CalamityMod.NPCs
 
                 if (npc.position.Y < yLimiter)
                 {
-                    npc.velocity.Y = npc.velocity.Y + acceleration * 0.5f;
+                    npc.velocity.Y += acceleration * 0.5f;
 
                     if (npc.velocity.Y < 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y + acceleration * 0.1f;
+                        npc.velocity.Y += acceleration * 0.1f;
                     }
                 }
                 else
                 {
-                    npc.velocity.Y = npc.velocity.Y - acceleration * 0.5f;
+                    npc.velocity.Y -= acceleration * 0.5f;
 
                     if (npc.velocity.Y > 0f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - acceleration * 0.1f;
+                        npc.velocity.Y -= acceleration * 0.1f;
                     }
                 }
 
@@ -4122,10 +4125,10 @@ namespace CalamityMod.NPCs
             {
                 if (npc.velocity.Y > 0f)
                 {
-                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                    npc.velocity.Y *= 0.95f;
                 }
 
-                npc.velocity.Y = npc.velocity.Y - 0.5f;
+                npc.velocity.Y -= 0.5f;
 
                 if (npc.velocity.Y < -4f)
                 {

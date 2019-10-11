@@ -35,12 +35,12 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			if (projectile.alpha == 0)
 			{
-				int num159 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 163, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f);
+				int num159 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 163, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f);
 				Main.dust[num159].noGravity = true;
 				Main.dust[num159].velocity *= 0.6f;
 				Main.dust[num159].velocity -= projectile.velocity * 0.4f;
 
-				int num160 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 205, projectile.velocity.X, projectile.velocity.Y, 100, default(Color), 1f);
+				int num160 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 205, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f);
 				Main.dust[num160].noGravity = true;
 				Main.dust[num160].velocity *= 0.2f;
 				Main.dust[num160].velocity -= projectile.velocity * 0.4f;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num302].velocity *= 1.2f;
 				Main.dust[num302].velocity -= projectile.oldVelocity * 0.3f;
 
-				int num402 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 205, 0f, 0f, 100, default(Color), 1f);
+				int num402 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 205, 0f, 0f, 100, default, 1f);
 				Dust dust = Main.dust[num402];
 				dust.noGravity = true;
 				dust.velocity *= 1.2f;

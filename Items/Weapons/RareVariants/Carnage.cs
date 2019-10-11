@@ -44,10 +44,10 @@ namespace CalamityMod.Items.Weapons.RareVariants
 			if (target.life <= 0)
 			{
 				Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 74);
-				target.position.X = target.position.X + (float)(target.width / 2);
-				target.position.Y = target.position.Y + (float)(target.height / 2);
-				target.position.X = target.position.X - (float)(target.width / 2);
-				target.position.Y = target.position.Y - (float)(target.height / 2);
+				target.position.X += (float)(target.width / 2);
+				target.position.Y += (float)(target.height / 2);
+				target.position.X -= (float)(target.width / 2);
+				target.position.Y -= (float)(target.height / 2);
 				for (int num621 = 0; num621 < 15; num621++)
 				{
 					int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 5, 0f, 0f, 100, default, 2f);

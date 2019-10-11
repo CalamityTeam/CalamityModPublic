@@ -16,7 +16,7 @@ namespace CalamityMod.Buffs.SummonBuffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+			CalamityPlayer modPlayer = player.Calamity();
 			if (player.ownedProjectileCounts[mod.ProjectileType("BlackHawkSummon")] > 0)
 			{
 				modPlayer.blackhawk = true;

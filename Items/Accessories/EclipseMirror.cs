@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.stealthGenMoving += 0.2f;
             modPlayer.rogueStealthMax += 1;
             modPlayer.eclipseMirror = true;

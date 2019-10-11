@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 200;
             projectile.tileCollide = true;
             projectile.alpha = 0;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(ModLoader.GetMod("CalamityMod")).rogue = true;
+			projectile.Calamity().rogue = true;
 		}
         public override void AI()
         {

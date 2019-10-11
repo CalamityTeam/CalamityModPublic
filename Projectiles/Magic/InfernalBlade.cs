@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Magic
 				int num489 = Dust.NewDust(projectile.Center, 0, 0, 182, 0f, 0f, 100, default, 1f);
 				Main.dust[num489].velocity *= 1.6f;
 				Dust expr_FEDF_cp_0 = Main.dust[num489];
-				expr_FEDF_cp_0.velocity.Y = expr_FEDF_cp_0.velocity.Y - 1f;
+				expr_FEDF_cp_0.velocity.Y -= 1f;
 				Main.dust[num489].velocity += -projectile.velocity * (Main.rand.NextFloat() * 2f - 1f) * 0.5f;
 				Main.dust[num489].scale = 2f;
 				Main.dust[num489].fadeIn = 0.5f;

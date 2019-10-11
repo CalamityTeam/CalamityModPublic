@@ -703,7 +703,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-            if(CNPCUtils.AntiButcher(npc, ref damage, 0.5f))
+            if(CalamityUtils.AntiButcher(npc, ref damage, 0.5f))
             {
                 string key = "Mods.CalamityMod.EdgyBossText2";
                 Color messageColor = Color.Cyan;

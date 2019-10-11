@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             int num310 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + (float)projectile.height - 2f), 2, 2, 14, 0f, 0f, 0, default, 1f);
 			Dust expr_A0A0_cp_0 = Main.dust[num310];
-			expr_A0A0_cp_0.position.X = expr_A0A0_cp_0.position.X - 2f;
+			expr_A0A0_cp_0.position.X -= 2f;
 			Main.dust[num310].alpha = 38;
 			Main.dust[num310].velocity *= 0.1f;
 			Main.dust[num310].velocity += -projectile.oldVelocity * 0.25f;

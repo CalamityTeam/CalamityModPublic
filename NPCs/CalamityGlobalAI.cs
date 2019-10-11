@@ -45,27 +45,27 @@ namespace CalamityMod.NPCs
 
 			if (npc.velocity.X < num4)
 			{
-				npc.velocity.X = npc.velocity.X + num2;
+				npc.velocity.X += num2;
 				if (npc.velocity.X < 0f && num4 > 0f)
-					npc.velocity.X = npc.velocity.X + num2;
+					npc.velocity.X += num2;
 			}
 			else if (npc.velocity.X > num4)
 			{
-				npc.velocity.X = npc.velocity.X - num2;
+				npc.velocity.X -= num2;
 				if (npc.velocity.X > 0f && num4 < 0f)
-					npc.velocity.X = npc.velocity.X - num2;
+					npc.velocity.X -= num2;
 			}
 			if (npc.velocity.Y < num5)
 			{
-				npc.velocity.Y = npc.velocity.Y + num2;
+				npc.velocity.Y += num2;
 				if (npc.velocity.Y < 0f && num5 > 0f)
-					npc.velocity.Y = npc.velocity.Y + num2;
+					npc.velocity.Y += num2;
 			}
 			else if (npc.velocity.Y > num5)
 			{
-				npc.velocity.Y = npc.velocity.Y - num2;
+				npc.velocity.Y -= num2;
 				if (npc.velocity.Y > 0f && num5 < 0f)
-					npc.velocity.Y = npc.velocity.Y - num2;
+					npc.velocity.Y -= num2;
 			}
 
 			if (npc.type != NPCID.Bee && npc.type != NPCID.BeeSmall)
@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs
 
 			// Faster fall
 			if (npc.velocity.Y > 0f && CalamityWorld.bossRushActive)
-				npc.velocity.Y = npc.velocity.Y + 0.1f;
+				npc.velocity.Y += 0.1f;
 
 			// Activate teleport
 			if (!Main.player[npc.target].dead && npc.ai[2] >= ((CalamityWorld.death || CalamityWorld.bossRushActive) ? 240f : 300f) && npc.ai[1] < 5f && npc.velocity.Y == 0f)
@@ -349,7 +349,7 @@ namespace CalamityMod.NPCs
 			// Jump
 			if (npc.velocity.Y == 0f)
 			{
-				npc.velocity.X = npc.velocity.X * 0.8f;
+				npc.velocity.X *= 0.8f;
 				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 					npc.velocity.X = 0f;
 
@@ -391,7 +391,7 @@ namespace CalamityMod.NPCs
 						if (npc.ai[1] == 3f)
 						{
 							npc.velocity.Y = -13f * speedMult;
-							npc.velocity.X = npc.velocity.X + (phase2 ? 4f : 3.5f) * (float)npc.direction;
+							npc.velocity.X += (phase2 ? 4f : 3.5f) * (float)npc.direction;
 							if (CalamityWorld.bossRushActive)
 								npc.velocity.X *= 2f;
 
@@ -401,7 +401,7 @@ namespace CalamityMod.NPCs
 						else if (npc.ai[1] == 2f)
 						{
 							npc.velocity.Y = -6f * speedMult;
-							npc.velocity.X = npc.velocity.X + (phase2 ? 5f : 4.5f) * (float)npc.direction;
+							npc.velocity.X += (phase2 ? 5f : 4.5f) * (float)npc.direction;
 							if (CalamityWorld.bossRushActive)
 								npc.velocity.X *= 2f;
 
@@ -411,7 +411,7 @@ namespace CalamityMod.NPCs
 						else
 						{
 							npc.velocity.Y = -8f * speedMult;
-							npc.velocity.X = npc.velocity.X + (phase2 ? 4.5f : 4f) * (float)npc.direction;
+							npc.velocity.X += (phase2 ? 4.5f : 4f) * (float)npc.direction;
 							if (CalamityWorld.bossRushActive)
 								npc.velocity.X *= 2f;
 
@@ -428,9 +428,9 @@ namespace CalamityMod.NPCs
 			else if (npc.target < 255 && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
 			{
 				if ((npc.direction == -1 && (double)npc.velocity.X < 0.1) || (npc.direction == 1 && (double)npc.velocity.X > -0.1))
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.4f : 0.2f) * (float)npc.direction;
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.4f : 0.2f) * (float)npc.direction;
 				else
-					npc.velocity.X = npc.velocity.X * (CalamityWorld.bossRushActive ? 0.9f : 0.93f);
+					npc.velocity.X *= (CalamityWorld.bossRushActive ? 0.9f : 0.93f);
 			}
 
 			// Spawn dust
@@ -446,13 +446,13 @@ namespace CalamityMod.NPCs
 				lifeRatio *= num234;
 				if (lifeRatio != npc.scale)
 				{
-					npc.position.X = npc.position.X + (float)(npc.width / 2);
-					npc.position.Y = npc.position.Y + (float)npc.height;
+					npc.position.X += (float)(npc.width / 2);
+					npc.position.Y += (float)npc.height;
 					npc.scale = lifeRatio;
 					npc.width = (int)(98f * npc.scale);
 					npc.height = (int)(92f * npc.scale);
-					npc.position.X = npc.position.X - (float)(npc.width / 2);
-					npc.position.Y = npc.position.Y - (float)npc.height;
+					npc.position.X -= (float)(npc.width / 2);
+					npc.position.Y -= (float)npc.height;
 				}
 
 				// Slime spawning
@@ -606,14 +606,14 @@ namespace CalamityMod.NPCs
             {
 				int num10 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
 				Dust var_9_825_cp_0_cp_0 = Main.dust[num10];
-				var_9_825_cp_0_cp_0.velocity.X = var_9_825_cp_0_cp_0.velocity.X * 0.5f;
+				var_9_825_cp_0_cp_0.velocity.X *= 0.5f;
 				Dust var_9_845_cp_0_cp_0 = Main.dust[num10];
-				var_9_845_cp_0_cp_0.velocity.Y = var_9_845_cp_0_cp_0.velocity.Y * 0.1f;
+				var_9_845_cp_0_cp_0.velocity.Y *= 0.1f;
 			}
 
 			if (Main.dayTime | dead)
 			{
-				npc.velocity.Y = npc.velocity.Y - 0.04f;
+				npc.velocity.Y -= 0.04f;
 
 				if (npc.timeLeft > 10)
 					npc.timeLeft = 10;
@@ -638,27 +638,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num13)
 					{
-						npc.velocity.X = npc.velocity.X + num12;
+						npc.velocity.X += num12;
 						if (npc.velocity.X < 0f && num13 > 0f)
-							npc.velocity.X = npc.velocity.X + num12;
+							npc.velocity.X += num12;
 					}
 					else if (npc.velocity.X > num13)
 					{
-						npc.velocity.X = npc.velocity.X - num12;
+						npc.velocity.X -= num12;
 						if (npc.velocity.X > 0f && num13 < 0f)
-							npc.velocity.X = npc.velocity.X - num12;
+							npc.velocity.X -= num12;
 					}
 					if (npc.velocity.Y < num14)
 					{
-						npc.velocity.Y = npc.velocity.Y + num12;
+						npc.velocity.Y += num12;
 						if (npc.velocity.Y < 0f && num14 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num12;
+							npc.velocity.Y += num12;
 					}
 					else if (npc.velocity.Y > num14)
 					{
-						npc.velocity.Y = npc.velocity.Y - num12;
+						npc.velocity.Y -= num12;
 						if (npc.velocity.Y > 0f && num14 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num12;
+							npc.velocity.Y -= num12;
 					}
 
 					npc.ai[2] += 1f;
@@ -860,8 +860,8 @@ namespace CalamityMod.NPCs
 					}
 				}
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
-				npc.velocity.X = npc.velocity.X * 0.98f;
-				npc.velocity.Y = npc.velocity.Y * 0.98f;
+				npc.velocity.X *= 0.98f;
+				npc.velocity.Y *= 0.98f;
 
 				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 					npc.velocity.X = 0f;
@@ -914,27 +914,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num39)
 					{
-						npc.velocity.X = npc.velocity.X + num38;
+						npc.velocity.X += num38;
 						if (npc.velocity.X < 0f && num39 > 0f)
-							npc.velocity.X = npc.velocity.X + num38;
+							npc.velocity.X += num38;
 					}
 					else if (npc.velocity.X > num39)
 					{
-						npc.velocity.X = npc.velocity.X - num38;
+						npc.velocity.X -= num38;
 						if (npc.velocity.X > 0f && num39 < 0f)
-							npc.velocity.X = npc.velocity.X - num38;
+							npc.velocity.X -= num38;
 					}
 					if (npc.velocity.Y < num40)
 					{
-						npc.velocity.Y = npc.velocity.Y + num38;
+						npc.velocity.Y += num38;
 						if (npc.velocity.Y < 0f && num40 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num38;
+							npc.velocity.Y += num38;
 					}
 					else if (npc.velocity.Y > num40)
 					{
-						npc.velocity.Y = npc.velocity.Y - num38;
+						npc.velocity.Y -= num38;
 						if (npc.velocity.Y > 0f && num40 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num38;
+							npc.velocity.Y -= num38;
 					}
 
 					npc.ai[2] += 1f;
@@ -1071,8 +1071,8 @@ namespace CalamityMod.NPCs
 						num52 = num48 / num52;
 						npc.velocity.X = num49 * num52;
 						npc.velocity.Y = num50 * num52;
-						npc.velocity.X = npc.velocity.X + (float)Main.rand.Next(-20, 21) * 0.1f;
-						npc.velocity.Y = npc.velocity.Y + (float)Main.rand.Next(-20, 21) * 0.1f;
+						npc.velocity.X += (float)Main.rand.Next(-20, 21) * 0.1f;
+						npc.velocity.Y += (float)Main.rand.Next(-20, 21) * 0.1f;
 
 						if (num53 < 100f)
 						{
@@ -1187,27 +1187,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num65)
 					{
-						npc.velocity.X = npc.velocity.X + num64;
+						npc.velocity.X += num64;
 						if (npc.velocity.X < 0f && num65 > 0f)
-							npc.velocity.X = npc.velocity.X + num64;
+							npc.velocity.X += num64;
 					}
 					else if (npc.velocity.X > num65)
 					{
-						npc.velocity.X = npc.velocity.X - num64;
+						npc.velocity.X -= num64;
 						if (npc.velocity.X > 0f && num65 < 0f)
-							npc.velocity.X = npc.velocity.X - num64;
+							npc.velocity.X -= num64;
 					}
 					if (npc.velocity.Y < num66)
 					{
-						npc.velocity.Y = npc.velocity.Y + num64;
+						npc.velocity.Y += num64;
 						if (npc.velocity.Y < 0f && num66 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num64;
+							npc.velocity.Y += num64;
 					}
 					else if (npc.velocity.Y > num66)
 					{
-						npc.velocity.Y = npc.velocity.Y - num64;
+						npc.velocity.Y -= num64;
 						if (npc.velocity.Y > 0f && num66 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num64;
+							npc.velocity.Y -= num64;
 					}
 
 					npc.ai[2] += 1f;
@@ -1640,8 +1640,8 @@ namespace CalamityMod.NPCs
 				num39 *= num52;
 				num40 *= num52;
 				npc.velocity = Vector2.Zero;
-				npc.position.X = npc.position.X + num39;
-				npc.position.Y = npc.position.Y + num40;
+				npc.position.X += num39;
+				npc.position.Y += num40;
 			}
 			else
 			{
@@ -1658,30 +1658,30 @@ namespace CalamityMod.NPCs
 				{
 					npc.TargetClosest(true);
 
-					npc.velocity.Y = npc.velocity.Y + 0.11f;
+					npc.velocity.Y += 0.11f;
 					if (npc.velocity.Y > num37)
 						npc.velocity.Y = num37;
 
 					if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num37 * 0.4)
 					{
 						if (npc.velocity.X < 0f)
-							npc.velocity.X = npc.velocity.X - num38 * 1.1f;
+							npc.velocity.X -= num38 * 1.1f;
 						else
-							npc.velocity.X = npc.velocity.X + num38 * 1.1f;
+							npc.velocity.X += num38 * 1.1f;
 					}
 					else if (npc.velocity.Y == num37)
 					{
 						if (npc.velocity.X < num39)
-							npc.velocity.X = npc.velocity.X + num38;
+							npc.velocity.X += num38;
 						else if (npc.velocity.X > num39)
-							npc.velocity.X = npc.velocity.X - num38;
+							npc.velocity.X -= num38;
 					}
 					else if (npc.velocity.Y > 4f)
 					{
 						if (npc.velocity.X < 0f)
-							npc.velocity.X = npc.velocity.X + num38 * 0.9f;
+							npc.velocity.X += num38 * 0.9f;
 						else
-							npc.velocity.X = npc.velocity.X - num38 * 0.9f;
+							npc.velocity.X -= num38 * 0.9f;
 					}
 				}
 				else
@@ -1747,58 +1747,58 @@ namespace CalamityMod.NPCs
 					if ((npc.velocity.X > 0f && num39 > 0f) || (npc.velocity.X < 0f && num39 < 0f) || (npc.velocity.Y > 0f && num40 > 0f) || (npc.velocity.Y < 0f && num40 < 0f))
 					{
 						if (npc.velocity.X < num39)
-							npc.velocity.X = npc.velocity.X + num38;
+							npc.velocity.X += num38;
 						else if (npc.velocity.X > num39)
-							npc.velocity.X = npc.velocity.X - num38;
+							npc.velocity.X -= num38;
 						if (npc.velocity.Y < num40)
-							npc.velocity.Y = npc.velocity.Y + num38;
+							npc.velocity.Y += num38;
 						else if (npc.velocity.Y > num40)
-							npc.velocity.Y = npc.velocity.Y - num38;
+							npc.velocity.Y -= num38;
 
 						if ((double)Math.Abs(num40) < (double)num37 * 0.2 && ((npc.velocity.X > 0f && num39 < 0f) || (npc.velocity.X < 0f && num39 > 0f)))
 						{
 							if (npc.velocity.Y > 0f)
-								npc.velocity.Y = npc.velocity.Y + num38 * 2f;
+								npc.velocity.Y += num38 * 2f;
 							else
-								npc.velocity.Y = npc.velocity.Y - num38 * 2f;
+								npc.velocity.Y -= num38 * 2f;
 						}
 
 						if ((double)Math.Abs(num39) < (double)num37 * 0.2 && ((npc.velocity.Y > 0f && num40 < 0f) || (npc.velocity.Y < 0f && num40 > 0f)))
 						{
 							if (npc.velocity.X > 0f)
-								npc.velocity.X = npc.velocity.X + num38 * 2f;
+								npc.velocity.X += num38 * 2f;
 							else
-								npc.velocity.X = npc.velocity.X - num38 * 2f;
+								npc.velocity.X -= num38 * 2f;
 						}
 					}
 					else if (num55 > num56)
 					{
 						if (npc.velocity.X < num39)
-							npc.velocity.X = npc.velocity.X + num38 * 1.1f;
+							npc.velocity.X += num38 * 1.1f;
 						else if (npc.velocity.X > num39)
-							npc.velocity.X = npc.velocity.X - num38 * 1.1f;
+							npc.velocity.X -= num38 * 1.1f;
 
 						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num37 * 0.5)
 						{
 							if (npc.velocity.Y > 0f)
-								npc.velocity.Y = npc.velocity.Y + num38;
+								npc.velocity.Y += num38;
 							else
-								npc.velocity.Y = npc.velocity.Y - num38;
+								npc.velocity.Y -= num38;
 						}
 					}
 					else
 					{
 						if (npc.velocity.Y < num40)
-							npc.velocity.Y = npc.velocity.Y + num38 * 1.1f;
+							npc.velocity.Y += num38 * 1.1f;
 						else if (npc.velocity.Y > num40)
-							npc.velocity.Y = npc.velocity.Y - num38 * 1.1f;
+							npc.velocity.Y -= num38 * 1.1f;
 
 						if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)num37 * 0.5)
 						{
 							if (npc.velocity.X > 0f)
-								npc.velocity.X = npc.velocity.X + num38;
+								npc.velocity.X += num38;
 							else
-								npc.velocity.X = npc.velocity.X - num38;
+								npc.velocity.X -= num38;
 						}
 					}
 				}
@@ -2365,7 +2365,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[3] += 1f;
 
 				if (npc.localAI[3] > 60f)
-					npc.velocity.Y = npc.velocity.Y + (npc.localAI[3] - 60f) * 0.25f;
+					npc.velocity.Y += (npc.localAI[3] - 60f) * 0.25f;
 
 				npc.ai[0] = 2f;
 				npc.alpha = 10;
@@ -2423,8 +2423,8 @@ namespace CalamityMod.NPCs
 				// Increase speed
 				if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < velocity)
 				{
-					npc.velocity.Y = npc.velocity.Y * 1.05f;
-					npc.velocity.X = npc.velocity.X * 1.05f;
+					npc.velocity.Y *= 1.05f;
+					npc.velocity.X *= 1.05f;
 				}
 
 				// Charge at target
@@ -2504,11 +2504,11 @@ namespace CalamityMod.NPCs
 			if (Main.player[npc.target].dead)
 			{
 				if ((double)npc.position.Y < Main.worldSurface * 16.0 + 2000.0)
-					npc.velocity.Y = npc.velocity.Y + 0.04f;
+					npc.velocity.Y += 0.04f;
 				if (npc.position.X < (float)(Main.maxTilesX * 8))
-					npc.velocity.X = npc.velocity.X - 0.04f;
+					npc.velocity.X -= 0.04f;
 				else
-					npc.velocity.X = npc.velocity.X + 0.04f;
+					npc.velocity.X += 0.04f;
 
 				if (npc.timeLeft > 10)
 				{
@@ -2647,9 +2647,9 @@ namespace CalamityMod.NPCs
 
 					// Velocity calculations
 					if (npc.position.Y + (float)(npc.height / 2) < Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))
-						npc.velocity.Y = npc.velocity.Y + num603;
+						npc.velocity.Y += num603;
 					else
-						npc.velocity.Y = npc.velocity.Y - num603;
+						npc.velocity.Y -= num603;
 
 					if (npc.velocity.Y < -12f)
 						npc.velocity.Y = -num602;
@@ -2657,11 +2657,11 @@ namespace CalamityMod.NPCs
 						npc.velocity.Y = num602;
 
 					if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) > 600f)
-						npc.velocity.X = npc.velocity.X + 0.15f * (float)npc.direction;
+						npc.velocity.X += 0.15f * (float)npc.direction;
 					else if (Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 300f)
-						npc.velocity.X = npc.velocity.X - 0.15f * (float)npc.direction;
+						npc.velocity.X -= 0.15f * (float)npc.direction;
 					else
-						npc.velocity.X = npc.velocity.X * 0.8f;
+						npc.velocity.X *= 0.8f;
 
 					// Limit velocity
 					if (npc.velocity.X < -16f)
@@ -2762,27 +2762,27 @@ namespace CalamityMod.NPCs
 				// Velocity calculations
 				if (npc.velocity.X < num609)
 				{
-					npc.velocity.X = npc.velocity.X + num608;
+					npc.velocity.X += num608;
 					if (npc.velocity.X < 0f && num609 > 0f)
-						npc.velocity.X = npc.velocity.X + num608;
+						npc.velocity.X += num608;
 				}
 				else if (npc.velocity.X > num609)
 				{
-					npc.velocity.X = npc.velocity.X - num608;
+					npc.velocity.X -= num608;
 					if (npc.velocity.X > 0f && num609 < 0f)
-						npc.velocity.X = npc.velocity.X - num608;
+						npc.velocity.X -= num608;
 				}
 				if (npc.velocity.Y < num610)
 				{
-					npc.velocity.Y = npc.velocity.Y + num608;
+					npc.velocity.Y += num608;
 					if (npc.velocity.Y < 0f && num610 > 0f)
-						npc.velocity.Y = npc.velocity.Y + num608;
+						npc.velocity.Y += num608;
 				}
 				else if (npc.velocity.Y > num610)
 				{
-					npc.velocity.Y = npc.velocity.Y - num608;
+					npc.velocity.Y -= num608;
 					if (npc.velocity.Y > 0f && num610 < 0f)
-						npc.velocity.Y = npc.velocity.Y - num608;
+						npc.velocity.Y -= num608;
 				}
 			}
 
@@ -2859,27 +2859,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num612)
 					{
-						npc.velocity.X = npc.velocity.X + num618;
+						npc.velocity.X += num618;
 						if (npc.velocity.X < 0f && num612 > 0f)
-							npc.velocity.X = npc.velocity.X + num618;
+							npc.velocity.X += num618;
 					}
 					else if (npc.velocity.X > num612)
 					{
-						npc.velocity.X = npc.velocity.X - num618;
+						npc.velocity.X -= num618;
 						if (npc.velocity.X > 0f && num612 < 0f)
-							npc.velocity.X = npc.velocity.X - num618;
+							npc.velocity.X -= num618;
 					}
 					if (npc.velocity.Y < num613)
 					{
-						npc.velocity.Y = npc.velocity.Y + num618;
+						npc.velocity.Y += num618;
 						if (npc.velocity.Y < 0f && num613 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num618;
+							npc.velocity.Y += num618;
 					}
 					else if (npc.velocity.Y > num613)
 					{
-						npc.velocity.Y = npc.velocity.Y - num618;
+						npc.velocity.Y -= num618;
 						if (npc.velocity.Y > 0f && num613 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num618;
+							npc.velocity.Y -= num618;
 					}
 				}
 				else
@@ -2960,27 +2960,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num621)
 					{
-						npc.velocity.X = npc.velocity.X + num620;
+						npc.velocity.X += num620;
 						if (npc.velocity.X < 0f && num621 > 0f)
-							npc.velocity.X = npc.velocity.X + num620;
+							npc.velocity.X += num620;
 					}
 					else if (npc.velocity.X > num621)
 					{
-						npc.velocity.X = npc.velocity.X - num620;
+						npc.velocity.X -= num620;
 						if (npc.velocity.X > 0f && num621 < 0f)
-							npc.velocity.X = npc.velocity.X - num620;
+							npc.velocity.X -= num620;
 					}
 					if (npc.velocity.Y < num622)
 					{
-						npc.velocity.Y = npc.velocity.Y + num620;
+						npc.velocity.Y += num620;
 						if (npc.velocity.Y < 0f && num622 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num620;
+							npc.velocity.Y += num620;
 					}
 					else if (npc.velocity.Y > num622)
 					{
-						npc.velocity.Y = npc.velocity.Y - num620;
+						npc.velocity.Y -= num620;
 						if (npc.velocity.Y > 0f && num622 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num620;
+							npc.velocity.Y -= num620;
 					}
 				}
 				else if (num623 > 100f)
@@ -2989,27 +2989,27 @@ namespace CalamityMod.NPCs
 					npc.spriteDirection = npc.direction;
 					if (npc.velocity.X < num621)
 					{
-						npc.velocity.X = npc.velocity.X + num620;
+						npc.velocity.X += num620;
 						if (npc.velocity.X < 0f && num621 > 0f)
-							npc.velocity.X = npc.velocity.X + num620 * 2f;
+							npc.velocity.X += num620 * 2f;
 					}
 					else if (npc.velocity.X > num621)
 					{
-						npc.velocity.X = npc.velocity.X - num620;
+						npc.velocity.X -= num620;
 						if (npc.velocity.X > 0f && num621 < 0f)
-							npc.velocity.X = npc.velocity.X - num620 * 2f;
+							npc.velocity.X -= num620 * 2f;
 					}
 					if (npc.velocity.Y < num622)
 					{
-						npc.velocity.Y = npc.velocity.Y + num620;
+						npc.velocity.Y += num620;
 						if (npc.velocity.Y < 0f && num622 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num620 * 2f;
+							npc.velocity.Y += num620 * 2f;
 					}
 					else if (npc.velocity.Y > num622)
 					{
-						npc.velocity.Y = npc.velocity.Y - num620;
+						npc.velocity.Y -= num620;
 						if (npc.velocity.Y > 0f && num622 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num620 * 2f;
+							npc.velocity.Y -= num620 * 2f;
 					}
 				}
 
@@ -3332,16 +3332,16 @@ namespace CalamityMod.NPCs
 				if (npc.position.Y > Main.player[npc.target].position.Y - 250f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					npc.velocity.Y = npc.velocity.Y - num169;
+						npc.velocity.Y *= 0.98f;
+					npc.velocity.Y -= num169;
 					if (npc.velocity.Y > num170)
 						npc.velocity.Y = num170;
 				}
 				else if (npc.position.Y < Main.player[npc.target].position.Y - 250f)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
-					npc.velocity.Y = npc.velocity.Y + num169;
+						npc.velocity.Y *= 0.98f;
+					npc.velocity.Y += num169;
 					if (npc.velocity.Y < -num170)
 						npc.velocity.Y = -num170;
 				}
@@ -3349,8 +3349,8 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
-					npc.velocity.X = npc.velocity.X - num171;
+						npc.velocity.X *= 0.98f;
+					npc.velocity.X -= num171;
 					if (npc.velocity.X > num172)
 						npc.velocity.X = num172;
 				}
@@ -3358,8 +3358,8 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
-					npc.velocity.X = npc.velocity.X + num171;
+						npc.velocity.X *= 0.98f;
+					npc.velocity.X += num171;
 					if (npc.velocity.X < -num172)
 						npc.velocity.X = -num172;
 				}
@@ -3439,10 +3439,10 @@ namespace CalamityMod.NPCs
 			// Despawn
 			else if (npc.ai[1] == 3f)
 			{
-				npc.velocity.Y = npc.velocity.Y + 0.1f;
+				npc.velocity.Y += 0.1f;
 				if (npc.velocity.Y < 0f)
-					npc.velocity.Y = npc.velocity.Y * 0.95f;
-				npc.velocity.X = npc.velocity.X * 0.95f;
+					npc.velocity.Y *= 0.95f;
+				npc.velocity.X *= 0.95f;
 				if (npc.timeLeft > 50)
 					npc.timeLeft = 50;
 			}
@@ -3495,16 +3495,16 @@ namespace CalamityMod.NPCs
 					if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 100f)
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
+							npc.velocity.Y *= 0.96f;
+						npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
 						if (npc.velocity.Y > maxY)
 							npc.velocity.Y = maxY;
 					}
 					else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 100f)
 					{
 						if (npc.velocity.Y < 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
+							npc.velocity.Y *= 0.96f;
+						npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
 						if (npc.velocity.Y < -maxY)
 							npc.velocity.Y = -maxY;
 					}
@@ -3512,8 +3512,8 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 120f * npc.ai[0])
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+							npc.velocity.X *= 0.96f;
+						npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 						if (npc.velocity.X > maxX)
 							npc.velocity.X = maxX;
 					}
@@ -3521,8 +3521,8 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 120f * npc.ai[0])
 					{
 						if (npc.velocity.X < 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+							npc.velocity.X *= 0.96f;
+						npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 						if (npc.velocity.X < -maxX)
 							npc.velocity.X = -maxX;
 					}
@@ -3543,16 +3543,16 @@ namespace CalamityMod.NPCs
 					if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 230f)
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
+							npc.velocity.Y *= 0.96f;
+						npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
 						if (npc.velocity.Y > maxY)
 							npc.velocity.Y = maxY;
 					}
 					else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 230f)
 					{
 						if (npc.velocity.Y < 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
+							npc.velocity.Y *= 0.96f;
+						npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
 						if (npc.velocity.Y < -maxY)
 							npc.velocity.Y = -maxY;
 					}
@@ -3560,8 +3560,8 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0])
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
+							npc.velocity.X *= 0.96f;
+						npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
 						if (npc.velocity.X > maxX)
 							npc.velocity.X = maxX;
 					}
@@ -3569,8 +3569,8 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0])
 					{
 						if (npc.velocity.X < 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
+							npc.velocity.X *= 0.96f;
+						npc.velocity.X += (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
 						if (npc.velocity.X < -maxX)
 							npc.velocity.X = -maxX;
 					}
@@ -3578,16 +3578,16 @@ namespace CalamityMod.NPCs
 					if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 230f)
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
+							npc.velocity.Y *= 0.96f;
+						npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
 						if (npc.velocity.Y > maxY)
 							npc.velocity.Y = maxY;
 					}
 					else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 230f)
 					{
 						if (npc.velocity.Y < 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
-						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
+							npc.velocity.Y *= 0.96f;
+						npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
 						if (npc.velocity.Y < -maxY)
 							npc.velocity.Y = -maxY;
 					}
@@ -3595,8 +3595,8 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0])
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
+							npc.velocity.X *= 0.96f;
+						npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
 						if (npc.velocity.X > maxX)
 							npc.velocity.X = maxX;
 					}
@@ -3604,8 +3604,8 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0])
 					{
 						if (npc.velocity.X < 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
+							npc.velocity.X *= 0.96f;
+						npc.velocity.X += (CalamityWorld.bossRushActive ? 0.11f : 0.07f);
 						if (npc.velocity.X < -maxX)
 							npc.velocity.X = -maxX;
 					}
@@ -3625,10 +3625,10 @@ namespace CalamityMod.NPCs
 				float num186 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector23.Y;
 				float num187 = (float)Math.Sqrt((double)(num185 * num185 + num186 * num186));
 				npc.rotation = (float)Math.Atan2((double)num186, (double)num185) + 1.57f;
-				npc.velocity.X = npc.velocity.X * 0.95f;
-				npc.velocity.Y = npc.velocity.Y - 0.1f;
+				npc.velocity.X *= 0.95f;
+				npc.velocity.Y -= 0.1f;
 
-				npc.velocity.Y = npc.velocity.Y - 0.06f;
+				npc.velocity.Y -= 0.06f;
 				if (npc.velocity.Y < -15f)
 					npc.velocity.Y = -15f;
 
@@ -3662,10 +3662,10 @@ namespace CalamityMod.NPCs
 				float num189 = Main.npc[(int)npc.ai[1]].position.Y + 230f - vector24.Y;
 				float num190 = (float)Math.Sqrt((double)(num188 * num188 + num189 * num189));
 				npc.rotation = (float)Math.Atan2((double)num189, (double)num188) + 1.57f;
-				npc.velocity.Y = npc.velocity.Y * 0.95f;
-				npc.velocity.X = npc.velocity.X + 0.1f * -npc.ai[0];
+				npc.velocity.Y *= 0.95f;
+				npc.velocity.X += 0.1f * -npc.ai[0];
 
-				npc.velocity.X = npc.velocity.X + 0.07f * -npc.ai[0];
+				npc.velocity.X += 0.07f * -npc.ai[0];
 				if (npc.velocity.X < -14f)
 					npc.velocity.X = -14f;
 				else if (npc.velocity.X > 14f)
@@ -4474,11 +4474,11 @@ namespace CalamityMod.NPCs
 			if (Main.dayTime || Main.player[npc.target].dead)
 			{
 				flag2 = false;
-				npc.velocity.Y = npc.velocity.Y + 1f;
+				npc.velocity.Y += 1f;
 
 				if ((double)npc.position.Y > Main.worldSurface * 16.0)
 				{
-					npc.velocity.Y = npc.velocity.Y + 1f;
+					npc.velocity.Y += 1f;
 					fallSpeed = 32f;
 				}
 
@@ -4531,15 +4531,15 @@ namespace CalamityMod.NPCs
 				num20 *= num22;
 				num21 *= num22;
 				npc.velocity = Vector2.Zero;
-				npc.position.X = npc.position.X + num20;
-				npc.position.Y = npc.position.Y + num21;
+				npc.position.X += num20;
+				npc.position.Y += num21;
 				return false;
 			}
 
 			if (!flag2)
 			{
 				npc.TargetClosest(true);
-				npc.velocity.Y = npc.velocity.Y + 0.15f;
+				npc.velocity.Y += 0.15f;
 
 				if (npc.velocity.Y > fallSpeed)
 					npc.velocity.Y = fallSpeed;
@@ -4547,23 +4547,23 @@ namespace CalamityMod.NPCs
 				if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.4)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X - speed * 1.1f;
+						npc.velocity.X -= speed * 1.1f;
 					else
-						npc.velocity.X = npc.velocity.X + speed * 1.1f;
+						npc.velocity.X += speed * 1.1f;
 				}
 				else if (npc.velocity.Y == fallSpeed)
 				{
 					if (npc.velocity.X < num20)
-						npc.velocity.X = npc.velocity.X + speed;
+						npc.velocity.X += speed;
 					else if (npc.velocity.X > num20)
-						npc.velocity.X = npc.velocity.X - speed;
+						npc.velocity.X -= speed;
 				}
 				else if (npc.velocity.Y > 4f)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X + speed * 0.9f;
+						npc.velocity.X += speed * 0.9f;
 					else
-						npc.velocity.X = npc.velocity.X - speed * 0.9f;
+						npc.velocity.X -= speed * 0.9f;
 				}
 			}
 			else
@@ -4590,69 +4590,69 @@ namespace CalamityMod.NPCs
 				if (((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f)) && ((npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f)))
 				{
 					if (npc.velocity.X < num20)
-						npc.velocity.X = npc.velocity.X + turnSpeed;
+						npc.velocity.X += turnSpeed;
 					else if (npc.velocity.X > num20)
-						npc.velocity.X = npc.velocity.X - turnSpeed;
+						npc.velocity.X -= turnSpeed;
 					if (npc.velocity.Y < num21)
-						npc.velocity.Y = npc.velocity.Y + turnSpeed;
+						npc.velocity.Y += turnSpeed;
 					else if (npc.velocity.Y > num21)
-						npc.velocity.Y = npc.velocity.Y - turnSpeed;
+						npc.velocity.Y -= turnSpeed;
 				}
 
 				if ((npc.velocity.X > 0f && num20 > 0f) || (npc.velocity.X < 0f && num20 < 0f) || (npc.velocity.Y > 0f && num21 > 0f) || (npc.velocity.Y < 0f && num21 < 0f))
 				{
 					if (npc.velocity.X < num20)
-						npc.velocity.X = npc.velocity.X + speed;
+						npc.velocity.X += speed;
 					else if (npc.velocity.X > num20)
-						npc.velocity.X = npc.velocity.X - speed;
+						npc.velocity.X -= speed;
 					if (npc.velocity.Y < num21)
-						npc.velocity.Y = npc.velocity.Y + speed;
+						npc.velocity.Y += speed;
 					else if (npc.velocity.Y > num21)
-						npc.velocity.Y = npc.velocity.Y - speed;
+						npc.velocity.Y -= speed;
 
 					if ((double)Math.Abs(num21) < (double)fallSpeed * 0.2 && ((npc.velocity.X > 0f && num20 < 0f) || (npc.velocity.X < 0f && num20 > 0f)))
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y = npc.velocity.Y + speed * 2f;
+							npc.velocity.Y += speed * 2f;
 						else
-							npc.velocity.Y = npc.velocity.Y - speed * 2f;
+							npc.velocity.Y -= speed * 2f;
 					}
 					if ((double)Math.Abs(num20) < (double)fallSpeed * 0.2 && ((npc.velocity.Y > 0f && num21 < 0f) || (npc.velocity.Y < 0f && num21 > 0f)))
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X = npc.velocity.X + speed * 2f;
+							npc.velocity.X += speed * 2f;
 						else
-							npc.velocity.X = npc.velocity.X - speed * 2f;
+							npc.velocity.X -= speed * 2f;
 					}
 				}
 				else if (num25 > num26)
 				{
 					if (npc.velocity.X < num20)
-						npc.velocity.X = npc.velocity.X + speed * 1.1f;
+						npc.velocity.X += speed * 1.1f;
 					else if (npc.velocity.X > num20)
-						npc.velocity.X = npc.velocity.X - speed * 1.1f;
+						npc.velocity.X -= speed * 1.1f;
 
 					if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y = npc.velocity.Y + speed;
+							npc.velocity.Y += speed;
 						else
-							npc.velocity.Y = npc.velocity.Y - speed;
+							npc.velocity.Y -= speed;
 					}
 				}
 				else
 				{
 					if (npc.velocity.Y < num21)
-						npc.velocity.Y = npc.velocity.Y + speed * 1.1f;
+						npc.velocity.Y += speed * 1.1f;
 					else if (npc.velocity.Y > num21)
-						npc.velocity.Y = npc.velocity.Y - speed * 1.1f;
+						npc.velocity.Y -= speed * 1.1f;
 
 					if ((double)(Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) < (double)fallSpeed * 0.5)
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X = npc.velocity.X + speed;
+							npc.velocity.X += speed;
 						else
-							npc.velocity.X = npc.velocity.X - speed;
+							npc.velocity.X -= speed;
 					}
 				}
 			}
@@ -4750,9 +4750,9 @@ namespace CalamityMod.NPCs
             {
 				int num380 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
 				Dust var_9_131D1_cp_0_cp_0 = Main.dust[num380];
-				var_9_131D1_cp_0_cp_0.velocity.X = var_9_131D1_cp_0_cp_0.velocity.X * 0.5f;
+				var_9_131D1_cp_0_cp_0.velocity.X *= 0.5f;
 				Dust var_9_131F5_cp_0_cp_0 = Main.dust[num380];
-				var_9_131F5_cp_0_cp_0.velocity.Y = var_9_131F5_cp_0_cp_0.velocity.Y * 0.1f;
+				var_9_131F5_cp_0_cp_0.velocity.Y *= 0.1f;
 			}
 
 			if (Main.netMode != NetmodeID.MultiplayerClient && !Main.dayTime && !Main.player[npc.target].dead && npc.timeLeft < 10)
@@ -4769,7 +4769,7 @@ namespace CalamityMod.NPCs
 
 			if (Main.dayTime | Main.player[npc.target].dead)
 			{
-				npc.velocity.Y = npc.velocity.Y - 0.04f;
+				npc.velocity.Y -= 0.04f;
 				if (npc.timeLeft > 10)
 				{
 					npc.timeLeft = 10;
@@ -4805,27 +4805,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num385)
 					{
-						npc.velocity.X = npc.velocity.X + num383;
+						npc.velocity.X += num383;
 						if (npc.velocity.X < 0f && num385 > 0f)
-							npc.velocity.X = npc.velocity.X + num383;
+							npc.velocity.X += num383;
 					}
 					else if (npc.velocity.X > num385)
 					{
-						npc.velocity.X = npc.velocity.X - num383;
+						npc.velocity.X -= num383;
 						if (npc.velocity.X > 0f && num385 < 0f)
-							npc.velocity.X = npc.velocity.X - num383;
+							npc.velocity.X -= num383;
 					}
 					if (npc.velocity.Y < num386)
 					{
-						npc.velocity.Y = npc.velocity.Y + num383;
+						npc.velocity.Y += num383;
 						if (npc.velocity.Y < 0f && num386 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num383;
+							npc.velocity.Y += num383;
 					}
 					else if (npc.velocity.Y > num386)
 					{
-						npc.velocity.Y = npc.velocity.Y - num383;
+						npc.velocity.Y -= num383;
 						if (npc.velocity.Y > 0f && num386 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num383;
+							npc.velocity.Y -= num383;
 					}
 
 					npc.ai[2] += 1f;
@@ -4887,8 +4887,8 @@ namespace CalamityMod.NPCs
 					npc.ai[2] += 1f;
 					if (npc.ai[2] >= 25f)
 					{
-						npc.velocity.X = npc.velocity.X * 0.96f;
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.X *= 0.96f;
+						npc.velocity.Y *= 0.96f;
 						if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 						{
 							npc.velocity.X = 0f;
@@ -4977,8 +4977,8 @@ namespace CalamityMod.NPCs
 
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-				npc.velocity.X = npc.velocity.X * 0.98f;
-				npc.velocity.Y = npc.velocity.Y * 0.98f;
+				npc.velocity.X *= 0.98f;
+				npc.velocity.Y *= 0.98f;
 
 				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 					npc.velocity.X = 0f;
@@ -5022,27 +5022,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num401)
 					{
-						npc.velocity.X = npc.velocity.X + num400;
+						npc.velocity.X += num400;
 						if (npc.velocity.X < 0f && num401 > 0f)
-							npc.velocity.X = npc.velocity.X + num400;
+							npc.velocity.X += num400;
 					}
 					else if (npc.velocity.X > num401)
 					{
-						npc.velocity.X = npc.velocity.X - num400;
+						npc.velocity.X -= num400;
 						if (npc.velocity.X > 0f && num401 < 0f)
-							npc.velocity.X = npc.velocity.X - num400;
+							npc.velocity.X -= num400;
 					}
 					if (npc.velocity.Y < num402)
 					{
-						npc.velocity.Y = npc.velocity.Y + num400;
+						npc.velocity.Y += num400;
 						if (npc.velocity.Y < 0f && num402 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num400;
+							npc.velocity.Y += num400;
 					}
 					else if (npc.velocity.Y > num402)
 					{
-						npc.velocity.Y = npc.velocity.Y - num400;
+						npc.velocity.Y -= num400;
 						if (npc.velocity.Y > 0f && num402 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num400;
+							npc.velocity.Y -= num400;
 					}
 
 					npc.ai[2] += (spazAlive ? 1f : 1.25f);
@@ -5126,27 +5126,27 @@ namespace CalamityMod.NPCs
 
 						if (npc.velocity.X < num411)
 						{
-							npc.velocity.X = npc.velocity.X + num410;
+							npc.velocity.X += num410;
 							if (npc.velocity.X < 0f && num411 > 0f)
-								npc.velocity.X = npc.velocity.X + num410;
+								npc.velocity.X += num410;
 						}
 						else if (npc.velocity.X > num411)
 						{
-							npc.velocity.X = npc.velocity.X - num410;
+							npc.velocity.X -= num410;
 							if (npc.velocity.X > 0f && num411 < 0f)
-								npc.velocity.X = npc.velocity.X - num410;
+								npc.velocity.X -= num410;
 						}
 						if (npc.velocity.Y < num412)
 						{
-							npc.velocity.Y = npc.velocity.Y + num410;
+							npc.velocity.Y += num410;
 							if (npc.velocity.Y < 0f && num412 > 0f)
-								npc.velocity.Y = npc.velocity.Y + num410;
+								npc.velocity.Y += num410;
 						}
 						else if (npc.velocity.Y > num412)
 						{
-							npc.velocity.Y = npc.velocity.Y - num410;
+							npc.velocity.Y -= num410;
 							if (npc.velocity.Y > 0f && num412 < 0f)
-								npc.velocity.Y = npc.velocity.Y - num410;
+								npc.velocity.Y -= num410;
 						}
 
 						vector43 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -5332,27 +5332,27 @@ namespace CalamityMod.NPCs
 
 						if (npc.velocity.X < num65)
 						{
-							npc.velocity.X = npc.velocity.X + num64;
+							npc.velocity.X += num64;
 							if (npc.velocity.X < 0f && num65 > 0f)
-								npc.velocity.X = npc.velocity.X + num64;
+								npc.velocity.X += num64;
 						}
 						else if (npc.velocity.X > num65)
 						{
-							npc.velocity.X = npc.velocity.X - num64;
+							npc.velocity.X -= num64;
 							if (npc.velocity.X > 0f && num65 < 0f)
-								npc.velocity.X = npc.velocity.X - num64;
+								npc.velocity.X -= num64;
 						}
 						if (npc.velocity.Y < num66)
 						{
-							npc.velocity.Y = npc.velocity.Y + num64;
+							npc.velocity.Y += num64;
 							if (npc.velocity.Y < 0f && num66 > 0f)
-								npc.velocity.Y = npc.velocity.Y + num64;
+								npc.velocity.Y += num64;
 						}
 						else if (npc.velocity.Y > num66)
 						{
-							npc.velocity.Y = npc.velocity.Y - num64;
+							npc.velocity.Y -= num64;
 							if (npc.velocity.Y > 0f && num66 < 0f)
-								npc.velocity.Y = npc.velocity.Y - num64;
+								npc.velocity.Y -= num64;
 						}
 
 						// Take 1.25 or 1 second to get in position, then charge
@@ -5438,8 +5438,8 @@ namespace CalamityMod.NPCs
             {
 				int num422 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
 				Dust dust = Main.dust[num422];
-				dust.velocity.X = dust.velocity.X * 0.5f;
-				dust.velocity.Y = dust.velocity.Y * 0.1f;
+				dust.velocity.X *= 0.5f;
+				dust.velocity.Y *= 0.1f;
 			}
 
 			// Despawn Twins at the same time
@@ -5458,7 +5458,7 @@ namespace CalamityMod.NPCs
 			// Despawn
 			if (Main.dayTime | Main.player[npc.target].dead)
 			{
-				npc.velocity.Y = npc.velocity.Y - 0.04f;
+				npc.velocity.Y -= 0.04f;
 				if (npc.timeLeft > 10)
 				{
 					npc.timeLeft = 10;
@@ -5499,27 +5499,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num427)
 					{
-						npc.velocity.X = npc.velocity.X + num425;
+						npc.velocity.X += num425;
 						if (npc.velocity.X < 0f && num427 > 0f)
-							npc.velocity.X = npc.velocity.X + num425;
+							npc.velocity.X += num425;
 					}
 					else if (npc.velocity.X > num427)
 					{
-						npc.velocity.X = npc.velocity.X - num425;
+						npc.velocity.X -= num425;
 						if (npc.velocity.X > 0f && num427 < 0f)
-							npc.velocity.X = npc.velocity.X - num425;
+							npc.velocity.X -= num425;
 					}
 					if (npc.velocity.Y < num428)
 					{
-						npc.velocity.Y = npc.velocity.Y + num425;
+						npc.velocity.Y += num425;
 						if (npc.velocity.Y < 0f && num428 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num425;
+							npc.velocity.Y += num425;
 					}
 					else if (npc.velocity.Y > num428)
 					{
-						npc.velocity.Y = npc.velocity.Y - num425;
+						npc.velocity.Y -= num425;
 						if (npc.velocity.Y > 0f && num428 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num425;
+							npc.velocity.Y -= num425;
 					}
 
 					// Fire cursed flames for 5 seconds
@@ -5589,8 +5589,8 @@ namespace CalamityMod.NPCs
 					if (npc.ai[2] >= timeBeforeSlowDown)
 					{
 						// Slow down
-						npc.velocity.X = npc.velocity.X * 0.9f;
-						npc.velocity.Y = npc.velocity.Y * 0.9f;
+						npc.velocity.X *= 0.9f;
+						npc.velocity.Y *= 0.9f;
 
 						if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 							npc.velocity.X = 0f;
@@ -5684,8 +5684,8 @@ namespace CalamityMod.NPCs
 
 				Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)Main.rand.Next(-30, 31) * 0.2f, (float)Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-				npc.velocity.X = npc.velocity.X * 0.98f;
-				npc.velocity.Y = npc.velocity.Y * 0.98f;
+				npc.velocity.X *= 0.98f;
+				npc.velocity.Y *= 0.98f;
 
 				if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 					npc.velocity.X = 0f;
@@ -5753,27 +5753,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < num443)
 					{
-						npc.velocity.X = npc.velocity.X + num441;
+						npc.velocity.X += num441;
 						if (npc.velocity.X < 0f && num443 > 0f)
-							npc.velocity.X = npc.velocity.X + num441;
+							npc.velocity.X += num441;
 					}
 					else if (npc.velocity.X > num443)
 					{
-						npc.velocity.X = npc.velocity.X - num441;
+						npc.velocity.X -= num441;
 						if (npc.velocity.X > 0f && num443 < 0f)
-							npc.velocity.X = npc.velocity.X - num441;
+							npc.velocity.X -= num441;
 					}
 					if (npc.velocity.Y < num444)
 					{
-						npc.velocity.Y = npc.velocity.Y + num441;
+						npc.velocity.Y += num441;
 						if (npc.velocity.Y < 0f && num444 > 0f)
-							npc.velocity.Y = npc.velocity.Y + num441;
+							npc.velocity.Y += num441;
 					}
 					else if (npc.velocity.Y > num444)
 					{
-						npc.velocity.Y = npc.velocity.Y - num441;
+						npc.velocity.Y -= num441;
 						if (npc.velocity.Y > 0f && num444 < 0f)
-							npc.velocity.Y = npc.velocity.Y - num441;
+							npc.velocity.Y -= num441;
 					}
 
 					// Fire flamethrower for x seconds
@@ -6054,27 +6054,27 @@ namespace CalamityMod.NPCs
 
 						if (npc.velocity.X < num65)
 						{
-							npc.velocity.X = npc.velocity.X + num64;
+							npc.velocity.X += num64;
 							if (npc.velocity.X < 0f && num65 > 0f)
-								npc.velocity.X = npc.velocity.X + num64;
+								npc.velocity.X += num64;
 						}
 						else if (npc.velocity.X > num65)
 						{
-							npc.velocity.X = npc.velocity.X - num64;
+							npc.velocity.X -= num64;
 							if (npc.velocity.X > 0f && num65 < 0f)
-								npc.velocity.X = npc.velocity.X - num64;
+								npc.velocity.X -= num64;
 						}
 						if (npc.velocity.Y < num66)
 						{
-							npc.velocity.Y = npc.velocity.Y + num64;
+							npc.velocity.Y += num64;
 							if (npc.velocity.Y < 0f && num66 > 0f)
-								npc.velocity.Y = npc.velocity.Y + num64;
+								npc.velocity.Y += num64;
 						}
 						else if (npc.velocity.Y > num66)
 						{
-							npc.velocity.Y = npc.velocity.Y - num64;
+							npc.velocity.Y -= num64;
 							if (npc.velocity.Y > 0f && num66 < 0f)
-								npc.velocity.Y = npc.velocity.Y - num64;
+								npc.velocity.Y -= num64;
 						}
 
 						npc.ai[2] += 1f;
@@ -6348,9 +6348,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.Y > Main.player[npc.target].position.Y - 350f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y - acceleration;
+					npc.velocity.Y -= acceleration;
 
 					if (npc.velocity.Y > velocity2)
 						npc.velocity.Y = velocity2;
@@ -6358,9 +6358,9 @@ namespace CalamityMod.NPCs
 				else if (npc.position.Y < Main.player[npc.target].position.Y - 500f)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.98f;
+						npc.velocity.Y *= 0.98f;
 
-					npc.velocity.Y = npc.velocity.Y + acceleration;
+					npc.velocity.Y += acceleration;
 
 					if (npc.velocity.Y < -velocity2)
 						npc.velocity.Y = -velocity2;
@@ -6369,9 +6369,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) + 150f)
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.X > 8f)
 						npc.velocity.X = 8f;
@@ -6379,9 +6379,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - 150f)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.X < -8f)
 						npc.velocity.X = -8f;
@@ -6528,11 +6528,11 @@ namespace CalamityMod.NPCs
 				// Despawning
 				if (npc.ai[1] == 3f)
 				{
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y += 0.1f;
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.95f;
+						npc.velocity.Y *= 0.95f;
 
-					npc.velocity.X = npc.velocity.X * 0.95f;
+					npc.velocity.X *= 0.95f;
 
 					if (npc.timeLeft > 500)
 						npc.timeLeft = 500;
@@ -6654,27 +6654,27 @@ namespace CalamityMod.NPCs
 
 					if (npc.velocity.X < posX)
 					{
-						npc.velocity.X = npc.velocity.X + fligthAcceleration;
+						npc.velocity.X += fligthAcceleration;
 						if (npc.velocity.X < 0f && posX > 0f)
-							npc.velocity.X = npc.velocity.X + fligthAcceleration;
+							npc.velocity.X += fligthAcceleration;
 					}
 					else if (npc.velocity.X > posX)
 					{
-						npc.velocity.X = npc.velocity.X - fligthAcceleration;
+						npc.velocity.X -= fligthAcceleration;
 						if (npc.velocity.X > 0f && posX < 0f)
-							npc.velocity.X = npc.velocity.X - fligthAcceleration;
+							npc.velocity.X -= fligthAcceleration;
 					}
 					if (npc.velocity.Y < posY)
 					{
-						npc.velocity.Y = npc.velocity.Y + fligthAcceleration;
+						npc.velocity.Y += fligthAcceleration;
 						if (npc.velocity.Y < 0f && posY > 0f)
-							npc.velocity.Y = npc.velocity.Y + fligthAcceleration;
+							npc.velocity.Y += fligthAcceleration;
 					}
 					else if (npc.velocity.Y > posY)
 					{
-						npc.velocity.Y = npc.velocity.Y - fligthAcceleration;
+						npc.velocity.Y -= fligthAcceleration;
 						if (npc.velocity.Y > 0f && posY < 0f)
-							npc.velocity.Y = npc.velocity.Y - fligthAcceleration;
+							npc.velocity.Y -= fligthAcceleration;
 					}
 
 					if (npc.ai[2] % 12f == 0f)
@@ -6779,9 +6779,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 100f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.Y > 3f)
 						npc.velocity.Y = 3f;
@@ -6789,9 +6789,9 @@ namespace CalamityMod.NPCs
 				else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 100f)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.Y < -3f)
 						npc.velocity.Y = -3f;
@@ -6800,9 +6800,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 180f * npc.ai[0])
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.21f : 0.14f);
+					npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.21f : 0.14f);
 
 					if (npc.velocity.X > 8f)
 						npc.velocity.X = 8f;
@@ -6810,9 +6810,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 180f * npc.ai[0])
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.21f : 0.14f);
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.21f : 0.14f);
 
 					if (npc.velocity.X < -8f)
 						npc.velocity.X = -8f;
@@ -6886,26 +6886,26 @@ namespace CalamityMod.NPCs
 				if (npc.velocity.X > num513)
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+						npc.velocity.X *= 0.9f;
+					npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 				}
 				if (npc.velocity.X < num513)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+						npc.velocity.X *= 0.9f;
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 				}
 				if (npc.velocity.Y > num514)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.09f : 0.06f);
+						npc.velocity.Y *= 0.9f;
+					npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.09f : 0.06f);
 				}
 				if (npc.velocity.Y < num514)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.09f : 0.06f);
+						npc.velocity.Y *= 0.9f;
+					npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.09f : 0.06f);
 				}
 
 				npc.TargetClosest(true);
@@ -7055,9 +7055,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y - 150f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
+					npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
 
 					if (npc.velocity.Y > 3f)
 						npc.velocity.Y = 3f;
@@ -7065,9 +7065,9 @@ namespace CalamityMod.NPCs
 				else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y - 150f)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
+					npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
 
 					if (npc.velocity.Y < -3f)
 						npc.velocity.Y = -3f;
@@ -7076,9 +7076,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) + 200f)
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.3f : 0.2f);
+					npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.3f : 0.2f);
 
 					if (npc.velocity.X > 8f)
 						npc.velocity.X = 8f;
@@ -7086,9 +7086,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) + 160f)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.3f : 0.2f);
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.3f : 0.2f);
 
 					if (npc.velocity.X < -8f)
 						npc.velocity.X = -8f;
@@ -7141,26 +7141,26 @@ namespace CalamityMod.NPCs
 				if (npc.velocity.X > num499)
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
+						npc.velocity.X *= 0.9f;
+					npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
 				}
 				if (npc.velocity.X < num499)
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.9f;
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
+						npc.velocity.X *= 0.9f;
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
 				}
 				if (npc.velocity.Y > num500)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
+						npc.velocity.Y *= 0.9f;
+					npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
 				}
 				if (npc.velocity.Y < num500)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.9f;
-					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
+						npc.velocity.Y *= 0.9f;
+					npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.12f : 0.08f);
 				}
 
 				npc.TargetClosest(true);
@@ -7267,9 +7267,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.Y > 8f)
 						npc.velocity.Y = 8f;
@@ -7277,9 +7277,9 @@ namespace CalamityMod.NPCs
 				else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.Y < -8f)
 						npc.velocity.Y = -8f;
@@ -7288,9 +7288,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2))
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
+					npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
 
 					if (npc.velocity.X > 12f)
 						npc.velocity.X = 12f;
@@ -7298,9 +7298,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2))
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
 
 					if (npc.velocity.X < -12f)
 						npc.velocity.X = -12f;
@@ -7336,9 +7336,9 @@ namespace CalamityMod.NPCs
 					if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 300f)
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
+							npc.velocity.Y *= 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+						npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 						if (npc.velocity.Y > 3f)
 							npc.velocity.Y = 3f;
@@ -7346,9 +7346,9 @@ namespace CalamityMod.NPCs
 					else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 230f)
 					{
 						if (npc.velocity.Y < 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
+							npc.velocity.Y *= 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+						npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 						if (npc.velocity.Y < -3f)
 							npc.velocity.Y = -3f;
@@ -7357,9 +7357,9 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) + 250f)
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X = npc.velocity.X * 0.94f;
+							npc.velocity.X *= 0.94f;
 
-						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.45f : 0.3f);
+						npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.45f : 0.3f);
 
 						if (npc.velocity.X > 9f)
 							npc.velocity.X = 9f;
@@ -7367,9 +7367,9 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2))
 					{
 						if (npc.velocity.X < 0f)
-							npc.velocity.X = npc.velocity.X * 0.94f;
+							npc.velocity.X *= 0.94f;
 
-						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.3f : 0.2f);
+						npc.velocity.X += (CalamityWorld.bossRushActive ? 0.3f : 0.2f);
 
 						if (npc.velocity.X < -8f)
 							npc.velocity.X = -8f;
@@ -7387,7 +7387,7 @@ namespace CalamityMod.NPCs
 				if (npc.ai[2] == 1f)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.9f;
+						npc.velocity.Y *= 0.9f;
 
 					Vector2 vector58 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					float num486 = Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 280f * npc.ai[0] - vector58.X;
@@ -7396,9 +7396,9 @@ namespace CalamityMod.NPCs
 					npc.rotation = (float)Math.Atan2((double)num487, (double)num486) + 1.57f;
 
 					npc.velocity.X = (npc.velocity.X * 5f + Main.npc[(int)npc.ai[1]].velocity.X) / 6f;
-					npc.velocity.X = npc.velocity.X + 0.5f;
+					npc.velocity.X += 0.5f;
 
-					npc.velocity.Y = npc.velocity.Y - 0.5f;
+					npc.velocity.Y -= 0.5f;
 					if (npc.velocity.Y < -9f)
 						npc.velocity.Y = -9f;
 
@@ -7462,7 +7462,7 @@ namespace CalamityMod.NPCs
 
 					npc.velocity.Y = (npc.velocity.Y * 5f + Main.npc[(int)npc.ai[1]].velocity.Y) / 6f;
 
-					npc.velocity.X = npc.velocity.X + 0.5f;
+					npc.velocity.X += 0.5f;
 					if (npc.velocity.X > 12f)
 						npc.velocity.X = 12f;
 
@@ -7574,9 +7574,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y)
 				{
 					if (npc.velocity.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.Y > 8f)
 						npc.velocity.Y = 8f;
@@ -7584,9 +7584,9 @@ namespace CalamityMod.NPCs
 				else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y)
 				{
 					if (npc.velocity.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y * 0.96f;
+						npc.velocity.Y *= 0.96f;
 
-					npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
+					npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.15f : 0.1f);
 
 					if (npc.velocity.Y < -8f)
 						npc.velocity.Y = -8f;
@@ -7595,9 +7595,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2))
 				{
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
+					npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
 
 					if (npc.velocity.X > 12f)
 						npc.velocity.X = 12f;
@@ -7605,9 +7605,9 @@ namespace CalamityMod.NPCs
 				if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2))
 				{
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.96f;
+						npc.velocity.X *= 0.96f;
 
-					npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
+					npc.velocity.X += (CalamityWorld.bossRushActive ? 0.75f : 0.5f);
 
 					if (npc.velocity.X < -12f)
 						npc.velocity.X = -12f;
@@ -7639,9 +7639,9 @@ namespace CalamityMod.NPCs
 					if (npc.position.Y > Main.npc[(int)npc.ai[1]].position.Y + 320f)
 					{
 						if (npc.velocity.Y > 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
+							npc.velocity.Y *= 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
+						npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
 
 						if (npc.velocity.Y > 3f)
 							npc.velocity.Y = 3f;
@@ -7649,9 +7649,9 @@ namespace CalamityMod.NPCs
 					else if (npc.position.Y < Main.npc[(int)npc.ai[1]].position.Y + 260f)
 					{
 						if (npc.velocity.Y < 0f)
-							npc.velocity.Y = npc.velocity.Y * 0.96f;
+							npc.velocity.Y *= 0.96f;
 
-						npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
+						npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.06f : 0.04f);
 
 						if (npc.velocity.Y < -3f)
 							npc.velocity.Y = -3f;
@@ -7660,9 +7660,9 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) > Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2))
 					{
 						if (npc.velocity.X > 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
+							npc.velocity.X *= 0.96f;
 
-						npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.45f : 0.3f);
+						npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.45f : 0.3f);
 
 						if (npc.velocity.X > 12f)
 							npc.velocity.X = 12f;
@@ -7670,9 +7670,9 @@ namespace CalamityMod.NPCs
 					if (npc.position.X + (float)(npc.width / 2) < Main.npc[(int)npc.ai[1]].position.X + (float)(Main.npc[(int)npc.ai[1]].width / 2) - 250f)
 					{
 						if (npc.velocity.X < 0f)
-							npc.velocity.X = npc.velocity.X * 0.96f;
+							npc.velocity.X *= 0.96f;
 
-						npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.45f : 0.3f);
+						npc.velocity.X += (CalamityWorld.bossRushActive ? 0.45f : 0.3f);
 
 						if (npc.velocity.X < -12f)
 							npc.velocity.X = -12f;
@@ -7694,8 +7694,8 @@ namespace CalamityMod.NPCs
 					float num473 = (float)Math.Sqrt((double)(num471 * num471 + num472 * num472));
 					npc.rotation = (float)Math.Atan2((double)num472, (double)num471) + 1.57f;
 
-					npc.velocity.X = npc.velocity.X * 0.95f;
-					npc.velocity.Y = npc.velocity.Y - 0.3f;
+					npc.velocity.X *= 0.95f;
+					npc.velocity.Y -= 0.3f;
 					if (npc.velocity.Y < -8f)
 						npc.velocity.Y = -8f;
 
@@ -7752,26 +7752,26 @@ namespace CalamityMod.NPCs
 						if (npc.velocity.X > num474)
 						{
 							if (npc.velocity.X > 0f)
-								npc.velocity.X = npc.velocity.X * 0.97f;
-							npc.velocity.X = npc.velocity.X - (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
+								npc.velocity.X *= 0.97f;
+							npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
 						}
 						if (npc.velocity.X < num474)
 						{
 							if (npc.velocity.X < 0f)
-								npc.velocity.X = npc.velocity.X * 0.97f;
-							npc.velocity.X = npc.velocity.X + (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
+								npc.velocity.X *= 0.97f;
+							npc.velocity.X += (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
 						}
 						if (npc.velocity.Y > num475)
 						{
 							if (npc.velocity.Y > 0f)
-								npc.velocity.Y = npc.velocity.Y * 0.97f;
-							npc.velocity.Y = npc.velocity.Y - (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
+								npc.velocity.Y *= 0.97f;
+							npc.velocity.Y -= (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
 						}
 						if (npc.velocity.Y < num475)
 						{
 							if (npc.velocity.Y < 0f)
-								npc.velocity.Y = npc.velocity.Y * 0.97f;
-							npc.velocity.Y = npc.velocity.Y + (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
+								npc.velocity.Y *= 0.97f;
+							npc.velocity.Y += (CalamityWorld.bossRushActive ? 0.075f : 0.05f);
 						}
 
 						npc.ai[3] += 1f;
@@ -8023,27 +8023,27 @@ namespace CalamityMod.NPCs
 
 			if (npc.velocity.X < num736)
 			{
-				npc.velocity.X = npc.velocity.X + acceleration;
+				npc.velocity.X += acceleration;
 				if (npc.velocity.X < 0f && num736 > 0f)
-					npc.velocity.X = npc.velocity.X + acceleration * 2f;
+					npc.velocity.X += acceleration * 2f;
 			}
 			else if (npc.velocity.X > num736)
 			{
-				npc.velocity.X = npc.velocity.X - acceleration;
+				npc.velocity.X -= acceleration;
 				if (npc.velocity.X > 0f && num736 < 0f)
-					npc.velocity.X = npc.velocity.X - acceleration * 2f;
+					npc.velocity.X -= acceleration * 2f;
 			}
 			if (npc.velocity.Y < num737)
 			{
-				npc.velocity.Y = npc.velocity.Y + acceleration;
+				npc.velocity.Y += acceleration;
 				if (npc.velocity.Y < 0f && num737 > 0f)
-					npc.velocity.Y = npc.velocity.Y + acceleration * 2f;
+					npc.velocity.Y += acceleration * 2f;
 			}
 			else if (npc.velocity.Y > num737)
 			{
-				npc.velocity.Y = npc.velocity.Y - acceleration;
+				npc.velocity.Y -= acceleration;
 				if (npc.velocity.Y > 0f && num737 < 0f)
-					npc.velocity.Y = npc.velocity.Y - acceleration * 2f;
+					npc.velocity.Y -= acceleration * 2f;
 			}
 
 			// Slow down considerably if near player
@@ -8565,27 +8565,27 @@ namespace CalamityMod.NPCs
 			num787 *= num788;
 			if (npc.position.X < num782 + num786)
 			{
-				npc.velocity.X = npc.velocity.X + num779;
+				npc.velocity.X += num779;
 				if (npc.velocity.X < 0f && num786 > 0f)
-					npc.velocity.X = npc.velocity.X * 0.9f;
+					npc.velocity.X *= 0.9f;
 			}
 			else if (npc.position.X > num782 + num786)
 			{
-				npc.velocity.X = npc.velocity.X - num779;
+				npc.velocity.X -= num779;
 				if (npc.velocity.X > 0f && num786 < 0f)
-					npc.velocity.X = npc.velocity.X * 0.9f;
+					npc.velocity.X *= 0.9f;
 			}
 			if (npc.position.Y < num783 + num787)
 			{
-				npc.velocity.Y = npc.velocity.Y + num779;
+				npc.velocity.Y += num779;
 				if (npc.velocity.Y < 0f && num787 > 0f)
-					npc.velocity.Y = npc.velocity.Y * 0.9f;
+					npc.velocity.Y *= 0.9f;
 			}
 			else if (npc.position.Y > num783 + num787)
 			{
-				npc.velocity.Y = npc.velocity.Y - num779;
+				npc.velocity.Y -= num779;
 				if (npc.velocity.Y > 0f && num787 < 0f)
-					npc.velocity.Y = npc.velocity.Y * 0.9f;
+					npc.velocity.Y *= 0.9f;
 			}
 			if (npc.velocity.X > 8f)
 				npc.velocity.X = 8f;
@@ -8686,7 +8686,7 @@ namespace CalamityMod.NPCs
 				Dust dust = Main.dust[num642];
 				dust.alpha += Main.rand.Next(100);
 				dust.velocity *= 0.2f;
-				dust.velocity.Y = dust.velocity.Y - (0.5f + (float)Main.rand.Next(10) * 0.1f);
+				dust.velocity.Y -= (0.5f + (float)Main.rand.Next(10) * 0.1f);
 				dust.fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
 				if (Main.rand.Next(10) == 0)
@@ -8697,7 +8697,7 @@ namespace CalamityMod.NPCs
 						Main.dust[num642].noGravity = true;
 						dust = Main.dust[num642];
 						dust.scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
-						dust.velocity.Y = dust.velocity.Y - 1f;
+						dust.velocity.Y -= 1f;
 					}
 				}
 			}
@@ -8707,7 +8707,7 @@ namespace CalamityMod.NPCs
 				Dust dust = Main.dust[num643];
 				dust.alpha += Main.rand.Next(100);
 				dust.velocity *= 0.2f;
-				dust.velocity.Y = dust.velocity.Y - (0.5f + (float)Main.rand.Next(10) * 0.1f);
+				dust.velocity.Y -= (0.5f + (float)Main.rand.Next(10) * 0.1f);
 				dust.fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
 				if (Main.rand.Next(10) == 0)
@@ -8718,7 +8718,7 @@ namespace CalamityMod.NPCs
 						Main.dust[num643].noGravity = true;
 						dust = Main.dust[num643];
 						dust.scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
-						dust.velocity.Y = dust.velocity.Y - 1f;
+						dust.velocity.Y -= 1f;
 					}
 				}
 			}
@@ -8769,7 +8769,7 @@ namespace CalamityMod.NPCs
 					}
 
 					// Slow down
-					npc.velocity.X = npc.velocity.X * 0.8f;
+					npc.velocity.X *= 0.8f;
 
 					// Delay before jumping
 					npc.ai[1] += 1f;
@@ -8896,7 +8896,7 @@ namespace CalamityMod.NPCs
 					// Velocity when falling
 					if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + (float)npc.width > Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
 					{
-						npc.velocity.X = npc.velocity.X * 0.9f;
+						npc.velocity.X *= 0.9f;
 
 						if (Main.player[npc.target].position.Y > npc.position.Y + (float)npc.height)
 						{
@@ -8904,15 +8904,15 @@ namespace CalamityMod.NPCs
 							if (enrage)
 								fallSpeed *= 1.5f;
 
-							npc.velocity.Y = npc.velocity.Y + fallSpeed;
+							npc.velocity.Y += fallSpeed;
 						}
 					}
 					else
 					{
 						if (npc.direction < 0)
-							npc.velocity.X = npc.velocity.X - 0.2f;
+							npc.velocity.X -= 0.2f;
 						else if (npc.direction > 0)
-							npc.velocity.X = npc.velocity.X + 0.2f;
+							npc.velocity.X += 0.2f;
 
 						float num648 = 3f + (6f * (1f - lifeRatio));
 						if (enrage)
@@ -9349,27 +9349,27 @@ namespace CalamityMod.NPCs
 
 				if (npc.velocity.X < num702)
 				{
-					npc.velocity.X = npc.velocity.X + num701;
+					npc.velocity.X += num701;
 					if (npc.velocity.X < 0f && num702 > 0f)
-						npc.velocity.X = npc.velocity.X + num701;
+						npc.velocity.X += num701;
 				}
 				else if (npc.velocity.X > num702)
 				{
-					npc.velocity.X = npc.velocity.X - num701;
+					npc.velocity.X -= num701;
 					if (npc.velocity.X > 0f && num702 < 0f)
-						npc.velocity.X = npc.velocity.X - num701;
+						npc.velocity.X -= num701;
 				}
 				if (npc.velocity.Y < num703)
 				{
-					npc.velocity.Y = npc.velocity.Y + num701;
+					npc.velocity.Y += num701;
 					if (npc.velocity.Y < 0f && num703 > 0f)
-						npc.velocity.Y = npc.velocity.Y + num701;
+						npc.velocity.Y += num701;
 				}
 				else if (npc.velocity.Y > num703)
 				{
-					npc.velocity.Y = npc.velocity.Y - num701;
+					npc.velocity.Y -= num701;
 					if (npc.velocity.Y > 0f && num703 < 0f)
-						npc.velocity.Y = npc.velocity.Y - num701;
+						npc.velocity.Y -= num701;
 				}
 			}
 
@@ -9553,7 +9553,7 @@ namespace CalamityMod.NPCs
 			// Despawn
 			if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
 			{
-				npc.velocity.Y = npc.velocity.Y - 0.4f;
+				npc.velocity.Y -= 0.4f;
 
 				if (npc.timeLeft > 10)
 					npc.timeLeft = 10;
@@ -9745,27 +9745,27 @@ namespace CalamityMod.NPCs
 				Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
 				if (npc.velocity.X < vector3.X)
 				{
-					npc.velocity.X = npc.velocity.X + num3;
+					npc.velocity.X += num3;
 					if (npc.velocity.X < 0f && vector3.X > 0f)
-						npc.velocity.X = npc.velocity.X + num3;
+						npc.velocity.X += num3;
 				}
 				else if (npc.velocity.X > vector3.X)
 				{
-					npc.velocity.X = npc.velocity.X - num3;
+					npc.velocity.X -= num3;
 					if (npc.velocity.X > 0f && vector3.X < 0f)
-						npc.velocity.X = npc.velocity.X - num3;
+						npc.velocity.X -= num3;
 				}
 				if (npc.velocity.Y < vector3.Y)
 				{
-					npc.velocity.Y = npc.velocity.Y + num3;
+					npc.velocity.Y += num3;
 					if (npc.velocity.Y < 0f && vector3.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y + num3;
+						npc.velocity.Y += num3;
 				}
 				else if (npc.velocity.Y > vector3.Y)
 				{
-					npc.velocity.Y = npc.velocity.Y - num3;
+					npc.velocity.Y -= num3;
 					if (npc.velocity.Y > 0f && vector3.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y - num3;
+						npc.velocity.Y -= num3;
 				}
 
 				// Rotation and direction
@@ -9906,27 +9906,27 @@ namespace CalamityMod.NPCs
 				Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor2;
 				if (npc.velocity.X < vector5.X)
 				{
-					npc.velocity.X = npc.velocity.X + num8;
+					npc.velocity.X += num8;
 					if (npc.velocity.X < 0f && vector5.X > 0f)
-						npc.velocity.X = npc.velocity.X + num8;
+						npc.velocity.X += num8;
 				}
 				else if (npc.velocity.X > vector5.X)
 				{
-					npc.velocity.X = npc.velocity.X - num8;
+					npc.velocity.X -= num8;
 					if (npc.velocity.X > 0f && vector5.X < 0f)
-						npc.velocity.X = npc.velocity.X - num8;
+						npc.velocity.X -= num8;
 				}
 				if (npc.velocity.Y < vector5.Y)
 				{
-					npc.velocity.Y = npc.velocity.Y + num8;
+					npc.velocity.Y += num8;
 					if (npc.velocity.Y < 0f && vector5.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y + num8;
+						npc.velocity.Y += num8;
 				}
 				else if (npc.velocity.Y > vector5.Y)
 				{
-					npc.velocity.Y = npc.velocity.Y - num8;
+					npc.velocity.Y -= num8;
 					if (npc.velocity.Y > 0f && vector5.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y - num8;
+						npc.velocity.Y -= num8;
 				}
 
 				// Play sounds and spawn bubbles
@@ -10032,27 +10032,27 @@ namespace CalamityMod.NPCs
 				Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
 				if (npc.velocity.X < vector8.X)
 				{
-					npc.velocity.X = npc.velocity.X + num3;
+					npc.velocity.X += num3;
 					if (npc.velocity.X < 0f && vector8.X > 0f)
-						npc.velocity.X = npc.velocity.X + num3;
+						npc.velocity.X += num3;
 				}
 				else if (npc.velocity.X > vector8.X)
 				{
-					npc.velocity.X = npc.velocity.X - num3;
+					npc.velocity.X -= num3;
 					if (npc.velocity.X > 0f && vector8.X < 0f)
-						npc.velocity.X = npc.velocity.X - num3;
+						npc.velocity.X -= num3;
 				}
 				if (npc.velocity.Y < vector8.Y)
 				{
-					npc.velocity.Y = npc.velocity.Y + num3;
+					npc.velocity.Y += num3;
 					if (npc.velocity.Y < 0f && vector8.Y > 0f)
-						npc.velocity.Y = npc.velocity.Y + num3;
+						npc.velocity.Y += num3;
 				}
 				else if (npc.velocity.Y > vector8.Y)
 				{
-					npc.velocity.Y = npc.velocity.Y - num3;
+					npc.velocity.Y -= num3;
 					if (npc.velocity.Y > 0f && vector8.Y < 0f)
-						npc.velocity.Y = npc.velocity.Y - num3;
+						npc.velocity.Y -= num3;
 				}
 
 				// Direction and rotation
@@ -10888,7 +10888,7 @@ namespace CalamityMod.NPCs
 							{
 								num18 = 0f;
 							}
-							Vector2 value = new Vector2(0f, -1f).RotatedBy((double)num18, default(Vector2)) * new Vector2(150f, 200f);
+							Vector2 value = new Vector2(0f, -1f).RotatedBy((double)num18, default) * new Vector2(150f, 200f);
 							Vector2 value2 = player.Center + value - center2;
 							nPC2.ai[0] = 1f;
 							nPC2.ai[1] = num16;
@@ -11184,7 +11184,7 @@ namespace CalamityMod.NPCs
 						float[] array = new float[num31];
 						for (int num32 = 0; num32 < array.Length; num32++)
 						{
-							array[num32] = Vector2.Distance(npc.Center + spinningpoint.RotatedBy((double)((float)num32 * 6.28318548f / (float)num31 - 1.57079637f), default(Vector2)), player.Center);
+							array[num32] = Vector2.Distance(npc.Center + spinningpoint.RotatedBy((double)((float)num32 * 6.28318548f / (float)num31 - 1.57079637f), default), player.Center);
 						}
 						int num33 = 0;
 						for (int num34 = 1; num34 < array.Length; num34++)
@@ -11207,7 +11207,7 @@ namespace CalamityMod.NPCs
 						{
 							if (num33 != num36)
 							{
-								Vector2 vector11 = npc.Center + spinningpoint.RotatedBy((double)((float)num36 * 6.28318548f / (float)num31 - 1.57079637f), default(Vector2));
+								Vector2 vector11 = npc.Center + spinningpoint.RotatedBy((double)((float)num36 * 6.28318548f / (float)num31 - 1.57079637f), default);
 								if (num35-- > 0)
 								{
 									int num37 = NPC.NewNPC((int)vector11.X, (int)vector11.Y + npc.height / 2, NPCID.CultistBossClone, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
@@ -11224,7 +11224,7 @@ namespace CalamityMod.NPCs
 							}
 						}
 						npc.ai[2] = (float)Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ProjectileID.CultistRitual, 0, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
-						npc.Center += spinningpoint.RotatedBy((double)((float)num33 * 6.28318548f / (float)num31 - 1.57079637f), default(Vector2));
+						npc.Center += spinningpoint.RotatedBy((double)((float)num33 * 6.28318548f / (float)num31 - 1.57079637f), default);
 						npc.netUpdate = true;
 						list6.Clear();
 					}
@@ -11446,7 +11446,7 @@ namespace CalamityMod.NPCs
 						while ((float)num49 < 5f)
 						{
 							Vector2 vector19 = vec4 * scaleFactor;
-							vector19 = vector19.RotatedBy((double)(num48 * (float)num49 - (1.2566371f - num48) / 2f), default(Vector2));
+							vector19 = vector19.RotatedBy((double)(num48 * (float)num49 - (1.2566371f - num48) / 2f), default);
 							float ai = (Main.rand.NextFloat() - 0.5f) * 0.3f * 6.28318548f / 60f;
 							int num50 = NPC.NewNPC((int)vector18.X, (int)vector18.Y + 7, NPCID.AncientLight, 0, 0f, ai, vector19.X, vector19.Y, 255);
 							Main.npc[num50].velocity = vector19;
@@ -11593,27 +11593,27 @@ namespace CalamityMod.NPCs
 			if (Main.rand.NextBool(6))
 			{
 				Vector2 spinningpoint4 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-				Dust dust17 = Main.dust[Dust.NewDust(npc.Center - spinningpoint4 * 20f, 0, 0, 27, 0f, 0f, 0, default(Color), 1f)];
+				Dust dust17 = Main.dust[Dust.NewDust(npc.Center - spinningpoint4 * 20f, 0, 0, 27, 0f, 0f, 0, default, 1f)];
 				dust17.noGravity = true;
 				dust17.position = npc.Center - spinningpoint4 * (float)Main.rand.Next(10, 21) * npc.scale;
-				dust17.velocity = spinningpoint4.RotatedBy(1.5707963705062866, default(Vector2)) * 4f;
+				dust17.velocity = spinningpoint4.RotatedBy(1.5707963705062866, default) * 4f;
 				dust17.scale = 0.5f + Main.rand.NextFloat();
 				dust17.fadeIn = 0.5f;
 			}
 			if (Main.rand.NextBool(6))
 			{
 				Vector2 spinningpoint5 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-				Dust dust18 = Main.dust[Dust.NewDust(npc.Center - spinningpoint5 * 30f, 0, 0, 240, 0f, 0f, 0, default(Color), 1f)];
+				Dust dust18 = Main.dust[Dust.NewDust(npc.Center - spinningpoint5 * 30f, 0, 0, 240, 0f, 0f, 0, default, 1f)];
 				dust18.noGravity = true;
 				dust18.position = npc.Center - spinningpoint5 * 20f * npc.scale;
-				dust18.velocity = spinningpoint5.RotatedBy(-1.5707963705062866, default(Vector2)) * 2f;
+				dust18.velocity = spinningpoint5.RotatedBy(-1.5707963705062866, default) * 2f;
 				dust18.scale = 0.5f + Main.rand.NextFloat();
 				dust18.fadeIn = 0.5f;
 			}
 			if (Main.rand.NextBool(6))
 			{
 				Vector2 vector254 = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-				Dust dust19 = Main.dust[Dust.NewDust(npc.Center - vector254 * 30f, 0, 0, 240, 0f, 0f, 0, default(Color), 1f)];
+				Dust dust19 = Main.dust[Dust.NewDust(npc.Center - vector254 * 30f, 0, 0, 240, 0f, 0f, 0, default, 1f)];
 				dust19.position = npc.Center - vector254 * 20f * npc.scale;
 				dust19.velocity = Vector2.Zero;
 				dust19.scale = 0.5f + Main.rand.NextFloat();
@@ -11621,7 +11621,7 @@ namespace CalamityMod.NPCs
 				dust19.noLight = true;
 			}
 			npc.localAI[0] += 0.05235988f;
-			npc.localAI[1] = 0.25f + Vector2.UnitY.RotatedBy((double)(npc.ai[1] * 6.28318548f / 60f), default(Vector2)).Y * 0.25f;
+			npc.localAI[1] = 0.25f + Vector2.UnitY.RotatedBy((double)(npc.ai[1] * 6.28318548f / 60f), default).Y * 0.25f;
 			if (npc.ai[1] >= num1496)
 			{
 				flag110 = true;
@@ -11630,7 +11630,7 @@ namespace CalamityMod.NPCs
 					int num;
 					for (int num1501 = 0; num1501 < 4; num1501 = num + 1)
 					{
-						Vector2 vector255 = new Vector2(0f, -num1499).RotatedBy((double)(1.57079637f * (float)num1501), default(Vector2));
+						Vector2 vector255 = new Vector2(0f, -num1499).RotatedBy((double)(1.57079637f * (float)num1501), default);
 						Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector255.X, vector255.Y, ProjectileID.AncientDoomProjectile, 50, 0f, Main.myPlayer, 0f, 0f);
 						num = num1501;
 					}
@@ -11875,10 +11875,10 @@ namespace CalamityMod.NPCs
 							MoonlordDeathDrama.AddExplosion(vector159);
 							for (float num1168 = 0f; num1168 < num1163 * 2f; num1168 = ai1 + 1f)
 							{
-								Dust dust2 = Main.dust[Dust.NewDust(vector159, 0, 0, 229, 0f, 0f, 0, default(Color), 1f)];
+								Dust dust2 = Main.dust[Dust.NewDust(vector159, 0, 0, 229, 0f, 0f, 0, default, 1f)];
 								dust2.noGravity = true;
 								dust2.position = vector159;
-								dust2.velocity = Vector2.UnitY.RotatedBy((double)(num1165 + num1164 * num1168), default(Vector2)) * scaleFactor8 * (Main.rand.NextFloat() * 1.6f + 1.6f);
+								dust2.velocity = Vector2.UnitY.RotatedBy((double)(num1165 + num1164 * num1168), default) * scaleFactor8 * (Main.rand.NextFloat() * 1.6f + 1.6f);
 								dust2.fadeIn = fadeIn;
 								dust2.scale = num1166;
 								ai1 = num1168;
@@ -11903,7 +11903,7 @@ namespace CalamityMod.NPCs
 
 							if (flag87)
 							{
-								Dust dust3 = Main.dust[Dust.NewDust(vector161, 0, 0, num1167, 0f, 0f, 0, default(Color), 1f)];
+								Dust dust3 = Main.dust[Dust.NewDust(vector161, 0, 0, num1167, 0f, 0f, 0, default, 1f)];
 								dust3.noGravity = true;
 								dust3.position = vector161;
 								dust3.velocity = -Vector2.UnitY * scaleFactor8 * (Main.rand.NextFloat() * 0.9f + 1.6f);
@@ -11934,7 +11934,7 @@ namespace CalamityMod.NPCs
 						if (flag88)
 						{
 							float num1170 = (float)(Main.rand.Next(4) < 2).ToDirectionInt() * (0.3926991f + 0.7853982f * Main.rand.NextFloat());
-							Vector2 vector164 = new Vector2(0f, -Main.rand.NextFloat() * 0.5f - 0.5f).RotatedBy((double)num1170, default(Vector2)) * 6f;
+							Vector2 vector164 = new Vector2(0f, -Main.rand.NextFloat() * 0.5f - 0.5f).RotatedBy((double)num1170, default) * 6f;
 							Projectile.NewProjectile(vector163.X, vector163.Y, vector164.X, vector164.Y, ProjectileID.BlowupSmokeMoonlord, 0, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
@@ -12209,7 +12209,7 @@ namespace CalamityMod.NPCs
 								}
 
 								Vector2 vector199 = center20 + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * value19 / 2f;
-								int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default(Color), 1f);
+								int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
 								Main.dust[num1224].velocity = Vector2.Normalize(center20 - vector199) * 3.5f * (10f - (float)num1220 * 2f) / 10f;
 								Main.dust[num1224].noGravity = true;
 								Main.dust[num1224].scale = num1223;
@@ -12233,7 +12233,7 @@ namespace CalamityMod.NPCs
 							if (vector200.X < 0f)
 								num1225 = 1f;
 
-							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default(Vector2));
+							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default);
 							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, ProjectileID.PhantasmalDeathray, 75, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
 							npc.ai[2] = (vector200.ToRotation() + 9.424778f) * num1225;
 							npc.netUpdate = true;
@@ -12803,7 +12803,7 @@ namespace CalamityMod.NPCs
 				Vector2 spinningpoint3 = Vector2.UnitY * (float)(-(float)npc.height) / 2f;
 				for (int num1286 = 0; num1286 < 6; num1286++)
 				{
-					int num1287 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy((double)((float)num1286 * 6.28318548f / 6f), default(Vector2)), 0, 0, 229, 0f, 0f, 0, default(Color), 1f);
+					int num1287 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy((double)((float)num1286 * 6.28318548f / 6f), default), 0, 0, 229, 0f, 0f, 0, default, 1f);
 					Main.dust[num1287].velocity = -Vector2.UnitY;
 					Main.dust[num1287].noGravity = true;
 					Main.dust[num1287].scale = 0.7f;
@@ -12813,7 +12813,7 @@ namespace CalamityMod.NPCs
 				spinningpoint3 = Vector2.UnitY * (float)(-(float)npc.height) / 6f;
 				for (int num1288 = 0; num1288 < 3; num1288++)
 				{
-					int num1289 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy((double)((float)num1288 * 6.28318548f / 6f), default(Vector2)), 0, 0, 229, 0f, -2f, 0, default(Color), 1f);
+					int num1289 = Dust.NewDust(npc.Center - Vector2.One * 4f + spinningpoint3.RotatedBy((double)((float)num1288 * 6.28318548f / 6f), default), 0, 0, 229, 0f, -2f, 0, default, 1f);
 					Main.dust[num1289].noGravity = true;
 					Main.dust[num1289].scale = 1.5f;
 					Main.dust[num1289].customData = npc;
@@ -12870,7 +12870,7 @@ namespace CalamityMod.NPCs
 
 				if (npc.collideX)
 				{
-					npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
+					npc.velocity.X *= (-npc.oldVelocity.X * 0.5f);
 
 					if (npc.velocity.X > 4f)
 						npc.velocity.X = 4f;
@@ -12879,7 +12879,7 @@ namespace CalamityMod.NPCs
 				}
 				if (npc.collideY)
 				{
-					npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
+					npc.velocity.Y *= (-npc.oldVelocity.Y * 0.5f);
 
 					if (npc.velocity.Y > 4f)
 						npc.velocity.Y = 4f;
@@ -12992,7 +12992,7 @@ namespace CalamityMod.NPCs
 
 					if (npc.collideX)
 					{
-						npc.velocity.X = npc.velocity.X * (-npc.oldVelocity.X * 0.5f);
+						npc.velocity.X *= (-npc.oldVelocity.X * 0.5f);
 
 						if (npc.velocity.X > 4f)
 							npc.velocity.X = 4f;
@@ -13001,7 +13001,7 @@ namespace CalamityMod.NPCs
 					}
 					if (npc.collideY)
 					{
-						npc.velocity.Y = npc.velocity.Y * (-npc.oldVelocity.Y * 0.5f);
+						npc.velocity.Y *= (-npc.oldVelocity.Y * 0.5f);
 
 						if (npc.velocity.Y > 4f)
 							npc.velocity.Y = 4f;
@@ -13331,8 +13331,8 @@ namespace CalamityMod.NPCs
 
 			if (Main.dayTime)
 			{
-				npc.velocity.Y = npc.velocity.Y + 0.3f;
-				npc.velocity.X = npc.velocity.X * 0.9f;
+				npc.velocity.Y += 0.3f;
+				npc.velocity.X *= 0.9f;
 			}
 			else if (npc.ai[1] == 0f)
 			{
@@ -13397,12 +13397,12 @@ namespace CalamityMod.NPCs
 			else if (npc.ai[1] == 2f)
 			{
 				npc.ai[1] = 3f;
-				npc.velocity.Y = npc.velocity.Y + 0.1f;
+				npc.velocity.Y += 0.1f;
 
 				if (npc.velocity.Y < 0f)
-					npc.velocity.Y = npc.velocity.Y * 0.95f;
+					npc.velocity.Y *= 0.95f;
 
-				npc.velocity.X = npc.velocity.X * 0.95f;
+				npc.velocity.X *= 0.95f;
 
 				if (npc.timeLeft > 500)
 					npc.timeLeft = 500;
@@ -13453,8 +13453,8 @@ namespace CalamityMod.NPCs
 
 			if (Main.dayTime)
 			{
-				npc.velocity.Y = npc.velocity.Y + 0.3f;
-				npc.velocity.X = npc.velocity.X * 0.9f;
+				npc.velocity.Y += 0.3f;
+				npc.velocity.X *= 0.9f;
 				return false;
 			}
 
@@ -13518,8 +13518,8 @@ namespace CalamityMod.NPCs
 				float num881 = (float)Math.Sqrt((double)(num879 * num879 + num880 * num880));
 
 				npc.rotation = (float)Math.Atan2((double)num880, (double)num879) + 1.57f;
-				npc.velocity.X = npc.velocity.X * 0.95f;
-				npc.velocity.Y = npc.velocity.Y - 0.3f;
+				npc.velocity.X *= 0.95f;
+				npc.velocity.Y -= 0.3f;
 
 				if (npc.velocity.Y < -18f)
 					npc.velocity.Y = -18f;
@@ -13555,8 +13555,8 @@ namespace CalamityMod.NPCs
 				float num885 = (float)Math.Sqrt((double)(num883 * num883 + num884 * num884));
 
 				npc.rotation = (float)Math.Atan2((double)num884, (double)num883) + 1.57f;
-				npc.velocity.Y = npc.velocity.Y * 0.95f;
-				npc.velocity.X = npc.velocity.X + 0.3f * -npc.ai[0];
+				npc.velocity.Y *= 0.95f;
+				npc.velocity.X += 0.3f * -npc.ai[0];
 
 				if (npc.velocity.X < -18f)
 					npc.velocity.X = -18f;
@@ -13600,11 +13600,11 @@ namespace CalamityMod.NPCs
 			if (Main.dayTime)
 			{
 				if (npc.velocity.X > 0f)
-					npc.velocity.X = npc.velocity.X + 0.25f;
+					npc.velocity.X += 0.25f;
 				else
-					npc.velocity.X = npc.velocity.X - 0.25f;
+					npc.velocity.X -= 0.25f;
 
-				npc.velocity.Y = npc.velocity.Y - 0.1f;
+				npc.velocity.Y -= 0.1f;
 				npc.rotation = npc.velocity.X * 0.05f;
 			}
 			else if (npc.ai[0] == 0f)
@@ -13646,7 +13646,7 @@ namespace CalamityMod.NPCs
 					num890 = 16f;
 				}
 
-				npc.velocity.X = npc.velocity.X + npc.ai[2] * num889;
+				npc.velocity.X += npc.ai[2] * num889;
 				if (npc.velocity.X > num890)
 					npc.velocity.X = num890;
 				if (npc.velocity.X < -num890)
@@ -13654,9 +13654,9 @@ namespace CalamityMod.NPCs
 
 				float num891 = Main.player[npc.target].position.Y - (npc.position.Y + (float)npc.height);
 				if (num891 < 150f)
-					npc.velocity.Y = npc.velocity.Y - 0.2f;
+					npc.velocity.Y -= 0.2f;
 				if (num891 > 200f)
-					npc.velocity.Y = npc.velocity.Y + 0.2f;
+					npc.velocity.Y += 0.2f;
 				if (npc.velocity.Y > 9f)
 					npc.velocity.Y = 9f;
 				if (npc.velocity.Y < -9f)
@@ -13739,24 +13739,24 @@ namespace CalamityMod.NPCs
 
 				if (npc.Center.X < Main.player[npc.target].Center.X)
 				{
-					npc.velocity.X = npc.velocity.X + num898;
+					npc.velocity.X += num898;
 					if (npc.velocity.X < 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 				}
 				if (npc.Center.X > Main.player[npc.target].Center.X)
 				{
-					npc.velocity.X = npc.velocity.X - num898;
+					npc.velocity.X -= num898;
 					if (npc.velocity.X > 0f)
-						npc.velocity.X = npc.velocity.X * 0.98f;
+						npc.velocity.X *= 0.98f;
 				}
 				if (npc.velocity.X > num899 || npc.velocity.X < -num899)
-					npc.velocity.X = npc.velocity.X * 0.95f;
+					npc.velocity.X *= 0.95f;
 
 				float num900 = Main.player[npc.target].position.Y - (npc.position.Y + (float)npc.height);
 				if (num900 < 180f)
-					npc.velocity.Y = npc.velocity.Y - 0.1f;
+					npc.velocity.Y -= 0.1f;
 				if (num900 > 200f)
-					npc.velocity.Y = npc.velocity.Y + 0.1f;
+					npc.velocity.Y += 0.1f;
 
 				if (npc.velocity.Y > 7f)
 					npc.velocity.Y = 7f;
@@ -13934,13 +13934,13 @@ namespace CalamityMod.NPCs
 				return;
 			else if (npc.velocity.X < num63 && npc.direction == 1)
 			{
-				npc.velocity.X = npc.velocity.X + num64;
+				npc.velocity.X += num64;
 				if (npc.velocity.X > num63)
 					npc.velocity.X = num63;
 			}
 			else if (npc.velocity.X > -num63 && npc.direction == -1)
 			{
-				npc.velocity.X = npc.velocity.X - num64;
+				npc.velocity.X -= num64;
 				if (npc.velocity.X < -num63)
 					npc.velocity.X = -num63;
 			}

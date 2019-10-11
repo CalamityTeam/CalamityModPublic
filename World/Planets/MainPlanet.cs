@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
 using Microsoft.Xna.Framework;
@@ -119,7 +120,7 @@ namespace CalamityMod.World.Planets
             ShapeData cinderPlateBlob = new ShapeData();
             WorldUtils.Gen(origin, new Shapes.Circle(cinderRadius), Actions.Chain(new GenAction[]
             {
-                new Actions.SetTile((ushort)CalamityMod.Instance.TileType("Cinderplate"), true).Output(cinderPlateBlob),
+                new Actions.SetTile((ushort)ModContent.GetInstance<CalamityMod>().TileType("Cinderplate"), true).Output(cinderPlateBlob),
                 new Actions.ClearWall(),
                 new Actions.PlaceWall(WallID.LavaUnsafe2)
             }));
@@ -209,7 +210,7 @@ namespace CalamityMod.World.Planets
             }
             WorldGen.PlaceDoor(doorX, origin.Y + 2, TileID.ClosedDoor, 14);
             int lanternX = labLeftSide ? doorX - 7 : doorX + 7;
-            int chest = -1;
+            int chest;
             if (labLeftSide)
             {
                 //Lantern, alchemy table, heavy work bench

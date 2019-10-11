@@ -31,8 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 0;
             item.shoot = mod.ProjectileType("LeadTomahawk");
             item.shootSpeed = 12f;
-            Mod calamity = ModLoader.GetMod("CalamityMod");
-            item.GetGlobalItem<CalamityGlobalItem>(calamity).rogue = true;
+            item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

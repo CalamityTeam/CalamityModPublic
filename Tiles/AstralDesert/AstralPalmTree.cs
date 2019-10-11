@@ -7,22 +7,22 @@ namespace CalamityMod.Tiles
     {
         public override Texture2D GetTexture()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/AstralDesert/AstralPalmTree");
+            return ModContent.GetInstance<CalamityMod>().GetTexture("Tiles/AstralDesert/AstralPalmTree");
         }
 
         public override Texture2D GetTopTextures()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/AstralDesert/AstralPalmTree_Tops");
+            return ModContent.GetInstance<CalamityMod>().GetTexture("Tiles/AstralDesert/AstralPalmTree_Tops");
         }
 
         public override int DropWood()
         {
-            return CalamityMod.Instance.ItemType("AstralMonolith");
+            return ModContent.GetInstance<CalamityMod>().ItemType("AstralMonolith");
         }
 
         public override int CreateDust()
         {
-            return CalamityMod.Instance.DustType("AstralBasic");
+            return ModContent.GetInstance<CalamityMod>().DustType("AstralBasic");
         }
 
         public override int GrowthFXGore()

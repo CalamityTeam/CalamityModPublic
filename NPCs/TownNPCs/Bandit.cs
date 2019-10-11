@@ -172,11 +172,11 @@ namespace CalamityMod.NPCs.TownNPCs
         public string Refund()
         {
             int goblinIndex = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
-            if (goblinIndex != -1 && Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges >= 10)
+            if (goblinIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
             {
-                Main.LocalPlayer.GetModPlayer<CalamityPlayer>().reforges = 0;
-                Main.LocalPlayer.SellItem((int)Main.LocalPlayer.GetModPlayer<CalamityPlayer>().moneyStolenByBandit, 1);
-                Main.LocalPlayer.GetModPlayer<CalamityPlayer>().moneyStolenByBandit = 0;
+                Main.LocalPlayer.Calamity().reforges = 0;
+                Main.LocalPlayer.SellItem((int)Main.LocalPlayer.Calamity().moneyStolenByBandit, 1);
+                Main.LocalPlayer.Calamity().moneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
                 Main.PlaySound(18, -1, -1, 1, 1f, 0f); //money dink sound
                 switch (Main.rand.Next(2))

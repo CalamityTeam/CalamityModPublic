@@ -64,9 +64,9 @@ namespace CalamityMod.Projectiles.Ranged
                     dust.velocity += projectile.velocity * 0.5f;
                     Main.dust[num591].position = projectile.Center;
                     Dust var_2_18F52_cp_0_cp_0 = Main.dust[num591];
-                    var_2_18F52_cp_0_cp_0.position.X = var_2_18F52_cp_0_cp_0.position.X - num588;
+                    var_2_18F52_cp_0_cp_0.position.X -= num588;
                     Dust var_2_18F74_cp_0_cp_0 = Main.dust[num591];
-                    var_2_18F74_cp_0_cp_0.position.Y = var_2_18F74_cp_0_cp_0.position.Y - num589;
+                    var_2_18F74_cp_0_cp_0.position.Y -= num589;
                     dust = Main.dust[num591];
                     dust.velocity *= 0.2f;
                     num3 = num587;
@@ -122,9 +122,9 @@ namespace CalamityMod.Projectiles.Ranged
                 dust = Main.dust[num363];
                 dust.velocity *= 1f + (float)Main.rand.Next(-100, 101) * 0.01f;
                 Dust expr_C6F7_cp_0_cp_0 = Main.dust[num363];
-                expr_C6F7_cp_0_cp_0.velocity.X = expr_C6F7_cp_0_cp_0.velocity.X + (float)Main.rand.Next(-50, 51) * 0.015f;
+                expr_C6F7_cp_0_cp_0.velocity.X += (float)Main.rand.Next(-50, 51) * 0.015f;
                 Dust expr_C726_cp_0_cp_0 = Main.dust[num363];
-                expr_C726_cp_0_cp_0.velocity.Y = expr_C726_cp_0_cp_0.velocity.Y + (float)Main.rand.Next(-50, 51) * 0.015f;
+                expr_C726_cp_0_cp_0.velocity.Y += (float)Main.rand.Next(-50, 51) * 0.015f;
                 Main.dust[num363].position = projectile.Center;
                 num3 = num362;
             }

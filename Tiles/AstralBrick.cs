@@ -46,8 +46,8 @@ namespace CalamityMod.Tiles
             int yPos = Main.tile[i, j].frameY;
             int xOffset = i % 2;
             int yOffset = j % 2;
-            xOffset = xOffset * subsheetWidth;
-            yOffset = yOffset * subsheetHeight;
+            xOffset *= subsheetWidth;
+            yOffset *= subsheetHeight;
             xPos += xOffset;
             yPos += yOffset;
             Texture2D glowmask = mod.GetTexture("Tiles/AstralBrick_Glowmask");

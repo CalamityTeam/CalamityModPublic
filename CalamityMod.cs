@@ -106,17 +106,10 @@ namespace CalamityMod
 		public static List<int> hornetList;
 		public static List<int> mossHornetList;
 
-		public static CalamityMod Instance;
-
-		public CalamityMod()
+        #region Load
+        public override void Load()
 		{
-			Instance = this;
-		}
-
-		#region Load
-		public override void Load()
-		{
-			heartOriginal2 = Main.heartTexture;
+            heartOriginal2 = Main.heartTexture;
 			heartOriginal = Main.heart2Texture;
 			rainOriginal = Main.rainTexture;
 			manaOriginal = Main.manaTexture;
@@ -199,9 +192,7 @@ namespace CalamityMod
 			Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(CustomShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
 			SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
 
-			Mod mod = ModLoader.GetMod("CalamityMod");
-			UIHandler.OnLoad(mod);
-
+			UIHandler.OnLoad(this);
 			AstralArcanumUI.Load(this);
 		}
 		#endregion
@@ -291,8 +282,6 @@ namespace CalamityMod
 			rainOriginal = null;
 			manaOriginal = null;
 			carpetOriginal = null;
-
-			Instance = null;
 		}
 		#endregion
 
@@ -2806,53 +2795,53 @@ namespace CalamityMod
 			switch (msgType)
 			{
 				case CalamityModMessageType.MeleeLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 0);
+					Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 0);
 					break;
 				case CalamityModMessageType.RangedLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 1);
+					Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 1);
 					break;
 				case CalamityModMessageType.MagicLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 2);
+					Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 2);
 					break;
 				case CalamityModMessageType.SummonLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 3);
+					Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 3);
 					break;
 				case CalamityModMessageType.RogueLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleLevels(reader, 4);
+					Main.player[reader.ReadInt32()].Calamity().HandleLevels(reader, 4);
 					break;
 				case CalamityModMessageType.ExactMeleeLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 0);
+					Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 0);
 					break;
 				case CalamityModMessageType.ExactRangedLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 1);
+					Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 1);
 					break;
 				case CalamityModMessageType.ExactMagicLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 2);
+					Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 2);
 					break;
 				case CalamityModMessageType.ExactSummonLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 3);
+					Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 3);
 					break;
 				case CalamityModMessageType.ExactRogueLevelSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleExactLevels(reader, 4);
+					Main.player[reader.ReadInt32()].Calamity().HandleExactLevels(reader, 4);
 					break;
 				case CalamityModMessageType.StressSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleStress(reader);
+					Main.player[reader.ReadInt32()].Calamity().HandleStress(reader);
 					break;
 				case CalamityModMessageType.BossRushStage:
 					int stage = reader.ReadInt32();
 					CalamityWorld.bossRushStage = stage;
 					break;
 				case CalamityModMessageType.AdrenalineSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleAdrenaline(reader);
+					Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);
 					break;
 				case CalamityModMessageType.RadiationSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleRadiation(reader);
+					Main.player[reader.ReadInt32()].Calamity().HandleRadiation(reader);
 					break;
 				/*case CalamityModMessageType.DistanceFromBossSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleDistanceFromBoss(reader);
+					Main.player[reader.ReadInt32()].Calamity().HandleDistanceFromBoss(reader);
 					break;*/
 				case CalamityModMessageType.TeleportPlayer:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleTeleport(reader.ReadInt32(), true, whoAmI);
+					Main.player[reader.ReadInt32()].Calamity().HandleTeleport(reader.ReadInt32(), true, whoAmI);
 					break;
 				case CalamityModMessageType.DoGCountdownSync:
 					int countdown = reader.ReadInt32();
@@ -2867,10 +2856,10 @@ namespace CalamityMod
 					CalamityWorld.bossType = type;
 					break;
 				case CalamityModMessageType.DeathCountSync:
-					Main.player[reader.ReadInt32()].GetModPlayer<CalamityPlayer>().HandleDeathCount(reader);
+					Main.player[reader.ReadInt32()].Calamity().HandleDeathCount(reader);
 					break;
 				default:
-					Instance.Logger.Warn("Unknown Message type: " + msgType);
+					Logger.Warn("Unknown Message type: " + msgType);
 					break;
 			}
 		}

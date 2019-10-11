@@ -34,7 +34,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = Item.buyPrice(platinum:2); //sell price of 40 gold
 			item.shoot = mod.ProjectileType("CelestialReaperProjectile");
 			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(ModLoader.GetMod("CalamityMod")).rogue = true;
+			item.Calamity().rogue = true;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

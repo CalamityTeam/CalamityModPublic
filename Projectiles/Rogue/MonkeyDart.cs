@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Dust trail
             if (Main.rand.Next(25) == 0)
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 21, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default(Color), 0.9f);
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 21, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.9f);
                 Main.dust[d].position = projectile.Center;
                 Main.dust[d].noLight = true;
             }
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             int dustsplash = 0;
             while (dustsplash < 4)
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1, projectile.velocity.X * 0.25f, projectile.velocity.Y* 0.25f, 100, default(Color), 0.9f);
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1, projectile.velocity.X * 0.25f, projectile.velocity.Y* 0.25f, 100, default, 0.9f);
                 Main.dust[d].position = projectile.Center;
                 dustsplash += 1;
             }

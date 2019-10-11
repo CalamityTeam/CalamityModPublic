@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalDivingSuit = true;
             if (hideVisual)
             {

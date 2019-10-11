@@ -47,8 +47,8 @@ namespace CalamityMod.Tiles.Astral
             int yPos = Main.tile[i, j].frameY;
             int xOffset = i % 4;
             int yOffset = j % 4;
-            xOffset = xOffset * 288;
-            yOffset = yOffset * 270;
+            xOffset *= 288;
+            yOffset *= 270;
             xPos += xOffset;
             yPos += yOffset;
             Texture2D glowmask = mod.GetTexture("Tiles/Astral/AstralMonolith_Glowmask");

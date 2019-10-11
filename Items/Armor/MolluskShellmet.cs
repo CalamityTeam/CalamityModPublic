@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
 		{
 			player.ignoreWater = true;
 			player.allDamage += 0.05f;
-			player.GetModPlayer<CalamityPlayer>().AllCritBoost(4);
+			player.Calamity().AllCritBoost(4);
 		}
 
 		public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
 			player.setBonus = "Two shellfishes aid you in combat\n" +
 							  "10% increased damage\n" +
 							  "Your horizontal movement is slowed";
-			CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+			CalamityPlayer modPlayer = player.Calamity();
 			player.allDamage += 0.1f;
 			modPlayer.molluskSet = true;
 			player.maxMinions += 4;

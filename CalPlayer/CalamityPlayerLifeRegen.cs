@@ -225,7 +225,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.celestialJewel || modPlayer.astralArcanum)
 			{
 				bool lesserEffect = false;
-				for (int l = 0; l < 22; l++)
+				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
 					lesserEffect = CalamityMod.alcoholList.Contains(hasBuff);
@@ -253,7 +253,7 @@ namespace CalamityMod.CalPlayer
 			else if (modPlayer.crownJewel)
 			{
 				bool lesserEffect = false;
-				for (int l = 0; l < 22; l++)
+				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
 					lesserEffect = CalamityMod.alcoholList.Contains(hasBuff);

@@ -59,14 +59,14 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>().ZoneAstral && !spawnInfo.player.ZoneRockLayerHeight)
+            if (spawnInfo.player.Calamity().ZoneAstral && !spawnInfo.player.ZoneRockLayerHeight)
             {
                 return SpawnCondition.TownCritter.Chance;
             }
             return 0f;
         }
 
-		public virtual void OnCatchNPC(Player player, Item item)
+		public override void OnCatchNPC(Player player, Item item)
 		{
 			try
 			{

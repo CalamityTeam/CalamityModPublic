@@ -28,7 +28,7 @@ You are encased in an ice barrier for 5 seconds when revived");
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.statManaMax2 += 50;
-            player.GetModPlayer<CalamityPlayer>().permafrostsConcoction = true;
+            player.Calamity().permafrostsConcoction = true;
         }
     }
 }

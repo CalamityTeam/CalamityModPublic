@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.Scavenger
 				Main.dust[rightDust].velocity *= 0.2f;
 
 				Dust rightDustExpr = Main.dust[rightDust];
-				rightDustExpr.velocity.Y = rightDustExpr.velocity.Y - (3f + (float)Main.rand.Next(10) * 0.1f);
+				rightDustExpr.velocity.Y -= (3f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
 				if (Main.rand.NextBool(10))
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.Scavenger
 						Main.dust[rightDust].noGravity = true;
 						Main.dust[rightDust].scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
 						Dust rightDustExpr2 = Main.dust[rightDust];
-						rightDustExpr2.velocity.Y = rightDustExpr2.velocity.Y - 4f;
+						rightDustExpr2.velocity.Y -= 4f;
 					}
 				}
 
@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.Scavenger
 				Main.dust[rightDust].velocity *= 0.2f;
 
 				Dust rightDustExpr = Main.dust[rightDust];
-				rightDustExpr.velocity.X = rightDustExpr.velocity.X + (3f + (float)Main.rand.Next(10) * 0.1f);
+				rightDustExpr.velocity.X += (3f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
 				if (Main.rand.NextBool(10))
@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.Scavenger
 						Main.dust[rightDust].noGravity = true;
 						Main.dust[rightDust].scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
 						Dust rightDustExpr2 = Main.dust[rightDust];
-						rightDustExpr2.velocity.X = rightDustExpr2.velocity.X + 4f;
+						rightDustExpr2.velocity.X += 4f;
 					}
 				}
 
@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.Scavenger
 				Main.dust[leftDust].velocity *= 0.2f;
 
 				Dust leftDustExpr = Main.dust[leftDust];
-				leftDustExpr.velocity.X = leftDustExpr.velocity.X - (3f + (float)Main.rand.Next(10) * 0.1f);
+				leftDustExpr.velocity.X -= (3f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[leftDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
 				if (Main.rand.NextBool(10))
@@ -280,7 +280,7 @@ namespace CalamityMod.NPCs.Scavenger
 						Main.dust[leftDust].noGravity = true;
 						Main.dust[leftDust].scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
 						Dust leftDustExpr2 = Main.dust[leftDust];
-						leftDustExpr2.velocity.X = leftDustExpr2.velocity.X - 4f;
+						leftDustExpr2.velocity.X -= 4f;
 					}
 				}
 
@@ -306,7 +306,7 @@ namespace CalamityMod.NPCs.Scavenger
 				Main.dust[rightDust].velocity *= 0.2f;
 
 				Dust rightDustExpr = Main.dust[rightDust];
-				rightDustExpr.velocity.Y = rightDustExpr.velocity.Y + (0.5f + (float)Main.rand.Next(10) * 0.1f);
+				rightDustExpr.velocity.Y += (0.5f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
 				if (Main.rand.NextBool(10))
@@ -317,7 +317,7 @@ namespace CalamityMod.NPCs.Scavenger
 						Main.dust[rightDust].noGravity = true;
 						Main.dust[rightDust].scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
 						Dust rightDustExpr2 = Main.dust[rightDust];
-						rightDustExpr2.velocity.Y = rightDustExpr2.velocity.Y + 1f;
+						rightDustExpr2.velocity.Y += 1f;
 					}
 				}
 
@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.Scavenger
 				Main.dust[leftDust].velocity *= 0.2f;
 
 				Dust leftDustExpr = Main.dust[leftDust];
-				leftDustExpr.velocity.Y = leftDustExpr.velocity.Y + (0.5f + (float)Main.rand.Next(10) * 0.1f);
+				leftDustExpr.velocity.Y += (0.5f + (float)Main.rand.Next(10) * 0.1f);
 				Main.dust[leftDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
 				if (Main.rand.NextBool(10))
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.Scavenger
 						Main.dust[leftDust].noGravity = true;
 						Main.dust[leftDust].scale *= 1f + (float)Main.rand.Next(10) * 0.1f;
 						Dust leftDustExpr2 = Main.dust[leftDust];
-						leftDustExpr2.velocity.Y = leftDustExpr2.velocity.Y + 1f;
+						leftDustExpr2.velocity.Y += 1f;
 					}
 				}
 

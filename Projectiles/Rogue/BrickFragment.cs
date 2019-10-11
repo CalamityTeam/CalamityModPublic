@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             int splash = 0;
             while (splash < 4)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.10f, 150, default(Color), 0.9f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.10f, 150, default, 0.9f);
                 splash += 1;
             }
         }

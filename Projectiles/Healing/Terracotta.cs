@@ -55,9 +55,9 @@ namespace CalamityMod.Projectiles.Healing
 				Main.dust[num500].noGravity = true;
 				Main.dust[num500].velocity *= 0f;
 				Dust expr_154F9_cp_0 = Main.dust[num500];
-				expr_154F9_cp_0.position.X = expr_154F9_cp_0.position.X - num498;
+				expr_154F9_cp_0.position.X -= num498;
 				Dust expr_15518_cp_0 = Main.dust[num500];
-				expr_15518_cp_0.position.Y = expr_15518_cp_0.position.Y - num499;
+				expr_15518_cp_0.position.Y -= num499;
 			}
 			return;
         }

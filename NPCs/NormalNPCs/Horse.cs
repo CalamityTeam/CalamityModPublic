@@ -145,27 +145,27 @@ namespace CalamityMod.NPCs.NormalNPCs
 					int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 					Main.gore[num626].velocity *= scaleFactor10;
 					Gore expr_13AB6_cp_0 = Main.gore[num626];
-					expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
+					expr_13AB6_cp_0.velocity.X += 1f;
 					Gore expr_13AD6_cp_0 = Main.gore[num626];
-					expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
+					expr_13AD6_cp_0.velocity.Y += 1f;
 					num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 					Main.gore[num626].velocity *= scaleFactor10;
 					Gore expr_13B79_cp_0 = Main.gore[num626];
-					expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
+					expr_13B79_cp_0.velocity.X -= 1f;
 					Gore expr_13B99_cp_0 = Main.gore[num626];
-					expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
+					expr_13B99_cp_0.velocity.Y += 1f;
 					num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 					Main.gore[num626].velocity *= scaleFactor10;
 					Gore expr_13C3C_cp_0 = Main.gore[num626];
-					expr_13C3C_cp_0.velocity.X = expr_13C3C_cp_0.velocity.X + 1f;
+					expr_13C3C_cp_0.velocity.X += 1f;
 					Gore expr_13C5C_cp_0 = Main.gore[num626];
-					expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
+					expr_13C5C_cp_0.velocity.Y -= 1f;
 					num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 					Main.gore[num626].velocity *= scaleFactor10;
 					Gore expr_13CFF_cp_0 = Main.gore[num626];
-					expr_13CFF_cp_0.velocity.X = expr_13CFF_cp_0.velocity.X - 1f;
+					expr_13CFF_cp_0.velocity.X -= 1f;
 					Gore expr_13D1F_cp_0 = Main.gore[num626];
-					expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
+					expr_13D1F_cp_0.velocity.Y -= 1f;
 				}
 			}
 		}
@@ -225,8 +225,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 			{
 				if (Main.rand.Next(25) == 1)
 				{
-					direction.X = direction.X * 6f;
-					direction.Y = direction.Y * 6f;
+					direction.X *= 6f;
+					direction.Y *= 6f;
 					npc.velocity = direction;
 					chargetimer = 0;
 				}

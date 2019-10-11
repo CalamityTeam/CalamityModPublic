@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
 
 		public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
 		{
-            return !CNPCUtils.AntiButcher(npc, ref damage, 0.5f);
+            return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
 		}
 
 		public override bool CheckActive()

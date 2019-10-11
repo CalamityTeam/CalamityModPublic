@@ -164,7 +164,7 @@ namespace CalamityMod.MiscModSupport
 		public static bool GetInZone(Player p, string zone)
 		{
 			Mod calamity = ModLoader.GetMod("CalamityMod");
-			CalamityPlayer mp = p.GetModPlayer<CalamityPlayer>(calamity);
+			CalamityPlayer mp = p.Calamity();
 			switch (zone.ToLower())
 			{
 				default: return false;
@@ -308,7 +308,7 @@ namespace CalamityMod.MiscModSupport
 		public static bool GetSetBonus(Player p, string setBonus)
 		{
 			Mod calamity = ModLoader.GetMod("CalamityMod");
-			CalamityPlayer mp = p.GetModPlayer<CalamityPlayer>(calamity);
+			CalamityPlayer mp = p.Calamity();
 
 			setBonus = setBonus.ToLower();
 

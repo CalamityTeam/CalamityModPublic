@@ -47,9 +47,9 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num155].velocity *= 0.1f;
 				Main.dust[num155].velocity += projectile.velocity * 0.5f;
 				Dust expr_6A04_cp_0 = Main.dust[num155];
-				expr_6A04_cp_0.position.X = expr_6A04_cp_0.position.X - num152;
+				expr_6A04_cp_0.position.X -= num152;
 				Dust expr_6A1F_cp_0 = Main.dust[num155];
-				expr_6A1F_cp_0.position.Y = expr_6A1F_cp_0.position.Y - num153;
+				expr_6A1F_cp_0.position.Y -= num153;
 			}
 			if (Main.rand.NextBool(8))
 			{

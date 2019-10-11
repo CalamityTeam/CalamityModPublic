@@ -87,7 +87,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 			Chest.DestroyChest(i, j);
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
@@ -120,6 +120,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 				NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
 				player.editedChestName = false;
 			}
+
 			if (Main.netMode == NetmodeID.MultiplayerClient)
 			{
 				if (left == player.chestX && top == player.chestY && player.chest >= 0)
@@ -157,6 +158,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
 					Recipe.FindRecipes();
 				}
 			}
+            return true;
 		}
 
 		public override void MouseOver(int i, int j)

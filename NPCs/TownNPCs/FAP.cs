@@ -180,17 +180,17 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add(Main.npc[waifu].GivenName + " works wonders for my hair...among other things.");
             }
 
-            if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().chibii)
+            if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
 
-            if ((Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobs && !Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsHide) ||
-                (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsAlt && !Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().sirenBoobsAltHide))
+            if ((Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide) ||
+                (Main.player[Main.myPlayer].Calamity().sirenBoobsAlt && !Main.player[Main.myPlayer].Calamity().sirenBoobsAltHide))
                 dialogue.Add("Nice...scales...did it get hot in here?");
 
-            if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().fabsolVodka)
+            if (Main.player[Main.myPlayer].Calamity().fabsolVodka)
                 dialogue.Add("Oh yeah now you're drinking the good stuff! Do you like it? I created the recipe by mixing fairy dust, crystals, and other magical crap.");
 
-            if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().fab)
+            if (Main.player[Main.myPlayer].Calamity().fab)
             {
                 dialogue.Add("...so, you're riding me huh? That's not weird at all.");
                 dialogue.Add("Are you coming on to me?");
@@ -215,8 +215,8 @@ namespace CalamityMod.NPCs.TownNPCs
 
 		public string Death()
 		{
-			return "You have failed " + Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().deathCount +
-				(Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().deathCount == 1 ? " time." : " times.");
+			return "You have failed " + Main.player[Main.myPlayer].Calamity().deathCount +
+				(Main.player[Main.myPlayer].Calamity().deathCount == 1 ? " time." : " times.");
 		}
 
 		public override void SetChatButtons(ref string button, ref string button2)

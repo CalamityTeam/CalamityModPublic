@@ -147,9 +147,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             int num13 = Dust.NewDust(new Vector2(npc.position.X - npc.velocity.X, npc.position.Y - npc.velocity.Y), npc.width, npc.height, 46, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default, 2f);
             Main.dust[num13].noGravity = true;
             Dust expr_F26_cp_0 = Main.dust[num13];
-            expr_F26_cp_0.velocity.X = expr_F26_cp_0.velocity.X * 0.3f;
+            expr_F26_cp_0.velocity.X *= 0.3f;
             Dust expr_F44_cp_0 = Main.dust[num13];
-            expr_F44_cp_0.velocity.Y = expr_F44_cp_0.velocity.Y * 0.3f;
+            expr_F44_cp_0.velocity.Y *= 0.3f;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

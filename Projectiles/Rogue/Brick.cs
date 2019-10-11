@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Dust trail
             if (Main.rand.Next(13) == 0)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 22, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default(Color), 0.9f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 22, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.9f);
             }
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             int dust_splash = 0;
             while (dust_splash < 9)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.15f, 120, default(Color), 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.15f, 120, default, 1.5f);
                 dust_splash += 1;
             }
             // This only triggers if stealth is full

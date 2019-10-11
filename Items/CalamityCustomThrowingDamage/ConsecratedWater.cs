@@ -33,7 +33,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.value = Item.buyPrice(gold:50); //sell price of 10 gold
 			item.shoot = mod.ProjectileType("ConsecratedWaterProjectile");
 			item.shootSpeed = 15f;
-			item.GetGlobalItem<CalamityGlobalItem>(ModLoader.GetMod("CalamityMod")).rogue = true;
+			item.Calamity().rogue = true;
 		}
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

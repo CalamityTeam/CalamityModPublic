@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[num193].scale += (float)Main.rand.Next(50) * 0.01f;
 				Main.dust[num193].noGravity = true;
 				Dust expr_835F_cp_0 = Main.dust[num193];
-				expr_835F_cp_0.velocity.Y = expr_835F_cp_0.velocity.Y - 2f;
+				expr_835F_cp_0.velocity.Y -= 2f;
 			}
 			if (Main.rand.NextBool(6))
 			{

@@ -46,7 +46,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 			Item.NewItem(i * 16, j * 16, 64, 32, mod.ItemType("CosmiliteBed"));
 		}
 
-		public override void RightClick(int i, int j)
+		public override bool NewRightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[i, j];
@@ -68,6 +68,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
 				player.ChangeSpawn(spawnX, spawnY);
 				Main.NewText("Spawn point set!", 255, 240, 20, false);
 			}
+            return true;
 		}
 
 		public override void MouseOver(int i, int j)

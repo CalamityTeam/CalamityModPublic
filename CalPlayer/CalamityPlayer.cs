@@ -739,7 +739,7 @@ namespace CalamityMod.CalPlayer
 			}
 			else
 			{
-				CalamityMod.Instance.Logger.Error("Unknown loadVersion: " + loadVersion);
+				ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
 		#endregion
@@ -2280,7 +2280,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (abyssalDivingSuitCooldown)
 					{
-						for (int l = 0; l < 22; l++)
+						for (int l = 0; l < Player.MaxBuffs; l++)
 						{
 							int hasBuff = player.buffType[l];
 							if (player.buffTime[l] < 30 && hasBuff == mod.BuffType("AbyssalDivingSuitPlatesBroken"))
@@ -2396,7 +2396,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (player.onHitDodge)
 					{
-						for (int l = 0; l < 22; l++)
+						for (int l = 0; l < Player.MaxBuffs; l++)
 						{
 							int hasBuff = player.buffType[l];
 							if (player.buffTime[l] > 360 && hasBuff == BuffID.ShadowDodge)
@@ -3069,9 +3069,9 @@ namespace CalamityMod.CalPlayer
 				{
 					int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
 					Dust expr_A4_cp_0 = Main.dust[num];
-					expr_A4_cp_0.position.X = expr_A4_cp_0.position.X + (float)Main.rand.Next(-20, 21);
+					expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
 					Dust expr_CB_cp_0 = Main.dust[num];
-					expr_CB_cp_0.position.Y = expr_CB_cp_0.position.Y + (float)Main.rand.Next(-20, 21);
+					expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
 					Main.dust[num].velocity *= 0.9f;
 					Main.dust[num].noGravity = true;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
@@ -3097,9 +3097,9 @@ namespace CalamityMod.CalPlayer
 					{
 						int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 2f);
 						Dust expr_A4_cp_0 = Main.dust[num];
-						expr_A4_cp_0.position.X = expr_A4_cp_0.position.X + (float)Main.rand.Next(-20, 21);
+						expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
 						Dust expr_CB_cp_0 = Main.dust[num];
-						expr_CB_cp_0.position.Y = expr_CB_cp_0.position.Y + (float)Main.rand.Next(-20, 21);
+						expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
 						Main.dust[num].velocity *= 0.9f;
 						Main.dust[num].noGravity = true;
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
@@ -3126,7 +3126,7 @@ namespace CalamityMod.CalPlayer
 					player.immune = true;
 					player.immuneTime = 300;
 				}
-				for (int l = 0; l < 22; l++)
+				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
 					bool shouldAffect = CalamityMod.debuffList.Contains(hasBuff);
@@ -3163,9 +3163,9 @@ namespace CalamityMod.CalPlayer
 					{
 						int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 5, 0f, 0f, 100, default, 2f);
 						Dust expr_A4_cp_0 = Main.dust[num];
-						expr_A4_cp_0.position.X = expr_A4_cp_0.position.X + (float)Main.rand.Next(-20, 21);
+						expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
 						Dust expr_CB_cp_0 = Main.dust[num];
-						expr_CB_cp_0.position.Y = expr_CB_cp_0.position.Y + (float)Main.rand.Next(-20, 21);
+						expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
 						Main.dust[num].velocity *= 0.9f;
 						Main.dust[num].noGravity = true;
 						Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
@@ -3443,12 +3443,12 @@ namespace CalamityMod.CalPlayer
 							if (Main.item[j].velocity.X < 90f + player.velocity.X)
 							{
 								Item item = Main.item[j];
-								item.velocity.X = item.velocity.X + 9f;
+								item.velocity.X += 9f;
 							}
 							if (Main.item[j].velocity.X < 0f)
 							{
 								Item item = Main.item[j];
-								item.velocity.X = item.velocity.X + 9f * 0.75f;
+								item.velocity.X += 9f * 0.75f;
 							}
 						}
 						else
@@ -3456,12 +3456,12 @@ namespace CalamityMod.CalPlayer
 							if (Main.item[j].velocity.X > -90f + player.velocity.X)
 							{
 								Item item = Main.item[j];
-								item.velocity.X = item.velocity.X - 9f;
+								item.velocity.X -= 9f;
 							}
 							if (Main.item[j].velocity.X > 0f)
 							{
 								Item item = Main.item[j];
-								item.velocity.X = item.velocity.X - 9f * 0.75f;
+								item.velocity.X -= 9f * 0.75f;
 							}
 						}
 						if ((double)player.position.Y + (double)player.height * 0.5 > (double)Main.item[j].position.Y + (double)Main.item[j].height * 0.5)
@@ -3469,12 +3469,12 @@ namespace CalamityMod.CalPlayer
 							if (Main.item[j].velocity.Y < 90f)
 							{
 								Item item = Main.item[j];
-								item.velocity.Y = item.velocity.Y + 9f;
+								item.velocity.Y += 9f;
 							}
 							if (Main.item[j].velocity.Y < 0f)
 							{
 								Item item = Main.item[j];
-								item.velocity.Y = item.velocity.Y + 9f * 0.75f;
+								item.velocity.Y += 9f * 0.75f;
 							}
 						}
 						else
@@ -3482,12 +3482,12 @@ namespace CalamityMod.CalPlayer
 							if (Main.item[j].velocity.Y > -90f)
 							{
 								Item item = Main.item[j];
-								item.velocity.Y = item.velocity.Y - 9f;
+								item.velocity.Y -= 9f;
 							}
 							if (Main.item[j].velocity.Y > 0f)
 							{
 								Item item = Main.item[j];
-								item.velocity.Y = item.velocity.Y - 9f * 0.75f;
+								item.velocity.Y -= 9f * 0.75f;
 							}
 						}
 					}
@@ -4151,7 +4151,7 @@ namespace CalamityMod.CalPlayer
 				player.moveSpeed += floatTypeBoost;
 				player.statLifeMax2 += player.statLifeMax / 5 / 20 * integerTypeBoost;
 				bool lesserEffect = false;
-				for (int l = 0; l < 22; l++)
+				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
 					bool shouldAffect = CalamityMod.alcoholList.Contains(hasBuff);
@@ -4872,9 +4872,9 @@ namespace CalamityMod.CalPlayer
 				{
 					int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 173, 0f, 0f, 100, default, 2f);
 					Dust expr_A4_cp_0 = Main.dust[num];
-					expr_A4_cp_0.position.X = expr_A4_cp_0.position.X + (float)Main.rand.Next(-20, 21);
+					expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
 					Dust expr_CB_cp_0 = Main.dust[num];
-					expr_CB_cp_0.position.Y = expr_CB_cp_0.position.Y + (float)Main.rand.Next(-20, 21);
+					expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
 					Main.dust[num].velocity *= 0.9f;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
@@ -4898,9 +4898,9 @@ namespace CalamityMod.CalPlayer
 				{
 					int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 173, 0f, 0f, 100, default, 2f);
 					Dust expr_A4_cp_0 = Main.dust[num];
-					expr_A4_cp_0.position.X = expr_A4_cp_0.position.X + (float)Main.rand.Next(-20, 21);
+					expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
 					Dust expr_CB_cp_0 = Main.dust[num];
-					expr_CB_cp_0.position.Y = expr_CB_cp_0.position.Y + (float)Main.rand.Next(-20, 21);
+					expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
 					Main.dust[num].velocity *= 0.9f;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);
@@ -6955,10 +6955,8 @@ namespace CalamityMod.CalPlayer
 
 		public override void GetFishingLevel(Item fishingRod, Item bait, ref int fishingLevel)
 		{
-			if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type = mod.ItemType("ArcturusAstroidean"))
-			{
+			if ((ZoneAstral || ZoneAbyss || ZoneSulphur) && bait.type == mod.ItemType("ArcturusAstroidean"))
 				fishingLevel = (int)(fishingLevel * 1.1f);
-			}
 		}
 		#endregion
 
@@ -7222,27 +7220,27 @@ namespace CalamityMod.CalPlayer
 							int num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 							Main.gore[num626].velocity *= scaleFactor10;
 							Gore expr_13AB6_cp_0 = Main.gore[num626];
-							expr_13AB6_cp_0.velocity.X = expr_13AB6_cp_0.velocity.X + 1f;
+							expr_13AB6_cp_0.velocity.X += 1f;
 							Gore expr_13AD6_cp_0 = Main.gore[num626];
-							expr_13AD6_cp_0.velocity.Y = expr_13AD6_cp_0.velocity.Y + 1f;
+							expr_13AD6_cp_0.velocity.Y += 1f;
 							num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 							Main.gore[num626].velocity *= scaleFactor10;
 							Gore expr_13B79_cp_0 = Main.gore[num626];
-							expr_13B79_cp_0.velocity.X = expr_13B79_cp_0.velocity.X - 1f;
+							expr_13B79_cp_0.velocity.X -= 1f;
 							Gore expr_13B99_cp_0 = Main.gore[num626];
-							expr_13B99_cp_0.velocity.Y = expr_13B99_cp_0.velocity.Y + 1f;
+							expr_13B99_cp_0.velocity.Y += 1f;
 							num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 							Main.gore[num626].velocity *= scaleFactor10;
 							Gore expr_13C3C_cp_0 = Main.gore[num626];
-							expr_13C3C_cp_0.velocity.X = expr_13C3C_cp_0.velocity.X + 1f;
+							expr_13C3C_cp_0.velocity.X += 1f;
 							Gore expr_13C5C_cp_0 = Main.gore[num626];
-							expr_13C5C_cp_0.velocity.Y = expr_13C5C_cp_0.velocity.Y - 1f;
+							expr_13C5C_cp_0.velocity.Y -= 1f;
 							num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
 							Main.gore[num626].velocity *= scaleFactor10;
 							Gore expr_13CFF_cp_0 = Main.gore[num626];
-							expr_13CFF_cp_0.velocity.X = expr_13CFF_cp_0.velocity.X - 1f;
+							expr_13CFF_cp_0.velocity.X -= 1f;
 							Gore expr_13D1F_cp_0 = Main.gore[num626];
-							expr_13D1F_cp_0.velocity.Y = expr_13D1F_cp_0.velocity.Y - 1f;
+							expr_13D1F_cp_0.velocity.Y -= 1f;
 						}
 					}
 				}
@@ -8225,9 +8223,9 @@ namespace CalamityMod.CalPlayer
 						{
 							int num18 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 235, 0f, 0f, 100, default, 2f);
 							Dust expr_CDB_cp_0 = Main.dust[num18];
-							expr_CDB_cp_0.position.X = expr_CDB_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							expr_CDB_cp_0.position.X += (float)Main.rand.Next(-5, 6);
 							Dust expr_D02_cp_0 = Main.dust[num18];
-							expr_D02_cp_0.position.Y = expr_D02_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							expr_D02_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
 							Main.dust[num18].velocity *= 0.2f;
 							Main.dust[num18].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 							Main.dust[num18].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -8287,9 +8285,9 @@ namespace CalamityMod.CalPlayer
 						{
 							int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 246, 0f, 0f, 100, default, 3f);
 							Dust expr_13AF_cp_0 = Main.dust[num25];
-							expr_13AF_cp_0.position.X = expr_13AF_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
 							Dust expr_13D6_cp_0 = Main.dust[num25];
-							expr_13D6_cp_0.position.Y = expr_13D6_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
 							Main.dust[num25].velocity *= 0.2f;
 							Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 							Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8350,9 +8348,9 @@ namespace CalamityMod.CalPlayer
 						{
 							int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
 							Dust expr_13AF_cp_0 = Main.dust[num25];
-							expr_13AF_cp_0.position.X = expr_13AF_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
 							Dust expr_13D6_cp_0 = Main.dust[num25];
-							expr_13D6_cp_0.position.Y = expr_13D6_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
 							Main.dust[num25].velocity *= 0.2f;
 							Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 							Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8413,9 +8411,9 @@ namespace CalamityMod.CalPlayer
 						{
 							int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
 							Dust expr_13AF_cp_0 = Main.dust[num25];
-							expr_13AF_cp_0.position.X = expr_13AF_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
 							Dust expr_13D6_cp_0 = Main.dust[num25];
-							expr_13D6_cp_0.position.Y = expr_13D6_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
 							Main.dust[num25].velocity *= 0.2f;
 							Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 							Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8476,9 +8474,9 @@ namespace CalamityMod.CalPlayer
 						{
 							int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 33, 0f, 0f, 100, default, 3f);
 							Dust expr_13AF_cp_0 = Main.dust[num25];
-							expr_13AF_cp_0.position.X = expr_13AF_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
 							Dust expr_13D6_cp_0 = Main.dust[num25];
-							expr_13D6_cp_0.position.Y = expr_13D6_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
 							Main.dust[num25].velocity *= 0.2f;
 							Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 							Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8539,9 +8537,9 @@ namespace CalamityMod.CalPlayer
 						{
 							int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 67, 0f, 0f, 100, default, 1.25f);
 							Dust expr_13AF_cp_0 = Main.dust[num25];
-							expr_13AF_cp_0.position.X = expr_13AF_cp_0.position.X + (float)Main.rand.Next(-5, 6);
+							expr_13AF_cp_0.position.X += (float)Main.rand.Next(-5, 6);
 							Dust expr_13D6_cp_0 = Main.dust[num25];
-							expr_13D6_cp_0.position.Y = expr_13D6_cp_0.position.Y + (float)Main.rand.Next(-5, 6);
+							expr_13D6_cp_0.position.Y += (float)Main.rand.Next(-5, 6);
 							Main.dust[num25].velocity *= 0.2f;
 							Main.dust[num25].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
 							Main.dust[num25].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -8573,9 +8571,9 @@ namespace CalamityMod.CalPlayer
 				{
 					int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 235, 0f, 0f, 100, default, 2f);
 					Dust expr_A4_cp_0 = Main.dust[num];
-					expr_A4_cp_0.position.X = expr_A4_cp_0.position.X + (float)Main.rand.Next(-20, 21);
+					expr_A4_cp_0.position.X += (float)Main.rand.Next(-20, 21);
 					Dust expr_CB_cp_0 = Main.dust[num];
-					expr_CB_cp_0.position.Y = expr_CB_cp_0.position.Y + (float)Main.rand.Next(-20, 21);
+					expr_CB_cp_0.position.Y += (float)Main.rand.Next(-20, 21);
 					Main.dust[num].velocity *= 0.4f;
 					Main.dust[num].scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
 					Main.dust[num].shader = GameShaders.Armor.GetSecondaryShader(player.cWaist, player);

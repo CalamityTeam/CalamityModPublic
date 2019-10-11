@@ -34,9 +34,9 @@ namespace CalamityMod.Projectiles.Melee
 					int num442 = Dust.NewDust(vector30, 1, 1, 107, 0f, 0f, 0, default, 1.3f);
 					Main.dust[num442].position = vector30;
 					Dust expr_13A3E_cp_0 = Main.dust[num442];
-					expr_13A3E_cp_0.position.X = expr_13A3E_cp_0.position.X + (float)(projectile.width / 2);
+					expr_13A3E_cp_0.position.X += (float)(projectile.width / 2);
 					Dust expr_13A62_cp_0 = Main.dust[num442];
-					expr_13A62_cp_0.position.Y = expr_13A62_cp_0.position.Y + (float)(projectile.height / 2);
+					expr_13A62_cp_0.position.Y += (float)(projectile.height / 2);
 					Main.dust[num442].scale = (float)Main.rand.Next(70, 110) * 0.007f;
 					Main.dust[num442].velocity *= 0.2f;
 				}

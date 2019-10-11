@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs
 				// Set walking direction
 				if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
 				{
-					npc.velocity.X = npc.velocity.X * 0.9f;
+					npc.velocity.X *= 0.9f;
 					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
 						npc.velocity.X = 0f;
 				}
@@ -200,16 +200,16 @@ namespace CalamityMod.NPCs
 					flag52 = true;
 
 				if (flag52)
-					npc.velocity.Y = npc.velocity.Y + 0.5f;
+					npc.velocity.Y += 0.5f;
 				else if (Collision.SolidCollision(position2, num854, num855))
 				{
 					if (npc.velocity.Y > 0f)
 						npc.velocity.Y = 0f;
 
 					if ((double)npc.velocity.Y > -0.2)
-						npc.velocity.Y = npc.velocity.Y - 0.025f;
+						npc.velocity.Y -= 0.025f;
 					else
-						npc.velocity.Y = npc.velocity.Y - 0.2f;
+						npc.velocity.Y -= 0.2f;
 
 					if (npc.velocity.Y < -4f)
 						npc.velocity.Y = -4f;
@@ -220,9 +220,9 @@ namespace CalamityMod.NPCs
 						npc.velocity.Y = 0f;
 
 					if ((double)npc.velocity.Y < 0.1)
-						npc.velocity.Y = npc.velocity.Y + 0.025f;
+						npc.velocity.Y += 0.025f;
 					else
-						npc.velocity.Y = npc.velocity.Y + 0.5f;
+						npc.velocity.Y += 0.5f;
 				}
 
 				// Walk for a maximum of 6 seconds
@@ -251,7 +251,7 @@ namespace CalamityMod.NPCs
 				if (npc.velocity.Y == 0f)
 				{
 					// Slow down
-					npc.velocity.X = npc.velocity.X * 0.8f;
+					npc.velocity.X *= 0.8f;
 
 					// Half second delay before jumping
 					npc.ai[1] += 1f;
@@ -324,20 +324,20 @@ namespace CalamityMod.NPCs
 
 					if (npc.position.X < player.position.X && npc.position.X + (float)npc.width > player.position.X + (float)player.width)
 					{
-						npc.velocity.X = npc.velocity.X * 0.9f;
+						npc.velocity.X *= 0.9f;
 
 						if (player.position.Y > npc.position.Y + (float)npc.height)
 						{
 							float fallSpeed = 0.8f + (0.8f * (1f - lifeRatio));
-							npc.velocity.Y = npc.velocity.Y + fallSpeed;
+							npc.velocity.Y += fallSpeed;
 						}
 					}
 					else
 					{
 						if (npc.direction < 0)
-							npc.velocity.X = npc.velocity.X - 0.2f;
+							npc.velocity.X -= 0.2f;
 						else if (npc.direction > 0)
-							npc.velocity.X = npc.velocity.X + 0.2f;
+							npc.velocity.X += 0.2f;
 
 						float num626 = (CalamityWorld.bossRushActive ? 12f : 9f) + (6f * (1f - lifeRatio));
 						if (npc.velocity.X < -num626)

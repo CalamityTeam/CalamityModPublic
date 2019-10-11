@@ -104,10 +104,10 @@ namespace CalamityMod.NPCs.TownNPCs
 			if (dryad != -1)
 				dialogue.Add("Yes, I am older than " + Main.npc[dryad].GivenName + ". You can stop asking now...");
 
-			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().chibii)
+			if (Main.player[Main.myPlayer].Calamity().chibii)
 				dialogue.Add("What an adorable tiny companion you have! Where in the world did you find such a...creature...? Actually, I'd rather not know.");
 
-			if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().cryogenSoul)
+			if (Main.player[Main.myPlayer].Calamity().cryogenSoul)
 				dialogue.Add(Main.player[Main.myPlayer].name + "...just between us, I think I forgot my soul in the ice castle. If you see it, please do let me know.");
 
 			if (Main.hardMode)

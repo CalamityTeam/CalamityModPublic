@@ -94,11 +94,11 @@ namespace CalamityMod.Projectiles.Ranged
 						Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
 						Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
 						type = mod.ProjectileType("NorfleetComet");
-						speed.X = speed.X + (float)Main.rand.Next(-30, 31) * 0.05f;
-						speed.Y = speed.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
+						speed.X += (float)Main.rand.Next(-30, 31) * 0.05f;
+						speed.Y += (float)Main.rand.Next(-30, 31) * 0.05f;
 						Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
-						speed.X = speed.X + (float)Main.rand.Next(-30, 31) * 0.05f;
-						speed.Y = speed.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
+						speed.X += (float)Main.rand.Next(-30, 31) * 0.05f;
+						speed.Y += (float)Main.rand.Next(-30, 31) * 0.05f;
 						Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
 						projectile.netUpdate = true;
 					}

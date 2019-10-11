@@ -195,7 +195,7 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
 			for (int num621 = 0; num621 < 8; num621++)
 			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default(Color), 1f);
+				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
 				Main.dust[num622].velocity *= 1f;
 			}
             if (projectile.owner == Main.myPlayer)

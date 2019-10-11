@@ -707,7 +707,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 								Vector2 baseSpawn = new Vector2(spawnX, spawnY);
 								Vector2 baseVelocity = Main.player[npc.target].Center - baseSpawn;
 								baseVelocity.Normalize();
-								baseVelocity = baseVelocity * speed;
+								baseVelocity *= speed;
 
 								for (int i = 0; i < MissileProjectiles; i++)
 								{

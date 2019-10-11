@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>().ZoneAstral && spawnInfo.player.ZoneRockLayerHeight)
+            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneRockLayerHeight)
             {
                 return 0.17f;
             }

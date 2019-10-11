@@ -616,7 +616,7 @@ namespace CalamityMod.NPCs.Leviathan
         // This loot code is shared with Anahita.
         public static void DropSirenLeviLoot(NPC npc)
         {
-            CalamityMod mod = CalamityMod.Instance;
+            CalamityMod mod = ModContent.GetInstance<CalamityMod>();
             DropHelper.DropBags(npc);
 
             DropHelper.DropItemChance(npc, mod.ItemType("LeviathanTrophy"), 10);

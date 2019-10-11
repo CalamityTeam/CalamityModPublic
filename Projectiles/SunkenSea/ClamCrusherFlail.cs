@@ -48,9 +48,9 @@ namespace CalamityMod.Projectiles.SunkenSea
 					Main.dust[waterDust].velocity *= 0.1f;
 					Main.dust[waterDust].velocity += projectile.velocity * 0.1f;
 					Dust expr_47FA_cp_0 = Main.dust[waterDust];
-					expr_47FA_cp_0.position.X = expr_47FA_cp_0.position.X - num99;
+					expr_47FA_cp_0.position.X -= num99;
 					Dust expr_4815_cp_0 = Main.dust[waterDust];
-					expr_4815_cp_0.position.Y = expr_4815_cp_0.position.Y - num100;
+					expr_4815_cp_0.position.Y -= num100;
 				}
 			}
 			if (projectile.ai[1] == 5f)

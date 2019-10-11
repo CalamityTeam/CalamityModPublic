@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories.Wings
 			{
 				if (player.controlDown && !player.merman)
 				{
-					player.velocity.Y = player.velocity.Y * 0.9f;
+					player.velocity.Y *= 0.9f;
 					if (player.velocity.Y > -2f && player.velocity.Y < 1f)
 					{
 						player.velocity.Y = 1E-05f;

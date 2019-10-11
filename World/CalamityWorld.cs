@@ -364,7 +364,7 @@ namespace CalamityMod.World
 			}
 			else
 			{
-				CalamityMod.Instance.Logger.Error("Unknown loadVersion: " + loadVersion);
+				ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
 			}
 		}
 		#endregion

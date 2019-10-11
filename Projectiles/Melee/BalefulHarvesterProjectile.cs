@@ -95,9 +95,9 @@ namespace CalamityMod.Projectiles.Melee
 					Main.dust[num158].position -= projectile.velocity * 2f;
 					Main.dust[num158].noGravity = true;
 					Dust expr_7A4A_cp_0_cp_0 = Main.dust[num158];
-					expr_7A4A_cp_0_cp_0.velocity.X = expr_7A4A_cp_0_cp_0.velocity.X * 0.3f;
+					expr_7A4A_cp_0_cp_0.velocity.X *= 0.3f;
 					Dust expr_7A65_cp_0_cp_0 = Main.dust[num158];
-					expr_7A65_cp_0_cp_0.velocity.Y = expr_7A65_cp_0_cp_0.velocity.Y * 0.3f;
+					expr_7A65_cp_0_cp_0.velocity.Y *= 0.3f;
 				}
 			}
 		}

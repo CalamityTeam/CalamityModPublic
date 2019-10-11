@@ -44,7 +44,7 @@ namespace CalamityMod.Items.SunkenSea
                         Vector2 baseSpawn = new Vector2(spawnX, spawnY);
                         Vector2 baseVelocity = player.Center - baseSpawn;
                         baseVelocity.Normalize();
-                        baseVelocity = baseVelocity * speed2;
+                        baseVelocity *= speed2;
                         for (int i = 0; i < ShardProjectiles; i++)
                         {
                             Vector2 spawn = baseSpawn;

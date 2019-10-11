@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
 		{
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.abyssalDivingSuitPrevious)
             {
                 player.gills = true;

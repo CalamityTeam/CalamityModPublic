@@ -52,96 +52,104 @@ namespace CalamityMod.Tiles.FurnitureAshen
 			return true;
 		}
 
-		public override void RightClick(int i, int j)
-		{
-			Player player = Main.LocalPlayer;
-			if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0)
-			{
-				Main.CancelClothesWindow(true);
-				Main.mouseRightRelease = false;
-				int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameX / 18);
-				left %= 3;
-				left = Player.tileTargetX - left;
-				int top = Player.tileTargetY - (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameY / 18);
-				if (player.sign > -1)
-				{
-					Main.PlaySound(SoundID.MenuClose);
-					player.sign = -1;
-					Main.editSign = false;
-					Main.npcChatText = string.Empty;
-				}
-				if (Main.editChest)
-				{
-					Main.PlaySound(SoundID.MenuTick);
-					Main.editChest = false;
-					Main.npcChatText = string.Empty;
-				}
-				if (player.editedChestName)
-				{
-					NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
-					player.editedChestName = false;
-				}
-				if (Main.netMode == NetmodeID.MultiplayerClient)
-				{
-					if (left == player.chestX && top == player.chestY && player.chest != -1)
-					{
-						player.chest = -1;
-						Recipe.FindRecipes();
-						Main.PlaySound(SoundID.MenuClose);
-					}
-					else
-					{
-						NetMessage.SendData(31, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
-						Main.stackSplit = 600;
-					}
-				}
-				else
-				{
-					player.flyingPigChest = -1;
-					int num213 = Chest.FindChest(left, top);
-					if (num213 != -1)
-					{
-						Main.stackSplit = 600;
-						if (num213 == player.chest)
-						{
-							player.chest = -1;
-							Recipe.FindRecipes();
-							Main.PlaySound(SoundID.MenuClose);
-						}
-						else if (num213 != player.chest && player.chest == -1)
-						{
-							player.chest = num213;
-							Main.playerInventory = true;
-							Main.recBigList = false;
-							Main.PlaySound(SoundID.MenuOpen);
-							player.chestX = left;
-							player.chestY = top;
-						}
-						else
-						{
-							player.chest = num213;
-							Main.playerInventory = true;
-							Main.recBigList = false;
-							Main.PlaySound(SoundID.MenuTick);
-							player.chestX = left;
-							player.chestY = top;
-						}
-						Recipe.FindRecipes();
-					}
-				}
-			}
-			else
-			{
-				Main.playerInventory = false;
-				player.chest = -1;
-				Recipe.FindRecipes();
-				Main.dresserX = Player.tileTargetX;
-				Main.dresserY = Player.tileTargetY;
-				Main.OpenClothesWindow();
-			}
-		}
+        public override bool NewRightClick(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            if (Main.tile[Player.tileTargetX, Player.tileTargetY].frameY == 0)
+            {
+                Main.CancelClothesWindow(true);
 
-		public override void MouseOverFar(int i, int j)
+                // with 0.11.5 changes this should no longer be necessary
+                // Main.mouseRightRelease = false;
+
+                int left = (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameX / 18);
+                left %= 3;
+                left = Player.tileTargetX - left;
+                int top = Player.tileTargetY - (int)(Main.tile[Player.tileTargetX, Player.tileTargetY].frameY / 18);
+                if (player.sign > -1)
+                {
+                    Main.PlaySound(SoundID.MenuClose);
+                    player.sign = -1;
+                    Main.editSign = false;
+                    Main.npcChatText = string.Empty;
+                }
+                if (Main.editChest)
+                {
+                    Main.PlaySound(SoundID.MenuTick);
+                    Main.editChest = false;
+                    Main.npcChatText = string.Empty;
+                }
+                if (player.editedChestName)
+                {
+                    NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+                    player.editedChestName = false;
+                }
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    if (left == player.chestX && top == player.chestY && player.chest != -1)
+                    {
+                        player.chest = -1;
+                        Recipe.FindRecipes();
+                        Main.PlaySound(SoundID.MenuClose);
+                    }
+                    else
+                    {
+                        NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
+                        Main.stackSplit = 600;
+                    }
+                    return true;
+                }
+                else
+                {
+                    player.flyingPigChest = -1;
+                    int num213 = Chest.FindChest(left, top);
+                    if (num213 != -1)
+                    {
+                        Main.stackSplit = 600;
+                        if (num213 == player.chest)
+                        {
+                            player.chest = -1;
+                            Recipe.FindRecipes();
+                            Main.PlaySound(SoundID.MenuClose);
+                        }
+                        else if (num213 != player.chest && player.chest == -1)
+                        {
+                            player.chest = num213;
+                            Main.playerInventory = true;
+                            Main.recBigList = false;
+                            Main.PlaySound(SoundID.MenuOpen);
+                            player.chestX = left;
+                            player.chestY = top;
+                        }
+                        else
+                        {
+                            player.chest = num213;
+                            Main.playerInventory = true;
+                            Main.recBigList = false;
+                            Main.PlaySound(SoundID.MenuTick);
+                            player.chestX = left;
+                            player.chestY = top;
+                        }
+                        Recipe.FindRecipes();
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                Main.playerInventory = false;
+                player.chest = -1;
+                Recipe.FindRecipes();
+                Main.dresserX = Player.tileTargetX;
+                Main.dresserY = Player.tileTargetY;
+                Main.OpenClothesWindow();
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void MouseOverFar(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
 			Tile tile = Main.tile[Player.tileTargetX, Player.tileTargetY];
