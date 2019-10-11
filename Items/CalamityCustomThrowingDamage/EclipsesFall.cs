@@ -58,7 +58,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 	    public override void AddRecipes()
 	    {
 	        ModRecipe recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(3543, 1); //Daybreak weapon because I don't know internal file name
+	        recipe.AddIngredient(ItemID.DayBreak, 1);
 	        recipe.AddIngredient(mod.ItemType("DarksunFragment"), 15);
 	        recipe.AddIngredient(mod.ItemType("CoreofCinder"), 6);
 	        recipe.AddTile(TileID.LunarCraftingStation);
