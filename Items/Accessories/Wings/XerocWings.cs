@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Accessories.Wings
         {
 			if (player.armor[0].type == mod.ItemType("XerocMask") && player.armor[1].type == mod.ItemType("XerocPlateMail") && player.armor[2].type == mod.ItemType("XerocCuisses"))
 			{
-				player.GetCalamityPlayer().throwingDamage += 0.05f;
-				player.GetCalamityPlayer().throwingCrit += 5;
+				player.Calamity().throwingDamage += 0.05f;
+				player.Calamity().throwingCrit += 5;
 			}
 
 			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)

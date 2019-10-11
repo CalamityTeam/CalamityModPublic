@@ -232,9 +232,9 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					npc.position = position;
 					for (int n = 0; n < 50; n++)
 					{
-						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1f);
-						Main.dust[dust].velocity *= 0.2f;
-						Main.dust[num39].noGravity = true;
+						int warpDust = Dust.NewDust(npc.position, npc.width, npc.height, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1f);
+						Main.dust[warpDust].velocity *= 0.2f;
+						Main.dust[warpDust].noGravity = true;
 					}
 					npc.ai[0] = 2f;
                     npc.netUpdate = true;
