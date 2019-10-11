@@ -3162,7 +3162,6 @@ namespace CalamityMod.NPCs
 					{
 						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
 						Main.dust[num39].noGravity = true;
-						Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
 					}
 				}
 
@@ -3184,9 +3183,9 @@ namespace CalamityMod.NPCs
 						Vector2 vector251 = Main.player[npc.target].Center - value53;
 						Point point12 = npc.Center.ToTileCoordinates();
 						Point point13 = Main.player[npc.target].Center.ToTileCoordinates();
-						int num1453 = 34;
+						int num1453 = 26;
 						int num1454 = 4;
-						int num1455 = 30;
+						int num1455 = 22;
 						int num1457 = 0;
 
 						bool flag106 = false;
@@ -3216,7 +3215,6 @@ namespace CalamityMod.NPCs
 						Vector2 position = new Vector2(calamityGlobalNPC.newAI[2], calamityGlobalNPC.newAI[3]);
 						int num39 = Dust.NewDust(position, npc.width, npc.height, 27, 0f, 0f, 200, default, 1f);
 						Main.dust[num39].noGravity = true;
-						Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
 					}
 				}
 
@@ -3231,7 +3229,6 @@ namespace CalamityMod.NPCs
 				{
 					int dust = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 1.5f);
 					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity.X = Main.dust[dust].velocity.X * 2f;
 				}
 
 				// Teleport
@@ -3242,7 +3239,6 @@ namespace CalamityMod.NPCs
 					{
 						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 200, default, 3f);
 						Main.dust[num39].noGravity = true;
-						Main.dust[num39].velocity.X = Main.dust[num39].velocity.X * 2f;
 					}
 
 					// New location
@@ -12234,7 +12230,7 @@ namespace CalamityMod.NPCs
 								num1225 = 1f;
 
 							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default(Vector2));
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, ProjectileID.PhantasmalDeathray, 75, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, ProjectileID.PhantasmalDeathray, 95, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
 							npc.ai[2] = (vector200.ToRotation() + 9.424778f) * num1225;
 							npc.netUpdate = true;
 						}
@@ -12327,7 +12323,7 @@ namespace CalamityMod.NPCs
 						Vector2 vector203 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), value19 * npc.localAI[1]);
 						float velocity = CalamityWorld.bossRushActive ? 12f : 9f;
 						Vector2 vector204 = Vector2.Normalize(v4) * velocity;
-						Projectile.NewProjectile(npc.Center.X + vector203.X, npc.Center.Y + vector203.Y, vector204.X, vector204.Y, ProjectileID.PhantasmalBolt, 30, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(npc.Center.X + vector203.X, npc.Center.Y + vector203.Y, vector204.X, vector204.Y, ProjectileID.PhantasmalBolt, 40, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 
@@ -12495,7 +12491,7 @@ namespace CalamityMod.NPCs
 							float velocity = CalamityWorld.bossRushActive ? 12f : 9f;
 							Vector2 vector170 = Vector2.Normalize(vector168) * velocity;
 							float ai = (6.28318548f * (float)Main.rand.NextDouble() - 3.14159274f) / 30f + 0.0174532924f * num1177;
-							Projectile.NewProjectile(vector169.X, vector169.Y, vector170.X, vector170.Y, ProjectileID.PhantasmalEye, 30, 0f, Main.myPlayer, 0f, ai);
+							Projectile.NewProjectile(vector169.X, vector169.Y, vector170.X, vector170.Y, ProjectileID.PhantasmalEye, 40, 0f, Main.myPlayer, 0f, ai);
 						}
 					}
 					else
@@ -12545,7 +12541,7 @@ namespace CalamityMod.NPCs
 							vector173.X += ((float)num1191 - 3.5f) * num1177 * 3f;
 							vector173.Y += ((float)num1191 - 4.5f) * 1f;
 							vector173 *= 1.2f;
-							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector173.X, vector173.Y, ProjectileID.PhantasmalSphere, 50, 1f, Main.myPlayer, 0f, (float)npc.whoAmI);
+							Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector173.X, vector173.Y, ProjectileID.PhantasmalSphere, 65, 1f, Main.myPlayer, 0f, (float)npc.whoAmI);
 						}
 
 						Vector2 vector174 = Vector2.SmoothStep(value12, value12 + value13, (num1178 - 30f) / 180f) - npc.Center;
@@ -12645,7 +12641,7 @@ namespace CalamityMod.NPCs
 						Vector2 vector181 = Utils.Vector2FromElipse(npc.localAI[0].ToRotationVector2(), vector165 * npc.localAI[1]);
 						float velocity = CalamityWorld.bossRushActive ? 12f : 9f;
 						Vector2 vector182 = Vector2.Normalize(v) * velocity;
-						Projectile.NewProjectile(npc.Center.X + vector181.X, npc.Center.Y + vector181.Y, vector182.X, vector182.Y, ProjectileID.PhantasmalBolt, 30, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(npc.Center.X + vector181.X, npc.Center.Y + vector181.Y, vector182.X, vector182.Y, ProjectileID.PhantasmalBolt, 40, 0f, Main.myPlayer, 0f, 0f);
 					}
 				}
 

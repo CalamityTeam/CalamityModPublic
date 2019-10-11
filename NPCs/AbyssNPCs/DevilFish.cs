@@ -75,9 +75,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				brokenMask = true;
 				npc.HitSound = SoundID.NPCHit1;
 				npc.defense = 15;
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask1"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask3"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask1"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask2"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask3"), 1f);
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/DevilMaskBreak"), (int)npc.position.X, (int)npc.position.Y);
 			}
 

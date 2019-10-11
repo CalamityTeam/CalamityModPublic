@@ -380,7 +380,6 @@ namespace CalamityMod.NPCs.Astrageldon
 				for (int num621 = 0; num621 < 50; num621++)
 				{
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
-					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
@@ -391,9 +390,7 @@ namespace CalamityMod.NPCs.Astrageldon
 				{
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 2f);
-					Main.dust[num624].velocity *= 2f;
+					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, mod.DustType("AstralOrange"), 0f, 0f, 100, default, 2f);
 				}
 			}
 		}

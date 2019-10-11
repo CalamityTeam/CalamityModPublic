@@ -32,6 +32,14 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			if ((player.armor[0].type == mod.ItemType("AtaxiaHeadgear") || player.armor[0].type == mod.ItemType("AtaxiaHelm") ||
+				player.armor[0].type == mod.ItemType("AtaxiaHelmet") || player.armor[0].type == mod.ItemType("AtaxiaHood") ||
+				player.armor[0].type == mod.ItemType("AtaxiaMask")) &&
+				player.armor[1].type == mod.ItemType("AtaxiaArmor") && player.armor[2].type == mod.ItemType("AtaxiaSubligar"))
+			{
+				player.allDamage += 0.1f;
+			}
+
 			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
 			{
 				int num59 = 4;
@@ -54,13 +62,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-
-			if (modPlayer.ataxiaBlaze)
-			{
-				player.allDamage += 0.1f;
-			}
-
 			ascentWhenFalling = 0.5f;
 			ascentWhenRising = 0.1f;
 			maxCanAscendMultiplier = 0.5f;

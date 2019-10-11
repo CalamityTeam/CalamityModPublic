@@ -353,9 +353,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
 				}
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin2"), 1f);
-				Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin3"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin2"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/AquaticUrchin3"), 1f);
 			}
 		}
 	}

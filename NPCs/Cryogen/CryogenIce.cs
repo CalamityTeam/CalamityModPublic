@@ -122,10 +122,10 @@ namespace CalamityMod.NPCs.Cryogen
                 for (int spike = 0; spike < 4; spike++)
                 {
                     randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore4"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore5"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore6"), 1f);
-                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore7"), 1f);
+                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore4"), 1f);
+                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore5"), 1f);
+                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore6"), 1f);
+                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore7"), 1f);
                 }
             }
 		}

@@ -32,6 +32,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			if (player.armor[0].type == mod.ItemType("XerocMask") && player.armor[1].type == mod.ItemType("XerocPlateMail") && player.armor[2].type == mod.ItemType("XerocCuisses"))
+			{
+				player.GetCalamityPlayer().throwingDamage += 0.05f;
+				player.GetCalamityPlayer().throwingCrit += 5;
+			}
+
 			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
 			{
 				int num59 = 4;
@@ -54,14 +60,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-
-			if (modPlayer.xerocSet)
-			{
-				player.GetCalamityPlayer().throwingDamage += 0.05f;
-				player.GetCalamityPlayer().throwingCrit += 5;
-			}
-
 			ascentWhenFalling = 0.75f;
 			ascentWhenRising = 0.15f;
 			maxCanAscendMultiplier = 1f;

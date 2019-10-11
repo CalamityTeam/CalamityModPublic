@@ -5,6 +5,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.World;
 using CalamityMod.Utilities;
+using CalamityMod.Buffs.DoTDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.CalPlayer
 {
@@ -33,7 +35,7 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen = 0;
 
 				player.lifeRegenTime = 0;
-				player.statDefense -= 50;
+				player.statDefense -= WhisperingDeath.DefenseReduction;
 				player.allDamage -= 0.1f;
 			}
 
@@ -44,6 +46,7 @@ namespace CalamityMod.CalPlayer
 
 				player.lifeRegenTime = 0;
 				player.lifeRegen -= 16;
+				player.statDefense -= AbyssalFlames.DefenseReduction;
 			}
 
 			if (modPlayer.gsInferno || (modPlayer.ZoneCalamity && player.lavaWet))
@@ -53,6 +56,7 @@ namespace CalamityMod.CalPlayer
 
 				player.lifeRegenTime = 0;
 				player.lifeRegen -= 30;
+				player.statDefense -= GodSlayerInferno.DefenseReduction;
 			}
 
 			if (modPlayer.astralInfection)
@@ -62,6 +66,7 @@ namespace CalamityMod.CalPlayer
 
 				player.lifeRegenTime = 0;
 				player.lifeRegen -= 20;
+				player.statDefense -= AstralInfectionDebuff.DefenseReduction;
 			}
 
 			if (modPlayer.ZoneSulphur && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir) && !modPlayer.aquaticScourgeLore)
@@ -98,7 +103,7 @@ namespace CalamityMod.CalPlayer
 				player.lifeRegenTime = 0;
 				player.lifeRegen -= 20;
 				player.blind = true;
-				player.statDefense -= 8;
+				player.statDefense -= Plague.DefenseReduction;
 				player.moveSpeed -= 0.15f;
 			}
 
@@ -127,7 +132,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.aCrunch)
 			{
-				player.statDefense /= 3;
+				player.statDefense -= ArmorCrunch.DefenseReduction;
 				player.endurance *= 0.33f;
 			}
 
@@ -352,7 +357,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.gState)
 			{
-				player.statDefense /= 2;
+				player.statDefense -= GlacialState.DefenseReduction;
 				player.velocity.Y = 0f;
 				player.velocity.X = 0f;
 			}

@@ -9,9 +9,7 @@ namespace CalamityMod.Items.Weapons
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Omniblade");
-			Tooltip.SetDefault("An ancient blade forged by the legendary Omnir\n" +
-			                   "Has a 20% chance to give enemies the whispering death debuff on hit\n" +
-			                   "This debuff cuts enemy defense by 50");
+			Tooltip.SetDefault("An ancient blade forged by the legendary Omnir");
 		}
 
 		public override void SetDefaults()

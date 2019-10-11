@@ -32,6 +32,14 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			if ((player.armor[0].type == mod.ItemType("ReaverCap") || player.armor[0].type == mod.ItemType("ReaverHelm") ||
+				player.armor[0].type == mod.ItemType("ReaverHelmet") || player.armor[0].type == mod.ItemType("ReaverMask") ||
+				player.armor[0].type == mod.ItemType("ReaverVisage")) &&
+				player.armor[1].type == mod.ItemType("ReaverScaleMail") && player.armor[2].type == mod.ItemType("ReaverCuisses"))
+			{
+				player.moveSpeed += 0.15f;
+			}
+
 			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
 			{
 				player.rocketDelay2--;
@@ -92,13 +100,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-
-			if (modPlayer.reaverDoubleTap || modPlayer.reaverBurst || modPlayer.reaverOrb || modPlayer.reaverBlast || modPlayer.reaverSpore)
-			{
-				player.moveSpeed += 0.15f;
-			}
-
 			ascentWhenFalling = 0.75f;
 			ascentWhenRising = 0.15f;
 			maxCanAscendMultiplier = 1f;

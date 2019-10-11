@@ -33,6 +33,12 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			if (player.armor[0].type == mod.ItemType("AstralHelm") && player.armor[1].type == mod.ItemType("AstralBreastplate") && player.armor[2].type == mod.ItemType("AstralLeggings"))
+			{
+				player.moveSpeed += 0.2f;
+				player.jumpSpeedBoost += 0.4f;
+			}
+
 			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0)
 			{
 				if (player.controlDown && !player.merman)
@@ -67,14 +73,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
 		public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
 		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-
-			if (modPlayer.astralStarRain)
-			{
-				player.moveSpeed += 0.2f;
-				player.jumpSpeedBoost += 0.4f;
-			}
-
 			ascentWhenFalling = 0.8f;
 			ascentWhenRising = 0.155f;
 			maxCanAscendMultiplier = 1.05f;

@@ -118,14 +118,17 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 
 			int dustAmt = (npc.ai[0] == 2f) ? 2 : 1;
 			int size = (npc.ai[0] == 2f) ? 50 : 35;
-			for (int num1011 = 0; num1011 < 2; num1011++)
+			if (npc.ai[0] != 1f)
 			{
-				if (Main.rand.Next(3) < dustAmt)
+				for (int num1011 = 0; num1011 < 2; num1011++)
 				{
-					int dust = Dust.NewDust(npc.Center - new Vector2((float)size), size * 2, size * 2, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
-					Main.dust[dust].noGravity = true;
-					Main.dust[dust].velocity *= 0.2f;
-					Main.dust[dust].fadeIn = 1f;
+					if (Main.rand.Next(3) < dustAmt)
+					{
+						int dust = Dust.NewDust(npc.Center - new Vector2((float)size), size * 2, size * 2, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+						Main.dust[dust].noGravity = true;
+						Main.dust[dust].velocity *= 0.2f;
+						Main.dust[dust].fadeIn = 1f;
+					}
 				}
 			}
 
@@ -179,8 +182,8 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 							playerPosX = (int)player.Center.X / 16;
 							playerPosY = (int)player.Center.Y / 16;
 
-							int min = 19;
-							int max = 22;
+							int min = 14;
+							int max = 18;
 
 							if (Main.rand.NextBool(2))
 								playerPosX += Main.rand.Next(min, max);
@@ -209,7 +212,14 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 			{
 				npc.defense = provy ? 120 : 20;
 				npc.chaseable = true;
-				npc.alpha += 25;
+				Vector2 position = new Vector2(npc.ai[1] * 16f - (float)(npc.width / 2), npc.ai[2] * 16f - (float)(npc.height / 2));
+				for (int m = 0; m < 10; m++)
+				{
+					int dust = Dust.NewDust(position, npc.width, npc.height, 235, 0f, 0f, 90, default, 1f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].fadeIn = 1f;
+				}
+				npc.alpha += 2;
 				if (npc.alpha >= 255)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && NPC.CountNPCS(mod.NPCType("Brimling")) < 2 && revenge)
@@ -218,15 +228,19 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 					}
 					Main.PlaySound(SoundID.Item8, npc.Center);
 					npc.alpha = 255;
-					npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
-					npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
+					npc.position = position;
+					for (int n = 0; n < 50; n++)
+					{
+						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, 0f, 90, default, 1f);
+						Main.dust[num39].noGravity = true;
+					}
 					npc.ai[0] = 2f;
 					npc.netUpdate = true;
 				}
 			}
 			else if (npc.ai[0] == 2f)
 			{
-				npc.alpha -= 25;
+				npc.alpha -= 50;
 				if (npc.alpha <= 0)
 				{
 					npc.defense = provy ? 120 : 20;
@@ -611,7 +625,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				for (int num621 = 0; num621 < 40; num621++)
 				{
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
-					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
@@ -622,9 +635,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 				{
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
-					Main.dust[num624].velocity *= 2f;
+					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 235, 0f, 0f, 100, default, 2f);
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
 				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BrimstoneGore1"), 1f);

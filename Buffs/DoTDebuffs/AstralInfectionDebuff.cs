@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 {
     public class AstralInfectionDebuff : ModBuff
 	{
-        public static int DefenseReduction = 8;
+        public static int DefenseReduction = 6;
 
         public override void SetDefaults()
 		{

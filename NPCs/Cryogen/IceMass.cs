@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
 				}
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CryoSpirit"), 1f);
+                Gore.NewGore(npc.Center, npc.velocity, mod.GetGoreSlot("Gores/CryoSpirit"), 1f);
             }
 		}
 	}

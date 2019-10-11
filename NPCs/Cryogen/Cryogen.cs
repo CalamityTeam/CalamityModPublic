@@ -628,8 +628,8 @@ namespace CalamityMod.NPCs.Cryogen
 								num1250 = (int)player.Center.X / 16;
 								num1251 = (int)player.Center.Y / 16;
 
-								int min = 21;
-								int max = 24;
+								int min = 16;
+								int max = 20;
 
 								if (Main.rand.NextBool(2))
 									num1250 += Main.rand.Next(min, max);
@@ -657,20 +657,30 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 				else if (npc.ai[1] == 1f)
 				{
-					npc.alpha += 25;
+					Vector2 position = new Vector2((float)teleportLocationX * 16f - (float)(npc.width / 2), (float)iceShard * 16f - (float)(npc.height / 2));
+					for (int m = 0; m < 10; m++)
+					{
+						int dust = Dust.NewDust(position, npc.width, npc.height, 67, 0f, 0f, 100, default, 1f);
+						Main.dust[dust].noGravity = true;
+					}
+					npc.alpha += 2;
 					if (npc.alpha >= 255)
 					{
 						Main.PlaySound(SoundID.Item8, npc.Center);
 						npc.alpha = 255;
-						npc.position.X = (float)teleportLocationX * 16f - (float)(npc.width / 2);
-						npc.position.Y = (float)iceShard * 16f - (float)(npc.height / 2);
+						npc.position = position;
+						for (int n = 0; n < 50; n++)
+						{
+							int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 67, 0f, 0f, 100, default, 1f);
+							Main.dust[num39].noGravity = true;
+						}
 						npc.ai[1] = 2f;
 						npc.netUpdate = true;
 					}
 				}
 				else if (npc.ai[1] == 2f)
 				{
-					npc.alpha -= 25;
+					npc.alpha -= 50;
 					if (npc.alpha <= 0)
 					{
 						npc.alpha = 0;
@@ -685,7 +695,6 @@ namespace CalamityMod.NPCs.Cryogen
 					for (int num621 = 0; num621 < 40; num621++)
 					{
 						int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
-						Main.dust[num622].velocity *= 3f;
 						if (Main.rand.NextBool(2))
 						{
 							Main.dust[num622].scale = 0.5f;
@@ -696,14 +705,12 @@ namespace CalamityMod.NPCs.Cryogen
 					{
 						int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 3f);
 						Main.dust[num624].noGravity = true;
-						Main.dust[num624].velocity *= 5f;
-						num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
-						Main.dust[num624].velocity *= 2f;
+						Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
 					}
 					float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-					Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore1"), 1f);
-					Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore2"), 1f);
-					Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore3"), 1f);
+					Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore1"), 1f);
+					Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore2"), 1f);
+					Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore3"), 1f);
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
 					npc.localAI[0] = 0f;
@@ -882,7 +889,6 @@ namespace CalamityMod.NPCs.Cryogen
 				for (int num621 = 0; num621 < 40; num621++)
 				{
 					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
-					Main.dust[num622].velocity *= 3f;
 					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
@@ -893,14 +899,12 @@ namespace CalamityMod.NPCs.Cryogen
 				{
 					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 3f);
 					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
-					Main.dust[num624].velocity *= 2f;
+					Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
 				}
 				float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore8"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore9"), 1f);
-				Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore10"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore8"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore9"), 1f);
+				Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore10"), 1f);
 			}
 		}
 

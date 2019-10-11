@@ -1094,18 +1094,18 @@ Projectile damage:
 Deathray
 N - 150 (moon lord), 100 (true eye)
 E - 300 (moon lord), 200 (true eye)
-R - 375 (moon lord), 250 (true eye)
-D - 431 (moon lord), 287 (true eye)
+R - 380 (moon lord), NA
+D - 437 (moon lord), NA
 Sphere
 N - 100 (moon lord), 110 (true eye)
 E - 200 (moon lord), 220 (true eye)
-R - 250 (moon lord), 275 (true eye)
-D - 287 (moon lord), 316 (true eye)
+R - 260 (moon lord), NA
+D - 299 (moon lord), NA
 Bolt/Eye
 N - 60 (moon lord), 70 (true eye)
 E - 120 (moon lord), 140 (true eye)
-R - 150 (moon lord), 175 (true eye)
-D - 172 (moon lord), 201 (true eye)
+R - 160 (moon lord), NA
+D - 184 (moon lord), NA
 
 PROFANED GUARDIANS
 

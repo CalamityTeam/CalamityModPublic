@@ -7,6 +7,8 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class ArmorCrunch : ModBuff
 	{
+		public static int DefenseReduction = 10;
+
 		public override void SetDefaults()
 		{
 			DisplayName.SetDefault("Armor Crunch");

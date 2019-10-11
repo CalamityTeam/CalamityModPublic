@@ -6,7 +6,7 @@ namespace CalamityMod.Buffs.DoTDebuffs
 {
     public class AbyssalFlames : ModBuff
 	{
-        public static int DefenseReduction = 10;
+        public static int DefenseReduction = 6;
 
         public override void SetDefaults()
 		{
