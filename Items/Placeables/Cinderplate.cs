@@ -25,22 +25,22 @@ namespace CalamityMod.Items.Placeables
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 3);
-			item.rare = 3;
+            item.rare = 3;
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.Hellstone, 6);
-			recipe.AddIngredient(ItemID.Obsidian, 3);
-			recipe.SetResult(this);
-			recipe.AddTile(TileID.Anvils);
-			recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "CinderplateWall", 4);
-			recipe.SetResult(this);
-			recipe.AddTile(TileID.Anvils);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Hellstone, 6);
+            recipe.AddIngredient(ItemID.Obsidian, 3);
+            recipe.SetResult(this);
+            recipe.AddTile(TileID.Anvils);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "CinderplateWall", 4);
+            recipe.SetResult(this);
+            recipe.AddTile(TileID.Anvils);
+            recipe.AddRecipe();
+        }
+    }
 }

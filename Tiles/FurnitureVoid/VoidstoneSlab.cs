@@ -2,17 +2,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidstoneSlab : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
             soundType = 21;
             mineResist = 7f;
             minPick = 190;
@@ -153,7 +152,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
                         }
                         break;
                 }
-                yOffset = yOffset * 270;
+                yOffset *= 270;
                 yPos += yOffset;
                 Texture2D glowmask = mod.GetTexture("Tiles/FurnitureVoid/VoidstoneSlab_Glowmask");
                 Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);

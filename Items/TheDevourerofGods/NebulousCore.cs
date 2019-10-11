@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.CalPlayer;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.TheDevourerofGods
 {
@@ -23,8 +23,8 @@ namespace CalamityMod.Items.TheDevourerofGods
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
             item.expert = true;
-			item.rare = 9;
-		}
+            item.rare = 9;
+        }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
@@ -35,10 +35,10 @@ namespace CalamityMod.Items.TheDevourerofGods
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nCore = true;
-			player.allDamage += 0.12f;
-			int damage = 1500;
+            player.allDamage += 0.12f;
+            int damage = 1500;
             float knockBack = 3f;
             if (Main.rand.NextBool(15))
             {

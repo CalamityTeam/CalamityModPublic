@@ -6,26 +6,26 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class Snowball : ModProjectile
-	{
-		public override void SetDefaults()
-		{
-			projectile.width = 16;
-			projectile.height = 16;
-			projectile.aiStyle = 1;
-			projectile.friendly = true;
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 16;
+            projectile.height = 16;
+            projectile.aiStyle = 1;
+            projectile.friendly = true;
             projectile.magic = true;
             projectile.coldDamage = true;
-			projectile.penetrate = 1;
-			projectile.extraUpdates = 1;
-		}
+            projectile.penetrate = 1;
+            projectile.extraUpdates = 1;
+        }
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Snowball");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Snowball");
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             target.AddBuff(BuffID.Frostburn, 300);
             target.AddBuff(mod.BuffType("GlacialState"), 180);
         }
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Permafrost
         }
 
         public override void Kill(int timeLeft)
-		{
+        {
             Main.PlaySound(SoundID.Item27, projectile.position);
             //crystal bullet shards
             for (int index1 = 0; index1 < 10; ++index1)
@@ -58,5 +58,5 @@ namespace CalamityMod.Projectiles.Permafrost
             }
             //insert ice shattering dust here
         }
-	}
+    }
 }

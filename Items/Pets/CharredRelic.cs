@@ -16,8 +16,8 @@ namespace CalamityMod.Items.Pets
         {
             item.shoot = mod.ProjectileType("Brimgling");
             item.buffType = mod.BuffType("BrimlingBuff");
-			item.rare = 4;
-			item.UseSound = SoundID.NPCHit51;
+            item.rare = 4;
+            item.UseSound = SoundID.NPCHit51;
         }
 
         public override void UseStyle(Player player)

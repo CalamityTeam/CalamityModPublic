@@ -6,30 +6,30 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons
 {
     public class GoldenGun : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Golden Gun");
-			Tooltip.SetDefault("Shoots a straight line of ichor");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Golden Gun");
+            Tooltip.SetDefault("Shoots a straight line of ichor");
+        }
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 5;
-	        item.width = 78;
-	        item.height = 36;
-	        item.useTime = 15;
-	        item.useAnimation = 15;
-	        item.useStyle = 5;
-	        item.noMelee = true;
-	        item.knockBack = 2f;
+        public override void SetDefaults()
+        {
+            item.damage = 5;
+            item.width = 78;
+            item.height = 36;
+            item.useTime = 15;
+            item.useAnimation = 15;
+            item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 2f;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-	        item.UseSound = SoundID.Item11;
-	        item.autoReuse = true;
-	        item.shoot = mod.ProjectileType("GoldenGun");
-	        item.shootSpeed = 12f;
-	    }
+            item.UseSound = SoundID.Item11;
+            item.autoReuse = true;
+            item.shoot = mod.ProjectileType("GoldenGun");
+            item.shootSpeed = 12f;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -38,9 +38,9 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-		    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-		    return false;
-		}
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            return false;
+        }
 
         public override void AddRecipes()
         {

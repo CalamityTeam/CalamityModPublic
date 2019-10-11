@@ -7,9 +7,9 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class SulphuricAcidMist2 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Acid Mist");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Acid Mist");
             Main.projFrames[projectile.type] = 10;
         }
 
@@ -39,21 +39,21 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.frame = 0;
             }
-        	if (projectile.ai[1] == 0f)
-			{
-				projectile.ai[1] = 1f;
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 111);
-			}
-			if (projectile.velocity.X < 0f)
-			{
-				projectile.spriteDirection = -1;
-				projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
-			}
-			else
-			{
-				projectile.spriteDirection = 1;
-				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-			}
+            if (projectile.ai[1] == 0f)
+            {
+                projectile.ai[1] = 1f;
+                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 111);
+            }
+            if (projectile.velocity.X < 0f)
+            {
+                projectile.spriteDirection = -1;
+                projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+            }
+            else
+            {
+                projectile.spriteDirection = 1;
+                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+            }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 90f)
             {

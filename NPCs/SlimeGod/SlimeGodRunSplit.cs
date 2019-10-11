@@ -1,25 +1,25 @@
-﻿using System;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
     public class SlimeGodRunSplit : ModNPC
-	{
+    {
         private float bossLife;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crimulan Slime God");
-			Main.npcFrameCount[npc.type] = 6;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Crimulan Slime God");
+            Main.npcFrameCount[npc.type] = 6;
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             npc.lifeMax = CalamityWorld.revenge ? 2407 : 1750;
             if (CalamityWorld.death)
             {
@@ -29,63 +29,63 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 npc.lifeMax = CalamityWorld.death ? 1000000 : 800000;
             }
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.damage = 45;
-			npc.width = 150;
-			npc.height = 92;
-			npc.scale = 0.8f;
-			npc.defense = 10;
-			npc.knockBackResist = 0f;
-			npc.buffImmune[mod.BuffType("GlacialState")] = true;
-			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
-			animationType = 50;
+            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            npc.damage = 45;
+            npc.width = 150;
+            npc.height = 92;
+            npc.scale = 0.8f;
+            npc.defense = 10;
+            npc.knockBackResist = 0f;
+            npc.buffImmune[mod.BuffType("GlacialState")] = true;
+            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            animationType = 50;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.alpha = 60;
-			npc.lavaImmune = false;
-			npc.noGravity = false;
-			npc.noTileCollide = false;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
+            npc.lavaImmune = false;
+            npc.noGravity = false;
+            npc.noTileCollide = false;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
             else
                 music = MusicID.Boss1;
             npc.aiStyle = -1;
-			aiType = -1;
-			bossBag = mod.ItemType("SlimeGodBag");
-		}
+            aiType = -1;
+            bossBag = mod.ItemType("SlimeGodBag");
+        }
 
-		public override void AI()
-		{
-			CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
-			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+        public override void AI()
+        {
+            CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
+            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
             Vector2 vector = npc.Center;
             bool flag100 = false;
             bool hyperMode = false;
-			if (CalamityGlobalNPC.slimeGodPurple != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
-				{
-					flag100 = true;
-				}
-			}
+            if (CalamityGlobalNPC.slimeGodPurple != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
+                {
+                    flag100 = true;
+                }
+            }
             if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
             {
                 hyperMode = true;
                 flag100 = false;
             }
-			if (!flag100)
-			{
-				npc.defense = npc.defDefense * 2;
-			}
-			else
-			{
-				npc.defense = npc.defDefense;
-			}
-			if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (!flag100)
+            {
+                npc.defense = npc.defDefense * 2;
+            }
+            else
+            {
+                npc.defense = npc.defDefense;
+            }
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!flag100)
                 {
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     }
                 }
             }
-         	npc.aiAction = 0;
+            npc.aiAction = 0;
             npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
             npc.noTileCollide = false;
             npc.noGravity = false;
@@ -182,9 +182,9 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
             }
             else if (npc.timeLeft < 1800)
-			{
-				npc.timeLeft = 1800;
-			}
+            {
+                npc.timeLeft = 1800;
+            }
             if (npc.ai[0] == 0f)
             {
                 npc.TargetClosest(true);
@@ -470,9 +470,9 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.noTileCollide = true;
                     npc.alpha += 7;
                     if (npc.timeLeft > 10)
-					{
-						npc.timeLeft = 10;
-					}
+                    {
+                        npc.timeLeft = 10;
+                    }
                     if (npc.alpha > 255)
                     {
                         npc.alpha = 255;
@@ -481,126 +481,126 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
             }
             int num658 = Dust.NewDust(npc.position, npc.width, npc.height, 260, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.5f);
-			Main.dust[num658].noGravity = true;
-			Main.dust[num658].velocity *= 0.5f;
-			if (bossLife == 0f && npc.life > 0)
-			{
-				bossLife = (float)npc.lifeMax;
-			}
-	       	float num644 = 1f;
-	       	if (npc.life > 0)
-			{
-				float num659 = (float)npc.life / (float)npc.lifeMax;
-				num659 = num659 * 0.5f + 0.75f;
-				num659 *= num644;
-				if (num659 != npc.scale)
-				{
-					npc.position.X = npc.position.X + (float)(npc.width / 2);
-					npc.position.Y = npc.position.Y + (float)npc.height;
-					npc.scale = num659 * 0.75f;
-					npc.width = (int)(150f * npc.scale);
-					npc.height = (int)(92f * npc.scale);
-					npc.position.X = npc.position.X - (float)(npc.width / 2);
-					npc.position.Y = npc.position.Y - (float)npc.height;
-				}
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					int num660 = (int)((double)npc.lifeMax * 0.05);
-					if ((float)(npc.life + num660) < bossLife)
-					{
-						bossLife = (float)npc.life;
-						int num661 = 1;
-						for (int num662 = 0; num662 < num661; num662++)
-						{
-							int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-							int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-							int num663 = mod.NPCType("SlimeSpawnCrimson");
-							if (Main.rand.NextBool(3))
-							{
-								num663 = mod.NPCType("SlimeSpawnCrimson2");
-							}
-							int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-							Main.npc[num664].SetDefaults(num663, -1f);
-							Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
-							Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
-							Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));
-							Main.npc[num664].ai[1] = 0f;
-							if (Main.netMode == NetmodeID.Server && num664 < 200)
-							{
-								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
-							}
-						}
-					}
-				}
-			}
-		}
+            Main.dust[num658].noGravity = true;
+            Main.dust[num658].velocity *= 0.5f;
+            if (bossLife == 0f && npc.life > 0)
+            {
+                bossLife = (float)npc.lifeMax;
+            }
+            float num644 = 1f;
+            if (npc.life > 0)
+            {
+                float num659 = (float)npc.life / (float)npc.lifeMax;
+                num659 = num659 * 0.5f + 0.75f;
+                num659 *= num644;
+                if (num659 != npc.scale)
+                {
+                    npc.position.X = npc.position.X + (float)(npc.width / 2);
+                    npc.position.Y = npc.position.Y + (float)npc.height;
+                    npc.scale = num659 * 0.75f;
+                    npc.width = (int)(150f * npc.scale);
+                    npc.height = (int)(92f * npc.scale);
+                    npc.position.X = npc.position.X - (float)(npc.width / 2);
+                    npc.position.Y = npc.position.Y - (float)npc.height;
+                }
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int num660 = (int)((double)npc.lifeMax * 0.05);
+                    if ((float)(npc.life + num660) < bossLife)
+                    {
+                        bossLife = (float)npc.life;
+                        int num661 = 1;
+                        for (int num662 = 0; num662 < num661; num662++)
+                        {
+                            int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
+                            int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
+                            int num663 = mod.NPCType("SlimeSpawnCrimson");
+                            if (Main.rand.NextBool(3))
+                            {
+                                num663 = mod.NPCType("SlimeSpawnCrimson2");
+                            }
+                            int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                            Main.npc[num664].SetDefaults(num663, -1f);
+                            Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
+                            Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
+                            Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));
+                            Main.npc[num664].ai[1] = 0f;
+                            if (Main.netMode == NetmodeID.Server && num664 < 200)
+                            {
+                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-		public override void NPCLoot()
-		{
+        public override void NPCLoot()
+        {
             bool otherSlimeGodsAlive =
                 NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGod")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
-				NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
-				NPC.CountNPCS(mod.NPCType("SlimeGodRunSplit")) > 1; // the other crimulan split is alive
-			if (!otherSlimeGodsAlive)
-				SlimeGodCore.DropSlimeGodLoot(npc);
-		}
+                NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
+                NPC.CountNPCS(mod.NPCType("SlimeGodRunSplit")) > 1; // the other crimulan split is alive
+            if (!otherSlimeGodsAlive)
+                SlimeGodCore.DropSlimeGodLoot(npc);
+        }
 
         public override bool CheckActive()
-		{
-			if (CalamityGlobalNPC.slimeGod != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.slimeGod].active)
-					return false;
-			}
-			return true;
-		}
+        {
+            if (CalamityGlobalNPC.slimeGod != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.slimeGod].active)
+                    return false;
+            }
+            return true;
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				npc.position.X = npc.position.X + (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-				npc.width = 50;
-				npc.height = 50;
-				npc.position.X = npc.position.X - (float)(npc.width / 2);
-				npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-				for (int num621 = 0; num621 < 40; num621++)
-				{
-					int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
-					Main.dust[num622].velocity *= 3f;
-					if (Main.rand.NextBool(2))
-					{
-						Main.dust[num622].scale = 0.5f;
-						Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-					}
-				}
-				for (int num623 = 0; num623 < 70; num623++)
-				{
-					int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 3f);
-					Main.dust[num624].noGravity = true;
-					Main.dust[num624].velocity *= 5f;
-					num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
-					Main.dust[num624].velocity *= 2f;
-				}
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                npc.position.X = npc.position.X + (float)(npc.width / 2);
+                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.width = 50;
+                npc.height = 50;
+                npc.position.X = npc.position.X - (float)(npc.width / 2);
+                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                for (int num621 = 0; num621 < 40; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int num623 = 0; num623 < 70; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity *= 2f;
+                }
+            }
+        }
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.85f);
-		}
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(BuffID.Cursed, 90, true);
-		}
-	}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Cursed, 90, true);
+        }
+    }
 }

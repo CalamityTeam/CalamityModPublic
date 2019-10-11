@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Ranged projectiles have a chance to split\n" +
                 "Ranged weapons have a chance to instantly kill normal enemies\n" +
                 "10% increased ranged damage and 5% increased ranged critical strike chance\n" +
-				"20% reduced ammo usage and increased life regen, minion knockback, defense, and pick speed");
+                "20% reduced ammo usage and increased life regen, minion knockback, defense, and pick speed");
         }
 
         public override void SetDefaults()
@@ -22,12 +22,12 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
-		}
+            item.Calamity().postMoonLordRarity = 20;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.eQuiver = true;
             player.rangedDamage += 0.1f;
             player.rangedCrit += 5;

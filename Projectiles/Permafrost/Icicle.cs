@@ -6,26 +6,26 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class Icicle : ModProjectile
-	{
-		public override void SetDefaults()
-		{
-			projectile.width = 10;
-			projectile.height = 10;
-			projectile.aiStyle = 1;
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-			projectile.friendly = true;
+            projectile.friendly = true;
             projectile.magic = true;
             projectile.coldDamage = true;
-			projectile.penetrate = 1;
-		}
+            projectile.penetrate = 1;
+        }
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Icicle");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Icicle");
+        }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             target.AddBuff(BuffID.Frostburn, 300);
         }
 
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Permafrost
         }
 
         public override void Kill(int timeLeft)
-		{
+        {
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (int index1 = 0; index1 < 5; ++index1)
             {
@@ -45,5 +45,5 @@ namespace CalamityMod.Projectiles.Permafrost
                 Main.dust[index2].scale *= 0.9f;
             }
         }
-	}
+    }
 }

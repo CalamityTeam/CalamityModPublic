@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -16,7 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.width = 13;
             projectile.height = 13;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
         public override void AI()
         {
@@ -37,12 +36,12 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, (int) projectile.position.X, (int) projectile.position.Y);
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
             //Dust effect
             int splash = 0;
             while (splash < 4)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.10f, 150, default(Color), 0.9f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.10f, 150, default, 0.9f);
                 splash += 1;
             }
         }

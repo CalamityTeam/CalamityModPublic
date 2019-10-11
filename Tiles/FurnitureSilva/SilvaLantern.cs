@@ -49,7 +49,8 @@ namespace CalamityMod.Tiles.FurnitureSilva
                 r = 0.6f;
                 g = 1f;
                 b = 0.8f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

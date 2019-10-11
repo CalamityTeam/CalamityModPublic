@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,13 +7,13 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class DreadmineTurret : ModProjectile
     {
-    	public float count = 0;
+        public float count = 0;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Dreadmine Turret");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dreadmine Turret");
             Main.projFrames[projectile.type] = 2;
-		}
+        }
 
         public override void SetDefaults()
         {
@@ -28,20 +28,20 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			if (projectile.localAI[0] == 0f)
-			{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-				projectile.localAI[0] += 1f;
-			}
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
-			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
-					Main.player[projectile.owner].minionDamage);
-				projectile.damage = damage2;
-			}
-			projectile.frameCounter++;
+            if (projectile.localAI[0] == 0f)
+            {
+                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                projectile.localAI[0] += 1f;
+            }
+            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                    Main.player[projectile.owner].minionDamage);
+                projectile.damage = damage2;
+            }
+            projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
                 projectile.frame++;
@@ -127,9 +127,9 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-		public override bool CanDamage()
-		{
-			return false;
-		}
-	}
+        public override bool CanDamage()
+        {
+            return false;
+        }
+    }
 }

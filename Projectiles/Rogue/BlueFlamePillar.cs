@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class BlueFlamePillar : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Flame Pillar");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Flame Pillar");
+        }
 
         public override void SetDefaults()
         {
@@ -20,8 +20,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 180;
             projectile.tileCollide = false;
             projectile.alpha = 255;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(ModLoader.GetMod("CalamityMod")).rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
         /// <summary>
         /// Checks if a tile is below a designated Vector2
         /// </summary>
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             int x = (int)position.X;
             int y = (int)position.Y;
-            return Main.tile[x,y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].type];
+            return Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].type];
         }
         public override void AI()
         {
@@ -55,17 +55,17 @@ namespace CalamityMod.Projectiles.Rogue
             int counter = 0;
             while ((float)counter < max)
             {
-                int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default(Color), 1f);
+                int dustIndex = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0f, 0f, 100, default, 1f);
                 Main.dust[dustIndex].noGravity = true;
                 Dust dustFromIndex = Main.dust[dustIndex];
                 dustFromIndex.velocity *= 0.5f;
                 Dust dustFromIndex2 = Main.dust[dustIndex];
-                dustFromIndex2.velocity.Y = dustFromIndex2.velocity.Y - 0.5f;
+                dustFromIndex2.velocity.Y -= 0.5f;
                 Main.dust[dustIndex].scale = 1.4f;
                 Dust dustFromIndex3 = Main.dust[dustIndex];
-                dustFromIndex3.position.X = dustFromIndex3.position.X + 6f;
+                dustFromIndex3.position.X += 6f;
                 Dust dustFromIndex4 = Main.dust[dustIndex];
-                dustFromIndex4.position.Y = dustFromIndex4.position.Y - 2f;
+                dustFromIndex4.position.Y -= 2f;
                 counter++;
             }
         }

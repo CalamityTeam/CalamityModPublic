@@ -24,8 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 360;
             projectile.tileCollide = false;
             drawOffsetX = 6 * projectile.spriteDirection;
-            Mod calamity = ModLoader.GetMod("CalamityMod");
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(calamity).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -35,9 +34,9 @@ namespace CalamityMod.Projectiles.Rogue
 
             projectile.ai[0]++;
             //Dust trail
-            if(Main.rand.Next(15) == 0)
+            if (Main.rand.Next(15) == 0)
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 7, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 100, default(Color), 0f);
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 7, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 100, default, 0f);
                 Main.dust[d].position = projectile.Center;
             }
             //Constant sound effects

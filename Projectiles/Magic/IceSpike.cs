@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class IceSpike : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Spike");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Spike");
+        }
 
         public override void SetDefaults()
         {
@@ -68,16 +68,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
             for (int k = 0; k < 5; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, 0f, 0f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, 0f, 0f);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-    		target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.Frostburn, 240);
         }
     }
 }

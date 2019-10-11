@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
@@ -25,24 +24,24 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.useAnimation = 31;
             item.useTime = 31;
             item.noMelee = true;
-			item.noUseGraphic = true;
+            item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 6f;
+            item.knockBack = 6f;
             item.rare = 10;
             item.UseSound = SoundID.Item71;
-			item.autoReuse = true;
-            item.value = Item.buyPrice(platinum:2); //sell price of 40 gold
-			item.shoot = mod.ProjectileType("CelestialReaperProjectile");
-			item.shootSpeed = 20f;
-			item.GetGlobalItem<CalamityGlobalItem>(ModLoader.GetMod("CalamityMod")).rogue = true;
-		}
+            item.autoReuse = true;
+            item.value = Item.buyPrice(platinum: 2); //sell price of 40 gold
+            item.shoot = mod.ProjectileType("CelestialReaperProjectile");
+            item.shootSpeed = 20f;
+            item.Calamity().rogue = true;
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 velocity = new Vector2(speedX, speedY);
-            float strikeValue = player.GetCalamityPlayer().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
+            float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
             int p = Projectile.NewProjectile(position, velocity, mod.ProjectileType("CelestialReaperProjectile"), damage, knockBack, player.whoAmI, strikeValue);
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+            if (player.Calamity().StealthStrikeAvailable())
+                Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }
     }

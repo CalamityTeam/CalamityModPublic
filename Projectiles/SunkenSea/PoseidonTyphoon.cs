@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.SunkenSea
 {
     public class PoseidonTyphoon : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Poseidon Typhoon");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Poseidon Typhoon");
+        }
 
         public override void SetDefaults()
         {
@@ -24,42 +24,42 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.ignoreWater = true;
         }
 
-		public override void AI()
+        public override void AI()
         {
-			projectile.rotation += projectile.velocity.X * 0.05f;
-        	float centerX = projectile.Center.X;
-			float centerY = projectile.Center.Y;
-			float num474 = 600f;
-			bool homeIn = false;
-			for (int i = 0; i < 200; i++)
-			{
-				if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
-				{
-					float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-					float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-					float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-					if (num478 < num474)
-					{
-						num474 = num478;
-						centerX = num476;
-						centerY = num477;
-						homeIn = true;
-					}
-				}
-			}
-			if (homeIn)
-			{
-				float num483 = 6f;
-				Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-				float num484 = centerX - vector35.X;
-				float num485 = centerY - vector35.Y;
-				float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-				num486 = num483 / num486;
-				num484 *= num486;
-				num485 *= num486;
-				projectile.velocity.X = (projectile.velocity.X * 30f + num484) / 31f;
-				projectile.velocity.Y = (projectile.velocity.Y * 30f + num485) / 31f;
-			}
+            projectile.rotation += projectile.velocity.X * 0.05f;
+            float centerX = projectile.Center.X;
+            float centerY = projectile.Center.Y;
+            float num474 = 600f;
+            bool homeIn = false;
+            for (int i = 0; i < 200; i++)
+            {
+                if (Main.npc[i].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+                {
+                    float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
+                    float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
+                    float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+                    if (num478 < num474)
+                    {
+                        num474 = num478;
+                        centerX = num476;
+                        centerY = num477;
+                        homeIn = true;
+                    }
+                }
+            }
+            if (homeIn)
+            {
+                float num483 = 6f;
+                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                float num484 = centerX - vector35.X;
+                float num485 = centerY - vector35.Y;
+                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
+                num486 = num483 / num486;
+                num484 *= num486;
+                num485 *= num486;
+                projectile.velocity.X = (projectile.velocity.X * 30f + num484) / 31f;
+                projectile.velocity.Y = (projectile.velocity.Y * 30f + num485) / 31f;
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -69,12 +69,12 @@ namespace CalamityMod.Projectiles.SunkenSea
 
         public override Color? GetAlpha(Color lightColor)
         {
-        	return new Color(200, 200, 200, 0);
+            return new Color(200, 200, 200, 0);
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	projectile.penetrate--;
+            projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
                 projectile.Kill();

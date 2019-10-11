@@ -1,16 +1,13 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using ReLogic.Graphics;
-
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent.Events;
 
 namespace CalamityMod.UI
 {
@@ -43,7 +40,7 @@ namespace CalamityMod.UI
 
         public static bool SHOULD_DRAW_SMALLTEXT_HEALTH = true;
 
-		private static List<BossHPUI> Bars;
+        private static List<BossHPUI> Bars;
 
         private static DynamicSpriteFont HPBarFont;
         private static Texture2D BossMainHPBar;
@@ -96,14 +93,14 @@ namespace CalamityMod.UI
             OneToMany[NPCID.PrimeCannon] = SkelePrime;
             OneToMany[NPCID.PrimeLaser] = SkelePrime;
 
-			int[] Golem = new int[] { NPCID.Golem, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.GolemHeadFree };
-			OneToMany[NPCID.Golem] = Golem;
-			OneToMany[NPCID.GolemFistLeft] = Golem;
-			OneToMany[NPCID.GolemFistRight] = Golem;
-			OneToMany[NPCID.GolemHead] = Golem;
-			OneToMany[NPCID.GolemHeadFree] = Golem;
+            int[] Golem = new int[] { NPCID.Golem, NPCID.GolemFistLeft, NPCID.GolemFistRight, NPCID.GolemHead, NPCID.GolemHeadFree };
+            OneToMany[NPCID.Golem] = Golem;
+            OneToMany[NPCID.GolemFistLeft] = Golem;
+            OneToMany[NPCID.GolemFistRight] = Golem;
+            OneToMany[NPCID.GolemHead] = Golem;
+            OneToMany[NPCID.GolemHeadFree] = Golem;
 
-			int[] Saucer = new int[] { NPCID.MartianSaucerCore, NPCID.MartianSaucerTurret, NPCID.MartianSaucerCannon };
+            int[] Saucer = new int[] { NPCID.MartianSaucerCore, NPCID.MartianSaucerTurret, NPCID.MartianSaucerCannon };
             OneToMany[NPCID.MartianSaucerCore] = Saucer;
             OneToMany[NPCID.MartianSaucerTurret] = Saucer;
             OneToMany[NPCID.MartianSaucerCannon] = Saucer;
@@ -179,8 +176,8 @@ namespace CalamityMod.UI
                 ExclusionList.Add(calamity.NPCType("AstrumDeusTailSpectral"));
                 ExclusionList.Add(calamity.NPCType("DesertScourgeBody"));
                 ExclusionList.Add(calamity.NPCType("DesertScourgeTail"));
-				ExclusionList.Add(calamity.NPCType("StormWeaverHead"));
-				ExclusionList.Add(calamity.NPCType("StormWeaverBody"));
+                ExclusionList.Add(calamity.NPCType("StormWeaverHead"));
+                ExclusionList.Add(calamity.NPCType("StormWeaverBody"));
                 ExclusionList.Add(calamity.NPCType("StormWeaverTail"));
                 ExclusionList.Add(calamity.NPCType("StormWeaverBodyNaked"));
                 ExclusionList.Add(calamity.NPCType("StormWeaverTailNaked"));
@@ -227,11 +224,11 @@ namespace CalamityMod.UI
             Mod calamity = ModLoader.GetMod("CalamityMod");
             if (calamity != null)
             {
-				//Prehardmode
-				MinibossHPBarList.Add(calamity.NPCType("GiantClam"));
+                //Prehardmode
+                MinibossHPBarList.Add(calamity.NPCType("GiantClam"));
 
-				//Hardmode
-				MinibossHPBarList.Add(calamity.NPCType("ThiccWaifu"));
+                //Hardmode
+                MinibossHPBarList.Add(calamity.NPCType("ThiccWaifu"));
                 MinibossHPBarList.Add(calamity.NPCType("Horse"));
                 MinibossHPBarList.Add(calamity.NPCType("GreatSandShark"));
                 MinibossHPBarList.Add(calamity.NPCType("PlaguebringerShade"));
@@ -246,8 +243,8 @@ namespace CalamityMod.UI
                 MinibossHPBarList.Add(calamity.NPCType("ProvSpawnDefense"));
                 MinibossHPBarList.Add(calamity.NPCType("ProvSpawnOffense"));
                 MinibossHPBarList.Add(calamity.NPCType("ProvSpawnHealer"));
-				MinibossHPBarList.Add(calamity.NPCType("PolterPhantom"));
-			}
+                MinibossHPBarList.Add(calamity.NPCType("PolterPhantom"));
+            }
         }
 
         public static void Unload()
@@ -267,7 +264,8 @@ namespace CalamityMod.UI
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 //Is NPC active
-                if (!Main.npc[i].active) continue;
+                if (!Main.npc[i].active)
+                    continue;
 
                 //Is npc in exclusion list
                 int type = Main.npc[i].type;
@@ -275,7 +273,8 @@ namespace CalamityMod.UI
                 {
                     AttemptAddBar(i, NPCID.MoonLordCore);
                 }
-                if (ExclusionList.Contains(type)) continue;
+                if (ExclusionList.Contains(type))
+                    continue;
 
                 if (Main.npc[i].type == NPCID.BrainofCthulhu)
                 {
@@ -289,11 +288,11 @@ namespace CalamityMod.UI
                 {
                     AttemptAddBar(i, NPCID.SkeletronPrime);
                 }
-				else if (Main.npc[i].type == NPCID.Golem)
-				{
-					AttemptAddBar(i, NPCID.Golem);
-				}
-				else if (Main.npc[i].type == NPCID.MartianSaucerCore)
+                else if (Main.npc[i].type == NPCID.Golem)
+                {
+                    AttemptAddBar(i, NPCID.Golem);
+                }
+                else if (Main.npc[i].type == NPCID.MartianSaucerCore)
                 {
                     AttemptAddBar(i, NPCID.MartianSaucerCore);
                 }
@@ -359,7 +358,8 @@ namespace CalamityMod.UI
         private static void AttemptAddBar(int index, int type = -1)
         {
             //Limit the number of bars.
-            if (Bars.Count >= MAX_BARS) return;
+            if (Bars.Count >= MAX_BARS)
+                return;
 
             bool hasBar = false;
 
@@ -587,7 +587,8 @@ namespace CalamityMod.UI
 
             public void Update()
             {
-                if (_closeAnimCounter != 0) return;
+                if (_closeAnimCounter != 0)
+                    return;
 
                 int currentLife = _npc.life;
 
@@ -601,7 +602,8 @@ namespace CalamityMod.UI
                         if (Main.npc[i].active && Main.npc[i].life > 0 && _arrayOfIds.Contains(Main.npc[i].type))
                         {
                             if ((Main.npc[i].type == NPCID.MoonLordHead || Main.npc[i].type == NPCID.MoonLordHand || Main.npc[i].type == NPCID.MoonLordCore) &&
-                                Main.npc[i].ai[0] == -2f) continue;
+                                Main.npc[i].ai[0] == -2f)
+                                continue;
                             currentLife += Main.npc[i].life;
                             maxLife += Main.npc[i].lifeMax;
                         }
@@ -767,7 +769,8 @@ namespace CalamityMod.UI
 
                 //DRAW TEXT
                 string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
-                if (_prevLife == _maxHealth) percentHealthText = "100%";
+                if (_prevLife == _maxHealth)
+                    percentHealthText = "100%";
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
                 DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour, OrangeBorderColour * 0.25f);
 
@@ -1029,7 +1032,8 @@ namespace CalamityMod.UI
                 float reversePercent = 1f - percentThroughAnim;
 
                 float percentHealth = (_prevLife / _maxHealth);
-                if (percentHealth < 0) percentHealth = 0;
+                if (percentHealth < 0)
+                    percentHealth = 0;
 
                 int mainBarWidth = (int)(BarMaxWidth * MathHelper.SmoothStep(0f, 1f, reversePercent) * percentHealth);
 
@@ -1041,8 +1045,10 @@ namespace CalamityMod.UI
 
                 //DRAW TEXT
                 string percentHealthText = (percentHealth * 100).ToString("N1") + "%";
-                if (_prevLife <= 0) percentHealthText = "0%";
-                if (_prevLife == _maxHealth) percentHealthText = "100%";
+                if (_prevLife <= 0)
+                    percentHealthText = "0%";
+                if (_prevLife == _maxHealth)
+                    percentHealthText = "100%";
 
                 Vector2 textSize = HPBarFont.MeasureString(percentHealthText);
                 DrawBorderStringEightWay(sb, HPBarFont, percentHealthText, new Vector2(x, y + 22 - textSize.Y), OrangeColour * reversePercent, OrangeBorderColour * 0.25f * reversePercent);
@@ -1076,7 +1082,8 @@ namespace CalamityMod.UI
             {
                 NPC n = Main.npc[id];
 
-                if (!n.active || n.life <= 0) return false;
+                if (!n.active || n.life <= 0)
+                    return false;
 
                 return n.type == NPCID.EaterofWorldsHead ||
                        n.type == NPCID.EaterofWorldsBody ||

@@ -7,21 +7,21 @@ namespace CalamityMod.Items.Tools
 {
     public class CrystylCrusher : ModItem
     {
-		private static int PickPower = 5000;
-		private static float PowderSpeed = 9f;
+        private static int PickPower = 5000;
+        private static float PowderSpeed = 9f;
 
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystyl Crusher");
             Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
-				"Right click to destroy a lot of blocks");
+                "Right click to destroy a lot of blocks");
         }
 
         public override void SetDefaults()
         {
             item.damage = 500;
             item.melee = true;
-			item.crit += 25;
+            item.crit += 25;
             item.width = 70;
             item.height = 70;
             item.useTime = 2;
@@ -34,41 +34,41 @@ namespace CalamityMod.Items.Tools
             item.rare = 10;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
-		}
+            item.Calamity().postMoonLordRarity = 16;
+        }
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
+        }
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 1f, 0f);
-			Main.projectile[proj].extraUpdates = 1;
-			return false;
-		}
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 1f, 0f);
+            Main.projectile[proj].extraUpdates = 1;
+            return false;
+        }
 
-		public override bool CanUseItem(Player player)
-		{
-			if (player.altFunctionUse == 2)
-			{
-				item.pick = 0;
-				item.shoot = mod.ProjectileType("CrystalDust");
-				item.shootSpeed = PowderSpeed;
-				item.tileBoost = 0;
-			}
-			else
-			{
-				item.pick = PickPower;
-				item.shoot = 0;
-				item.shootSpeed = 0f;
-				item.tileBoost += 50;
-			}
-			return base.CanUseItem(player);
-		}
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.pick = 0;
+                item.shoot = mod.ProjectileType("CrystalDust");
+                item.shootSpeed = PowderSpeed;
+                item.tileBoost = 0;
+            }
+            else
+            {
+                item.pick = PickPower;
+                item.shoot = 0;
+                item.shootSpeed = 0f;
+                item.tileBoost += 50;
+            }
+            return base.CanUseItem(player);
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "GallantPickaxe");

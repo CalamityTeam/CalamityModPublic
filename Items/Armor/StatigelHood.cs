@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = 4;
+            item.value = Item.buyPrice(0, 5, 0, 0);
+            item.rare = 4;
             item.defense = 4; //20
         }
 
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Armor
                 "Summons a mini slime god to fight for you, the type depends on what world evil you have\n" +
                 "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                 "Grants an extra jump and increased jump height";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;
             player.doubleJumpSail = true;

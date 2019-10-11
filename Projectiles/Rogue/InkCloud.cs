@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InkCloud : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ink Cloud");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ink Cloud");
+        }
 
         public override void SetDefaults()
         {
@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             Mod calamity = ModLoader.GetMod("CalamityMod");
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(calamity).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()

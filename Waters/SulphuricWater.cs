@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Waters
 {
@@ -9,7 +8,7 @@ namespace CalamityMod.Waters
     {
         public override bool ChooseWaterStyle()
         {
-            return Main.LocalPlayer.GetCalamityPlayer().ZoneSulphur;
+            return Main.LocalPlayer.Calamity().ZoneSulphur;
         }
 
         public override int ChooseWaterfallStyle()
@@ -27,7 +26,7 @@ namespace CalamityMod.Waters
             return 708;
         }
 
-		public override Color BiomeHairColor()
+        public override Color BiomeHairColor()
         {
             return Color.Turquoise;
         }

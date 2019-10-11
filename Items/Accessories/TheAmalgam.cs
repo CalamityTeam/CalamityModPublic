@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
                                "You will confuse nearby enemies when you are struck\n" +
                                "Drops brimstone fireballs from the sky occasionally\n" +
                                "Brimstone fire rains down while invincibility is active\n" +
-							   "Temporary immunity to lava, greatly reduces lava burn damage, and 15% increased damage while in lava\n" +
+                               "Temporary immunity to lava, greatly reduces lava burn damage, and 15% increased damage while in lava\n" +
                                "Summons a fungal clump to fight for you\n" +
                                "You leave behind poisonous seawater as you move\n" +
                                "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in liquid\n" +
@@ -36,13 +36,13 @@ namespace CalamityMod.Items.Accessories
             item.height = 34;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.expert = true;
-			item.rare = 9;
-			item.accessory = true;
+            item.rare = 9;
+            item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.fungalClump)
             {
                 return false;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aBrain = true;
             modPlayer.fungalClump = true;
             if (player.whoAmI == Main.myPlayer)
@@ -66,18 +66,18 @@ namespace CalamityMod.Items.Accessories
                     Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, mod.ProjectileType("FungalClump"), (int)(1000f * player.minionDamage), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
-			player.allDamage += 0.15f;
-			player.ignoreWater = true;
-			player.lavaRose = true;
-			player.lavaMax += 240;
-			if (player.lavaWet)
+            player.allDamage += 0.15f;
+            player.ignoreWater = true;
+            player.lavaRose = true;
+            player.lavaMax += 240;
+            if (player.lavaWet)
             {
-				player.allDamage += 0.15f;
-			}
+                player.allDamage += 0.15f;
+            }
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
-				player.allDamage += 0.1f;
-				player.statDefense += 40;
+                player.allDamage += 0.1f;
+                player.statDefense += 40;
                 player.moveSpeed += 0.75f;
             }
             if (((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1))
@@ -167,7 +167,7 @@ namespace CalamityMod.Items.Accessories
                         Vector2 baseSpawn = new Vector2(spawnX, spawnY);
                         Vector2 baseVelocity = player.Center - baseSpawn;
                         baseVelocity.Normalize();
-                        baseVelocity = baseVelocity * speed2;
+                        baseVelocity *= speed2;
                         for (int i = 0; i < FireProjectiles; i++)
                         {
                             Vector2 spawn = baseSpawn;

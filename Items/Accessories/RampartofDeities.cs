@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Taking damage makes you move very fast for a short time\n" +
                 "Increases armor penetration by 20 and immune time after being struck\n" +
                 "Provides light underwater and provides a small amount of light in the abyss\n" +
-				"Causes stars to fall when damaged\n" +
+                "Causes stars to fall when damaged\n" +
                 "Absorbs 25% of damage done to players on your team\n" +
                 "Only active above 25% life\n" +
                 "Grants immunity to knockback and reduces the cooldown of healing potions\n" +
@@ -27,15 +27,15 @@ namespace CalamityMod.Items.Accessories
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.defense = 12;
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dAmulet = true;
-			modPlayer.rampartOfDeities = true;
-			modPlayer.jellyfishNecklace = true;
+            modPlayer.rampartOfDeities = true;
+            modPlayer.jellyfishNecklace = true;
         }
 
         public override void AddRecipes()

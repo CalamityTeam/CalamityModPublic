@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CalamityMod.Items.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Weapons;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Typeless
         private static int MaxBladeTimer = 18;
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Nanoblack Reaper");
+        {
+            DisplayName.SetDefault("Nanoblack Reaper");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Typeless
 
             // Rotate the scythe as it flies.
             float spin = (projectile.direction <= 0) ? -1f : 1f;
-        	projectile.rotation += spin * RotationIncrement;
+            projectile.rotation += spin * RotationIncrement;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -154,13 +154,13 @@ namespace CalamityMod.Projectiles.Typeless
             Vector2 pos = projectile.Center + directOffset + velocityOffset;
             if (projectile.owner == Main.myPlayer)
             {
-				int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
-				CalamityGlobalProjectile cgp = Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod);
-				if (projectile.melee)
-					cgp.forceMelee = true;
-				else
-					cgp.forceRogue = true;
-			}
+                int proj = Projectile.NewProjectile(pos, Vector2.Zero, bladeID, bladeDamage, bladeKB, projectile.owner, 0f, spin);
+                CalamityGlobalProjectile cgp = Main.projectile[proj].Calamity();
+                if (projectile.melee)
+                    cgp.forceMelee = true;
+                else
+                    cgp.forceRogue = true;
+            }
         }
     }
 }

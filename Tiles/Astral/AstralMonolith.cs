@@ -1,9 +1,9 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -47,14 +47,14 @@ namespace CalamityMod.Tiles.Astral
             int yPos = Main.tile[i, j].frameY;
             int xOffset = i % 4;
             int yOffset = j % 4;
-            xOffset = xOffset * 288;
-            yOffset = yOffset * 270;
+            xOffset *= 288;
+            yOffset *= 270;
             xPos += xOffset;
             yPos += yOffset;
             Texture2D glowmask = mod.GetTexture("Tiles/Astral/AstralMonolith_Glowmask");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour (i, j, new Color(50, 50, 50, 50));
+            Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
             Tile trackTile = Main.tile[i, j];
             Texture2D texture3 = glowmask;
             double num6 = Main.time * 0.08;

@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,15 +12,15 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Daedalus Helm");
             Tooltip.SetDefault("10% increased melee damage and critical strike chance\n" +
-				"10% increased melee and movement speed");
+                "10% increased melee and movement speed");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 25, 0, 0);
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.rare = 5;
             item.defense = 21; //51
         }
 
@@ -40,16 +40,16 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased melee damage\n" +
                 "You have a 33% chance to reflect projectiles back at enemies\n" +
                 "If you reflect a projectile you are also healed for 1/5 of that projectile's damage";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusReflect = true;
             player.meleeDamage += 0.05f;
         }
 
         public override void UpdateEquip(Player player)
         {
-			player.meleeSpeed += 0.1f;
-			player.moveSpeed += 0.1f;
-			player.meleeDamage += 0.1f;
+            player.meleeSpeed += 0.1f;
+            player.moveSpeed += 0.1f;
+            player.meleeDamage += 0.1f;
             player.meleeCrit += 10;
         }
 

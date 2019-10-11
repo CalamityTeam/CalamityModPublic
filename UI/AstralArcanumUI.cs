@@ -1,13 +1,10 @@
 ﻿
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
 using Terraria;
-using Terraria.ModLoader;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
@@ -74,8 +71,10 @@ namespace CalamityMod.UI
             {
                 Open = true;
             }
-            else if (CalamityWorld.bossRushActive) Open = false;
-            if (!Open) return;
+            else if (CalamityWorld.bossRushActive)
+                Open = false;
+            if (!Open)
+                return;
 
             //Draw center circle
             DrawCircle(sb, CenterPoint, 0, CircleStyle.Normal);
@@ -168,7 +167,7 @@ namespace CalamityMod.UI
             }
             else
             {
-                Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>(ModLoader.GetMod("CalamityMod")).HandleTeleport(circle, false, 0);
+                Main.LocalPlayer.Calamity().HandleTeleport(circle, false, 0);
             }
         }
 

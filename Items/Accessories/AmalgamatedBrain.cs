@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -23,13 +23,13 @@ namespace CalamityMod.Items.Accessories
             item.height = 34;
             item.value = Item.buyPrice(0, 15, 0, 0);
             item.expert = true;
-			item.rare = 9;
+            item.rare = 9;
             item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aBrain = true;
             if (player.immune)
             {
@@ -57,8 +57,8 @@ namespace CalamityMod.Items.Accessories
                     }
                 }
             }
-			player.allDamage += 0.12f;
-		}
+            player.allDamage += 0.12f;
+        }
 
         public override void AddRecipes()
         {

@@ -7,10 +7,10 @@ namespace CalamityMod.Items.Tools
 {
     public class AstralPickaxe : ModItem
     {
-	    public override void SetStaticDefaults()
-	    {
- 		    DisplayName.SetDefault("Astral Pickaxe");
- 	    }
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Astral Pickaxe");
+        }
 
         public override void SetDefaults()
         {
@@ -41,12 +41,12 @@ namespace CalamityMod.Items.Tools
             recipe.AddRecipe();
         }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
-		}
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+        }
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             Dust d = CalamityGlobalItem.MeleeDustHelper(player, Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"), 0.56f, 40, 65, -0.13f, 0.13f);
             if (d != null)

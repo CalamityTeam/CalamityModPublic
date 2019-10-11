@@ -1,15 +1,15 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.Astral
 {
-	public class AstralStone : ModTile
-	{
-		public override void SetDefaults()
-		{
+    public class AstralStone : ModTile
+    {
+        public override void SetDefaults()
+        {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
@@ -19,7 +19,7 @@ namespace CalamityMod.Tiles.Astral
             TileMerge.MergeOreTiles(Type);
 
             dustType = mod.DustType("AstralBasic");
-			drop = mod.ItemType("AstralStone");
+            drop = mod.ItemType("AstralStone");
 
             soundType = 21;
 
@@ -37,8 +37,8 @@ namespace CalamityMod.Tiles.Astral
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
     }
 }

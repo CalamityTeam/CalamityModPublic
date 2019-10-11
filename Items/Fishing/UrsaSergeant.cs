@@ -1,9 +1,8 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using CalamityMod.CalPlayer;
+using Terraria;
+using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items.Fishing
 {
     public class UrsaSergeant : ModItem
     {
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ursaSergeant = true;
             player.statDefense += 20;
             player.buffImmune[mod.BuffType("AstralInfectionDebuff")] = true;

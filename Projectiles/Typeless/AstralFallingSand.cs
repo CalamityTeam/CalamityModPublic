@@ -31,7 +31,8 @@ namespace CalamityMod.Projectiles.Typeless
             }
             if (!Main.tile[tileX, tileY].active())
             {
-                if (Main.tile[tileX, tileY].type == TileID.MinecartTrack) return;
+                if (Main.tile[tileX, tileY].type == TileID.MinecartTrack)
+                    return;
 
                 WorldGen.PlaceTile(tileX, tileY, mod.TileType("AstralSand"), false, true);
                 WorldGen.SquareTileFrame(tileX, tileY);

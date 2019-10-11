@@ -1,37 +1,36 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class Cryon : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cryon");
-			Main.npcFrameCount[npc.type] = 8;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cryon");
+            Main.npcFrameCount[npc.type] = 8;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.aiStyle = -1;
+        public override void SetDefaults()
+        {
+            npc.aiStyle = -1;
             aiType = -1;
-			npc.damage = 42;
-			npc.width = 50;
-			npc.height = 64;
-			npc.defense = 10;
-            npc.GetCalamityNPC().RevPlusDR(0.1f);
-			npc.lifeMax = 300;
-			npc.knockBackResist = 0f;
-			npc.value = Item.buyPrice(0, 0, 5, 0);
-			npc.HitSound = SoundID.NPCHit5;
-			npc.DeathSound = SoundID.NPCDeath7;
-			banner = npc.type;
-			bannerItem = mod.ItemType("CryonBanner");
-		}
+            npc.damage = 42;
+            npc.width = 50;
+            npc.height = 64;
+            npc.defense = 10;
+            npc.Calamity().RevPlusDR(0.1f);
+            npc.lifeMax = 300;
+            npc.knockBackResist = 0f;
+            npc.value = Item.buyPrice(0, 0, 5, 0);
+            npc.HitSound = SoundID.NPCHit5;
+            npc.DeathSound = SoundID.NPCDeath7;
+            banner = npc.type;
+            bannerItem = mod.ItemType("CryonBanner");
+        }
 
         public override void AI()
         {
@@ -345,8 +344,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                 !spawnInfo.player.ZoneTowerVortex &&
                 !spawnInfo.player.ZoneTowerNebula &&
                 !spawnInfo.player.ZoneDungeon &&
-				!spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea &&
-				Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
+                !spawnInfo.player.Calamity().ZoneSunkenSea &&
+                Main.hardMode && !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.015f : 0f;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -359,7 +358,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
+        {
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 92, hitDirection, -1f, 0, default, 1f);
@@ -373,12 +372,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-		public override void NPCLoot()
-		{
-			if (Main.rand.NextBool(2))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
-			}
-		}
-	}
+        public override void NPCLoot()
+        {
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofEleum"));
+            }
+        }
+    }
 }

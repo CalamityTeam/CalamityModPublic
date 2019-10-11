@@ -1,11 +1,11 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
     public class SirenBobs : ModBuff
-	{
+    {
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Siren");
@@ -17,8 +17,8 @@ namespace CalamityMod.Buffs.StatBuffs
         }
 
         public override void Update(Player player, ref int buffIndex)
-		{
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+        {
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.sirenBoobsPrevious)
             {
                 modPlayer.sirenBoobsPower = true;
@@ -48,5 +48,5 @@ namespace CalamityMod.Buffs.StatBuffs
                 buffIndex--;
             }
         }
-	}
+    }
 }

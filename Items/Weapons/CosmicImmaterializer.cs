@@ -1,9 +1,9 @@
-using System;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -37,8 +37,8 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("CosmicEnergy");
             item.shootSpeed = 10f;
             item.summon = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
-		}
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
         public override bool CanUseItem(Player player)
         {
@@ -55,9 +55,9 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-			bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon;
-			player.itemTime = item.useTime;
+            CalamityPlayer modPlayer = player.Calamity();
+            bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon;
+            player.itemTime = item.useTime;
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;

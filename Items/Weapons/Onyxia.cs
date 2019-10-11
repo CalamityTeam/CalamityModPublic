@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Onyxia");
             Tooltip.SetDefault(NotConsumeAmmo.ToString() + "% chance to not consume ammo\n" +
-				"Fires a storm of bullets and onyx shards");
+                "Fires a storm of bullets and onyx shards");
         }
 
         public override void SetDefaults()
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons
             item.shoot = 10;
             item.shootSpeed = 28f;
             item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override Vector2? HoldoutOffset()
         {

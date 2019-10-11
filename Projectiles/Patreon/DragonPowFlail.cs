@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CalamityMod.Items.Patreon;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.Patreon;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Patreon
 {
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Patreon
                 vel += projectile.velocity * 0.05f;
                 float sparkVariety = Main.rand.Next(3);
 
-                if(projectile.owner == Main.myPlayer)
+                if (projectile.owner == Main.myPlayer)
                     Projectile.NewProjectile(projectile.Center, vel, type, damage, kb, projectile.owner, sparkVariety, 0f);
             }
         }
@@ -200,7 +200,7 @@ namespace CalamityMod.Projectiles.Patreon
             int waterfallDamage = DragonPow.BaseDamage / 6;
             float waterfallKB = 0f;
             Player owner = Main.player[projectile.owner];
-            for(int i = 0; i < numWaterfalls; ++i)
+            for (int i = 0; i < numWaterfalls; ++i)
             {
                 float startOffsetX = Main.rand.NextFloat(-120f, 120f);
                 float startOffsetY = Main.rand.NextFloat(-740f, -700f);

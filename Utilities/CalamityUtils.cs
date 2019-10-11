@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
@@ -8,40 +9,43 @@ using Terraria;
 
 namespace CalamityMod
 {
-    public static class CPlayerUtils
+    public static class CalamityUtils
     {
-        public static CalamityPlayer GetCalamityPlayer(this Player player) => player.GetModPlayer<CalamityPlayer>();
+        #region Object Extensions
+        public static CalamityPlayer Calamity(this Player player) => player.Calamity();
+        public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
+        public static CalamityGlobalItem Calamity(this Item item) => item.GetGlobalItem<CalamityGlobalItem>();
+        public static CalamityGlobalProjectile Calamity(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
+        #endregion
 
-        public static bool InCalamity(this Player player) => player.GetCalamityPlayer().ZoneCalamity;
-        public static bool InAstral(this Player player) => player.GetCalamityPlayer().ZoneAstral;
-        public static bool InSunkenSea(this Player player) => player.GetCalamityPlayer().ZoneSunkenSea;
-        public static bool InSulphur(this Player player) => player.GetCalamityPlayer().ZoneSulphur;
+        #region Player Utilities
+        public static bool InCalamity(this Player player) => player.Calamity().ZoneCalamity;
+        public static bool InAstral(this Player player) => player.Calamity().ZoneAstral;
+        public static bool InSunkenSea(this Player player) => player.Calamity().ZoneSunkenSea;
+        public static bool InSulphur(this Player player) => player.Calamity().ZoneSulphur;
         public static bool InAbyss(this Player player, int layer = 0)
         {
             switch (layer)
             {
                 case 1:
-                    return player.GetCalamityPlayer().ZoneAbyssLayer1;
+                    return player.Calamity().ZoneAbyssLayer1;
 
                 case 2:
-                    return player.GetCalamityPlayer().ZoneAbyssLayer2;
+                    return player.Calamity().ZoneAbyssLayer2;
 
                 case 3:
-                    return player.GetCalamityPlayer().ZoneAbyssLayer3;
+                    return player.Calamity().ZoneAbyssLayer3;
 
                 case 4:
-                    return player.GetCalamityPlayer().ZoneAbyssLayer4;
+                    return player.Calamity().ZoneAbyssLayer4;
 
                 default:
-                    return player.GetCalamityPlayer().ZoneAbyss;
+                    return player.Calamity().ZoneAbyss;
             }
         }
-    }
+        #endregion
 
-    public static class CNPCUtils
-    {
-        public static CalamityGlobalNPC GetCalamityNPC(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
-
+        #region NPC Utilities
         /// <summary>
         /// Allows you to set the lifeMax value of a NPC to different values based on the mode. Called instead of npc.lifeMax = X.
         /// </summary>
@@ -70,7 +74,7 @@ namespace CalamityMod
             if (npc.boss)
             {
                 double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			    npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+                npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             }
         }
         /// <summary>
@@ -108,7 +112,7 @@ namespace CalamityMod
             {
                 return Main.npc[owner.MinionAttackTargetNPC];
             }
-            return ClosestNPCAt(origin,maxDistanceToCheck);
+            return ClosestNPCAt(origin, maxDistanceToCheck);
         }
 
         /// <summary>
@@ -124,21 +128,14 @@ namespace CalamityMod
             damage = 0D;
             return true;
         }
-    }
+        #endregion
 
-    public static class CProjectileUtils
-    {
-        public static CalamityGlobalProjectile GetCalamityProj(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
-    }
-
-    public static class CMiscUtils
-    {
+        #region Miscellaneous Utilities
         public static void AddWithCondition<T>(this List<T> list, T type, bool condition)
         {
             if (condition)
-            {
                 list.Add(type);
-            }
         }
+        #endregion
     }
 }

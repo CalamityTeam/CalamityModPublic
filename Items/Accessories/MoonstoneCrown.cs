@@ -1,32 +1,32 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
     public class MoonstoneCrown : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Moonstone Crown");
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Moonstone Crown");
             Tooltip.SetDefault("15% increased rogue projectile velocity\n" +
                 "Stealth strikes summon lunar flares on enemy hits\n" +
                 "Rogue projectiles very occasionally summon moon sigils behind them");
         }
 
-		public override void SetDefaults()
-		{
-			item.width = 20;
-			item.height = 20;
-            item.value = Item.buyPrice(0, 18, 0, 0);
-            item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
-            item.accessory = true;
-		}
-
-		public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void SetDefaults()
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>(mod);
+            item.width = 20;
+            item.height = 20;
+            item.value = Item.buyPrice(0, 18, 0, 0);
+            item.Calamity().postMoonLordRarity = 12;
+            item.accessory = true;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.throwingVelocity += 0.15f;
             modPlayer.moonCrown = true;
         }

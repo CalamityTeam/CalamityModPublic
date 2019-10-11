@@ -1,48 +1,48 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Bumblefuck
 {
     public class Bumblefuck2 : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bumblebirb");
-			Main.npcFrameCount[npc.type] = 10;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bumblebirb");
+            Main.npcFrameCount[npc.type] = 10;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.npcSlots = 1f;
-			npc.aiStyle = -1;
-			aiType = -1;
-			npc.damage = 110;
-			npc.width = 80;
-			npc.height = 80;
-			npc.scale = 0.66f;
-			npc.defense = 20;
-			npc.lifeMax = 25000;
+        public override void SetDefaults()
+        {
+            npc.npcSlots = 1f;
+            npc.aiStyle = -1;
+            aiType = -1;
+            npc.damage = 110;
+            npc.width = 80;
+            npc.height = 80;
+            npc.scale = 0.66f;
+            npc.defense = 20;
+            npc.lifeMax = 25000;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 60000;
             }
             npc.knockBackResist = 0f;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
+            for (int k = 0; k < npc.buffImmune.Length; k++)
+            {
+                npc.buffImmune[k] = true;
             }
-			npc.buffImmune[BuffID.Ichor] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
-			npc.lavaImmune = true;
-			npc.noGravity = true;
-			npc.canGhostHeal = false;
-			npc.HitSound = SoundID.NPCHit51;
-			npc.DeathSound = SoundID.NPCDeath46;
-		}
+            npc.buffImmune[BuffID.Ichor] = false;
+            npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[mod.BuffType("ExoFreeze")] = false;
+            npc.lavaImmune = true;
+            npc.noGravity = true;
+            npc.canGhostHeal = false;
+            npc.HitSound = SoundID.NPCHit51;
+            npc.DeathSound = SoundID.NPCDeath46;
+        }
 
         public override void AI()
         {
@@ -247,8 +247,8 @@ namespace CalamityMod.NPCs.Bumblefuck
                 }
                 else if (npc.ai[0] == 2.1f)
                 {
-					npc.damage = (int)((double)npc.defDamage * 1.5);
-					if (npc.velocity.X < 0f)
+                    npc.damage = (int)((double)npc.defDamage * 1.5);
+                    if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;
                     }
@@ -286,49 +286,49 @@ namespace CalamityMod.NPCs.Bumblefuck
             return false;
         }
 
-		public override void FindFrame(int frameHeight)
+        public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += (double)(npc.velocity.Length() / 4f);
-			npc.frameCounter += 1.0;
-			if (npc.ai[0] < 4f)
-			{
-				if (npc.frameCounter >= 6.0)
-				{
-					npc.frameCounter = 0.0;
-					npc.frame.Y = npc.frame.Y + frameHeight;
-				}
-				if (npc.frame.Y / frameHeight > 4)
-				{
-					npc.frame.Y = 0;
-				}
-			}
-			else
-			{
-				if (npc.frameCounter >= 6.0)
-				{
-					npc.frameCounter = 0.0;
-					npc.frame.Y = npc.frame.Y + frameHeight;
-				}
-				if (npc.frame.Y / frameHeight > 9)
-				{
-					npc.frame.Y = frameHeight * 5;
-				}
-			}
+            npc.frameCounter += 1.0;
+            if (npc.ai[0] < 4f)
+            {
+                if (npc.frameCounter >= 6.0)
+                {
+                    npc.frameCounter = 0.0;
+                    npc.frame.Y = npc.frame.Y + frameHeight;
+                }
+                if (npc.frame.Y / frameHeight > 4)
+                {
+                    npc.frame.Y = 0;
+                }
+            }
+            else
+            {
+                if (npc.frameCounter >= 6.0)
+                {
+                    npc.frameCounter = 0.0;
+                    npc.frame.Y = npc.frame.Y + frameHeight;
+                }
+                if (npc.frame.Y / frameHeight > 9)
+                {
+                    npc.frame.Y = frameHeight * 5;
+                }
+            }
         }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 50; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 50; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+    }
 }

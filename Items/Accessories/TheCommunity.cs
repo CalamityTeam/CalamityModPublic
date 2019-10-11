@@ -1,25 +1,25 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
     public class TheCommunity : ModItem
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("The Community");
-			Tooltip.SetDefault("The heart of (most of) the Terraria community\n" +
-            	"Legendary Accessory\n" +
-            	"Starts off with weak buffs to all of your stats\n" +
-            	"The stat buffs become more powerful as you progress\n" +
-            	"Reduces the DoT effects of harmful debuffs inflicted on you\n" +
-            	"Boosts your maximum flight time by 15%\n" +
-            	"Thank you to all of my supporters that made this mod a reality\n" +
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("The Community");
+            Tooltip.SetDefault("The heart of (most of) the Terraria community\n" +
+                "Legendary Accessory\n" +
+                "Starts off with weak buffs to all of your stats\n" +
+                "The stat buffs become more powerful as you progress\n" +
+                "Reduces the DoT effects of harmful debuffs inflicted on you\n" +
+                "Boosts your maximum flight time by 15%\n" +
+                "Thank you to all of my supporters that made this mod a reality\n" +
                 "Revengeance drop");
-			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 15));
-		}
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 15));
+        }
 
         public override void SetDefaults()
         {
@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Accessories
             item.height = 20;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 20;
-		}
+            item.Calamity().postMoonLordRarity = 20;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-        	CalamityPlayer modPlayer = player.GetCalamityPlayer();
-			modPlayer.community = true;
-		}
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.community = true;
+        }
     }
 }

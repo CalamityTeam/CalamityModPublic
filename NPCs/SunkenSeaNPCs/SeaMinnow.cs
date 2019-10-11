@@ -1,43 +1,41 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.SunkenSeaNPCs
 {
     public class SeaMinnow : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Sea Minnow");
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Sea Minnow");
             Main.npcFrameCount[npc.type] = 4;
         }
 
-		public override void SetDefaults()
-		{
-			npc.npcSlots = 0.1f;
-			npc.noGravity = true;
+        public override void SetDefaults()
+        {
+            npc.npcSlots = 0.1f;
+            npc.noGravity = true;
             npc.damage = 0;
-			npc.width = 36;
-			npc.height = 22;
-			npc.defense = 0;
-			npc.lifeMax = 5;
+            npc.width = 36;
+            npc.height = 22;
+            npc.defense = 0;
+            npc.lifeMax = 5;
             npc.aiStyle = -1;
-			aiType = -1;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			banner = npc.type;
-			bannerItem = mod.ItemType("SeaMinnowBanner");
-			npc.chaseable = false;
-		}
+            aiType = -1;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
+            banner = npc.type;
+            bannerItem = mod.ItemType("SeaMinnowBanner");
+            npc.chaseable = false;
+        }
 
         public override void AI()
         {
-			npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
-			npc.noGravity = true;
-			bool flag14 = false;
+            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.noGravity = true;
+            bool flag14 = false;
             if (npc.direction == 0)
             {
                 npc.TargetClosest(true);
@@ -100,7 +98,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                     {
                         npc.velocity.Y = -6f;
                     }
-					npc.direction *= -1;
+                    npc.direction *= -1;
                 }
                 else
                 {
@@ -200,19 +198,19 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-			if (spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea && spawnInfo.water && !spawnInfo.player.GetCalamityPlayer().clamity)
+            if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && !spawnInfo.player.Calamity().clamity)
             {
                 return SpawnCondition.CaveJellyfish.Chance * 0.6f;
             }
-			return 0f;
+            return 0f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
-			}
-		}
-	}
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 68, hitDirection, -1f, 0, default, 1f);
+            }
+        }
+    }
 }

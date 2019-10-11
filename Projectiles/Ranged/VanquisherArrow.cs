@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,12 +7,12 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class VanquisherArrow : ModProjectile
     {
-    	private int projCount = 18;
+        private int projCount = 18;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Arrow");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Arrow");
+        }
 
         public override void SetDefaults()
         {
@@ -30,32 +29,32 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-        	projCount--;
-        	if (projCount <= 0)
-        	{
-        		if (projectile.owner == Main.myPlayer)
-        		{
-        			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, mod.ProjectileType("VanquisherArrow2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        		}
-        		projCount = 18;
-        	}
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projCount--;
+            if (projCount <= 0)
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, mod.ProjectileType("VanquisherArrow2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                }
+                projCount = 18;
+            }
         }
 
-		/*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			Vector2 origin = new Vector2(0f, 0f);
-			Color color = Color.White;
-			if (projectile.timeLeft < 85)
-			{
-				byte b2 = (byte)(projectile.timeLeft * 3);
-				byte a2 = (byte)(100f * ((float)b2 / 255f));
-				color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
-			}
-			spriteBatch.Draw(mod.GetTexture("Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
-		}*/
+        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 origin = new Vector2(0f, 0f);
+            Color color = Color.White;
+            if (projectile.timeLeft < 85)
+            {
+                byte b2 = (byte)(projectile.timeLeft * 3);
+                byte a2 = (byte)(100f * ((float)b2 / 255f));
+                color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
+            }
+            spriteBatch.Draw(mod.GetTexture("Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+        }*/
 
-		public override Color? GetAlpha(Color lightColor)
+        public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.timeLeft < 85)
             {
@@ -68,7 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
+            target.AddBuff(mod.BuffType("GodSlayerInferno"), 300);
         }
     }
 }

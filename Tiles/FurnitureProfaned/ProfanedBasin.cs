@@ -7,16 +7,16 @@ using Terraria.ObjectData;
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     class ProfanedBasin : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
-			Main.tileLavaDeath[Type] = true;
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Profaned Crucible");
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
+            Main.tileLavaDeath[Type] = true;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Profaned Crucible");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };
@@ -61,8 +61,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("ProfanedBasin"));
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("ProfanedBasin"));
         }
     }
 }

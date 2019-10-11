@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +11,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Empyrean Knives");
-			Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
-		}
+            Tooltip.SetDefault("Throws a flurry of bouncing knives that can heal the user");
+        }
 
         public override void SafeSetDefaults()
         {
@@ -31,9 +31,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.shoot = mod.ProjectileType("EmpyreanKnives");
             item.shootSpeed = 15f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().rogue = true;
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

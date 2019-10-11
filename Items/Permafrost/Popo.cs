@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Permafrost
 {
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Permafrost
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.snowman = true;
             if (hideVisual)
             {
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Permafrost
         }
     }
 
-	public class PopoNoselessHead : EquipTexture
+    public class PopoNoselessHead : EquipTexture
     {
         public override bool DrawHead()
         {

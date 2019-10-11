@@ -1,56 +1,56 @@
-﻿using System;
-using System.IO;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CosmicWraith
 {
     public class CosmicLantern : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cosmic Lantern");
-			Main.npcFrameCount[npc.type] = 4;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cosmic Lantern");
+            Main.npcFrameCount[npc.type] = 4;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.aiStyle = -1;
-			aiType = -1;
-			npc.damage = 110;
-			npc.width = 25;
-			npc.height = 25;
-			npc.defense = 50;
-			npc.lifeMax = 25;
+        public override void SetDefaults()
+        {
+            npc.aiStyle = -1;
+            aiType = -1;
+            npc.damage = 110;
+            npc.width = 25;
+            npc.height = 25;
+            npc.defense = 50;
+            npc.lifeMax = 25;
             npc.alpha = 255;
-			npc.knockBackResist = 0.85f;
-			npc.noGravity = true;
+            npc.knockBackResist = 0.85f;
+            npc.noGravity = true;
             npc.dontTakeDamage = true;
             npc.chaseable = false;
-			npc.canGhostHeal = false;
-			npc.noTileCollide = true;
-			for (int k = 0; k < npc.buffImmune.Length; k++)
-			{
-				npc.buffImmune[k] = true;
-			}
-			npc.HitSound = SoundID.NPCHit53;
-			npc.DeathSound = SoundID.NPCDeath44;
-		}
+            npc.canGhostHeal = false;
+            npc.noTileCollide = true;
+            for (int k = 0; k < npc.buffImmune.Length; k++)
+            {
+                npc.buffImmune[k] = true;
+            }
+            npc.HitSound = SoundID.NPCHit53;
+            npc.DeathSound = SoundID.NPCDeath44;
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(npc.dontTakeDamage);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.dontTakeDamage);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			npc.dontTakeDamage = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.dontTakeDamage = reader.ReadBoolean();
+        }
 
-		public override void FindFrame(int frameHeight)
+        public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
@@ -58,8 +58,8 @@ namespace CalamityMod.NPCs.CosmicWraith
             npc.frame.Y = frame * frameHeight;
         }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             npc.alpha -= 3;
             if (npc.alpha < 0)
             {
@@ -93,35 +93,35 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             npc.dontTakeDamage = false;
             npc.chaseable = true;
-			playerDistMagnitude = playerDistNormMult / playerDistMagnitude;
-			playerDistX *= playerDistMagnitude;
-			playerDistY *= playerDistMagnitude;
-			npc.velocity = (npc.velocity * 100f + new Vector2(playerDistX, playerDistY)) / 101f;
-		}
+            playerDistMagnitude = playerDistNormMult / playerDistMagnitude;
+            playerDistX *= playerDistMagnitude;
+            playerDistY *= playerDistMagnitude;
+            npc.velocity = (npc.velocity * 100f + new Vector2(playerDistX, playerDistY)) / 101f;
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			if (CalamityWorld.revenge)
-			{
-				player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
-			}
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            if (CalamityWorld.revenge)
+            {
+                player.AddBuff(mod.BuffType("MarkedforDeath"), 180);
+            }
+        }
 
-		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-		{
-			cooldownSlot = 0;
-			return npc.alpha == 0;
-		}
+        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+        {
+            cooldownSlot = 0;
+            return npc.alpha == 0;
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 10; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 204, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 10; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 204, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+    }
 }

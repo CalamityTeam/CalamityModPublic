@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class DuststormInABottle : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Duststorm");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Duststorm");
+        }
 
         public override void SetDefaults()
         {
@@ -20,15 +20,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 2;
             projectile.timeLeft = 180;
             aiType = 48;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107); //change
-        	for (int k = 0; k < 15; k++)
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107); //change
+            for (int k = 0; k < 15; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.oldVelocity.X, projectile.oldVelocity.Y);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.oldVelocity.X, projectile.oldVelocity.Y);
             }
             int num220 = Main.rand.Next(20, 31);
             if (projectile.owner == Main.myPlayer)

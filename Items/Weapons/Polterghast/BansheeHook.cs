@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons.Polterghast
             item.rare = 10;
             item.shoot = mod.ProjectileType("BansheeHook");
             item.shootSpeed = 42f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override bool CanUseItem(Player player)
         {

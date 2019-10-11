@@ -11,8 +11,8 @@ namespace CalamityMod.Projectiles.Patreon
         private static int AnimationFrameTime = 9;
 
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Not Exoblade");
+        {
+            DisplayName.SetDefault("Not Exoblade");
             Main.projFrames[projectile.type] = NumAnimationFrames;
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.ShadowFlame, 180);
+            target.AddBuff(BuffID.ShadowFlame, 180);
             target.AddBuff(BuffID.Ichor, 180);
         }
 
@@ -77,13 +77,13 @@ namespace CalamityMod.Projectiles.Patreon
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 
             Vector2 corner = new Vector2(projectile.position.X, projectile.position.Y);
-			for (int i = 0; i < 50; i++)
-			{
-				int idx = Dust.NewDust(corner, projectile.width, projectile.height, 86, 0f, 0f, 0, new Color(210, 0, 255), 2.2f);
-				Main.dust[idx].noGravity = true;
-				Main.dust[idx].velocity *= 2.5f;
+            for (int i = 0; i < 50; i++)
+            {
+                int idx = Dust.NewDust(corner, projectile.width, projectile.height, 86, 0f, 0f, 0, new Color(210, 0, 255), 2.2f);
+                Main.dust[idx].noGravity = true;
+                Main.dust[idx].velocity *= 2.5f;
 
-				idx = Dust.NewDust(corner, projectile.width, projectile.height, 118, 0f, 0f, 100, new Color(210, 0, 255), 1.8f);
+                idx = Dust.NewDust(corner, projectile.width, projectile.height, 118, 0f, 0f, 100, new Color(210, 0, 255), 1.8f);
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 1.8f;
 
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Patreon
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 4.0f;
             }
-			projectile.Damage();
+            projectile.Damage();
         }
     }
 }

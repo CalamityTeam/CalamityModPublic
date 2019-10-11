@@ -30,8 +30,8 @@ namespace CalamityMod.Items.Weapons
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
             item.shootSpeed = 10f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
@@ -43,10 +43,10 @@ namespace CalamityMod.Items.Weapons
                     Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
                 }
                 Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);
-                target.position.X = target.position.X + (float)(target.width / 2);
-                target.position.Y = target.position.Y + (float)(target.height / 2);
-                target.position.X = target.position.X - (float)(target.width / 2);
-                target.position.Y = target.position.Y - (float)(target.height / 2);
+                target.position.X += (float)(target.width / 2);
+                target.position.Y += (float)(target.height / 2);
+                target.position.X -= (float)(target.width / 2);
+                target.position.Y -= (float)(target.height / 2);
                 for (int num621 = 0; num621 < 30; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(target.position.X, target.position.Y), target.width, target.height, 5, 0f, 0f, 100, default, 2f);

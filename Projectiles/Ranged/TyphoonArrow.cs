@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TyphoonArrow : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Arrow");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Arrow");
+        }
 
         public override void SetDefaults()
         {
@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 14;
             projectile.friendly = true;
             projectile.ranged = true;
-			projectile.arrow = true;
-			projectile.penetrate = 1;
+            projectile.arrow = true;
+            projectile.penetrate = 1;
             projectile.aiStyle = 1;
             projectile.timeLeft = 600;
             aiType = 1;
@@ -25,10 +25,10 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-        	if (projectile.owner == Main.myPlayer)
-        	{
-        		Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("TyphoonBubble"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-        	}
+            if (projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("TyphoonBubble"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            }
         }
     }
 }

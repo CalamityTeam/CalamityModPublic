@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class CoralSpike : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Coral Spike");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Coral Spike");
+        }
 
         public override void SetDefaults()
         {
@@ -23,9 +23,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	projectile.velocity.X *= 0.9f;
-        	projectile.velocity.Y *= 0.99f;
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.velocity.X *= 0.9f;
+            projectile.velocity.Y *= 0.99f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         }
     }
 }

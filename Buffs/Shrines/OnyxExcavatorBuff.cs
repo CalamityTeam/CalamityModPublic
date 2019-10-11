@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Mounts;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.Shrines
 {
@@ -16,9 +16,9 @@ namespace CalamityMod.Buffs.Shrines
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.mount.SetMount(mod.MountType<Items.Mounts.OnyxExcavator>(), player);
+            player.mount.SetMount(ModContent.MountType<OnyxExcavator>(), player);
             player.buffTime[buffIndex] = 10;
-            player.GetCalamityPlayer().onyxExcavator = true;
+            player.Calamity().onyxExcavator = true;
         }
     }
 }

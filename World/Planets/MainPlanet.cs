@@ -1,15 +1,14 @@
-﻿using System;
+﻿using CalamityMod.MiscImplementation;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.World.Generation;
 using Terraria.GameContent.Generation;
-using Microsoft.Xna.Framework;
-
-using CalamityMod.MiscImplementation;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.World.Generation;
 
 namespace CalamityMod.World.Planets
 {
@@ -17,8 +16,8 @@ namespace CalamityMod.World.Planets
     {
         public override bool Place(Point origin, StructureMap structures)
         {
-			float scale = (float)Main.maxTilesX / 4200f;
-			int radius = (int)((float)_random.Next(30, 36) * scale); //50 to 65
+            float scale = (float)Main.maxTilesX / 4200f;
+            int radius = (int)((float)_random.Next(30, 36) * scale); //50 to 65
 
             if (!CheckIfPlaceable(origin, radius, structures))
             {
@@ -119,7 +118,7 @@ namespace CalamityMod.World.Planets
             ShapeData cinderPlateBlob = new ShapeData();
             WorldUtils.Gen(origin, new Shapes.Circle(cinderRadius), Actions.Chain(new GenAction[]
             {
-                new Actions.SetTile((ushort)CalamityMod.Instance.TileType("Cinderplate"), true).Output(cinderPlateBlob),
+                new Actions.SetTile((ushort)ModContent.GetInstance<CalamityMod>().TileType("Cinderplate"), true).Output(cinderPlateBlob),
                 new Actions.ClearWall(),
                 new Actions.PlaceWall(WallID.LavaUnsafe2)
             }));
@@ -150,7 +149,7 @@ namespace CalamityMod.World.Planets
 
             //PLACE BEAMS BELOW CIRCLE
             HashSet<Point16> bottomMostTiles = bottomTiles.GetData();
-            foreach(Point16 p in bottomMostTiles)
+            foreach (Point16 p in bottomMostTiles)
             {
                 int tileX = origin.X + p.X;
                 int tileY = origin.Y + p.Y;
@@ -166,7 +165,8 @@ namespace CalamityMod.World.Planets
                 for (int y = origin.Y - 4; y <= origin.Y + 4; y++)
                 {
                     int distFromOriginX = Math.Abs(origin.X - x);
-                    if (distFromOriginX <= cinderRadius + 1) continue;
+                    if (distFromOriginX <= cinderRadius + 1)
+                        continue;
 
                     if (x == origin.X - corridorLength || x == origin.X + corridorLength)
                     {
@@ -179,7 +179,8 @@ namespace CalamityMod.World.Planets
                         if (distFromOriginX < cinderRadius + 9 && !_tiles[x, y].active())
                         {
                             _tiles[x, y].active(false);
-                            if (bottom) WorldGen.PlaceTile(x, y, TileID.Platforms, true);
+                            if (bottom)
+                                WorldGen.PlaceTile(x, y, TileID.Platforms, true);
                         }
                         else
                         {
@@ -209,7 +210,7 @@ namespace CalamityMod.World.Planets
             }
             WorldGen.PlaceDoor(doorX, origin.Y + 2, TileID.ClosedDoor, 14);
             int lanternX = labLeftSide ? doorX - 7 : doorX + 7;
-            int chest = -1;
+            int chest;
             if (labLeftSide)
             {
                 //Lantern, alchemy table, heavy work bench

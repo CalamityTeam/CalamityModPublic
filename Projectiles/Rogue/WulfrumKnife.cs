@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class WulfrumKnife : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Knife");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Knife");
+        }
 
         public override void SetDefaults()
         {
@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 2;
             projectile.timeLeft = 600;
             aiType = 48;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -33,10 +33,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-        	if (Main.rand.NextBool(2))
-        	{
-        		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("WulfrumKnife"));
-        	}
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("WulfrumKnife"));
+            }
         }
     }
 }

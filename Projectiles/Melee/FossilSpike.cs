@@ -5,11 +5,11 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class FossilSpike : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Spike");
-			Main.projFrames[projectile.type] = 4;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Spike");
+            Main.projFrames[projectile.type] = 4;
+        }
 
         public override void SetDefaults()
         {
@@ -24,20 +24,20 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	if (Main.rand.NextBool(5))
+            if (Main.rand.NextBool(5))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             projectile.frameCounter++;
-			if (projectile.frameCounter > 4)
-			{
-			    projectile.frame++;
-			    projectile.frameCounter = 0;
-			}
-			if (projectile.frame > 3)
-			{
-			   projectile.frame = 0;
-			}
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame > 3)
+            {
+                projectile.frame = 0;
+            }
         }
     }
 }

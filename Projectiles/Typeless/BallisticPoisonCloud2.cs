@@ -6,9 +6,9 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class BallisticPoisonCloud2 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cloud");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cloud");
             Main.projFrames[projectile.type] = 4;
         }
 
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ignoreWater = true;
             projectile.timeLeft = 3600;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 30;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()
@@ -39,30 +39,30 @@ namespace CalamityMod.Projectiles.Typeless
                 projectile.frame = 0;
             }
             projectile.velocity *= 0.99f;
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 150f)
-			{
-				if (projectile.alpha < 255)
-				{
-					projectile.alpha += 5;
-					if (projectile.alpha > 255)
-					{
-						projectile.alpha = 255;
-					}
-				}
-				else if (projectile.owner == Main.myPlayer)
-				{
-					projectile.Kill();
-				}
-			}
-			else if (projectile.alpha > 80)
-			{
-				projectile.alpha -= 30;
-				if (projectile.alpha < 80)
-				{
-					projectile.alpha = 80;
-				}
-			}
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] >= 150f)
+            {
+                if (projectile.alpha < 255)
+                {
+                    projectile.alpha += 5;
+                    if (projectile.alpha > 255)
+                    {
+                        projectile.alpha = 255;
+                    }
+                }
+                else if (projectile.owner == Main.myPlayer)
+                {
+                    projectile.Kill();
+                }
+            }
+            else if (projectile.alpha > 80)
+            {
+                projectile.alpha -= 30;
+                if (projectile.alpha < 80)
+                {
+                    projectile.alpha = 80;
+                }
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

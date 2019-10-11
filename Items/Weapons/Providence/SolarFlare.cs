@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Providence
             item.rare = 10;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("SolarFlareYoyo");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
-		}
+            item.Calamity().postMoonLordRarity = 12;
+        }
     }
 }

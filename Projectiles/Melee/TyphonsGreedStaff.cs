@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TyphonsGreedStaff : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Typhon's Greed");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Typhon's Greed");
+        }
 
         public override void SetDefaults()
         {
@@ -243,7 +243,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("CrushDepth"), 240);
+            target.AddBuff(mod.BuffType("CrushDepth"), 240);
             target.immune[projectile.owner] = 6;
         }
     }

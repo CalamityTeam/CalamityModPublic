@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 60, 0, 0);
-			item.defense = 34; //85
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
-		}
+            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.defense = 34; //85
+            item.Calamity().postMoonLordRarity = 13;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareRanged = true;
             player.setBonus = "Greatly increases life regen\n" +
@@ -51,8 +51,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-			player.lavaMax += 240;
-			player.ignoreWater = true;
+            player.lavaMax += 240;
+            player.ignoreWater = true;
             player.rangedDamage += 0.1f;
             player.rangedCrit += 10;
         }

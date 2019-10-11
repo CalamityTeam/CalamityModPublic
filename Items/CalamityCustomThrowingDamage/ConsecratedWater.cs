@@ -24,24 +24,24 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.useAnimation = 29;
             item.useTime = 29;
             item.noMelee = true;
-			item.noUseGraphic = true;
+            item.noUseGraphic = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-			item.knockBack = 4.5f;
+            item.knockBack = 4.5f;
             item.rare = 6;
             item.UseSound = SoundID.Item106;
-			item.autoReuse = true;
-            item.value = Item.buyPrice(gold:50); //sell price of 10 gold
-			item.shoot = mod.ProjectileType("ConsecratedWaterProjectile");
-			item.shootSpeed = 15f;
-			item.GetGlobalItem<CalamityGlobalItem>(ModLoader.GetMod("CalamityMod")).rogue = true;
-		}
+            item.autoReuse = true;
+            item.value = Item.buyPrice(gold: 50); //sell price of 10 gold
+            item.shoot = mod.ProjectileType("ConsecratedWaterProjectile");
+            item.shootSpeed = 15f;
+            item.Calamity().rogue = true;
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 velocity = new Vector2(speedX, speedY);
-            float strikeValue = player.GetCalamityPlayer().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
-            int p = Projectile.NewProjectile(position, velocity, mod.ProjectileType("ConsecratedWaterProjectile"), damage, knockBack, player.whoAmI, ai1:strikeValue);
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
-                Main.projectile[p].GetCalamityProj().stealthStrike = true;
+            float strikeValue = player.Calamity().StealthStrikeAvailable().ToInt(); //0 if false, 1 if true
+            int p = Projectile.NewProjectile(position, velocity, mod.ProjectileType("ConsecratedWaterProjectile"), damage, knockBack, player.whoAmI, ai1: strikeValue);
+            if (player.Calamity().StealthStrikeAvailable())
+                Main.projectile[p].Calamity().stealthStrike = true;
             return false;
         }
         public override void AddRecipes()

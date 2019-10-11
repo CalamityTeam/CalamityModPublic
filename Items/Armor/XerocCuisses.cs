@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -20,15 +19,15 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 24, 0, 0);
-			item.rare = 9;
+            item.value = Item.buyPrice(0, 24, 0, 0);
+            item.rare = 9;
             item.defense = 24;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetCalamityPlayer().throwingCrit += 5;
-            player.GetCalamityPlayer().throwingDamage += 0.05f;
+            player.Calamity().throwingCrit += 5;
+            player.Calamity().throwingDamage += 0.05f;
             player.moveSpeed += 0.2f;
         }
 

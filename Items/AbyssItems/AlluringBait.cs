@@ -24,9 +24,12 @@ namespace CalamityMod.Items.AbyssItems
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (Main.eclipse) { player.fishingSkill += 60; }
-            else if (!Main.dayTime) { player.fishingSkill += 45; }
-            else { player.fishingSkill += 30; }
+            if (Main.eclipse)
+            { player.fishingSkill += 60; }
+            else if (!Main.dayTime)
+            { player.fishingSkill += 45; }
+            else
+            { player.fishingSkill += 30; }
         }
     }
 }

@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons.Leviathan
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Leviatitan");
-			Tooltip.SetDefault("Fires green and normal water blasts");
-		}
+            Tooltip.SetDefault("Fires green and normal water blasts");
+        }
 
         public override void SetDefaults()
         {

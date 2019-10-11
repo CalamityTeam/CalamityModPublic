@@ -1,5 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -16,7 +15,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 19;
             projectile.height = 19;
             projectile.friendly = true;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -31,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Dust trail
             if (Main.rand.Next(13) == 0)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 22, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default(Color), 0.9f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 22, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.9f);
             }
         }
 
@@ -42,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             int dust_splash = 0;
             while (dust_splash < 9)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.15f, 120, default(Color), 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 9, -projectile.velocity.X * 0.15f, -projectile.velocity.Y * 0.15f, 120, default, 1.5f);
                 dust_splash += 1;
             }
             // This only triggers if stealth is full
@@ -55,7 +54,7 @@ namespace CalamityMod.Projectiles.Rogue
                     float shardspeedX = -projectile.velocity.X * Main.rand.NextFloat(.5f, .7f) + Main.rand.NextFloat(-3f, 3f);
                     float shardspeedY = -projectile.velocity.Y * Main.rand.Next(50, 70) * 0.01f + Main.rand.Next(-8, 9) * 0.2f;
                     //Prevents the projectile speed from being too low
-                    if (shardspeedX < 2f && shardspeedX > -2f )
+                    if (shardspeedX < 2f && shardspeedX > -2f)
                     {
                         shardspeedX += -projectile.velocity.X;
                     }
@@ -65,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
 
                     //Spawn the projectile
-                    Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, mod.ProjectileType<BrickFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
                     split += 1;
                 }
             }

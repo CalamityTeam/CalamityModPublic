@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Stream Gouge");
             Tooltip.SetDefault("Fires an essence flame beam\n" +
-				"Ignores immunity frames");
+                "Ignores immunity frames");
         }
 
         public override void SetDefaults()
@@ -34,16 +34,16 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("StreamGouge");
             item.shootSpeed = 15f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(50f, 48f);
-			spriteBatch.Draw(mod.GetTexture("Items/Weapons/StreamGougeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Vector2 origin = new Vector2(50f, 48f);
+            spriteBatch.Draw(mod.GetTexture("Items/Weapons/StreamGougeGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
 
-		public override bool CanUseItem(Player player)
+        public override bool CanUseItem(Player player)
         {
             for (int i = 0; i < 1000; ++i)
             {
@@ -59,16 +59,16 @@ namespace CalamityMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "CosmiliteBar", 14);
-			recipe.AddIngredient(null, "NightmareFuel", 7);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "NightmareFuel", 7);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "CosmiliteBar", 14);
-			recipe.AddIngredient(null, "EndothermicEnergy", 7);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "CosmiliteBar", 14);
+            recipe.AddIngredient(null, "EndothermicEnergy", 7);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

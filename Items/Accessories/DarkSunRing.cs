@@ -1,8 +1,8 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Dark Sun Ring");
             Tooltip.SetDefault("12% increase to damage, minion knockback, and melee speed\n" +
-				"+1 life regen, 15% increased pick speed, and +2 max minions\n" +
+                "+1 life regen, 15% increased pick speed, and +2 max minions\n" +
                 "During the day the player has +3 life regen\n" +
                 "During the night the player has +30 defense\n" +
                 "Contains the power of the dark sun");
@@ -24,15 +24,15 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = Item.buyPrice(0, 90, 0, 0);
-			item.defense = 10;
-			item.lifeRegen = 1;
+            item.defense = 10;
+            item.lifeRegen = 1;
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 15;
-		}
+            item.Calamity().postMoonLordRarity = 15;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.darkSunRing = true;
         }
 

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Redtide Sword");
-			Tooltip.SetDefault("Throws short-range whirlpools");
-		}
+            Tooltip.SetDefault("Throws short-range whirlpools");
+        }
 
         public override void SetDefaults()
         {
@@ -27,17 +27,17 @@ namespace CalamityMod.Items.Weapons
             item.height = 42;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-			item.shoot = mod.ProjectileType("Whirlpool");
-			item.shootSpeed = 6f;
-		}
+            item.shoot = mod.ProjectileType("Whirlpool");
+            item.shootSpeed = 6f;
+        }
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-			return false;
-		}
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
+            return false;
+        }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "VictideBar", 3);

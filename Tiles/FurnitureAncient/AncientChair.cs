@@ -7,30 +7,30 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-	public class AncientChair : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
+    public class AncientChair : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.CoordinateHeights = new int[]{ 16, 18 };
-			TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
-			TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
-			TileObjectData.newTile.StyleMultiplier = 2; //same as above
-			TileObjectData.newTile.StyleHorizontal = true;
-			TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-			TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
-			TileObjectData.addAlternate(1);
-			TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Ancient Chair");
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
+            TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
+            TileObjectData.newTile.StyleWrapLimit = 2; //not really necessary but allows me to add more subtypes of chairs below the example chair texture
+            TileObjectData.newTile.StyleMultiplier = 2; //same as above
+            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
+            TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
+            TileObjectData.addAlternate(1);
+            TileObjectData.addTile(Type);
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Ancient Chair");
             AddMapEntry(new Color(191, 142, 111), name);
             dustType = mod.DustType("Sparkle");
-			disableSmartCursor = true;
-			adjTiles = new int[]{ TileID.Chairs };
+            disableSmartCursor = true;
+            adjTiles = new int[] { TileID.Chairs };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -41,13 +41,13 @@ namespace CalamityMod.Tiles.FurnitureAncient
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        {
+            num = fail ? 1 : 3;
+        }
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientChair"));
-		}
-	}
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientChair"));
+        }
+    }
 }

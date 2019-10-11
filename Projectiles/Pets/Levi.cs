@@ -1,16 +1,16 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Pets
 {
     public class Levi : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Levi");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Levi");
             Main.projFrames[projectile.type] = 5;
             Main.projPet[projectile.type] = true;
         }
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.active = false;
                 return;
             }
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
                 modPlayer.leviPet = false;

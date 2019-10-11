@@ -1,8 +1,8 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -12,13 +12,13 @@ namespace CalamityMod.Tiles
         private const short subsheetHeight = 90;
 
         public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 150;
             drop = mod.ItemType("AstralBrick");
-			AddMapEntry(new Color(128, 128, 158));
+            AddMapEntry(new Color(128, 128, 158));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -46,14 +46,14 @@ namespace CalamityMod.Tiles
             int yPos = Main.tile[i, j].frameY;
             int xOffset = i % 2;
             int yOffset = j % 2;
-            xOffset = xOffset * subsheetWidth;
-            yOffset = yOffset * subsheetHeight;
+            xOffset *= subsheetWidth;
+            yOffset *= subsheetHeight;
             xPos += xOffset;
             yPos += yOffset;
             Texture2D glowmask = mod.GetTexture("Tiles/AstralBrick_Glowmask");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
-            Color drawColour = GetDrawColour (i, j, new Color(50, 50, 50, 50));
+            Color drawColour = GetDrawColour(i, j, new Color(50, 50, 50, 50));
             Tile trackTile = Main.tile[i, j];
             double num6 = Main.time * 0.08;
             if (!trackTile.halfBrick() && trackTile.slope() == 0)

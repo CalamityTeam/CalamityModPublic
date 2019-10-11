@@ -1,17 +1,16 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Boss
 {
     public class BloodGeyser : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blood Geyser");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Blood Geyser");
+        }
 
         public override void SetDefaults()
         {
@@ -27,8 +26,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.timeLeft < 180)
-				projectile.tileCollide = true;
+            if (projectile.timeLeft < 180)
+                projectile.tileCollide = true;
 
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 
@@ -39,7 +38,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BurningBlood"), 120);
+            target.AddBuff(mod.BuffType("BurningBlood"), 120);
         }
     }
 }

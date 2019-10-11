@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = 3;
+            item.value = Item.buyPrice(0, 5, 0, 0);
+            item.rare = 3;
             item.defense = 7; //20
         }
 
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased movement speed and melee critical strike chance\n" +
                     "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
                     "Allows you to fall more quickly and disables fall damage";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aeroSet = true;
             player.noFallDmg = true;
             player.moveSpeed += 0.05f;

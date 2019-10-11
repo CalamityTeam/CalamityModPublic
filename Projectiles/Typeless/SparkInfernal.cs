@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class SparkInfernal : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Spark");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Spark");
+        }
 
         public override void SetDefaults()
         {
@@ -21,12 +21,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
+            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
         }
 
         public override void Kill(int timeLeft)
         {
-        	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("InfernadoMarkFriendly"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("InfernadoMarkFriendly"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
         }
     }
 }

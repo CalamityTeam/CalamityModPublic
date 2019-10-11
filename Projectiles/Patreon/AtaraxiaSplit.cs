@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Patreon
 {
     public class AtaraxiaSplit : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Still Not Exoblade");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Still Not Exoblade");
+        }
 
         public override void SetDefaults()
         {

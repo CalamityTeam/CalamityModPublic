@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class OrichalcumSpikedGemstoneProjectile : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Gemstone");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Gemstone");
+        }
 
         public override void SetDefaults()
         {
@@ -21,25 +21,25 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 6;
             projectile.timeLeft = 600;
             aiType = 48;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-        	Vector2 velocity = projectile.velocity;
+            Vector2 velocity = projectile.velocity;
             if (projectile.velocity.Y != velocity.Y && (velocity.Y < -3f || velocity.Y > 3f))
-			{
-				Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-				Main.PlaySound(0, (int)projectile.Center.X, (int)projectile.Center.Y, 1);
-			}
-        	if (projectile.velocity.X != velocity.X)
-			{
-				projectile.velocity.X = velocity.X * -0.5f;
-			}
-			if (projectile.velocity.Y != velocity.Y && velocity.Y > 1f)
-			{
-				projectile.velocity.Y = velocity.Y * -0.5f;
-			}
+            {
+                Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+                Main.PlaySound(0, (int)projectile.Center.X, (int)projectile.Center.Y, 1);
+            }
+            if (projectile.velocity.X != velocity.X)
+            {
+                projectile.velocity.X = velocity.X * -0.5f;
+            }
+            if (projectile.velocity.Y != velocity.Y && velocity.Y > 1f)
+            {
+                projectile.velocity.Y = velocity.Y * -0.5f;
+            }
             return false;
         }
 
@@ -52,10 +52,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-        	if (Main.rand.NextBool(2))
-        	{
-        		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("OrichalcumSpikedGemstone"));
-        	}
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, mod.ItemType("OrichalcumSpikedGemstone"));
+            }
         }
     }
 }

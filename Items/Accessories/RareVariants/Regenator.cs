@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories.RareVariants
 {
@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Accessories.RareVariants
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Regenator");
-			Tooltip.SetDefault("Reduces max HP by 50% but greatly improves life regeneration");
-		}
+            Tooltip.SetDefault("Reduces max HP by 50% but greatly improves life regeneration");
+        }
 
         public override void SetDefaults()
         {
@@ -20,13 +20,13 @@ namespace CalamityMod.Items.Accessories.RareVariants
             item.rare = 5;
             item.defense = 6;
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
-		}
+            item.Calamity().postMoonLordRarity = 22;
+        }
 
-		public override void UpdateAccessory(Player player, bool hideVisual)
-		{
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-			modPlayer.regenator = true;
-		}
-	}
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.regenator = true;
+        }
+    }
 }

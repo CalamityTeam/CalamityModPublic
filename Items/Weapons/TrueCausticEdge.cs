@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("True Caustic Edge");
             Tooltip.SetDefault("Fires a bouncing caustic beam\n" +
-				"Inflicts on fire, poison, and venom");
+                "Inflicts on fire, poison, and venom");
         }
 
         public override void SetDefaults()
@@ -63,8 +63,8 @@ namespace CalamityMod.Items.Weapons
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.Poisoned, 600);
-			target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.Poisoned, 600);
+            target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.Venom, 300);
         }
     }

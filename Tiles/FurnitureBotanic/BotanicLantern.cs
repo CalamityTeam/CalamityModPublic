@@ -49,7 +49,8 @@ namespace CalamityMod.Tiles.FurnitureBotanic
                 r = 0.8f;
                 g = 0.9f;
                 b = 0.3f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

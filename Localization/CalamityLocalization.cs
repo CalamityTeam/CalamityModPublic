@@ -2,46 +2,46 @@
 
 namespace CalamityMod.Localization
 {
-	public class CalamityLocalization
-	{
-		private static string[][] _localizations;
+    public class CalamityLocalization
+    {
+        private static string[][] _localizations;
 
-		public static void Load()
-		{
-			_localizations = new[]
-			{
-				new [] { "SkyOreText", "The ground is glittering with cyan light." },
-				new [] { "IceOreText", "The ice caves are crackling with frigid energy." },
-				new [] { "PlantOreText", "Energized plant matter has formed in the underground." },
-				new [] { "TreeOreText", "Fossilized tree bark is bursting through the jungle's mud." },
-				new [] { "AuricOreText", "A godly aura has blessed the world's caverns." },
-				new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
+        public static void Load()
+        {
+            _localizations = new[]
+            {
+                new [] { "SkyOreText", "The ground is glittering with cyan light." },
+                new [] { "IceOreText", "The ice caves are crackling with frigid energy." },
+                new [] { "PlantOreText", "Energized plant matter has formed in the underground." },
+                new [] { "TreeOreText", "Fossilized tree bark is bursting through the jungle's mud." },
+                new [] { "AuricOreText", "A godly aura has blessed the world's caverns." },
+                new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
 
-				new [] { "UglyBossText", "The Sunken Sea trembles..." },
+                new [] { "UglyBossText", "The Sunken Sea trembles..." },
 
-				new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
+                new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
 
-				new [] { "PlantBossText", "The ocean depths are trembling." },
+                new [] { "PlantBossText", "The ocean depths are trembling." },
 
-				new [] { "BabyBossText", "A plague has befallen the Jungle." },
-				new [] { "BabyBossText2", "An ancient automaton roams the land." },
+                new [] { "BabyBossText", "A plague has befallen the Jungle." },
+                new [] { "BabyBossText2", "An ancient automaton roams the land." },
 
-				new [] { "MoonBossText", "The profaned flame blazes fiercely!" },
-				new [] { "MoonBossText2", "Cosmic terrors are watching..." },
-				new [] { "MoonBossText3", "The bloody moon beckons..." },
+                new [] { "MoonBossText", "The profaned flame blazes fiercely!" },
+                new [] { "MoonBossText2", "Cosmic terrors are watching..." },
+                new [] { "MoonBossText3", "The bloody moon beckons..." },
 
-				new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
-				new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },
+                new [] { "PlagueBossText", "PLAGUE NUKE BARRAGE ARMED, PREPARING FOR LAUNCH!!!" },
+                new [] { "PlagueBossText2", "MISSILES LAUNCHED, TARGETING ROUTINE INITIATED!!!" },
 
-				new [] { "ProfanedBossText", "The air is burning..." },
-				new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
-				new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
+                new [] { "ProfanedBossText", "The air is burning..." },
+                new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
+                new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
 
-				new [] { "GhostBossText", "The abyssal spirits have been disturbed." },
-				new [] { "GhostBossText2", "Wails echo through the dilapidated dungeon halls..." },
-				new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
+                new [] { "GhostBossText", "The abyssal spirits have been disturbed." },
+                new [] { "GhostBossText2", "Wails echo through the dilapidated dungeon halls..." },
+                new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
 
-				new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start
+                new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start
                 new [] { "SupremeBossText4", "You seem so confident, even though you are painfully ignorant of what has yet to transpire." }, //75%
                 new [] { "SupremeBossText5", "Everything was going well until you came along." }, //75%
                 new [] { "SupremeBossText6", "Brothers, could you assist me for a moment? This ordeal is growing tiresome." }, //45%
@@ -71,103 +71,103 @@ namespace CalamityMod.Localization
                 new [] { "SupremeBossText19", "Third time's the charm. Here's a special reward." }, //die 3 times and win
 
                 new [] { "EdgyBossText", "Don't get cocky, kid!" },
-				new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
-				new [] { "EdgyBossText3", "A fatal mistake!" },
-				new [] { "EdgyBossText4", "Good luck recovering from that!" },
-				new [] { "EdgyBossText5", "Delicious..." },
-				new [] { "EdgyBossText6", "Did that hurt?" },
-				new [] { "EdgyBossText7", "Nothing personal, kid." },
-				new [] { "EdgyBossText8", "Are you honestly that bad at dodging?" },
-				new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
-				new [] { "EdgyBossText10", "It's not over yet, kid!" },
-				new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
-				new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
-				new [] { "DoGBossText", "The frigid moon shimmers brightly." },
-				new [] { "DoGBossText2", "The harvest moon glows eerily." },
+                new [] { "EdgyBossText2", "You think...you can butcher...ME!?" },
+                new [] { "EdgyBossText3", "A fatal mistake!" },
+                new [] { "EdgyBossText4", "Good luck recovering from that!" },
+                new [] { "EdgyBossText5", "Delicious..." },
+                new [] { "EdgyBossText6", "Did that hurt?" },
+                new [] { "EdgyBossText7", "Nothing personal, kid." },
+                new [] { "EdgyBossText8", "Are you honestly that bad at dodging?" },
+                new [] { "EdgyBossText9", "Of all my segments to get hit by..." },
+                new [] { "EdgyBossText10", "It's not over yet, kid!" },
+                new [] { "EdgyBossText11", "A GOD DOES NOT FEAR DEATH!" },
+                new [] { "EdgyBossText12", "You are no god...but I shall feast upon your essence regardless!" },
+                new [] { "DoGBossText", "The frigid moon shimmers brightly." },
+                new [] { "DoGBossText2", "The harvest moon glows eerily." },
 
-				new [] { "AstralText", "A star has fallen from the heavens!" },
-				new [] { "AureusBossText", "The astral enemies have been empowered!" },
-				new [] { "AureusBossText2", "A faint ethereal click can be heard from the dungeon." },
-				new [] { "AstralBossText", "The seal of the stars has been broken! You can now mine Astral Ore." },
-				new [] { "DeusText", "A star-spawned horror tunnels through the astral infection." },
-				new [] { "DeusText2", "The astral infection trembles..." },
-				new [] { "DeusText3", "The god of the stars draws near..." },
+                new [] { "AstralText", "A star has fallen from the heavens!" },
+                new [] { "AureusBossText", "The astral enemies have been empowered!" },
+                new [] { "AureusBossText2", "A faint ethereal click can be heard from the dungeon." },
+                new [] { "AstralBossText", "The seal of the stars has been broken! You can now mine Astral Ore." },
+                new [] { "DeusText", "A star-spawned horror tunnels through the astral infection." },
+                new [] { "DeusText2", "The astral infection trembles..." },
+                new [] { "DeusText3", "The god of the stars draws near..." },
 
-				new [] { "CalamitasBossText", "You underestimate my power..." },
-				new [] { "CalamitasBossText2", "The brothers have been reborn!" },
-				new [] { "CalamitasBossText3", "Impressive child, most impressive..." },
+                new [] { "CalamitasBossText", "You underestimate my power..." },
+                new [] { "CalamitasBossText2", "The brothers have been reborn!" },
+                new [] { "CalamitasBossText3", "Impressive child, most impressive..." },
 
-				new [] { "SandSharkText", "Something stirs in the warm desert sands..." },
-				new [] { "SandSharkText2", "An enormous apex predator approaches..." },
+                new [] { "SandSharkText", "Something stirs in the warm desert sands..." },
+                new [] { "SandSharkText2", "An enormous apex predator approaches..." },
 
-				new [] { "CryogenBossText", "Cryogen is derping out!" },
+                new [] { "CryogenBossText", "Cryogen is derping out!" },
 
-				new [] { "BloodMoonText", "The Blood Moon is rising..." },
+                new [] { "BloodMoonText", "The Blood Moon is rising..." },
 
-				new [] { "DargonBossText", "The dark sun awaits." },
-				new [] { "DargonBossText2", "My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power." },
+                new [] { "DargonBossText", "The dark sun awaits." },
+                new [] { "DargonBossText2", "My dragon deems you an unworthy opponent. You must acquire the power of the dark sun to witness his true power." },
 
-				new [] { "RevengeText", "Revengeance is active." },
-				new [] { "RevengeText2", "Revengeance is not active." },
+                new [] { "RevengeText", "Revengeance is active." },
+                new [] { "RevengeText2", "Revengeance is not active." },
 
-				new [] { "DeathText", "Death is active, enjoy the fun." },
-				new [] { "DeathText2", "Death is not active, not fun enough for you?" },
+                new [] { "DeathText", "Death is active, enjoy the fun." },
+                new [] { "DeathText2", "Death is not active, not fun enough for you?" },
 
-				new [] { "ArmageddonText", "Bosses will now kill you instantly." },
-				new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
+                new [] { "ArmageddonText", "Bosses will now kill you instantly." },
+                new [] { "ArmageddonText2", "Bosses will no longer kill you instantly." },
 
-				new [] { "DefiledText", "Your soul is mine..." },
-				new [] { "DefiledText2", "Your soul is yours once more..." },
+                new [] { "DefiledText", "Your soul is mine..." },
+                new [] { "DefiledText2", "Your soul is yours once more..." },
 
-				new [] { "IronHeartText", "Iron Heart is active, don't die." },
-				new [] { "IronHeartText2", "Iron Heart is not active, you can die again." },
+                new [] { "IronHeartText", "Iron Heart is active, don't die." },
+                new [] { "IronHeartText2", "Iron Heart is not active, you can die again." },
 
-				new [] { "FlameText", "The air is getting warmer around you." },
+                new [] { "FlameText", "The air is getting warmer around you." },
 
-				new [] { "BossRushStartText", "Hmm? Ah, another contender. Very well, may the ritual commence!" },
-				new [] { "BossRushTierOneEndText", "Hmm? Oh, you're still alive. Unexpected, but don't get complacent just yet." },
-				new [] { "BossRushTierTwoEndText", "Hmm? Persistent aren't you? Perhaps you have some hope of prosperity, unlike past challengers." },
-				new [] { "BossRushTierThreeEndText", "Hmm? Your perseverance is truly a trait to behold. You've come further than even the demigods in such a short time." },
-				new [] { "BossRushTierThreeEndText2", "May your skills remain sharp for the last challenges." },
-				new [] { "BossRushTierFourEndText", "Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods." },
-				new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
-				new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
+                new [] { "BossRushStartText", "Hmm? Ah, another contender. Very well, may the ritual commence!" },
+                new [] { "BossRushTierOneEndText", "Hmm? Oh, you're still alive. Unexpected, but don't get complacent just yet." },
+                new [] { "BossRushTierTwoEndText", "Hmm? Persistent aren't you? Perhaps you have some hope of prosperity, unlike past challengers." },
+                new [] { "BossRushTierThreeEndText", "Hmm? Your perseverance is truly a trait to behold. You've come further than even the demigods in such a short time." },
+                new [] { "BossRushTierThreeEndText2", "May your skills remain sharp for the last challenges." },
+                new [] { "BossRushTierFourEndText", "Hmm? So you've made it to the final tier, a remarkable feat enviable by even the mightiest of the gods." },
+                new [] { "BossRushTierFourEndText2", "Go forth and conquer 'til the ritual's end!" },
+                new [] { "BossRushTierFiveEndText", "Hmm? You expected a reward beyond this mere pebble? Patience, the true reward will become apparent in time..." },
 
-				new [] { "BossSpawnText", "Something is approaching..." },
+                new [] { "BossSpawnText", "Something is approaching..." },
 
-				new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
-				new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
-				new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },
-				new [] { "RangedLevelUpFinal", "Ranged weapon proficiency maxed out!" },
-				new [] { "MagicLevelUp", "Magic weapon proficiency level up!" },
-				new [] { "MagicLevelUpFinal", "Magic weapon proficiency maxed out!" },
-				new [] { "SummonLevelUp", "Summoner weapon proficiency level up!" },
-				new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
-				new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
-				new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
+                new [] { "MeleeLevelUp", "Melee weapon proficiency level up!" },
+                new [] { "MeleeLevelUpFinal", "Melee weapon proficiency maxed out!" },
+                new [] { "RangedLevelUp", "Ranged weapon proficiency level up!" },
+                new [] { "RangedLevelUpFinal", "Ranged weapon proficiency maxed out!" },
+                new [] { "MagicLevelUp", "Magic weapon proficiency level up!" },
+                new [] { "MagicLevelUpFinal", "Magic weapon proficiency maxed out!" },
+                new [] { "SummonLevelUp", "Summoner weapon proficiency level up!" },
+                new [] { "SummonLevelUpFinal", "Summoner weapon proficiency maxed out!" },
+                new [] { "RogueLevelUp", "Rogue weapon proficiency level up!" },
+                new [] { "RogueLevelUpFinal", "Rogue weapon proficiency maxed out!" },
 
-				new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
-				new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
+                new [] { "OpenSunkenSea", "The depths of the underground desert are rumbling..." },
+                new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
 
-				new [] { "AprilFools", "The LORDE is approaching..." }
-			};
-		}
+                new [] { "AprilFools", "The LORDE is approaching..." }
+            };
+        }
 
-		public static void Unload()
-		{
-			_localizations = null;
-		}
+        public static void Unload()
+        {
+            _localizations = null;
+        }
 
-		public static void AddLocalizations()
-		{
-			Load();
-			foreach (string[] localization in _localizations)
-			{
-				ModTranslation text = CalamityMod.Instance.CreateTranslation(localization[0]);
-				text.SetDefault(localization[1]);
-				CalamityMod.Instance.AddTranslation(text);
-			}
-			Unload();
-		}
-	}
+        public static void AddLocalizations()
+        {
+            Load();
+            foreach (string[] localization in _localizations)
+            {
+                ModTranslation text = ModContent.GetInstance<CalamityMod>().CreateTranslation(localization[0]);
+                text.SetDefault(localization[1]);
+                ModContent.GetInstance<CalamityMod>().AddTranslation(text);
+            }
+            Unload();
+        }
+    }
 }

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -30,7 +29,7 @@ namespace CalamityMod.Items.Accessories
             player.lavaImmune = false;
             if (Collision.LavaCollision(player.position, player.width, (player.waterWalk ? (player.height - 6) : player.height)))
             {
-                player.GetCalamityPlayer().KillPlayer();
+                player.Calamity().KillPlayer();
             }
             else if (player.immune)
             {

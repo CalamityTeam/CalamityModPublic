@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class PoisonousSeawater : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Seawater");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Seawater");
+        }
 
         public override void SetDefaults()
         {
@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-			projectile.timeLeft = 6;
+            projectile.timeLeft = 6;
         }
 
         public override void AI()
@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(BuffID.Venom, 120);
-        	target.AddBuff(BuffID.Poisoned, 120);
+            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(BuffID.Poisoned, 120);
         }
     }
 }

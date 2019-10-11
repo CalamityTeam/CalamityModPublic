@@ -1,9 +1,9 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "Drops brimstone fireballs from the sky occasionally\n" +
                 "15% increase to all damage\n" +
                 "Brimstone fire rains down while invincibility is active\n" +
-				"Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
+                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
         }
 
         public override void SetDefaults()
@@ -29,13 +29,13 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.expert = true;
-			item.rare = 9;
-			item.accessory = true;
+            item.rare = 9;
+            item.accessory = true;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.calamityRing)
             {
                 return false;
@@ -56,15 +56,15 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
-			player.lavaRose = true;
-			player.lavaMax += 240;
-			player.allDamage += 0.15f;
-			if (player.lavaWet)
+            player.lavaRose = true;
+            player.lavaMax += 240;
+            player.allDamage += 0.15f;
+            if (player.lavaWet)
             {
-				player.allDamage += 0.25f;
-			}
+                player.allDamage += 0.25f;
+            }
             if (player.immune)
             {
                 if (Main.rand.NextBool(10))
@@ -107,7 +107,7 @@ namespace CalamityMod.Items.Accessories
                         Vector2 baseSpawn = new Vector2(spawnX, spawnY);
                         Vector2 baseVelocity = player.Center - baseSpawn;
                         baseVelocity.Normalize();
-                        baseVelocity = baseVelocity * speed2;
+                        baseVelocity *= speed2;
                         for (int i = 0; i < FireProjectiles; i++)
                         {
                             Vector2 spawn = baseSpawn;

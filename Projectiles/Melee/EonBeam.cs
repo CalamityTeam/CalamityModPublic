@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class EonBeam : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Beam");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Beam");
+        }
 
         public override void SetDefaults()
         {
@@ -23,19 +23,19 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 300;
             aiType = 173;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 6;
+            projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()
         {
-        	Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.3f) / 255f, ((255 - projectile.alpha) * 0.4f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
+            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.3f) / 255f, ((255 - projectile.alpha) * 0.4f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
             if (projectile.localAI[1] > 7f)
-			{
-				int num308 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
-				Main.dust[num308].velocity *= 0.1f;
+            {
+                int num308 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, new Color(Main.DiscoR, 100, 255), 1.2f);
+                Main.dust[num308].velocity *= 0.1f;
                 Main.dust[num308].noGravity = true;
             }
-		}
+        }
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -60,10 +60,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-			target.AddBuff(mod.BuffType("GlacialState"), 120);
-			target.AddBuff(mod.BuffType("Plague"), 120);
-			target.AddBuff(mod.BuffType("HolyLight"), 120);
-		}
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(mod.BuffType("HolyLight"), 120);
+        }
     }
 }

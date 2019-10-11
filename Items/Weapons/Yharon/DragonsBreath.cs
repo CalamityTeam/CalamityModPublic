@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Yharon
         {
             DisplayName.SetDefault("Dragon's Breath");
             Tooltip.SetDefault("80% chance to not consume ammo\n" +
-				"Shoots a spread of exploding fire bullets");
+                "Shoots a spread of exploding fire bullets");
         }
 
         public override void SetDefaults()
@@ -32,15 +32,15 @@ namespace CalamityMod.Items.Weapons.Yharon
             item.shoot = 10;
             item.shootSpeed = 12f;
             item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-5, 10);
-		}
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-5, 10);
+        }
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int i = 0; i < 13; i++)
             {

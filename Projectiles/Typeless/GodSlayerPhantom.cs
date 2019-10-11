@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,11 +8,11 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class GodSlayerPhantom : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("God Slayer Phantom");
-			Main.projFrames[projectile.type] = 3;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("God Slayer Phantom");
+            Main.projFrames[projectile.type] = 3;
+        }
 
         public override void SetDefaults()
         {

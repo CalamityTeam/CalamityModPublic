@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TumbleweedRolling : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Tumbleweed");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Tumbleweed");
+        }
 
         public override void SetDefaults()
         {

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Terra Ray");
-			Tooltip.SetDefault("Casts an energy ray that splits if enemies are near it");
-			Item.staff[item.type] = true;
+            Tooltip.SetDefault("Casts an energy ray that splits if enemies are near it");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()

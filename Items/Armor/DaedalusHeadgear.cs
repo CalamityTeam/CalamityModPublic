@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,8 +18,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 25, 0, 0);
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.rare = 5;
             item.defense = 3; //33
         }
 
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "20% increased minion damage\n" +
                 "A daedalus crystal floats above you to protect you";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusCrystal = true;
             if (player.whoAmI == Main.myPlayer)
             {

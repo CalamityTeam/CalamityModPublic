@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class CosmicSpiritBomb1 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bomb");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bomb");
+        }
 
         public override void SetDefaults()
         {
@@ -26,34 +26,34 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             projectile.localAI[0] += 1f;
-			if (projectile.localAI[0] > 4f)
-			{
-				for (int num468 = 0; num468 < 5; num468++)
-				{
-					int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 15, 0f, 0f, 100, default, 1.5f);
-					Main.dust[num469].noGravity = true;
-					Main.dust[num469].velocity *= 0f;
-				}
-			}
+            if (projectile.localAI[0] > 4f)
+            {
+                for (int num468 = 0; num468 < 5; num468++)
+                {
+                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 15, 0f, 0f, 100, default, 1.5f);
+                    Main.dust[num469].noGravity = true;
+                    Main.dust[num469].velocity *= 0f;
+                }
+            }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(BuffID.Frostburn, 300);
-		}
-
-		public override void Kill(int timeLeft)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-        	projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-			projectile.width = 200;
-			projectile.height = 200;
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            target.AddBuff(BuffID.Frostburn, 300);
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
+            projectile.width = 200;
+            projectile.height = 200;
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int k = 0; k < 10; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.oldVelocity.X * 2.5f, projectile.oldVelocity.Y * 2.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.oldVelocity.X * 2.5f, projectile.oldVelocity.Y * 2.5f);
             }
         }
     }

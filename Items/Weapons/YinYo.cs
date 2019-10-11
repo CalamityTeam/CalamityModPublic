@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("YinYo");
             Tooltip.SetDefault("Fires light or dark shards when enemies are near\n" +
-				"Light shards fly up and down while dark shards fly left and right");
+                "Light shards fly up and down while dark shards fly left and right");
         }
 
         public override void SetDefaults()

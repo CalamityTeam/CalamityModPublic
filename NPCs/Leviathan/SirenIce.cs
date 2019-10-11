@@ -1,38 +1,38 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.Leviathan
 {
     public class SirenIce : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ice Shield");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ice Shield");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.aiStyle = -1;
-			aiType = -1;
-			npc.canGhostHeal = false;
-			npc.noTileCollide = true;
-			npc.damage = 55;
-			npc.width = 100;
-			npc.height = 100;
-			npc.defense = 10;
-            npc.GetCalamityNPC().RevPlusDR(0.5f);
+        public override void SetDefaults()
+        {
+            npc.aiStyle = -1;
+            aiType = -1;
+            npc.canGhostHeal = false;
+            npc.noTileCollide = true;
+            npc.damage = 55;
+            npc.width = 100;
+            npc.height = 100;
+            npc.defense = 10;
+            npc.Calamity().RevPlusDR(0.5f);
             npc.lifeMax = 650;
-			if (CalamityWorld.bossRushActive)
+            if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 400000;
             }
             npc.alpha = 255;
-			npc.HitSound = SoundID.NPCHit5;
-			npc.DeathSound = SoundID.NPCDeath7;
-		}
+            npc.HitSound = SoundID.NPCHit5;
+            npc.DeathSound = SoundID.NPCDeath7;
+        }
 
         public override void AI()
         {
@@ -59,8 +59,8 @@ namespace CalamityMod.NPCs.Leviathan
             npc.active = false;
         }
 
-		public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
+        public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
             if (projectile.type != mod.ProjectileType("FlakKraken"))
             {
                 if (projectile.penetrate == -1 && !projectile.minion)
@@ -72,31 +72,31 @@ namespace CalamityMod.NPCs.Leviathan
                     projectile.penetrate = 1;
                 }
             }
-		}
+        }
 
-		public override Color? GetAlpha(Color drawColor)
-		{
-			return new Color(200, 200, 200, npc.alpha);
-		}
+        public override Color? GetAlpha(Color drawColor)
+        {
+            return new Color(200, 200, 200, npc.alpha);
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(BuffID.Frostburn, 240, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Frostburn, 240, true);
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 25; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
-	}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 25; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 67, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+    }
 }

@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ProBolt : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bolt");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bolt");
+        }
 
         public override void SetDefaults()
         {
@@ -24,17 +24,17 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-			for (int num134 = 0; num134 < 10; num134++)
-			{
-				float x = projectile.position.X - projectile.velocity.X / 10f * (float)num134;
-				float y = projectile.position.Y - projectile.velocity.Y / 10f * (float)num134;
-				int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 160, 0f, 0f, 0, default, 1.25f);
-				Main.dust[num135].alpha = projectile.alpha;
-				Main.dust[num135].position.X = x;
-				Main.dust[num135].position.Y = y;
-				Main.dust[num135].velocity *= 0f;
-				Main.dust[num135].noGravity = true;
-			}
+            for (int num134 = 0; num134 < 10; num134++)
+            {
+                float x = projectile.position.X - projectile.velocity.X / 10f * (float)num134;
+                float y = projectile.position.Y - projectile.velocity.Y / 10f * (float)num134;
+                int num135 = Dust.NewDust(new Vector2(x, y), 1, 1, 160, 0f, 0f, 0, default, 1.25f);
+                Main.dust[num135].alpha = projectile.alpha;
+                Main.dust[num135].position.X = x;
+                Main.dust[num135].position.Y = y;
+                Main.dust[num135].velocity *= 0f;
+                Main.dust[num135].noGravity = true;
+            }
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -63,13 +63,13 @@ namespace CalamityMod.Projectiles.Ranged
         {
             for (int k = 0; k < 10; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 160, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f); //206 160 226
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 160, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f); //206 160 226
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.immune[projectile.owner] = 7;
-		}
-	}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.immune[projectile.owner] = 7;
+        }
+    }
 }

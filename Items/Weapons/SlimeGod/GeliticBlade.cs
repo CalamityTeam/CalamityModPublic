@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons.SlimeGod
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gelitic Blade");
-			Tooltip.SetDefault("Fires a gel wave that slows down on enemy hits");
-		}
+            Tooltip.SetDefault("Fires a gel wave that slows down on enemy hits");
+        }
 
         public override void SetDefaults()
         {

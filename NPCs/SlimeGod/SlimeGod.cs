@@ -1,30 +1,30 @@
-﻿using System;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.SlimeGod
 {
     [AutoloadBossHead]
-	public class SlimeGod : ModNPC
-	{
+    public class SlimeGod : ModNPC
+    {
         private float bossLife;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ebonian Slime God");
-			Main.npcFrameCount[npc.type] = 6;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ebonian Slime God");
+            Main.npcFrameCount[npc.type] = 6;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 45;
-			npc.width = 150;
-			npc.height = 92;
-			npc.scale = 1.1f;
-			npc.defense = 10;
+        public override void SetDefaults()
+        {
+            npc.damage = 45;
+            npc.width = 150;
+            npc.height = 92;
+            npc.scale = 1.1f;
+            npc.defense = 10;
             npc.lifeMax = CalamityWorld.revenge ? 5500 : 4000;
             if (CalamityWorld.death)
             {
@@ -34,18 +34,18 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 npc.lifeMax = CalamityWorld.death ? 2500000 : 2200000;
             }
-			double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-			npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
-			npc.aiStyle = -1;
-			aiType = -1;
-			npc.buffImmune[mod.BuffType("GlacialState")] = true;
-			npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
-			npc.knockBackResist = 0f;
-			animationType = 50;
-			npc.value = 0f;
-			npc.alpha = 60;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
+            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            npc.aiStyle = -1;
+            aiType = -1;
+            npc.buffImmune[mod.BuffType("GlacialState")] = true;
+            npc.buffImmune[mod.BuffType("TemporalSadness")] = true;
+            npc.knockBackResist = 0f;
+            animationType = 50;
+            npc.value = 0f;
+            npc.alpha = 60;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/SlimeGod");
@@ -54,11 +54,11 @@ namespace CalamityMod.NPCs.SlimeGod
             bossBag = mod.ItemType("SlimeGodBag");
         }
 
-		public override void AI()
-		{
-			CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
-			bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-			bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+        public override void AI()
+        {
+            CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
+            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
             Vector2 vector = npc.Center;
             if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5400f)
             {
@@ -77,93 +77,93 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             bool flag100 = false;
             bool hyperMode = false;
-			if (CalamityGlobalNPC.slimeGodRed != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
-				{
-					flag100 = true;
-				}
-			}
+            if (CalamityGlobalNPC.slimeGodRed != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
+                {
+                    flag100 = true;
+                }
+            }
             if (CalamityGlobalNPC.slimeGod < 0 || !Main.npc[CalamityGlobalNPC.slimeGod].active)
             {
                 flag100 = false;
                 hyperMode = true;
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
-			{
+            {
                 npc.localAI[0] += flag100 ? 1f : 2f;
                 if (expertMode && Main.rand.NextBool(2))
-				{
-					if (npc.localAI[0] >= 600f)
-					{
-						npc.localAI[0] = 0f;
-						npc.TargetClosest(true);
-						if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-						{
-							float num179 = (CalamityWorld.bossRushActive ? 12f : 8f);
-							Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-							float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-							float num181 = Math.Abs(num180) * 0.1f;
-							float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
-							float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-							npc.netUpdate = true;
-							num183 = num179 / num183;
-							num180 *= num183;
-							num182 *= num183;
-							int num184 = 24;
-							int num185 = mod.ProjectileType("AbyssMine");
-							value9.X += num180;
-							value9.Y += num182;
-							for (int num186 = 0; num186 < 3; num186++)
-							{
-								num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-								num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
-								num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-								num183 = num179 / num183;
-								num180 += (float)Main.rand.Next(-60, 61);
-								num182 += (float)Main.rand.Next(-60, 61);
-								num180 *= num183;
-								num182 *= num183;
-								Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
-							}
-						}
-					}
-				}
-				else if (npc.localAI[0] >= 600f)
-				{
-					npc.localAI[0] = 0f;
-					npc.TargetClosest(true);
-					if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-					{
-						float num179 = (CalamityWorld.bossRushActive ? 12f : 8f);
-						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-						float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-						float num181 = Math.Abs(num180) * 0.1f;
-						float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
-						float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-						npc.netUpdate = true;
-						num183 = num179 / num183;
-						num180 *= num183;
-						num182 *= num183;
-						int num184 = expertMode ? 17 : 21;
-						int num185 = mod.ProjectileType("AbyssBallVolley");
-						value9.X += num180;
-						value9.Y += num182;
-						for (int num186 = 0; num186 < 4; num186++)
-						{
-							num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-							num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
-							num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-							num183 = num179 / num183;
-							num180 += (float)Main.rand.Next(-60, 61);
-							num182 += (float)Main.rand.Next(-60, 61);
-							num180 *= num183;
-							num182 *= num183;
-							Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
-						}
-					}
-				}
-			}
+                {
+                    if (npc.localAI[0] >= 600f)
+                    {
+                        npc.localAI[0] = 0f;
+                        npc.TargetClosest(true);
+                        if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                        {
+                            float num179 = (CalamityWorld.bossRushActive ? 12f : 8f);
+                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+                            float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+                            float num181 = Math.Abs(num180) * 0.1f;
+                            float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
+                            float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                            npc.netUpdate = true;
+                            num183 = num179 / num183;
+                            num180 *= num183;
+                            num182 *= num183;
+                            int num184 = 24;
+                            int num185 = mod.ProjectileType("AbyssMine");
+                            value9.X += num180;
+                            value9.Y += num182;
+                            for (int num186 = 0; num186 < 3; num186++)
+                            {
+                                num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+                                num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
+                                num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                                num183 = num179 / num183;
+                                num180 += (float)Main.rand.Next(-60, 61);
+                                num182 += (float)Main.rand.Next(-60, 61);
+                                num180 *= num183;
+                                num182 *= num183;
+                                Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+                            }
+                        }
+                    }
+                }
+                else if (npc.localAI[0] >= 600f)
+                {
+                    npc.localAI[0] = 0f;
+                    npc.TargetClosest(true);
+                    if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                    {
+                        float num179 = (CalamityWorld.bossRushActive ? 12f : 8f);
+                        Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+                        float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+                        float num181 = Math.Abs(num180) * 0.1f;
+                        float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
+                        float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                        npc.netUpdate = true;
+                        num183 = num179 / num183;
+                        num180 *= num183;
+                        num182 *= num183;
+                        int num184 = expertMode ? 17 : 21;
+                        int num185 = mod.ProjectileType("AbyssBallVolley");
+                        value9.X += num180;
+                        value9.Y += num182;
+                        for (int num186 = 0; num186 < 4; num186++)
+                        {
+                            num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
+                            num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
+                            num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                            num183 = num179 / num183;
+                            num180 += (float)Main.rand.Next(-60, 61);
+                            num182 += (float)Main.rand.Next(-60, 61);
+                            num180 *= num183;
+                            num182 *= num183;
+                            Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+                        }
+                    }
+                }
+            }
             npc.aiAction = 0;
             npc.knockBackResist = 0.2f * Main.knockBackMultiplier;
             npc.noTileCollide = false;
@@ -181,9 +181,9 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
             }
             else if (npc.timeLeft < 1800)
-			{
-				npc.timeLeft = 1800;
-			}
+            {
+                npc.timeLeft = 1800;
+            }
             if (npc.ai[0] == 0f)
             {
                 npc.TargetClosest(true);
@@ -193,7 +193,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             else if (npc.ai[0] == 1f)
             {
-            	npc.ai[1] += 1f;
+                npc.ai[1] += 1f;
                 if (npc.ai[1] > 18f)
                 {
                     npc.ai[0] = 2f;
@@ -369,7 +369,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 if (npc.ai[0] == 5f)
                 {
-                	npc.localAI[0] += (float)Main.rand.Next(4, 9);
+                    npc.localAI[0] += (float)Main.rand.Next(4, 9);
                     if (npc.velocity.X > 0f)
                     {
                         npc.direction = 1;
@@ -470,9 +470,9 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.noTileCollide = true;
                     npc.alpha += 7;
                     if (npc.timeLeft > 10)
-					{
-						npc.timeLeft = 10;
-					}
+                    {
+                        npc.timeLeft = 10;
+                    }
                     if (npc.alpha > 255)
                     {
                         npc.alpha = 255;
@@ -480,101 +480,101 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.velocity.X = npc.velocity.X * 0.98f;
                 }
             }
-			int num244 = Dust.NewDust(npc.position, npc.width, npc.height, 173, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
-			Main.dust[num244].noGravity = true;
-			Main.dust[num244].velocity *= 0.5f;
-			if (bossLife == 0f && npc.life > 0)
-			{
-				bossLife = (float)npc.lifeMax;
-			}
-	       	float num644 = 1f;
-	       	if (npc.life > 0)
-			{
-				float num659 = (float)npc.life / (float)npc.lifeMax;
-				num659 = num659 * 0.5f + 0.75f;
-				num659 *= num644;
-				if (num659 != npc.scale)
-				{
-					npc.position.X = npc.position.X + (float)(npc.width / 2);
-					npc.position.Y = npc.position.Y + (float)npc.height;
-					npc.scale = num659;
-					npc.width = (int)(150f * npc.scale);
-					npc.height = (int)(92f * npc.scale);
-					npc.position.X = npc.position.X - (float)(npc.width / 2);
-					npc.position.Y = npc.position.Y - (float)npc.height;
-				}
-				if (Main.netMode != NetmodeID.MultiplayerClient)
-				{
-					int num660 = (int)((double)npc.lifeMax * 0.15);
-					if ((float)(npc.life + num660) < bossLife)
-					{
-						bossLife = (float)npc.life;
-						int num661 = Main.rand.Next(1, 3);
-						for (int num662 = 0; num662 < num661; num662++)
-						{
-							int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-							int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
-							int num663 = mod.NPCType("SlimeSpawnCorrupt");
-							int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-							Main.npc[num664].SetDefaults(num663, -1f);
-							Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
-							Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
-							Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));
-							Main.npc[num664].ai[1] = 0f;
-							if (Main.netMode == NetmodeID.Server && num664 < 200)
-							{
-								NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
-							}
-						}
-					}
-				}
-			}
-		}
+            int num244 = Dust.NewDust(npc.position, npc.width, npc.height, 173, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.2f);
+            Main.dust[num244].noGravity = true;
+            Main.dust[num244].velocity *= 0.5f;
+            if (bossLife == 0f && npc.life > 0)
+            {
+                bossLife = (float)npc.lifeMax;
+            }
+            float num644 = 1f;
+            if (npc.life > 0)
+            {
+                float num659 = (float)npc.life / (float)npc.lifeMax;
+                num659 = num659 * 0.5f + 0.75f;
+                num659 *= num644;
+                if (num659 != npc.scale)
+                {
+                    npc.position.X = npc.position.X + (float)(npc.width / 2);
+                    npc.position.Y = npc.position.Y + (float)npc.height;
+                    npc.scale = num659;
+                    npc.width = (int)(150f * npc.scale);
+                    npc.height = (int)(92f * npc.scale);
+                    npc.position.X = npc.position.X - (float)(npc.width / 2);
+                    npc.position.Y = npc.position.Y - (float)npc.height;
+                }
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    int num660 = (int)((double)npc.lifeMax * 0.15);
+                    if ((float)(npc.life + num660) < bossLife)
+                    {
+                        bossLife = (float)npc.life;
+                        int num661 = Main.rand.Next(1, 3);
+                        for (int num662 = 0; num662 < num661; num662++)
+                        {
+                            int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
+                            int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
+                            int num663 = mod.NPCType("SlimeSpawnCorrupt");
+                            int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
+                            Main.npc[num664].SetDefaults(num663, -1f);
+                            Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
+                            Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
+                            Main.npc[num664].ai[0] = (float)(-1000 * Main.rand.Next(3));
+                            Main.npc[num664].ai[1] = 0f;
+                            if (Main.netMode == NetmodeID.Server && num664 < 200)
+                            {
+                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.HealingPotion;
         }
 
-		// If the un-split Ebonian Slime God gets one-shotted last, it should drop the boss loot
-		public override void NPCLoot()
-		{
+        // If the un-split Ebonian Slime God gets one-shotted last, it should drop the boss loot
+        public override void NPCLoot()
+        {
             bool otherSlimeGodsAlive =
                 NPC.AnyNPCs(mod.NPCType("SlimeGodCore")) ||
-				NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
+                NPC.AnyNPCs(mod.NPCType("SlimeGodSplit")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRun")) ||
                 NPC.AnyNPCs(mod.NPCType("SlimeGodRunSplit"));
-			if (!otherSlimeGodsAlive)
-				SlimeGodCore.DropSlimeGodLoot(npc);
-		}
+            if (!otherSlimeGodsAlive)
+                SlimeGodCore.DropSlimeGodLoot(npc);
+        }
 
         public override bool CheckActive()
         {
-			if (CalamityGlobalNPC.slimeGod != -1)
-			{
-				if (Main.npc[CalamityGlobalNPC.slimeGod].active)
-					return false;
-			}
+            if (CalamityGlobalNPC.slimeGod != -1)
+            {
+                if (Main.npc[CalamityGlobalNPC.slimeGod].active)
+                    return false;
+            }
             return true;
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 5; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
-			}
-		}
+        {
+            for (int k = 0; k < 5; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+            }
+        }
 
-		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-		{
-			npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
-			npc.damage = (int)(npc.damage * 0.85f);
-		}
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
+        }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(BuffID.Weak, 180, true);
-		}
-	}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(BuffID.Weak, 180, true);
+        }
+    }
 }

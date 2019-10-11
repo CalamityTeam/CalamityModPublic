@@ -1,12 +1,11 @@
-﻿using System;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
+using System;
 using System.IO;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -98,34 +97,34 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override void SetDefaults()
         {
-			npc.lavaImmune = true;
-			npc.width = 78;
+            npc.lavaImmune = true;
+            npc.width = 78;
             npc.height = 88;
             npc.damage = 70;
             npc.defense = 40;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
             npc.lifeMax = 1200;
             npc.knockBackResist = 0.08f;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.aiStyle = -1;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AtlasDeath");
-			banner = npc.type;
-			bannerItem = mod.ItemType("AtlasBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 100;
-				npc.defense = 50;
-				npc.knockBackResist = 0.04f;
-				npc.lifeMax = 1600;
-			}
-			if (NPC.downedAncientCultist)
-			{
-				npc.damage = 150;
-				npc.defense = 75;
-				npc.knockBackResist = 0f;
-				npc.lifeMax = 2400;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("AtlasBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 100;
+                npc.defense = 50;
+                npc.knockBackResist = 0.04f;
+                npc.lifeMax = 1600;
+            }
+            if (NPC.downedAncientCultist)
+            {
+                npc.damage = 150;
+                npc.defense = 75;
+                npc.knockBackResist = 0f;
+                npc.lifeMax = 2400;
+            }
+        }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -565,7 +564,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
         {
             int x = 0;
             int y = 0;
-            switch(npc.frame.Y)
+            switch (npc.frame.Y)
             {
                 case 0:
                     x = 45;
@@ -601,19 +600,19 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>().ZoneAstral && spawnInfo.player.ZoneOverworldHeight)
+            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneOverworldHeight)
             {
                 return 0.06f;
             }
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 180, true);
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Stardust"), Main.rand.Next(6, 9));
             if (Main.expertMode)

@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class TinyCrystal : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Crystal");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Crystal");
+        }
 
         public override void SetDefaults()
         {
@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 5; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 227, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 227, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
         }

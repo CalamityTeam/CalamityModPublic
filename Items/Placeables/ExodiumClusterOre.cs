@@ -25,20 +25,20 @@ namespace CalamityMod.Items.Placeables
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(gold: 1, silver: 60);
-			item.rare = 10;
+            item.rare = 10;
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.LunarOre, 3);
-			recipe.AddIngredient(ItemID.FragmentStardust);
-			recipe.AddIngredient(ItemID.FragmentSolar);
-			recipe.AddIngredient(ItemID.FragmentVortex);
-			recipe.AddIngredient(ItemID.FragmentNebula);
-			recipe.SetResult(this);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.LunarOre, 3);
+            recipe.AddIngredient(ItemID.FragmentStardust);
+            recipe.AddIngredient(ItemID.FragmentSolar);
+            recipe.AddIngredient(ItemID.FragmentVortex);
+            recipe.AddIngredient(ItemID.FragmentNebula);
+            recipe.SetResult(this);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddRecipe();
+        }
+    }
 }

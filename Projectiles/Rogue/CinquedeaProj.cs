@@ -1,9 +1,9 @@
-﻿using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 2;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()

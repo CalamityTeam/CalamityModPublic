@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class AbyssBallVolley : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Abyss Ball Volley");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Abyss Ball Volley");
+        }
 
         public override void SetDefaults()
         {
@@ -24,14 +24,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-        	if (projectile.ai[1] == 0f)
-        	{
-        		projectile.ai[1] = 1f;
-        		Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
-        	}
+            if (projectile.ai[1] == 0f)
+            {
+                projectile.ai[1] = 1f;
+                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
+            }
             if (Main.rand.NextBool(2))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
             }
         }
 
@@ -39,13 +39,13 @@ namespace CalamityMod.Projectiles.Boss
         {
             for (int k = 0; k < 5; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, 0f, 0f);
             }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-        	target.AddBuff(BuffID.Weak, 120);
+            target.AddBuff(BuffID.Weak, 120);
         }
     }
 }

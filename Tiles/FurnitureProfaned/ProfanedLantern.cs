@@ -48,7 +48,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
                 r = 1f;
                 g = 0.85f;
                 b = 0.7f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

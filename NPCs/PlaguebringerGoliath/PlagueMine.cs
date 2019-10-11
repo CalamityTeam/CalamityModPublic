@@ -1,68 +1,68 @@
-﻿using System;
-using System.IO;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     public class PlagueMine : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Plague Mine");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Plague Mine");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 0;
-			npc.npcSlots = 1f;
-			npc.width = 42;
-			npc.height = 42;
-			npc.defense = 10;
-			npc.lifeMax = CalamityWorld.bossRushActive ? 10000 : 100;
-			npc.aiStyle = -1;
+        public override void SetDefaults()
+        {
+            npc.damage = 0;
+            npc.npcSlots = 1f;
+            npc.width = 42;
+            npc.height = 42;
+            npc.defense = 10;
+            npc.lifeMax = CalamityWorld.bossRushActive ? 10000 : 100;
+            npc.aiStyle = -1;
             aiType = -1;
-			npc.knockBackResist = 0f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.canGhostHeal = false;
-			npc.HitSound = SoundID.NPCHit4;
-			npc.DeathSound = SoundID.NPCDeath14;
-		}
+            npc.knockBackResist = 0f;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.canGhostHeal = false;
+            npc.HitSound = SoundID.NPCHit4;
+            npc.DeathSound = SoundID.NPCDeath14;
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(npc.dontTakeDamage);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.dontTakeDamage);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			npc.dontTakeDamage = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.dontTakeDamage = reader.ReadBoolean();
+        }
 
-		public override void AI()
-		{
-			Player player = Main.player[npc.target];
-			if (!player.active || player.dead)
-			{
-				npc.TargetClosest(false);
-				player = Main.player[npc.target];
-				if (!player.active || player.dead)
-				{
-					if (npc.timeLeft > 10)
-					{
-						npc.timeLeft = 10;
-					}
-					return;
-				}
-			}
-			else if (npc.timeLeft > 600)
-			{
-				npc.timeLeft = 600;
-			}
+        public override void AI()
+        {
+            Player player = Main.player[npc.target];
+            if (!player.active || player.dead)
+            {
+                npc.TargetClosest(false);
+                player = Main.player[npc.target];
+                if (!player.active || player.dead)
+                {
+                    if (npc.timeLeft > 10)
+                    {
+                        npc.timeLeft = 10;
+                    }
+                    return;
+                }
+            }
+            else if (npc.timeLeft > 600)
+            {
+                npc.timeLeft = 600;
+            }
             Vector2 vector = Main.player[npc.target].Center - npc.Center;
             if (vector.Length() < 90f || npc.ai[3] >= 900f)
             {
@@ -79,45 +79,45 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.velocity.X *= 0.985f;
                 return;
             }
-			npc.TargetClosest(true);
-			float num1372 = CalamityWorld.bossRushActive ? 10f : 7f;
-			Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-			float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
-			float num1374 = player.Center.Y - vector167.Y;
-			float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
-			float num1376 = num1372 / num1375;
-			num1373 *= num1376;
-			num1374 *= num1376;
-			npc.ai[0] -= 1f;
-			if (num1375 < 200f || npc.ai[0] > 0f)
-			{
-				if (num1375 < 200f)
-				{
-					npc.ai[0] = 20f;
-				}
-				if (npc.velocity.X < 0f)
-				{
-					npc.direction = -1;
-				}
-				else
-				{
-					npc.direction = 1;
-				}
-				return;
-			}
-			npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
-			npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
-			if (num1375 < 350f)
-			{
-				npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
-				npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
-			}
-			if (num1375 < 300f)
-			{
-				npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
-				npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
-			}
-		}
+            npc.TargetClosest(true);
+            float num1372 = CalamityWorld.bossRushActive ? 10f : 7f;
+            Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
+            float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
+            float num1374 = player.Center.Y - vector167.Y;
+            float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
+            float num1376 = num1372 / num1375;
+            num1373 *= num1376;
+            num1374 *= num1376;
+            npc.ai[0] -= 1f;
+            if (num1375 < 200f || npc.ai[0] > 0f)
+            {
+                if (num1375 < 200f)
+                {
+                    npc.ai[0] = 20f;
+                }
+                if (npc.velocity.X < 0f)
+                {
+                    npc.direction = -1;
+                }
+                else
+                {
+                    npc.direction = 1;
+                }
+                return;
+            }
+            npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
+            npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
+            if (num1375 < 350f)
+            {
+                npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
+                npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
+            }
+            if (num1375 < 300f)
+            {
+                npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
+                npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
+            }
+        }
 
         public override bool CheckDead()
         {
@@ -150,5 +150,5 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             return true;
         }
-	}
+    }
 }

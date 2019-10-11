@@ -6,33 +6,33 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Permafrost
 {
     public class FrostbiteBlaster : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Frostbite Blaster");
-			Tooltip.SetDefault("Fires a spread of icicles");
-		}
-		public override void SetDefaults()
-		{
-			item.damage = 31;
-			item.ranged = true;
-			item.width = 54;
-			item.height = 30;
-			item.useTime = 7;
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Frostbite Blaster");
+            Tooltip.SetDefault("Fires a spread of icicles");
+        }
+        public override void SetDefaults()
+        {
+            item.damage = 31;
+            item.ranged = true;
+            item.width = 54;
+            item.height = 30;
+            item.useTime = 7;
             item.useAnimation = 21;
             item.reuseDelay = 54;
-			item.useStyle = 5;
-			item.useTurn = false;
-			item.noMelee = true;
-			item.knockBack = 5f;
+            item.useStyle = 5;
+            item.useTurn = false;
+            item.noMelee = true;
+            item.knockBack = 5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-			item.useAmmo = AmmoID.Bullet;
-			item.UseSound = SoundID.Item36;
-			item.autoReuse = true;
-			item.shoot = ProjectileID.Blizzard;
+            item.useAmmo = AmmoID.Bullet;
+            item.UseSound = SoundID.Item36;
+            item.autoReuse = true;
+            item.shoot = ProjectileID.Blizzard;
             item.shootSpeed = 9f;
-		}
+        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Main.PlaySound(SoundID.Item36, position);

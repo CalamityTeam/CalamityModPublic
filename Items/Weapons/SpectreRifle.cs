@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -11,8 +10,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spectre Rifle");
-			Tooltip.SetDefault("Fires a powerful homing soul");
-		}
+            Tooltip.SetDefault("Fires a powerful homing soul");
+        }
 
         public override void SetDefaults()
         {
@@ -35,16 +34,16 @@ namespace CalamityMod.Items.Weapons
             item.useAmmo = 97;
         }
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-10, 0);
+        }
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 0f, 0f);
-			Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
-			return false;
+            Main.projectile[proj].Calamity().forceRanged = true;
+            return false;
         }
 
         public override void AddRecipes()

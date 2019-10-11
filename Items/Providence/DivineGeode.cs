@@ -17,9 +17,9 @@ namespace CalamityMod.Items.Providence
             item.height = 12;
             item.maxStack = 999;
             item.rare = 10;
-			item.value = Item.buyPrice(0, 6, 50, 0);
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
-		}
+            item.value = Item.buyPrice(0, 6, 50, 0);
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {

@@ -6,31 +6,31 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.SunkenSea
 {
     public class EutrophicScimitar : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eutrophic Scimitar");
-			Tooltip.SetDefault("Fires a beam upon swing that stuns enemies");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Eutrophic Scimitar");
+            Tooltip.SetDefault("Fires a beam upon swing that stuns enemies");
+        }
 
-		public override void SetDefaults()
-		{
-			item.damage = 130;
-			item.melee = true;
-			item.width = 46;
-			item.height = 76;
-			item.useTime = 38;
-			item.useAnimation = 38;
-			item.useStyle = 1;
-			item.knockBack = 2;
-			item.shoot = mod.ProjectileType("EutrophicScimitarProj");
-			item.shootSpeed = 17;
-			item.value = Item.buyPrice(0, 36, 0, 0);
-			item.rare = 5;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.useTurn = true;
-		}
+        public override void SetDefaults()
+        {
+            item.damage = 130;
+            item.melee = true;
+            item.width = 46;
+            item.height = 76;
+            item.useTime = 38;
+            item.useAnimation = 38;
+            item.useStyle = 1;
+            item.knockBack = 2;
+            item.shoot = mod.ProjectileType("EutrophicScimitarProj");
+            item.shootSpeed = 17;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
+            item.useTurn = true;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

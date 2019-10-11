@@ -1,14 +1,14 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Pets
 {
     public class Fox : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Fox");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Fox");
             Main.projFrames[projectile.type] = 11;
             Main.projPet[projectile.type] = true;
         }
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.active = false;
                 return;
             }
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
                 modPlayer.fox = false;

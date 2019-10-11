@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shroomer");
-			Tooltip.SetDefault("Has a chance to fire an extremely powerful homing mushroom");
-		}
+            Tooltip.SetDefault("Has a chance to fire an extremely powerful homing mushroom");
+        }
 
         public override void SetDefaults()
         {

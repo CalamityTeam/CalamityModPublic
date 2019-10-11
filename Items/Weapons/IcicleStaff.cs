@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Icicle Staff");
-			Tooltip.SetDefault("Casts icicles from the sky");
-			Item.staff[item.type] = true;
+            Tooltip.SetDefault("Casts icicles from the sky");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()

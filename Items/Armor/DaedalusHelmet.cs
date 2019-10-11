@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,15 +12,15 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Daedalus Headgear");
             Tooltip.SetDefault("13% increased ranged damage and 7% increased ranged critical strike chance\n" +
-				"Reduces ammo usage by 20%");
+                "Reduces ammo usage by 20%");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 25, 0, 0);
-			item.rare = 5;
+            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.rare = 5;
             item.defense = 9; //39
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "5% increased ranged damage\n" +
                 "Getting hit causes you to emit a blast of crystal shards";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.daedalusShard = true;
             player.rangedDamage += 0.05f;
         }

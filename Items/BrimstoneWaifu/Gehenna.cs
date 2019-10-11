@@ -22,8 +22,8 @@ namespace CalamityMod.Items.BrimstoneWaifu
             item.height = 26;
             item.value = Item.buyPrice(0, 15, 0, 0);
             item.expert = true;
-			item.rare = 9;
-			item.accessory = true;
+            item.rare = 9;
+            item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.BrimstoneWaifu
                         Vector2 baseSpawn = new Vector2(spawnX, spawnY);
                         Vector2 baseVelocity = player.Center - baseSpawn;
                         baseVelocity.Normalize();
-                        baseVelocity = baseVelocity * speed2;
+                        baseVelocity *= speed2;
                         for (int i = 0; i < FireProjectiles; i++)
                         {
                             Vector2 spawn = baseSpawn;

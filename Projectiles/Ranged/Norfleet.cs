@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,21 +7,21 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class Norfleet : ModProjectile
-	{
+    {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Norfleet");
         }
 
         public override void SetDefaults()
-		{
-			projectile.width = 140;
-			projectile.height = 42;
+        {
+            projectile.width = 140;
+            projectile.height = 42;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-			projectile.ranged = true;
-			projectile.ignoreWater = true;
+            projectile.ranged = true;
+            projectile.ignoreWater = true;
         }
 
         public override void AI()
@@ -37,7 +37,9 @@ namespace CalamityMod.Projectiles.Ranged
                     case 180:
                     case 270:
                     case 360:
-                    case 450: projectile.localAI[0] += 1f; break;
+                    case 450:
+                        projectile.localAI[0] += 1f;
+                        break;
                     case 540:
                         projectile.localAI[0] += 1f;
                         projectile.ai[0] = -1f;
@@ -79,29 +81,29 @@ namespace CalamityMod.Projectiles.Ranged
                     float scaleFactor = 30f;
                     int damage = player.GetWeaponDamage(player.inventory[player.selectedItem]);
                     float knockBack = player.inventory[player.selectedItem].knockBack;
-					for (int i = 0; i < 5; i++)
-					{
-						player.PickAmmo(player.inventory[player.selectedItem], ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
-						knockBack = player.GetWeaponKnockback(player.inventory[player.selectedItem], knockBack);
-						Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);
-						projectile.velocity = Main.screenPosition - playerPosition;
-						projectile.velocity.X += Main.mouseX;
-						projectile.velocity.Y += Main.mouseY;
-						if (player.gravDir == -1f)
-							projectile.velocity.Y = (Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - playerPosition.Y;
-						projectile.velocity.Normalize();
-						float variation = (1f + projectile.localAI[0]) * 3f;
-						Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
-						Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
-						type = mod.ProjectileType("NorfleetComet");
-						speed.X = speed.X + (float)Main.rand.Next(-30, 31) * 0.05f;
-						speed.Y = speed.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
-						Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
-						speed.X = speed.X + (float)Main.rand.Next(-30, 31) * 0.05f;
-						speed.Y = speed.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
-						Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
-						projectile.netUpdate = true;
-					}
+                    for (int i = 0; i < 5; i++)
+                    {
+                        player.PickAmmo(player.inventory[player.selectedItem], ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
+                        knockBack = player.GetWeaponKnockback(player.inventory[player.selectedItem], knockBack);
+                        Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);
+                        projectile.velocity = Main.screenPosition - playerPosition;
+                        projectile.velocity.X += Main.mouseX;
+                        projectile.velocity.Y += Main.mouseY;
+                        if (player.gravDir == -1f)
+                            projectile.velocity.Y = (Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - playerPosition.Y;
+                        projectile.velocity.Normalize();
+                        float variation = (1f + projectile.localAI[0]) * 3f;
+                        Vector2 position = playerPosition + Utils.RandomVector2(Main.rand, -variation, variation);
+                        Vector2 speed = projectile.velocity * scaleFactor * (0.6f + Main.rand.NextFloat() * 0.6f);
+                        type = mod.ProjectileType("NorfleetComet");
+                        speed.X += (float)Main.rand.Next(-30, 31) * 0.05f;
+                        speed.Y += (float)Main.rand.Next(-30, 31) * 0.05f;
+                        Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
+                        speed.X += (float)Main.rand.Next(-30, 31) * 0.05f;
+                        speed.Y += (float)Main.rand.Next(-30, 31) * 0.05f;
+                        Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);
+                        projectile.netUpdate = true;
+                    }
                 }
                 else
                 {
@@ -122,7 +124,7 @@ namespace CalamityMod.Projectiles.Ranged
             player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
         }
 
-		public override bool CanDamage()
+        public override bool CanDamage()
         {
             return false;
         }

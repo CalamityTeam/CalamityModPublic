@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories.RareVariants
 {
@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Accessories.RareVariants
         {
             DisplayName.SetDefault("The Evolution");
             Tooltip.SetDefault("You have a 50% chance to reflect projectiles when they hit you back at the enemy for 1000% their original damage\n" +
-								"If this effect triggers you get a health regeneration boost for a short time\n" +
-								"If the same enemy projectile type hits you again you will resist its damage by 15%");
+                                "If this effect triggers you get a health regeneration boost for a short time\n" +
+                                "If the same enemy projectile type hits you again you will resist its damage by 15%");
         }
 
         public override void SetDefaults()
@@ -20,13 +20,13 @@ namespace CalamityMod.Items.Accessories.RareVariants
             item.height = 26;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 22;
-		}
+            item.Calamity().postMoonLordRarity = 22;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
-			modPlayer.projRefRare = true;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.projRefRare = true;
         }
-	}
+    }
 }

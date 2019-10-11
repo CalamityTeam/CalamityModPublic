@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 3;
             projectile.timeLeft = Lifetime;
             drawOffsetX = -10;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Returns after some number of frames in the air
-            if(projectile.timeLeft < Lifetime - ReboundTime)
+            if (projectile.timeLeft < Lifetime - ReboundTime)
                 projectile.ai[0] = 1f;
 
             if (projectile.ai[0] != 0f)

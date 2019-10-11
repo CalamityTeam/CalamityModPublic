@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Weapons.Providence
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Telluric Glare");
-			Tooltip.SetDefault("Shoots an extremely fast energy arrow");
-		}
+            Tooltip.SetDefault("Shoots an extremely fast energy arrow");
+        }
 
         public override void SetDefaults()
         {
@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Providence
             item.shoot = mod.ProjectileType("TelluricGlare");
             item.shootSpeed = 12f;
             item.useAmmo = 40;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
-		}
+            item.Calamity().postMoonLordRarity = 12;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

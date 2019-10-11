@@ -23,18 +23,18 @@ namespace CalamityMod.Items.Placeables
             item.maxStack = 999;
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "NavystoneWallSafe", 4);
-			recipe.AddTile(18);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(mod.ItemType("EutrophicPlatform"), 2);
-			recipe.SetResult(this);
-			recipe.AddTile(null, "EutrophicCrafting");
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "NavystoneWallSafe", 4);
+            recipe.AddTile(18);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(mod.ItemType("EutrophicPlatform"), 2);
+            recipe.SetResult(this);
+            recipe.AddTile(null, "EutrophicCrafting");
+            recipe.AddRecipe();
+        }
+    }
 }

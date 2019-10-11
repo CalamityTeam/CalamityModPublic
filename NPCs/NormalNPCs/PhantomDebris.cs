@@ -1,37 +1,35 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
     public class PhantomDebris : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Phantom Debris");
-			Main.npcFrameCount[npc.type] = 4;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Phantom Debris");
+            Main.npcFrameCount[npc.type] = 4;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 30;
-			npc.width = 44;
-			npc.height = 22;
-			npc.defense = 20;
-            npc.GetCalamityNPC().RevPlusDR(0.1f);
-			npc.lifeMax = 80;
+        public override void SetDefaults()
+        {
+            npc.damage = 30;
+            npc.width = 44;
+            npc.height = 22;
+            npc.defense = 20;
+            npc.Calamity().RevPlusDR(0.1f);
+            npc.lifeMax = 80;
             npc.aiStyle = 3;
             aiType = 67;
             npc.knockBackResist = 0.5f;
-			npc.value = Item.buyPrice(0, 0, 2, 0);
-			npc.HitSound = SoundID.NPCHit2;
-			npc.DeathSound = SoundID.NPCDeath36;
-			banner = npc.type;
-			bannerItem = mod.ItemType("PhantomDebrisBanner");
-		}
+            npc.value = Item.buyPrice(0, 0, 2, 0);
+            npc.HitSound = SoundID.NPCHit2;
+            npc.DeathSound = SoundID.NPCDeath36;
+            banner = npc.type;
+            bannerItem = mod.ItemType("PhantomDebrisBanner");
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -87,8 +85,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.GetCalamityPlayer().ZoneAbyss ||
-				spawnInfo.player.GetCalamityPlayer().ZoneSunkenSea)
+            if (spawnInfo.playerSafe || !Main.hardMode || spawnInfo.player.Calamity().ZoneAbyss ||
+                spawnInfo.player.Calamity().ZoneSunkenSea)
             {
                 return 0f;
             }
@@ -104,7 +102,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
+        {
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, 60, hitDirection, -1f, 0, default, 1f);
@@ -118,13 +116,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
-		public override void NPCLoot()
-		{
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBoneDust"));
+        public override void NPCLoot()
+        {
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("AncientBoneDust"));
             if (NPC.downedMoonlord)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("Phantoplasm"));
             }
-		}
-	}
+        }
+    }
 }

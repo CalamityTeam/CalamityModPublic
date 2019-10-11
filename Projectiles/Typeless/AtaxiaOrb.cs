@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class AtaxiaOrb : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ataxia Orb");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ataxia Orb");
+        }
 
         public override void SetDefaults()
         {
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.height = 4;
             projectile.friendly = true;
             projectile.penetrate = 1;
-			projectile.extraUpdates = 1;
+            projectile.extraUpdates = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 200;
         }
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-    		target.AddBuff(BuffID.OnFire, 180);
-    	}
+            target.AddBuff(BuffID.OnFire, 180);
+        }
     }
 }

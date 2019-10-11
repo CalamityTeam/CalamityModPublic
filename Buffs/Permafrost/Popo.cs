@@ -1,11 +1,11 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Buffs.Permafrost
 {
     public class Popo : ModBuff
-	{
+    {
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Popo");
@@ -17,8 +17,8 @@ namespace CalamityMod.Buffs.Permafrost
         }
 
         public override void Update(Player player, ref int buffIndex)
-		{
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+        {
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.snowmanPrevious)
             {
                 modPlayer.snowmanPower = true;
@@ -29,5 +29,5 @@ namespace CalamityMod.Buffs.Permafrost
                 buffIndex--;
             }
         }
-	}
+    }
 }

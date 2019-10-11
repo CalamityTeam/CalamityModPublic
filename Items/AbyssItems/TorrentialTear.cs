@@ -5,34 +5,34 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.AbyssItems
 {
     public class TorrentialTear : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Torrential Tear");
-			Tooltip.SetDefault("Summons the rain\n" +
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Torrential Tear");
+            Tooltip.SetDefault("Summons the rain\n" +
                 "Rain will start some time after this item is used\n" +
                 "If used when raining the rain will stop some time after this item is used");
-		}
+        }
 
-		public override void SetDefaults()
-		{
-			item.width = 20;
-			item.height = 20;
-			item.rare = 5;
-			item.useAnimation = 20;
-			item.useTime = 20;
-			item.useStyle = 4;
-			item.UseSound = SoundID.Item66;
-			item.consumable = false;
-		}
+        public override void SetDefaults()
+        {
+            item.width = 20;
+            item.height = 20;
+            item.rare = 5;
+            item.useAnimation = 20;
+            item.useTime = 20;
+            item.useStyle = 4;
+            item.UseSound = SoundID.Item66;
+            item.consumable = false;
+        }
 
-		public override bool CanUseItem(Player player)
-		{
-			return !Main.slimeRain;
-		}
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.slimeRain;
+        }
 
-		public override bool UseItem(Player player)
-		{
+        public override bool UseItem(Player player)
+        {
             if (!Main.raining)
             {
                 int num = 86400;
@@ -85,8 +85,8 @@ namespace CalamityMod.Items.AbyssItems
             else
                 Main.raining = false;
 
-			CalamityMod.UpdateServerBoolean();
-			return true;
-		}
-	}
+            CalamityMod.UpdateServerBoolean();
+            return true;
+        }
+    }
 }

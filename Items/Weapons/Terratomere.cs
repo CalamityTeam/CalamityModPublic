@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons
             DisplayName.SetDefault("Terratomere");
             Tooltip.SetDefault("Linked to the essence of Terraria\n" +
                                "Heals the player on enemy hits\n" +
-							   "Fires a barrage of homing beams that inflict several debuffs");
+                               "Fires a barrage of homing beams that inflict several debuffs");
         }
 
         public override void SetDefaults()
@@ -51,23 +51,23 @@ namespace CalamityMod.Items.Weapons
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "XerocsGreatsword");
+            recipe.AddIngredient(null, "XerocsGreatsword");
             recipe.AddIngredient(null, "Floodtide");
             recipe.AddIngredient(null, "Hellkite");
             recipe.AddIngredient(null, "TemporalFloeSword");
             recipe.AddIngredient(ItemID.TerraBlade);
-			recipe.AddIngredient(null, "AstralBar", 5);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "AstralBar", 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "XerocsGreatsword");
+            recipe.AddIngredient(null, "XerocsGreatsword");
             recipe.AddIngredient(null, "Floodtide");
             recipe.AddIngredient(null, "Hellkite");
             recipe.AddIngredient(null, "TemporalFloeSword");
             recipe.AddIngredient(null, "TerraEdge");
-			recipe.AddIngredient(null, "AstralBar", 5);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "AstralBar", 5);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

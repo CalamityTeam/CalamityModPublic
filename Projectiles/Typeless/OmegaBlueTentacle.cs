@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -49,8 +48,8 @@ namespace CalamityMod.Projectiles.Typeless
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            bool hentai = player.GetModPlayer<CalamityPlayer>().omegaBlueHentai;
-            if (player.active && player.GetModPlayer<CalamityPlayer>().omegaBlueSet)
+            bool hentai = player.Calamity().omegaBlueHentai;
+            if (player.active && player.Calamity().omegaBlueSet)
                 projectile.timeLeft = 8;
 
             //tentacle head movement (homing)
@@ -183,7 +182,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Main.player[projectile.owner].GetModPlayer<CalamityPlayer>().omegaBlueHentai)
+            if (Main.player[projectile.owner].Calamity().omegaBlueHentai)
                 crit = true;
         }
 
@@ -195,7 +194,7 @@ namespace CalamityMod.Projectiles.Typeless
                 if (healAmount > 0)
                 {
                     Main.player[Main.myPlayer].lifeSteal -= healAmount;
-                    if (Main.player[Main.myPlayer].GetModPlayer<CalamityPlayer>().omegaBlueHentai) //hentai always crits, this makes it have same lifesteal delay
+                    if (Main.player[Main.myPlayer].Calamity().omegaBlueHentai) //hentai always crits, this makes it have same lifesteal delay
                         Main.player[Main.myPlayer].lifeSteal += healAmount / 2;
                     /*Main.player[Main.myPlayer].statLife += healAmount;
                     if (Main.player[Main.myPlayer].statLife > Main.player[Main.myPlayer].statLifeMax2)
@@ -222,8 +221,8 @@ namespace CalamityMod.Projectiles.Typeless
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), texture2D13.Bounds, projectile.GetAlpha(lightColor), projectile.rotation, texture2D13.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.ZoomMatrix);
-			return false;
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.ZoomMatrix);
+            return false;
         }
     }
 }

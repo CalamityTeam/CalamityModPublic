@@ -1,14 +1,10 @@
-﻿using System;
-
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-using CalamityMod.World;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AstralBiomeNPCs
 {
@@ -32,23 +28,23 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             npc.npcSlots = 0.5f; //needed?
             npc.damage = 55;
             npc.defense = 18;
-            npc.GetCalamityNPC().RevPlusDR(0.15f);
+            npc.Calamity().RevPlusDR(0.15f);
             npc.knockBackResist = 0.65f;
             npc.lifeMax = 210;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.buffImmune[31] = false;
             animationType = NPCID.GiantFlyingFox;
-			banner = npc.type;
-			bannerItem = mod.ItemType("StellarCulexBanner");
-			if (CalamityWorld.downedAstrageldon)
-			{
-				npc.damage = 90;
-				npc.defense = 28;
-				npc.knockBackResist = 0.55f;
-				npc.lifeMax = 320;
-			}
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("StellarCulexBanner");
+            if (CalamityWorld.downedAstrageldon)
+            {
+                npc.damage = 90;
+                npc.defense = 28;
+                npc.knockBackResist = 0.55f;
+                npc.lifeMax = 320;
+            }
+        }
 
         public override void FindFrame(int frameHeight)
         {
@@ -100,19 +96,19 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<CalamityPlayer>().ZoneAstral && spawnInfo.player.ZoneRockLayerHeight)
+            if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneRockLayerHeight)
             {
                 return 0.16f;
             }
             return 0f;
         }
 
-		public override void OnHitPlayer(Player player, int damage, bool crit)
-		{
-			player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
-		}
+        public override void OnHitPlayer(Player player, int damage, bool crit)
+        {
+            player.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120, true);
+        }
 
-		public override void NPCLoot()
+        public override void NPCLoot()
         {
             if (Main.rand.NextBool(2))
             {

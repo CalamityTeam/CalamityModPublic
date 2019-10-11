@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrow : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Arrow");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Arrow");
+        }
 
         public override void SetDefaults()
         {
@@ -26,45 +26,45 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-        	projectile.velocity *= 1.005f;
-        	if (projectile.velocity.X >= 20f || projectile.velocity.Y >= 20f || projectile.velocity.X <= -20f || projectile.velocity.Y <= -20f)
-        	{
-        		projectile.Kill();
-        	}
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.velocity *= 1.005f;
+            if (projectile.velocity.X >= 20f || projectile.velocity.Y >= 20f || projectile.velocity.X <= -20f || projectile.velocity.Y <= -20f)
+            {
+                projectile.Kill();
+            }
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
         }
 
         public override void Kill(int timeLeft)
         {
-			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 32);
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 60);
-			for (int num621 = 0; num621 < 3; num621++)
-			{
-				int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 2f);
-				Main.dust[num622].velocity *= 1.2f;
-				if (Main.rand.NextBool(2))
-				{
-					Main.dust[num622].scale = 0.5f;
-					Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-				}
-			}
-			if (projectile.owner == Main.myPlayer)
-			{
-				for (int num252 = 0; num252 < 2; num252++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("TerraArrow2"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
-				}
-			}
+            projectile.position = projectile.Center;
+            projectile.width = (projectile.height = 32);
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 60);
+            for (int num621 = 0; num621 < 3; num621++)
+            {
+                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, default, 2f);
+                Main.dust[num622].velocity *= 1.2f;
+                if (Main.rand.NextBool(2))
+                {
+                    Main.dust[num622].scale = 0.5f;
+                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                }
+            }
+            if (projectile.owner == Main.myPlayer)
+            {
+                for (int num252 = 0; num252 < 2; num252++)
+                {
+                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    while (value15.X == 0f && value15.Y == 0f)
+                    {
+                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    }
+                    value15.Normalize();
+                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, mod.ProjectileType("TerraArrow2"), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                }
+            }
         }
     }
 }

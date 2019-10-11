@@ -9,7 +9,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             DisplayName.SetDefault("Ice Star");
             Tooltip.SetDefault("Throws homing ice stars\n" +
-				"Ice Stars are too brittle to be recovered after being thrown");
+                "Ice Stars are too brittle to be recovered after being thrown");
         }
 
         public override void SafeSetDefaults()
@@ -32,8 +32,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 5;
             item.shoot = mod.ProjectileType("IceStarProjectile");
             item.shootSpeed = 14f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

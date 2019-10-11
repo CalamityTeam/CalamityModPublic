@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class EonBeamV2 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Beam");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Beam");
+        }
 
         public override void SetDefaults()
         {
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 300;
             aiType = 173;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 5;
         }
 
         public override void AI()
@@ -60,10 +60,10 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-			target.AddBuff(mod.BuffType("GlacialState"), 120);
-			target.AddBuff(mod.BuffType("Plague"), 120);
-			target.AddBuff(mod.BuffType("HolyLight"), 120);
-		}
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(mod.BuffType("HolyLight"), 120);
+        }
     }
 }

@@ -1,47 +1,46 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.IO;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.CosmicWraith
 {
     public class SignusBomb : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cosmic Mine");
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cosmic Mine");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 0;
-			npc.width = 30;
-			npc.height = 30;
-			npc.lifeMax = 100;
-			npc.aiStyle = -1;
+        public override void SetDefaults()
+        {
+            npc.damage = 0;
+            npc.width = 30;
+            npc.height = 30;
+            npc.lifeMax = 100;
+            npc.aiStyle = -1;
             aiType = -1;
-			npc.knockBackResist = 0f;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.HitSound = SoundID.NPCHit53;
-			npc.DeathSound = SoundID.NPCDeath44;
-		}
+            npc.knockBackResist = 0f;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.HitSound = SoundID.NPCHit53;
+            npc.DeathSound = SoundID.NPCDeath44;
+        }
 
-		public override void SendExtraAI(BinaryWriter writer)
-		{
-			writer.Write(npc.dontTakeDamage);
-		}
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.dontTakeDamage);
+        }
 
-		public override void ReceiveExtraAI(BinaryReader reader)
-		{
-			npc.dontTakeDamage = reader.ReadBoolean();
-		}
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.dontTakeDamage = reader.ReadBoolean();
+        }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             npc.rotation = npc.velocity.X * 0.04f;
             if (npc.ai[1] == 0f)
             {
@@ -64,23 +63,23 @@ namespace CalamityMod.NPCs.CosmicWraith
                 }
             }
             Player player = Main.player[npc.target];
-			if (!player.active || player.dead)
-			{
-				npc.TargetClosest(false);
-				player = Main.player[npc.target];
-				if (!player.active || player.dead)
-				{
-					if (npc.timeLeft > 10)
-					{
-						npc.timeLeft = 10;
-					}
-					return;
-				}
-			}
-			else if (npc.timeLeft > 600)
-			{
-				npc.timeLeft = 600;
-			}
+            if (!player.active || player.dead)
+            {
+                npc.TargetClosest(false);
+                player = Main.player[npc.target];
+                if (!player.active || player.dead)
+                {
+                    if (npc.timeLeft > 10)
+                    {
+                        npc.timeLeft = 10;
+                    }
+                    return;
+                }
+            }
+            else if (npc.timeLeft > 600)
+            {
+                npc.timeLeft = 600;
+            }
             Vector2 vector = Main.player[npc.target].Center - npc.Center;
             if (vector.Length() < 90f || npc.ai[3] >= 300f)
             {
@@ -97,45 +96,45 @@ namespace CalamityMod.NPCs.CosmicWraith
                 npc.velocity.X *= 0.985f;
                 return;
             }
-			npc.TargetClosest(true);
-			float num1372 = 14f;
-			Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-			float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
-			float num1374 = player.Center.Y - vector167.Y;
-			float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
-			float num1376 = num1372 / num1375;
-			num1373 *= num1376;
-			num1374 *= num1376;
-			npc.ai[0] -= 1f;
-			if (num1375 < 200f || npc.ai[0] > 0f)
-			{
-				if (num1375 < 200f)
-				{
-					npc.ai[0] = 20f;
-				}
-				if (npc.velocity.X < 0f)
-				{
-					npc.direction = -1;
-				}
-				else
-				{
-					npc.direction = 1;
-				}
-				return;
-			}
-			npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
-			npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
-			if (num1375 < 350f)
-			{
-				npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
-				npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
-			}
-			if (num1375 < 300f)
-			{
-				npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
-				npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
-			}
-		}
+            npc.TargetClosest(true);
+            float num1372 = 14f;
+            Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
+            float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
+            float num1374 = player.Center.Y - vector167.Y;
+            float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
+            float num1376 = num1372 / num1375;
+            num1373 *= num1376;
+            num1374 *= num1376;
+            npc.ai[0] -= 1f;
+            if (num1375 < 200f || npc.ai[0] > 0f)
+            {
+                if (num1375 < 200f)
+                {
+                    npc.ai[0] = 20f;
+                }
+                if (npc.velocity.X < 0f)
+                {
+                    npc.direction = -1;
+                }
+                else
+                {
+                    npc.direction = 1;
+                }
+                return;
+            }
+            npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
+            npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
+            if (num1375 < 350f)
+            {
+                npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
+                npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
+            }
+            if (num1375 < 300f)
+            {
+                npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
+                npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
+            }
+        }
 
         public override Color? GetAlpha(Color drawColor)
         {
@@ -173,5 +172,5 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             return true;
         }
-	}
+    }
 }

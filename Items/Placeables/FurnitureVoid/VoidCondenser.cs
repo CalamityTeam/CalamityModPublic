@@ -4,33 +4,33 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class VoidCondenser : ModItem
-	{
-		public override void SetStaticDefaults()
+    {
+        public override void SetStaticDefaults()
         {
             Tooltip.SetDefault("Used for special crafting");
         }
 
-		public override void SetDefaults()
+        public override void SetDefaults()
         {
             item.width = 26;
-			item.height = 26;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
-			item.consumable = true;
-			item.createTile = mod.TileType("VoidCondenser");
-		}
+            item.height = 26;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
+            item.consumable = true;
+            item.createTile = mod.TileType("VoidCondenser");
+        }
 
-		public override void AddRecipes()
-		{
+        public override void AddRecipes()
+        {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "SmoothVoidstone", 25);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();
         }
-	}
+    }
 }

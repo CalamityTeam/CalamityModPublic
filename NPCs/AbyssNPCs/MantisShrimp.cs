@@ -1,36 +1,34 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.NPCs.AbyssNPCs
 {
     public class MantisShrimp : ModNPC
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Mantis Shrimp");
-			Main.npcFrameCount[npc.type] = 6;
-		}
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Mantis Shrimp");
+            Main.npcFrameCount[npc.type] = 6;
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 200;
-			npc.width = 40;
-			npc.height = 24;
-			npc.defense = 10;
-            npc.GetCalamityNPC().RevPlusDR(0.1f);
-			npc.lifeMax = 30;
+        public override void SetDefaults()
+        {
+            npc.damage = 200;
+            npc.width = 40;
+            npc.height = 24;
+            npc.defense = 10;
+            npc.Calamity().RevPlusDR(0.1f);
+            npc.lifeMax = 30;
             npc.aiStyle = 3;
-			aiType = 67;
-			npc.value = Item.buyPrice(0, 0, 1, 0);
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
+            aiType = 67;
+            npc.value = Item.buyPrice(0, 0, 1, 0);
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
             npc.buffImmune[189] = true;
-			banner = npc.type;
-			bannerItem = mod.ItemType("MantisShrimpBanner");
-		}
+            banner = npc.type;
+            bannerItem = mod.ItemType("MantisShrimpBanner");
+        }
 
         public override void AI()
         {
@@ -94,7 +92,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || spawnInfo.player.GetCalamityPlayer().ZoneSulphur)
+            if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
             {
                 return 0f;
             }
@@ -110,18 +108,18 @@ namespace CalamityMod.NPCs.AbyssNPCs
         }
 
         public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 15; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
-	}
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 15; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
+    }
 }

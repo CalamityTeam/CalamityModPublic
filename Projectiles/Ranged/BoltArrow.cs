@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BoltArrow : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bolt Arrow");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bolt Arrow");
+        }
 
         public override void SetDefaults()
         {
@@ -18,14 +18,14 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 10;
             projectile.friendly = true;
             projectile.ranged = true;
-			projectile.arrow = true;
-			projectile.penetrate = 1;
+            projectile.arrow = true;
+            projectile.penetrate = 1;
             projectile.timeLeft = 180;
         }
 
         public override void AI()
         {
-        	projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 15f)
             {
@@ -45,32 +45,32 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-			return true;
-		}
-
-		public override void Kill(int timeLeft)
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 32);
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
-			int num212 = Main.rand.Next(10, 20);
-			for (int num213 = 0; num213 < num212; num213++)
-			{
-				int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 135, 0f, 0f, 100, default, 2f);
-				Main.dust[num214].velocity *= 2f;
-				Main.dust[num214].noGravity = true;
-			}
+            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            return true;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            projectile.position = projectile.Center;
+            projectile.width = (projectile.height = 32);
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
+            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
+            int num212 = Main.rand.Next(10, 20);
+            for (int num213 = 0; num213 < num212; num213++)
+            {
+                int num214 = Dust.NewDust(projectile.Center - projectile.velocity / 2f, 0, 0, 135, 0f, 0f, 100, default, 2f);
+                Main.dust[num214].velocity *= 2f;
+                Main.dust[num214].noGravity = true;
+            }
         }
     }
 }

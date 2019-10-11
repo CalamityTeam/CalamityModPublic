@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             item.rare = 10;
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("TheObliterator");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 13;
-		}
+            item.Calamity().postMoonLordRarity = 13;
+        }
     }
 }

@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons
             item.shoot = 10;
             item.shootSpeed = 12f;
             item.useAmmo = 97;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override Vector2? HoldoutOffset()
         {
@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AMR"), damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("AMR"), damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
-	}
+    }
 }

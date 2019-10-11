@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.sirenBoobsAlt = true;
             if (hideVisual)
             {

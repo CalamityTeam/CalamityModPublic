@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class XerocOrb : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Orb");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Orb");
+        }
 
         public override void SetDefaults()
         {
@@ -65,8 +65,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-    		target.AddBuff(BuffID.OnFire, 120);
-    		target.AddBuff(BuffID.CursedInferno, 120);
-    	}
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.CursedInferno, 120);
+        }
     }
 }

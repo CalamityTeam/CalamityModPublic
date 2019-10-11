@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -20,8 +19,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 5, 0, 0);
-			item.rare = 4;
+            item.value = Item.buyPrice(0, 5, 0, 0);
+            item.rare = 4;
             item.defense = 6; //23
         }
 
@@ -34,23 +33,23 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                     "Grants an extra jump and increased jump height\n" +
-					"Rogue stealth builds while not attacking and not moving, up to a max of 105\n" +
-					"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-					"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+                    "Rogue stealth builds while not attacking and not moving, up to a max of 105\n" +
+                    "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+                    "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
-			modPlayer.rogueStealthMax = 1.05f;
-			player.doubleJumpSail = true;
+            modPlayer.rogueStealthMax = 1.05f;
+            player.doubleJumpSail = true;
             player.jumpBoost = true;
-            player.GetCalamityPlayer().wearingRogueArmor = true;
+            player.Calamity().wearingRogueArmor = true;
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.GetCalamityPlayer().throwingAmmoCost66 = true;
-            player.GetCalamityPlayer().throwingDamage += 0.1f;
-            player.GetCalamityPlayer().throwingCrit += 7;
-			player.moveSpeed += 0.12f;
+            player.Calamity().throwingAmmoCost66 = true;
+            player.Calamity().throwingDamage += 0.1f;
+            player.Calamity().throwingCrit += 7;
+            player.moveSpeed += 0.12f;
         }
 
         public override void AddRecipes()

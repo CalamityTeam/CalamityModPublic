@@ -1,20 +1,20 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class BrimstoneSlag : ModTile
-	{
+    {
         private const short subsheetWidth = 450;
         private const short subsheetHeight = 198;
 
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeHellTiles(Type);
@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles
             mineResist = 3f;
             minPick = 180;
             drop = mod.ItemType("BrimstoneSlag");
-			AddMapEntry(new Color(53, 33, 56));
+            AddMapEntry(new Color(53, 33, 56));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

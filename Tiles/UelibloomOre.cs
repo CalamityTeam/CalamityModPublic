@@ -1,40 +1,40 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class UelibloomOre : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;
-			Main.tileValue[Type] = 805;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileBlockLight[Type] = true;
+            Main.tileValue[Type] = 805;
 
             TileMerge.MergeGeneralTiles(Type);
 
             dustType = mod.DustType("TCESparkle");
-			drop = mod.ItemType("UelibloomOre");
-			ModTranslation name = CreateMapEntryName();
- 			name.SetDefault("Uelibloom Ore");
- 			AddMapEntry(new Color(0, 255, 0), name);
-			mineResist = 5f;
-			minPick = 250;
-			soundType = 21;
-			Main.tileSpelunker[Type] = true;
-		}
+            drop = mod.ItemType("UelibloomOre");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Uelibloom Ore");
+            AddMapEntry(new Color(0, 255, 0), name);
+            mineResist = 5f;
+            minPick = 250;
+            soundType = 21;
+            Main.tileSpelunker[Type] = true;
+        }
 
-		public override bool CanExplode(int i, int j)
-		{
-			return NPC.downedMoonlord;
-		}
+        public override bool CanExplode(int i, int j)
+        {
+            return NPC.downedMoonlord;
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

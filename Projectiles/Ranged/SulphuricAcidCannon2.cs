@@ -12,9 +12,9 @@ namespace CalamityMod.Projectiles.Ranged
         public float counter2 = 0f;
         public int killCounter = 0;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Acid Bubble");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Acid Bubble");
             Main.projFrames[projectile.type] = 7;
         }
 
@@ -43,20 +43,20 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.owner == Main.myPlayer)
             {
-				if (counter >= 120f)
-				{
-					counter = 0f;
-					Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					vector15.Normalize();
-					vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("SulphuricAcidMist2"), (int)(250f * Main.player[projectile.owner].rangedDamage), 1f, projectile.owner, 0f, 0f);
-				}
-				else
-					counter += 1f;
+                if (counter >= 120f)
+                {
+                    counter = 0f;
+                    Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    vector15.Normalize();
+                    vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, mod.ProjectileType("SulphuricAcidMist2"), (int)(250f * Main.player[projectile.owner].rangedDamage), 1f, projectile.owner, 0f, 0f);
+                }
+                else
+                    counter += 1f;
             }
             if (projectile.ai[0] == 0f)
             {
-				projectile.ai[1] += 1f;
+                projectile.ai[1] += 1f;
                 if (projectile.ai[1] >= 6f)
                 {
                     int num982 = 20;
@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.tileCollide = false;
                 bool flag54 = false;
-				projectile.localAI[0] += 1f;
+                projectile.localAI[0] += 1f;
                 int num989 = (int)projectile.ai[1];
                 if (projectile.localAI[0] >= 360f)
                 {
@@ -243,8 +243,8 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = (projectile.height = 64);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			Main.PlaySound(SoundID.Item54, projectile.Center);
-			int num3;
+            Main.PlaySound(SoundID.Item54, projectile.Center);
+            int num3;
             for (int num246 = 0; num246 < 25; num246 = num3 + 1)
             {
                 int num247 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 0, default, 1f);
@@ -256,11 +256,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num247].alpha = projectile.alpha;
                 num3 = num246;
             }
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
-		}
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
+        }
     }
 }

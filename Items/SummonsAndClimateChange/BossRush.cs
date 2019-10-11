@@ -1,37 +1,37 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.Items.SummonsAndClimateChange
 {
     public class BossRush : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Terminus");
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Terminus");
             Tooltip.SetDefault("A ritualistic artifact, thought to have brought upon The End many millennia ago\n" +
                                 "Sealed away in the abyss, far from those that would seek to misuse it\n" +
-								"Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
-								"During the Boss Rush, all wires and wired devices will be disabled");
+                                "Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
+                                "During the Boss Rush, all wires and wired devices will be disabled");
         }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.rare = 1;
-			item.width = 28;
-			item.height = 28;
-			item.useAnimation = 45;
-			item.useTime = 45;
-			item.useStyle = 4;
-			item.UseSound = SoundID.Item123;
-			item.consumable = false;
-		}
+            item.width = 28;
+            item.height = 28;
+            item.useAnimation = 45;
+            item.useTime = 45;
+            item.useStyle = 4;
+            item.UseSound = SoundID.Item123;
+            item.consumable = false;
+        }
 
         public override bool UseItem(Player player)
-		{
+        {
             for (int doom = 0; doom < 200; doom++)
             {
                 if (Main.npc[doom].active && Main.npc[doom].boss)
@@ -70,6 +70,6 @@ namespace CalamityMod.Items.SummonsAndClimateChange
                 netMessage.Send();
             }
             return true;
-		}
+        }
     }
 }

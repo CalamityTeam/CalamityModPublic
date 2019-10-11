@@ -4,19 +4,19 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-	public class OccultStoneWall : ModWall
-	{
-		public override void SetDefaults()
-		{
-			Main.wallHouse[Type] = true;
-			dustType = mod.DustType("Sparkle");
-			drop = mod.ItemType("OccultStoneWall");
-			AddMapEntry(new Color(23, 23, 26));
-		}
+    public class OccultStoneWall : ModWall
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = true;
+            dustType = mod.DustType("Sparkle");
+            drop = mod.ItemType("OccultStoneWall");
+            AddMapEntry(new Color(23, 23, 26));
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
         }
 
         public override bool CreateDust(int i, int j, ref int type)

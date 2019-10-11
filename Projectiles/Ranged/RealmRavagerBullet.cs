@@ -6,25 +6,25 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class RealmRavagerBullet : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosive Bullet");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosive Bullet");
+        }
 
         public override void SetDefaults()
         {
             projectile.width = 4;
             projectile.height = 4;
-			projectile.light = 0.5f;
-			projectile.alpha = 255;
-			projectile.ranged = true;
-			projectile.friendly = true;
+            projectile.light = 0.5f;
+            projectile.alpha = 255;
+            projectile.ranged = true;
+            projectile.friendly = true;
             projectile.ignoreWater = true;
-			projectile.aiStyle = 1;
-			aiType = 242;
-			projectile.penetrate = 1;
-			projectile.timeLeft = 90;
-		}
+            projectile.aiStyle = 1;
+            aiType = 242;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 90;
+        }
 
         public override void Kill(int timeLeft)
         {
@@ -46,11 +46,11 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
         }
     }
 }

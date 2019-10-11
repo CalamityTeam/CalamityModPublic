@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-
+﻿using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.World.Planets
 {
@@ -20,24 +19,24 @@ namespace CalamityMod.World.Planets
             int diameter = myRadius * 2;
             _area = new Rectangle(origin.X - myRadius, origin.Y - myRadius, diameter, diameter);
 
-			Mod varia = ModLoader.GetMod("Varia");
-			for (int i = _area.Left; i < _area.Right; i++)
-			{
-				for (int j = _area.Top; j < _area.Bottom; j++)
-				{
-					if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
-					{
-						return false;
-					}
-					if (varia != null)
-					{
-						if (Main.tile[i, j].type == varia.TileType("StarplateBrick") || Main.tile[i, j].type == varia.TileType("ForgottenCloud"))
-						{
-							return false;
-						}
-					}
-				}
-			}
+            Mod varia = ModLoader.GetMod("Varia");
+            for (int i = _area.Left; i < _area.Right; i++)
+            {
+                for (int j = _area.Top; j < _area.Bottom; j++)
+                {
+                    if (Main.tile[i, j].type == TileID.Cloud || Main.tile[i, j].type == TileID.RainCloud || Main.tile[i, j].type == TileID.Sunplate)
+                    {
+                        return false;
+                    }
+                    if (varia != null)
+                    {
+                        if (Main.tile[i, j].type == varia.TileType("StarplateBrick") || Main.tile[i, j].type == varia.TileType("ForgottenCloud"))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
 
             if (!structures.CanPlace(_area))
             {

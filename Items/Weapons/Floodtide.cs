@@ -2,17 +2,16 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
     public class Floodtide : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Floodtide");
-			Tooltip.SetDefault("Launches sharks, because sharks are awesome!");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Floodtide");
+            Tooltip.SetDefault("Launches sharks, because sharks are awesome!");
+        }
 
         public override void SetDefaults()
         {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons
             item.height = 64;
             item.useTime = 23;
             item.useAnimation = 23;
-			item.useTurn = true;
+            item.useTurn = true;
             item.useStyle = 1;
             item.knockBack = 6f;
             item.value = Item.buyPrice(0, 60, 0, 0);
@@ -35,14 +34,14 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			for (int i = 0; i < 2; i++)
-			{
-				float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-				float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-				int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
-			}
-			return false;
+            for (int i = 0; i < 2; i++)
+            {
+                float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
+                float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
+                int proj = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[proj].Calamity().forceMelee = true;
+            }
+            return false;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -54,27 +53,27 @@ namespace CalamityMod.Items.Weapons
         }
 
         public override void AddRecipes()
-	    {
-	        ModRecipe recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(null, "VictideBar", 5);
-	        recipe.AddIngredient(ItemID.SharkFin, 2);
-	        recipe.AddIngredient(ItemID.AdamantiteBar, 5);
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "VictideBar", 5);
+            recipe.AddIngredient(ItemID.SharkFin, 2);
+            recipe.AddIngredient(ItemID.AdamantiteBar, 5);
             recipe.AddIngredient(null, "DepthCells", 10);
             recipe.AddIngredient(null, "Lumenite", 10);
             recipe.AddIngredient(null, "Tenebris", 5);
             recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	        recipe = new ModRecipe(mod);
-	        recipe.AddIngredient(null, "VictideBar", 5);
-	        recipe.AddIngredient(ItemID.SharkFin, 2);
-	        recipe.AddIngredient(ItemID.TitaniumBar, 5);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "VictideBar", 5);
+            recipe.AddIngredient(ItemID.SharkFin, 2);
+            recipe.AddIngredient(ItemID.TitaniumBar, 5);
             recipe.AddIngredient(null, "DepthCells", 10);
             recipe.AddIngredient(null, "Lumenite", 10);
             recipe.AddIngredient(null, "Tenebris", 5);
             recipe.AddTile(TileID.MythrilAnvil);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	    }
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

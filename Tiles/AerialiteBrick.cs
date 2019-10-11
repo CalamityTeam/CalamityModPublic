@@ -1,21 +1,21 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
-	public class AerialiteBrick : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = false;
-			Main.tileBlockLight[Type] = true;
+    public class AerialiteBrick : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = false;
+            Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 50;
             drop = mod.ItemType("AerialiteBrick");
-			AddMapEntry(new Color(68, 58, 145));
+            AddMapEntry(new Color(68, 58, 145));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

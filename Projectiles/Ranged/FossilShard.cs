@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class FossilShard : ModProjectile
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Shard");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Shard");
+        }
 
         public override void SetDefaults()
         {
@@ -24,21 +24,21 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-        	projectile.rotation += projectile.velocity.Y;
-        	projectile.velocity.Y *= 1.05f;
+            projectile.rotation += projectile.velocity.Y;
+            projectile.velocity.Y *= 1.05f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("ArmorCrunch"), 60);
+            target.AddBuff(mod.BuffType("ArmorCrunch"), 60);
         }
 
         public override void Kill(int timeLeft)
         {
-        	for (int i = 0; i <= 2; i++)
-        	{
-        		Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
-        	}
+            for (int i = 0; i <= 2; i++)
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 32, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+            }
         }
     }
 }

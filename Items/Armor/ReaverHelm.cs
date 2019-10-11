@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 28;
             item.height = 30;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 7;
             item.defense = 25; //58
         }
 
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             player.thorns += 0.33f;
             modPlayer.reaverBlast = true;
             player.setBonus = "5% increased melee damage\n" +

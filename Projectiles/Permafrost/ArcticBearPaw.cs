@@ -6,28 +6,28 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class ArcticBearPaw : ModProjectile
-	{
-		public override void SetDefaults()
-		{
-			projectile.width = 44;
-			projectile.height = 44;
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 44;
+            projectile.height = 44;
             projectile.aiStyle = 1;
             aiType = ProjectileID.Bullet;
-			projectile.friendly = true;
+            projectile.friendly = true;
             projectile.magic = true;
             projectile.coldDamage = true;
-			projectile.penetrate = 5;
-			projectile.ignoreWater = true;
+            projectile.penetrate = 5;
+            projectile.ignoreWater = true;
             projectile.tileCollide = false;
-		}
+        }
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Arctic Bear Paw");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Arctic Bear Paw");
+        }
 
-		public override void AI()
-		{
+        public override void AI()
+        {
             //make pretty dust
             int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 88);
             Main.dust[index2].noGravity = true;
@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Permafrost
             }
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
             target.AddBuff(BuffID.Frostburn, 480);
             target.AddBuff(mod.BuffType("GlacialState"), 60);
 
@@ -52,9 +52,9 @@ namespace CalamityMod.Projectiles.Permafrost
                 target.AddBuff(BuffID.Confused, Main.rand.Next(60, 240));
         }
 
-		public override Color? GetAlpha (Color lightColor)
-		{
-			return new Color(200, 200, 200, projectile.alpha);
-		}
-	}
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(200, 200, 200, projectile.alpha);
+        }
+    }
 }

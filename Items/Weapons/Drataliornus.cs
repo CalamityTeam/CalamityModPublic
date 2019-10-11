@@ -6,41 +6,41 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons
 {
     public class Drataliornus : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Drataliornus");
-			Tooltip.SetDefault(@"Fires an escalating stream of fireballs.
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Drataliornus");
+            Tooltip.SetDefault(@"Fires an escalating stream of fireballs.
 Fireballs rain meteors, leave dragon dust trails, and launch additional bolts at max speed.
 Taking damage while firing the stream will interrupt it and reduce your wing flight time.
 Right click to fire two devastating barrages of five empowered fireballs.
 'Just don't get hit'");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.damage = 620;
-			item.knockBack = 1f;
+            item.knockBack = 1f;
             item.shootSpeed = 18f;
-			item.useStyle = 5;
-			item.useAnimation = 10;
-			item.useTime = 10;
+            item.useStyle = 5;
+            item.useAnimation = 10;
+            item.useTime = 10;
             item.reuseDelay = 0;
             item.width = 64;
-			item.height = 84;
-			item.UseSound = SoundID.Item5;
-			item.shoot = mod.ProjectileType("Drataliornus");
+            item.height = 84;
+            item.UseSound = SoundID.Item5;
+            item.shoot = mod.ProjectileType("Drataliornus");
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.noMelee = true;
             item.noUseGraphic = true;
-			item.ranged = true;
+            item.ranged = true;
             item.channel = true;
-			item.useTurn = false;
-			item.useAmmo = AmmoID.Arrow;
-			item.autoReuse = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
-		}
+            item.useTurn = false;
+            item.useAmmo = AmmoID.Arrow;
+            item.autoReuse = true;
+            item.Calamity().postMoonLordRarity = 16;
+        }
 
         public override bool AltFunctionUse(Player player)
         {
@@ -66,8 +66,8 @@ Right click to fire two devastating barrages of five empowered fireballs.
             return base.CanUseItem(player);
         }
 
-        public override bool Shoot (Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
             if (player.altFunctionUse == 2) //tsunami
             {
                 const float num3 = 0.471238898f;
@@ -87,8 +87,8 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Drataliornus"), 0, 0f, player.whoAmI);
             }
 
-			return false;
-		}
+            return false;
+        }
 
         public override Vector2? HoldoutOffset()
         {

@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,72 +7,72 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.SunkenSea
 {
     public class SerpentineHead : ModProjectile
-	{
+    {
 
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Serpentine");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Serpentine");
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.width = 14;
-			projectile.height = 16;
-			projectile.friendly = true;
-			projectile.ignoreWater = true;
-			projectile.netImportant = true;
-			projectile.penetrate = 5;
-			projectile.timeLeft = 600;
-			projectile.magic = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 20;
-		}
+        public override void SetDefaults()
+        {
+            projectile.width = 14;
+            projectile.height = 16;
+            projectile.friendly = true;
+            projectile.ignoreWater = true;
+            projectile.netImportant = true;
+            projectile.penetrate = 5;
+            projectile.timeLeft = 600;
+            projectile.magic = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
+        }
 
-		public override void AI()
-		{
-			Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f);
-			if (projectile.alpha > 0)
-			{
-				projectile.alpha -= 40;
-			}
-			if (projectile.alpha < 0)
-			{
-				projectile.alpha = 0;
-			}
+        public override void AI()
+        {
+            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f);
+            if (projectile.alpha > 0)
+            {
+                projectile.alpha -= 40;
+            }
+            if (projectile.alpha < 0)
+            {
+                projectile.alpha = 0;
+            }
             int num114 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default, 1.25f);
             Dust dust = Main.dust[num114];
             dust.velocity *= 0.3f;
             Main.dust[num114].position.X = projectile.position.X + (float)(projectile.width / 2) + 4f + (float)Main.rand.Next(-4, 5);
             Main.dust[num114].position.Y = projectile.position.Y + (float)(projectile.height / 2) + (float)Main.rand.Next(-4, 5);
             Main.dust[num114].noGravity = true;
-			projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
-			int direction = projectile.direction;
-			projectile.direction = (projectile.spriteDirection = ((projectile.velocity.X > 0f) ? 1 : -1));
-			if (direction != projectile.direction)
-			{
-				projectile.netUpdate = true;
-			}
-			float num1061 = MathHelper.Clamp(projectile.localAI[0], 0f, 50f);
-			projectile.position = projectile.Center;
-			projectile.scale = 1f + num1061 * 0.01f;
-			projectile.width = (projectile.height = (int)(10 * projectile.scale));
-			projectile.Center = projectile.position;
+            projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
+            int direction = projectile.direction;
+            projectile.direction = (projectile.spriteDirection = ((projectile.velocity.X > 0f) ? 1 : -1));
+            if (direction != projectile.direction)
+            {
+                projectile.netUpdate = true;
+            }
+            float num1061 = MathHelper.Clamp(projectile.localAI[0], 0f, 50f);
+            projectile.position = projectile.Center;
+            projectile.scale = 1f + num1061 * 0.01f;
+            projectile.width = (projectile.height = (int)(10 * projectile.scale));
+            projectile.Center = projectile.position;
 
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 20f && projectile.ai[0] < 40f)
-			{
-				projectile.velocity.Y = projectile.velocity.Y + 0.3f;
-			}
-			else if (projectile.ai[0] >= 40f && projectile.ai[0] < 60f)
-			{
-				projectile.velocity.Y = projectile.velocity.Y - 0.3f;
-			}
-			else if (projectile.ai[0] >= 60f)
-			{
-				projectile.ai[0] = 0f;
-			}
-			if (Main.myPlayer == projectile.owner && projectile.ai[0] <= 0f)
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] >= 20f && projectile.ai[0] < 40f)
+            {
+                projectile.velocity.Y = projectile.velocity.Y + 0.3f;
+            }
+            else if (projectile.ai[0] >= 40f && projectile.ai[0] < 60f)
+            {
+                projectile.velocity.Y = projectile.velocity.Y - 0.3f;
+            }
+            else if (projectile.ai[0] >= 60f)
+            {
+                projectile.ai[0] = 0f;
+            }
+            if (Main.myPlayer == projectile.owner && projectile.ai[0] <= 0f)
             {
                 if (Main.player[projectile.owner].channel)
                 {
@@ -155,20 +155,20 @@ namespace CalamityMod.Projectiles.SunkenSea
             {
                 projectile.velocity.Y = 16f;
             }
-		}
+        }
 
-		public override void Kill(int timeLeft)
+        public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(SoundID.Item10, projectile.position);
-        	for (int k = 0; k < 8; k++)
+            Main.PlaySound(SoundID.Item10, projectile.position);
+            for (int k = 0; k < 8; k++)
             {
-            	int num114 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default, 1.25f);
-				Dust dust = Main.dust[num114];
-				dust.velocity *= 0.3f;
-				Main.dust[num114].position.X = projectile.position.X + (float)(projectile.width / 2) + 4f + (float)Main.rand.Next(-4, 5);
-				Main.dust[num114].position.Y = projectile.position.Y + (float)(projectile.height / 2) + (float)Main.rand.Next(-4, 5);
-				Main.dust[num114].noGravity = true;
+                int num114 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 68, 0f, 0f, 100, default, 1.25f);
+                Dust dust = Main.dust[num114];
+                dust.velocity *= 0.3f;
+                Main.dust[num114].position.X = projectile.position.X + (float)(projectile.width / 2) + 4f + (float)Main.rand.Next(-4, 5);
+                Main.dust[num114].position.Y = projectile.position.Y + (float)(projectile.height / 2) + (float)Main.rand.Next(-4, 5);
+                Main.dust[num114].noGravity = true;
             }
         }
-	}
+    }
 }

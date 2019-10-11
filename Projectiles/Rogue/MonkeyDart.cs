@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Rogue
             drawOriginOffsetY = 0;
             drawOriginOffsetX = 0;
             projectile.extraUpdates = 1;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Dust trail
             if (Main.rand.Next(25) == 0)
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 21, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default(Color), 0.9f);
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 21, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.9f);
                 Main.dust[d].position = projectile.Center;
                 Main.dust[d].noLight = true;
             }
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
             int dustsplash = 0;
             while (dustsplash < 4)
             {
-                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1, projectile.velocity.X * 0.25f, projectile.velocity.Y* 0.25f, 100, default(Color), 0.9f);
+                int d = Dust.NewDust(projectile.position, projectile.width, projectile.height, 1, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 100, default, 0.9f);
                 Main.dust[d].position = projectile.Center;
                 dustsplash += 1;
             }
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Rogue
             //Randomly not consume item if it wasnt a stealth strike
             if (Main.rand.Next(4) == 0 && projectile.ai[0] != 1)
             {
-                Item.NewItem((int)projectile.position.X,(int) projectile.position.Y, 27, 27, mod.ItemType<Items.CalamityCustomThrowingDamage.MonkeyDarts>() );
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, 27, 27, ModContent.ItemType<Items.CalamityCustomThrowingDamage.MonkeyDarts>());
             }
 
         }

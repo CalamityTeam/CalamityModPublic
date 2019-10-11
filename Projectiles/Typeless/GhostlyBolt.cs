@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class GhostlyBolt : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bolt");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bolt");
+        }
 
         public override void SetDefaults()
         {

@@ -1,31 +1,31 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class ChaoticOre : ModTile
-	{
-		public override void SetDefaults()
-		{
+    {
+        public override void SetDefaults()
+        {
             Main.tileLighted[Type] = true;
             Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;
-			Main.tileValue[Type] = 750;
+            Main.tileBlockLight[Type] = true;
+            Main.tileValue[Type] = 750;
 
             TileMerge.MergeGeneralTiles(Type);
             TileMerge.MergeAbyssTiles(Type);
 
             dustType = 105;
-			drop = mod.ItemType("ChaoticOre");
-			ModTranslation name = CreateMapEntryName();
- 			name.SetDefault("Chaotic Ore");
- 			AddMapEntry(new Color(255, 0, 0), name);
-			mineResist = 4f;
-			minPick = 210;
-			soundType = 21;
-		}
+            drop = mod.ItemType("ChaoticOre");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Chaotic Ore");
+            AddMapEntry(new Color(255, 0, 0), name);
+            mineResist = 4f;
+            minPick = 210;
+            soundType = 21;
+        }
 
         public override void NearbyEffects(int i, int j, bool closer)
         {
@@ -58,14 +58,14 @@ namespace CalamityMod.Tiles
         }
 
         public override bool CanExplode(int i, int j)
-		{
-			return NPC.downedGolemBoss;
-		}
+        {
+            return NPC.downedGolemBoss;
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {

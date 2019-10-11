@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class Seashell : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Seashell");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Seashell");
+        }
 
         public override void SetDefaults()
         {
@@ -19,9 +19,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.aiStyle = 3;
             projectile.timeLeft = 300;
             aiType = 52;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-		}
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+        }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

@@ -8,12 +8,12 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AccretionDisk2 : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Accretion Disk");
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 1;
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Accretion Disk");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
+        }
 
         public override void SetDefaults()
         {
@@ -26,8 +26,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 3;
             projectile.timeLeft = 60;
             aiType = 52;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-		}
+            projectile.Calamity().rogue = true;
+        }
 
         public override void AI()
         {
@@ -37,21 +37,21 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num250].noGravity = true;
                 Main.dust[num250].velocity *= 0f;
             }
-			Lighting.AddLight(projectile.Center, 0.15f, 1f, 0.25f);
-		}
+            Lighting.AddLight(projectile.Center, 0.15f, 1f, 0.25f);
+        }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-        	target.AddBuff(mod.BuffType("GlacialState"), 120);
-        	target.AddBuff(mod.BuffType("Plague"), 120);
-        	target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(mod.BuffType("HolyLight"), 120);
         }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
-			return false;
-		}
-	}
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
+        }
+    }
 }

@@ -1,18 +1,18 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class Cinderplate : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
 
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
             mineResist = 1f;
             minPick = 180;
             drop = mod.ItemType("Cinderplate");
-			AddMapEntry(new Color(173, 52, 70));
+            AddMapEntry(new Color(173, 52, 70));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

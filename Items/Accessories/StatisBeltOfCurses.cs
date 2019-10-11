@@ -1,7 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -27,12 +26,12 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statisBeltOfCurses = true;
             modPlayer.shadowMinions = true;
             modPlayer.tearMinions = true;
@@ -45,9 +44,9 @@ namespace CalamityMod.Items.Accessories
             player.blackBelt = true;
             player.dash = 1;
             player.spikedBoots = 2;
-            player.GetCalamityPlayer().throwingDamage += 0.1f;
-            player.GetCalamityPlayer().throwingCrit += 5;
-            player.GetCalamityPlayer().throwingVelocity += 0.1f;
+            player.Calamity().throwingDamage += 0.1f;
+            player.Calamity().throwingCrit += 5;
+            player.Calamity().throwingVelocity += 0.1f;
         }
 
         public override void AddRecipes()

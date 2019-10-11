@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Terra Edge");
             Tooltip.SetDefault("Heals the player on enemy hits\n" +
-				"Fires a beam that inflicts ichor for a short time");
+                "Fires a beam that inflicts ichor for a short time");
         }
 
         public override void SetDefaults()

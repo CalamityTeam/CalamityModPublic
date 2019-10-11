@@ -28,10 +28,10 @@ namespace CalamityMod.Items.Placeables.FurnitureOccult
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StoneBlock, 150);
-			recipe.AddIngredient(mod.ItemType("DarkPlasma"));
-			recipe.AddIngredient(mod.ItemType("ArmoredShell"));
-			recipe.AddIngredient(mod.ItemType("TwistingNether"));
-			recipe.AddIngredient(ItemID.Silk, 15);
+            recipe.AddIngredient(mod.ItemType("DarkPlasma"));
+            recipe.AddIngredient(mod.ItemType("ArmoredShell"));
+            recipe.AddIngredient(mod.ItemType("TwistingNether"));
+            recipe.AddIngredient(ItemID.Silk, 15);
             recipe.SetResult(this, 150);
             recipe.AddTile(null, "DraedonsForge");
             recipe.AddRecipe();

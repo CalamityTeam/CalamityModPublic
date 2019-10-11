@@ -1,6 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Enforcer");
-			Tooltip.SetDefault("Fires an essence flame burst and spawns essence flames on enemy hits");
-		}
+            Tooltip.SetDefault("Fires an essence flame burst and spawns essence flames on enemy hits");
+        }
 
         public override void SetDefaults()
         {
@@ -32,16 +32,16 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("EssenceFireball");
             item.shootSpeed = 24f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
-		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-		{
-			Vector2 origin = new Vector2(50f, 48f);
-			spriteBatch.Draw(mod.GetTexture("Items/Weapons/TheEnforcerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
-		}
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            Vector2 origin = new Vector2(50f, 48f);
+            spriteBatch.Draw(mod.GetTexture("Items/Weapons/TheEnforcerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+        }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73);
             int i = Main.myPlayer;
@@ -105,16 +105,16 @@ namespace CalamityMod.Items.Weapons
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "CosmiliteBar", 15);
-			recipe.AddIngredient(null, "NightmareFuel", 7);
-			recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(null, "NightmareFuel", 7);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-			recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "CosmiliteBar", 15);
-			recipe.AddIngredient(null, "EndothermicEnergy", 7);
-			recipe.AddTile(TileID.LunarCraftingStation);
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "CosmiliteBar", 15);
+            recipe.AddIngredient(null, "EndothermicEnergy", 7);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

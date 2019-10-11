@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Ataxia Helm");
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
-				"12% increased melee and movement speed\n" +
+                "12% increased melee and movement speed\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
                 "Temporary immunity to lava and immunity to fire damage");
         }
@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = 8;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 8;
             item.defense = 25; //67
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor
                 "Inferno effect when below 50% life\n" +
                 "Melee attacks and projectiles cause chaos flames to erupt on enemy hits\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
             modPlayer.ataxiaGeyser = true;
             player.meleeDamage += 0.05f;
@@ -50,14 +50,14 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaFire = true;
-			player.meleeSpeed += 0.12f;
-			player.moveSpeed += 0.12f;
-			player.meleeDamage += 0.12f;
+            player.meleeSpeed += 0.12f;
+            player.moveSpeed += 0.12f;
+            player.meleeDamage += 0.12f;
             player.meleeCrit += 10;
-			player.lavaMax += 240;
-			player.buffImmune[BuffID.OnFire] = true;
+            player.lavaMax += 240;
+            player.buffImmune[BuffID.OnFire] = true;
         }
 
         public override void AddRecipes()

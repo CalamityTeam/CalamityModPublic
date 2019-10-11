@@ -1,9 +1,9 @@
 ﻿
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.World.Planets
 {
@@ -103,7 +103,7 @@ namespace CalamityMod.World.Planets
                     new Actions.SetLiquid(2, 255)
                 }));
                 bool placedSpawner = false;
-                while(!placedSpawner)
+                while (!placedSpawner)
                 {
                     int testX = origin.X + _random.Next(-(int)radius, (int)radius);
                     int testY = origin.Y + _random.Next(-(int)radius, (int)radius);
@@ -116,7 +116,8 @@ namespace CalamityMod.World.Planets
                             WorldGen.SquareTileFrame(floorX, testY + 2);
                         }
                         bool placed = WorldGen.PlaceTile(testX, testY + 1, TileID.Larva, true, false);
-                        if (placed) placedSpawner = true;
+                        if (placed)
+                            placedSpawner = true;
                     }
                 }
             }
@@ -134,7 +135,7 @@ namespace CalamityMod.World.Planets
                 }));
                 shape.Subtract(cavernData, origin, origin);
                 int chestY = origin.Y;
-                while(!_tiles[origin.X, chestY].active())
+                while (!_tiles[origin.X, chestY].active())
                 {
                     chestY++;
                 }

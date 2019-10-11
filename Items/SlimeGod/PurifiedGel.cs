@@ -15,8 +15,8 @@ namespace CalamityMod.Items.SlimeGod
             item.width = 16;
             item.height = 14;
             item.maxStack = 999;
-			item.value = Item.buyPrice(0, 2, 50, 0);
-			item.rare = 4;
+            item.value = Item.buyPrice(0, 2, 50, 0);
+            item.rare = 4;
         }
     }
 }

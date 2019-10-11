@@ -1,23 +1,22 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlate : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileBlockLight[Type] = true;
             soundType = 21;
             mineResist = 3f;
             minPick = 210;
             drop = mod.ItemType("PlaguedPlate");
-			AddMapEntry(new Color(51, 99, 75));
+            AddMapEntry(new Color(51, 99, 75));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

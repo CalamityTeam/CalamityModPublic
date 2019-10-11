@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class CosmicBlastBig : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blast");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Blast");
+        }
 
         public override void SetDefaults()
         {
@@ -64,36 +64,36 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num472 = projectile.Center.X;
-			float num473 = projectile.Center.Y;
-			float num474 = 600f;
-			bool flag17 = false;
-			int target = (int)projectile.ai[0];
-			if (Main.npc[target].CanBeChasedBy(projectile, false))
-			{
-				float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
-				float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
-				float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-				if (num478 < num474)
-				{
-					num474 = num478;
-					num472 = num476;
-					num473 = num477;
-					flag17 = true;
-				}
-			}
-			if (flag17)
-			{
-				float num483 = 45f;
-				Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-				float num484 = num472 - vector35.X;
-				float num485 = num473 - vector35.Y;
-				float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-				num486 = num483 / num486;
-				num484 *= num486;
-				num485 *= num486;
-				projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-				projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
-			}
+            float num473 = projectile.Center.Y;
+            float num474 = 600f;
+            bool flag17 = false;
+            int target = (int)projectile.ai[0];
+            if (Main.npc[target].CanBeChasedBy(projectile, false))
+            {
+                float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
+                float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
+                float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+                if (num478 < num474)
+                {
+                    num474 = num478;
+                    num472 = num476;
+                    num473 = num477;
+                    flag17 = true;
+                }
+            }
+            if (flag17)
+            {
+                float num483 = 45f;
+                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                float num484 = num472 - vector35.X;
+                float num485 = num473 - vector35.Y;
+                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
+                num486 = num483 / num486;
+                num484 *= num486;
+                num485 *= num486;
+                projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
+                projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
+            }
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -103,29 +103,29 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(mod.BuffType("ExoFreeze"), 30);
-			target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
-			target.AddBuff(mod.BuffType("GlacialState"), 120);
-			target.AddBuff(mod.BuffType("Plague"), 120);
-			target.AddBuff(mod.BuffType("HolyLight"), 120);
-			target.AddBuff(BuffID.CursedInferno, 120);
-			target.AddBuff(BuffID.Frostburn, 120);
-			target.AddBuff(BuffID.OnFire, 120);
-			target.AddBuff(BuffID.Ichor, 120);
-		}
+            target.AddBuff(mod.BuffType("ExoFreeze"), 30);
+            target.AddBuff(mod.BuffType("BrimstoneFlames"), 120);
+            target.AddBuff(mod.BuffType("GlacialState"), 120);
+            target.AddBuff(mod.BuffType("Plague"), 120);
+            target.AddBuff(mod.BuffType("HolyLight"), 120);
+            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.Frostburn, 120);
+            target.AddBuff(BuffID.OnFire, 120);
+            target.AddBuff(BuffID.Ichor, 120);
+        }
 
         public override void Kill(int timeLeft)
         {
-			projectile.position = projectile.Center;
-			projectile.width = (projectile.height = 288);
-			projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-			projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-			projectile.maxPenetrate = -1;
-			projectile.penetrate = -1;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 10;
-			projectile.Damage();
-			Main.PlaySound(29, (int)projectile.Center.X, (int)projectile.Center.Y, 103);
+            projectile.position = projectile.Center;
+            projectile.width = (projectile.height = 288);
+            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.Damage();
+            Main.PlaySound(29, (int)projectile.Center.X, (int)projectile.Center.Y, 103);
             for (int num193 = 0; num193 < 3; num193++)
             {
                 int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.5f);

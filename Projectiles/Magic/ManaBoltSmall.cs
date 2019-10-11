@@ -5,10 +5,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class ManaBoltSmall : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Bolt");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Bolt");
+        }
 
         public override void SetDefaults()
         {
@@ -23,8 +23,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-        	projectile.velocity.X *= 0.975f;
-        	projectile.velocity.Y *= 0.975f;
+            projectile.velocity.X *= 0.975f;
+            projectile.velocity.Y *= 0.975f;
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
 
@@ -32,9 +32,9 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 10; k++)
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
-        	Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
         }
     }
 }

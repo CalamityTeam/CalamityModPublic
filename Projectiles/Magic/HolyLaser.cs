@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class HolyLaser : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Laser");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Laser");
+        }
 
         public override void SetDefaults()
         {
@@ -21,12 +21,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 100;
             projectile.timeLeft = 180;
             projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 1;
         }
 
         public override void AI()
         {
-			projectile.localAI[0] += 1f;
+            projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 9f)
             {
                 Vector2 vector33 = projectile.position;
@@ -49,12 +49,12 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-        	if (projectile.owner == Main.myPlayer)
-        	{
-				int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMagic = true;
-			}
-		}
+        {
+            if (projectile.owner == Main.myPlayer)
+            {
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[proj].Calamity().forceMagic = true;
+            }
+        }
     }
 }

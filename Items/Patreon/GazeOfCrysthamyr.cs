@@ -1,6 +1,6 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Patreon
 {
@@ -19,24 +19,24 @@ namespace CalamityMod.Items.Patreon
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 4;
-			item.rare = 10;
-			item.value = Item.buyPrice(3, 0, 0, 0);
+            item.rare = 10;
+            item.value = Item.buyPrice(3, 0, 0, 0);
             item.UseSound = SoundID.NPCHit56;
             item.noMelee = true;
             item.mountType = mod.MountType("Crysthamyr");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
-		}
+            item.Calamity().postMoonLordRarity = 21;
+        }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ItemID.DD2PetDragon);
-			recipe.AddIngredient(ItemID.SoulofNight, 100);
-			recipe.AddIngredient(null, "DarksunFragment", 50);
-			recipe.AddIngredient(null, "ExodiumClusterOre", 25);
-			recipe.AddTile(null, "DraedonsForge");
-			recipe.SetResult(this);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.DD2PetDragon);
+            recipe.AddIngredient(ItemID.SoulofNight, 100);
+            recipe.AddIngredient(null, "DarksunFragment", 50);
+            recipe.AddIngredient(null, "ExodiumClusterOre", 25);
+            recipe.AddTile(null, "DraedonsForge");
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

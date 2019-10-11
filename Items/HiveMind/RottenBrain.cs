@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.HiveMind
 {
@@ -20,8 +20,8 @@ namespace CalamityMod.Items.HiveMind
             item.height = 34;
             item.value = Item.buyPrice(0, 9, 0, 0);
             item.expert = true;
-			item.rare = 9;
-			item.accessory = true;
+            item.rare = 9;
+            item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -52,8 +52,8 @@ namespace CalamityMod.Items.HiveMind
                     }
                 }
             }
-			CalamityPlayer modPlayer = player.GetCalamityPlayer();
-			modPlayer.rBrain = true;
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.rBrain = true;
         }
     }
 }

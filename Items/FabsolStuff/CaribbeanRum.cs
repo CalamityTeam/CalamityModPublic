@@ -5,17 +5,17 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.FabsolStuff
 {
     public class CaribbeanRum : ModItem
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Caribbean Rum");
-			Tooltip.SetDefault(@"Boosts life regen by 2 and movement speed and wing flight time by 20%
+        {
+            DisplayName.SetDefault("Caribbean Rum");
+            Tooltip.SetDefault(@"Boosts life regen by 2 and movement speed and wing flight time by 20%
 Makes you floaty and reduces defense by 12
 Why is the rum gone?");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 28;
             item.height = 18;
             item.useTurn = true;
@@ -29,6 +29,6 @@ Why is the rum gone?");
             item.buffType = mod.BuffType("CaribbeanRum");
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 20, 0, 0);
-		}
+        }
     }
 }

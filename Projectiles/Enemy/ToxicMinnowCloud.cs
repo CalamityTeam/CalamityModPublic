@@ -6,9 +6,9 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class ToxicMinnowCloud : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Cloud");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Cloud");
             Main.projFrames[projectile.type] = 4;
         }
 
@@ -37,46 +37,46 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 projectile.frame = 0;
             }
-			if(Main.rand.NextBool(2))
-			{
-				projectile.velocity *= 0.95f;
-			}
-			else if(Main.rand.NextBool(2))
-			{
-				projectile.velocity *= 0.90f;
-			}
-			else if(Main.rand.NextBool(2))
-			{
-				projectile.velocity *= 0.85f;
-			}
-			else
-			{
-				projectile.velocity *= 0.80f;
-			}
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] >= 1500f)
-			{
-				if (projectile.alpha < 255)
-				{
-					projectile.alpha += 5;
-					if (projectile.alpha > 255)
-					{
-						projectile.alpha = 255;
-					}
-				}
-				else if (projectile.owner == Main.myPlayer)
-				{
-					projectile.Kill();
-				}
-			}
-			else if (projectile.alpha > 80)
-			{
-				projectile.alpha -= 30;
-				if (projectile.alpha < 80)
-				{
-					projectile.alpha = 80;
-				}
-			}
+            if (Main.rand.NextBool(2))
+            {
+                projectile.velocity *= 0.95f;
+            }
+            else if (Main.rand.NextBool(2))
+            {
+                projectile.velocity *= 0.90f;
+            }
+            else if (Main.rand.NextBool(2))
+            {
+                projectile.velocity *= 0.85f;
+            }
+            else
+            {
+                projectile.velocity *= 0.80f;
+            }
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] >= 1500f)
+            {
+                if (projectile.alpha < 255)
+                {
+                    projectile.alpha += 5;
+                    if (projectile.alpha > 255)
+                    {
+                        projectile.alpha = 255;
+                    }
+                }
+                else if (projectile.owner == Main.myPlayer)
+                {
+                    projectile.Kill();
+                }
+            }
+            else if (projectile.alpha > 80)
+            {
+                projectile.alpha -= 30;
+                if (projectile.alpha < 80)
+                {
+                    projectile.alpha = 80;
+                }
+            }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Enemy
             target.AddBuff(BuffID.Poisoned, 600);
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 600);
         }

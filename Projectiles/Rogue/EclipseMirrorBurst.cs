@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -12,9 +11,9 @@ namespace CalamityMod.Projectiles.Rogue
         private int frameX = 0;
         private int frameY = 0;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Eclipse Mirror Flash");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Eclipse Mirror Flash");
         }
 
         public override void SetDefaults()
@@ -30,7 +29,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
             Mod calamity = ModLoader.GetMod("CalamityMod");
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(calamity).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()

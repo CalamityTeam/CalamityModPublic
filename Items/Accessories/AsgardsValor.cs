@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -15,8 +15,8 @@ namespace CalamityMod.Items.Accessories
                 "Immune to most debuffs including Brimstone Flames, Holy Flames, and Glacial State\n" +
                 "10% damage reduction while submerged in liquid\n" +
                 "+20 max life\n" +
-				"Grants a holy dash which can be used to ram enemies\n" +
-				"Toggle visibility of this accessory to enable/disable the dash");
+                "Grants a holy dash which can be used to ram enemies\n" +
+                "Toggle visibility of this accessory to enable/disable the dash");
         }
 
         public override void SetDefaults()
@@ -31,8 +31,9 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
-            if (!hideVisual) { modPlayer.dashMod = 2; }
+            CalamityPlayer modPlayer = player.Calamity();
+            if (!hideVisual)
+            { modPlayer.dashMod = 2; }
             player.buffImmune[46] = true;
             player.buffImmune[44] = true;
             player.noKnockback = true;
@@ -50,7 +51,8 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[mod.BuffType("HolyLight")] = true;
             player.buffImmune[mod.BuffType("GlacialState")] = true;
             player.statLifeMax2 += 20;
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) { player.endurance += 0.1f; }
+            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+            { player.endurance += 0.1f; }
         }
 
         public override void AddRecipes()

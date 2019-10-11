@@ -1,18 +1,18 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
     public class Voidstone : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileBlockLight[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileBlockLight[Type] = true;
             Main.tileBrick[Type] = true;
 
             TileMerge.MergeGeneralTiles(Type);
@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles
             mineResist = 10f;
             minPick = 190;
             drop = mod.ItemType("Voidstone");
-			AddMapEntry(new Color(10, 10, 10));
+            AddMapEntry(new Color(10, 10, 10));
         }
         int animationFrameWidth = 288;
 
@@ -214,7 +214,7 @@ namespace CalamityMod.Tiles
                     }
                     break;
             }
-            xOffset = xOffset * 288;
+            xOffset *= 288;
             xPos += xOffset;
             Texture2D glowmask = mod.GetTexture("Tiles/Voidstone_Glowmask");
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);

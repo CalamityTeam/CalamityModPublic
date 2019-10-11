@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.Enemy
 {
     public class InkBomb : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ink Bomb");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ink Bomb");
+        }
 
         public override void SetDefaults()
         {
@@ -24,21 +24,21 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-			projectile.ai[0] += 1f;
-			if (projectile.ai[0] > 10f)
-			{
-				projectile.ai[0] = 10f;
-				if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
-				{
-					projectile.velocity.X = projectile.velocity.X * 0.97f;
-					if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
-					{
-						projectile.velocity.X = 0f;
-						projectile.netUpdate = true;
-					}
-				}
-				projectile.velocity.Y = projectile.velocity.Y - 0.01f;
-			}
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] > 10f)
+            {
+                projectile.ai[0] = 10f;
+                if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
+                {
+                    projectile.velocity.X = projectile.velocity.X * 0.97f;
+                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    {
+                        projectile.velocity.X = 0f;
+                        projectile.netUpdate = true;
+                    }
+                }
+                projectile.velocity.Y = projectile.velocity.Y - 0.01f;
+            }
         }
 
         public override void Kill(int timeLeft)

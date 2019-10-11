@@ -6,95 +6,95 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Providence
 {
-	public class ProvSky : CustomSky
-	{
-		private bool isActive = false;
-		private float intensity = 0f;
-		private int ProvIndex = -1;
+    public class ProvSky : CustomSky
+    {
+        private bool isActive = false;
+        private float intensity = 0f;
+        private int ProvIndex = -1;
 
-		public override void Update(GameTime gameTime)
-		{
-			if (isActive && intensity < 1f)
-			{
-				intensity += 0.01f;
-			}
-			else if (!isActive && intensity > 0f)
-			{
-				intensity -= 0.01f;
-			}
-		}
+        public override void Update(GameTime gameTime)
+        {
+            if (isActive && intensity < 1f)
+            {
+                intensity += 0.01f;
+            }
+            else if (!isActive && intensity > 0f)
+            {
+                intensity -= 0.01f;
+            }
+        }
 
-		private float GetIntensity()
-		{
-			if (this.UpdatePIndex())
-			{
-				float x = 0f;
-				if (this.ProvIndex != -1)
-				{
-					x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.ProvIndex].Center);
-				}
-				return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.25f;
-			}
-			return 0f; //0.5
-		}
+        private float GetIntensity()
+        {
+            if (this.UpdatePIndex())
+            {
+                float x = 0f;
+                if (this.ProvIndex != -1)
+                {
+                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.ProvIndex].Center);
+                }
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.25f;
+            }
+            return 0f; //0.5
+        }
 
-		public override Color OnTileColor(Color inColor)
-		{
-			float intensity = this.GetIntensity();
-			return new Color(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
-		}
+        public override Color OnTileColor(Color inColor)
+        {
+            float intensity = this.GetIntensity();
+            return new Color(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
+        }
 
-		private bool UpdatePIndex()
-		{
-			int ProvType = ModLoader.GetMod("CalamityMod").NPCType("Providence");
-			if (ProvIndex >= 0 && Main.npc[ProvIndex].active && Main.npc[ProvIndex].type == ProvType)
-			{
-				return true;
-			}
-			ProvIndex = -1;
-			for (int i = 0; i < Main.npc.Length; i++)
-			{
-				if (Main.npc[i].active && Main.npc[i].type == ProvType)
-				{
-					ProvIndex = i;
-					break;
-				}
-			}
-			return ProvIndex != -1;
-		}
+        private bool UpdatePIndex()
+        {
+            int ProvType = ModLoader.GetMod("CalamityMod").NPCType("Providence");
+            if (ProvIndex >= 0 && Main.npc[ProvIndex].active && Main.npc[ProvIndex].type == ProvType)
+            {
+                return true;
+            }
+            ProvIndex = -1;
+            for (int i = 0; i < Main.npc.Length; i++)
+            {
+                if (Main.npc[i].active && Main.npc[i].type == ProvType)
+                {
+                    ProvIndex = i;
+                    break;
+                }
+            }
+            return ProvIndex != -1;
+        }
 
-		public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
-		{
-			if (maxDepth >= 0 && minDepth < 0)
-			{
-				float intensity = this.GetIntensity();
-				spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(255, 200, 100) * intensity);
-			}
-		}
+        public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
+        {
+            if (maxDepth >= 0 && minDepth < 0)
+            {
+                float intensity = this.GetIntensity();
+                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(255, 200, 100) * intensity);
+            }
+        }
 
-		public override float GetCloudAlpha()
-		{
-			return 0f;
-		}
+        public override float GetCloudAlpha()
+        {
+            return 0f;
+        }
 
-		public override void Activate(Vector2 position, params object[] args)
-		{
-			isActive = true;
-		}
+        public override void Activate(Vector2 position, params object[] args)
+        {
+            isActive = true;
+        }
 
-		public override void Deactivate(params object[] args)
-		{
-			isActive = false;
-		}
+        public override void Deactivate(params object[] args)
+        {
+            isActive = false;
+        }
 
-		public override void Reset()
-		{
-			isActive = false;
-		}
+        public override void Reset()
+        {
+            isActive = false;
+        }
 
-		public override bool IsActive()
-		{
-			return isActive || intensity > 0f;
-		}
-	}
+        public override bool IsActive()
+        {
+            return isActive || intensity > 0f;
+        }
+    }
 }

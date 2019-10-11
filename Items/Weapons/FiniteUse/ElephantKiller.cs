@@ -1,97 +1,97 @@
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.FiniteUse
 {
     public class ElephantKiller : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Elephant Killer");
-			Tooltip.SetDefault("Uses Magnum Rounds\n" +
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Elephant Killer");
+            Tooltip.SetDefault("Uses Magnum Rounds\n" +
                 "Does more damage to organic enemies\n" +
-				"Can be used thrice per boss battle");
-		}
+                "Can be used thrice per boss battle");
+        }
 
-	    public override void SetDefaults()
-	    {
-	        item.damage = 2000;
+        public override void SetDefaults()
+        {
+            item.damage = 2000;
             item.crit += 66;
-	        item.width = 46;
-	        item.height = 26;
-	        item.useTime = 19;
-	        item.useAnimation = 19;
-	        item.useStyle = 5;
-	        item.noMelee = true;
-	        item.knockBack = 8f;
+            item.width = 46;
+            item.height = 26;
+            item.useTime = 19;
+            item.useAnimation = 19;
+            item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 8f;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-	        item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
-	        item.autoReuse = true;
-	        item.shootSpeed = 12f;
-	        item.shoot = mod.ProjectileType("MagnumRound");
-	        item.useAmmo = mod.ItemType("MagnumRounds");
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
-			if (CalamityPlayer.areThereAnyDamnBosses)
-			{
-				item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed = 3;
-			}
-		}
+            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/Magnum");
+            item.autoReuse = true;
+            item.shootSpeed = 12f;
+            item.shoot = mod.ProjectileType("MagnumRound");
+            item.useAmmo = mod.ItemType("MagnumRounds");
+            item.Calamity().postMoonLordRarity = 12;
+            if (CalamityPlayer.areThereAnyDamnBosses)
+            {
+                item.Calamity().timesUsed = 3;
+            }
+        }
 
-		public override bool OnPickup(Player player)
-		{
-			if (CalamityPlayer.areThereAnyDamnBosses)
-			{
-				item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed = 3;
-			}
-			return true;
-		}
+        public override bool OnPickup(Player player)
+        {
+            if (CalamityPlayer.areThereAnyDamnBosses)
+            {
+                item.Calamity().timesUsed = 3;
+            }
+            return true;
+        }
 
-		public override bool CanUseItem(Player player)
-		{
-			return item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed < 3;
-		}
+        public override bool CanUseItem(Player player)
+        {
+            return item.Calamity().timesUsed < 3;
+        }
 
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-5, 0);
-		}
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-5, 0);
+        }
 
-		public override void UpdateInventory(Player player)
-		{
-			if (!CalamityPlayer.areThereAnyDamnBosses)
-			{
-				item.GetGlobalItem<CalamityGlobalItem>(mod).timesUsed = 0;
-			}
-		}
+        public override void UpdateInventory(Player player)
+        {
+            if (!CalamityPlayer.areThereAnyDamnBosses)
+            {
+                item.Calamity().timesUsed = 0;
+            }
+        }
 
-		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			if (CalamityPlayer.areThereAnyDamnBosses)
-			{
-				for (int i = 0; i < 58; i++)
-				{
-					if (player.inventory[i].type == item.type)
-					{
-						player.inventory[i].GetGlobalItem<CalamityGlobalItem>(mod).timesUsed++;
-					}
-				}
-			}
-			return true;
-		}
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (CalamityPlayer.areThereAnyDamnBosses)
+            {
+                for (int i = 0; i < 58; i++)
+                {
+                    if (player.inventory[i].type == item.type)
+                    {
+                        player.inventory[i].Calamity().timesUsed++;
+                    }
+                }
+            }
+            return true;
+        }
 
-		public override void AddRecipes()
-	    {
-	        ModRecipe recipe = new ModRecipe(mod);
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "LightningHawk");
             recipe.AddIngredient(ItemID.LunarBar, 30);
             recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddTile(TileID.LunarCraftingStation);
-	        recipe.SetResult(this);
-	        recipe.AddRecipe();
-	    }
-	}
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
 }

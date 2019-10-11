@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class BlueAura : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Blue Aura");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Blue Aura");
+        }
 
         public override void SetDefaults()
         {

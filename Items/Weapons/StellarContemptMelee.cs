@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -14,13 +13,13 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Contempt");
-			Tooltip.SetDefault("Lunar flares rain down on enemy hits");
+            Tooltip.SetDefault("Lunar flares rain down on enemy hits");
         }
 
         public override void SetDefaults()
         {
             item.width = 66;
-			item.height = 64;
+            item.height = 64;
             item.melee = true;
             item.damage = BaseDamage;
             item.knockBack = 9f;
@@ -34,7 +33,7 @@ namespace CalamityMod.Items.Weapons
             item.UseSound = SoundID.Item1;
 
             item.rare = 10;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 12;
+            item.Calamity().postMoonLordRarity = 12;
             item.value = Item.buyPrice(1, 20, 0, 0);
 
             item.shoot = mod.ProjectileType("StellarContemptHammer");
@@ -44,8 +43,8 @@ namespace CalamityMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-			Main.projectile[proj].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceMelee = true;
-			return false;
+            Main.projectile[proj].Calamity().forceMelee = true;
+            return false;
         }
 
         public override void AddRecipes()
@@ -56,8 +55,8 @@ namespace CalamityMod.Items.Weapons
             r.AddIngredient(ItemID.LunarBar, 10);
             r.AddIngredient(ItemID.FragmentSolar, 10);
             r.AddIngredient(ItemID.FragmentNebula, 10);
-			r.AddTile(TileID.LunarCraftingStation);
-			r.AddRecipe();
+            r.AddTile(TileID.LunarCraftingStation);
+            r.AddRecipe();
         }
     }
 }

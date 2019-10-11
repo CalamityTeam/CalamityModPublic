@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-		public override void AddRecipes()
+        public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "VerstaltiteBar", 5);
@@ -30,5 +30,5 @@ namespace CalamityMod.Items.Accessories
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-	}
+    }
 }

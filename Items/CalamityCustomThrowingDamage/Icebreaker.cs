@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class Icebreaker : CalamityDamageItem
-	{
+    {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Icebreaker");
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 5;
             item.shoot = mod.ProjectileType("Icebreaker");
             item.shootSpeed = 16f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

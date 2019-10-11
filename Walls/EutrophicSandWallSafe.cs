@@ -8,13 +8,13 @@ namespace CalamityMod.Walls
     {
         public override void SetDefaults()
         {
-			Main.wallHouse[Type] = true;
-			dustType = 108;
-			drop = mod.ItemType("EutrophicSandWallSafe");
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Eutrophic Sand Wall Safe");
-			AddMapEntry(new Color(100, 100, 150), name);
-		}
+            Main.wallHouse[Type] = true;
+            dustType = 108;
+            drop = mod.ItemType("EutrophicSandWallSafe");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Eutrophic Sand Wall Safe");
+            AddMapEntry(new Color(100, 100, 150), name);
+        }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

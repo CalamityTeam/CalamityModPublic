@@ -8,10 +8,10 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExplodingStake : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Stake");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Stake");
+        }
 
         public override void SetDefaults()
         {
@@ -31,18 +31,18 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (Main.rand.NextBool(5))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
-		public override bool OnTileCollide(Vector2 oldVelocity)
-		{
-			Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-			return true;
-		}
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
+            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            return true;
+        }
 
-		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
@@ -51,26 +51,26 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-        	if (Main.rand.NextBool(2))
-        	{
-        		Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.Stake);
-        	}
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ItemID.Stake);
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-        	target.immune[projectile.owner] = 5;
-        	if (projectile.owner == Main.myPlayer)
-        	{
-        		int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-				Main.projectile[boom].GetGlobalProjectile<CalamityGlobalProjectile>(mod).forceRanged = true;
-			}
+            target.immune[projectile.owner] = 5;
+            if (projectile.owner == Main.myPlayer)
+            {
+                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("FuckYou"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[boom].Calamity().forceRanged = true;
+            }
         }
 
-		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
-				damage += target.lifeMax * 3;
-		}
-	}
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (target.type == NPCID.Vampire || target.type == NPCID.VampireBat)
+                damage += target.lifeMax * 3;
+        }
+    }
 }

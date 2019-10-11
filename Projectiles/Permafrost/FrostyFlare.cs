@@ -6,25 +6,25 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Permafrost
 {
     public class FrostyFlare : ModProjectile
-	{
-		public override void SetDefaults()
-		{
-			projectile.width = 10;
-			projectile.height = 10;
+    {
+        public override void SetDefaults()
+        {
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.coldDamage = true;
             projectile.friendly = true;
-			projectile.penetrate = -1;
+            projectile.penetrate = -1;
             projectile.timeLeft = 300;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-		}
-
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Frosty Flare");
+            projectile.Calamity().rogue = true;
         }
 
-		public override void AI()
-		{
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Frosty Flare");
+        }
+
+        public override void AI()
+        {
             bool shoot = false;
             projectile.localAI[0]--;
             if (projectile.localAI[0] <= 0f)
@@ -123,5 +123,5 @@ namespace CalamityMod.Projectiles.Permafrost
         {
             return projectile.ai[0] == 0f;
         }
-	}
+    }
 }

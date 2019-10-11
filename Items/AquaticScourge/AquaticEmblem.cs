@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.AquaticScourge
 {
@@ -13,8 +13,8 @@ namespace CalamityMod.Items.AquaticScourge
                 "Being underwater slowly boosts your defense over time but also slows movement speed\n" +
                 "The defense boost and movement speed reduction slowly vanish while outside of water\n" +
                 "Maximum defense boost is 30, maximum movement speed reduction is 5%\n" +
-				"Provides a small amount of light in the abyss\n" +
-				"Moderately reduces breath loss in the abyss");
+                "Provides a small amount of light in the abyss\n" +
+                "Moderately reduces breath loss in the abyss");
         }
 
         public override void SetDefaults()
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.AquaticScourge
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.aquaticEmblem = true;
             player.npcTypeNoAggro[65] = true;
             player.npcTypeNoAggro[220] = true;

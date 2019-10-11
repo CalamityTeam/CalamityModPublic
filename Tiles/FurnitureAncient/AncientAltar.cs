@@ -7,18 +7,18 @@ using Terraria.ObjectData;
 namespace CalamityMod.Tiles.FurnitureAncient
 {
     class AncientAltar : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileLighted[Type] = true;
-			Main.tileFrameImportant[Type] = true;
+    {
+        public override void SetDefaults()
+        {
+            Main.tileLighted[Type] = true;
+            Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = false;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Ancient Altar");
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Ancient Altar");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };
@@ -54,8 +54,8 @@ namespace CalamityMod.Tiles.FurnitureAncient
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientAltar"));
-		}
-	}
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientAltar"));
+        }
+    }
 }

@@ -5,17 +5,17 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.FabsolStuff
 {
     public class Rum : ModItem
-	{
+    {
         public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rum");
-			Tooltip.SetDefault(@"Boosts life regen by 2 and movement speed by 10%
+        {
+            DisplayName.SetDefault("Rum");
+            Tooltip.SetDefault(@"Boosts life regen by 2 and movement speed by 10%
 Reduces defense by 8
 Sweet and potent, just how I like it");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 28;
             item.height = 18;
             item.useTurn = true;
@@ -29,6 +29,6 @@ Sweet and potent, just how I like it");
             item.buffType = mod.BuffType("Rum");
             item.buffTime = 18000; //5 minutes
             item.value = Item.buyPrice(0, 5, 0, 0);
-		}
+        }
     }
 }

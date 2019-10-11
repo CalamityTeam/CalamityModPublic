@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
@@ -32,20 +34,20 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.shootSpeed = 10.5f;
             item.shoot = mod.ProjectileType("MonkeyDart");
             item.autoReuse = true;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
+            item.Calamity().rogue = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             //Checks if stealth is avalaible to shoot a spread of 3 darts
-            if (player.GetCalamityPlayer().StealthStrikeAvailable())
+            if (player.Calamity().StealthStrikeAvailable())
             {
                 float spread = 7;
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX * 1.4f, speedY * 1.4f).RotatedBy(MathHelper.ToRadians(spread));
-                    int p = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, mod.ProjectileType<Projectiles.Rogue.MonkeyDart>(), item.damage, item.knockBack, player.whoAmI,1);
-                    Main.projectile[p].GetCalamityProj().stealthStrike = true;
+                    int p = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<MonkeyDart>(), item.damage, item.knockBack, player.whoAmI, 1);
+                    Main.projectile[p].Calamity().stealthStrike = true;
                     spread -= 7;
                 }
                 return false;

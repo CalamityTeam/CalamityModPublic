@@ -21,7 +21,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeGeneralTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Soils
             MergeTile(type, TileID.ClayBlock);
             MergeTile(type, TileID.Dirt);
@@ -49,7 +49,7 @@ namespace CalamityMod.Utilities
 
         public static void MergeOreTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Vanilla Ores
             MergeTile(type, TileID.Copper);
             MergeTile(type, TileID.Tin);
@@ -85,7 +85,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeDesertTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Sands
             MergeTile(type, TileID.Sand);
             MergeTile(type, TileID.Ebonsand);
@@ -120,7 +120,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeSnowTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Snow
             MergeTile(type, TileID.SnowBlock);
             //Ices
@@ -138,7 +138,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeHellTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Terrain
             MergeTile(type, TileID.Ash);
             MergeTile(type, TileID.Hellstone);
@@ -155,7 +155,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeAbyssTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Sulphurous Sea
             MergeTile(type, mod.TileType("SulphurousSand"));
             //Abyss
@@ -172,7 +172,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeAstralTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Astral
             MergeTile(type, mod.TileType("AstralDirt"));
             MergeTile(type, mod.TileType("AstralStone"));
@@ -191,7 +191,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeSmoothTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Vanilla
             MergeTile(type, TileID.MarbleBlock);
             MergeTile(type, TileID.GraniteBlock);
@@ -208,7 +208,7 @@ namespace CalamityMod.Utilities
         /// <param name="type"></param>
         public static void MergeDecorativeTiles(int type)
         {
-            Mod mod = CalamityMod.Instance;
+            Mod mod = ModContent.GetInstance<CalamityMod>();
             //Vanilla decor
             Main.tileBrick[type] = true;
             //Calam

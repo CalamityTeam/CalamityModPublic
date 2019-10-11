@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Astral
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stellar Cannon");
-			Tooltip.SetDefault("Launches an explosive astral crystal");
+            Tooltip.SetDefault("Launches an explosive astral crystal");
         }
 
         public override void SetDefaults()

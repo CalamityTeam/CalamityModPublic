@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons
         {
             DisplayName.SetDefault("Red Sun");
             Tooltip.SetDefault("Over paradise\n" +
-				"Drops a barrage of solar flares from the sky");
+                "Drops a barrage of solar flares from the sky");
         }
 
         public override void SetDefaults()
@@ -33,8 +33,8 @@ namespace CalamityMod.Items.Weapons
             item.rare = 10;
             item.shoot = mod.ProjectileType("SolarFlare");
             item.shootSpeed = 15f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 16;
-		}
+            item.Calamity().postMoonLordRarity = 16;
+        }
 
         public override void AddRecipes()
         {

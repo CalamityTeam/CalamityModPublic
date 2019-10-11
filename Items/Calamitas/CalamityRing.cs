@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Calamitas
 {
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Calamitas
 
         public override bool CanEquipAccessory(Player player, int slot)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (modPlayer.calamityRing)
             {
                 return false;
@@ -36,10 +36,10 @@ namespace CalamityMod.Items.Calamitas
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
-			player.allDamage += 0.15f;
-			player.endurance -= 0.3f;
+            player.allDamage += 0.15f;
+            player.endurance -= 0.3f;
             if (player.whoAmI == Main.myPlayer)
             {
                 if (player.immune)

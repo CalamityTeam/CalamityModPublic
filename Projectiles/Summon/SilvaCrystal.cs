@@ -1,31 +1,31 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Summon
 {
     public class SilvaCrystal : ModProjectile
     {
-    	public int dust = 3;
+        public int dust = 3;
 
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Silva Crystal");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Silva Crystal");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-			ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-		}
+            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+        }
 
         public override void SetDefaults()
         {
             projectile.width = 22;
             projectile.height = 52;
             projectile.ignoreWater = true;
-			projectile.minion = true;
-			projectile.minionSlots = 0f;
+            projectile.minion = true;
+            projectile.minionSlots = 0f;
             projectile.timeLeft = 18000;
             projectile.alpha = 255;
             projectile.tileCollide = false;
@@ -35,22 +35,22 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-			if (projectile.localAI[1] == 0f)
-			{
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
-				projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-				projectile.localAI[1] += 1f;
-			}
-			if (Main.player[projectile.owner].minionDamage != projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue)
-			{
-				int damage2 = (int)(((float)projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionProjectileDamageValue /
-					projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).spawnedPlayerMinionDamageValue) *
-					Main.player[projectile.owner].minionDamage);
-				projectile.damage = damage2;
-			}
-			bool flag64 = projectile.type == mod.ProjectileType("SilvaCrystal");
+            if (projectile.localAI[1] == 0f)
+            {
+                projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
+                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+                projectile.localAI[1] += 1f;
+            }
+            if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                    Main.player[projectile.owner].minionDamage);
+                projectile.damage = damage2;
+            }
+            bool flag64 = projectile.type == mod.ProjectileType("SilvaCrystal");
             Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.silvaSummon)
             {
                 projectile.active = false;
@@ -119,19 +119,19 @@ namespace CalamityMod.Projectiles.Summon
             {
                 int num1074 = -1;
                 float num1075 = num1072;
-				if (player.HasMinionAttackTargetNPC)
-				{
-					NPC npc = Main.npc[player.MinionAttackTargetNPC];
-					if (npc.CanBeChasedBy(projectile, false))
-					{
-						float num1076 = projectile.Distance(npc.Center);
-						if (num1076 < num1075 && Collision.CanHitLine(projectile.Center, 0, 0, npc.Center, 0, 0))
-						{
-							num1075 = num1076;
-							num1074 = npc.whoAmI;
-						}
-					}
-				}
+                if (player.HasMinionAttackTargetNPC)
+                {
+                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float num1076 = projectile.Distance(npc.Center);
+                        if (num1076 < num1075 && Collision.CanHitLine(projectile.Center, 0, 0, npc.Center, 0, 0))
+                        {
+                            num1075 = num1076;
+                            num1074 = npc.whoAmI;
+                        }
+                    }
+                }
                 if (num1074 < 0)
                 {
                     int num30;
@@ -231,9 +231,9 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-		public override bool CanDamage()
-		{
-			return false;
-		}
-	}
+        public override bool CanDamage()
+        {
+            return false;
+        }
+    }
 }

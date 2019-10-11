@@ -19,9 +19,9 @@ namespace CalamityMod.Items.Mounts
             item.useTime = 20;
             item.useAnimation = 20;
             item.useStyle = 1;
-			item.value = Item.buyPrice(1, 50, 0, 0);
-			item.rare = 9;
-			item.expert = true;
+            item.value = Item.buyPrice(1, 50, 0, 0);
+            item.rare = 9;
+            item.expert = true;
             item.UseSound = SoundID.Item3;
             item.noMelee = true;
             item.mountType = mod.MountType("PhuppersChair");

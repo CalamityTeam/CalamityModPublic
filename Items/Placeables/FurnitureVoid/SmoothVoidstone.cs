@@ -5,26 +5,26 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
 {
     public class SmoothVoidstone : ModItem
     {
-		public override void SetStaticDefaults()
-		{
+        public override void SetStaticDefaults()
+        {
         }
 
-		public override void SetDefaults()
-		{
-			item.width = 12;
-			item.height = 12;
-			item.maxStack = 999;
-			item.useTurn = true;
-			item.autoReuse = true;
-			item.useAnimation = 15;
-			item.useTime = 10;
-			item.useStyle = 1;
+        public override void SetDefaults()
+        {
+            item.width = 12;
+            item.height = 12;
+            item.maxStack = 999;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.useAnimation = 15;
+            item.useTime = 10;
+            item.useStyle = 1;
             item.consumable = true;
-			item.createTile = mod.TileType("SmoothVoidstone");
-		}
+            item.createTile = mod.TileType("SmoothVoidstone");
+        }
 
-		public override void AddRecipes()
-		{
+        public override void AddRecipes()
+        {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Voidstone", 1);
             recipe.SetResult(this);
@@ -41,5 +41,5 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             recipe.AddTile(null, "VoidCondenser");
             recipe.AddRecipe();
         }
-	}
+    }
 }

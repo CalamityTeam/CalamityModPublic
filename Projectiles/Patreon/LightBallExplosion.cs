@@ -4,10 +4,10 @@ namespace CalamityMod.Projectiles.Patreon
 {
     public class LightBallExplosion : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Explosion");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Explosion");
+        }
 
         public override void SetDefaults()
         {
@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Patreon
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 5;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 3;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 3;
         }
     }
 }

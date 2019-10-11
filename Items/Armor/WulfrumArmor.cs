@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -18,8 +17,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 18;
             item.height = 18;
-			item.value = Item.buyPrice(0, 0, 50, 0);
-			item.rare = 1;
+            item.value = Item.buyPrice(0, 0, 50, 0);
+            item.rare = 1;
             item.defense = 2;
         }
 
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Armor
             player.meleeCrit += 3;
             player.magicCrit += 3;
             player.rangedCrit += 3;
-            player.GetCalamityPlayer().throwingCrit += 3;
+            player.Calamity().throwingCrit += 3;
         }
 
         public override void AddRecipes()

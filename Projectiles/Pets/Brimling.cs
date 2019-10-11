@@ -1,16 +1,16 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Pets
 {
     public class Brimling : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Brimling");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Brimling");
             Main.projFrames[projectile.type] = 8;
             Main.projPet[projectile.type] = true;
         }
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.active = false;
                 return;
             }
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
                 modPlayer.brimling = false;
@@ -55,17 +55,17 @@ namespace CalamityMod.Projectiles.Pets
             float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             float num21 = 18f;
 
-			//Limites de mouvement ici
+            //Limites de mouvement ici
 
-			float num27 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
+            float num27 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             if (num27 > 1000f)
             {
                 projectile.position.X = projectile.position.X + num18;
                 projectile.position.Y = projectile.position.Y + num19;
-				for (int k = 0; k < 10; k++)
-				{
-					Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0, -1f, 0, default, 1f);
-				}
+                for (int k = 0; k < 10; k++)
+                {
+                    Dust.NewDust(projectile.position, projectile.width, projectile.height, 235, 0, -1f, 0, default, 1f);
+                }
             }
 
             if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f &&
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Pets
                 num19 *= num20;
             }
 
-			//Les changements de velocité ici
+            //Les changements de velocité ici
             if (projectile.velocity.X < num18)
             {
                 projectile.velocity.X = projectile.velocity.X + num16;
@@ -143,14 +143,14 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.direction = 1;
             }
 
-			//On gère le sprite et les frames ici
+            //On gère le sprite et les frames ici
 
-			Player projOwner = Main.player[projectile.owner];
+            Player projOwner = Main.player[projectile.owner];
 
             projectile.spriteDirection = -projOwner.direction;
             projectile.rotation = projectile.velocity.X * 0.03f;
 
-			projectile.frameCounter++;
+            projectile.frameCounter++;
 
             if (projOwner.statLife >= projOwner.statLifeMax2 / 4)
             {
@@ -179,6 +179,6 @@ namespace CalamityMod.Projectiles.Pets
                     return;
                 }
             }
-		}
+        }
     }
 }

@@ -1,5 +1,5 @@
-using System;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Relic of Ruin");
-			Tooltip.SetDefault("Casts a spread of sand blades");
-		}
+            Tooltip.SetDefault("Casts a spread of sand blades");
+        }
 
         public override void SetDefaults()
         {

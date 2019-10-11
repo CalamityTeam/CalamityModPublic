@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -28,13 +28,14 @@ namespace CalamityMod.Items.Accessories
             item.value = Item.buyPrice(0, 90, 0, 0); //30 gold reforge
             item.defense = 10;
             item.accessory = true;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 14;
-		}
+            item.Calamity().postMoonLordRarity = 14;
+        }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
-            if (!hideVisual) { modPlayer.dashMod = 4; }
+            CalamityPlayer modPlayer = player.Calamity();
+            if (!hideVisual)
+            { modPlayer.dashMod = 4; }
             modPlayer.elysianAegis = true;
             player.noKnockback = true;
             player.fireWalk = true;
@@ -53,7 +54,8 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[mod.BuffType("BrimstoneFlames")] = true;
             player.buffImmune[mod.BuffType("HolyLight")] = true;
             player.buffImmune[mod.BuffType("GlacialState")] = true;
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) { player.endurance += 0.1f; }
+            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+            { player.endurance += 0.1f; }
         }
 
         public override void AddRecipes()

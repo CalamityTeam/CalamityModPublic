@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 7;
             item.shoot = mod.ProjectileType("BrackishFlask");
             item.shootSpeed = 12f;
-			item.GetGlobalItem<CalamityGlobalItem>(mod).rogue = true;
-		}
+            item.Calamity().rogue = true;
+        }
 
         public override void AddRecipes()
         {

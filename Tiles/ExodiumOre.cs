@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Utilities;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles
 {
@@ -17,10 +17,10 @@ namespace CalamityMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Exodium Ore");
             AddMapEntry(new Color(51, 48, 68), name);
-			mineResist = 5f;
-			minPick = 225;
-			soundType = 21;
-			Main.tileValue[Type] = 760;
+            mineResist = 5f;
+            minPick = 225;
+            soundType = 21;
+            Main.tileValue[Type] = 760;
             Main.tileSpelunker[Type] = true;
             drop = mod.ItemType("ExodiumClusterOre");
             base.SetDefaults();

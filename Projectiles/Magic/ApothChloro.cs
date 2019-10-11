@@ -6,29 +6,29 @@ using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class ApothChloro : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Rays of Annihilation");
-		}
-
-		public override void SetDefaults()
-		{
-			projectile.width = 10;
-            projectile.height = 10;
-			projectile.alpha = 70;
-			projectile.timeLeft = 120;
-			projectile.penetrate = 1;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.magic = true;
-			projectile.light = 0.5f;
-            projectile.extraUpdates = 1;
-		}
-
-		public override void AI()
+    {
+        public override void SetStaticDefaults()
         {
-			Lighting.AddLight(projectile.Center, 0.4f, 0.2f, 0.4f);
+            DisplayName.SetDefault("Rays of Annihilation");
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.width = 10;
+            projectile.height = 10;
+            projectile.alpha = 70;
+            projectile.timeLeft = 120;
+            projectile.penetrate = 1;
+            projectile.hostile = false;
+            projectile.friendly = true;
+            projectile.magic = true;
+            projectile.light = 0.5f;
+            projectile.extraUpdates = 1;
+        }
+
+        public override void AI()
+        {
+            Lighting.AddLight(projectile.Center, 0.4f, 0.2f, 0.4f);
             for (int i = 0; i < 5; i++)
             {
                 Dust dust4 = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, 242, projectile.velocity.X, projectile.velocity.Y, 100, default, 1f)];
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Magic
                 dust4.scale = 0.8f;
                 dust4.noLight = true;
             }
-			float num1 = (float)(projectile.position.X - projectile.velocity.X / 10.0 * 9.0);
+            float num1 = (float)(projectile.position.X - projectile.velocity.X / 10.0 * 9.0);
             float num2 = (float)(projectile.position.Y - projectile.velocity.Y / 10.0 * 9.0);
             float num3 = (float)Math.Sqrt((double)(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y));
             float num4 = projectile.localAI[0];
@@ -99,24 +99,24 @@ namespace CalamityMod.Projectiles.Magic
                 flag2 = false;
             if (flag2)
             {
-                double num15 = (double) num4;
-                Vector2 vector2 = new Vector2((float) (projectile.position.X + (double) projectile.width * 0.5), (float) (projectile.position.Y + (double) projectile.height * 0.5));
-                num2 = num5 - (float) vector2.X;
-                num9 = num6 - (float) vector2.Y;
-                double num10 = Math.Sqrt((double) num2 * (double) num2 + (double) num9 * (double) num9);
-                float num11 = (float) (num15 / num10);
+                double num15 = (double)num4;
+                Vector2 vector2 = new Vector2((float)(projectile.position.X + (double)projectile.width * 0.5), (float)(projectile.position.Y + (double)projectile.height * 0.5));
+                num2 = num5 - (float)vector2.X;
+                num9 = num6 - (float)vector2.Y;
+                double num10 = Math.Sqrt((double)num2 * (double)num2 + (double)num9 * (double)num9);
+                float num11 = (float)(num15 / num10);
                 float num12 = num2 * num11;
                 float num13 = num9 * num11;
                 int num14 = 8;
-                projectile.velocity.X = (float) ((projectile.velocity.X * (double) (num14 - 1) + (double) num12) / (double) num14);
-                projectile.velocity.Y = (float) ((projectile.velocity.Y * (double) (num14 - 1) + (double) num13) / (double) num14);
+                projectile.velocity.X = (float)((projectile.velocity.X * (double)(num14 - 1) + (double)num12) / (double)num14);
+                projectile.velocity.Y = (float)((projectile.velocity.Y * (double)(num14 - 1) + (double)num13) / (double)num14);
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(mod.BuffType("GodSlayerInferno"), 600, true);
-			target.AddBuff(mod.BuffType("DemonFlames"), 600, true);
+            target.AddBuff(mod.BuffType("GodSlayerInferno"), 600, true);
+            target.AddBuff(mod.BuffType("DemonFlames"), 600, true);
         }
-	}
+    }
 }

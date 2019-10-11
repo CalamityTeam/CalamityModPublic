@@ -6,10 +6,10 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class WhiteOrbBlah : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Orb");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Orb");
+        }
 
         public override void SetDefaults()
         {
@@ -25,14 +25,14 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, ((float)Main.DiscoR / 200f), ((float)Main.DiscoG / 200f), ((float)Main.DiscoB / 200f));
-			for (int num457 = 0; num457 < 2; num457++)
-			{
-				int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-				Main.dust[num458].noGravity = true;
-				Main.dust[num458].velocity *= 0.5f;
-				Main.dust[num458].velocity += projectile.velocity * 0.1f;
-			}
+            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, ((float)Main.DiscoR / 200f), ((float)Main.DiscoG / 200f), ((float)Main.DiscoB / 200f));
+            for (int num457 = 0; num457 < 2; num457++)
+            {
+                int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+                Main.dust[num458].noGravity = true;
+                Main.dust[num458].velocity *= 0.5f;
+                Main.dust[num458].velocity += projectile.velocity * 0.1f;
+            }
         }
     }
 }

@@ -1,46 +1,45 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.World;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
     public class DriedSeekerHead : ModNPC
-	{
-		bool TailSpawned = false;
+    {
+        bool TailSpawned = false;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Dried Seeker");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dried Seeker");
+        }
 
-		public override void SetDefaults()
-		{
-			npc.damage = 14;
-			npc.npcSlots = 5f;
-			npc.width = 18;
-			npc.height = 18;
-			npc.lifeMax = 100;
+        public override void SetDefaults()
+        {
+            npc.damage = 14;
+            npc.npcSlots = 5f;
+            npc.width = 18;
+            npc.height = 18;
+            npc.lifeMax = 100;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 50000;
             }
             npc.aiStyle = 6;
             aiType = -1;
-			npc.knockBackResist = 0f;
-			npc.behindTiles = true;
-			npc.noGravity = true;
-			npc.noTileCollide = true;
-			npc.canGhostHeal = false;
-			npc.HitSound = SoundID.NPCHit1;
-			npc.DeathSound = SoundID.NPCDeath1;
-			npc.netAlways = true;
-		}
+            npc.knockBackResist = 0f;
+            npc.behindTiles = true;
+            npc.noGravity = true;
+            npc.noTileCollide = true;
+            npc.canGhostHeal = false;
+            npc.HitSound = SoundID.NPCHit1;
+            npc.DeathSound = SoundID.NPCDeath1;
+            npc.netAlways = true;
+        }
 
-		public override void AI()
-		{
-			if (!TailSpawned)
+        public override void AI()
+        {
+            if (!TailSpawned)
             {
                 int Previous = npc.whoAmI;
                 for (int num36 = 0; num36 < 4; num36++)
@@ -63,44 +62,44 @@ namespace CalamityMod.NPCs.DesertScourge
                 }
                 TailSpawned = true;
             }
-			if (Main.player[npc.target].dead)
-			{
-				npc.velocity.Y = npc.velocity.Y + 1f;
-				if ((double)npc.position.Y > Main.worldSurface * 16.0)
-				{
-					npc.velocity.Y = npc.velocity.Y + 1f;
-				}
-				if ((double)npc.position.Y > Main.rockLayer * 16.0)
-				{
-					for (int num957 = 0; num957 < 200; num957++)
-					{
-						if (Main.npc[num957].aiStyle == npc.aiStyle)
-						{
-							Main.npc[num957].active = false;
-						}
-					}
-				}
-			}
-		}
+            if (Main.player[npc.target].dead)
+            {
+                npc.velocity.Y = npc.velocity.Y + 1f;
+                if ((double)npc.position.Y > Main.worldSurface * 16.0)
+                {
+                    npc.velocity.Y = npc.velocity.Y + 1f;
+                }
+                if ((double)npc.position.Y > Main.rockLayer * 16.0)
+                {
+                    for (int num957 = 0; num957 < 200; num957++)
+                    {
+                        if (Main.npc[num957].aiStyle == npc.aiStyle)
+                        {
+                            Main.npc[num957].active = false;
+                        }
+                    }
+                }
+            }
+        }
 
-		public override void HitEffect(int hitDirection, double damage)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-			}
-			if (npc.life <= 0)
-			{
-				for (int k = 0; k < 10; k++)
-				{
-					Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-				}
-			}
-		}
+        public override void HitEffect(int hitDirection, double damage)
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                for (int k = 0; k < 10; k++)
+                {
+                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                }
+            }
+        }
 
-		public override bool PreNPCLoot()
-		{
-			return false;
-		}
-	}
+        public override bool PreNPCLoot()
+        {
+            return false;
+        }
+    }
 }

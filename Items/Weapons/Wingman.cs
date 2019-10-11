@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wingman");
-			Tooltip.SetDefault("Fires a concentrated laser beam");
-		}
+            Tooltip.SetDefault("Fires a concentrated laser beam");
+        }
 
         public override void SetDefaults()
         {

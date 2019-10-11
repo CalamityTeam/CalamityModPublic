@@ -10,33 +10,33 @@ using Terraria.ObjectData;
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenMonolith : ModTile
-	{
+    {
         public override void SetDefaults()
-		{
-			Main.tileFrameImportant[Type] = true;
-			Main.tileNoAttach[Type] = true;
+        {
+            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
             Main.tileLighted[Type] = true;
             TileID.Sets.HasOutlines[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.Height = 5;
-			TileObjectData.newTile.CoordinateHeights = new int[]
-			{
-				16,
-				16,
-				16,
-				16,
-				16
-			};
+            TileObjectData.newTile.CoordinateHeights = new int[]
+            {
+                16,
+                16,
+                16,
+                16,
+                16
+            };
             TileObjectData.newTile.Origin = new Point16(0, 4);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.addTile(Type);
-			ModTranslation name = CreateMapEntryName();
+            ModTranslation name = CreateMapEntryName();
             AddMapEntry(new Color(191, 142, 111), name);
             name.SetDefault("Ashen Monolith");
             dustType = mod.DustType("Pixel");
-			adjTiles = new int[] { TileID.GrandfatherClocks };
+            adjTiles = new int[] { TileID.GrandfatherClocks };
         }
         int animationFrameWidth = 36;
 
@@ -59,83 +59,84 @@ namespace CalamityMod.Tiles.FurnitureAshen
             b = 0.5f;
         }
 
-        public override void RightClick(int x, int y)
-		{
-			{
-				string text = "AM";
-				//Get current weird time
-				double time = Main.time;
-				if (!Main.dayTime)
-				{
-					//if it's night add this number
-					time += 54000.0;
-				}
-				//Divide by seconds in a day * 24
-				time = time / 86400.0 * 24.0;
-				//Dunno why we're taking 19.5. Something about hour formatting
-				time = time - 7.5 - 12.0;
-				//Format in readable time
-				if (time < 0.0)
-				{
-					time += 24.0;
-				}
-				if (time >= 12.0)
-				{
-					text = "PM";
-				}
-				int intTime = (int)time;
-				//Get the decimal points of time.
-				double deltaTime = time - intTime;
-				//multiply them by 60. Minutes, probably
-				deltaTime = ((int)(deltaTime * 60.0));
-				//This could easily be replaced by deltaTime.ToString()
-				string text2 = string.Concat(deltaTime);
-				if (deltaTime < 10.0)
-				{
-					//if deltaTime is eg "1" (which would cause time to display as HH:M instead of HH:MM)
-					text2 = "0" + text2;
-				}
-				if (intTime > 12)
-				{
-					//This is for AM/PM time rather than 24hour time
-					intTime -= 12;
-				}
-				if (intTime == 0)
-				{
-					//0AM = 12AM
-					intTime = 12;
-				}
-				//Whack it all together to get a HH:MM format
-				var newText = string.Concat("Time: ", intTime, ":", text2, " ", text);
-				Main.NewText(newText, 255, 240, 20);
-			}
-		}
+        public override bool NewRightClick(int x, int y)
+        {
+            string text = "AM";
+            //Get current weird time
+            double time = Main.time;
+            if (!Main.dayTime)
+            {
+                //if it's night add this number
+                time += 54000.0;
+            }
+            //Divide by seconds in a day * 24
+            time = time / 86400.0 * 24.0;
+            //Dunno why we're taking 19.5. Something about hour formatting
+            time = time - 7.5 - 12.0;
+            //Format in readable time
+            if (time < 0.0)
+            {
+                time += 24.0;
+            }
+            if (time >= 12.0)
+            {
+                text = "PM";
+            }
+            int intTime = (int)time;
+            //Get the decimal points of time.
+            double deltaTime = time - intTime;
+            //multiply them by 60. Minutes, probably
+            deltaTime = ((int)(deltaTime * 60.0));
+            //This could easily be replaced by deltaTime.ToString()
+            string text2 = string.Concat(deltaTime);
+            if (deltaTime < 10.0)
+            {
+                //if deltaTime is eg "1" (which would cause time to display as HH:M instead of HH:MM)
+                text2 = "0" + text2;
+            }
+            if (intTime > 12)
+            {
+                //This is for AM/PM time rather than 24hour time
+                intTime -= 12;
+            }
+            if (intTime == 0)
+            {
+                //0AM = 12AM
+                intTime = 12;
+            }
+            //Whack it all together to get a HH:MM format
+            var newText = string.Concat("Time: ", intTime, ":", text2, " ", text);
+            Main.NewText(newText, 255, 240, 20);
+            return true;
+        }
 
-		public override void NearbyEffects(int i, int j, bool closer)
-		{
-			if (closer)
-			{
-				Main.clock = true;
-			}
-		}
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (closer)
+            {
+                Main.clock = true;
+            }
+        }
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+        public override void NumDust(int i, int j, bool fail, ref int num)
+        {
+            num = fail ? 1 : 3;
+        }
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("AshenMonolith"));
-		}
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 48, 32, mod.ItemType("AshenMonolith"));
+        }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             //This is used to draw the eye, where the frame is changed depending on the player's position relative to the eye's centre.
             Tile currentTile = Main.tile[i, j];
             Vector2 eyeCentre = new Vector2(i * 16, j * 16);
-            if (currentTile.frameX == 0) { eyeCentre += new Vector2(16f, 0f); }
-            if (currentTile.frameY == 0) { eyeCentre += new Vector2(0f, 16f); }
+            if (currentTile.frameX == 0)
+            { eyeCentre += new Vector2(16f, 0f); }
+            if (currentTile.frameY == 0)
+            { eyeCentre += new Vector2(0f, 16f); }
             //The eye should track the closest player
             Vector2 playerPos = eyeCentre;
             float distanceToTarget = 9999f;
@@ -153,7 +154,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             int frameY = 2;
             //horizontal and vertical range for the eye before it reaches maximum value (in tiles). Used to get the various 'magnitudes' of the eye to work
             int xRange = 0;
-            if(distanceToTarget > 250)
+            if (distanceToTarget > 250)
             {
                 xRange = 5;
             }
@@ -189,11 +190,12 @@ namespace CalamityMod.Tiles.FurnitureAshen
             eyeToPlayer.Y = (int)eyeToPlayer.Y;
 
             float factor = Math.Abs((Math.Abs(eyeToPlayer.X) >= 2 * Math.Abs(eyeToPlayer.Y)) ? eyeToPlayer.X / xRange : eyeToPlayer.Y / yRange);
-            if (factor != 0) { eyeToPlayer = eyeToPlayer / factor; }
+            if (factor != 0)
+            { eyeToPlayer /= factor; }
             frameX += (int)(eyeToPlayer.X);
             frameY += (int)(eyeToPlayer.Y);
-            frameX = frameX * animationFrameWidth;
-            frameY = frameY * 90;
+            frameX *= animationFrameWidth;
+            frameY *= 90;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + zero;
             Texture2D eyeSheet = mod.GetTexture("Tiles/FurnitureAshen/AshenMonolith_Eye");

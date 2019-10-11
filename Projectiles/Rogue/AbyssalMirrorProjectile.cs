@@ -1,14 +1,14 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class AbyssalMirrorProjectile : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Lumenyl Fluid");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Lumenyl Fluid");
             Main.projFrames[projectile.type] = 3;
         }
 
@@ -25,12 +25,13 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
             Mod calamity = ModLoader.GetMod("CalamityMod");
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(calamity).rogue = true;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft < 25) { projectile.alpha += 10; }
+            if (projectile.timeLeft < 25)
+            { projectile.alpha += 10; }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.CalamityCustomThrowingDamage;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 6;
             projectile.tileCollide = false;
-            projectile.GetGlobalProjectile<CalamityGlobalProjectile>(ModLoader.GetMod("CalamityMod")).rogue = true;
+            projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
         }

@@ -39,12 +39,12 @@ namespace CalamityMod.Items.Weapons.Astral
             recipe.AddRecipe();
         }
 
-		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
-		}
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(mod.BuffType("AstralInfectionDebuff"), 120);
+        }
 
-		public override void MeleeEffects(Player player, Rectangle hitbox)
+        public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             for (int i = 0; i < 3; i++)
             {

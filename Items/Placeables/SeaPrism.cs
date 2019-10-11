@@ -24,16 +24,16 @@ namespace CalamityMod.Items.Placeables
             item.height = 10;
             item.maxStack = 999;
             item.value = Item.sellPrice(silver: 10);
-			item.rare = 2;
+            item.rare = 2;
         }
 
-		public override void AddRecipes()
-		{
-			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(null, "PrismShard", 5);
-			recipe.SetResult(this);
-			recipe.AddTile(TileID.Anvils);
-			recipe.AddRecipe();
-		}
-	}
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(null, "PrismShard", 5);
+            recipe.SetResult(this);
+            recipe.AddTile(TileID.Anvils);
+            recipe.AddRecipe();
+        }
+    }
 }

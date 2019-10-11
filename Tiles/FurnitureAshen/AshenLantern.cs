@@ -60,7 +60,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
                 r = 1f;
                 g = 0.5f;
                 b = 0.5f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Patreon
             item.channel = true;
 
             item.rare = 10;
-            item.GetGlobalItem<CalamityGlobalItem>(mod).postMoonLordRarity = 21;
+            item.Calamity().postMoonLordRarity = 21;
             item.value = Item.buyPrice(2, 50, 0, 0);
 
             item.shoot = mod.ProjectileType("OracleYoyo");

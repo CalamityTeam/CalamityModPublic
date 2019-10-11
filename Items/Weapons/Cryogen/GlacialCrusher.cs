@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs;
 
 namespace CalamityMod.Items.Weapons.Cryogen
 {
@@ -11,11 +10,11 @@ namespace CalamityMod.Items.Weapons.Cryogen
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Glacial Crusher");
-			Tooltip.SetDefault("Fires very slow frost projectiles that gain strength as they travel and freeze enemies\n" +
-				"Enemies are frozen for longer the further the projectile travels\n" +
-				"True melee strikes cause tremendous damage to frozen enemies\n" +
-				"Enemies that cannot be frozen take increased damage");
-		}
+            Tooltip.SetDefault("Fires very slow frost projectiles that gain strength as they travel and freeze enemies\n" +
+                "Enemies are frozen for longer the further the projectile travels\n" +
+                "True melee strikes cause tremendous damage to frozen enemies\n" +
+                "Enemies that cannot be frozen take increased damage");
+        }
 
         public override void SetDefaults()
         {
@@ -53,18 +52,18 @@ namespace CalamityMod.Items.Weapons.Cryogen
             }
         }
 
-		public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
-		{
-			if (target.buffImmune[mod.BuffType("GlacialState")])
-			{
-				damage *= 2;
-				knockBack *= 2f;
-			}
-			else if (target.GetGlobalNPC<CalamityGlobalNPC>(mod).gState)
-			{
-				damage *= 3;
-				knockBack *= 3f;
-			}
-		}
+        public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+        {
+            if (target.buffImmune[mod.BuffType("GlacialState")])
+            {
+                damage *= 2;
+                knockBack *= 2f;
+            }
+            else if (target.Calamity().gState)
+            {
+                damage *= 3;
+                knockBack *= 3f;
+            }
+        }
     }
 }

@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pwnagehammer");
-			Tooltip.SetDefault("Throws an extremely fast hammer");
-		}
+            Tooltip.SetDefault("Throws an extremely fast hammer");
+        }
 
         public override void SetDefaults()
         {

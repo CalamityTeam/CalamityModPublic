@@ -4,16 +4,16 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Walls
 {
-	public class ProfanedCrystalWall : ModWall
-	{
-		public override void SetDefaults()
-		{
-			Main.wallHouse[Type] = true;
+    public class ProfanedCrystalWall : ModWall
+    {
+        public override void SetDefaults()
+        {
+            Main.wallHouse[Type] = true;
             Main.wallLargeFrames[Type] = 2;
-			dustType = mod.DustType("Sparkle");
+            dustType = mod.DustType("Sparkle");
             soundType = 13;
-			drop = mod.ItemType("ProfanedCrystalWall");
-			AddMapEntry(new Color(125, 97, 123));
+            drop = mod.ItemType("ProfanedCrystalWall");
+            AddMapEntry(new Color(125, 97, 123));
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -23,8 +23,8 @@ namespace CalamityMod.Walls
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
-	}
+        {
+            num = fail ? 1 : 3;
+        }
+    }
 }

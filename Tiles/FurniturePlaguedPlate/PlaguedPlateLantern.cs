@@ -47,7 +47,8 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
                 r = 0.4f;
                 g = 1f;
                 b = 0.3f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

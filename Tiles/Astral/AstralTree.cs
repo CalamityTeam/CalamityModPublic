@@ -1,5 +1,5 @@
-﻿using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles
 {
@@ -8,27 +8,27 @@ namespace CalamityMod.Tiles
         public override Texture2D GetTopTextures(int i, int j, ref int frame, ref int frameWidth, ref int frameHeight, ref int xOffsetLeft, ref int yOffset)
         {
             frame = (i + j * j) % 3;
-            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralTree_Tops");
+            return ModContent.GetInstance<CalamityMod>().GetTexture("Tiles/Astral/AstralTree_Tops");
         }
 
         public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralTree_Branches");
+            return ModContent.GetInstance<CalamityMod>().GetTexture("Tiles/Astral/AstralTree_Branches");
         }
 
         public override Texture2D GetTexture()
         {
-            return CalamityMod.Instance.GetTexture("Tiles/Astral/AstralTree");
+            return ModContent.GetInstance<CalamityMod>().GetTexture("Tiles/Astral/AstralTree");
         }
 
         public override int DropWood()
         {
-            return CalamityMod.Instance.ItemType("AstralMonolith");
+            return ModContent.GetInstance<CalamityMod>().ItemType("AstralMonolith");
         }
 
         public override int CreateDust()
         {
-            return CalamityMod.Instance.DustType("AstralBasic");
+            return ModContent.GetInstance<CalamityMod>().DustType("AstralBasic");
         }
 
         public override int GrowthFXGore()

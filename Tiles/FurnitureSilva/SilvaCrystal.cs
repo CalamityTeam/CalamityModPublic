@@ -1,23 +1,22 @@
+using CalamityMod.Utilities;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Utilities;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
-	public class SilvaCrystal : ModTile
-	{
-		public override void SetDefaults()
-		{
-			Main.tileSolid[Type] = true;
-			Main.tileMergeDirt[Type] = false;
-			Main.tileBlockLight[Type] = true;
+    public class SilvaCrystal : ModTile
+    {
+        public override void SetDefaults()
+        {
+            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = false;
+            Main.tileBlockLight[Type] = true;
             soundType = 21;
             mineResist = 2f;
             minPick = 275;
             drop = mod.ItemType("SilvaCrystal");
-			AddMapEntry(new Color(49, 100, 99));
+            AddMapEntry(new Color(49, 100, 99));
         }
 
         public override bool CreateDust(int i, int j, ref int type)

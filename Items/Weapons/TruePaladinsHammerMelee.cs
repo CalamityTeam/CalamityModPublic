@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Weapons
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fallen Paladin's Hammer");
-			Tooltip.SetDefault("Explodes on enemy hits");
-		}
+            Tooltip.SetDefault("Explodes on enemy hits");
+        }
 
         public override void SetDefaults()
         {

@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,8 +19,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 22;
             item.height = 22;
-			item.value = Item.buyPrice(0, 30, 0, 0);
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.rare = 7;
             item.defense = 3; //36
         }
 
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "16% increased minion damage\n" +
                 "Summons a reaver orb that emits spore gas when enemies are near";
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.reaverOrb = true;
             if (player.whoAmI == Main.myPlayer)
             {

@@ -1,17 +1,17 @@
-﻿using System;
+﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Patreon
 {
     public class MiniGuardianHealer : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Healer Guardian");
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Healer Guardian");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -20,21 +20,21 @@ namespace CalamityMod.Projectiles.Patreon
         public override void SetDefaults()
         {
             projectile.netImportant = true;
-			projectile.tileCollide = false;
+            projectile.tileCollide = false;
             projectile.width = 68;
             projectile.height = 82;
             projectile.friendly = true;
-			projectile.minionSlots = 0f;
-			projectile.minion = true;
+            projectile.minionSlots = 0f;
+            projectile.minion = true;
             projectile.penetrate = -1;
-			projectile.timeLeft = 18000;
+            projectile.timeLeft = 18000;
             projectile.timeLeft *= 5;
         }
 
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            CalamityPlayer modPlayer = player.GetCalamityPlayer();
+            CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
                 modPlayer.gHealer = false;

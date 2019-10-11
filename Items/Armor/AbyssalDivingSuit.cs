@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Armor
 {
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.GetModPlayer<CalamityPlayer>();
+            CalamityPlayer modPlayer = player.Calamity();
             modPlayer.abyssalDivingSuit = true;
             if (hideVisual)
             {
@@ -54,8 +54,8 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(null, "Lumenite", 40);
             recipe.AddIngredient(null, "DepthCells", 40);
             recipe.AddIngredient(null, "Tenebris", 15);
-			recipe.AddIngredient(ItemID.LunarBar, 5);
-			recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.LunarBar, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

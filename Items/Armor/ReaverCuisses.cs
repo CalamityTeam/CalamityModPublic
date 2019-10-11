@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items.CalamityCustomThrowingDamage;
 
 namespace CalamityMod.Items.Armor
 {
@@ -19,8 +18,8 @@ namespace CalamityMod.Items.Armor
         {
             item.width = 22;
             item.height = 18;
-			item.value = Item.buyPrice(0, 18, 0, 0);
-			item.rare = 7;
+            item.value = Item.buyPrice(0, 18, 0, 0);
+            item.rare = 7;
             item.defense = 14;
         }
 
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Armor
             player.meleeCrit += 5;
             player.magicCrit += 5;
             player.rangedCrit += 5;
-            player.GetCalamityPlayer().throwingCrit += 5;
+            player.Calamity().throwingCrit += 5;
             player.moveSpeed += 0.12f;
         }
 

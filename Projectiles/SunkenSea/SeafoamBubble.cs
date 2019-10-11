@@ -7,10 +7,10 @@ namespace CalamityMod.Projectiles.SunkenSea
 {
     public class SeafoamBubble : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Seafoam Bubble");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Seafoam Bubble");
+        }
 
         public override void SetDefaults()
         {
@@ -19,34 +19,34 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.friendly = true;
             projectile.penetrate = 3;
             projectile.timeLeft = 180;
-			projectile.tileCollide = false;
-			projectile.alpha = 255;
-			projectile.scale = 1f;
-			projectile.localNPCHitCooldown = 30;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-		}
+            projectile.tileCollide = false;
+            projectile.alpha = 255;
+            projectile.scale = 1f;
+            projectile.localNPCHitCooldown = 30;
+            projectile.Calamity().rogue = true;
+        }
 
-		public override void AI()
+        public override void AI()
         {
-			projectile.ai[0] += 1f;
-			if(projectile.alpha < 50)
-			{
-				projectile.alpha = 50;
-			}
-			else if(projectile.alpha > 50)
-			{
-				projectile.alpha -= 10;
-			}
-			projectile.scale += 0.002f;
-			if( projectile.ai[0] % 60 == 0)
-			{
-				projectile.damage *= 2;
-			}
+            projectile.ai[0] += 1f;
+            if (projectile.alpha < 50)
+            {
+                projectile.alpha = 50;
+            }
+            else if (projectile.alpha > 50)
+            {
+                projectile.alpha -= 10;
+            }
+            projectile.scale += 0.002f;
+            if (projectile.ai[0] % 60 == 0)
+            {
+                projectile.damage *= 2;
+            }
         }
 
         public override void Kill(int timeLeft)
         {
-        	Main.PlaySound(SoundID.Item54, projectile.position);
+            Main.PlaySound(SoundID.Item54, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = (projectile.height = 60);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

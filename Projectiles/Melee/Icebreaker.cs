@@ -8,18 +8,18 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class Icebreaker : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Icebreaker");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Icebreaker");
+        }
 
         public override void SetDefaults()
         {
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-			projectile.GetGlobalProjectile<CalamityGlobalProjectile>(mod).rogue = true;
-			projectile.penetrate = -1;
+            projectile.Calamity().rogue = true;
+            projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 120;
             aiType = 52;
@@ -27,9 +27,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-        	if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(3))
             {
-            	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -40,9 +40,9 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-		{
-			target.AddBuff(BuffID.Frostburn, 180);
-		}
-	}
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 180);
+        }
+    }
 }

@@ -48,7 +48,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
                 r = 0.5f;
                 g = 1f;
                 b = 1f;
-            } else
+            }
+            else
             {
                 r = 0f;
                 g = 0f;

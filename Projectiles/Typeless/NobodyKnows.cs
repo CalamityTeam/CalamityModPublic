@@ -4,10 +4,10 @@ namespace CalamityMod.Projectiles.Typeless
 {
     public class NobodyKnows : ModProjectile
     {
-    	public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Nope");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Nope");
+        }
 
         public override void SetDefaults()
         {
