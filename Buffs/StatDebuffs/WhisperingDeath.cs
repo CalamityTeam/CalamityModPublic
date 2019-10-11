@@ -5,7 +5,7 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class WhisperingDeath : ModBuff
     {
-        public static int DefenseReduction = 50;
+        public static int DefenseReduction = 20;
 
         public override void SetDefaults()
         {

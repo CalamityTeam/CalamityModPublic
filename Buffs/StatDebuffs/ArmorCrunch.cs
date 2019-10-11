@@ -5,7 +5,9 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class ArmorCrunch : ModBuff
     {
-        public override void SetDefaults()
+		public static int DefenseReduction = 15;
+
+		public override void SetDefaults()
         {
             DisplayName.SetDefault("Armor Crunch");
             Description.SetDefault("Your armor is shredded");

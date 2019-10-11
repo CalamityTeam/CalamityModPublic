@@ -5,7 +5,9 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class GlacialState : ModBuff
     {
-        public override void SetDefaults()
+		public static int DefenseReduction = 10;
+
+		public override void SetDefaults()
         {
             DisplayName.SetDefault("Glacial State");
             Description.SetDefault("Cannot move and defense is shattered");

@@ -628,8 +628,8 @@ namespace CalamityMod.NPCs.Cryogen
                                 num1250 = (int)player.Center.X / 16;
                                 num1251 = (int)player.Center.Y / 16;
 
-                                int min = 21;
-                                int max = 24;
+                                int min = 16;
+                                int max = 20;
 
                                 if (Main.rand.NextBool(2))
                                     num1250 += Main.rand.Next(min, max);
@@ -658,20 +658,30 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 else if (npc.ai[1] == 1f)
                 {
-                    npc.alpha += 25;
-                    if (npc.alpha >= 255)
-                    {
-                        Main.PlaySound(SoundID.Item8, npc.Center);
-                        npc.alpha = 255;
-                        npc.position.X = (float)teleportLocationX * 16f - (float)(npc.width / 2);
-                        npc.position.Y = (float)iceShard * 16f - (float)(npc.height / 2);
-                        npc.ai[1] = 2f;
-                        npc.netUpdate = true;
-                    }
-                }
+					Vector2 position = new Vector2((float)teleportLocationX * 16f - (float)(npc.width / 2), (float)iceShard * 16f - (float)(npc.height / 2));
+					for (int m = 0; m < 10; m++)
+					{
+						int dust = Dust.NewDust(position, npc.width, npc.height, 67, 0f, 0f, 100, default, 1f);
+						Main.dust[dust].noGravity = true;
+					}
+					npc.alpha += 2;
+					if (npc.alpha >= 255)
+					{
+						Main.PlaySound(SoundID.Item8, npc.Center);
+						npc.alpha = 255;
+						npc.position = position;
+						for (int n = 0; n < 50; n++)
+						{
+							int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 67, 0f, 0f, 100, default, 1f);
+							Main.dust[num39].noGravity = true;
+						}
+						npc.ai[1] = 2f;
+						npc.netUpdate = true;
+					}
+				}
                 else if (npc.ai[1] == 2f)
                 {
-                    npc.alpha -= 25;
+                    npc.alpha -= 50;
                     if (npc.alpha <= 0)
                     {
                         npc.alpha = 0;

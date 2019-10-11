@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             float num1007 = 10f;
             float chargeSpeedDivisor = cosmicSpeed ? 11.85f : 14.85f;
             num1006 *= num1005;
-            if (lifeToAlpha < 50)
+            if (lifeToAlpha < 50 && npc.ai[0] != 1f)
             {
                 for (int num1011 = 0; num1011 < 2; num1011++)
                 {
@@ -229,8 +229,8 @@ namespace CalamityMod.NPCs.CosmicWraith
                             num1250 = (int)player.Center.X / 16;
                             num1251 = (int)player.Center.Y / 16;
 
-                            int min = 23;
-                            int max = 26;
+                            int min = 14;
+                            int max = 18;
 
                             if (Main.rand.NextBool(2))
                                 num1250 += Main.rand.Next(min, max);
@@ -258,20 +258,31 @@ namespace CalamityMod.NPCs.CosmicWraith
             }
             else if (npc.ai[0] == 1f)
             {
-                npc.alpha += 25;
-                if (npc.alpha >= 255)
-                {
-                    Main.PlaySound(SoundID.Item8, npc.Center);
-                    npc.alpha = 255;
-                    npc.position.X = npc.ai[1] * 16f - (float)(npc.width / 2);
-                    npc.position.Y = npc.ai[2] * 16f - (float)(npc.height / 2);
-                    npc.ai[0] = 2f;
-                    npc.netUpdate = true;
-                }
-            }
+				Vector2 position = new Vector2(npc.ai[1] * 16f - (float)(npc.width / 2), npc.ai[2] * 16f - (float)(npc.height / 2));
+				for (int m = 0; m < 10; m++)
+				{
+					int dust = Dust.NewDust(position, npc.width, npc.height, 173, 0f, 0f, 90, default, 1f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].fadeIn = 1f;
+				}
+				npc.alpha += 2;
+				if (npc.alpha >= 255)
+				{
+					Main.PlaySound(SoundID.Item8, npc.Center);
+					npc.alpha = 255;
+					npc.position = position;
+					for (int n = 0; n < 50; n++)
+					{
+						int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 90, default, 1f);
+						Main.dust[num39].noGravity = true;
+					}
+					npc.ai[0] = 2f;
+					npc.netUpdate = true;
+				}
+			}
             else if (npc.ai[0] == 2f)
             {
-                npc.alpha -= 25;
+                npc.alpha -= 50;
                 if (npc.alpha <= lifeToAlpha)
                 {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);

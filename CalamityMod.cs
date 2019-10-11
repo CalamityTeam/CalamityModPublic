@@ -1294,10 +1294,6 @@ namespace CalamityMod
                     ProjectileID.Cthulunado,
                     ProjectileID.DD2BetsyFireball,
                     ProjectileID.DD2BetsyFlameBreath,
-                    ProjectileID.PhantasmalEye,
-                    ProjectileID.PhantasmalSphere,
-                    ProjectileID.PhantasmalDeathray,
-                    ProjectileID.PhantasmalBolt,
 
                     ProjectileID.SandBallFalling,
                     ProjectileID.AshBallFalling,

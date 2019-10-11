@@ -43,7 +43,16 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
+			if ((player.armor[0].type == mod.ItemType("TarragonHelm") || player.armor[0].type == mod.ItemType("TarragonHelmet") ||
+				player.armor[0].type == mod.ItemType("TarragonHornedHelm") || player.armor[0].type == mod.ItemType("TarragonMask") ||
+				player.armor[0].type == mod.ItemType("TarragonVisage")) &&
+				player.armor[1].type == mod.ItemType("TarragonBreastplate") && player.armor[2].type == mod.ItemType("TarragonLeggings"))
+			{
+				player.statDefense += 15;
+				player.lifeRegen += 2;
+			}
+
+			if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !hideVisual)
             {
                 int num59 = 4;
                 if (player.direction == 1)
@@ -65,14 +74,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void VerticalWingSpeeds(Player player, ref float ascentWhenFalling, ref float ascentWhenRising, ref float maxCanAscendMultiplier, ref float maxAscentMultiplier, ref float constantAscend)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-
-            if (modPlayer.tarraSet)
-            {
-                player.statDefense += 15;
-                player.lifeRegen += 2;
-            }
-
             ascentWhenFalling = 0.85f;
             ascentWhenRising = 0.15f;
             maxCanAscendMultiplier = 1f;
