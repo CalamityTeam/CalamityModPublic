@@ -28,7 +28,9 @@ namespace CalamityMod.NPCs.Astrageldon
             npc.height = 60;
             npc.alpha = 255;
             npc.defense = 0;
-            npc.takenDamageMultiplier = 1E-6f;
+            CalamityGlobalNPC global = npc.Calamity();
+            global.DR = 0.999999f;
+            global.unbreakableDR = true;
             npc.lifeMax = Main.expertMode ? 1007 : 1012;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
             {

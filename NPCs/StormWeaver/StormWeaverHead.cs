@@ -31,7 +31,9 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.width = 74;
             npc.height = 74;
             npc.defense = 0;
-            npc.takenDamageMultiplier = 1E-6f;
+            CalamityGlobalNPC global = npc.Calamity();
+            global.DR = 0.999999f;
+            global.unbreakableDR = true;
             npc.lifeMax = 20000;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)

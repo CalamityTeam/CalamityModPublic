@@ -30,7 +30,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.aiStyle = 6;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.takenDamageMultiplier = 1E-6f;
+            CalamityGlobalNPC global = npc.Calamity();
+            global.DR = 0.999999f;
+            global.unbreakableDR = true;
             npc.scale = 1.2f;
             if (Main.expertMode)
             {
