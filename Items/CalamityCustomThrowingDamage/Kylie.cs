@@ -19,7 +19,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.knockBack = 12;
             item.thrown = true;
             item.crit = 16;
-            item.value = Item.buyPrice(0, 10, 0, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.useTime = 25;
             item.useAnimation = 25;

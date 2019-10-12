@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 10;
             item.UseSound = SoundID.Item71;
             item.autoReuse = true;
-            item.value = Item.buyPrice(platinum: 2); //sell price of 40 gold
+            item.value = Item.buyPrice(platinum: 1); //sell price of 20 gold
             item.shoot = mod.ProjectileType("CelestialReaperProjectile");
             item.shootSpeed = 20f;
             item.Calamity().rogue = true;

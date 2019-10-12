@@ -6,7 +6,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class Glaive : CalamityDamageItem
     {
-        public static int BaseDamage = 23;
+        public static int BaseDamage = 50;
         public static float Knockback = 3f;
         public static float Speed = 10f;
         public static float StealthSpeedMult = 1.8f;
@@ -31,7 +31,7 @@ Stealth strikes are super fast and pierce infinitely");
             item.useAnimation = 15;
             item.useStyle = 1;
             item.knockBack = Knockback;
-            item.value = Item.buyPrice(0, 3, 0, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.UseSound = SoundID.Item1;
             item.maxStack = 3;
