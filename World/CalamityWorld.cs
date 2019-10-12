@@ -19,7 +19,7 @@ namespace CalamityMod.World
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;
-
+        public static bool dragonScalesBought = false;
         private const int saveVersion = 0;
 
         //Boss Rush
@@ -176,6 +176,7 @@ namespace CalamityMod.World
             defiled = false;
             armageddon = false;
             ironHeart = false;
+            dragonScalesBought = false;
         }
         #endregion
 
@@ -265,6 +266,8 @@ namespace CalamityMod.World
                 downed.Add("bossRushActive");
             if (downedCLAM)
                 downed.Add("clam");
+            if (dragonScalesBought)
+                downed.Add("scales");
 
             return new TagCompound
             {
@@ -323,6 +326,7 @@ namespace CalamityMod.World
             abyssSide = downed.Contains("abyssSide");
             bossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
+            dragonScalesBought = downed.Contains("scales");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
         }
@@ -402,6 +406,7 @@ namespace CalamityMod.World
                 bossRushActive = flags7[0];
                 downedOldDuke = flags7[1];
                 downedCLAM = flags7[2];
+                dragonScalesBought = flags7[3];
             }
             else
             {
@@ -479,6 +484,7 @@ namespace CalamityMod.World
             flags7[0] = bossRushActive;
             flags7[1] = downedOldDuke;
             flags7[2] = downedCLAM;
+            flags7[3] = dragonScalesBought;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -560,6 +566,7 @@ namespace CalamityMod.World
             bossRushActive = flags7[0];
             downedOldDuke = flags7[1];
             downedCLAM = flags7[2];
+            dragonScalesBought = flags7[3];
 
             abyssChasmBottom = reader.ReadInt32();
         }

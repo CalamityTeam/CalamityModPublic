@@ -545,12 +545,11 @@ namespace CalamityMod.Projectiles
                 }
             }
 
+            counter++;
             if (Main.player[projectile.owner].Calamity().fungalSymbiote && trueMelee)
             {
-                counter++;
-                if (counter >= 6)
+                if (counter % 6 == 0)
                 {
-                    counter = 0;
                     if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[ProjectileID.Mushroom] < 30)
                     {
                         if (projectile.type == mod.ProjectileType("Nebulash") || projectile.type == mod.ProjectileType("CosmicDischarge") ||
@@ -581,14 +580,25 @@ namespace CalamityMod.Projectiles
 
             if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly)
             {
-                counter++;
-                if (counter >= 30)
+                if (counter % 30 == 0)
                 {
-                    counter = 0;
                     if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("Nanotech")] < 30)
                     {
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("Nanotech"),
                             (int)((double)projectile.damage * 0.15), 0f, projectile.owner, 0f, 0f);
+                    }
+                }
+            }
+
+            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly)
+            {
+                if (counter % 50 == 0)
+                {
+                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("DragonShit")] < 15)
+                    {
+                        //spawn a dust that does 1/5th of the original damage
+                        int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), mod.ProjectileType("DragonShit"),
+                            (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -680,6 +690,40 @@ namespace CalamityMod.Projectiles
         {
             if (projectile.owner == Main.myPlayer)
             {
+                if (projectile.Calamity().rogue && projectile.Calamity().stealthStrike && Main.player[projectile.owner].Calamity().dragonScales && CalamityUtils.CountProjectiles(mod.ProjectileType("InfernadoFriendly")) < 2)
+                {
+                    int projTileX = (int)(projectile.Center.X / 16f);
+                    int projTileY = (int)(projectile.Center.Y / 16f);
+                    int distance = 100;
+                    if (projTileX < 10)
+                    {
+                        projTileX = 10;
+                    }
+                    if (projTileX > Main.maxTilesX - 10)
+                    {
+                        projTileX = Main.maxTilesX - 10;
+                    }
+                    if (projTileY < 10)
+                    {
+                        projTileY = 10;
+                    }
+                    if (projTileY > Main.maxTilesY - distance - 10)
+                    {
+                        projTileY = Main.maxTilesY - distance - 10;
+                    }
+                    for (int x = projTileX; x < projTileX + distance; x++)
+                    {
+                        Tile tile = Main.tile[projTileX, projTileY];
+                        if (tile.active() && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
+                        {
+                            projTileX = x;
+                            break;
+                        }
+                    }
+                    int projectileIndex = Projectile.NewProjectile((float)(projTileX * 16 + 8), (float)(projTileY * 16 - 24), 0f, 0f, mod.ProjectileType("InfernadoFriendly"), 420, 15f, Main.myPlayer, 16f, 16f);
+                    Main.projectile[projectileIndex].Calamity().forceRogue = true;
+                    Main.projectile[projectileIndex].netUpdate = true;
+                }
                 if (projectile.magic && Main.player[projectile.owner].ghostHeal)
                 {
                     float num = 0.1f;

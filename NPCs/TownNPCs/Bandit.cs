@@ -1,4 +1,5 @@
 using CalamityMod.World;
+using CalamityMod.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -31,8 +32,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackType[npc.type] = 0;
             NPCID.Sets.AttackTime[npc.type] = 60;
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
-        }
-
+        }        
         public override void SetDefaults()
         {
             npc.townNPC = true;
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.TownNPCs
             for (int k = 0; k < 255; k++)
             {
                 Player player = Main.player[k];
-                if (player.active && InventoryHas(player, ItemID.PlatinumCoin))
+                if (player.active && player.InventoryHas(ItemID.PlatinumCoin))
                 {
                     return NPC.downedBoss3;
                 }
@@ -66,10 +66,6 @@ namespace CalamityMod.NPCs.TownNPCs
         public override string TownNPCName()
         {
             return PossibleNames[Main.rand.Next(PossibleNames.Count)];
-        }
-        public bool InventoryHas(Player me, params int[] items)
-        {
-            return me.inventory.Any(item => items.Contains(item.type));
         }
         public override string GetChat()
         {
@@ -113,7 +109,7 @@ namespace CalamityMod.NPCs.TownNPCs
             PossibleDialogs.Add("Maybe I'm bitter. It's been a long time, so whatever. Just do a good job out there.");
             PossibleDialogs.Add("It's not stealing! I'm just borrowing it until I die!");
 
-            if (InventoryHas(Main.LocalPlayer, ItemID.BoneGlove))
+            if (Main.LocalPlayer.InventoryHas(ItemID.BoneGlove))
             {
                 PossibleDialogs.Add("Wouldn't be the first time I used my friends' remains as weapons.");
             }
@@ -129,8 +125,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add("Providence HATES it when you take her stuff. I learned that the hard way.");
                 PossibleDialogs.Add("You think I can get away with looting from ghosts? It ain't like they can pick things up.");
             }
-            if (InventoryHas(Main.LocalPlayer, mod.ItemType("Valediction")) ||
-                InventoryHas(Main.LocalPlayer, mod.ItemType("TheReaper")))
+            if (Main.LocalPlayer.InventoryHas(mod.ItemType("Valediction")) ||
+                Main.LocalPlayer.InventoryHas(mod.ItemType("TheReaper")))
             {
                 PossibleDialogs.Add("Oh man, did you rip that off a shark!? Now that's a weapon!");
             }
@@ -211,6 +207,11 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(mod.ItemType("Cinquedea"));
             shop.item[nextSlot].shopCustomPrice = mod.GetItem("Cinquedea").item.value;
             nextSlot++;
+            if (CalamityWorld.downedYharon && !CalamityWorld.dragonScalesBought)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("DragonScales"));
+                shop.item[nextSlot].shopCustomPrice = mod.GetItem("DragonScales").item.value;
+            }
         }
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
