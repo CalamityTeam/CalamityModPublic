@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Glove Of Precicion");
+            DisplayName.SetDefault("Glove Of Precision");
             Tooltip.SetDefault("Decreases rogue speed by 20% but increase damage and crit by 12% and velocity by 25%");
         }
 

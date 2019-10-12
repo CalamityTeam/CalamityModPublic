@@ -205,12 +205,67 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
         {
             shop.item[nextSlot].SetDefaults(mod.ItemType("Cinquedea"));
-            shop.item[nextSlot].shopCustomPrice = mod.GetItem("Cinquedea").item.value;
             nextSlot++;
-            if (CalamityWorld.downedYharon && !CalamityWorld.dragonScalesBought)
+            shop.item[nextSlot].SetDefaults(mod.ItemType("Glaive"));
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("Kylie"));
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("MonkeyDarts"));
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(mod.ItemType("OldDie"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
+			nextSlot++;
+			/*if (Main.hardMode)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("SlickCane"));
+				nextSlot++;
+			}*/
+			/*if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("MomentumCapacitator"));
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
+				nextSlot++;
+			}*/
+			/*if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("BouncingBetty"));
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(mod.ItemType("LatcherMines"));
+				nextSlot++;
+			}*/
+			if (NPC.downedPlantBoss)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfPrecicion"));
+				nextSlot++;
+				/*shop.item[nextSlot].SetDefaults(mod.ItemType("GloveofRecklessness"));
+				nextSlot++;*/
+				/*shop.item[nextSlot].SetDefaults(mod.ItemType("DeepWounder"));
+				nextSlot++;*/
+			}
+			/*if (NPC.downedGolemBoss)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("EtherealExtorter"));
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
+				nextSlot++;
+			}*/
+			/*if (CalamityWorld.downedProvidence)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("SylvanSlasher"));
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
+				nextSlot++;
+			}*/
+			if (NPC.downedAncientCultist)
+			{
+                shop.item[nextSlot].SetDefaults(mod.ItemType("CelestialReaper"));
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+				nextSlot++;
+            }
+				
+            if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
                 shop.item[nextSlot].SetDefaults(mod.ItemType("DragonScales"));
-                shop.item[nextSlot].shopCustomPrice = mod.GetItem("DragonScales").item.value;
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(40, 0, 0, 0);
+				nextSlot++;
             }
         }
 

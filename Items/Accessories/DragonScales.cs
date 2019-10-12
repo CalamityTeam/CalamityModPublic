@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 32;
             item.height = 34;
-            item.value = Item.buyPrice(40, 0, 0, 0);
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.rare = 10;
             item.Calamity().postMoonLordRarity = 15;
             item.accessory = true;
