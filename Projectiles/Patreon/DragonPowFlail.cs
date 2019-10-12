@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Patreon
             int numDust = 5;
             for (int i = 0; i < numDust; ++i)
             {
-                int dustType = (Main.rand.NextBool(3)) ? 246 : 244;
+                int dustType = Main.rand.NextBool(3) ? 246 : 244;
                 float scale = 0.8f + Main.rand.NextFloat(0.6f);
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
                 Main.dust[idx].noGravity = true;
@@ -248,7 +248,6 @@ namespace CalamityMod.Projectiles.Patreon
                 // Stop drawing when closer than 1 chain link away.
                 if (posDiff.Length() < chainTex.Height + 1f)
                 {
-                    keepDrawing = false;
                     break;
                 }
 

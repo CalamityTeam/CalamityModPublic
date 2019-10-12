@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.2f) / 255f, 0f, ((255 - projectile.alpha) * 0.2f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.2f / 255f, 0f, (255 - projectile.alpha) * 0.2f / 255f);
             projectile.velocity.Y += projectile.ai[0];
             if (Main.rand.NextBool(5))
             {

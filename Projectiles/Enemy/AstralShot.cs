@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.2f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.2f / 255f);
             if (projectile.ai[0] == 0f)
             {
                 projectile.ai[0] = 1f;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Enemy
                 float scaleFactor = 1f;
                 if (projectile.ai[1] == 1f)
                 {
-                    num162 = (float)((int)projectile.localAI[0]);
+                    num162 = (float)(int)projectile.localAI[0];
                 }
                 for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
                 {

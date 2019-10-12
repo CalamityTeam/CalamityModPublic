@@ -43,8 +43,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -78,8 +78,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)((int)projectile.position.X);
-            projectile.position.Y = (float)((int)projectile.position.Y);
+            projectile.position.X = (float)(int)projectile.position.X;
+            projectile.position.Y = (float)(int)projectile.position.Y;
             float num1072 = 1500f;
             projectile.velocity = Vector2.Zero;
             projectile.alpha -= 5;

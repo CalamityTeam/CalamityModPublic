@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 Vector2 value4 = player.Center - npc.Center;
                 value4.Normalize();
-                value4 *= (CalamityWorld.bossRushActive ? 16f : 11f);
+                value4 *= CalamityWorld.bossRushActive ? 16f : 11f;
                 npc.velocity = (npc.velocity * 99f + value4) / 100f;
                 Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num787 = Main.npc[CalamityGlobalNPC.voidBoss].Center.X - vector97.X;

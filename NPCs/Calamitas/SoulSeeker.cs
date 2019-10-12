@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.TargetClosest(true);
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
-            direction *= (CalamityWorld.bossRushActive ? 14f : 9f);
+            direction *= CalamityWorld.bossRushActive ? 14f : 9f;
             npc.rotation = direction.ToRotation();
             timer++;
             if (timer > 60)

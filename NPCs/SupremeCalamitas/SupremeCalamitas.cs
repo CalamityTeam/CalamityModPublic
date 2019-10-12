@@ -2271,7 +2271,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             {
                 texture = Main.npcTexture[npc.type];
             }
-            Color newColor = (willCharge ? new Color(100, 0, 0, 0) : drawColor);
+            Color newColor = willCharge ? new Color(100, 0, 0, 0) : drawColor;
             SpriteEffects spriteEffects = SpriteEffects.None;
             Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(newColor);
             Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
@@ -2300,7 +2300,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

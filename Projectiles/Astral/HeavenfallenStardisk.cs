@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Astral
                     int i;
                     for (i = 0; i < 4; i++)
                     {
-                        offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), mod.ProjectileType("HeavenfallenEnergy"), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), mod.ProjectileType("HeavenfallenEnergy"), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
                     }

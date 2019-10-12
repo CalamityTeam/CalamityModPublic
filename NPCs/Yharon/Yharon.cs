@@ -242,9 +242,9 @@ namespace CalamityMod.NPCs.Yharon
             }
             else if (phase2Change && isCharging)
             {
-                npcVelocity = (expertMode ? 0.8f : 0.78f);
-                scaleFactor = (expertMode ? 12.2f : 12f);
-                aiChangeRate = (expertMode ? 36 : 38);
+                npcVelocity = expertMode ? 0.8f : 0.78f;
+                scaleFactor = expertMode ? 12.2f : 12f;
+                aiChangeRate = expertMode ? 36 : 38;
             }
             else if (isCharging && !phase2Change && !phase3Change && !phase4Change)
             {
@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             // Variables for charging and etc.
-            int xPos = (npc.direction == 1 ? 25 : -25);
+            int xPos = npc.direction == 1 ? 25 : -25;
             int num1454 = 80;
             int num1455 = 4;
             float num1456 = 0.3f;
@@ -648,7 +648,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1474 = 0; num1474 < num1473; num1474++)
                 {
                     Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + vectorCenter;
+                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1473, default) + vectorCenter;
                     Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
                     Main.dust[num1475].noGravity = true;
@@ -791,7 +791,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1474 = 0; num1474 < num1473; num1474++)
                 {
                     Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + vectorCenter;
+                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1473, default) + vectorCenter;
                     Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f); //changed
                     Main.dust[num1475].noGravity = true;
@@ -990,7 +990,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1480 = 0; num1480 < num1479; num1480++)
                 {
                     Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
+                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1479, default) + vectorCenter;
                     Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f); //changed
                     Main.dust[num1481].noGravity = true;
@@ -1085,7 +1085,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1480 = 0; num1480 < num1479; num1480++)
                 {
                     Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
+                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1479, default) + vectorCenter;
                     Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f); //changed
                     Main.dust[num1481].noGravity = true;
@@ -1208,7 +1208,7 @@ namespace CalamityMod.NPCs.Yharon
                         case 1:
                         case 2:
                         case 3:
-                            aiState = ((CalamityWorld.death && !CalamityWorld.bossRushActive) ? 5 : 1); //normal charges
+                            aiState = (CalamityWorld.death && !CalamityWorld.bossRushActive) ? 5 : 1; //normal charges
                             break;
                         case 4:
                         case 5:
@@ -1331,7 +1331,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1480 = 0; num1480 < num1479; num1480++)
                 {
                     Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
+                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1479, default) + vectorCenter;
                     Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f);
                     Main.dust[num1481].noGravity = true;
@@ -1365,7 +1365,7 @@ namespace CalamityMod.NPCs.Yharon
                         Vector2 vector = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
                         if (NPC.CountNPCS(mod.NPCType("DetonatingFlare2")) < flareCount && NPC.CountNPCS(mod.NPCType("DetonatingFlare")) < flareCount)
                         {
-                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, (Main.rand.NextBool(2) ? mod.NPCType("DetonatingFlare") : mod.NPCType("DetonatingFlare2")), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)vector.X + xPos, (int)vector.Y - 15, Main.rand.NextBool(2) ? mod.NPCType("DetonatingFlare") : mod.NPCType("DetonatingFlare2"), 0, 0f, 0f, 0f, 0f, 255);
                         }
                         Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-401, 401) * 0.13f, (float)Main.rand.Next(-31, 31) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
                         Projectile.NewProjectile((int)vector.X + xPos, (int)vector.Y - 15, (float)Main.rand.Next(-31, 31) * 0.13f, (float)Main.rand.Next(-151, 151) * 0.13f, mod.ProjectileType("FlareDust"), 0, 0f, Main.myPlayer, 0f, 0f); //changed
@@ -1462,7 +1462,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1480 = 0; num1480 < num1479; num1480++)
                 {
                     Vector2 vector176 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1479), default) + vectorCenter;
+                    vector176 = vector176.RotatedBy((double)(num1480 - (num1479 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1479, default) + vectorCenter;
                     Vector2 value21 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1481 = Dust.NewDust(vector176 + value21, 0, 0, 244, value21.X * 2f, value21.Y * 2f, 100, default, 1.4f);
                     Main.dust[num1481].noGravity = true;
@@ -1568,7 +1568,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
                 if (npc.ai[1] == 0f)
                 {
-                    teleportLocation = (Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600));
+                    teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
                     npc.ai[1] = (float)(360 * Math.Sign((vectorCenter - player.Center).X));
                 }
                 Vector2 value7 = player.Center + new Vector2(npc.ai[1], (float)teleportLocation) - vectorCenter; //teleport distance
@@ -1674,7 +1674,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int m = 0; m < num34; m++)
                 {
                     Vector2 vector11 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector11 = vector11.RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)((float)num34), default) + vectorCenter;
+                    vector11 = vector11.RotatedBy((double)(m - (num34 / 2 - 1)) * 3.1415926535897931 / (double)(float)num34, default) + vectorCenter;
                     Vector2 value8 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num35 = Dust.NewDust(vector11 + value8, 0, 0, 244, value8.X * 2f, value8.Y * 2f, 100, default, 1.4f);
                     Main.dust[num35].noGravity = true;
@@ -1717,7 +1717,7 @@ namespace CalamityMod.NPCs.Yharon
                         npc.ai[1] = (float)(300 * Math.Sign((vectorCenter - player.Center).X));
                     }
                     Vector2 center = player.Center + new Vector2(-npc.ai[1], teleportLocation); //teleport distance
-                    vectorCenter = (npc.Center = center);
+                    vectorCenter = npc.Center = center;
                     int num36 = Math.Sign(player.Center.X - vectorCenter.X);
                     if (num36 != 0)
                     {
@@ -1972,7 +1972,7 @@ namespace CalamityMod.NPCs.Yharon
                 Vector2 desiredVelocity = npc.DirectionTo(destination) * scaleFactor;
                 npc.SimpleFlyMovement(desiredVelocity, num6);
                 int num27 = (npc.Center.X < targetData.Center.X) ? 1 : -1;
-                npc.direction = (npc.spriteDirection = num27);
+                npc.direction = npc.spriteDirection = num27;
                 float[] expr_225_cp_0 = npc.ai;
                 int expr_225_cp_1 = 1;
                 num26 = expr_225_cp_0[expr_225_cp_1] + 1f;
@@ -2179,7 +2179,7 @@ namespace CalamityMod.NPCs.Yharon
                         case 2: //charge
                         {
                             Vector2 vector = npc.DirectionTo(targetData.Center);
-                            npc.spriteDirection = ((vector.X > 0f) ? 1 : -1);
+                            npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                             npc.rotation = vector.ToRotation();
                             if (npc.spriteDirection == -1)
                             {
@@ -2191,14 +2191,14 @@ namespace CalamityMod.NPCs.Yharon
                         case 3: //fireballs
                         {
                             Vector2 vector2 = new Vector2((float)((targetData.Center.X > npc.Center.X) ? 1 : -1), 0f);
-                            npc.spriteDirection = ((vector2.X > 0f) ? 1 : -1);
+                            npc.spriteDirection = (vector2.X > 0f) ? 1 : -1;
                             npc.velocity = vector2 * -2f;
                             break;
                         }
                         case 5: //spin move
                         {
                             Vector2 vector3 = npc.DirectionTo(targetData.Center);
-                            npc.spriteDirection = ((vector3.X > 0f) ? 1 : -1);
+                            npc.spriteDirection = (vector3.X > 0f) ? 1 : -1;
                             npc.rotation = vector3.ToRotation();
                             if (npc.spriteDirection == -1)
                             {
@@ -2210,7 +2210,7 @@ namespace CalamityMod.NPCs.Yharon
                         case 7: //fast charge
                         {
                             Vector2 vector = npc.DirectionTo(targetData.Center);
-                            npc.spriteDirection = ((vector.X > 0f) ? 1 : -1);
+                            npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                             npc.rotation = vector.ToRotation();
                             if (npc.spriteDirection == -1)
                             {
@@ -2232,7 +2232,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1474 = 0; num1474 < num1473; num1474++)
                 {
                     Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + npc.Center;
+                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1473, default) + npc.Center;
                     Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
                     Main.dust[num1475].noGravity = true;
@@ -2278,7 +2278,7 @@ namespace CalamityMod.NPCs.Yharon
                 {
                     int num30 = (targetData.Center.X > npc.Center.X) ? 1 : -1;
                     npc.velocity = new Vector2((float)num30, 0f) * 22f; //10f
-                    npc.direction = (npc.spriteDirection = num30);
+                    npc.direction = npc.spriteDirection = num30;
                 }
                 if (npc.ai[1] >= num11)
                 {
@@ -2320,7 +2320,7 @@ namespace CalamityMod.NPCs.Yharon
                     Vector2 value2 = npc.DirectionTo(vector5) * scaleFactor3;
                     npc.velocity = Vector2.Lerp(npc.velocity, value2, 0.0333333351f);
                     int num32 = (npc.Center.X < targetData.Center.X) ? 1 : -1;
-                    npc.direction = (npc.spriteDirection = num32);
+                    npc.direction = npc.spriteDirection = num32;
                     if (Vector2.Distance(vector5, npc.Center) < 16f)
                     {
                         npc.ai[1] = num15 - 1f;
@@ -2332,7 +2332,7 @@ namespace CalamityMod.NPCs.Yharon
                     Vector2 vector6 = npc.DirectionTo(targetData.Center);
                     vector6.Y *= 0.25f;
                     vector6 = vector6.SafeNormalize(Vector2.UnitX * (float)npc.direction);
-                    npc.spriteDirection = ((vector6.X > 0f) ? 1 : -1);
+                    npc.spriteDirection = (vector6.X > 0f) ? 1 : -1;
                     npc.rotation = vector6.ToRotation();
                     if (npc.spriteDirection == -1)
                     {
@@ -2427,7 +2427,7 @@ namespace CalamityMod.NPCs.Yharon
                     Vector2 desiredVelocity2 = npc.DirectionTo(destination2) * scaleFactor * 2f;
                     npc.SimpleFlyMovement(desiredVelocity2, num6 * 2f);
                     int num35 = (npc.Center.X < targetData.Center.X) ? 1 : -1;
-                    npc.direction = (npc.spriteDirection = num35);
+                    npc.direction = npc.spriteDirection = num35;
                     npc.ai[2] += 1f;
                     if (npc.Distance(targetData.Center) < 1000f || npc.ai[2] >= 180f) //450f
                     {
@@ -2500,7 +2500,7 @@ namespace CalamityMod.NPCs.Yharon
                 for (int num1474 = 0; num1474 < num1473; num1474++)
                 {
                     Vector2 vector171 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)((float)num1473), default) + npc.Center;
+                    vector171 = vector171.RotatedBy((double)(num1474 - (num1473 / 2 - 1)) * 3.1415926535897931 / (double)(float)num1473, default) + npc.Center;
                     Vector2 value18 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num1475 = Dust.NewDust(vector171 + value18, 0, 0, 244, value18.X * 2f, value18.Y * 2f, 100, default, 1.4f);
                     Main.dust[num1475].noGravity = true;
@@ -2542,9 +2542,9 @@ namespace CalamityMod.NPCs.Yharon
                     {
                         npc.ai[1] = (float)(300 * Math.Sign((npcCenter - targetData.Center).X));
                     }
-                    teleportLocation = (Main.rand.NextBool(2) ? (revenge ? 600 : 700) : (revenge ? -600 : -700));
+                    teleportLocation = Main.rand.NextBool(2) ? (revenge ? 600 : 700) : (revenge ? -600 : -700);
                     Vector2 center = targetData.Center + new Vector2(-npc.ai[1], (float)teleportLocation); //teleport distance
-                    npcCenter = (npc.Center = center);
+                    npcCenter = npc.Center = center;
                 }
                 npc.ai[2] += 1f;
                 if (npc.ai[2] >= 25f)
@@ -2560,7 +2560,7 @@ namespace CalamityMod.NPCs.Yharon
                 npc.chaseable = false;
                 npc.velocity *= 0.95f;
                 Vector2 vector = npc.DirectionTo(targetData.Center);
-                npc.spriteDirection = ((vector.X > 0f) ? 1 : -1);
+                npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
                 npc.rotation = vector.ToRotation();
                 if (npc.spriteDirection == -1)
                 {
@@ -2712,7 +2712,7 @@ namespace CalamityMod.NPCs.Yharon
                         num164 = (float)(num159 - num161);
                     }
                     alpha16 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f); //1.5
-                    Vector2 value4 = (npc.oldPos[num161]);
+                    Vector2 value4 = npc.oldPos[num161];
                     float num165 = npc.rotation;
                     Main.spriteBatch.Draw(texture, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), alpha16, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects2.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects2, 0f);
                     goto IL_6881;
@@ -2736,7 +2736,7 @@ namespace CalamityMod.NPCs.Yharon
                     num164 = (float)(num159 - num161);
                 }
                 alpha15 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f); //1.5
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(frame6), alpha15, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;
@@ -2972,7 +2972,7 @@ namespace CalamityMod.NPCs.Yharon
                 int iBoom;
                 for (iBoom = 0; iBoom < 25; iBoom++)
                 {
-                    offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
+                    offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
                     int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 5f), (float)(Math.Cos(offsetAngleBoom) * 5f), mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
                     int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 5f), (float)(-Math.Cos(offsetAngleBoom) * 5f), mod.ProjectileType("FlareBomb"), damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[boom1].timeLeft = timeLeft;

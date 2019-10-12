@@ -70,12 +70,12 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 1f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 1f / 255f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0f / 255f);
             projectile.frameCounter++;
             if (projectile.frameCounter > 9)
             {
@@ -97,8 +97,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)((int)projectile.position.X);
-            projectile.position.Y = (float)((int)projectile.position.Y);
+            projectile.position.X = (float)(int)projectile.position.X;
+            projectile.position.Y = (float)(int)projectile.position.Y;
             if (projectile.owner == Main.myPlayer)
             {
                 if (projectile.ai[0] != 0f)
@@ -120,7 +120,6 @@ namespace CalamityMod.Projectiles.Summon
                         float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
                         if (num541 < num508 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
-                            num508 = num541;
                             num506 = num539;
                             num507 = num540;
                             flag18 = true;

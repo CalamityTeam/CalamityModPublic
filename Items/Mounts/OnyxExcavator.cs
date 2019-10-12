@@ -96,7 +96,7 @@ namespace CalamityMod.Items.Mounts
                 {
                     float num10 = (float)Math.Sign(player.velocity.X);
                     if ((double)Math.Abs(num10) < 0.1f)
-                        num10 = (player.direction == 1 ? 0.1f : -0.1f);
+                        num10 = player.direction == 1 ? 0.1f : -0.1f;
                     float num11 = 12f;
                     float num12 = 40f;
                     Vector2 value2 = player.Center + new Vector2(num10 * num12, num11);

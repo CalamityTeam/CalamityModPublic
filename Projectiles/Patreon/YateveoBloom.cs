@@ -70,8 +70,8 @@ namespace CalamityMod.Projectiles.Patreon
             }
             else
             {
-                float num211 = (14f / Main.player[projectile.owner].meleeSpeed) * 1.25f;
-                float num212 = (0.9f / Main.player[projectile.owner].meleeSpeed) * 1.25f;
+                float num211 = 14f / Main.player[projectile.owner].meleeSpeed * 1.25f;
+                float num212 = 0.9f / Main.player[projectile.owner].meleeSpeed * 1.25f;
 
                 if (projectile.ai[1] == 1f)
                     projectile.tileCollide = false;

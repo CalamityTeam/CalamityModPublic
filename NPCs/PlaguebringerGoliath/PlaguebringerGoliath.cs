@@ -109,8 +109,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override void AI()
         {
             // Mode variables
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             // Light
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.15f, 0.35f, 0.05f);
@@ -173,7 +173,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             else
                 despawnTimer = 480;
 
-            canDespawn = (despawnTimer <= 0);
+            canDespawn = despawnTimer <= 0;
             if (canDespawn)
             {
                 if (npc.timeLeft > 10)
@@ -285,7 +285,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
 
-                        npc.direction = (playerLocation < 0 ? 1 : -1);
+                        npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
 
                         Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
@@ -344,7 +344,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (npc.velocity.X > 20f)
                         npc.velocity.X = 20f;
 
-                    npc.direction = (playerLocation < 0 ? 1 : -1);
+                    npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
                 }
 
@@ -424,7 +424,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.TargetClosest(true);
 
                 float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
-                npc.direction = (playerLocation < 0 ? 1 : -1);
+                npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
                 Vector2 vector118 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -433,7 +433,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 float num1057 = (float)Math.Sqrt((double)(num1055 * num1055 + num1056 * num1056));
                 if (num1057 < 600f)
                 {
-                    npc.ai[0] = (((double)npc.life <= (double)npc.lifeMax * 0.66 || CalamityWorld.death || CalamityWorld.bossRushActive) ? 5f : 1f);
+                    npc.ai[0] = ((double)npc.life <= (double)npc.lifeMax * 0.66 || CalamityWorld.death || CalamityWorld.bossRushActive) ? 5f : 1f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                     return;
@@ -507,7 +507,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.velocity *= 0.9f;
 
                 float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
-                npc.direction = (playerLocation < 0 ? 1 : -1);
+                npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
                 if (npc.ai[2] > 2f)
@@ -584,7 +584,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.velocity *= 0.9f;
 
                 float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
-                npc.direction = (playerLocation < 0 ? 1 : -1);
+                npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
                 if (npc.ai[2] > 2f)
@@ -640,7 +640,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1072 *= num1073;
 
                         int num1074 = 40;
-                        int num1075 = (Main.rand.NextBool(2) ? mod.ProjectileType("PlagueStingerGoliath") : mod.ProjectileType("PlagueStingerGoliathV2"));
+                        int num1075 = Main.rand.NextBool(2) ? mod.ProjectileType("PlagueStingerGoliath") : mod.ProjectileType("PlagueStingerGoliathV2");
                         if (expertMode)
                         {
                             num1074 = 32;
@@ -668,7 +668,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 Movement(100f, 400f, 500f);
 
                 float playerLocation = npc.Center.X - Main.player[npc.target].Center.X;
-                npc.direction = (playerLocation < 0 ? 1 : -1);
+                npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
                 if (npc.ai[1] >= 300f)
@@ -725,8 +725,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 {
                                     Vector2 spawn = baseSpawn;
                                     spawn.X = spawn.X + i * 30 - (MissileProjectiles * 15);
-                                    Vector2 velocity = baseVelocity;
-                                    velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / (float)MissileProjectiles)));
+                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / (float)MissileProjectiles)));
                                     velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                                     Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("HiveBombGoliath"), damage, 0f, Main.myPlayer, 0f, Main.player[npc.target].position.Y);
                                 }
@@ -744,14 +743,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                         Vector2 vector117 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
                         float num1045 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector117.X;
-                        float num1046 = (Main.player[npc.target].position.Y - 500f) + (float)(Main.player[npc.target].height / 2) - vector117.Y;
+                        float num1046 = Main.player[npc.target].position.Y - 500f + (float)(Main.player[npc.target].height / 2) - vector117.Y;
                         float num1047 = (float)Math.Sqrt((double)(num1045 * num1045 + num1046 * num1046));
 
                         num1047 = num1044 / num1047;
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
 
-                        npc.direction = (playerLocation < 0 ? 1 : -1);
+                        npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
                         return;
                     }
@@ -788,7 +787,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (npc.velocity.X > 20f)
                         npc.velocity.X = 20f;
 
-                    npc.direction = (playerLocation < 0 ? 1 : -1);
+                    npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
                 }
 
@@ -981,7 +980,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

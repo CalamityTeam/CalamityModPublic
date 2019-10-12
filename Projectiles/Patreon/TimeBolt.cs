@@ -276,17 +276,15 @@ namespace CalamityMod.Projectiles.Patreon
             float angleIncrement = MathHelper.TwoPi / (float)numDust;
             Vector2 dustOffset = new Vector2(radius, 0f);
             dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
-            int dustType = 0;
-            int dust = 0;
             for (int i = 0; i < numDust; i++)
             {
                 dustOffset = dustOffset.RotatedBy(angleIncrement);
-                dustType = Utils.SelectRandom<int>(Main.rand, new int[]
-                {
+                int dustType = Utils.SelectRandom<int>(Main.rand, new int[]
+    {
                     226,
                     229
-                });
-                dust = Dust.NewDust(projectile.Center, 1, 1, dustType);
+    });
+                int dust = Dust.NewDust(projectile.Center, 1, 1, dustType);
                 Main.dust[dust].position = projectile.Center + dustOffset;
                 if (Main.rand.Next(6) != 0)
                     Main.dust[dust].noGravity = true;

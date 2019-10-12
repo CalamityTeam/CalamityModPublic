@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             if (npc.ai[0] <= 2f)
             {
                 npc.rotation = npc.velocity.X * 0.04f;
-                npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+                npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
                 totalDistance = speed / totalDistance;
                 xDistance *= totalDistance;
                 yDistance *= totalDistance;
@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 npc.defense = provy ? 120 : 20;
                 npc.chaseable = true;
                 npc.rotation = npc.velocity.X * 0.04f;
-                npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+                npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
                 Vector2 shootFromVector = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
                 npc.ai[1] += 1f;
 
@@ -453,7 +453,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                         int i;
                         for (i = 0; i < 6; i++)
                         {
-                            offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
                             Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                             Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("BrimstoneBarrage"), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
                         }
@@ -464,7 +464,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 
                 npc.velocity *= 0.95f;
                 npc.rotation = npc.velocity.X * 0.04f;
-                npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+                npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 300f)

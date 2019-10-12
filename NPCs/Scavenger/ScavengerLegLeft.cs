@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.Scavenger
 
         public override void AI()
         {
-            bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
+            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
             Vector2 center = npc.Center;
             if (CalamityGlobalNPC.scavenger < 0 || !Main.npc[CalamityGlobalNPC.scavenger].active)
             {

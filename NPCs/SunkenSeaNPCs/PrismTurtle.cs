@@ -90,8 +90,8 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                     npc.damage = Main.hardMode ? 40 : 20;
                 }
             }
-            Lighting.AddLight(npc.Center, ((255 - npc.alpha) * 0f) / 255f, ((255 - npc.alpha) * 0.75f) / 255f, ((255 - npc.alpha) * 0.75f) / 255f);
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            Lighting.AddLight(npc.Center, (255 - npc.alpha) * 0f / 255f, (255 - npc.alpha) * 0.75f / 255f, (255 - npc.alpha) * 0.75f / 255f);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.noGravity = true;
             if (npc.justHit)
             {
@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (npc.wet ? 0.1f : 0f);
+            npc.frameCounter += npc.wet ? 0.1f : 0f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;

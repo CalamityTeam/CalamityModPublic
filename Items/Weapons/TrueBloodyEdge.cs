@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons
             {
                 return;
             }
-            int healAmount = (Main.rand.Next(6) + 1);
+            int healAmount = Main.rand.Next(6) + 1;
             if (Main.rand.NextBool(2))
             {
                 player.statLife += healAmount;

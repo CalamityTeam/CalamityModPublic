@@ -184,7 +184,7 @@ namespace CalamityMod.NPCs.Cryogen
                     float velocity = CalamityWorld.bossRushActive ? 12f : 8f;
                     for (i = 0; i < 2; i++)
                     {
-                        offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBomb"), num184, 0f, Main.myPlayer, 0f, 0f);
                         Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBomb"), num184, 0f, Main.myPlayer, 0f, 0f);
                     }
@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.Cryogen
                             int i;
                             for (i = 0; i < 8; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                                 Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                             }
@@ -266,7 +266,7 @@ namespace CalamityMod.NPCs.Cryogen
                             int i;
                             for (i = 0; i < 6; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                                 int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                                 int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[ice].timeLeft = 300;
@@ -380,7 +380,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 int i;
                                 for (i = 0; i < 6; i++)
                                 {
-                                    offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                                     int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                                     int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                                     Main.projectile[ice].timeLeft = 300;
@@ -414,7 +414,6 @@ namespace CalamityMod.NPCs.Cryogen
                                     num180 += (float)Main.rand.Next(-100, 101);
                                     num182 += (float)Main.rand.Next(-100, 101);
                                     num180 *= num183;
-                                    num182 *= num183;
                                     Projectile.NewProjectile(value9.X, value9.Y, num180, -10f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
                                 }
                             }
@@ -483,7 +482,6 @@ namespace CalamityMod.NPCs.Cryogen
                                 num180 += (float)Main.rand.Next(-100, 101);
                                 num182 += (float)Main.rand.Next(-100, 101);
                                 num180 *= num183;
-                                num182 *= num183;
                                 Projectile.NewProjectile(value9.X, value9.Y, num180, -10f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }
@@ -586,7 +584,7 @@ namespace CalamityMod.NPCs.Cryogen
                             int i;
                             for (i = 0; i < 6; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                                 int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 9f), (float)(Math.Cos(offsetAngle) * 9f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                                 int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 9f), (float)(-Math.Cos(offsetAngle) * 9f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[ice].timeLeft = 300;

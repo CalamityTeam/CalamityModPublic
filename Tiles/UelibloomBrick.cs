@@ -180,7 +180,7 @@ namespace CalamityMod.Tiles
         private bool CheckTile(int type, bool equal, int x, int y, int i, int j)
         {
             //Subtract y so that y is vertical for ease of readability
-            return (Main.tile[i + x, j - y].type == type) == equal;
+            return Main.tile[i + x, j - y].type == type == equal;
         }
 
         private Color GetDrawColour(int i, int j)
@@ -198,9 +198,9 @@ namespace CalamityMod.Tiles
                 paintCol = Color.Black;
             }
             Color col = Lighting.GetColor(i, j);
-            col.R = (byte)((paintCol.R / 255f) * col.R);
-            col.G = (byte)((paintCol.G / 255f) * col.G);
-            col.B = (byte)((paintCol.B / 255f) * col.B);
+            col.R = (byte)(paintCol.R / 255f * col.R);
+            col.G = (byte)(paintCol.G / 255f * col.G);
+            col.B = (byte)(paintCol.B / 255f * col.B);
             return col;
         }
 
@@ -226,7 +226,7 @@ namespace CalamityMod.Tiles
 
         private int GetExtraPattern(int i)
         {
-            return (i % 3) * extraFrameHeight;
+            return i % 3 * extraFrameHeight;
         }
 
         private int GetExtraVariant(int i, int j)

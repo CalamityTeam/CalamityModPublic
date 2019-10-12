@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
             {
                 maxMinionScale = 10;
             }
-            damage = (int)(damage * ((player.minionDamage * 5 / 3) + ((player.minionDamage * 0.46f) * (maxMinionScale - 1))));
+            damage = (int)(damage * ((player.minionDamage * 5 / 3) + (player.minionDamage * 0.46f * (maxMinionScale - 1))));
             int owner = player.whoAmI;
             float num72 = item.shootSpeed;
             player.itemTime = item.useTime;

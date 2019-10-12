@@ -68,15 +68,15 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.timeLeft = 2;
             }
             Vector2 value68 = Vector2.Zero;
-            float num1064 = 0f;
-            float scaleFactor17 = 0f;
-            float scaleFactor18 = 1f;
             if (projectile.ai[1] == 1f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
             int chase = (int)projectile.ai[0];
+            float num1064;
+            float scaleFactor17;
+            float scaleFactor18;
             if (chase >= 0 && Main.projectile[chase].active)
             {
                 value68 = Main.projectile[chase].Center;
@@ -106,13 +106,13 @@ namespace CalamityMod.Projectiles.Summon
             projectile.rotation = vector134.ToRotation() + 1.57079637f;
             projectile.position = projectile.Center;
             projectile.scale = scaleFactor18;
-            projectile.width = (projectile.height = (int)((float)num1051 * projectile.scale));
+            projectile.width = projectile.height = (int)((float)num1051 * projectile.scale);
             projectile.Center = projectile.position;
             if (vector134 != Vector2.Zero)
             {
                 projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
             }
-            projectile.spriteDirection = ((vector134.X > 0f) ? 1 : -1);
+            projectile.spriteDirection = (vector134.X > 0f) ? 1 : -1;
             return;
         }
 

@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.ai[0] == 1f)
             {
                 projectile.position = projectile.Center;
-                projectile.width = (projectile.height = (int)(52f * projectile.scale));
+                projectile.width = projectile.height = (int)(52f * projectile.scale);
                 projectile.Center = projectile.position;
                 Main.PlaySound(SoundID.Item14, projectile.position);
                 for (int num991 = 0; num991 < 4; num991 = num3 + 1)

@@ -743,7 +743,7 @@ namespace CalamityMod.UI
                     return;
                 }
 
-                float percentHealth = (_prevLife / _maxHealth);
+                float percentHealth = _prevLife / _maxHealth;
                 int mainBarWidth = (int)(BarMaxWidth * percentHealth);
 
                 if (_inCombo)
@@ -1031,7 +1031,7 @@ namespace CalamityMod.UI
                 float percentThroughAnim = _closeAnimCounter / (float)CloseAnimTime;
                 float reversePercent = 1f - percentThroughAnim;
 
-                float percentHealth = (_prevLife / _maxHealth);
+                float percentHealth = _prevLife / _maxHealth;
                 if (percentHealth < 0)
                     percentHealth = 0;
 

@@ -52,8 +52,8 @@ namespace CalamityMod.Projectiles.Patreon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Patreon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = (Main.projectile[num638].type == mod.ProjectileType("PinkButterfly"));
+                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("PinkButterfly");
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)
@@ -131,7 +131,6 @@ namespace CalamityMod.Projectiles.Patreon
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
                     {
-                        num633 = num646;
                         vector46 = npc.Center;
                         flag25 = true;
                     }
@@ -187,7 +186,7 @@ namespace CalamityMod.Projectiles.Patreon
                 bool flag26 = false;
                 if (!flag26)
                 {
-                    flag26 = (projectile.ai[0] == 1f);
+                    flag26 = projectile.ai[0] == 1f;
                 }
                 float num650 = 10f;
                 if (flag26)
@@ -269,7 +268,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            SpriteEffects spriteEffects = (projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+            SpriteEffects spriteEffects = projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;

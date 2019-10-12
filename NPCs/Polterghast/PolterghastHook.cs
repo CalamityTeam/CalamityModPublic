@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 npc.TargetClosest(true);
 
-                Movement(phase2, (Main.expertMode || CalamityWorld.bossRushActive), (CalamityWorld.revenge || CalamityWorld.bossRushActive), speedBoost1, despawnBoost, lifeRatio);
+                Movement(phase2, Main.expertMode || CalamityWorld.bossRushActive, CalamityWorld.revenge || CalamityWorld.bossRushActive, speedBoost1, despawnBoost, lifeRatio);
 
                 // Fire projectiles
                 Vector2 vector17 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Phase 1 or 3
             phase2 = false;
-            Movement(phase2, (Main.expertMode || CalamityWorld.bossRushActive), (CalamityWorld.revenge || CalamityWorld.bossRushActive), speedBoost1, despawnBoost, lifeRatio);
+            Movement(phase2, Main.expertMode || CalamityWorld.bossRushActive, CalamityWorld.revenge || CalamityWorld.bossRushActive, speedBoost1, despawnBoost, lifeRatio);
         }
 
         private void Movement(bool phase2, bool expertMode, bool revenge, bool speedBoost1, bool despawnBoost, float lifeRatio)
@@ -158,9 +158,9 @@ namespace CalamityMod.NPCs.Polterghast
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 if (npc.ai[0] == 0f)
-                    npc.ai[0] = (float)((int)(npc.Center.X / 16f));
+                    npc.ai[0] = (float)(int)(npc.Center.X / 16f);
                 if (npc.ai[1] == 0f)
-                    npc.ai[1] = (float)((int)(npc.Center.X / 16f));
+                    npc.ai[1] = (float)(int)(npc.Center.X / 16f);
             }
 
             if (Main.netMode != NetmodeID.MultiplayerClient)

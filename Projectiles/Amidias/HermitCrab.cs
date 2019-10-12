@@ -58,8 +58,8 @@ namespace CalamityMod.Projectiles.Amidias
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Amidias
                     if (npcTarget.CanBeChasedBy(projectile, false))
                     {
                         float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
-                        if (((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC))
+                        if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
                         {
                             num633 = num646;
                             vector46 = npcTarget.Center;

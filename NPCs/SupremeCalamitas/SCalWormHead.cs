@@ -29,7 +29,9 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 56; //324
             npc.height = 62; //216
             npc.defense = 0;
-            npc.takenDamageMultiplier = 1E-6f;
+            CalamityGlobalNPC global = npc.Calamity();
+            global.DR = 0.999999f;
+            global.unbreakableDR = true;
             npc.lifeMax = CalamityWorld.revenge ? 1200000 : 1000000;
             if (CalamityWorld.death)
             {
@@ -98,7 +100,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength && num36 % 2 == 0)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("SCalWormBodyWeak"), npc.whoAmI);

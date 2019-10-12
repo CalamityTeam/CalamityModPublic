@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 1040);
+            projectile.width = projectile.height = 1040;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             if (projectile.owner == Main.myPlayer)

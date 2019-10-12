@@ -107,8 +107,8 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Variables
             Player player = Main.player[npc.target];
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             Vector2 vector = npc.Center;
             Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);
             bool isNotOcean = player.position.Y < 800f || (double)player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (float)(Main.maxTilesX * 16 - 6400));
@@ -231,7 +231,7 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     forceChargeFrames = false;
                     float playerLocation = vector.X - player.Center.X;
-                    npc.direction = (playerLocation < 0 ? 1 : -1);
+                    npc.direction = playerLocation < 0 ? 1 : -1;
                     npc.spriteDirection = npc.direction;
                 }
                 else
@@ -493,7 +493,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
 
                 float playerLocation = vector.X - player.Center.X;
-                npc.direction = (playerLocation < 0 ? 1 : -1);
+                npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
                 if (npc.ai[1] >= 300f)
@@ -514,7 +514,7 @@ namespace CalamityMod.NPCs.Leviathan
                 if (npc.ai[1] >= (expertMode ? 40f : 60f))
                 {
                     forceChargeFrames = true;
-                    npc.ai[0] = (npc.ai[2] >= (leviAlive ? 2f : 3f) ? -1f : 4f);
+                    npc.ai[0] = npc.ai[2] >= (leviAlive ? 2f : 3f) ? -1f : 4f;
                     npc.ai[1] = 0f;
                     npc.localAI[0] = 0f;
 
@@ -547,7 +547,7 @@ namespace CalamityMod.NPCs.Leviathan
                 int num24 = 7;
                 for (int j = 0; j < num24; j++)
                 {
-                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default) + vector;
+                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)(float)num24, default) + vector;
                     Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                     int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
                     Main.dust[num25].noGravity = true;

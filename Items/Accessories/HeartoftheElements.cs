@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, ((float)Main.DiscoR / 255f), ((float)Main.DiscoG / 255f), ((float)Main.DiscoB / 255f));
+            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.allWaifus = !hideVisual;
             modPlayer.elementalHeart = true;

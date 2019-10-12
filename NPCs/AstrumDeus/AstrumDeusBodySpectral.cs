@@ -93,8 +93,8 @@ namespace CalamityMod.NPCs.AstrumDeus
                 npc.dontTakeDamage = Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].dontTakeDamage;
                 npc.chaseable = Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].chaseable;
             }
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (npc.ai[3] > 0f)
             {
@@ -242,10 +242,10 @@ namespace CalamityMod.NPCs.AstrumDeus
             Mod mod = ModLoader.GetMod("CalamityMod");
             Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAltSpectral");
             SpriteEffects spriteEffects = SpriteEffects.None;
-            Color newColor = (npc.dontTakeDamage ? lightColor : drawColor);
+            Color newColor = npc.dontTakeDamage ? lightColor : drawColor;
             Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(newColor);
             Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            Texture2D texture2D3 = (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]);
+            Texture2D texture2D3 = npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type];
             int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
             int y3 = num156 * (int)npc.frameCounter;
             Microsoft.Xna.Framework.Rectangle rectangle = new Microsoft.Xna.Framework.Rectangle(0, y3, texture2D3.Width, num156);
@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

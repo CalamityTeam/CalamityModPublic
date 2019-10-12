@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[0] == 1f)
             {
                 projectile.position = projectile.Center;
-                projectile.width = (projectile.height = (int)(52f * projectile.scale));
+                projectile.width = projectile.height = (int)(52f * projectile.scale);
                 projectile.Center = projectile.position;
                 projectile.Damage();
                 for (int num1000 = 0; num1000 < 2; num1000++)

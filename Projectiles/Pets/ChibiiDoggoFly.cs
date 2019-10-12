@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Pets
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
+            while ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157))
             {
                 Microsoft.Xna.Framework.Color color26 = color25;
                 color26 = projectile.GetAlpha(color26);
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Pets
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
-                Vector2 value4 = (projectile.oldPos[num161]);
+                Vector2 value4 = projectile.oldPos[num161];
                 float num165 = projectile.rotation;
                 SpriteEffects effects = spriteEffects;
                 Main.spriteBatch.Draw(texture2D3, value4 + projectile.Size / 2f - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + projectile.rotation * num160 * (float)(num161 - 1) * projectile.spriteDirection, origin2, projectile.scale, effects, 0f);

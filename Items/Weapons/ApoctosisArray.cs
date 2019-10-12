@@ -42,10 +42,10 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float manaAmount = ((float)player.statMana * 0.01f);
+            float manaAmount = (float)player.statMana * 0.01f;
             float damageMult = manaAmount;
             int projectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * damageMult), knockBack, player.whoAmI, 0.0f, 0.0f);
-            Main.projectile[projectile].scale = (manaAmount * 0.375f);
+            Main.projectile[projectile].scale = manaAmount * 0.375f;
             return false;
         }
 

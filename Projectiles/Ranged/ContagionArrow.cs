@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
                 }
                 addBallTimer = 10;
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
             if (projectile.ai[0] <= 60f)
             {
                 projectile.ai[0] += 1f;

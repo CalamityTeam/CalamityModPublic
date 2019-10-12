@@ -192,49 +192,38 @@ namespace CalamityMod.Utilities
             Tile tile7 = Main.tile[x + 1, y + 1];
             Tile tile8 = Main.tile[x - 1, y - 1];
             Tile tile9 = Main.tile[x + 1, y - 1];
-            int num52 = -1;
-            int num53 = -1;
-            int num54 = -1;
-            int num55 = -1;
-            int num56 = -1;
-            int num57 = -1;
-            int num58 = -1;
-            int num59 = -1;
             if (tile4 != null && tile4.active())
             {
                 if (Main.tileStone[(int)tile4.type])
                 {
-                    num55 = 1;
                 }
                 else
                 {
-                    num55 = (int)tile4.type;
+                    int num55 = (int)tile4.type;
                 }
                 if (tile4.slope() == 1 || tile4.slope() == 3)
                 {
-                    num55 = -1;
                 }
             }
             if (tile5 != null && tile5.active())
             {
                 if (Main.tileStone[(int)tile5.type])
                 {
-                    num56 = 1;
                 }
                 else
                 {
-                    num56 = (int)tile5.type;
+                    int num56 = (int)tile5.type;
                 }
                 if (tile5.slope() == 2 || tile5.slope() == 4)
                 {
-                    num56 = -1;
                 }
             }
+
+            int num53;
             if (tile2 != null && tile2.active())
             {
                 if (Main.tileStone[(int)tile2.type])
                 {
-                    num53 = 1;
                 }
                 else
                 {
@@ -242,87 +231,72 @@ namespace CalamityMod.Utilities
                 }
                 if (tile2.slope() == 3 || tile2.slope() == 4)
                 {
-                    num53 = -1;
                 }
             }
             if (tile3 != null && tile3.active())
             {
                 if (Main.tileStone[(int)tile3.type])
                 {
-                    num58 = 1;
                 }
                 else
                 {
-                    num58 = (int)tile3.type;
+                    int num58 = (int)tile3.type;
                 }
                 if (tile3.slope() == 1 || tile3.slope() == 2)
                 {
-                    num58 = -1;
                 }
             }
             if (tile8 != null && tile8.active())
             {
                 if (Main.tileStone[(int)tile8.type])
                 {
-                    num52 = 1;
                 }
                 else
                 {
-                    num52 = (int)tile8.type;
+                    int num52 = (int)tile8.type;
                 }
             }
             if (tile9 != null && tile9.active())
             {
                 if (Main.tileStone[(int)tile9.type])
                 {
-                    num54 = 1;
                 }
                 else
                 {
-                    num54 = (int)tile9.type;
+                    int num54 = (int)tile9.type;
                 }
             }
             if (tile6 != null && tile6.active())
             {
                 if (Main.tileStone[(int)tile6.type])
                 {
-                    num57 = 1;
                 }
                 else
                 {
-                    num57 = (int)tile6.type;
+                    int num57 = (int)tile6.type;
                 }
             }
             if (tile7 != null && tile7.active())
             {
                 if (Main.tileStone[(int)tile7.type])
                 {
-                    num59 = 1;
                 }
                 else
                 {
-                    num59 = (int)tile7.type;
+                    int num59 = (int)tile7.type;
                 }
             }
             if (tile.slope() == 2)
             {
-                num53 = -1;
-                num55 = -1;
             }
             if (tile.slope() == 1)
             {
-                num53 = -1;
-                num56 = -1;
             }
             if (tile.slope() == 4)
             {
-                num58 = -1;
-                num55 = -1;
             }
             if (tile.slope() == 3)
             {
-                num58 = -1;
-                num56 = -1;
             }
 
             if (tile2 != null)

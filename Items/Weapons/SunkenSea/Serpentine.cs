@@ -59,8 +59,7 @@ namespace CalamityMod.Items.Weapons.SunkenSea
             {
                 dist = num72 / dist;
             }
-            velX *= dist;
-            velY *= dist;
+
             float num77 = Vector2.Dot(value, vector3);
             if (num77 > 0f)
             {

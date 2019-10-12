@@ -64,8 +64,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
 
         public override void HitWire(int i, int j)
         {
-            int x = i - (Main.tile[i, j].frameX / 18) % 1;
-            int y = j - (Main.tile[i, j].frameY / 18) % 3;
+            int x = i - Main.tile[i, j].frameX / 18 % 1;
+            int y = j - Main.tile[i, j].frameY / 18 % 3;
             for (int l = x - 3; l < x + 3; l++)
             {
                 for (int m = y - 3; m < y + 3; m++)

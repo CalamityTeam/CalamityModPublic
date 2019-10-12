@@ -52,8 +52,8 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int shoot = revenge ? 5 : 4;
@@ -107,7 +107,7 @@ namespace CalamityMod.NPCs.Perforator
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
             Texture2D texture = mod.GetTexture("NPCs/Perforator/PerforatorBodyLargeAlt");
-            CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, drawColor);
+            CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, drawColor);
             return false;
         }
 

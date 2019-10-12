@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 48);
+            projectile.width = projectile.height = 48;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 28);

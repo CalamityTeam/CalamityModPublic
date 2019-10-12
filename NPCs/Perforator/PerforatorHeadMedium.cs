@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             float speedMult = expertMode ? 1.5f : 1.425f;
             if (CalamityWorld.bossRushActive)
                 speedMult = 3f;
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.Perforator
                 int Previous = npc.whoAmI;
                 for (int num36 = 0; num36 < maxLength; num36++)
                 {
-                    int lol = 0;
+                    int lol;
                     if (num36 >= 0 && num36 < minLength)
                     {
                         lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("PerforatorBodyMedium"), npc.whoAmI);

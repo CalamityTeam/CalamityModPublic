@@ -57,8 +57,8 @@ namespace CalamityMod.Items.Patreon
             speed.Normalize();
             speed *= 22f;
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 leftOffset = speed.RotatedBy((double)(MathHelper.PiOver4), default);
-            Vector2 rightOffset = speed.RotatedBy((double)(-MathHelper.PiOver4), default);
+            Vector2 leftOffset = speed.RotatedBy((double)MathHelper.PiOver4, default);
+            Vector2 rightOffset = speed.RotatedBy((double)-MathHelper.PiOver4, default);
             leftOffset -= 1.4f * speed;
             rightOffset -= 1.4f * speed;
             Projectile.NewProjectile(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
@@ -102,7 +102,7 @@ namespace CalamityMod.Items.Patreon
             for (int i = 0; i < dustCount; ++i)
             {
                 // Pick a random dust to spawn
-                int dustID = -1;
+                int dustID;
                 switch (Main.rand.Next(5))
                 {
                     case 0:

@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.Kill();
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 300f;

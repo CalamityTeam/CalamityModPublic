@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons
         {
             for (int index = 0; index < 3; ++index)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(double)damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

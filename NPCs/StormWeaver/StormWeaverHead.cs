@@ -31,7 +31,9 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.width = 74;
             npc.height = 74;
             npc.defense = 0;
-            npc.takenDamageMultiplier = 1E-6f;
+            CalamityGlobalNPC global = npc.Calamity();
+            global.DR = 0.999999f;
+            global.unbreakableDR = true;
             npc.lifeMax = 20000;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -82,7 +84,7 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             if (npc.defense < 99999 && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 npc.defense = 99999;
@@ -128,7 +130,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("StormWeaverBody"), npc.whoAmI);
@@ -153,7 +155,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);
                     npc.netUpdate = true;
-                    float xPos = (Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f);
+                    float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
                     Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
                     Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
@@ -181,8 +183,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             Vector2 spawn2 = baseSpawn;
                             spawn2.X = spawn2.X + i * 30 - (BoltProjectiles * 15);
-                            Vector2 velocity = baseVelocity;
-                            velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
+                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             Vector2 vector94 = Main.player[npc.target].Center - spawn2;
                             float ai = (float)Main.rand.Next(100);

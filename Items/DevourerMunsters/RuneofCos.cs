@@ -32,7 +32,7 @@ namespace CalamityMod.Items.DevourerMunsters
         public override bool CanUseItem(Player player)
         {
             return (player.ZoneSkyHeight || player.ZoneUnderworldHeight || player.ZoneDungeon) &&
-                (!NPC.AnyNPCs(mod.NPCType("StormWeaverHead")) && !NPC.AnyNPCs(mod.NPCType("StormWeaverHeadNaked")) && !NPC.AnyNPCs(mod.NPCType("CeaselessVoid")) && !NPC.AnyNPCs(mod.NPCType("CosmicWraith")));
+                !NPC.AnyNPCs(mod.NPCType("StormWeaverHead")) && !NPC.AnyNPCs(mod.NPCType("StormWeaverHeadNaked")) && !NPC.AnyNPCs(mod.NPCType("CeaselessVoid")) && !NPC.AnyNPCs(mod.NPCType("CosmicWraith"));
         }
 
         public override bool UseItem(Player player)

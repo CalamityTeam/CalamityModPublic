@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
                                                  projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f, mod.ProjectileType("BansheeHookScythe"), (int)((double)projectile.damage * 1.75), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
                     }
                 }
-                projectile.spriteDirection = (projectile.direction = player.direction);
+                projectile.spriteDirection = projectile.direction = player.direction;
                 projectile.alpha -= 127;
                 if (projectile.alpha < 0)
                 {

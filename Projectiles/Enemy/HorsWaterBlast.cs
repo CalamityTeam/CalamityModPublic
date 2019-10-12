@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Enemy
                 projectile.ai[1] = 1f;
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.35f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
             for (int num457 = 0; num457 < 10; num457++)
             {
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1.2f);

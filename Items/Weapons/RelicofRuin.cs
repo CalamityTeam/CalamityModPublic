@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons
             int i;
             for (i = 0; i < 8; i++)
             {
-                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                 Projectile.NewProjectile(position.X, position.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), type, damage, knockBack, Main.myPlayer);
                 Projectile.NewProjectile(position.X, position.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), type, damage, knockBack, Main.myPlayer);
             }

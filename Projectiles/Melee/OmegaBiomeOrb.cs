@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
             bool stardust = player.ZoneTowerStardust;
             bool solar = player.ZoneTowerSolar;
             bool vortex = player.ZoneTowerVortex;
-            int dustType = 0;
+            int dustType;
             if (jungle)
             {
                 dustType = 39;

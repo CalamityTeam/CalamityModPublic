@@ -99,7 +99,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             CalamityGlobalNPC.astrumDeusHeadMain = npc.whoAmI;
             colorChange = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
             int astrumDeusTotalHP = 0;
-            double astrumDeusHPRatio = 0;
             double mainDeusHPRatio = (double)npc.life / (double)npc.lifeMax;
             if (colorChange)
             {
@@ -115,7 +114,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                         }
                     }
                 }
-                astrumDeusHPRatio = (double)astrumDeusTotalHP / (double)astrumDeusTotalHPMax;
+                double astrumDeusHPRatio = (double)astrumDeusTotalHP / (double)astrumDeusTotalHPMax;
                 if (astrumDeusHPRatio < 0.33)
                 {
                     if (mainDeusHPRatio > 0.33)
@@ -129,7 +128,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             npc.dontTakeDamage = colorChange;
             npc.chaseable = !colorChange;
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             float speedLimit = CalamityWorld.revenge ? 7f : 6f;
             float turnSpeedLimit = CalamityWorld.revenge ? 0.11f : 0.1f;
             if (CalamityWorld.death)
@@ -180,7 +179,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AstrumDeusBodySpectral"), npc.whoAmI);
@@ -404,7 +403,7 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Color lightColor = new Color(250, 150, Main.DiscoB, npc.alpha);
-            Color newColor = (colorChange ? lightColor : drawColor);
+            Color newColor = colorChange ? lightColor : drawColor;
             SpriteEffects spriteEffects = SpriteEffects.None;
             Microsoft.Xna.Framework.Color color24 = npc.GetAlpha(newColor);
             Microsoft.Xna.Framework.Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
@@ -434,7 +433,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

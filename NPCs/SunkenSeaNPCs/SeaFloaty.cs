@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (hasBeenHit ? 0.3f : 0.15f);
+            npc.frameCounter += hasBeenHit ? 0.3f : 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;

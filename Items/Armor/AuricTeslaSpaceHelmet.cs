@@ -99,7 +99,7 @@ namespace CalamityMod.Items.Armor
                     {
                         maxMinionScale = 10;
                     }
-                    int damage = (int)(35 * ((player.minionDamage * 5 / 3) + ((player.minionDamage * 0.46f) * (maxMinionScale - 1))));
+                    int damage = (int)(35 * ((player.minionDamage * 5 / 3) + (player.minionDamage * 0.46f * (maxMinionScale - 1))));
                     Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
                     Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
                     Vector2 vector3 = Main.MouseWorld - vector2;

@@ -111,8 +111,8 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 vector = npc.Center;
             bool speedBoost1 = false;
             bool despawnBoost = false;
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool phase2 = (double)npc.life < (double)npc.lifeMax * 0.75; //hooks fire beams
             bool phase3 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.5 : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
             bool phase4 = (double)npc.life < (double)npc.lifeMax * (revenge ? 0.33 : 0.2); //starts spitting ghost dudes
@@ -362,7 +362,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += (expertMode ? 1.5f : 1f);
+                    npc.localAI[1] += expertMode ? 1.5f : 1f;
                     if (speedBoost1 || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.Y += num744 * 3f;
 
                             int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = (num747 == mod.ProjectileType("PhantomBlast") ? 300 : 1200);
+                            Main.projectile[num748].timeLeft = num747 == mod.ProjectileType("PhantomBlast") ? 300 : 1200;
                         }
                         else
                         {
@@ -496,7 +496,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += (expertMode ? 1.5f : 1f);
+                    npc.localAI[1] += expertMode ? 1.5f : 1f;
                     if (speedBoost1 || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
@@ -547,7 +547,7 @@ namespace CalamityMod.NPCs.Polterghast
                             vector93.Y += num744 * 3f;
 
                             int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = (num747 == mod.ProjectileType("PhantomBlast2") ? 300 : 1200);
+                            Main.projectile[num748].timeLeft = num747 == mod.ProjectileType("PhantomBlast2") ? 300 : 1200;
                         }
                         else
                         {

@@ -18,10 +18,10 @@ namespace CalamityMod.World.Planets
     {
         private ushort[] oreTypes = new ushort[]
         {
-            (WorldGen.CopperTierOre == TileID.Copper ? TileID.Tin : TileID.Copper),
-            (WorldGen.IronTierOre == TileID.Iron ? TileID.Lead : TileID.Iron),
-            (WorldGen.SilverTierOre== TileID.Silver ? TileID.Tungsten : TileID.Silver),
-            (WorldGen.GoldTierOre == TileID.Gold ? TileID.Platinum : TileID.Gold)
+            WorldGen.CopperTierOre == TileID.Copper ? TileID.Tin : TileID.Copper,
+            WorldGen.IronTierOre == TileID.Iron ? TileID.Lead : TileID.Iron,
+            WorldGen.SilverTierOre== TileID.Silver ? TileID.Tungsten : TileID.Silver,
+            WorldGen.GoldTierOre == TileID.Gold ? TileID.Platinum : TileID.Gold
         };
 
         public override bool Place(Point origin, StructureMap structures)

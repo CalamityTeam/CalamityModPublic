@@ -123,7 +123,7 @@ namespace CalamityMod.Items.Weapons
             {
                 return;
             }
-            int healAmount = (Main.rand.Next(10) + 10);
+            int healAmount = Main.rand.Next(10) + 10;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }

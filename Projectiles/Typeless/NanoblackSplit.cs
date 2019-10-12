@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Typeless
         private void HomingAI()
         {
             // If we don't currently have a target, go try and get one!
-            int targetID = (int)(projectile.ai[0]) - 1;
+            int targetID = (int)projectile.ai[0] - 1;
             if (targetID < 0)
                 targetID = AcquireTarget();
 

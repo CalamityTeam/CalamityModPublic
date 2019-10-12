@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame = 0;
             }
             projectile.alpha += 1;
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.9f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
             }
             else
             {

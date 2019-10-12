@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.Astrageldon
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
-            return (npc.alpha == 0 && npc.ai[0] > 1f);
+            return npc.alpha == 0 && npc.ai[0] > 1f;
         }
 
         public override void FindFrame(int frameHeight)

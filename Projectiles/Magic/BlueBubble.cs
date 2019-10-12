@@ -50,7 +50,6 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (num745 < -3.1415926535897931)
             {
-                num745 += 6.2831853071795862;
             }
             projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
             if (Main.myPlayer == projectile.owner && projectile.timeLeft > 120)

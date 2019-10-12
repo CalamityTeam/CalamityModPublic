@@ -37,11 +37,11 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int num41 = 0; num41 < 2; num41++)
                 {
-                    int dustType = (num41 == 0 ? 67 : 174);
+                    int dustType = num41 == 0 ? 67 : 174;
                     Vector2 value8 = Vector2.UnitX * -12f;
                     value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7;
                     int num42 = Dust.NewDust(projectile.Center, 0, 0, dustType, 0f, 0f, 160, default, 1f);
-                    Main.dust[num42].scale = (dustType == 67 ? 1.5f : 1f);
+                    Main.dust[num42].scale = dustType == 67 ? 1.5f : 1f;
                     Main.dust[num42].noGravity = true;
                     Main.dust[num42].position = projectile.Center + value8;
                     Main.dust[num42].velocity = projectile.velocity;

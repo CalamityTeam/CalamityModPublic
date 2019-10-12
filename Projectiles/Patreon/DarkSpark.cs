@@ -181,7 +181,6 @@ namespace CalamityMod.Projectiles.Patreon
             int num215 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y7 = num215 * projectile.frame;
             Vector2 vector27 = (projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition).Floor();
-            float scale5 = 1f;
             if (Main.player[projectile.owner].shroomiteStealth && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].ranged)
             {
                 float num216 = Main.player[projectile.owner].stealth;
@@ -191,7 +190,6 @@ namespace CalamityMod.Projectiles.Patreon
                 }
                 float arg_97B3_0 = (1f + num216 * 10f) / 11f;
                 color25 *= num216;
-                scale5 = num216;
             }
             if (Main.player[projectile.owner].setVortex && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].ranged)
             {
@@ -202,7 +200,6 @@ namespace CalamityMod.Projectiles.Patreon
                 }
                 float arg_9854_0 = (1f + num217 * 10f) / 11f;
                 color25 = color25.MultiplyRGBA(new Microsoft.Xna.Framework.Color(Vector4.Lerp(Vector4.One, new Vector4(0.16f, 0.12f, 0f, 0f), 1f - num217)));
-                scale5 = num217;
             }
             Main.spriteBatch.Draw(texture2D14, vector27, new Microsoft.Xna.Framework.Rectangle?(new Microsoft.Xna.Framework.Rectangle(0, y7, texture2D14.Width, num215)), projectile.GetAlpha(color25), projectile.rotation, new Vector2((float)texture2D14.Width / 2f, (float)num215 / 2f), projectile.scale, spriteEffects, 0f);
             float scaleFactor2 = (float)Math.Cos((double)(6.28318548f * (projectile.ai[0] / 120f))) * 2f + 2f;
@@ -220,7 +217,7 @@ namespace CalamityMod.Projectiles.Patreon
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.ai[0] < 255f)
-                return new Color((int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.localAI[1]));
+                return new Color((int)projectile.ai[0], (int)projectile.ai[0], (int)projectile.ai[0], (int)projectile.localAI[1]);
             else
                 return new Color(255, 255, 255, 0);
         }

@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ai[0] += 4f;
             int num462 = 0;
             float scale = 0.7f;
-            int dustType = (Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
+            int dustType = Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue");
             if (projectile.ai[1] == 0f)
             {
                 scale = 1.5f;

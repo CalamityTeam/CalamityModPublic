@@ -30,7 +30,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.width = 254; //36
             npc.height = 138; //20
             npc.defense = 3000;
-            npc.takenDamageMultiplier = 1E-6f;
+            CalamityGlobalNPC global = npc.Calamity();
+            global.DR = 0.999999f;
+            global.unbreakableDR = true;
             npc.lifeMax = 1000000;
             npc.aiStyle = -1;
             aiType = -1;
@@ -103,7 +105,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             if (num36 % 2 == 0)
@@ -137,7 +139,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         npc.TargetClosest(true);
                         npc.netUpdate = true;
                         int damage = Main.expertMode ? 300 : 400;
-                        float xPos = (Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f);
+                        float xPos = Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f;
                         Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-200, 201));
                         int random = Main.rand.Next(3);
                         if (random == 0)

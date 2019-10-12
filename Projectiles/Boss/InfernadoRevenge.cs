@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Boss
             int num617 = 88;
             if (projectile.velocity.X != 0f)
             {
-                projectile.direction = (projectile.spriteDirection = -Math.Sign(projectile.velocity.X));
+                projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
             }
             projectile.frameCounter++;
             if (projectile.frameCounter > 2)
@@ -121,10 +121,10 @@ namespace CalamityMod.Projectiles.Boss
                 float num623 = (float)projectile.width / 5f;
                 num623 *= 2f;
                 float num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X - num624 * (float)(-(float)projectile.direction);
+                projectile.position.X = projectile.position.X - num624 * (float)-(float)projectile.direction;
                 projectile.ai[0] -= 1f;
                 num624 = (float)(Math.Cos((double)(num622 * -(double)projectile.ai[0])) - 0.5) * num623;
-                projectile.position.X = projectile.position.X + num624 * (float)(-(float)projectile.direction);
+                projectile.position.X = projectile.position.X + num624 * (float)-(float)projectile.direction;
                 return;
             }
         }

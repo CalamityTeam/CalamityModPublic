@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.alpha += 10;
                 projectile.damage = (int)((double)projectile.damage * 0.95);
-                projectile.knockBack = (float)((int)((double)projectile.knockBack * 0.95));
+                projectile.knockBack = (float)(int)((double)projectile.knockBack * 0.95);
                 if (projectile.alpha >= 255)
                 {
                     projectile.active = false;

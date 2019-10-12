@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.ai[0] >= 120f)
             {
                 projectile.damage = (int)((double)projectile.damage * 0.995);
-                projectile.knockBack = (float)((int)((double)projectile.knockBack * 0.995));
+                projectile.knockBack = (float)(int)((double)projectile.knockBack * 0.995);
             }
         }
 
@@ -77,7 +77,6 @@ namespace CalamityMod.Projectiles.Ranged
             if (num139 == 0f)
             {
                 projectile.localAI[0] = num138;
-                num139 = num138;
             }
             return false;
         }

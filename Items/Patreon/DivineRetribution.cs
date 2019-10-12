@@ -50,8 +50,6 @@ namespace CalamityMod.Items.Patreon
             if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
             {
                 num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
             }
             else
             {
@@ -79,7 +77,7 @@ namespace CalamityMod.Items.Patreon
                 num79 *= num80;
                 float speedX6 = num78 + (float)Main.rand.Next(-60, 61) * 0.02f;
                 float speedY7 = num79 + (float)Main.rand.Next(-60, 61) * 0.02f;
-                float ai1 = (Main.rand.NextFloat() + 0.5f);
+                float ai1 = Main.rand.NextFloat() + 0.5f;
                 int bullet2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, damage, knockBack, player.whoAmI, 0.0f, ai1);
             }
             return false;

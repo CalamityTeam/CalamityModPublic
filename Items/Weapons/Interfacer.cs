@@ -70,8 +70,6 @@ namespace CalamityMod.Items.Weapons
             if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
             {
                 num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
             }
             else
             {

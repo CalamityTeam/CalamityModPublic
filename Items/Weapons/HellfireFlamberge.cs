@@ -35,12 +35,8 @@ namespace CalamityMod.Items.Weapons
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
-            float SpeedA = speedX;
-            float SpeedB = speedY;
             for (int index = 0; index < 3; ++index)
             {
-                float num7 = speedX;
-                float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
                 switch (index)

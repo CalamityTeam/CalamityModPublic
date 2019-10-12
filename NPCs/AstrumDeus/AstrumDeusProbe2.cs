@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool PreAI()
         {
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             if (start)
             {
                 for (int num621 = 0; num621 < 5; num621++)
@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 return false;
             }
             Player player = Main.player[npc.target];
-            int npcType = (anySmallDeusHeads ? mod.NPCType("AstrumDeusHead") : mod.NPCType("AstrumDeusHeadSpectral"));
+            int npcType = anySmallDeusHeads ? mod.NPCType("AstrumDeusHead") : mod.NPCType("AstrumDeusHeadSpectral");
             NPC parent = Main.npc[NPC.FindFirstNPC(npcType)];
             double deg = (double)npc.ai[1];
             double rad = deg * (Math.PI / 180);

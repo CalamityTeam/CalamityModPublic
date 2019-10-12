@@ -101,7 +101,7 @@ namespace CalamityMod.Walls
             }
             sheetOffset[0] = sheetOffset[0] * 468;
             sheetOffset[1] = sheetOffset[1] * 180;
-            return (sheetOffset);
+            return sheetOffset;
         }
 
         private Color GetWallColour(int i, int j)
@@ -119,9 +119,9 @@ namespace CalamityMod.Walls
                 paintCol = Color.Black;
             }
             Color col = Lighting.GetColor(i, j);
-            col.R = (byte)((paintCol.R / 255f) * col.R);
-            col.G = (byte)((paintCol.G / 255f) * col.G);
-            col.B = (byte)((paintCol.B / 255f) * col.B);
+            col.R = (byte)(paintCol.R / 255f * col.R);
+            col.G = (byte)(paintCol.G / 255f * col.G);
+            col.B = (byte)(paintCol.B / 255f * col.B);
             return col;
         }
     }

@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Patreon
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
             }
             else
             {
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Patreon
                 if (projectile.velocity.X < 0f)
                 {
                     projectile.spriteDirection = -1;
-                    projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+                    projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Patreon
                 }
 
                 int num564 = 8;
-                int num565 = Dust.NewDust(new Vector2(projectile.position.X + (float)num564, projectile.position.Y + (float)num564), projectile.width - num564 * 2, projectile.height - num564 * 2, (Main.rand.NextBool(2) ? 5 : 6), 0f, 0f, 0, default, 1f);
+                int num565 = Dust.NewDust(new Vector2(projectile.position.X + (float)num564, projectile.position.Y + (float)num564), projectile.width - num564 * 2, projectile.height - num564 * 2, Main.rand.NextBool(2) ? 5 : 6, 0f, 0f, 0, default, 1f);
                 Dust dust = Main.dust[num565];
                 dust.velocity *= 0.5f;
                 dust = Main.dust[num565];

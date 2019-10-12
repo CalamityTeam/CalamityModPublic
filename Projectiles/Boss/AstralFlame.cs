@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
             }
             else
             {
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103, 1f, 0f);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 96);
+            projectile.width = projectile.height = 96;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num193 = 0; num193 < 2; num193++)

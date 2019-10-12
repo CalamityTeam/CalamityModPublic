@@ -80,8 +80,6 @@ Fighting 'til the war's won");
             if ((float.IsNaN(mouseDX) && float.IsNaN(mouseDY)) || (mouseDX == 0f && mouseDY == 0f))
             {
                 mouseDX = (float)player.direction;
-                mouseDY = 0f;
-                mouseDist = laserSpeed;
             }
             else
             {

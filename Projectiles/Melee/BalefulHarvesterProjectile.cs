@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
             }
             else
             {
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.PlaySound(SoundID.Item8, projectile.position);
                 for (int num124 = 0; num124 < 10; num124++)
                 {
-                    int num125 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (Main.rand.NextBool(2) ? 5 : 6), projectile.velocity.X, projectile.velocity.Y, 0, default, 2f);
+                    int num125 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.NextBool(2) ? 5 : 6, projectile.velocity.X, projectile.velocity.Y, 0, default, 2f);
                     Main.dust[num125].noGravity = true;
                     Main.dust[num125].velocity = projectile.Center - Main.dust[num125].position;
                     Main.dust[num125].velocity.Normalize();
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int num157 = 0; num157 < 2; num157++)
                 {
-                    int num158 = Dust.NewDust(new Vector2(projectile.position.X + 4f, projectile.position.Y + 4f), projectile.width - 8, projectile.height - 8, (Main.rand.NextBool(2) ? 5 : 6), projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 2f);
+                    int num158 = Dust.NewDust(new Vector2(projectile.position.X + 4f, projectile.position.Y + 4f), projectile.width - 8, projectile.height - 8, Main.rand.NextBool(2) ? 5 : 6, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 2f);
                     Main.dust[num158].position -= projectile.velocity * 2f;
                     Main.dust[num158].noGravity = true;
                     Dust expr_7A4A_cp_0_cp_0 = Main.dust[num158];

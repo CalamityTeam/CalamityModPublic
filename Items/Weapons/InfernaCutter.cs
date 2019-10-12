@@ -47,11 +47,11 @@ namespace CalamityMod.Items.Weapons
         {
             if (player.whoAmI == Main.myPlayer)
             {
-                if ((player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1) ||
+                if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.1) ||
                     player.itemAnimation == (int)((double)player.itemAnimationMax * 0.3) ||
                     player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5) ||
                     player.itemAnimation == (int)((double)player.itemAnimationMax * 0.7) ||
-                    player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9)))
+                    player.itemAnimation == (int)((double)player.itemAnimationMax * 0.9))
                 {
                     float num339 = 0f;
                     float num340 = 0f;

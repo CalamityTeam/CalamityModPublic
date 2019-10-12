@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 150);
+            projectile.width = projectile.height = 150;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("ScarletBlast"), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);

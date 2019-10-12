@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     int Previous = npc.whoAmI;
                     for (int segmentSpawn = 0; segmentSpawn < maxLength; segmentSpawn++)
                     {
-                        int segment = 0;
+                        int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
                         {
                             segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsBody2"), npc.whoAmI);

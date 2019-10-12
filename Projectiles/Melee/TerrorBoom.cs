@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 400);
+            projectile.width = projectile.height = 400;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num193 = 0; num193 < 6; num193++)

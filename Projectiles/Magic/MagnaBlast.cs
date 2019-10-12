@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.height = (int)(32f * projectile.scale);
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.1f) / 255f, ((255 - projectile.alpha) * 0.1f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.1f / 255f, (255 - projectile.alpha) * 0.1f / 255f, (255 - projectile.alpha) * 1f / 255f);
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {

@@ -102,11 +102,11 @@ namespace CalamityMod.NPCs.AstrumDeus
                     npc.chaseable = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].chaseable;
                 }
             }
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
             {
-                if ((npc.life <= npc.lifeMax * 0.9f))
+                if (npc.life <= npc.lifeMax * 0.9f)
                 {
                     if (secondStage == false && Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                         secondStage = true;
                     }
                 }
-                if ((npc.life <= npc.lifeMax * 0.8f))
+                if (npc.life <= npc.lifeMax * 0.8f)
                 {
                     if (thirdStage == false && Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             else
             {
-                if ((npc.life <= npc.lifeMax * 0.65f))
+                if (npc.life <= npc.lifeMax * 0.65f)
                 {
                     if (secondStage == false && Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                         secondStage = true;
                     }
                 }
-                if ((npc.life <= npc.lifeMax * 0.3f))
+                if (npc.life <= npc.lifeMax * 0.3f)
                 {
                     if (thirdStage == false && Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             float speedMult = expertMode ? 1.8f : 1.6f;
             if (CalamityWorld.death || CalamityWorld.bossRushActive)
             {
-                speedMult = ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 3f : 2.5f);
+                speedMult = (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 3f : 2.5f;
             }
             float life = (float)npc.life;
             float totalLife = (float)npc.lifeMax;
@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AstrumDeusBody"), npc.whoAmI);
@@ -282,7 +282,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
                 int rectX = 300;
-                int rectY = ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 100 : 200);
+                int rectY = (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 100 : 200;
                 bool flag95 = true;
                 if (npc.position.Y > Main.player[npc.target].position.Y)
                 {

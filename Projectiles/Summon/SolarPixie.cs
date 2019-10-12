@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f);
             bool flag64 = projectile.type == mod.ProjectileType("SolarPixie");
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
@@ -60,8 +60,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)((int)projectile.position.X);
-            projectile.position.Y = (float)((int)projectile.position.Y);
+            projectile.position.X = (float)(int)projectile.position.X;
+            projectile.position.Y = (float)(int)projectile.position.Y;
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             projectile.scale = num395 + 0.95f;
@@ -80,8 +80,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -106,7 +106,6 @@ namespace CalamityMod.Projectiles.Summon
                         float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
                         if (num541 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
-                            num398 = num541;
                             num396 = num539;
                             num397 = num540;
                             flag11 = true;

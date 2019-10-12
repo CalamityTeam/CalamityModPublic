@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Patreon
                 projectile.Kill();
                 return;
             }
-            float num810 = (float)((int)projectile.ai[0]) - 2.5f;
+            float num810 = (float)(int)projectile.ai[0] - 2.5f;
             Vector2 value36 = Vector2.Normalize(Main.projectile[(int)projectile.ai[1]].velocity);
             Projectile projectile2 = Main.projectile[(int)projectile.ai[1]];
             float num811 = num810 * 0.5235988f;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Patreon
                 y = 6f + projectile2.ai[0] / 720f * 7f;
                 if (projectile2.ai[0] > 360f)
                 {
-                    int colorValue = (int)((0.01f + (((projectile2.ai[0] - 360f) / 360f) * 2.55f)) * 100f);
+                    int colorValue = (int)((0.01f + ((projectile2.ai[0] - 360f) / 360f * 2.55f)) * 100f);
                     color = new Color(colorValue, colorValue, colorValue, 127);
                 }
                 if (projectile2.ai[0] < 480f)
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Patreon
             {
                 vector71 = new Vector2?(Main.player[projectile.owner].Center);
             }
-            projectile.friendly = (projectile2.ai[0] > 120f);
+            projectile.friendly = projectile2.ai[0] > 120f;
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
             {
                 projectile.velocity = -Vector2.UnitY;
@@ -229,7 +229,7 @@ namespace CalamityMod.Projectiles.Patreon
             {
                 if (projectile2.ai[0] > 360f)
                 {
-                    int colorValue = (int)((0.01f + (((projectile2.ai[0] - 360f) / 360f) * 2.55f)) * 100f);
+                    int colorValue = (int)((0.01f + ((projectile2.ai[0] - 360f) / 360f * 2.55f)) * 100f);
                     color = new Color(colorValue, colorValue, colorValue, 127);
                 }
             }

@@ -59,7 +59,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             bool flag117 = true;
 
             npc.rotation = npc.velocity.X * 0.04f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
             float num1465 = (float)npc.life / (float)npc.lifeMax;
             num1461 += (1f - num1465) * 6f;
@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             else
             {
                 npc.localAI[2] += 1f;
-                npc.direction = ((Main.player[npc.target].Center.X > npc.Center.X) ? 1 : -1);
+                npc.direction = (Main.player[npc.target].Center.X > npc.Center.X) ? 1 : -1;
             }
 
             // Slow down when spawning tornadoes

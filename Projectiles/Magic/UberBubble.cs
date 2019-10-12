@@ -45,7 +45,6 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (num745 < -3.1415926535897931)
             {
-                num745 += 6.2831853071795862;
             }
             projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
             if (Main.myPlayer == projectile.owner && projectile.timeLeft > 30)
@@ -65,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.owner == Main.myPlayer)
             {
-                for (int numBubbles = 0; numBubbles <= (Main.rand.Next(3, 7)); numBubbles++)
+                for (int numBubbles = 0; numBubbles <= Main.rand.Next(3, 7); numBubbles++)
                 {
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * (Main.rand.NextFloat() * 2f), projectile.velocity.Y * (Main.rand.NextFloat() * 2f), mod.ProjectileType("BlueBubble"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }

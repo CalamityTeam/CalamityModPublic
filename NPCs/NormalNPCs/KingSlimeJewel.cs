@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 // Fire bolt every 1.5 seconds
-                npc.localAI[0] += (CalamityWorld.bossRushActive ? 2f : 1f);
+                npc.localAI[0] += CalamityWorld.bossRushActive ? 2f : 1f;
                 if (npc.localAI[0] >= (CalamityWorld.death ? 60f : 75f))
                 {
                     npc.localAI[0] = 0f;

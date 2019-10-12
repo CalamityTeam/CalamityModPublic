@@ -107,7 +107,7 @@ namespace CalamityMod.Items.Mounts
                     if (dust.velocity.Y < 0f)
                     {
                         Dust expr_808_cp_0_cp_0 = dust;
-                        expr_808_cp_0_cp_0.velocity.Y *= (1f + 2f * Main.rand.NextFloat());
+                        expr_808_cp_0_cp_0.velocity.Y *= 1f + 2f * Main.rand.NextFloat();
                     }
                     dust.velocity += mountedPlayer.velocity * 0.55f;
                     dust.velocity *= mountedPlayer.velocity.Length() / mountedPlayer.mount.RunSpeed;

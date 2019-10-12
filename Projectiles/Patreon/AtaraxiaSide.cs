@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Patreon
             int numSplits = 6;
             int splitID = mod.ProjectileType("AtaraxiaSplit");
             int damage = (int)(0.075f * Ataraxia.BaseDamage);
-            float angleVariance = MathHelper.TwoPi / (float)(numSplits);
+            float angleVariance = MathHelper.TwoPi / (float)numSplits;
             Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.TwoPi);
 
             for (int i = 0; i < numSplits; ++i)

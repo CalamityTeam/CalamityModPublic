@@ -48,7 +48,6 @@ namespace CalamityMod.Items.Weapons
                 num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
             }
             float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            float num81 = num80;
             if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
             {
                 num78 = (float)player.direction;
@@ -59,8 +58,7 @@ namespace CalamityMod.Items.Weapons
             {
                 num80 = num72 / num80;
             }
-            num78 *= num80;
-            num79 *= num80;
+
             int num107 = 3;
             for (int num108 = 0; num108 < num107; num108++)
             {

@@ -33,7 +33,7 @@ namespace CalamityMod.Items.HiveMind
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                int num = NPC.NewNPC((int)(player.position.X + (float)(Main.rand.Next(-100, 100))), (int)(player.position.Y - 150f), mod.NPCType("HiveMind"), 0, 0f, 0f, 0f, 0f, 255);
+                int num = NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 100)), (int)(player.position.Y - 150f), mod.NPCType("HiveMind"), 0, 0f, 0f, 0f, 0f, 255);
                 Main.PlaySound(SoundID.Roar, player.position, 0);
             }
             return true;

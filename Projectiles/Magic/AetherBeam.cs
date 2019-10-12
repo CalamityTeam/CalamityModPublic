@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Magic
                 float scaleFactor = 2f;
                 if (projectile.ai[1] == 1f)
                 {
-                    num162 = (float)((int)projectile.localAI[0]);
+                    num162 = (float)(int)projectile.localAI[0];
                 }
                 for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
                 {
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     for (i = 0; i < 4; i++)
                     {
-                        offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
                         int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AetherBeam"), projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
                     }

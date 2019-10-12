@@ -39,8 +39,6 @@ namespace CalamityMod.Items.Weapons
             int num6 = Main.rand.Next(4, 6);
             for (int index = 0; index < num6; ++index)
             {
-                float num7 = speedX;
-                float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
@@ -94,7 +92,7 @@ namespace CalamityMod.Items.Weapons
             {
                 return;
             }
-            int healAmount = (Main.rand.Next(3) + 2);
+            int healAmount = Main.rand.Next(3) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);
         }

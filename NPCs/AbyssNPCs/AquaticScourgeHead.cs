@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             if (num36 % 2 == 0)
@@ -478,12 +478,12 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
                 for (iBoom = 0; iBoom < 15; iBoom++)
                 {
-                    int projectileType = (Main.rand.NextBool(2) ? mod.ProjectileType("SandTooth") : mod.ProjectileType("SandBlast"));
+                    int projectileType = Main.rand.NextBool(2) ? mod.ProjectileType("SandTooth") : mod.ProjectileType("SandBlast");
                     if (projectileType == mod.ProjectileType("SandTooth"))
                     {
                         damageBoom = Main.expertMode ? 25 : 30;
                     }
-                    offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
+                    offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
                     int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * velocity), (float)(Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                     int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * velocity), (float)(-Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                 }

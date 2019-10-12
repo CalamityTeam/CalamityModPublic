@@ -148,14 +148,14 @@ namespace CalamityMod.MiscModSupport
                 case "onesentinel":
                 case "one sentinel":
                 case "sentinel":
-                    return (CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 || CalamityWorld.downedSentinel3);
+                    return CalamityWorld.downedSentinel1 || CalamityWorld.downedSentinel2 || CalamityWorld.downedSentinel3;
 
                 case "sentinelall": // backwards compatibility
                 case "sentinels":
                 case "allsentinel":
                 case "allsentinels":
                 case "all sentinels":
-                    return (CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3);
+                    return CalamityWorld.downedSentinel1 && CalamityWorld.downedSentinel2 && CalamityWorld.downedSentinel3;
 
                 case "dog":
                 case "devourerofgods":

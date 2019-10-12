@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = height);
+            projectile.width = projectile.height = height;
             projectile.Center = projectile.position;
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;

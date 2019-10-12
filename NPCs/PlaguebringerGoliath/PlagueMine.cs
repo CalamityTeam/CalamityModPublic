@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 return;
             }
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = (npc.ai[3] >= 180f ? false : true);
+            npc.dontTakeDamage = npc.ai[3] >= 180f ? false : true;
             if (npc.ai[3] >= 480f)
             {
                 npc.velocity.Y *= 0.985f;
@@ -125,7 +125,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
             npc.damage = 200;
-            npc.width = (npc.height = 216);
+            npc.width = npc.height = 216;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
             for (int num621 = 0; num621 < 15; num621++)

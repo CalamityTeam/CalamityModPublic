@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Astral
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -69,7 +69,6 @@ namespace CalamityMod.Projectiles.Astral
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
                     {
-                        num633 = num646;
                         vector46 = npc.Center;
                         flag25 = true;
                         target = npc.whoAmI;

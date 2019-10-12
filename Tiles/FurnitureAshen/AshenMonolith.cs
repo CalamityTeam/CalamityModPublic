@@ -86,7 +86,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             //Get the decimal points of time.
             double deltaTime = time - intTime;
             //multiply them by 60. Minutes, probably
-            deltaTime = ((int)(deltaTime * 60.0));
+            deltaTime = (int)(deltaTime * 60.0);
             //This could easily be replaced by deltaTime.ToString()
             string text2 = string.Concat(deltaTime);
             if (deltaTime < 10.0)
@@ -192,8 +192,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
             float factor = Math.Abs((Math.Abs(eyeToPlayer.X) >= 2 * Math.Abs(eyeToPlayer.Y)) ? eyeToPlayer.X / xRange : eyeToPlayer.Y / yRange);
             if (factor != 0)
             { eyeToPlayer /= factor; }
-            frameX += (int)(eyeToPlayer.X);
-            frameY += (int)(eyeToPlayer.Y);
+            frameX += (int)eyeToPlayer.X;
+            frameY += (int)eyeToPlayer.Y;
             frameX *= animationFrameWidth;
             frameY *= 90;
             Vector2 zero = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);

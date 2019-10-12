@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             }
             if (projectile.owner == Main.myPlayer)
             {
-                int proj = 0;
+                int proj;
                 if (Main.rand.NextBool(10))
                 {
                     proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.35f, projectile.velocity.Y * 0.35f, 569, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);

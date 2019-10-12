@@ -217,7 +217,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                     int Previous = npc.whoAmI;
                     for (int segmentSpawn = 0; segmentSpawn < maxLength; segmentSpawn++)
                     {
-                        int segment = 0;
+                        int segment;
                         if (segmentSpawn >= 0 && segmentSpawn < minLength)
                             segment = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DevourerofGodsBodyS"), npc.whoAmI);
                         else
@@ -293,7 +293,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
                             {
                                 Projectile.NewProjectile(Main.player[npc.target].position.X + 1000f, targetPosY + (float)shotSpacing[3], -speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(Main.player[npc.target].position.X - 1000f, targetPosY + (float)shotSpacing[3], speed, 0f, mod.ProjectileType("DoGDeath"), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[3] -= (Main.rand.NextBool(2) ? 180 : 200);
+                                shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
                             }
                             shotSpacing[3] = 1050;
                         }

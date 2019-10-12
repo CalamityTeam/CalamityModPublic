@@ -67,8 +67,8 @@ namespace CalamityMod.Tiles.FurnitureVoid
 
         public override void HitWire(int i, int j)
         {
-            int x = i - (Main.tile[i, j].frameX / 18) % 3;
-            int y = j - (Main.tile[i, j].frameY / 18) % 3;
+            int x = i - Main.tile[i, j].frameX / 18 % 3;
+            int y = j - Main.tile[i, j].frameY / 18 % 3;
             for (int l = x; l < x + 3; l++)
             {
                 for (int m = y; m < y + 3; m++)

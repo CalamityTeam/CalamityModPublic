@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 39, 1f, 0f);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 110);
+            projectile.width = projectile.height = 110;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             int num226 = 36;

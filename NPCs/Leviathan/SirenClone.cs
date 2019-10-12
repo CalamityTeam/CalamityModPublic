@@ -57,11 +57,11 @@ namespace CalamityMod.NPCs.Leviathan
             int num14 = Math.Sign(Main.player[npc.target].Center.X - center.X);
             if (num14 != 0)
             {
-                npc.direction = (npc.spriteDirection = num14);
+                npc.direction = npc.spriteDirection = num14;
             }
             Vector2 direction = Main.player[npc.target].Center - center;
             direction.Normalize();
-            direction *= (CalamityWorld.bossRushActive ? 16f : 11f);
+            direction *= CalamityWorld.bossRushActive ? 16f : 11f;
             npc.ai[0] += 1f;
             if (npc.ai[0] > 45f)
             {

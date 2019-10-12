@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                 }
 
                 if (!hide)
-                    Lighting.AddLight(npc.Center, 0f, ((255 - npc.alpha) * 2.5f) / 255f, ((255 - npc.alpha) * 2.5f) / 255f);
+                    Lighting.AddLight(npc.Center, 0f, (255 - npc.alpha) * 2.5f / 255f, (255 - npc.alpha) * 2.5f / 255f);
 
                 if (!statChange)
                 {
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                             attack = -1;
                             npc.defense = Main.hardMode ? 35 : 10;
                             NPC.NewNPC((int)(npc.Center.X + 5), (int)npc.Center.Y, mod.NPCType("Clam"), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)(npc.Center.X), (int)npc.Center.Y, mod.NPCType("Clam"), 0, 0f, 0f, 0f, 0f, 255);
+                            NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, mod.NPCType("Clam"), 0, 0f, 0f, 0f, 0f, 255);
                             NPC.NewNPC((int)(npc.Center.X - 5), (int)npc.Center.Y, mod.NPCType("Clam"), 0, 0f, 0f, 0f, 0f, 255);
                         }
                     }
@@ -207,7 +207,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                         {
                             npc.velocity.Y += 0.8f;
                             attackAnim = true;
-                            if ((npc.Center.Y) > (player.Center.Y - (float)(npc.height / 2) + player.gfxOffY - 15f))
+                            if (npc.Center.Y > (player.Center.Y - (float)(npc.height / 2) + player.gfxOffY - 15f))
                             {
                                 npc.noTileCollide = false;
                                 npc.ai[2] = 4f;
@@ -271,7 +271,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y, num6, num7, projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                         for (int i = 0; i < 4; i++)
                         {
-                            offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 3f), (float)(-Math.Cos(offsetAngle) * 3f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                         }

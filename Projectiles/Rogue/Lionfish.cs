@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                     if (projectile.velocity.X < 0f)
                     {
                         projectile.spriteDirection = -1;
-                        projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+                        projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
                     }
                     else
                     {
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (((Main.npc[i].active && !Main.npc[i].dontTakeDamage)) &&
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 72);
+            projectile.width = projectile.height = 72;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num193 = 0; num193 < 3; num193++)

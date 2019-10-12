@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float scaleFactor = 1.5f;
                 if (projectile.ai[1] == 1f)
                 {
-                    num162 = (float)((int)projectile.localAI[0]);
+                    num162 = (float)(int)projectile.localAI[0];
                 }
                 for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
                 {
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 188);
+            projectile.width = projectile.height = 188;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;

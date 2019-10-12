@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.Leviathan
                     flag64 = true;
                 }
                 float num1014 = 8f;
-                flag64 = (flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014);
+                flag64 = flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014;
                 if (num1013 > num999 || !flag64)
                 {
                     npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;

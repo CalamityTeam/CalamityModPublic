@@ -90,7 +90,7 @@ namespace CalamityMod.World
                     int num5 = Math.Min(num, (int)Math.Sqrt((double)((float)num3 - num4 * num4)));
                     for (int j = point.X - num5; j <= point.X + num5; j++)
                     {
-                        array[j, i] = (WorldGen.genRand.Next(2) == 0);
+                        array[j, i] = WorldGen.genRand.Next(2) == 0;
                     }
                 }
                 List<List<Point>> list = new List<List<Point>>();
@@ -312,7 +312,6 @@ namespace CalamityMod.World
             Point point = new Point(WorldGen.UndergroundDesertLocation.Left + (WorldGen.UndergroundDesertLocation.Width / 2),
                 WorldGen.UndergroundDesertLocation.Bottom + (WorldGen.UndergroundDesertLocation.Height / 3)); //Around the center of the Sunken Sea area
             ShapeData holeShape = new ShapeData();
-            int radiusSmall = 0;
             float outerRadiusPercentage = (float)((double)WorldGen.genRand.Next(40, 56) * 0.01); //Small radius for ore patch to fit inside holes
             int sunkenSeaBottom = WorldGen.UndergroundDesertLocation.Bottom + (int)((double)WorldGen.UndergroundDesertLocation.Height * 0.7);
             int smallHoles = 0;
@@ -382,7 +381,7 @@ namespace CalamityMod.World
                     if (smallHoles < amt && WorldGen.genRand.Next(3) == 0 && !rectangle.Contains(point))
                     {
                         smallHoles++;
-                        radiusSmall = (int)(((float)WorldGen.genRand.Next(8, 11)) * size);
+                        int radiusSmall = (int)(((float)WorldGen.genRand.Next(8, 11)) * size);
                         WorldUtils.Gen(point, new Shapes.Circle(radiusSmall), Actions.Chain(new GenAction[]
                         {
                             new Modifiers.Blotches(2, 0.45).Output(holeShape),

@@ -88,8 +88,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("StormWeaverBodyNaked"), npc.whoAmI);
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);
                     npc.netUpdate = true;
-                    float xPos = (Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f);
+                    float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
                     Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
                     Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
@@ -200,8 +200,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             Vector2 spawn2 = baseSpawn;
                             spawn2.X = spawn2.X + i * 30 - (BoltProjectiles * 15);
-                            Vector2 velocity = baseVelocity;
-                            velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
+                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             Vector2 vector94 = Main.player[npc.target].Center - spawn2;
                             float ai = (float)Main.rand.Next(100);
@@ -267,8 +266,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.TargetClosest(false);
             }
-            float num188 = speed;
-            float num189 = turnSpeed;
+
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -290,8 +288,8 @@ namespace CalamityMod.NPCs.StormWeaver
                     break;
                 }
             }
-            num188 = revenge ? 14f : 13f;
-            num189 = revenge ? 0.44f : 0.4f;
+            float num188 = revenge ? 14f : 13f;
+            float num189 = revenge ? 0.44f : 0.4f;
             if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 num188 *= 2f;
@@ -518,7 +516,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

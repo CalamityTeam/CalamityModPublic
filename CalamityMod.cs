@@ -2323,11 +2323,23 @@ namespace CalamityMod
             }, InterfaceScaleType.None));
         }
 
-        public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f) => npc.GetAlpha(BuffEffects(npc, GetLightColor(position != null ? (Vector2)position : npc.Center), (shadowOverride != 0f ? shadowOverride : 0f), effects, npc.poisoned, npc.onFire, npc.onFire2, Main.player[Main.myPlayer].detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor, npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky));
+        public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)
+        {
+            return npc.GetAlpha(BuffEffects(
+                npc, GetLightColor(position != null ? (Vector2)position : npc.Center),
+                shadowOverride != 0f ? shadowOverride : 0f, effects, npc.poisoned, npc.onFire, npc.onFire2,
+                Main.player[Main.myPlayer].detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor,
+                npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky)
+            );
+        }
 
         public static Color GetLightColor(Vector2 position) => Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f));
 
-        public static Color BuffEffects(Entity codable, Color lightColor, float shadow = 0f, bool effects = true, bool poisoned = false, bool onFire = false, bool onFire2 = false, bool hunter = false, bool noItems = false, bool blind = false, bool bleed = false, bool venom = false, bool midas = false, bool ichor = false, bool onFrostBurn = false, bool burned = false, bool honey = false, bool dripping = false, bool drippingSlime = false, bool loveStruck = false, bool stinky = false)
+        public static Color BuffEffects(Entity codable, Color lightColor, float shadow = 0f, bool effects = true,
+            bool poisoned = false, bool onFire = false, bool onFire2 = false, bool hunter = false, bool noItems = false,
+            bool blind = false, bool bleed = false, bool venom = false, bool midas = false, bool ichor = false,
+            bool onFrostBurn = false, bool burned = false, bool honey = false, bool dripping = false,
+            bool drippingSlime = false, bool loveStruck = false, bool stinky = false)
         {
             float cr = 1f;
             float cg = 1f;
@@ -2589,7 +2601,7 @@ namespace CalamityMod
             }
             if (bleed)
             {
-                bool dead = (codable is Player ? ((Player)codable).dead : codable is NPC ? ((NPC)codable).life <= 0 : false);
+                bool dead = codable is Player ? ((Player)codable).dead : codable is NPC ? ((NPC)codable).life <= 0 : false;
                 if (effects && !dead && Main.rand.NextBool(30))
                 {
                     int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default, 1f);
@@ -2685,13 +2697,13 @@ namespace CalamityMod
 
         public static void DrawTexture(object sb, Texture2D texture, int shader, Entity codable, Color? overrideColor = null, bool drawCentered = false)
         {
-            Color lightColor = (overrideColor != null ? (Color)overrideColor : codable is NPC ? GetNPCColor(((NPC)codable), codable.Center, false) : codable is Projectile ? ((Projectile)codable).GetAlpha(GetLightColor(codable.Center)) : GetLightColor(codable.Center));
-            int frameCount = (codable is NPC ? Main.npcFrameCount[((NPC)codable).type] : 1);
-            Rectangle frame = (codable is NPC ? ((NPC)codable).frame : new Rectangle(0, 0, texture.Width, texture.Height));
-            float scale = (codable is NPC ? ((NPC)codable).scale : ((Projectile)codable).scale);
-            float rotation = (codable is NPC ? ((NPC)codable).rotation : ((Projectile)codable).rotation);
-            int spriteDirection = (codable is NPC ? ((NPC)codable).spriteDirection : ((Projectile)codable).spriteDirection);
-            float offsetY = (codable is NPC ? ((NPC)codable).gfxOffY : 0f);
+            Color lightColor = overrideColor != null ? (Color)overrideColor : codable is NPC ? GetNPCColor((NPC)codable, codable.Center, false) : codable is Projectile ? ((Projectile)codable).GetAlpha(GetLightColor(codable.Center)) : GetLightColor(codable.Center);
+            int frameCount = codable is NPC ? Main.npcFrameCount[((NPC)codable).type] : 1;
+            Rectangle frame = codable is NPC ? ((NPC)codable).frame : new Rectangle(0, 0, texture.Width, texture.Height);
+            float scale = codable is NPC ? ((NPC)codable).scale : ((Projectile)codable).scale;
+            float rotation = codable is NPC ? ((NPC)codable).rotation : ((Projectile)codable).rotation;
+            int spriteDirection = codable is NPC ? ((NPC)codable).spriteDirection : ((Projectile)codable).spriteDirection;
+            float offsetY = codable is NPC ? ((NPC)codable).gfxOffY : 0f;
             DrawTexture(sb, texture, shader, codable.position + new Vector2(0f, offsetY), codable.width, codable.height, scale, rotation, spriteDirection, frameCount, frame, lightColor, drawCentered);
         }
 
@@ -2731,7 +2743,7 @@ namespace CalamityMod
             if (drawCentered)
             {
                 Vector2 texHalf = new Vector2(texWidth / 2, texHeight / framecount / 2);
-                return (position + new Vector2(width * 0.5f, height * 0.5f)) - (texHalf * scale) + (origin * scale) - screenPos;
+                return position + new Vector2(width * 0.5f, height * 0.5f) - (texHalf * scale) + (origin * scale) - screenPos;
             }
             return position - screenPos + new Vector2(width * 0.5f, height) - new Vector2(texWidth * scale / 2f, texHeight * scale / framecount) + (origin * scale) + new Vector2(0f, 5f);
         }
@@ -2744,12 +2756,12 @@ namespace CalamityMod
         #endregion
 
         #region Seasons
-        public static Season season
+        public static Season CurrentSeason
         {
             get
             {
                 DateTime date = DateTime.Now;
-                int day = date.DayOfYear - Convert.ToInt32((DateTime.IsLeapYear(date.Year)) && date.DayOfYear > 59);
+                int day = date.DayOfYear - Convert.ToInt32(DateTime.IsLeapYear(date.Year) && date.DayOfYear > 59);
 
                 if (day < 80 || day >= 355)
                 {

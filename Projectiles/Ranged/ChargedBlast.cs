@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Ranged
                 float scaleFactor = 3f;
                 if (projectile.ai[1] == 1f)
                 {
-                    num162 = (float)((int)projectile.localAI[0]);
+                    num162 = (float)(int)projectile.localAI[0];
                 }
                 for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
                 {
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int k = 0; k < projectiles; k++)
                 {
                     Projectile.NewProjectile(projectile.position.X, projectile.position.Y, (float)Main.rand.Next(-10, 11) * 2f, (float)Main.rand.Next(-10, 11) * 2f, mod.ProjectileType("ChargedBlast2"),
-                    (int)((double)projectile.damage * 0.85), (float)((int)((double)projectile.knockBack * 0.5)), Main.myPlayer, 0f, 0f);
+                    (int)((double)projectile.damage * 0.85), (float)(int)((double)projectile.knockBack * 0.5), Main.myPlayer, 0f, 0f);
                 }
             }
         }

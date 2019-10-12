@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += ((npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f);
+                    npc.localAI[1] += (npc.Calamity().enraged || (Config.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 2f : 1f;
                     if (expertMode && Main.rand.NextBool(2))
                     {
                         if (npc.localAI[0] >= 75f)
@@ -312,7 +312,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

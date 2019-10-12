@@ -43,8 +43,8 @@ namespace CalamityMod.Tiles
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameXOffset = (i % 2) * sheetWidth;
-            frameYOffset = (j % 2) * sheetHeight;
+            frameXOffset = i % 2 * sheetWidth;
+            frameYOffset = j % 2 * sheetHeight;
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

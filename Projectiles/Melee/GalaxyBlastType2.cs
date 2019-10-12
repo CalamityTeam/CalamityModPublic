@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.tileCollide = false;
                 projectile.penetrate = -1;
                 projectile.position = projectile.Center;
-                projectile.width = (projectile.height = 140);
+                projectile.width = projectile.height = 140;
                 projectile.Center = projectile.position;
                 projectile.alpha -= 10;
                 if (projectile.alpha < 0)

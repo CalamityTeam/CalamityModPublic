@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(30f) / (float)Math.Log((6f - projectile.penetrate) + 2f) / 1.4f; //slow down the more it's hit
+            projectile.rotation += MathHelper.ToRadians(30f) / (float)Math.Log(6f - projectile.penetrate + 2f) / 1.4f; //slow down the more it's hit
             //log(1) is 0. Dividing by 0 would be bad, so add by 2 instead of 1
             if (HomingCooldown > 0)
             {
@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 //Damaging afterimages
                 float framesNeeded = 60f;
-                framesNeeded /= (6f - projectile.penetrate) + 1f; //1 is to prevent division by zero. The more hits, the more afterimages
+                framesNeeded /= 6f - projectile.penetrate + 1f; //1 is to prevent division by zero. The more hits, the more afterimages
                 if (projectile.timeLeft % (int)framesNeeded == 0f)
                 {
                     Projectile.NewProjectile(projectile.Center, projectile.velocity, mod.ProjectileType("CelestialReaperAfterimage"), CelestialReaper.BaseDamage, 2f, projectile.owner);

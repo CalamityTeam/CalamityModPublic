@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Patreon
             // Produces golden dust constantly while in flight. This lights the yoyo.
             if (Main.rand.NextBool())
             {
-                int dustType = (Main.rand.NextBool(3)) ? 244 : 246;
+                int dustType = Main.rand.NextBool(3) ? 244 : 246;
                 float scale = 0.8f + Main.rand.NextFloat(0.6f);
                 int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType);
                 Main.dust[idx].noGravity = true;
@@ -150,7 +150,7 @@ namespace CalamityMod.Projectiles.Patreon
                     radiusVec = radiusVec.RotatedByRandom(MathHelper.TwoPi);
                     for (int j = 0; j < dustPerArc; ++j)
                     {
-                        Vector2 partialRadius = ((float)j / dustPerArc) * radiusVec;
+                        Vector2 partialRadius = (float)j / dustPerArc * radiusVec;
                         int dustType = 260;
                         float scale = 1.6f + Main.rand.NextFloat(0.9f);
                         int idx = Dust.NewDust(projectile.Center, 1, 1, dustType);

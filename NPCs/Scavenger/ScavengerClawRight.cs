@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.Scavenger
                     if (npc.ai[1] >= 60f)
                     {
                         npc.TargetClosest(true);
-                        if ((npc.Center.X - 100f < Main.player[npc.target].Center.X))
+                        if (npc.Center.X - 100f < Main.player[npc.target].Center.X)
                         {
                             npc.ai[1] = 0f;
                             npc.ai[0] = 1f;
@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.Scavenger
                     num662 = num659 / num662;
                     npc.velocity.X = num660 * num662;
                     npc.velocity.Y = num661 * num662;
-                    npc.rotation = (float)Math.Atan2((double)(-(double)npc.velocity.Y), (double)(-(double)npc.velocity.X));
+                    npc.rotation = (float)Math.Atan2((double)-(double)npc.velocity.Y, (double)-(double)npc.velocity.X);
                 }
             }
             else if (npc.ai[0] == 1f)

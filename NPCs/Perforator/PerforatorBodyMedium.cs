@@ -51,8 +51,8 @@ namespace CalamityMod.NPCs.Perforator
 
         public override void AI()
         {
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int shoot = revenge ? 5 : 4;

@@ -93,8 +93,8 @@ namespace CalamityMod.NPCs.Polterghast
 
             bool speedBoost1 = false;
             bool despawnBoost = false;
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             if (npc.timeLeft < 1500)
                 npc.timeLeft = 1500;

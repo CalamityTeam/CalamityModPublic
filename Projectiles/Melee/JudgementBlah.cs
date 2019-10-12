@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, ((float)Main.DiscoR / 200f), ((float)Main.DiscoG / 200f), ((float)Main.DiscoB / 200f));
+            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 200f, (float)Main.DiscoG / 200f, (float)Main.DiscoB / 200f);
             whiteLightTimer--;
             if (whiteLightTimer == 0)
             {
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     for (i = 0; i < 1; i++)
                     {
-                        offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 6f), (float)(Math.Cos(offsetAngle) * 6f), mod.ProjectileType("WhiteOrbBlah"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                         int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 6f), (float)(-Math.Cos(offsetAngle) * 6f), mod.ProjectileType("WhiteOrbBlah"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                         Main.projectile[projectile1].velocity.X *= 0.1f;

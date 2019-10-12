@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Patreon
                 for (int i = 0; i < 30; ++i)
                 {
                     // Pick a random type of smoke (there's a little fire mixed in)
-                    int dustID = -1;
+                    int dustID;
                     switch (Main.rand.Next(6))
                     {
                         case 0:
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Patreon
 
             // Transform the projectile's hitbox into a big explosion
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 140);
+            projectile.width = projectile.height = 140;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
 

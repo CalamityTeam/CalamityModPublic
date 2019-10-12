@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.AstralBiomeNPCs
             //if can see target and waited long enough
             if (Collision.CanHit(target.position, target.width, target.height, npc.position, npc.width, npc.height))
             {
-                Vector2 vector = (target.Center - npc.Center);
+                Vector2 vector = target.Center - npc.Center;
                 vector.Normalize();
                 Vector2 spawnPoint = npc.Center + vector * 42f;
 

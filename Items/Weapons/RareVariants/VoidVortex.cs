@@ -47,12 +47,10 @@ namespace CalamityMod.Items.Weapons.RareVariants
                 num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
             }
             float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            float num81 = num80;
             if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
             {
                 num78 = (float)player.direction;
                 num79 = 0f;
-                num80 = num72;
             }
             else
             {
@@ -67,7 +65,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             float passedVar = 1f;
             for (i = 0; i < 4; i++)
             {
-                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                 Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), type, damage, knockBack, player.whoAmI, passedVar, 0f);
                 Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), type, damage, knockBack, player.whoAmI, -passedVar, 0f);
                 passedVar += 1f;

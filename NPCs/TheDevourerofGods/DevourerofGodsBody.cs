@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
             }
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                npc.localAI[0] += (expertMode ? 2f : 1f);
+                npc.localAI[0] += expertMode ? 2f : 1f;
                 int projectileType = mod.ProjectileType("DoGNebulaShot");
                 int damage = expertMode ? 58 : 70;
                 float num941 = 5f;

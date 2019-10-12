@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 3f)
             {
-                Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
+                Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
                 for (int num151 = 0; num151 < 3; num151++)
                 {
                     int num154 = 14;

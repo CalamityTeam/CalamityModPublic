@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 112);
+            projectile.width = projectile.height = 112;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;

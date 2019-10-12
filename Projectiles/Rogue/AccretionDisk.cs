@@ -82,8 +82,6 @@ namespace CalamityMod.Projectiles.Rogue
                     float num439 = num436 - value10.Y;
                     float num440 = (float)Math.Sqrt((double)(num438 * num438 + num439 * num439));
                     num440 = num437 / num440;
-                    num438 *= num440;
-                    num439 *= num440;
                     if (Main.rand.NextBool(3))
                     {
                         if (projectile.owner == Main.myPlayer)
@@ -95,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
                             int i;
                             for (i = 0; i < 4; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AccretionDisk2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("AccretionDisk2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                             }

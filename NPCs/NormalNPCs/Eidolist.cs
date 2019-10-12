@@ -131,7 +131,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             npc.TargetClosest(true);
             npc.rotation = Math.Abs(npc.velocity.X) * (float)npc.direction * 0.1f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             Vector2 value53 = npc.Center + new Vector2((float)(npc.direction * 20), 6f);
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);
@@ -276,7 +276,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (hasBeenHit ? 0.15f : 0.075f);
+            npc.frameCounter += hasBeenHit ? 0.15f : 0.075f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;

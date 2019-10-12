@@ -106,8 +106,8 @@ namespace CalamityMod.NPCs.CosmicWraith
 
         public override void AI()
         {
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             double lifeRatio = (double)npc.life / (double)npc.lifeMax;
             lifeToAlpha = (int)(100.0 * (1.0 - lifeRatio));
@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             if (npc.ai[0] <= 2f)
             {
                 npc.rotation = npc.velocity.X * 0.04f;
-                npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+                npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
                 npc.knockBackResist = 0.05f;
                 if (expertMode)
                 {
@@ -288,12 +288,12 @@ namespace CalamityMod.NPCs.CosmicWraith
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
                     if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
                     {
-                        int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
+                        int num660 = NPC.NewNPC((int)(Main.player[npc.target].position.X + 750f), (int)Main.player[npc.target].position.Y, mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
                         {
                             NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
                         }
-                        int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - 750f), (int)(Main.player[npc.target].position.Y), mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
+                        int num661 = NPC.NewNPC((int)(Main.player[npc.target].position.X - 750f), (int)Main.player[npc.target].position.Y, mod.NPCType("SignusBomb"), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
                         {
                             NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
@@ -349,7 +349,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             else if (npc.ai[0] == 3f)
             {
                 npc.rotation = npc.velocity.X * 0.04f;
-                npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+                npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
                 Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2), npc.position.Y + (float)(npc.height / 2));
                 npc.ai[1] += 1f;
                 bool flag104 = false;
@@ -519,7 +519,7 @@ namespace CalamityMod.NPCs.CosmicWraith
                         flag64 = true;
                     }
                     float num1014 = 8f;
-                    flag64 = (flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014);
+                    flag64 = flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014;
                     if (num1013 > num999 || !flag64)
                     {
                         npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / chargeSpeedDivisor;

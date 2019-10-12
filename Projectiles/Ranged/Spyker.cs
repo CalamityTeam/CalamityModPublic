@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 32);
+            projectile.width = projectile.height = 32;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             int num251 = Main.rand.Next(3, 6);

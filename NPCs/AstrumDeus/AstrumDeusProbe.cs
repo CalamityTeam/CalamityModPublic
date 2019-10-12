@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override bool PreAI()
         {
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             if (start)
             {
                 for (int num621 = 0; num621 < 5; num621++)
@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.TargetClosest(true);
             Vector2 direction = Main.player[npc.target].Center - npc.Center;
             direction.Normalize();
-            direction *= (CalamityWorld.bossRushActive ? 13f : 9f);
+            direction *= CalamityWorld.bossRushActive ? 13f : 9f;
             npc.rotation = direction.ToRotation();
             npc.localAI[0] += 1f;
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 720f)
@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                 return false;
             }
             Player player = Main.player[npc.target];
-            int npcType = (anySmallDeusHeads ? mod.NPCType("AstrumDeusHead") : mod.NPCType("AstrumDeusHeadSpectral"));
+            int npcType = anySmallDeusHeads ? mod.NPCType("AstrumDeusHead") : mod.NPCType("AstrumDeusHeadSpectral");
             NPC parent = Main.npc[NPC.FindFirstNPC(npcType)];
             double deg = (double)npc.ai[1];
             double rad = deg * (Math.PI / 180);

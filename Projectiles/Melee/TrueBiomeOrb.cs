@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
             bool hell = player.ZoneUnderworldHeight;
             bool sky = player.ZoneSkyHeight;
             bool holy = player.ZoneHoly;
-            int dustType = 0;
+            int dustType;
             if (jungle)
             {
                 dustType = 39;

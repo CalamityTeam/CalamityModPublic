@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
                 int num3;
                 for (int num20 = 0; num20 < 2; num20 = num3 + 1)
                 {
-                    int dustType = (Main.rand.NextBool(3) ? 56 : 242);
+                    int dustType = Main.rand.NextBool(3) ? 56 : 242;
                     float num21 = projectile.velocity.X / 4f * (float)num20;
                     float num22 = projectile.velocity.Y / 4f * (float)num20;
                     int num23 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Melee
             int num3;
             for (int num622 = 0; num622 < 10; num622 = num3 + 1)
             {
-                int dustType = (Main.rand.NextBool(3) ? 56 : 242);
+                int dustType = Main.rand.NextBool(3) ? 56 : 242;
                 int num623 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
                 Dust dust = Main.dust[num623];
                 dust.scale *= 1.1f;
@@ -140,7 +140,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             for (int num624 = 0; num624 < 15; num624 = num3 + 1)
             {
-                int dustType = (Main.rand.NextBool(3) ? 56 : 242);
+                int dustType = Main.rand.NextBool(3) ? 56 : 242;
                 int num625 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
                 Dust dust = Main.dust[num625];
                 dust.velocity *= 2.5f;

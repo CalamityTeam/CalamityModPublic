@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Patreon
                     projectile.Kill();
             }
 
-            Lighting.AddLight(projectile.Center, (Main.DiscoR * 0.075f) / 255f, (Main.DiscoR * 0.1f) / 255f, (Main.DiscoR * 0.125f) / 255f);
+            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.075f / 255f, Main.DiscoR * 0.1f / 255f, Main.DiscoR * 0.125f / 255f);
 
             if (Main.rand.NextBool(6))
             {
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Patreon
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 24);
+            projectile.width = projectile.height = 24;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             int num226 = 36;

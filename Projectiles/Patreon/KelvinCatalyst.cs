@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Patreon
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (Main.DiscoR * 0.3f) / 255f, (Main.DiscoR * 0.4f) / 255f, (Main.DiscoR * 0.5f) / 255f);
+            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.3f / 255f, Main.DiscoR * 0.4f / 255f, Main.DiscoR * 0.5f / 255f);
 
             if (projectile.ai[1] == 1f)
             {
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Patreon
                 {
                     projectile.ai[0] = 1f;
                     projectile.localAI[0] = 0f;
-                    projectile.width = (projectile.height = 60);
+                    projectile.width = projectile.height = 60;
                     projectile.tileCollide = false;
                     projectile.netUpdate = true;
                 }
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Patreon
         {
             projectile.ai[0] = 1f;
             projectile.localAI[0] = 0f;
-            projectile.width = (projectile.height = 60);
+            projectile.width = projectile.height = 60;
             projectile.tileCollide = false;
             projectile.netUpdate = true;
             if (projectile.velocity.X != oldVelocity.X)
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Patreon
                 int i;
                 for (i = 0; i < 4; i++)
                 {
-                    offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
 
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 4f), (float)(Math.Cos(offsetAngle) * 4f),
                         mod.ProjectileType("KelvinCatalystStar"), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);

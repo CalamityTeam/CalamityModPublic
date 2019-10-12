@@ -60,8 +60,8 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void AI()
         {
             CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             Vector2 vector = npc.Center;
             bool flag100 = false;
             bool hyperMode = false;
@@ -261,7 +261,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         npc.ai[0] = 4f;
                         npc.noTileCollide = true;
-                        npc.velocity.Y = (CalamityWorld.bossRushActive ? -12f : -8f);
+                        npc.velocity.Y = CalamityWorld.bossRushActive ? -12f : -8f;
                     }
                     else if (num1882 == 2)
                     {
@@ -309,7 +309,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] += 1f;
                     vector272 = Main.player[npc.target].Center - vector;
                     vector272.Normalize();
-                    vector272 *= (CalamityWorld.bossRushActive ? 12f : 8f);
+                    vector272 *= CalamityWorld.bossRushActive ? 12f : 8f;
                     npc.velocity = (npc.velocity * 4f + vector272) / 5f;
                     if (npc.ai[1] > 6f)
                     {
@@ -328,7 +328,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         return;
                     }
                     vector272.Normalize();
-                    vector272 *= (CalamityWorld.bossRushActive ? 18f : 12f);
+                    vector272 *= CalamityWorld.bossRushActive ? 18f : 12f;
                     npc.velocity = (npc.velocity * 5f + vector272) / 6f;
                 }
             }
@@ -394,7 +394,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (value74.Length() > 10f)
                     {
                         value74.Normalize();
-                        value74 *= (CalamityWorld.bossRushActive ? 24f : 14f);
+                        value74 *= CalamityWorld.bossRushActive ? 24f : 14f;
                     }
                     npc.velocity = (npc.velocity * 4f + value74) / 5f;
                     return;

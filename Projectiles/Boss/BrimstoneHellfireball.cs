@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.velocity.Y *= 1.01f;
             projectile.velocity.X *= 1.01f;
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
             if (projectile.ai[0] == 0f)
             {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);

@@ -75,7 +75,6 @@ namespace CalamityMod.Projectiles.Summon
                 float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
                 if (num478 < num474)
                 {
-                    num474 = num478;
                     num472 = num476;
                     num473 = num477;
                     flag17 = true;
@@ -117,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 288);
+            projectile.width = projectile.height = 288;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;

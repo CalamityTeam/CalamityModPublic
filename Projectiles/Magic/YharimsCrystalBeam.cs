@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                 }
             }
-            return (float)((int)indexing) / 6f;
+            return (float)(int)indexing / 6f;
         }
 
         public override void AI()
@@ -121,7 +121,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.Kill();
                 return;
             }
-            float num810 = (float)((int)projectile.ai[0]) - 2.5f;
+            float num810 = (float)(int)projectile.ai[0] - 2.5f;
             Vector2 value36 = Vector2.Normalize(Main.projectile[(int)projectile.ai[1]].velocity);
             Projectile projectile2 = Main.projectile[(int)projectile.ai[1]];
             float num811 = num810 * 0.5235988f;
@@ -172,7 +172,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 vector71 = new Vector2?(Main.player[projectile.owner].Center);
             }
-            projectile.friendly = (projectile2.ai[0] > 30f);
+            projectile.friendly = projectile2.ai[0] > 30f;
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
             {
                 projectile.velocity = -Vector2.UnitY;

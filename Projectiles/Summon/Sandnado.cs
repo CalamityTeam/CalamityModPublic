@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num8 = 0.1f;
-            float num9 = ((float)projectile.width * 2f);
+            float num9 = (float)projectile.width * 2f;
             for (int j = 0; j < 1000; j++)
             {
                 if (j != projectile.whoAmI && Main.projectile[j].active && Main.projectile[j].owner == projectile.owner && Main.projectile[j].type == projectile.type &&
@@ -104,7 +104,6 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 vector = projectile.position;
             float num10 = 400f;
             bool flag = false;
-            int num11 = -1;
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.alpha += 20;
@@ -132,10 +131,9 @@ namespace CalamityMod.Projectiles.Summon
                     float num12 = Vector2.Distance(vector2, center);
                     if (((Vector2.Distance(center, vector) > num12 && num12 < num10) || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
-                        num10 = num12;
                         vector = vector2;
                         flag = true;
-                        num11 = npc.whoAmI;
+                        int num11 = npc.whoAmI;
                     }
                 }
             }
@@ -153,7 +151,6 @@ namespace CalamityMod.Projectiles.Summon
                             num10 = num13;
                             vector = vector3;
                             flag = true;
-                            num11 = k;
                         }
                     }
                 }
@@ -203,7 +200,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 float num21 = 12f;
                 Vector2 center2 = projectile.Center;
-                Vector2 vector6 = (player.Center - center2 + new Vector2(0f, -60f)) + new Vector2(0f, 40f);
+                Vector2 vector6 = player.Center - center2 + new Vector2(0f, -60f) + new Vector2(0f, 40f);
                 float num23 = vector6.Length();
                 if (num23 > 200f && num21 < 12f)
                 {
@@ -253,11 +250,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.velocity.X > 0f)
             {
-                projectile.spriteDirection = (projectile.direction = -1);
+                projectile.spriteDirection = projectile.direction = -1;
             }
             else if (projectile.velocity.X < 0f)
             {
-                projectile.spriteDirection = (projectile.direction = 1);
+                projectile.spriteDirection = projectile.direction = 1;
             }
             if (projectile.ai[1] > 0f)
             {

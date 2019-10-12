@@ -54,12 +54,12 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             projectile.scale = num395 + 0.95f;
@@ -133,7 +133,6 @@ namespace CalamityMod.Projectiles.Summon
                         float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
                         if (num541 < num537 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
-                            num537 = num541;
                             num535 = num539;
                             num536 = num540;
                             flag19 = true;
@@ -255,7 +254,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (((Main.npc[i].active && !Main.npc[i].dontTakeDamage)) &&
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
