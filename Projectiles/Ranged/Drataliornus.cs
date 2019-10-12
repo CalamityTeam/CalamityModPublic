@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
                         for (int num227 = 0; num227 < num226; num227++)
                         {
                             Vector2 vector6 = Vector2.Normalize(projectile.velocity) * 9f;
-                            vector6 = vector6.RotatedBy(((num227 - (num226 / 2 - 1)) * 6.28318548f / num226), default) + player.Center;
+                            vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * 6.28318548f / num226, default) + player.Center;
                             Vector2 vector7 = vector6 - player.Center;
                             int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 127, 0f, 0f, 0, default, 4f);
                             Main.dust[num228].noGravity = true;
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Ranged
                     projectile.velocity.X += Main.mouseX;
                     projectile.velocity.Y += Main.mouseY;
                     if (player.gravDir == -1f)
-                        projectile.velocity.Y = (Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - playerPosition.Y;
+                        projectile.velocity.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - playerPosition.Y;
 
                     projectile.velocity.Normalize();
 

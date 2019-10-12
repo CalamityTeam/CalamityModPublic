@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 1f) / 255f, 0f);
+            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 1f / 255f, 0f);
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
             if (projectile.localAI[1] == 0f)
             {

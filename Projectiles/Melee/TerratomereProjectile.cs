@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                 projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
             }
-            Lighting.AddLight(projectile.Center, 0f, ((255 - projectile.alpha) * 0.75f) / 255f, 0f);
+            Lighting.AddLight(projectile.Center, 0f, (255 - projectile.alpha) * 0.75f / 255f, 0f);
         }
 
         public override Color? GetAlpha(Color lightColor)

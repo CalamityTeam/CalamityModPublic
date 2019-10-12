@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             if (npc.justHit)
             {
                 hasBeenHit = true;
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
             Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.width = (npc.height = 40);
+            npc.width = npc.height = 40;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -195,7 +195,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 for (iBoom = 0; iBoom < 5; iBoom++)
                 {
                     int projectileType = mod.ProjectileType("ToxicMinnowCloud");
-                    offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
+                    offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
                     int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                     int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                 }

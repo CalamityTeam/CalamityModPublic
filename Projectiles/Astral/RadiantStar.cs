@@ -82,9 +82,9 @@ namespace CalamityMod.Projectiles.Astral
                             speed = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
                         }
                         speed.Normalize();
-                        speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2.5f;
+                        speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, mod.ProjectileType("RadiantStar2"), projectile.damage, projectile.knockBack, projectile.owner,
-                            (projectile.ai[0] == 1f ? 1f : 0f), 0f);
+                            projectile.ai[0] == 1f ? 1f : 0f, 0f);
                     }
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, mod.ProjectileType("RadiantExplosion"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

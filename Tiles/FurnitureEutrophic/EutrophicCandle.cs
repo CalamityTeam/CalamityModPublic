@@ -55,8 +55,8 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
 
         public override void HitWire(int i, int j)
         {
-            int x = i - (Main.tile[i, j].frameX / 18) % 1;
-            int y = j - (Main.tile[i, j].frameY / 18) % 1;
+            int x = i - Main.tile[i, j].frameX / 18 % 1;
+            int y = j - Main.tile[i, j].frameY / 18 % 1;
             for (int l = x; l < x + 1; l++)
             {
                 for (int m = y; m < y + 1; m++)

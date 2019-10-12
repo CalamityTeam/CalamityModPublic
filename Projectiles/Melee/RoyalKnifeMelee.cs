@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.alpha += 4;
                 projectile.damage = (int)((double)projectile.damage * 0.95);
-                projectile.knockBack = (float)((int)((double)projectile.knockBack * 0.95));
+                projectile.knockBack = (float)(int)((double)projectile.knockBack * 0.95);
             }
             if (projectile.ai[0] < 240f)
             {

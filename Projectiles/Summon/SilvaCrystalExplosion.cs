@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.localAI[0] == 0f)
             {
                 projectile.localAI[0] = Main.rand.NextFloat() * 0.8f + 0.8f;
-                projectile.direction = ((Main.rand.Next(2) > 0) ? 1 : -1);
+                projectile.direction = (Main.rand.Next(2) > 0) ? 1 : -1;
             }
             projectile.rotation = projectile.localAI[1] / 40f * 6.28318548f * (float)projectile.direction;
             if (projectile.alpha > 0)
@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Summon
                 int height2 = projectile.height;
                 int num75 = projectile.penetrate;
                 projectile.position = projectile.Center;
-                projectile.width = (projectile.height = 60);
+                projectile.width = projectile.height = 60;
                 projectile.Center = projectile.position;
                 projectile.penetrate = -1;
                 projectile.maxPenetrate = -1;

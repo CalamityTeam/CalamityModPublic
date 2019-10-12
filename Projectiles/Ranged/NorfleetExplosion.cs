@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             bool flag15 = false;
             bool flag16 = false;
             if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Ranged
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (Main.rand.NextBool(2) ? 221 : 244), 0f, 0f, 100, default, 2f);
+                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.NextBool(2) ? 221 : 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num467].noGravity = true;
                 Main.dust[num467].position.X = projectile.Center.X;
                 Main.dust[num467].position.Y = projectile.Center.Y;

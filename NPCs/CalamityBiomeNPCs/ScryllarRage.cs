@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.CalamityBiomeNPCs
         public override void AI()
         {
             npc.rotation = npc.velocity.X * 0.04f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             bool flag19 = false;
             if (npc.justHit)
             {

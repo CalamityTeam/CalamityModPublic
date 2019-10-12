@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     for (i = 0; i < 1; i++)
                     {
-                        offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("WhiteOrb"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                         int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("WhiteOrb"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                         Main.projectile[projectile1].velocity.X *= 0.1f;
@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 whiteLightTimer = 5;
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
             for (int num457 = 0; num457 < 2; num457++)
             {
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 91, 0f, 0f, 100, default, 1.25f);

@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Patreon
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = height);
+            projectile.width = projectile.height = height;
             projectile.Center = projectile.position;
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;

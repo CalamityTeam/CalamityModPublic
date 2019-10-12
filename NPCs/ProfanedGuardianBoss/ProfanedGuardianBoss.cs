@@ -134,7 +134,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
             bool flag100 = false;
             for (int num569 = 0; num569 < 200; num569++)
             {
-                if ((Main.npc[num569].active && Main.npc[num569].type == (mod.NPCType("ProfanedGuardianBoss2"))) || (Main.npc[num569].active && Main.npc[num569].type == mod.NPCType("ProfanedGuardianBoss3")))
+                if ((Main.npc[num569].active && Main.npc[num569].type == mod.NPCType("ProfanedGuardianBoss2")) || (Main.npc[num569].active && Main.npc[num569].type == mod.NPCType("ProfanedGuardianBoss3")))
                 {
                     flag100 = true;
                 }
@@ -155,7 +155,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
             float num998 = 8f;
             float scaleFactor3 = 300f;
             float num999 = 800f;
-            float num1000 = ((lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f);
+            float num1000 = (lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f;
             if (revenge)
             {
                 num1000 *= 1.15f;
@@ -166,7 +166,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
             float scaleFactor5 = 10f;
             float num1003 = 30f;
             float num1004 = 150f;
-            float num1005 = ((lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f);
+            float num1005 = (lifeRatio < 0.75f || CalamityWorld.death || CalamityWorld.bossRushActive) ? 14f : 16f;
             if (revenge)
             {
                 num1005 *= 1.15f;
@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                         case 0:
                             for (i = 0; i < 9; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
                                 Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
@@ -225,7 +225,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                             velocity = 5.5f;
                             for (i = 0; i < 6; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
                                 Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                             velocity = 6f;
                             for (i = 0; i < 4; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i; // Used to be 32
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
                                 Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                             }
@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                     flag64 = true;
                 }
                 float num1014 = 8f;
-                flag64 = (flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014);
+                flag64 = flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014;
                 if (num1013 > num999 || !flag64)
                 {
                     npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;
@@ -402,7 +402,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

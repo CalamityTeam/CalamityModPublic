@@ -86,8 +86,8 @@ namespace CalamityMod.Projectiles.SunkenSea
                 projectile.damage = 70;
                 if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
                 {
-                    int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                        projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                    int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                        projectile.Calamity().spawnedPlayerMinionDamageValue *
                         Main.player[projectile.owner].minionDamage);
                     projectile.damage = damage2;
                 }
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.SunkenSea
                         if (npcTarget.CanBeChasedBy(projectile, false))
                         {
                             float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
-                            if (((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC))
+                            if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
                             {
                                 num633 = num646;
                                 vector46 = npcTarget.Center;
@@ -380,7 +380,7 @@ namespace CalamityMod.Projectiles.SunkenSea
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (((Main.npc[i].active && !Main.npc[i].dontTakeDamage && Main.npc[i].defense < 9999)) &&
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && Main.npc[i].defense < 9999 &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {

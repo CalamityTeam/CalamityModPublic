@@ -88,7 +88,7 @@ namespace CalamityMod.UI
 
         public float GetPercentile()
         {
-            return ((float)getValue() / Math.Max(1, ((float)valueMax - 1)));
+            return (float)getValue() / Math.Max(1, (float)valueMax - 1);
         }
 
         Vector2 offset;
@@ -120,7 +120,7 @@ namespace CalamityMod.UI
             {
                 tick = 10000;
             }
-            barPanel.Width.Set((GetPercentile() * barWidth), 0f); //set the bar's width to the given percentile.
+            barPanel.Width.Set(GetPercentile() * barWidth, 0f); //set the bar's width to the given percentile.
         }
 
         protected override void DrawSelf(SpriteBatch spriteBatch)

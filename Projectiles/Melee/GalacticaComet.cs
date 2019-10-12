@@ -52,10 +52,10 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
+                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
                     vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
-                    int num9 = Dust.NewDust(projectile.Center, 0, 0, (Main.rand.NextBool(2) ? 164 : 229), 0f, 0f, 160, default, 1f);
+                    int num9 = Dust.NewDust(projectile.Center, 0, 0, Main.rand.NextBool(2) ? 164 : 229, 0f, 0f, 160, default, 1f);
                     Main.dust[num9].scale = 1.1f;
                     Main.dust[num9].noGravity = true;
                     Main.dust[num9].position = projectile.Center + vector3;
@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 144);
+            projectile.width = projectile.height = 144;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num193 = 0; num193 < 4; num193++)

@@ -187,7 +187,7 @@ namespace CalamityMod.Projectiles.Magic
             float rotation = unit.ToRotation();
             start += unit * 18f;
             end -= unit * 18f;
-            float offset = (projectile.ai[0] * 2f) % texture.Width;
+            float offset = projectile.ai[0] * 2f % texture.Width;
             start += unit * offset;
             distance -= offset;
             int count = (int)(distance / texture.Width);

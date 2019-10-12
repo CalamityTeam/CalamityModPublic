@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.noGravity = true;
             bool flag14 = false;
             if (npc.direction == 0)

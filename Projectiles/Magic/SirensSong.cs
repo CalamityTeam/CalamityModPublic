@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.velocity.X > 0f)
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             else
-                projectile.rotation = (float)Math.Atan2((double)(-(double)projectile.velocity.Y), (double)(-(double)projectile.velocity.X));
+                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

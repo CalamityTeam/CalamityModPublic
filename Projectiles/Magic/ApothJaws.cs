@@ -33,10 +33,10 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.timeLeft % 8 == 0)
             {
-                double angle = (double)(Main.rand.Next(360)) * Math.PI / 180;
-                float offsetX = projectile.position.X + (float)(Main.rand.Next((int)projectile.width));
-                float offsetY = projectile.position.Y + (float)(Main.rand.Next((int)projectile.height));
-                Projectile.NewProjectile(offsetX, offsetY, 14 * (float)(Math.Cos(angle)), 14 * (float)(Math.Sin(angle)), mod.ProjectileType("ApothChloro"), projectile.damage, projectile.knockBack / 2, Main.myPlayer);
+                double angle = (double)Main.rand.Next(360) * Math.PI / 180;
+                float offsetX = projectile.position.X + (float)Main.rand.Next((int)projectile.width);
+                float offsetY = projectile.position.Y + (float)Main.rand.Next((int)projectile.height);
+                Projectile.NewProjectile(offsetX, offsetY, 14 * (float)Math.Cos(angle), 14 * (float)Math.Sin(angle), mod.ProjectileType("ApothChloro"), projectile.damage, projectile.knockBack / 2, Main.myPlayer);
             }
             if (projectile.timeLeft < 30)
                 projectile.alpha = projectile.alpha + 6;

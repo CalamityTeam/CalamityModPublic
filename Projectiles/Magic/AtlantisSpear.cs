@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = 0; i < numProj; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("AtlantisSpear2"), (int)((double)projectile.damage), projectile.knockBack, projectile.owner, 0f, 0f);
+                int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, mod.ProjectileType("AtlantisSpear2"), (int)(double)projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[projectile2].penetrate = 1;
             }
             for (int k = 0; k < 3; k++)

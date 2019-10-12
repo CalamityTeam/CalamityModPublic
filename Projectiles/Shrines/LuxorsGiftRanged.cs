@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Shrines
             {
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
+                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
                     vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
                     int num9 = Dust.NewDust(projectile.Center, 0, 0, 135, 0f, 0f, 160, default, 1f);
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Shrines
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 16);
+            projectile.width = projectile.height = 16;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;

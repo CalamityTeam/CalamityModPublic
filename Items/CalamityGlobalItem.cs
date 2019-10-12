@@ -225,7 +225,7 @@ namespace CalamityMod.Items
                         for (i = 0; i < 4; i++)
                         {
                             Vector2 vector2 = new Vector2(player.Center.X, player.Center.Y);
-                            offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("ChaosFlare2"), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
                             Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("ChaosFlare2"), (int)((double)damage * 0.5), 1.25f, player.whoAmI, 0f, 0f);
                         }
@@ -331,10 +331,10 @@ namespace CalamityMod.Items
                 bool boostedHeart = player.Calamity().photosynthesis;
                 if (NPC.AnyNPCs(mod.NPCType("SupremeCalamitas")))
                 {
-                    player.statLife -= (boostedHeart ? 5 : 10);
+                    player.statLife -= boostedHeart ? 5 : 10;
                     if (Main.myPlayer == player.whoAmI)
                     {
-                        player.HealEffect((boostedHeart ? -5 : -10), true);
+                        player.HealEffect(boostedHeart ? -5 : -10, true);
                     }
                 }
                 else if (boostedHeart)
@@ -2214,7 +2214,7 @@ namespace CalamityMod.Items
                 player.rangedCrit -= 1;
                 player.magicCrit -= 1;
                 player.thrownCrit -= 1;
-                player.Calamity().throwingCrit += (item.prefix == 68 ? 3 : 1);
+                player.Calamity().throwingCrit += item.prefix == 68 ? 3 : 1;
             }
         }
         #endregion

@@ -90,7 +90,7 @@ namespace CalamityMod.World
                     int num5 = Math.Min(num, (int)Math.Sqrt((double)((float)num3 - num4 * num4)));
                     for (int j = point.X - num5; j <= point.X + num5; j++)
                     {
-                        array[j, i] = (WorldGen.genRand.Next(2) == 0);
+                        array[j, i] = WorldGen.genRand.Next(2) == 0;
                     }
                 }
                 List<List<Point>> list = new List<List<Point>>();

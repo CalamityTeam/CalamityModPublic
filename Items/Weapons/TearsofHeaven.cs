@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons
                 float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(double)damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

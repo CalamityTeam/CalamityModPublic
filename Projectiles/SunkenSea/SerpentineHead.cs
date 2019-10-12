@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f, ((255 - projectile.alpha) * 0.55f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.55f / 255f, (255 - projectile.alpha) * 0.55f / 255f);
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 40;
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.SunkenSea
             Main.dust[num114].noGravity = true;
             projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
             int direction = projectile.direction;
-            projectile.direction = (projectile.spriteDirection = ((projectile.velocity.X > 0f) ? 1 : -1));
+            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0f) ? 1 : -1;
             if (direction != projectile.direction)
             {
                 projectile.netUpdate = true;
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.SunkenSea
             float num1061 = MathHelper.Clamp(projectile.localAI[0], 0f, 50f);
             projectile.position = projectile.Center;
             projectile.scale = 1f + num1061 * 0.01f;
-            projectile.width = (projectile.height = (int)(10 * projectile.scale));
+            projectile.width = projectile.height = (int)(10 * projectile.scale);
             projectile.Center = projectile.position;
 
             projectile.ai[0] += 1f;

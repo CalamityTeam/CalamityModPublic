@@ -369,7 +369,7 @@ namespace CalamityMod.World
                 int x = CalamityWorld.abyssSide ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
                 while ((float)x > (float)Main.spawnTileX - worldEdgeMargin && (float)x < (float)Main.spawnTileX + worldEdgeMargin)
                 {
-                    x = (CalamityWorld.abyssSide ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400));
+                    x = CalamityWorld.abyssSide ? rand.Next(400, xLimit) : rand.Next(xLimit, Main.maxTilesX - 400);
                 }
                 //world surface = 920 large 740 medium 560 small
                 int y = (int)(Main.worldSurface * 0.5); //Large = 522, Medium = 444, Small = 336
@@ -639,11 +639,11 @@ namespace CalamityMod.World
             float angle = MathHelper.Pi * 0.15f;
             float otherAngle = MathHelper.PiOver2 - angle;
 
-            int distanceInTiles = 150 + ((Main.maxTilesX - 4200) / 4200) * 200;
+            int distanceInTiles = 150 + (Main.maxTilesX - 4200) / 4200 * 200;
             float distance = distanceInTiles * 16f;
-            float constant = (distance * 2f) / (float)Math.Sin(angle);
+            float constant = distance * 2f / (float)Math.Sin(angle);
 
-            float fociSpacing = ((distance * (float)Math.Sin(otherAngle)) / (float)Math.Sin(angle));
+            float fociSpacing = distance * (float)Math.Sin(otherAngle) / (float)Math.Sin(angle);
             int verticalRadius = (int)(constant / 16f);
 
             Vector2 fociOffset = Vector2.UnitY * fociSpacing;
@@ -1207,7 +1207,7 @@ namespace CalamityMod.World
             bool twoTall = tile.frameY <= 54;
             bool hanging = tile.frameY <= 18 || tile.frameY == 72;
 
-            int yOriginTile = (hanging ? topMost - 1 : (twoTall ? topMost + 2 : y + 1));
+            int yOriginTile = hanging ? topMost - 1 : (twoTall ? topMost + 2 : y + 1);
 
             if (Main.tile[x, topMost++] != null)
                 Main.tile[x, topMost++].type = replaceType;
@@ -1355,10 +1355,10 @@ namespace CalamityMod.World
                 }
                 num14 += WorldGen.genRand.Next(-3, 4);
                 num15 = WorldGen.genRand.Next(4, 8);
-                int num16 = (WorldGen.crimson ? 400 : 401);
+                int num16 = WorldGen.crimson ? 400 : 401;
                 if (WorldGen.genRand.Next(4) == 0)
                 {
-                    num16 = (WorldGen.crimson ? 398 : 399);
+                    num16 = WorldGen.crimson ? 398 : 399;
                 }
                 for (int n = m - num15; n <= m + num15; n++)
                 {
@@ -1480,7 +1480,7 @@ namespace CalamityMod.World
                 {
                     num24 += WorldGen.genRand.Next(0, 4);
                     int num25 = WorldGen.genRand.Next(2, 5);
-                    int num26 = (WorldGen.crimson ? 400 : 401);
+                    int num26 = WorldGen.crimson ? 400 : 401;
                     for (int num27 = num23 - num25; num27 <= num23 + num25; num27++)
                     {
                         for (int num28 = num24 - num25; num28 <= num24 + num25; num28++)
@@ -1573,10 +1573,10 @@ namespace CalamityMod.World
                 int num40 = WorldGen.genRand.Next(num3 - 5, num4 + 5);
                 int num41 = num5 - WorldGen.genRand.Next(20, 40);
                 int num42 = WorldGen.genRand.Next(4, 8);
-                int num43 = (WorldGen.crimson ? 400 : 401);
+                int num43 = WorldGen.crimson ? 400 : 401;
                 if (WorldGen.genRand.Next(2) == 0)
                 {
-                    num43 = (WorldGen.crimson ? 398 : 399);
+                    num43 = WorldGen.crimson ? 398 : 399;
                 }
                 for (int num44 = num40 - num42; num44 <= num40 + num42; num44++)
                 {
@@ -1704,7 +1704,7 @@ namespace CalamityMod.World
                 Main.tile[num11, num10 - 1].active(false);
                 Main.tile[num11, num10 - 2].active(false);
             }
-            WorldGen.PlaceTile(num9, num10, 10, true, false, -1, (WorldGen.crimson ? 1 : 10)); //door
+            WorldGen.PlaceTile(num9, num10, 10, true, false, -1, WorldGen.crimson ? 1 : 10); //door
             num9 = i + (num2 + 1) * -num - num;
             for (int num12 = num6; num12 <= num7 + 1; num12++)
             {
@@ -1724,7 +1724,7 @@ namespace CalamityMod.World
             {
                 contain = 1569; //vampire
             }
-            WorldGen.AddBuriedChest(i, num10 - 3, contain, false, (WorldGen.crimson ? 19 : 20)); //chest
+            WorldGen.AddBuriedChest(i, num10 - 3, contain, false, WorldGen.crimson ? 19 : 20); //chest
             int num14 = i - num2 / 2 + 1;
             int num15 = i + num2 / 2 - 1;
             int num16 = 1;
@@ -1748,13 +1748,13 @@ namespace CalamityMod.World
                 }
             }
             int num22 = i + (num2 / 2 + 1) * -num;
-            WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, (WorldGen.crimson ? 1 : 8)); //table
-            WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, (WorldGen.crimson ? 2 : 11)); //chair
+            WorldGen.PlaceTile(num22, num7 - 1, 14, true, false, -1, WorldGen.crimson ? 1 : 8); //table
+            WorldGen.PlaceTile(num22 - 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
             Tile expr_510 = Main.tile[num22 - 2, num7 - 1];
             expr_510.frameX += 18;
             Tile expr_531 = Main.tile[num22 - 2, num7 - 2];
             expr_531.frameX += 18;
-            WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, (WorldGen.crimson ? 2 : 11)); //chair
+            WorldGen.PlaceTile(num22 + 2, num7 - 1, 15, true, false, 0, WorldGen.crimson ? 2 : 11); //chair
         }
         #endregion
 
@@ -2265,10 +2265,10 @@ namespace CalamityMod.World
                 }
                 num14 += WorldGen.genRand.Next(-3, 4);
                 num15 = WorldGen.genRand.Next(4, 8);
-                int num16 = (isVoid ? mod.TileType("Voidstone") : mod.TileType("AbyssGravel"));
+                int num16 = isVoid ? mod.TileType("Voidstone") : mod.TileType("AbyssGravel");
                 if (WorldGen.genRand.Next(4) == 0)
                 {
-                    num16 = (hasChest ? mod.TileType("ChaoticOre") : mod.TileType("PlantyMush"));
+                    num16 = hasChest ? mod.TileType("ChaoticOre") : mod.TileType("PlantyMush");
                 }
                 for (int n = m - num15; n <= m + num15; n++)
                 {
@@ -2374,7 +2374,7 @@ namespace CalamityMod.World
                 {
                     num24 += WorldGen.genRand.Next(0, 4);
                     int num25 = WorldGen.genRand.Next(2, 5);
-                    int num26 = (isVoid ? mod.TileType("Voidstone") : mod.TileType("AbyssGravel"));
+                    int num26 = isVoid ? mod.TileType("Voidstone") : mod.TileType("AbyssGravel");
                     for (int num27 = num23 - num25; num27 <= num23 + num25; num27++)
                     {
                         for (int num28 = num24 - num25; num28 <= num24 + num25; num28++)
@@ -2943,8 +2943,8 @@ namespace CalamityMod.World
                     item = mod.ItemType("TrinketofChi");
                     break;
                 case 1:
-                    item = (WorldGen.crimson ? mod.ItemType("CrimsonEffigy") : mod.ItemType("CorruptionEffigy"));
-                    chestType = (WorldGen.crimson ? 43 : 3);
+                    item = WorldGen.crimson ? mod.ItemType("CrimsonEffigy") : mod.ItemType("CorruptionEffigy");
+                    chestType = WorldGen.crimson ? 43 : 3;
                     break;
                 case 2:
                     item = mod.ItemType("OnyxExcavatorKey");
@@ -3061,15 +3061,15 @@ namespace CalamityMod.World
                     {
                         if (num3 < (ocean ? 42.0 : 14.0)) //min width
                         {
-                            num3 = (ocean ? 42.0 : 14.0); //min width
+                            num3 = ocean ? 42.0 : 14.0; //min width
                         }
                         if (num3 > (ocean ? 60.0 : 40.0)) //max width
                         {
-                            num3 = (ocean ? 60.0 : 40.0); //max width
+                            num3 = ocean ? 60.0 : 40.0; //max width
                         }
                         if (num == 1f && num3 < (ocean ? 50.0 : 20.0))
                         {
-                            num3 = (ocean ? 50.0 : 20.0);
+                            num3 = ocean ? 50.0 : 20.0;
                         }
                     }
                 }

@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
         {
             Player player = Main.player[npc.target];
             float speedBoost = brokenMask ? 1.5f : 1;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.noGravity = true;
             if (npc.direction == 0)
             {

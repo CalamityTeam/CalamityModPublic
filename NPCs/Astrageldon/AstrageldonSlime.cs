@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Astrageldon
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.25f, 0f);
             npc.rotation = Math.Abs(npc.velocity.X) * (float)npc.direction * 0.04f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             if (npc.alpha > 0)
             {
                 npc.alpha -= 5;
@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.Astrageldon
                 Vector2 vector = Main.player[npc.target].Center - npc.Center;
                 Point point15 = npc.Center.ToTileCoordinates();
                 Tile tileSafely = Framing.GetTileSafely(point15);
-                bool flag121 = (tileSafely.nactive() && Main.tileSolid[tileSafely.type] && !Main.tileSolidTop[tileSafely.type] && !TileID.Sets.Platforms[tileSafely.type]);
+                bool flag121 = tileSafely.nactive() && Main.tileSolid[tileSafely.type] && !Main.tileSolidTop[tileSafely.type] && !TileID.Sets.Platforms[tileSafely.type];
                 if (vector.Length() < 60f || flag121)
                 {
                     npc.dontTakeDamage = false;
@@ -245,7 +245,7 @@ namespace CalamityMod.NPCs.Astrageldon
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
             npc.damage = 150;
-            npc.width = (npc.height = 216);
+            npc.width = npc.height = 216;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
             for (int num621 = 0; num621 < 15; num621++)

@@ -85,7 +85,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             if (CalamityWorld.revenge && Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, (Main.rand.NextBool(2) ? mod.ItemType("SirensHeart") : mod.ItemType("SirensHeartAlt")));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? mod.ItemType("SirensHeart") : mod.ItemType("SirensHeartAlt"));
             }
         }
 

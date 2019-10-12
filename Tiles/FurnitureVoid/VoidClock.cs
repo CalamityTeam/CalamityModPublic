@@ -85,7 +85,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             //Get the decimal points of time.
             double deltaTime = time - intTime;
             //multiply them by 60. Minutes, probably
-            deltaTime = ((int)(deltaTime * 60.0));
+            deltaTime = (int)(deltaTime * 60.0);
             //This could easily be replaced by deltaTime.ToString()
             string text2 = string.Concat(deltaTime);
             if (deltaTime < 10.0)

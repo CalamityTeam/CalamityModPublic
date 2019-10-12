@@ -36,8 +36,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
             int xOffset = 0; //Used to shift the pattern tiles patterns
             int xPos = i % 2;
             int yPos = j % 3;
-            int xPattern = (i % 20) / 2;
-            int yPattern = (j % 30) / 3;
+            int xPattern = i % 20 / 2;
+            int yPattern = j % 30 / 3;
             switch (xPattern)
             {
                 case 0:
@@ -275,8 +275,8 @@ namespace CalamityMod.Tiles.FurnitureAshen
             int xOffset = 0; //Used to shift the pattern tiles patterns
             int xPos = i % 2;
             int yPos = j % 3;
-            int xPattern = (i % 20) / 2;
-            int yPattern = (j % 30) / 3;
+            int xPattern = i % 20 / 2;
+            int yPattern = j % 30 / 3;
             switch (xPattern)
             {
                 case 0:
@@ -529,9 +529,9 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {
-                colour.R = (byte)((paintCol.R / 255f) * colour.R);
-                colour.G = (byte)((paintCol.G / 255f) * colour.G);
-                colour.B = (byte)((paintCol.B / 255f) * colour.B);
+                colour.R = (byte)(paintCol.R / 255f * colour.R);
+                colour.G = (byte)(paintCol.G / 255f * colour.G);
+                colour.B = (byte)(paintCol.B / 255f * colour.B);
             }
             return colour;
         }

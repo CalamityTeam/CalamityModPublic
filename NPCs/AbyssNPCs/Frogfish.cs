@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             int num = 200;
             if (npc.ai[2] == 0f)
             {

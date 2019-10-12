@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                projectile.localAI[0] = (float)(-(float)Main.rand.Next(48));
+                projectile.localAI[0] = (float)-(float)Main.rand.Next(48);
             }
             else if (projectile.ai[1] == 1f && projectile.owner == Main.myPlayer)
             {
@@ -179,7 +179,7 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.dust[num50].scale = 1.5f;
                 Main.dust[num50].noGravity = true;
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
             for (int num151 = 0; num151 < 3; num151++)
             {
                 int num154 = 14;
@@ -230,7 +230,7 @@ namespace CalamityMod.Projectiles.Typeless
             Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = height);
+            projectile.width = projectile.height = height;
             projectile.Center = projectile.position;
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;

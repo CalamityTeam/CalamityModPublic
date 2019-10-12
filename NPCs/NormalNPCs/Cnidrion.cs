@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             bool expertMode = Main.expertMode;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             float num823 = 1f;
             npc.TargetClosest(true);
             bool flag51 = false;
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
                     num830 *= 1f + (float)Main.rand.Next(-10, 11) * 0.01f;
-                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 8 : 11), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), expertMode ? 8 : 11, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 120f)
                 {
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + (float)Main.rand.Next(-15, 16) * 0.01f;
                     num830 *= 1f + (float)Main.rand.Next(-15, 16) * 0.01f;
-                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 9 : 12), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), expertMode ? 9 : 12, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 300f)
                 {
@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num845 *= num846;
                     num844 *= 1f + (float)Main.rand.Next(-10, 11) * 0.001f;
                     num845 *= 1f + (float)Main.rand.Next(-10, 11) * 0.001f;
-                    int num848 = Projectile.NewProjectile(vector18.X, vector18.Y, num844, num845, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 11 : 14), 0f, Main.myPlayer, 0f, 0f);
+                    int num848 = Projectile.NewProjectile(vector18.X, vector18.Y, num844, num845, mod.ProjectileType("HorsWaterBlast"), expertMode ? 11 : 14, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 120f)
                 {
@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num830 *= num831;
                     num829 *= 1f + (float)Main.rand.Next(-5, 6) * 0.01f;
                     num830 *= 1f + (float)Main.rand.Next(-5, 6) * 0.01f;
-                    int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), (expertMode ? 13 : 17), 0f, Main.myPlayer, 0f, 0f);
+                    int num833 = Projectile.NewProjectile(vector18.X, vector18.Y, num829, num830, mod.ProjectileType("HorsWaterBlast"), expertMode ? 13 : 17, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (npc.ai[1] >= 240f)
                 {

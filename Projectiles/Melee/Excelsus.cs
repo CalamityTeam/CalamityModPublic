@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.02f;
             if (Main.rand.NextBool(8))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (Main.rand.NextBool(3) ? 56 : 242), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.NextBool(3) ? 56 : 242, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 

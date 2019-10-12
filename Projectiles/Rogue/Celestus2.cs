@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation += 2f;
             projectile.velocity.X *= 1.02f;
             projectile.velocity.Y *= 1.02f;
-            Lighting.AddLight(projectile.Center, (Main.DiscoR * 0.5f) / 255f, (Main.DiscoG * 0.5f) / 255f, (Main.DiscoB * 0.5f) / 255f);
+            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
         }
 
         public override Color? GetAlpha(Color lightColor)

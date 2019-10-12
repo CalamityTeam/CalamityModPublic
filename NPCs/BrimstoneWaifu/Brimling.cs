@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 return;
             }
             bool goIntoShell = (double)npc.life <= (double)npc.lifeMax * 0.1;
-            bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
+            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
             if (goIntoShell || Main.npc[CalamityGlobalNPC.brimstoneElemental].ai[0] == 4f)
             {
                 boostDR = true;
@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             }
             npc.TargetClosest(true);
             npc.rotation = Math.Abs(npc.velocity.X) * (float)npc.direction * 0.1f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             Vector2 value53 = npc.Center + new Vector2((float)(npc.direction * 20), 6f);
             Vector2 vector251 = Main.player[npc.target].Center - value53;
             bool flag104 = Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1);

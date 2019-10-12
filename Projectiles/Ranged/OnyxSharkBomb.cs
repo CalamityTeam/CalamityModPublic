@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 32);
+            projectile.width = projectile.height = 32;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.maxPenetrate = -1;
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Ranged
             int i;
             for (i = 0; i < 2; i++)
             {
-                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("SandyWaifuShark"), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("SandyWaifuShark"), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
             }

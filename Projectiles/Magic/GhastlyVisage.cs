@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.65f) / 255f, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.1f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.65f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.1f / 255f);
             Player player = Main.player[projectile.owner];
             float num = 0f;
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (player.manaFlower)
                     {
                         player.QuickMana();
-                        if (player.statMana >= (int)((float)manaCost))
+                        if (player.statMana >= (int)(float)manaCost)
                         {
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                             player.statMana -= manaCost;
@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 else
                 {
-                    if (player.statMana >= (int)((float)manaCost))
+                    if (player.statMana >= (int)(float)manaCost)
                     {
                         player.statMana -= manaCost;
                         player.manaRegenDelay = (int)player.maxRegenDelay;
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
                     if (player.manaFlower)
                     {
                         player.QuickMana();
-                        if (player.statMana >= (int)((float)manaCost))
+                        if (player.statMana >= (int)(float)manaCost)
                         {
                             player.manaRegenDelay = (int)player.maxRegenDelay;
                             player.statMana -= manaCost;
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 else
                 {
-                    if (player.statMana >= (int)((float)manaCost))
+                    if (player.statMana >= (int)(float)manaCost)
                     {
                         player.statMana -= manaCost;
                         player.manaRegenDelay = (int)player.maxRegenDelay;

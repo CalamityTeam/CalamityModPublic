@@ -136,8 +136,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     npc.direction = 1;
                 }
             }
-            float num7 = (npc.wet ? 5.5f : 2.2f);
-            float num8 = (npc.wet ? 0.09f : 0.04f);
+            float num7 = npc.wet ? 5.5f : 2.2f;
+            float num8 = npc.wet ? 0.09f : 0.04f;
             if (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0))
             {
                 if (Math.Sign(npc.velocity.X) != npc.direction)
@@ -278,28 +278,28 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     {
                         if (Main.tile[num15, num16 - 3].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 3].type])
                         {
-                            npc.velocity.Y = (npc.wet ? -14f : -6.5f);
+                            npc.velocity.Y = npc.wet ? -14f : -6.5f;
                             npc.netUpdate = true;
                         }
                         else
                         {
-                            npc.velocity.Y = (npc.wet ? -12f : -6f);
+                            npc.velocity.Y = npc.wet ? -12f : -6f;
                             npc.netUpdate = true;
                         }
                     }
                     else if (Main.tile[num15, num16 - 1].nactive() && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16 - 1].type])
                     {
-                        npc.velocity.Y = (npc.wet ? -11f : -5f);
+                        npc.velocity.Y = npc.wet ? -11f : -5f;
                         npc.netUpdate = true;
                     }
                     else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].nactive() && !Main.tile[num15, num16].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16].type])
                     {
-                        npc.velocity.Y = (npc.wet ? -10f : -4f);
+                        npc.velocity.Y = npc.wet ? -10f : -4f;
                         npc.netUpdate = true;
                     }
                     else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].type]) && (!Main.tile[num15, num16 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].type]) && (!Main.tile[num15 + npc.direction, num16 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].type]))
                     {
-                        npc.velocity.Y = (npc.wet ? -13f : -6f);
+                        npc.velocity.Y = npc.wet ? -13f : -6f;
                         npc.netUpdate = true;
                     }
                 }

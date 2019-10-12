@@ -40,7 +40,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage.RareVariants
             for (int i = 0; i < numProj + 1; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, (i == 1 ? type : mod.ProjectileType("IchorSpear2")), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : mod.ProjectileType("IchorSpear2"), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

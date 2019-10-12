@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, ((float)Main.DiscoR / 255f), ((float)Main.DiscoG / 255f), ((float)Main.DiscoB / 255f));
+            Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
             if (projectile.localAI[0] == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = Main.player[projectile.owner].minionDamage;
@@ -46,8 +46,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Summon
             float num637 = 0.05f;
             for (int num638 = 0; num638 < 1000; num638++)
             {
-                bool flag23 = (Main.projectile[num638].type == mod.ProjectileType("CosmicEnergy"));
+                bool flag23 = Main.projectile[num638].type == mod.ProjectileType("CosmicEnergy");
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)
@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Summon
                 bool flag26 = false;
                 if (!flag26)
                 {
-                    flag26 = (projectile.ai[1] == 1f);
+                    flag26 = projectile.ai[1] == 1f;
                 }
                 float num650 = 6f;
                 if (flag26)

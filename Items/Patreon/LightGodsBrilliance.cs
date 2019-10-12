@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Patreon
                 float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-50, 51) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-50, 51) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(double)damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             if (Main.rand.NextBool(3))
             {

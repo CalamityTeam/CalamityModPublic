@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.lavaImmune = false;
-            if (Collision.LavaCollision(player.position, player.width, (player.waterWalk ? (player.height - 6) : player.height)))
+            if (Collision.LavaCollision(player.position, player.width, player.waterWalk ? (player.height - 6) : player.height))
             {
                 player.Calamity().KillPlayer();
             }

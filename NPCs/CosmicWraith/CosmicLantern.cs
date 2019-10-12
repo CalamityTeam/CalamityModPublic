@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.CosmicWraith
                 Main.dust[num1262].noGravity = true;
             }
             npc.rotation = npc.velocity.X * 0.08f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.TargetClosest(true);
             Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
             float playerDistX = Main.player[npc.target].Center.X - vector145.X;

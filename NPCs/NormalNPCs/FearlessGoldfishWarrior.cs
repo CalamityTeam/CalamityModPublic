@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.ai[3] = 0f;
                     if (npc.ai[2] >= 60f)
                     {
-                        npc.velocity.X = 0.5f * (float)(-(float)npc.direction);
+                        npc.velocity.X = 0.5f * (float)-(float)npc.direction;
                         int num172 = 5;
                         if (Main.tile[num170, num171 - 1].type == 388)
                         {

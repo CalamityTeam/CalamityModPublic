@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.Bumblefuck
                     {
                         int damage = Main.expertMode ? 50 : 60;
 
-                        int num1307 = (phase2 ? Main.rand.Next(2) + 1 : Main.rand.Next(3));
+                        int num1307 = phase2 ? Main.rand.Next(2) + 1 : Main.rand.Next(3);
                         if (phase3)
                             num1307 = 1;
 

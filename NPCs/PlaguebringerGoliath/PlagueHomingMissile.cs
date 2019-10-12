@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
-            npc.width = (npc.height = 216);
+            npc.width = npc.height = 216;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
             for (int num621 = 0; num621 < 15; num621++)

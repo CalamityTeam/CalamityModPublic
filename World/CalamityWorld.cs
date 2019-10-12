@@ -851,7 +851,7 @@ namespace CalamityMod.World
                                     break;
                                 case 5:
                                     ChangeTime(true);
-                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))),
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)),
                                         (int)(Main.player[closestPlayer].position.Y - 400f),
                                         NPCID.Golem, 0, 0f, 0f, 0f, 0f, 255);
                                     break;
@@ -905,7 +905,7 @@ namespace CalamityMod.World
                                     break;
                                 case 18:
                                     int num1302 = NPC.NewNPC((int)Main.player[closestPlayer].Center.X, (int)Main.player[closestPlayer].Center.Y - 400, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
-                                    Main.npc[num1302].direction = (Main.npc[num1302].spriteDirection = Math.Sign(Main.player[closestPlayer].Center.X - (float)Main.player[closestPlayer].Center.X - 90f));
+                                    Main.npc[num1302].direction = Main.npc[num1302].spriteDirection = Math.Sign(Main.player[closestPlayer].Center.X - (float)Main.player[closestPlayer].Center.X - 90f);
                                     break;
                                 case 19:
                                     for (int doom = 0; doom < 200; doom++)
@@ -917,7 +917,7 @@ namespace CalamityMod.World
                                             Main.npc[doom].netUpdate = true;
                                         }
                                     }
-                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("CrabulonIdle"), 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("CrabulonIdle"), 0, 0f, 0f, 0f, 0f, 255);
                                     break;
                                 case 20:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
@@ -938,10 +938,10 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, mod.NPCType("CosmicWraith"));
                                     break;
                                 case 26:
-                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("ScavengerBody"), 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), mod.NPCType("ScavengerBody"), 0, 0f, 0f, 0f, 0f, 255);
                                     break;
                                 case 27:
-                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)(Main.rand.Next(-100, 101))), (int)(Main.player[closestPlayer].position.Y - 400f), NPCID.DukeFishron, 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC.NewNPC((int)(Main.player[closestPlayer].position.X + (float)Main.rand.Next(-100, 101)), (int)(Main.player[closestPlayer].position.Y - 400f), NPCID.DukeFishron, 0, 0f, 0f, 0f, 0f, 255);
                                     break;
                                 case 28:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.MoonLordCore);

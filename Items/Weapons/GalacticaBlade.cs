@@ -105,7 +105,7 @@ namespace CalamityMod.Items.Weapons
         {
             if (Main.rand.NextBool(4))
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, (Main.rand.NextBool(2) ? 164 : 229));
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool(2) ? 164 : 229);
             }
         }
 

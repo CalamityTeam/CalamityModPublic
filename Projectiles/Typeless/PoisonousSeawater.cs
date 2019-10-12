@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.4f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.4f / 255f);
             int randomDust = Main.rand.Next(4);
             if (randomDust == 0)
             {

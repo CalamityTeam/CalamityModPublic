@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
+                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
                     vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
                     int num9 = Dust.NewDust(projectile.Center, 0, 0, 221, 0f, 0f, 160, default, 1f);
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
                 }
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.1f) / 255f, ((255 - projectile.alpha) * 0.7f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.1f / 255f, (255 - projectile.alpha) * 0.7f / 255f, (255 - projectile.alpha) * 0.15f / 255f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

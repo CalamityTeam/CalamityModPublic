@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Boss
                         {
                             speed = 5f;
                         }
-                        offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * speed), (float)(Math.Cos(offsetAngle) * speed), mod.ProjectileType("DoGBeam"), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * speed), (float)(-Math.Cos(offsetAngle) * speed), mod.ProjectileType("DoGBeam"), projectileDamage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Boss
             if (Vector2.Distance(Main.player[num103].Center, projectile.Center) > 2000f)
             {
                 projectile.position.X = (float)(Main.player[num103].Center.X / 16) * 16f - (float)(projectile.width / 2);
-                projectile.position.Y = ((float)(Main.player[num103].Center.Y / 16) * 16f - (float)(projectile.height / 2)) - 250f;
+                projectile.position.Y = (float)(Main.player[num103].Center.Y / 16) * 16f - (float)(projectile.height / 2) - 250f;
                 projectile.ai[1] = 0f;
                 beamTimer = 90;
             }

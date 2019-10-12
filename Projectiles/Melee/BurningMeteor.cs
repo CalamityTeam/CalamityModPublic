@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.localAI[0] = 0f;
                 for (int l = 0; l < 12; l++)
                 {
-                    Vector2 vector3 = Vector2.UnitX * (float)(-(float)projectile.width) / 2f;
+                    Vector2 vector3 = Vector2.UnitX * (float)-(float)projectile.width / 2f;
                     vector3 += -Vector2.UnitY.RotatedBy((double)((float)l * 3.14159274f / 6f), default) * new Vector2(8f, 16f);
                     vector3 = vector3.RotatedBy((double)(projectile.rotation - 1.57079637f), default);
                     int num9 = Dust.NewDust(projectile.Center, 0, 0, 244, 0f, 0f, 160, default, 1f);
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Melee
                     Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, projectile.velocity.X * 1.5f, projectile.velocity.Y * 1.5f, 150, default, 2f);
                 }
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.75f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0f / 255f);
         }
 
         public override void Kill(int timeLeft)

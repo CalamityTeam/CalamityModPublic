@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.1f) / 255f, ((255 - projectile.alpha) * 0.1f) / 255f, ((255 - projectile.alpha) * 0.1f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.1f / 255f, (255 - projectile.alpha) * 0.1f / 255f, (255 - projectile.alpha) * 0.1f / 255f);
             if (Main.rand.NextBool(3))
             {
                 int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, 264, 0f, 0f, 0, default, 0.5f);

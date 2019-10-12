@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Patreon
             Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20, 1f, 0f);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = height);
+            projectile.width = projectile.height = height;
             projectile.Center = projectile.position;
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;

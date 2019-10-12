@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.Yharon
                 npc.velocity.Y = npc.velocity.Y - num2;
             }
             int shoot = revenge ? 4 : 3;
-            npc.localAI[0] += (float)(Main.rand.Next(shoot));
+            npc.localAI[0] += (float)Main.rand.Next(shoot);
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 300f)
             {
                 npc.localAI[0] = 0f;

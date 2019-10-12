@@ -206,7 +206,7 @@ namespace CalamityMod.Projectiles.Patreon
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 88);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 64);
+            projectile.width = projectile.height = 64;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             int num226 = 36;

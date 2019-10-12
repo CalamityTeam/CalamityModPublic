@@ -23,7 +23,7 @@ namespace CalamityMod.MiscModSupport
                 // 14 is moonlord, 12 is duke fishron
                 bossChecklist.Call("AddBossWithInfo", "Desert Scourge", 1.5f, (Func<bool>)(() => CalamityWorld.downedDesertScourge), "Use a [i:" + mod.ItemType("DriedSeafood") + "] in the Desert Biome"); //1
                 bossChecklist.Call("AddBossWithInfo", "Crabulon", 2.5f, (Func<bool>)(() => CalamityWorld.downedCrabulon), "Use a [i:" + mod.ItemType("DecapoditaSprout") + "] in the Mushroom Biome"); //1.5
-                bossChecklist.Call("AddBossWithInfo", "Hive Mind / Perforator", 3.5f, (Func<bool>)(() => (CalamityWorld.downedPerforator || CalamityWorld.downedHiveMind)), "By killing a Cyst in the World's Evil Biome"); //2
+                bossChecklist.Call("AddBossWithInfo", "Hive Mind / Perforator", 3.5f, (Func<bool>)(() => CalamityWorld.downedPerforator || CalamityWorld.downedHiveMind), "By killing a Cyst in the World's Evil Biome"); //2
                 bossChecklist.Call("AddBossWithInfo", "Slime God", 5.5f, (Func<bool>)(() => CalamityWorld.downedSlimeGod), "Use an [i:" + mod.ItemType("OverloadedSludge") + "]"); //4
                 bossChecklist.Call("AddBossWithInfo", "Cryogen", 6.5f, (Func<bool>)(() => CalamityWorld.downedCryogen), "Use a [i:" + mod.ItemType("CryoKey") + "] in the Snow Biome"); //5
                 bossChecklist.Call("AddBossWithInfo", "Brimstone Elemental", 7.5f, (Func<bool>)(() => CalamityWorld.downedBrimstoneElemental), "Use a [i:" + mod.ItemType("CharredIdol") + "] in the Hell Crag"); //6

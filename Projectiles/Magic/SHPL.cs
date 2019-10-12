@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Magic
                 float scaleFactor = 3f;
                 if (projectile.ai[1] == 1f)
                 {
-                    num162 = (float)((int)projectile.localAI[0]);
+                    num162 = (float)(int)projectile.localAI[0];
                 }
                 for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
                 {

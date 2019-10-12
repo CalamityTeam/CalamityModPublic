@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 3f) / 255f, ((255 - projectile.alpha) * 3f) / 255f, ((255 - projectile.alpha) * 0f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 3f / 255f, (255 - projectile.alpha) * 3f / 255f, (255 - projectile.alpha) * 0f / 255f);
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {

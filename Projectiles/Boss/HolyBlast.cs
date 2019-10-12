@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Boss
                 int i;
                 for (i = 0; i < 4; i++)
                 {
-                    offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyFire2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                     Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), mod.ProjectileType("HolyFire2"), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
                 }

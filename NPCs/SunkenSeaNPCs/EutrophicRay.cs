@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
                 }
                 npc.noTileCollide = true;
                 npc.noGravity = true;
-                if ((npc.Center.X) < Main.player[npc.target].Center.X)
+                if (npc.Center.X < Main.player[npc.target].Center.X)
                 {
                     npc.ai[0] = 1f;
                 }
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (hasBeenHit ? 0.15f : 0f);
+            npc.frameCounter += hasBeenHit ? 0.15f : 0f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;

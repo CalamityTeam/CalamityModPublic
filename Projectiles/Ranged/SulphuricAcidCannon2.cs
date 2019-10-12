@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (((Main.npc[i].active && !Main.npc[i].dontTakeDamage)) &&
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 64);
+            projectile.width = projectile.height = 64;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             Main.PlaySound(SoundID.Item54, projectile.Center);

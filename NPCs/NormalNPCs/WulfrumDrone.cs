@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
         }
 
         public override void FindFrame(int frameHeight)

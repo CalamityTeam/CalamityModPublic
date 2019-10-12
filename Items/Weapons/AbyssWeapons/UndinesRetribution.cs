@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.AbyssWeapons
                 num79 *= num80;
                 float speedX6 = num78 + (float)Main.rand.Next(-60, 61) * 0.02f;
                 float speedY7 = num79 + (float)Main.rand.Next(-60, 61) * 0.02f;
-                float ai1 = (Main.rand.NextFloat() + 0.5f);
+                float ai1 = Main.rand.NextFloat() + 0.5f;
                 int bullet2 = Projectile.NewProjectile(vector2.X, vector2.Y, speedX6, -speedY7, type, damage, knockBack, player.whoAmI, 0.0f, ai1);
             }
             return false;

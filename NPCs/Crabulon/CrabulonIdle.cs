@@ -72,9 +72,9 @@ namespace CalamityMod.NPCs.Crabulon
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 1f);
             Player player = Main.player[npc.target];
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
@@ -239,7 +239,7 @@ namespace CalamityMod.NPCs.Crabulon
                 else
                 {
                     float playerLocation = npc.Center.X - player.Center.X;
-                    npc.direction = (playerLocation < 0 ? 1 : -1);
+                    npc.direction = playerLocation < 0 ? 1 : -1;
 
                     if (npc.direction > 0)
                         npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
@@ -439,7 +439,7 @@ namespace CalamityMod.NPCs.Crabulon
                     if ((float)(npc.life + num660) < npc.localAI[0])
                     {
                         npc.localAI[0] = (float)npc.life;
-                        int num661 = (expertMode ? Main.rand.Next(2, 4) : Main.rand.Next(1, 3));
+                        int num661 = expertMode ? Main.rand.Next(2, 4) : Main.rand.Next(1, 3);
                         for (int num662 = 0; num662 < num661; num662++)
                         {
                             int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.Crabulon
             }
             else
             {
-                CalamityMod.DrawTexture(spriteBatch, (npc.ai[0] == 2f ? texture : Main.npcTexture[npc.type]), 0, npc, drawColor, true);
+                CalamityMod.DrawTexture(spriteBatch, npc.ai[0] == 2f ? texture : Main.npcTexture[npc.type], 0, npc, drawColor, true);
             }
             return false;
         }

@@ -123,7 +123,7 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.SkeletronPrime)
             {
                 DropHelper.DropItemCondition(npc, mod.ItemType("KnowledgeSkeletronPrime"), true, !NPC.downedMechBoss3);
-                DropHelper.DropItemCondition(npc, mod.ItemType("GoldBurdenBreaker"), true, (npc.ai[1] == 2f && CalamityWorld.revenge));
+                DropHelper.DropItemCondition(npc, mod.ItemType("GoldBurdenBreaker"), true, npc.ai[1] == 2f && CalamityWorld.revenge);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
 
                 // If neither Prime nor Brimmy have been killed, show this text (not a loot function)
@@ -649,9 +649,9 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            bool hurtByAbyss = (npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage &&
+            bool hurtByAbyss = npc.wet && npc.damage > 0 && !npc.boss && !npc.friendly && !npc.dontTakeDamage &&
                 (((npc.position.Y / 16f > (Main.rockLayer - Main.maxTilesY * 0.05)) &&
-                abyssPosY && abyssPosX) || CalamityWorld.abyssTiles > 200) && !npc.buffImmune[mod.BuffType("CrushDepth")]);
+                abyssPosY && abyssPosX) || CalamityWorld.abyssTiles > 200) && !npc.buffImmune[mod.BuffType("CrushDepth")];
 
             return hurtByAbyss;
         }

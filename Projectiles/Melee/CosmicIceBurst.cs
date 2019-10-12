@@ -51,11 +51,11 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.alpha = 0;
             }
-            Lighting.AddLight(projectile.Center, 0.517f, ((float)Main.DiscoG / 300f), 0.85f);
+            Lighting.AddLight(projectile.Center, 0.517f, (float)Main.DiscoG / 300f, 0.85f);
             if (projectile.ai[0] == 1f)
             {
                 projectile.position = projectile.Center;
-                projectile.width = (projectile.height = (int)(52f * projectile.scale));
+                projectile.width = projectile.height = (int)(52f * projectile.scale);
                 projectile.Center = projectile.position;
                 projectile.Damage();
                 Main.PlaySound(SoundID.Item62, projectile.position);

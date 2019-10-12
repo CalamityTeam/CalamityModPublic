@@ -51,7 +51,7 @@ namespace CalamityMod.NPCs.SunkenSeaNPCs
 
         public override void AI()
         {
-            Lighting.AddLight(npc.Center, 0f, ((255 - npc.alpha) * 1f) / 255f, ((255 - npc.alpha) * 1f) / 255f);
+            Lighting.AddLight(npc.Center, 0f, (255 - npc.alpha) * 1f / 255f, (255 - npc.alpha) * 1f / 255f);
             if (npc.localAI[0] == 0f)
             {
                 npc.localAI[0] = 1f;

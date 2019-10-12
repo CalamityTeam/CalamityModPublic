@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Shrines
                     projectile.timeLeft = 2;
                 }
             }
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             Vector2 vector = player.Center - projectile.Center;
             projectile.rotation = vector.ToRotation() - 1.57f;
             projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Shrines
             {
                 rotation = 360;
             }
-            projectile.velocity.X = ((vector.X > 0f) ? -0.000001f : 0f);
+            projectile.velocity.X = (vector.X > 0f) ? -0.000001f : 0f;
         }
     }
 }

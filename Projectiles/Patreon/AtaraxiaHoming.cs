@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Patreon
         // Cannot deal damage for the first several frames of existence.
         public override bool CanDamage()
         {
-            return (projectile.timeLeft < Lifespan - IntangibleFrames);
+            return projectile.timeLeft < Lifespan - IntangibleFrames;
         }
     }
 }

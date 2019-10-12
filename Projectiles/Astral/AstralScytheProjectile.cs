@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Astral
                 Vector2 angleVec = angle.ToRotationVector2();
                 float distance = Main.rand.NextFloat(14f, 36f);
                 Vector2 off = angleVec * distance;
-                off.Y *= ((float)projectile.height / projectile.width);
+                off.Y *= (float)projectile.height / projectile.width;
                 Vector2 pos = projectile.Center + off;
                 Dust d = Dust.NewDustPerfect(pos, mod.DustType("AstralBlue"), angleVec * Main.rand.NextFloat(2f, 4f));
                 d.customData = true;

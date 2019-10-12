@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float ai0 = (player.altFunctionUse == 2 ? 1f : 0f);
+            float ai0 = player.altFunctionUse == 2 ? 1f : 0f;
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, ai0, 0f);
             return false;
         }

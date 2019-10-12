@@ -101,7 +101,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     reset2 = true;
                     npc.netUpdate = true;
                 }
-                npc.spriteDirection = ((npc.direction > 0) ? -1 : 1);
+                npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
                 int num = 200;
                 if (npc.ai[2] == 0f)
                 {
@@ -218,8 +218,8 @@ namespace CalamityMod.NPCs.AbyssNPCs
                             npc.TargetClosest(true);
                             npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.3f;
                             npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.2f;
-                            float speedX = (phase3 ? 3f : 12f);
-                            float speedY = (phase3 ? 2.25f : 9f);
+                            float speedX = phase3 ? 3f : 12f;
+                            float speedY = phase3 ? 2.25f : 9f;
                             if (npc.velocity.X > speedX)
                             {
                                 npc.velocity.X = speedX;
@@ -588,7 +588,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     int num24 = 7;
                     for (int j = 0; j < num24; j++)
                     {
-                        Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)((float)num24), default) + vector;
+                        Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * 3.1415926535897931 / (double)(float)num24, default) + vector;
                         Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                         int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
                         Main.dust[num25].noGravity = true;
@@ -624,7 +624,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (hasBeenHit ? 0.15f : 0.075f);
+            npc.frameCounter += hasBeenHit ? 0.15f : 0.075f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;

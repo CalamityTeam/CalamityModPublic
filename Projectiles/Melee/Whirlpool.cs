@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee
             for (int num627 = 0; num627 < num626; num627++)
             {
                 Vector2 vector45 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)((float)num626), default) + projectile.Center;
+                vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)(float)num626, default) + projectile.Center;
                 Vector2 value15 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                 int num628 = Dust.NewDust(vector45 + value15, 0, 0, 172, value15.X * 2f, value15.Y * 2f, 100, default, projectile.scale);
                 Main.dust[num628].noGravity = true;

@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (i = 0; i < 2; i++)
                 {
-                    offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), 349, 30, 2f, projectile.owner, 0f, 0f);
                     Main.projectile[projectile1].Calamity().forceMelee = true;
                     int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), 349, 30, 2f, projectile.owner, 0f, 0f);

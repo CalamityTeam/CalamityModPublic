@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         // Calculates a rogue weapon's crit chance using the player's rogue crit chance.
         public override void GetWeaponCrit(Player player, ref int crit)
         {
-            crit = (item.crit + player.Calamity().throwingCrit);
+            crit = item.crit + player.Calamity().throwingCrit;
         }
 
         // Not needed because the weapon is now internally thrown instead of ranged

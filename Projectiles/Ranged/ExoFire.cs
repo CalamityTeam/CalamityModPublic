@@ -35,12 +35,12 @@ namespace CalamityMod.Projectiles.Ranged
             float speedY = 1f;
             if (!speedXChoice)
             {
-                speedX = (Main.rand.NextBool(2) ? 1.03f : 0.97f);
+                speedX = Main.rand.NextBool(2) ? 1.03f : 0.97f;
                 speedXChoice = true;
             }
             if (!speedYChoice)
             {
-                speedY = (Main.rand.NextBool(2) ? 1.03f : 0.97f);
+                speedY = Main.rand.NextBool(2) ? 1.03f : 0.97f;
                 speedYChoice = true;
             }
             projectile.velocity.X *= speedX;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
                     num296 = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int num297 = (Main.rand.NextBool(2) ? 107 : 234);
+                int num297 = Main.rand.NextBool(2) ? 107 : 234;
                 if (Main.rand.NextBool(4))
                 {
                     num297 = 269;

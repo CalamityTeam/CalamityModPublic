@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         value9.Y += num182;
                         for (int num186 = 0; num186 < 4; num186++)
                         {
-                            num185 = (Main.rand.NextBool(4) ? mod.ProjectileType("EarthRockBig") : mod.ProjectileType("EarthRockSmall"));
+                            num185 = Main.rand.NextBool(4) ? mod.ProjectileType("EarthRockBig") : mod.ProjectileType("EarthRockSmall");
                             num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
                             num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
                             num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));

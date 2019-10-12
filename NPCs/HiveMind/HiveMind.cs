@@ -105,8 +105,8 @@ namespace CalamityMod.NPCs.HiveMind
             }
             npc.noGravity = false;
             npc.noTileCollide = false;
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             CalamityGlobalNPC.hiveMind = npc.whoAmI;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {

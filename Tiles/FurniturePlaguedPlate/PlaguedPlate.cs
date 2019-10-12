@@ -61,9 +61,9 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {
-                colour.R = (byte)((paintCol.R / 255f) * colour.R);
-                colour.G = (byte)((paintCol.G / 255f) * colour.G);
-                colour.B = (byte)((paintCol.B / 255f) * colour.B);
+                colour.R = (byte)(paintCol.R / 255f * colour.R);
+                colour.G = (byte)(paintCol.G / 255f * colour.G);
+                colour.B = (byte)(paintCol.B / 255f * colour.B);
             }
             return colour;
         }

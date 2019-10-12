@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.05f) / 255f, ((255 - projectile.alpha) * 0.5f) / 255f, ((255 - projectile.alpha) * 1f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 1f / 255f);
             if (projectile.localAI[0] == 0f)
             {
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93);
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Ranged
                 num463 *= num466;
                 num464 *= num466;
                 int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height,
-                    (projectile.ai[1] == 1f ? 173 : 221), 0f, 0f, 100, default, 2f);
+                    projectile.ai[1] == 1f ? 173 : 221, 0f, 0f, 100, default, 2f);
                 Main.dust[num467].noGravity = true;
                 Main.dust[num467].position.X = projectile.Center.X;
                 Main.dust[num467].position.Y = projectile.Center.Y;

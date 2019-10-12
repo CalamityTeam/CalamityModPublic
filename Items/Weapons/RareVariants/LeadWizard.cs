@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.RareVariants
             float rotation = MathHelper.ToRadians(6);
             for (int i = 0; i < 2; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, (i == 1 ? 0 : 2)));
+                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i == 1 ? 0 : 2));
                 Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, 242, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;

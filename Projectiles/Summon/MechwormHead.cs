@@ -190,7 +190,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
             int direction = projectile.direction;
-            projectile.direction = (projectile.spriteDirection = ((projectile.velocity.X > 0f) ? 1 : -1));
+            projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0f) ? 1 : -1;
             if (direction != projectile.direction)
             {
                 projectile.netUpdate = true;
@@ -198,7 +198,7 @@ namespace CalamityMod.Projectiles.Summon
             float num1061 = MathHelper.Clamp(projectile.localAI[0], 0f, 50f);
             projectile.position = projectile.Center;
             projectile.scale = 1f + num1061 * 0.01f;
-            projectile.width = (projectile.height = (int)((float)num1051 * projectile.scale));
+            projectile.width = projectile.height = (int)((float)num1051 * projectile.scale);
             projectile.Center = projectile.position;
             if (projectile.alpha > 0)
             {

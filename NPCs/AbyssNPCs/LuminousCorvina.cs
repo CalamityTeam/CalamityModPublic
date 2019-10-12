@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.noGravity = true;
             if (npc.direction == 0)
             {

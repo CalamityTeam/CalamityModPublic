@@ -60,13 +60,13 @@ namespace CalamityMod.NPCs.SlimeGod
         public override void AI()
         {
             CalamityGlobalNPC.slimeGodRed = npc.whoAmI;
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             Vector2 vector = npc.Center;
             if (Vector2.Distance(Main.player[npc.target].Center, vector) > 5400f)
             {
                 npc.position.X = (float)(Main.player[npc.target].Center.X / 16) * 16f - (float)(npc.width / 2);
-                npc.position.Y = ((float)(Main.player[npc.target].Center.Y / 16) * 16f - (float)(npc.height / 2)) - 150f;
+                npc.position.Y = (float)(Main.player[npc.target].Center.Y / 16) * 16f - (float)(npc.height / 2) - 150f;
             }
             if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -286,7 +286,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     {
                         npc.ai[0] = 4f;
                         npc.noTileCollide = true;
-                        npc.velocity.Y = (CalamityWorld.bossRushActive ? -12f : -8f);
+                        npc.velocity.Y = CalamityWorld.bossRushActive ? -12f : -8f;
                     }
                     else if (num1882 == 2)
                     {
@@ -334,7 +334,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] += 1f;
                     vector272 = Main.player[npc.target].Center - vector;
                     vector272.Normalize();
-                    vector272 *= (CalamityWorld.bossRushActive ? 12f : 8f);
+                    vector272 *= CalamityWorld.bossRushActive ? 12f : 8f;
                     npc.velocity = (npc.velocity * 4f + vector272) / 5f;
                     if (npc.ai[1] > 6f)
                     {
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         return;
                     }
                     vector272.Normalize();
-                    vector272 *= (CalamityWorld.bossRushActive ? 18f : 12f);
+                    vector272 *= CalamityWorld.bossRushActive ? 18f : 12f;
                     npc.velocity = (npc.velocity * 5f + vector272) / 6f;
                 }
             }
@@ -419,7 +419,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (value74.Length() > 20f)
                     {
                         value74.Normalize();
-                        value74 *= (CalamityWorld.bossRushActive ? 22f : 12f);
+                        value74 *= CalamityWorld.bossRushActive ? 22f : 12f;
                     }
                     npc.velocity = (npc.velocity * 4f + value74) / 5f;
                     return;

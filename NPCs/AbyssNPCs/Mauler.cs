@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.noGravity = true;
             if (npc.direction == 0)
             {
@@ -287,11 +287,11 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 double deltaAngleBoom = spreadBoom / 8f;
                 double offsetAngleBoom;
                 int iBoom;
-                int damageBoom = (npc.localAI[1] >= 255f ? 200 : 50);
+                int damageBoom = npc.localAI[1] >= 255f ? 200 : 50;
                 for (iBoom = 0; iBoom < 25; iBoom++)
                 {
-                    int projectileType = (Main.rand.NextBool(2) ? mod.ProjectileType("SulphuricAcidMist") : mod.ProjectileType("SulphuricAcidCannon"));
-                    offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
+                    int projectileType = Main.rand.NextBool(2) ? mod.ProjectileType("SulphuricAcidMist") : mod.ProjectileType("SulphuricAcidCannon");
+                    offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
                     int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * 6f), (float)(Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                     int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * 6f), (float)(-Math.Cos(offsetAngleBoom) * 6f), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
                 }
@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (hasBeenHit ? 0.15f : 0.075f);
+            npc.frameCounter += hasBeenHit ? 0.15f : 0.075f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;

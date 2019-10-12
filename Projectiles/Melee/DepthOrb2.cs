@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 64);
+            projectile.width = projectile.height = 64;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int dust = 0; dust <= 30; dust++)

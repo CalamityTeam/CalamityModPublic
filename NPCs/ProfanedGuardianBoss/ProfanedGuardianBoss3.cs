@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                         int i;
                         for (i = 0; i < 3; i++)
                         {
-                            offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                             Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
                         }

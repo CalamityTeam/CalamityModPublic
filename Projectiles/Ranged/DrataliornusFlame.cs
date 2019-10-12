@@ -196,7 +196,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int num227 = 0; num227 < num226; num227++)
                 {
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * modifier;
-                    vector6 = vector6.RotatedBy(((num227 - (num226 / 2 - 1)) * 6.28318548f / num226), default) + projectile.Center;
+                    vector6 = vector6.RotatedBy((num227 - (num226 / 2 - 1)) * 6.28318548f / num226, default) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
                     int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 174, 0f, 0f, 45, default, 2f);
                     Main.dust[num228].noGravity = true;

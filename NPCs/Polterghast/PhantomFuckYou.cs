@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Polterghast
 
         public override bool PreAI()
         {
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             if (start)
             {

@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Patreon
                     velocity *= mult;
 
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, mod.ProjectileType("CorpusAvertorClone"),
-                        (int)((float)projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0], (projectile.melee ? 0f : 1f));
+                        (int)((float)projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0], projectile.melee ? 0f : 1f);
                 }
             }
             else

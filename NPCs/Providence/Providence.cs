@@ -135,8 +135,8 @@ namespace CalamityMod.NPCs.Providence
             Vector2 vector = npc.Center;
 
             // Difficulty bools
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             // Target's current biome
             bool isHoly = player.ZoneHoly;
@@ -236,7 +236,7 @@ namespace CalamityMod.NPCs.Providence
                 immuneTimer = 300;
 
             // Take damage or not
-            npc.dontTakeDamage = (immuneTimer <= 0);
+            npc.dontTakeDamage = immuneTimer <= 0;
 
             // Heal
             if (healerAlive)
@@ -353,7 +353,7 @@ namespace CalamityMod.NPCs.Providence
                 // Increase distance from target when firing molten blasts or holy bombs
                 bool stayAwayFromTarget = npc.ai[0] == 3f || npc.ai[0] == 4f;
                 if (stayAwayFromTarget)
-                    num851 += (revenge ? 200f : 100f);
+                    num851 += revenge ? 200f : 100f;
 
                 // Change X movement path if far enough away from target
                 float num852 = Math.Abs(vector.X - player.Center.X);
@@ -618,7 +618,7 @@ namespace CalamityMod.NPCs.Providence
                     num856 = (int)((double)num856 * attackRateMult);
 
                     if (npc.ai[3] >= (float)num856)
-                        npc.ai[3] = (float)(-(float)num856);
+                        npc.ai[3] = (float)-(float)num856;
 
                     if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -812,7 +812,7 @@ namespace CalamityMod.NPCs.Providence
                     num856 = (int)((double)num856 * attackRateMult);
 
                     if (npc.ai[3] >= (float)num856)
-                        npc.ai[3] = (float)(-(float)num856);
+                        npc.ai[3] = (float)-(float)num856;
 
                     if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
                     {

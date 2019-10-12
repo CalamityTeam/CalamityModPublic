@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 }
             }
             npc.rotation = npc.velocity.X * 0.04f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             npc.TargetClosest(true);
             Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
             float num1258 = Main.player[npc.target].Center.X - vector145.X;

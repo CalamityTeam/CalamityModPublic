@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Cryogen
                 int i;
                 for (i = 0; i < 2; i++)
                 {
-                    offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 8f), (float)(Math.Cos(offsetAngle) * 8f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                     int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 8f), (float)(-Math.Cos(offsetAngle) * 8f), mod.ProjectileType("IceBlast"), num184, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[ice].timeLeft = 300;

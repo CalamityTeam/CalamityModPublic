@@ -88,8 +88,8 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -172,7 +172,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);
                     npc.netUpdate = true;
-                    float xPos = (Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f);
+                    float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
                     Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
                     Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
@@ -518,7 +518,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     num164 = (float)(num159 - num161);
                 }
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = (npc.oldPos[num161]);
+                Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;

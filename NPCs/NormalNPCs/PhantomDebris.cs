@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             float num78 = 1f;
             float num79 = (Main.player[npc.target].Center - npc.Center).Length();
             num79 *= 0.0025f;

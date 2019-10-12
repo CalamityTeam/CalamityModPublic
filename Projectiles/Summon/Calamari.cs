@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue) //15% = 1.15 != 1.66
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / //498
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) * //1.66 498 / 1.66 = 300 (original value)
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue / //498
+                    projectile.Calamity().spawnedPlayerMinionDamageValue * //1.66 498 / 1.66 = 300 (original value)
                     Main.player[projectile.owner].minionDamage); //300 * 1.15 = 345 (new value)
                 projectile.damage = damage2;
             }
@@ -233,7 +233,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (num17 > 300f && num17 <= 800f && projectile.localAI[0] == 0f)
                 {
                     projectile.ai[0] = 2f;
-                    projectile.ai[1] = (float)((int)(num17 / 5f)); //10
+                    projectile.ai[1] = (float)(int)(num17 / 5f); //10
                     projectile.extraUpdates = (int)(projectile.ai[1] * 2f);
                     projectile.velocity = vector4 * 5f; //10
                     projectile.localAI[0] = 60f;

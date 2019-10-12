@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         npc.TargetClosest(true);
                         npc.netUpdate = true;
                         int damage = Main.expertMode ? 300 : 400;
-                        float xPos = (Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f);
+                        float xPos = Main.rand.NextBool(2) ? npc.position.X + 200f : npc.position.X - 200f;
                         Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-200, 201));
                         int random = Main.rand.Next(3);
                         if (random == 0)

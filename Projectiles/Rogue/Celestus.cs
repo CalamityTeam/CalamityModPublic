@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (Main.DiscoR * 0.5f) / 255f, (Main.DiscoG * 0.5f) / 255f, (Main.DiscoB * 0.5f) / 255f);
+            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = 8;
@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int i;
                 for (i = 0; i < 4; i++)
                 {
-                    offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), mod.ProjectileType("Celestus2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), mod.ProjectileType("Celestus2"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }

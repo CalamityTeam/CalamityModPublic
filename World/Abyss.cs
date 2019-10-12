@@ -17,7 +17,7 @@ namespace CalamityMod.World
             if (WorldGen.dungeonX < genLimit)
                 CalamityWorld.abyssSide = true;
 
-            int abyssChasmX = (CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135)); //2100 - 1965 = 135 : 2100 + 1965 = 4065
+            int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135); //2100 - 1965 = 135 : 2100 + 1965 = 4065
 
             if (CalamityWorld.abyssSide)
             {
@@ -134,7 +134,7 @@ namespace CalamityMod.World
 
             int abyssChasmY = y - 250; //Underworld = y - 200
             CalamityWorld.abyssChasmBottom = abyssChasmY - 100; //850 small 1450 medium 2050 large
-            int abyssChasmX = (CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135)); //2100 - 1965 = 135 : 2100 + 1965 = 4065
+            int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135); //2100 - 1965 = 135 : 2100 + 1965 = 4065
 
             bool tenebrisSide = true;
             if (abyssChasmX < genLimit)
@@ -395,7 +395,7 @@ namespace CalamityMod.World
                 if (abyssHouse != 20)
                     WorldGenerationMethods.AbyssIslandHouse(CalamityWorld.AbyssIslandX[abyssHouse],
                         CalamityWorld.AbyssIslandY[abyssHouse],
-                        CalamityWorld.AbyssItemArray[(abyssHouse > 9 ? (abyssHouse - 10) : abyssHouse)], //10 choices 0 to 9
+                        CalamityWorld.AbyssItemArray[abyssHouse > 9 ? (abyssHouse - 10) : abyssHouse], //10 choices 0 to 9
                         CalamityWorld.AbyssIslandY[abyssHouse] > (rockLayer + y * 0.143));
             }
 

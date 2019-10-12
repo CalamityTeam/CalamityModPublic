@@ -181,7 +181,7 @@ namespace CalamityMod.CalPlayer
 
             if (modPlayer.tarraSet)
             {
-                player.calmed = (modPlayer.tarraMelee ? false : true);
+                player.calmed = modPlayer.tarraMelee ? false : true;
                 player.lifeMagnet = true;
             }
 
@@ -312,7 +312,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
-                    if (Collision.LavaCollision(player.position, player.width, (player.waterWalk ? (player.height - 6) : player.height)))
+                    if (Collision.LavaCollision(player.position, player.width, player.waterWalk ? (player.height - 6) : player.height))
                     {
                         if (player.lavaImmune && !player.immune)
                         {
@@ -331,7 +331,7 @@ namespace CalamityMod.CalPlayer
                         player.lifeRegen = 0;
 
                     player.lifeRegenTime = 0;
-                    int lifeRegenDown = (player.lavaImmune ? 9 : 18);
+                    int lifeRegenDown = player.lavaImmune ? 9 : 18;
 
                     if (player.lavaRose)
                         lifeRegenDown = 3;
@@ -412,9 +412,9 @@ namespace CalamityMod.CalPlayer
 
             if (!player.shinyStone)
             {
-                int lifeRegenTimeMaxBoost = (CalamityPlayer.areThereAnyDamnBosses ? 450 : 1800);
-                int lifeRegenMaxBoost = (CalamityPlayer.areThereAnyDamnBosses ? 1 : 4);
-                float lifeRegenLifeRegenTimeMaxBoost = (CalamityPlayer.areThereAnyDamnBosses ? 8f : 30f);
+                int lifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 450 : 1800;
+                int lifeRegenMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
+                float lifeRegenLifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 8f : 30f;
 
                 if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
                 {
@@ -439,7 +439,7 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
                         {
                             player.lifeRegenCount++;
-                            if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30)))
+                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
                             {
                                 int num5 = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default, 1f);
                                 Main.dust[num5].noGravity = true;
@@ -476,7 +476,7 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
                         {
                             player.lifeRegenCount++;
-                            if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30)))
+                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
                             {
                                 int num5 = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
                                 Main.dust[num5].noGravity = true;
@@ -513,7 +513,7 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
                         {
                             player.lifeRegenCount++;
-                            if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2)))
+                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
                             {
                                 int num5 = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default, 1f);
                                 Main.dust[num5].noGravity = true;
@@ -554,7 +554,7 @@ namespace CalamityMod.CalPlayer
                         if (player.lifeRegen > 0 && player.statLife < player.statLifeMax2)
                         {
                             player.lifeRegenCount++;
-                            if ((Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2)))
+                            if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
                             {
                                 int num5 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default, 1f);
                                 Main.dust[num5].noGravity = true;

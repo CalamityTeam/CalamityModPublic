@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Leviathan
                     player.moveSpeed += 0.75f;
                 }
             }
-            if (((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1))
+            if ((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1)
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Leviathan
             int random = Main.rand.Next(5);
             if (player.whoAmI == Main.myPlayer)
             {
-                if (random == 0 && player.immune && (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)))
+                if (random == 0 && player.immune && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
                 {
                     for (int l = 0; l < 200; l++)
                     {

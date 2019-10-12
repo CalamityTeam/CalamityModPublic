@@ -45,11 +45,11 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.localAI[0] += 0.002f;
                 projectile.scale += 0.002f;
-                projectile.width = (projectile.height = (int)(50f * projectile.scale));
+                projectile.width = projectile.height = (int)(50f * projectile.scale);
             }
             else
             {
-                projectile.width = (projectile.height = 50);
+                projectile.width = projectile.height = 50;
             }
             Player player = Main.player[projectile.owner];
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);

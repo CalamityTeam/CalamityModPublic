@@ -92,8 +92,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
         {
             double lifeRatio = (double)npc.life / (double)npc.lifeMax;
             int lifePercentage = (int)(100.0 * lifeRatio);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             CalamityGlobalNPC.voidBoss = npc.whoAmI;
             Vector2 vector = npc.Center;
             npc.TargetClosest(true);
@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                         float passedVar = 1f;
                         for (i = 0; i < 4; i++)
                         {
-                            offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), mod.ProjectileType("DarkEnergyBall"), damage, 0f, Main.myPlayer, passedVar, 0f);
                             passedVar += 1f;
                         }

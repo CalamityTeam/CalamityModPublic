@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Melee
             float num234 = 0f;
             float num235 = 5.1f;
             Microsoft.Xna.Framework.Color value34 = new Microsoft.Xna.Framework.Color(225, 225, 225);
-            for (float num236 = (float)((int)value33.Y); num236 > (float)((int)value32.Y); num236 -= num235)
+            for (float num236 = (float)(int)value33.Y; num236 > (float)(int)value32.Y; num236 -= num235)
             {
                 num234 += num235;
                 float num237 = num234 / vector33.Y;

@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.SunkenSea
                 projectile.direction = -1;
             }
             Main.player[projectile.owner].itemRotation = (vector62 * -1f * (float)projectile.direction).ToRotation();
-            projectile.spriteDirection = ((vector62.X > 0f) ? -1 : 1);
+            projectile.spriteDirection = (vector62.X > 0f) ? -1 : 1;
             if (projectile.ai[1] >= 45f && (projectile.ai[0] != 1f || projectile.ai[0] != 2f))
             {
                 projectile.velocity.Y += 1f;

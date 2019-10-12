@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f, ((255 - projectile.alpha) * 0.01f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.01f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             int dustType = Main.rand.Next(3);
             if (dustType == 0)
             {
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float xPos = (Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800);
+            float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800;
             Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
             float num80 = xPos;
             float speedX = (float)target.position.X - vector2.X;

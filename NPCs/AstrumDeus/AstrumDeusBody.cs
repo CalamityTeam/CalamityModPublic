@@ -83,8 +83,8 @@ namespace CalamityMod.NPCs.AstrumDeus
                     npc.chaseable = !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].chaseable;
                 }
             }
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (!Main.npc[(int)npc.ai[1]].active)
             {
@@ -159,9 +159,9 @@ namespace CalamityMod.NPCs.AstrumDeus
         {
             Mod mod = ModLoader.GetMod("CalamityMod");
             Color lightColor = new Color(125, 75, Main.DiscoB, npc.alpha); //250 150 Disco
-            Color newColor = (npc.dontTakeDamage ? lightColor : drawColor);
+            Color newColor = npc.dontTakeDamage ? lightColor : drawColor;
             Texture2D texture = mod.GetTexture("NPCs/AstrumDeus/AstrumDeusBodyAlt");
-            CalamityMod.DrawTexture(spriteBatch, (npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type]), 0, npc, newColor);
+            CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, newColor);
             return false;
         }
 

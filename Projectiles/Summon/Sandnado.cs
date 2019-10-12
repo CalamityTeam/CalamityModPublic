@@ -56,8 +56,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.player[projectile.owner].minionDamage != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
-                int damage2 = (int)(((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue) *
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
                     Main.player[projectile.owner].minionDamage);
                 projectile.damage = damage2;
             }
@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num8 = 0.1f;
-            float num9 = ((float)projectile.width * 2f);
+            float num9 = (float)projectile.width * 2f;
             for (int j = 0; j < 1000; j++)
             {
                 if (j != projectile.whoAmI && Main.projectile[j].active && Main.projectile[j].owner == projectile.owner && Main.projectile[j].type == projectile.type &&
@@ -203,7 +203,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 float num21 = 12f;
                 Vector2 center2 = projectile.Center;
-                Vector2 vector6 = (player.Center - center2 + new Vector2(0f, -60f)) + new Vector2(0f, 40f);
+                Vector2 vector6 = player.Center - center2 + new Vector2(0f, -60f) + new Vector2(0f, 40f);
                 float num23 = vector6.Length();
                 if (num23 > 200f && num21 < 12f)
                 {
@@ -253,11 +253,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.velocity.X > 0f)
             {
-                projectile.spriteDirection = (projectile.direction = -1);
+                projectile.spriteDirection = projectile.direction = -1;
             }
             else if (projectile.velocity.X < 0f)
             {
-                projectile.spriteDirection = (projectile.direction = 1);
+                projectile.spriteDirection = projectile.direction = 1;
             }
             if (projectile.ai[1] > 0f)
             {

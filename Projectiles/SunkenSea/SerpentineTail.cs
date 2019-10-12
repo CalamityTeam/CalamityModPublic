@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.SunkenSea
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f, ((255 - projectile.alpha) * 0.25f) / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
             int num1051 = 10;
             Vector2 value68 = Vector2.Zero;
             float num1064 = 0f;
@@ -82,13 +82,13 @@ namespace CalamityMod.Projectiles.SunkenSea
             projectile.rotation = vector134.ToRotation() + 1.57079637f;
             projectile.position = projectile.Center;
             projectile.scale = scaleFactor18;
-            projectile.width = (projectile.height = (int)((float)num1051 * projectile.scale));
+            projectile.width = projectile.height = (int)((float)num1051 * projectile.scale);
             projectile.Center = projectile.position;
             if (vector134 != Vector2.Zero)
             {
                 projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
             }
-            projectile.spriteDirection = ((vector134.X > 0f) ? 1 : -1);
+            projectile.spriteDirection = (vector134.X > 0f) ? 1 : -1;
             return;
         }
     }

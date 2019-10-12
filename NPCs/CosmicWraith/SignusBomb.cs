@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.CosmicWraith
                 return;
             }
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = (npc.ai[3] >= 240f ? false : true);
+            npc.dontTakeDamage = npc.ai[3] >= 240f ? false : true;
             if (npc.ai[3] >= 180f)
             {
                 npc.velocity.Y *= 0.985f;
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.CosmicWraith
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
             npc.damage = 300;
-            npc.width = (npc.height = 256);
+            npc.width = npc.height = 256;
             npc.position.X = npc.position.X - (float)(npc.width / 2);
             npc.position.Y = npc.position.Y - (float)(npc.height / 2);
             for (int num621 = 0; num621 < 15; num621++)

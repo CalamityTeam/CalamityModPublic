@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Patreon
                 default:
                     break;
             }
-            projectile.width = (projectile.height = (int)(24f * projectile.scale));
+            projectile.width = projectile.height = (int)(24f * projectile.scale);
 
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Patreon
         {
             if (projectile.timeLeft < 85)
             {
-                return new Color((int)(150f * ((float)projectile.timeLeft / 85f)), 0, 0, (projectile.timeLeft / 5) * 3);
+                return new Color((int)(150f * ((float)projectile.timeLeft / 85f)), 0, 0, projectile.timeLeft / 5 * 3);
             }
             return new Color(150, 0, 0, 50);
         }

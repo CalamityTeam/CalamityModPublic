@@ -64,8 +64,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)((int)projectile.position.X);
-            projectile.position.Y = (float)((int)projectile.position.Y);
+            projectile.position.X = (float)(int)projectile.position.X;
+            projectile.position.Y = (float)(int)projectile.position.Y;
             projectile.velocity = Vector2.Zero;
             projectile.alpha -= 5;
             if (projectile.alpha < 0)

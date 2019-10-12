@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 npc.velocity.X = num664 * num666;
                 npc.velocity.Y = num665 * num666;
                 npc.ai[0] = 2f;
-                npc.rotation = (float)Math.Atan2((double)(-(double)npc.velocity.Y), (double)(-(double)npc.velocity.X)) - 1.57f;
+                npc.rotation = (float)Math.Atan2((double)-(double)npc.velocity.Y, (double)-(double)npc.velocity.X) - 1.57f;
             }
             else if (npc.ai[0] == 2f)
             {
@@ -178,7 +178,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                         npc.velocity.Y = npc.velocity.Y - num672 * 2f;
                     }
                 }
-                npc.rotation = (float)Math.Atan2((double)(-(double)npc.velocity.Y), (double)(-(double)npc.velocity.X));
+                npc.rotation = (float)Math.Atan2((double)-(double)npc.velocity.Y, (double)-(double)npc.velocity.X);
             }
         }
 

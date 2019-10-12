@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons
             num79 *= num80;
             vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
             vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
-            vector2.Y -= (float)(100);
+            vector2.Y -= (float)100;
             num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
             num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
             if (num79 < 0f)

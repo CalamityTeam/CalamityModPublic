@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (flameTimer <= 0)
             {
-                float xPos = (Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800);
+                float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800;
                 Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
                 float num80 = xPos;
                 float speedX = (float)projectile.position.X - vector2.X;

@@ -35,8 +35,8 @@ namespace CalamityMod.Tiles.FurnitureProfaned
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            frameXOffset = (i % 2) * animationFrameWidth;
-            frameYOffset = (j % 2) * animationFrameHeight;
+            frameXOffset = i % 2 * animationFrameWidth;
+            frameYOffset = j % 2 * animationFrameHeight;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -71,9 +71,9 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             Color paintCol = WorldGen.paintColor(colType);
             if (colType >= 13 && colType <= 24)
             {
-                colour.R = (byte)((paintCol.R / 255f) * colour.R);
-                colour.G = (byte)((paintCol.G / 255f) * colour.G);
-                colour.B = (byte)((paintCol.B / 255f) * colour.B);
+                colour.R = (byte)(paintCol.R / 255f * colour.R);
+                colour.G = (byte)(paintCol.G / 255f * colour.G);
+                colour.B = (byte)(paintCol.B / 255f * colour.B);
             }
             return colour;
         }

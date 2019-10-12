@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void AI()
         {
-            npc.spriteDirection = ((npc.direction > 0) ? -1 : 1);
+            npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
             npc.chaseable = hasBeenHit;
             if (npc.justHit)
             {
@@ -296,7 +296,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (hasBeenHit ? 1.25 : 1.0);
+            npc.frameCounter += hasBeenHit ? 1.25 : 1.0;
             if (npc.frameCounter < 6.0)
             {
                 npc.frame.Y = 0;

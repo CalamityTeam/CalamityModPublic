@@ -97,8 +97,8 @@ namespace CalamityMod.NPCs.Scavenger
 
         public override void AI()
         {
-            bool provy = (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive);
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
+            bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             // Percent life remaining
             float lifeRatio = (float)npc.life / (float)npc.lifeMax;
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.Scavenger
                 Main.dust[rightDust].velocity *= 0.2f;
 
                 Dust rightDustExpr = Main.dust[rightDust];
-                rightDustExpr.velocity.Y -= (3f + (float)Main.rand.Next(10) * 0.1f);
+                rightDustExpr.velocity.Y -= 3f + (float)Main.rand.Next(10) * 0.1f;
                 Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
                 if (Main.rand.NextBool(10))
@@ -199,7 +199,7 @@ namespace CalamityMod.NPCs.Scavenger
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[1] += (enrage ? 6f : 1f);
+                    npc.localAI[1] += enrage ? 6f : 1f;
                     if (npc.localAI[1] >= 600f)
                     {
                         npc.localAI[1] = 0f;
@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.Scavenger
                             float velocity = CalamityWorld.bossRushActive ? 10f : 7f;
                             for (i = 0; i < 4; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                                 Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), 259, laserDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), 259, laserDamage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                             }
@@ -232,7 +232,7 @@ namespace CalamityMod.NPCs.Scavenger
                 Main.dust[rightDust].velocity *= 0.2f;
 
                 Dust rightDustExpr = Main.dust[rightDust];
-                rightDustExpr.velocity.X += (3f + (float)Main.rand.Next(10) * 0.1f);
+                rightDustExpr.velocity.X += 3f + (float)Main.rand.Next(10) * 0.1f;
                 Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
                 if (Main.rand.NextBool(10))
@@ -249,7 +249,7 @@ namespace CalamityMod.NPCs.Scavenger
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[2] += (enrage ? 2f : 1f);
+                    npc.localAI[2] += enrage ? 2f : 1f;
                     if (npc.localAI[2] >= 480f)
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
@@ -269,7 +269,7 @@ namespace CalamityMod.NPCs.Scavenger
                 Main.dust[leftDust].velocity *= 0.2f;
 
                 Dust leftDustExpr = Main.dust[leftDust];
-                leftDustExpr.velocity.X -= (3f + (float)Main.rand.Next(10) * 0.1f);
+                leftDustExpr.velocity.X -= 3f + (float)Main.rand.Next(10) * 0.1f;
                 Main.dust[leftDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
                 if (Main.rand.NextBool(10))
@@ -286,7 +286,7 @@ namespace CalamityMod.NPCs.Scavenger
 
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[3] += (enrage ? 2f : 1f);
+                    npc.localAI[3] += enrage ? 2f : 1f;
                     if (npc.localAI[3] >= 480f)
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
@@ -306,7 +306,7 @@ namespace CalamityMod.NPCs.Scavenger
                 Main.dust[rightDust].velocity *= 0.2f;
 
                 Dust rightDustExpr = Main.dust[rightDust];
-                rightDustExpr.velocity.Y += (0.5f + (float)Main.rand.Next(10) * 0.1f);
+                rightDustExpr.velocity.Y += 0.5f + (float)Main.rand.Next(10) * 0.1f;
                 Main.dust[rightDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
                 if (Main.rand.NextBool(10))
@@ -342,7 +342,7 @@ namespace CalamityMod.NPCs.Scavenger
                 Main.dust[leftDust].velocity *= 0.2f;
 
                 Dust leftDustExpr = Main.dust[leftDust];
-                leftDustExpr.velocity.Y += (0.5f + (float)Main.rand.Next(10) * 0.1f);
+                leftDustExpr.velocity.Y += 0.5f + (float)Main.rand.Next(10) * 0.1f;
                 Main.dust[leftDust].fadeIn = 0.5f + (float)Main.rand.Next(10) * 0.1f;
 
                 if (Main.rand.NextBool(10))

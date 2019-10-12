@@ -220,7 +220,7 @@ namespace CalamityMod.Projectiles.Patreon
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.ai[0] < 255f)
-                return new Color((int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.ai[0]), (int)(projectile.localAI[1]));
+                return new Color((int)projectile.ai[0], (int)projectile.ai[0], (int)projectile.ai[0], (int)projectile.localAI[1]);
             else
                 return new Color(255, 255, 255, 0);
         }

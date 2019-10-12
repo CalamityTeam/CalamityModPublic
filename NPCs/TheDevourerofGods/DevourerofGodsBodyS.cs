@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.TheDevourerofGods
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 0;
-            return (npc.alpha == 0 && invinceTime <= 0);
+            return npc.alpha == 0 && invinceTime <= 0;
         }
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)

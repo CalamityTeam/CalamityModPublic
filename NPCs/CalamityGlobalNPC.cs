@@ -714,7 +714,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.PlanterasHook)
             {
-                npc.damage = (npc.defDamage = 0);
+                npc.damage = npc.defDamage = 0;
             }
             else if (npc.type == NPCID.WallofFlesh || npc.type == NPCID.WallofFleshEye)
             {
@@ -2508,9 +2508,9 @@ namespace CalamityMod.NPCs
                                     Main.npc[num263].velocity.X = npc.velocity.X * 2f;
                                     Main.npc[num263].velocity.Y = npc.velocity.Y;
                                     NPC var_324_BB1A_cp_0_cp_0 = Main.npc[num263];
-                                    var_324_BB1A_cp_0_cp_0.velocity.X += (Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f);
+                                    var_324_BB1A_cp_0_cp_0.velocity.X += Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f;
                                     NPC var_324_BB6F_cp_0_cp_0 = Main.npc[num263];
-                                    var_324_BB6F_cp_0_cp_0.velocity.Y -= (Main.rand.Next(0, 10) * 0.1f + num262);
+                                    var_324_BB6F_cp_0_cp_0.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + num262;
                                     Main.npc[num263].ai[0] = -1000 * Main.rand.Next(3);
 
                                     if (Main.netMode == NetmodeID.Server && num263 < 200)
@@ -2822,7 +2822,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.rand.Next(5) < 3)
                 {
-                    int dustType = (Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue"));
+                    int dustType = Main.rand.NextBool(2) ? mod.DustType("AstralOrange") : mod.DustType("AstralBlue");
                     int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, dustType, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 0.6f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
@@ -3637,7 +3637,7 @@ namespace CalamityMod.NPCs
             }
 
             Player myTarget = Main.player[npc.target];
-            Vector2 toTarget = (myTarget.Center - npc.Center);
+            Vector2 toTarget = myTarget.Center - npc.Center;
             float distanceToTarget = toTarget.Length();
             Vector2 maxVelocity = toTarget;
 
@@ -4151,7 +4151,7 @@ namespace CalamityMod.NPCs
 
             if (Main.rand.NextFloat(1f) < chance)
             {
-                Vector2 offset = (npc.Center - half + new Vector2(Main.rand.NextFloat(rect.Left, rect.Right), Main.rand.NextFloat(rect.Top, rect.Bottom))) - npc.Center;
+                Vector2 offset = npc.Center - half + new Vector2(Main.rand.NextFloat(rect.Left, rect.Right), Main.rand.NextFloat(rect.Top, rect.Bottom)) - npc.Center;
                 offset = offset.RotatedBy(npc.rotation);
                 Dust d = Dust.NewDustPerfect(npc.Center + offset, dustType, velocity);
                 return d;

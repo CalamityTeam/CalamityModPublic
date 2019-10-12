@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Magic
                 Projectile.NewProjectile(x, y, num13, num14, mod.ProjectileType("ThunderstormShotSplit"), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
             projectile.position = projectile.Center;
-            projectile.width = (projectile.height = 36);
+            projectile.width = projectile.height = 36;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             int num226 = 36;

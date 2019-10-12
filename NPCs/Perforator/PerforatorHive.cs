@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs.Perforator
                     num180 *= num183;
                     num182 *= num183;
                     int num184 = expertMode ? 14 : 18;
-                    int num185 = (Main.rand.NextBool(2) ? mod.ProjectileType("IchorShot") : mod.ProjectileType("BloodGeyser"));
+                    int num185 = Main.rand.NextBool(2) ? mod.ProjectileType("IchorShot") : mod.ProjectileType("BloodGeyser");
                     value9.X += num180;
                     value9.Y += num182;
                     for (int num186 = 0; num186 < 20; num186++)
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.Perforator
                 }
             }
             npc.rotation = npc.velocity.X * 0.04f;
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
             if (npc.position.Y > player.position.Y - 160f) //200
             {
                 if (npc.velocity.Y > 0f)

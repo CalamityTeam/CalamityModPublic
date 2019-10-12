@@ -20,13 +20,13 @@ namespace CalamityMod.NPCs
             bool phase3 = lifeRatio < 0.5f || CalamityWorld.bossRushActive;
 
             // Variables
-            bool expertMode = (Main.expertMode || CalamityWorld.bossRushActive);
-            bool revenge = (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             int shootBuff = (int)(2f * (1f - lifeRatio));
             float shootTimer = 1f + ((float)shootBuff);
             bool dayTime = Main.dayTime;
             Player player = Main.player[npc.target];
-            npc.spriteDirection = ((npc.direction > 0) ? 1 : -1);
+            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
             // Despawn
             if (!player.active || player.dead || dayTime)
@@ -61,7 +61,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.localAI[0] += ((npc.ai[0] == 2f || (npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode)) ? 4f : shootTimer);
+                    npc.localAI[0] += (npc.ai[0] == 2f || (npc.ai[0] == 4f && npc.velocity.Y > 0f && expertMode)) ? 4f : shootTimer;
                     if (npc.localAI[0] >= 180f)
                     {
                         npc.localAI[0] = 0f;
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs
                             float velocity = CalamityWorld.bossRushActive ? 10f : 7f;
                             for (i = 0; i < 4; i++)
                             {
-                                offsetAngle = (startAngle + deltaAngle * (i + i * i) / 2f) + 32f * i;
+                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                                 Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity),
                                     (float)(Math.Cos(offsetAngle) * velocity), mod.ProjectileType("AstralFlame"), laserDamage, 0f, Main.myPlayer, 0f, 0f);
                                 Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity),
@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs
                 else
                 {
                     float playerLocation = npc.Center.X - player.Center.X;
-                    npc.direction = (playerLocation < 0 ? 1 : -1);
+                    npc.direction = playerLocation < 0 ? 1 : -1;
 
                     if (npc.direction > 0)
                         npc.velocity.X = (npc.velocity.X * 20f + num823) / 21f;
@@ -295,7 +295,7 @@ namespace CalamityMod.NPCs
                     npc.ai[2] += 1f;
                     if (npc.ai[2] >= 3f)
                     {
-                        npc.ai[0] = ((phase2 || revenge) ? 5f : 1f);
+                        npc.ai[0] = (phase2 || revenge) ? 5f : 1f;
                         npc.ai[2] = 0f;
                     }
                     else

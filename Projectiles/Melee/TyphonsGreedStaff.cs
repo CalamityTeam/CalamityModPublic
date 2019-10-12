@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Melee
             float num10 = 1f;
             projectile.ai[0] += num10;
             projectile.rotation += 6.28318548f * num2 / num * (float)num9;
-            bool flag2 = projectile.ai[0] == (float)((int)(num / 2f));
+            bool flag2 = projectile.ai[0] == (float)(int)(num / 2f);
             if (projectile.ai[0] >= num || (flag2 && !player.controlUseItem))
             {
                 projectile.Kill();
@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
                     projectile.rotation -= 3.14159274f;
                 }
             }
-            if ((projectile.ai[0] == num10 || (projectile.ai[0] == (float)((int)(num / 2f)) && projectile.active)) && projectile.owner == Main.myPlayer)
+            if ((projectile.ai[0] == num10 || (projectile.ai[0] == (float)(int)(num / 2f) && projectile.active)) && projectile.owner == Main.myPlayer)
             {
                 Vector2 mouseWorld3 = Main.MouseWorld;
                 Vector2 mouse = player.DirectionTo(mouseWorld3) * 0f;
@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.localAI[0] >= 12f)
             {
                 projectile.localAI[0] = 0f;
-                float xPos = (Main.rand.NextBool(2) ? projectile.position.X + 800f : projectile.position.X - 800f);
+                float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800f : projectile.position.X - 800f;
                 Vector2 vector20 = new Vector2(xPos, projectile.position.Y + (float)Main.rand.Next(-800, 801));
                 float num80 = xPos;
                 float speedX = (float)player.position.X - vector20.X;
@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 if (projectile.owner == Main.myPlayer)
                 {
-                    float ai1 = (Main.rand.NextFloat() + 0.5f);
+                    float ai1 = Main.rand.NextFloat() + 0.5f;
                     Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, mod.ProjectileType("TyphonsGreed"), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
                 }
             }
@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int i = 0; i < 200; i++)
                 {
-                    if (((Main.npc[i].active && !Main.npc[i].dontTakeDamage)) &&
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
@@ -209,7 +209,7 @@ namespace CalamityMod.Projectiles.Melee
                                     Main.npc[i].ReflectProjectile(projectile.whoAmI);
                                     return;
                                 }
-                                hitDirection = ((Main.player[projectile.owner].Center.X < Main.npc[i].Center.X) ? 1 : -1);
+                                hitDirection = (Main.player[projectile.owner].Center.X < Main.npc[i].Center.X) ? 1 : -1;
                             }
                         }
                     }

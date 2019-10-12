@@ -181,7 +181,7 @@ namespace CalamityMod.Projectiles
                     int num610 = 42;
 
                     if (projectile.velocity.X != 0f)
-                        projectile.direction = (projectile.spriteDirection = -Math.Sign(projectile.velocity.X));
+                        projectile.direction = projectile.spriteDirection = -Math.Sign(projectile.velocity.X);
 
                     int num3 = projectile.frameCounter;
                     projectile.frameCounter = num3 + 1;
@@ -260,15 +260,15 @@ namespace CalamityMod.Projectiles
                     if (projectile.ai[0] <= 0f)
                     {
                         float num615 = 0.104719758f;
-                        float num616 = ((float)projectile.width / 5f) * 2.5f;
+                        float num616 = (float)projectile.width / 5f * 2.5f;
                         float num617 = (float)(Math.Cos((double)(num615 * -(double)projectile.ai[0])) - 0.5) * num616;
 
-                        projectile.position.X -= num617 * (float)(-(float)projectile.direction);
+                        projectile.position.X -= num617 * (float)-(float)projectile.direction;
 
                         projectile.ai[0] -= 1f;
 
                         num617 = (float)(Math.Cos((double)(num615 * -(double)projectile.ai[0])) - 0.5) * num616;
-                        projectile.position.X += num617 * (float)(-(float)projectile.direction);
+                        projectile.position.X += num617 * (float)-(float)projectile.direction;
                     }
                     return false;
                 }
@@ -427,7 +427,7 @@ namespace CalamityMod.Projectiles
                 }
                 if (Main.player[projectile.owner].minionDamage != spawnedPlayerMinionDamageValue)
                 {
-                    int damage2 = (int)(((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue) * Main.player[projectile.owner].minionDamage);
+                    int damage2 = (int)((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * Main.player[projectile.owner].minionDamage);
                     projectile.damage = damage2;
                 }
             }
@@ -800,7 +800,7 @@ namespace CalamityMod.Projectiles
                     {
                         Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);
                         projectile.position = projectile.Center;
-                        projectile.width = (projectile.height = 96);
+                        projectile.width = projectile.height = 96;
                         projectile.position.X -= (float)(projectile.width / 2);
                         projectile.position.Y -= (float)(projectile.height / 2);
                         for (int num193 = 0; num193 < 3; num193++)
@@ -816,7 +816,7 @@ namespace CalamityMod.Projectiles
                             Main.dust[num195].velocity *= 2f;
                             Main.dust[num195].noGravity = true;
                         }
-                        projectile.damage *= (Main.player[projectile.owner].Calamity().auricSet ? 7 : 4);
+                        projectile.damage *= Main.player[projectile.owner].Calamity().auricSet ? 7 : 4;
                         projectile.Damage();
                     }
 
@@ -841,7 +841,7 @@ namespace CalamityMod.Projectiles
                                 return;
                             }
                             Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
-                            int healAmount = (Main.player[projectile.owner].Calamity().auricSet ? projectile.damage / 100 : projectile.damage / 50);
+                            int healAmount = Main.player[projectile.owner].Calamity().auricSet ? projectile.damage / 100 : projectile.damage / 50;
                             Player player = Main.player[projectile.owner];
                             player.statLife += healAmount;
                             player.HealEffect(healAmount);
@@ -1091,7 +1091,7 @@ namespace CalamityMod.Projectiles
                             (int)((double)num * (Main.player[projectile.owner].Calamity().auricSet ? 2.0 : 1.5)), 0f, projectile.owner, (float)num6, 0f);
                         if (target.canGhostHeal)
                         {
-                            float num11 = (Main.player[projectile.owner].Calamity().auricSet ? 0.03f : 0.06f); //0.2
+                            float num11 = Main.player[projectile.owner].Calamity().auricSet ? 0.03f : 0.06f; //0.2
                             num11 -= (float)projectile.numHits * 0.015f; //0.05
                             if (num11 <= 0f)
                             {
@@ -1255,7 +1255,7 @@ namespace CalamityMod.Projectiles
                     if (Main.player[projectile.owner].Calamity().godSlayerSummon && Main.player[projectile.owner].Calamity().godSlayerDmg <= 0)
                     {
                         int num = projectile.damage / 2;
-                        float ai1 = (Main.rand.NextFloat() + 0.5f);
+                        float ai1 = Main.rand.NextFloat() + 0.5f;
                         Main.player[projectile.owner].Calamity().godSlayerDmg += (float)num;
                         int[] array = new int[200];
                         int num3 = 0;
