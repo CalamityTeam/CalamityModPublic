@@ -2,13 +2,14 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using System;
 
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DragonShit : ModProjectile
     {
         public NPC target;
-        public Vector2 rotationVector = Vector2.UnitY * -8f;
+        public Vector2 rotationVector = Vector2.UnitY * -13f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fire");
@@ -57,6 +58,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
+                projectile.timeLeft = Math.Min(projectile.timeLeft,15);
+                projectile.alpha += 17;
                 projectile.velocity = rotationVector;
                 rotationVector = rotationVector.RotatedBy(MathHelper.ToRadians(14.975f * projectile.ai[0]));
             }
@@ -75,7 +78,6 @@ namespace CalamityMod.Projectiles.Rogue
             Main.spriteBatch.Draw(projectileTexture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, projectileTexture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)projectileTexture.Width / 2f, (float)frameHeight / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
-
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
@@ -137,6 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Gore expr_13D1F_cp_0 = Main.gore[num626];
                 expr_13D1F_cp_0.velocity.Y -= 1f;
             }
+            projectile.damage = Main.expertMode ? 300 : 180;
             projectile.Damage();
         }
     }

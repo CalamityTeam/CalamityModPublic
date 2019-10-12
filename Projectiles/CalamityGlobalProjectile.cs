@@ -578,7 +578,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly)
+            if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly && projectile.type != mod.ProjectileType("DragonShit"))
             {
                 if (counter % 30 == 0)
                 {
@@ -590,7 +590,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly)
+            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != mod.ProjectileType("Nanotech"))
             {
                 if (counter % 50 == 0)
                 {
