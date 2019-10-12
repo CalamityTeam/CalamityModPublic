@@ -49,8 +49,7 @@ namespace CalamityMod.Items.SunkenSea
                         {
                             Vector2 spawn = baseSpawn;
                             spawn.X = spawn.X + i * 30 - (ShardProjectiles * 15);
-                            Vector2 velocity = baseVelocity;
-                            velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-ShardAngleSpread / 2 + (ShardAngleSpread * i / (float)ShardProjectiles)));
+                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-ShardAngleSpread / 2 + (ShardAngleSpread * i / (float)ShardProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             int type = 0;
                             int damage = 0;

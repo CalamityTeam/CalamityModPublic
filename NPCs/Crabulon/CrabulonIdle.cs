@@ -103,8 +103,6 @@ namespace CalamityMod.NPCs.Crabulon
                 float num349 = player.position.X + (float)(player.width / 2) - vector34.X;
                 float num350 = player.position.Y + (float)(player.height / 2) - vector34.Y;
                 float num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
-                num349 *= num351;
-                num350 *= num351;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int num352 = 1;

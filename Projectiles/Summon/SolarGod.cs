@@ -106,7 +106,6 @@ namespace CalamityMod.Projectiles.Summon
                         float num541 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num539) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num540);
                         if (num541 < num398 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
-                            num398 = num541;
                             num396 = num539;
                             num397 = num540;
                             flag11 = true;

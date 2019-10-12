@@ -37,8 +37,6 @@ namespace CalamityMod.Items.Weapons.RareVariants
         {
             for (int index = 0; index < 3; ++index)
             {
-                float num7 = speedX;
-                float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.ExplosiveBullet, damage, knockBack, player.whoAmI, 0f, 0f);

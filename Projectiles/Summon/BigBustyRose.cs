@@ -143,7 +143,6 @@ namespace CalamityMod.Projectiles.Summon
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if (((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
-                        num633 = num646;
                         vector46 = npc.Center;
                         flag25 = true;
                     }

@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Patreon
                 for (int i = 0; i < 30; ++i)
                 {
                     // Pick a random type of smoke (there's a little fire mixed in)
-                    int dustID = -1;
+                    int dustID;
                     switch (Main.rand.Next(6))
                     {
                         case 0:

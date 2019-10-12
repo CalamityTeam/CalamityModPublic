@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color = default;
+            Color color;
             if (projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(projectile.timeLeft * 3);

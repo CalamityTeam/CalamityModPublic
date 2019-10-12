@@ -43,7 +43,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void AI()
         {
             int num = 30;
-            int num2 = 10;
             bool flag2 = false;
             bool flag3 = false;
             if (npc.velocity.Y == 0f && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
@@ -51,7 +50,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 flag2 = true;
                 npc.ai[3] += 1f;
             }
-            num2 = 4;
+            int num2 = 4;
             bool flag4 = npc.velocity.Y == 0f;
             for (int i = 0; i < 200; i++)
             {

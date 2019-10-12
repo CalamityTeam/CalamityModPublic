@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            int num3 = 0;
             int num332 = (int)projectile.ai[0];
             projectile.ai[1] += 1f;
             float num333 = (60f - projectile.ai[1]) / 60f;
@@ -37,6 +36,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.velocity.Y = 18f;
             }
             projectile.velocity.X = projectile.velocity.X * 0.98f;
+            int num3;
             for (int num334 = 0; num334 < 2; num334 = num3 + 1)
             {
                 int num335 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num332, projectile.velocity.X, projectile.velocity.Y, 50, default, 1.1f);

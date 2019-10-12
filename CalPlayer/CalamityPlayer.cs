@@ -2003,7 +2003,6 @@ namespace CalamityMod.CalPlayer
                                         if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
                                         {
                                             flag = true;
-                                            num3 += i;
                                             break;
                                         }
                                     }
@@ -2097,7 +2096,6 @@ namespace CalamityMod.CalPlayer
                                         if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
                                         {
                                             flag = true;
-                                            num3 += i;
                                             break;
                                         }
                                     }
@@ -4477,7 +4475,6 @@ namespace CalamityMod.CalPlayer
                 lifeCounter++;
                 if (lifeCounter >= 180)
                 {
-                    lifeCounter = 0;
                 }
             }
             if (brimstoneElementalLore && player.inferno)

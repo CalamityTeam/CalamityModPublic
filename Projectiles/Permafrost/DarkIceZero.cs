@@ -54,8 +54,6 @@ namespace CalamityMod.Projectiles.Permafrost
         {
             if (timeLeft > 0)
             {
-                timeLeft = 0;
-
                 projectile.position = projectile.Center;
                 projectile.width = projectile.height = 192;
                 projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 int Previous = npc.whoAmI;
                 for (int num36 = 0; num36 < 4; num36++)
                 {
-                    int lol = 0;
+                    int lol;
                     if (num36 >= 0 && num36 < 3)
                     {
                         lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("DriedSeekerBody"), npc.whoAmI);

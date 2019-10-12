@@ -248,7 +248,6 @@ namespace CalamityMod.Projectiles.Patreon
                 // Stop drawing when closer than 1 chain link away.
                 if (posDiff.Length() < chainTex.Height + 1f)
                 {
-                    keepDrawing = false;
                     break;
                 }
 

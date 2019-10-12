@@ -102,7 +102,7 @@ namespace CalamityMod.Items.Patreon
             for (int i = 0; i < dustCount; ++i)
             {
                 // Pick a random dust to spawn
-                int dustID = -1;
+                int dustID;
                 switch (Main.rand.Next(5))
                 {
                     case 0:

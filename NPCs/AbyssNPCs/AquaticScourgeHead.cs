@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.AbyssNPCs
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             if (num36 % 2 == 0)

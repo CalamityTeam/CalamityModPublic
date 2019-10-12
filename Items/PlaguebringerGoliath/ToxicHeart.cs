@@ -60,7 +60,6 @@ namespace CalamityMod.Items.PlaguebringerGoliath
             plagueCounter++;
             if (plagueCounter >= 180)
             {
-                plagueCounter = 0;
             }
         }
     }

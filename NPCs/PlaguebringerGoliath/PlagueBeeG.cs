@@ -101,7 +101,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             num4 -= vector.X;
             num5 -= vector.Y;
             float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
-            float num7 = num6;
             if (num6 == 0f)
             {
                 num4 = npc.velocity.X;

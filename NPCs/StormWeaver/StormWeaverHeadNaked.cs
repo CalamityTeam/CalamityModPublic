@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("StormWeaverBodyNaked"), npc.whoAmI);
@@ -200,8 +200,7 @@ namespace CalamityMod.NPCs.StormWeaver
                         {
                             Vector2 spawn2 = baseSpawn;
                             spawn2.X = spawn2.X + i * 30 - (BoltProjectiles * 15);
-                            Vector2 velocity = baseVelocity;
-                            velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
+                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-BoltAngleSpread / 2 + (BoltAngleSpread * i / (float)BoltProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             Vector2 vector94 = Main.player[npc.target].Center - spawn2;
                             float ai = (float)Main.rand.Next(100);
@@ -267,8 +266,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.TargetClosest(false);
             }
-            float num188 = speed;
-            float num189 = turnSpeed;
+
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
@@ -290,8 +288,8 @@ namespace CalamityMod.NPCs.StormWeaver
                     break;
                 }
             }
-            num188 = revenge ? 14f : 13f;
-            num189 = revenge ? 0.44f : 0.4f;
+            float num188 = revenge ? 14f : 13f;
+            float num189 = revenge ? 0.44f : 0.4f;
             if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 num188 *= 2f;

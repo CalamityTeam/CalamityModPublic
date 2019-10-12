@@ -61,7 +61,6 @@ namespace CalamityMod.Projectiles.Ranged
             if (num139 == 0f)
             {
                 projectile.localAI[0] = num138;
-                num139 = num138;
             }
             return false;
         }

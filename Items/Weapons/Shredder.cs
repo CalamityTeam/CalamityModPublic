@@ -54,8 +54,6 @@ namespace CalamityMod.Items.Weapons
             {
                 for (int index = 0; index < bulletAmt; ++index)
                 {
-                    float num7 = speedX;
-                    float num8 = speedY;
                     float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
                     int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
@@ -67,8 +65,6 @@ namespace CalamityMod.Items.Weapons
             {
                 for (int index = 0; index < bulletAmt; ++index)
                 {
-                    float num7 = speedX;
-                    float num8 = speedY;
                     float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                     float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
                     int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("ChargedBlast"), damage, knockBack, player.whoAmI, 0f, 0f);

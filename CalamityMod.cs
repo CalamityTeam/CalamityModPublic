@@ -2756,7 +2756,7 @@ namespace CalamityMod
         #endregion
 
         #region Seasons
-        public static Season season
+        public static Season CurrentSeason
         {
             get
             {

@@ -57,7 +57,6 @@ namespace CalamityMod.Items.Weapons.Polterghast
                 num83 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - position.Y;
             }
             float num84 = (float)Math.Sqrt((double)(num82 * num82 + num83 * num83));
-            float num85 = num84;
             if ((float.IsNaN(num82) && float.IsNaN(num83)) || (num82 == 0f && num83 == 0f))
             {
                 num82 = (float)player.direction;

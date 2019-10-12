@@ -725,8 +725,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 {
                                     Vector2 spawn = baseSpawn;
                                     spawn.X = spawn.X + i * 30 - (MissileProjectiles * 15);
-                                    Vector2 velocity = baseVelocity;
-                                    velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / (float)MissileProjectiles)));
+                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / (float)MissileProjectiles)));
                                     velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                                     Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("HiveBombGoliath"), damage, 0f, Main.myPlayer, 0f, Main.player[npc.target].position.Y);
                                 }
