@@ -310,6 +310,7 @@ namespace CalamityMod.CalPlayer
         public bool moonCrown = false;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
+        public bool momentumCapacitor = false;
 
         // Armor Set
         public bool victideSet = false;
@@ -1022,6 +1023,7 @@ namespace CalamityMod.CalPlayer
             moonCrown = false;
             dragonScales = false;
             gloveOfPrecision = false;
+            momentumCapacitor = false;
 
             shadowflame = false;
             wDeath = false;
@@ -1651,6 +1653,13 @@ namespace CalamityMod.CalPlayer
         #region HotKeys
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
+            if (CalamityMod.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
+                CalamityUtils.CountProjectiles(mod.ProjectileType("MomentumCapacitorOrb")) == 0)
+            {
+                player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
+                Vector2 fieldSpawnCenter = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+                Projectile.NewProjectile(fieldSpawnCenter, Vector2.Zero, mod.ProjectileType("MomentumCapacitorOrb"), 0, 0f, player.whoAmI, 0f, 0f);
+            }
             if (CalamityMod.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == player.whoAmI)
             {
                 Vector2 teleportLocation;

@@ -39,6 +39,7 @@ namespace CalamityMod.Projectiles
 
         // Rogue Stuff
         public bool stealthStrike = false; //Update all existing rogue weapons with this
+        public bool momentumCapacitatorBoost = false; //Constant acceleration
 
         // Iron Heart
         public int ironHeartDamage = 0;
@@ -625,6 +626,11 @@ namespace CalamityMod.Projectiles
                         }
                     }
                 }
+            }
+            //will always be friendly and rogue if it has this boost
+            if (Main.player[projectile.owner].Calamity().momentumCapacitor && projectile.Calamity().momentumCapacitatorBoost)
+            {
+                projectile.velocity *= 1.025f;
             }
 
             if (Main.player[projectile.owner].Calamity().theBeeDamage > 0 && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&
