@@ -6906,17 +6906,21 @@ namespace CalamityMod.CalPlayer
                 {
                     caughtType = mod.ItemType("AstralCrate");
                 }
-                else if (Main.rand.NextBool(10))
+                else if (!player.cratePotion && Main.rand.NextBool(10))
                 {
                     caughtType = mod.ItemType("AstralCrate");
                 }
-                else if (Main.rand.NextBool(25))
+                else if (Main.rand.NextBool(15))
                 {
                     caughtType = mod.ItemType("UrsaSergeant");
                 }
-                else if (Main.rand.NextBool(25))
+                else if (Main.rand.NextBool(15))
                 {
                     caughtType = mod.ItemType("GacruxianMollusk");
+                }
+                else if (Main.rand.NextBool(15))
+                {
+                    caughtType = mod.ItemType("PolarisParrotfish");
                 }
                 else
                 {
