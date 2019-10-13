@@ -3852,10 +3852,11 @@ namespace CalamityMod.NPCs
                 num339 = (float)num340;
             npc.position.Y = num339;
 
-            // Speed up if target is too far or if they're hiding behind tiles, slow down if too close
-            float distanceFromTarget = 0f;
             float targetPosition = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float npcPosition = npc.position.X + (float)(npc.width / 2);
+
+            // Speed up if target is too far or if they're hiding behind tiles, slow down if too close
+            float distanceFromTarget;
             if (npc.velocity.X < 0f)
                 distanceFromTarget = npcPosition - targetPosition;
             else
@@ -5260,8 +5261,6 @@ namespace CalamityMod.NPCs
                                 float num349 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector34.X;
                                 float num350 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector34.Y;
                                 float num351 = (float)Math.Sqrt((double)(num349 * num349 + num350 * num350));
-                                num349 *= num351;
-                                num350 *= num351;
 
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
@@ -12778,7 +12777,6 @@ namespace CalamityMod.NPCs
                                 num1284 = 0;
                             }
                             int num1285 = num1273 + num1284;
-                            num1273 -= num1285;
                             NPC nPC6 = Main.npc[num1270];
                             nPC6.life += num1285;
                             NPC.HealEffect(Utils.CenteredRectangle(Main.npc[num1270].Center, new Vector2(50f)), num1285, true);

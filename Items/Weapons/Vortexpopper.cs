@@ -50,7 +50,6 @@ namespace CalamityMod.Items.Weapons
                 num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
             }
             float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            float num81 = num80;
             if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
             {
                 num78 = (float)player.direction;
@@ -66,7 +65,6 @@ namespace CalamityMod.Items.Weapons
             Vector2 value6 = Vector2.Normalize(new Vector2(num78, num79)) * 40f * item.scale;
             if (Collision.CanHit(vector2, 0, 0, vector2 + value6, 0, 0))
             {
-                vector2 += value6;
             }
             float ai = new Vector2(num78, num79).ToRotation();
             float num96 = 2.09439516f;

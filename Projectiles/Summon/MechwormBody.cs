@@ -68,15 +68,15 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.timeLeft = 2;
             }
             Vector2 value68 = Vector2.Zero;
-            float num1064 = 0f;
-            float scaleFactor17 = 0f;
-            float scaleFactor18 = 1f;
             if (projectile.ai[1] == 1f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
             int chase = (int)projectile.ai[0];
+            float num1064;
+            float scaleFactor17;
+            float scaleFactor18;
             if (chase >= 0 && Main.projectile[chase].active)
             {
                 value68 = Main.projectile[chase].Center;

@@ -55,7 +55,6 @@ namespace CalamityMod.Projectiles.Astral
                 float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
                 if (num478 < num474)
                 {
-                    num474 = num478;
                     centerX = num476;
                     centerY = num477;
                     homeIn = true;

@@ -66,7 +66,6 @@ namespace CalamityMod.Items.PlaguebringerGoliath
             bloomCounter++;
             if (bloomCounter >= 180)
             {
-                bloomCounter = 0;
             }
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
             {

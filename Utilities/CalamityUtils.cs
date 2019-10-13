@@ -5,6 +5,7 @@ using CalamityMod.Projectiles;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 
 namespace CalamityMod
@@ -42,6 +43,11 @@ namespace CalamityMod
                 default:
                     return player.Calamity().ZoneAbyss;
             }
+        }
+
+        public static bool InventoryHas(this Player player, params int[] items)
+        {
+            return player.inventory.Any(item => items.Contains(item.type));
         }
         #endregion
 
@@ -136,6 +142,10 @@ namespace CalamityMod
             if (condition)
                 list.Add(type);
         }
+        #endregion
+
+        #region Projectile Utilities
+        public static int CountProjectiles(int Type) => Main.projectile.Count(proj => proj.type == Type && proj.active);
         #endregion
     }
 }

@@ -48,7 +48,6 @@ namespace CalamityMod.Projectiles.Summon
             }
             Vector2 direction = Main.player[projectile.owner].Center - projectile.Center;
             direction.Normalize();
-            direction *= 9f;
             Player player = Main.player[projectile.owner];
             double deg = (double)projectile.ai[1];
             double rad = deg * (Math.PI / 180);

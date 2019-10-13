@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -32,7 +33,14 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             crit = item.crit + player.Calamity().throwingCrit;
         }
-
+        public override void MeleeEffects(Player player, Rectangle hitbox)
+        {
+            if (player.Calamity().gloveOfPrecision)
+            {
+                item.useTime = (int)(item.useTime * 0.8f);
+                item.useAnimation = (int)(item.useAnimation * 0.8f);
+            }
+        }
         // Not needed because the weapon is now internally thrown instead of ranged
         /*
         public override void GetWeaponKnockback(Player player, ref float knockback)

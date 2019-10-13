@@ -44,12 +44,8 @@ namespace CalamityMod.Items.Weapons.Cryogen
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedA = speedX;
-            float SpeedB = speedY;
             for (int index = 0; index < 2; ++index)
             {
-                float num7 = speedX;
-                float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
                 Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, mod.ProjectileType("MistArrow"), damage, knockBack, player.whoAmI, 0f, 0f);

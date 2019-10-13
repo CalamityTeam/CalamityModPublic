@@ -65,7 +65,6 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[d].position = projectile.Center;
                 dustsplash += 1;
             }
-            dustsplash = 0;
 
             //Randomly not consume item if it wasnt a stealth strike
             if (Main.rand.Next(4) == 0 && projectile.ai[0] != 1)

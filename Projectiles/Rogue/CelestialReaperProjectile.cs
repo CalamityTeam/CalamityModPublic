@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
         }
-        public override bool? CanHitNPC(NPC target) => HomingCooldown == 0;
+        public override bool? CanHitNPC(NPC target) => HomingCooldown == 0 && !target.townNPC;
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             HomingCooldown = 25;

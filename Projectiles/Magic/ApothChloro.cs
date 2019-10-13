@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Magic
             float num7 = 300f;
             bool flag2 = false;
             int num8 = 0;
-            float num9 = 0f;
+            float num9;
             if ((double)projectile.ai[1] == 0.0)
             {
                 for (int index = 0; index < 200; ++index)

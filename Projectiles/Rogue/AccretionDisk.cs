@@ -82,8 +82,6 @@ namespace CalamityMod.Projectiles.Rogue
                     float num439 = num436 - value10.Y;
                     float num440 = (float)Math.Sqrt((double)(num438 * num438 + num439 * num439));
                     num440 = num437 / num440;
-                    num438 *= num440;
-                    num439 *= num440;
                     if (Main.rand.NextBool(3))
                     {
                         if (projectile.owner == Main.myPlayer)

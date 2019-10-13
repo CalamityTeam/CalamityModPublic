@@ -6,7 +6,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class Cinquedea : CalamityDamageItem
     {
-        public static int BaseDamage = 16;
+        public static int BaseDamage = 36;
         public static float Knockback = 5f;
         public static float Speed = 8f;
 
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.noUseGraphic = true;
             item.shoot = mod.ProjectileType("CinquedeaProj");
             item.shootSpeed = Speed;
-            item.value = Item.buyPrice(0, 9, 0, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.Calamity().rogue = true;
         }
 

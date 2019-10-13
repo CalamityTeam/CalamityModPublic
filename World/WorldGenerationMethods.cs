@@ -794,7 +794,7 @@ namespace CalamityMod.World
                             case TileID.SmallPiles:
                                 if (tile.frameY == 18)
                                 {
-                                    ushort newType = 9999;
+                                    ushort newType;
                                     if (tile.frameX >= 1476 && tile.frameX <= 1674)
                                     {
                                         newType = (ushort)mod.TileType("AstralDesertMediumPiles");
@@ -830,7 +830,7 @@ namespace CalamityMod.World
                                 }
                                 else if (tile.frameY == 0)
                                 {
-                                    ushort newType3 = 9999;
+                                    ushort newType3;
                                     if (tile.frameX >= 972 && tile.frameX <= 1062)
                                     {
                                         newType3 = (ushort)mod.TileType("AstralDesertSmallPiles");
@@ -858,7 +858,7 @@ namespace CalamityMod.World
                                 int topMost = tile.frameY <= 54 ? (tile.frameY % 36 == 0 ? y : y - 1) : y;
                                 bool twoTall = tile.frameY <= 54;
                                 bool hanging = tile.frameY <= 18 || tile.frameY == 72;
-                                ushort newType2 = 9999;
+                                ushort newType2;
                                 if (tile.frameX >= 378 && tile.frameX <= 414) //DESERT
                                 {
                                     newType2 = (ushort)mod.TileType("AstralDesertStalactite");
@@ -1715,7 +1715,7 @@ namespace CalamityMod.World
                 Main.tile[num9, num12].halfBrick(false);
                 Main.tile[num9, num12].slope(0);
             }
-            int contain = 0;
+            int contain;
             if (WorldGen.crimson)
             {
                 contain = 1571; //scourge

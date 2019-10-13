@@ -77,8 +77,6 @@ namespace CalamityMod.Projectiles.Magic
                     if (num478 < num474)
                     {
                         num474 = num478;
-                        num472 = num476;
-                        num473 = num477;
                         flag17 = true;
                     }
                 }

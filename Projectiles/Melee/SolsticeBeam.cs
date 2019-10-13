@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             int dustType = 0;
 
-            switch (CalamityMod.season)
+            switch (CalamityMod.CurrentSeason)
             {
                 case Season.Spring:
                     dustType = Utils.SelectRandom<int>(Main.rand, new int[]
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Melee
             byte red = 255;
             byte green = 255;
             byte blue = 255;
-            switch (CalamityMod.season)
+            switch (CalamityMod.CurrentSeason)
             {
                 case Season.Spring:
                     red = 0;
@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             int dustType = 0;
 
-            switch (CalamityMod.season)
+            switch (CalamityMod.CurrentSeason)
             {
                 case Season.Spring:
                     dustType = Utils.SelectRandom<int>(Main.rand, new int[]

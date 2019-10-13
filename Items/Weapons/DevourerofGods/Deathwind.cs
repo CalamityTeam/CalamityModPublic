@@ -44,13 +44,9 @@ namespace CalamityMod.Items.Weapons.DevourerofGods
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float SpeedA = speedX;
-            float SpeedB = speedY;
             int num6 = Main.rand.Next(4, 6);
             for (int index = 0; index < num6; ++index)
             {
-                float num7 = speedX;
-                float num8 = speedY;
                 float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
                 if (type == ProjectileID.WoodenArrowFriendly)

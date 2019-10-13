@@ -85,7 +85,6 @@ namespace CalamityMod.Items.Accessories
             plagueCounter++;
             if (plagueCounter >= 180)
             {
-                plagueCounter = 0;
             }
         }
     }

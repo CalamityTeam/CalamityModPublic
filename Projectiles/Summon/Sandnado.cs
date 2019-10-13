@@ -104,7 +104,6 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 vector = projectile.position;
             float num10 = 400f;
             bool flag = false;
-            int num11 = -1;
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.alpha += 20;
@@ -132,10 +131,9 @@ namespace CalamityMod.Projectiles.Summon
                     float num12 = Vector2.Distance(vector2, center);
                     if (((Vector2.Distance(center, vector) > num12 && num12 < num10) || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
-                        num10 = num12;
                         vector = vector2;
                         flag = true;
-                        num11 = npc.whoAmI;
+                        int num11 = npc.whoAmI;
                     }
                 }
             }
@@ -153,7 +151,6 @@ namespace CalamityMod.Projectiles.Summon
                             num10 = num13;
                             vector = vector3;
                             flag = true;
-                            num11 = k;
                         }
                     }
                 }

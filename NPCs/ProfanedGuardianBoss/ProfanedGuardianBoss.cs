@@ -201,12 +201,12 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
                     float spread = MathHelper.ToRadians(20);
                     double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
                     double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
-                    double offsetAngle = 0D;
                     float velocity = 5f;
-                    int i = 0;
                     int damage = expertMode ? 50 : 60;
                     int projectileType = mod.ProjectileType("ProfanedSpear");
 
+                    double offsetAngle;
+                    int i;
                     switch (spearType)
                     {
                         case 0:

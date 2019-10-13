@@ -85,7 +85,6 @@ namespace CalamityMod.Items.Leviathan
             seaCounter++;
             if (seaCounter >= 180)
             {
-                seaCounter = 0;
             }
         }
     }

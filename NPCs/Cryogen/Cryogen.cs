@@ -414,7 +414,6 @@ namespace CalamityMod.NPCs.Cryogen
                                     num180 += (float)Main.rand.Next(-100, 101);
                                     num182 += (float)Main.rand.Next(-100, 101);
                                     num180 *= num183;
-                                    num182 *= num183;
                                     Projectile.NewProjectile(value9.X, value9.Y, num180, -10f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
                                 }
                             }
@@ -483,7 +482,6 @@ namespace CalamityMod.NPCs.Cryogen
                                 num180 += (float)Main.rand.Next(-100, 101);
                                 num182 += (float)Main.rand.Next(-100, 101);
                                 num180 *= num183;
-                                num182 *= num183;
                                 Projectile.NewProjectile(value9.X, value9.Y, num180, -10f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
                             }
                         }

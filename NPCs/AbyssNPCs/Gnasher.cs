@@ -37,13 +37,13 @@ namespace CalamityMod.NPCs.AbyssNPCs
         public override void AI()
         {
             npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
-            float num78 = 0.5f;
             float num79 = (Main.player[npc.target].Center - npc.Center).Length();
             num79 *= 0.0025f;
             if ((double)num79 > 1.5)
             {
                 num79 = 1.5f;
             }
+            float num78;
             if (Main.expertMode)
             {
                 num78 = 2.5f - num79;

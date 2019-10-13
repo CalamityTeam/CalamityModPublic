@@ -308,6 +308,9 @@ namespace CalamityMod.CalPlayer
         public bool eclipseMirrorCooldown = false;
         public bool featherCrown = false;
         public bool moonCrown = false;
+        public bool dragonScales = false;
+        public bool gloveOfPrecision = false;
+        public bool momentumCapacitor = false;
 
         // Armor Set
         public bool victideSet = false;
@@ -1018,6 +1021,9 @@ namespace CalamityMod.CalPlayer
             eclipseMirrorCooldown = false;
             featherCrown = false;
             moonCrown = false;
+            dragonScales = false;
+            gloveOfPrecision = false;
+            momentumCapacitor = false;
 
             shadowflame = false;
             wDeath = false;
@@ -1647,6 +1653,13 @@ namespace CalamityMod.CalPlayer
         #region HotKeys
         public override void ProcessTriggers(TriggersSet triggersSet)
         {
+            if (CalamityMod.MomentumCapacitatorHotkey.JustPressed && momentumCapacitor && Main.myPlayer == player.whoAmI && player.Calamity().rogueStealth >= player.Calamity().rogueStealthMax * 0.25f &&
+                CalamityUtils.CountProjectiles(mod.ProjectileType("MomentumCapacitorOrb")) == 0)
+            {
+                player.Calamity().rogueStealth -= player.Calamity().rogueStealthMax * 0.25f;
+                Vector2 fieldSpawnCenter = new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition;
+                Projectile.NewProjectile(fieldSpawnCenter, Vector2.Zero, mod.ProjectileType("MomentumCapacitorOrb"), 0, 0f, player.whoAmI, 0f, 0f);
+            }
             if (CalamityMod.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == player.whoAmI)
             {
                 Vector2 teleportLocation;
@@ -2003,7 +2016,6 @@ namespace CalamityMod.CalPlayer
                                         if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
                                         {
                                             flag = true;
-                                            num3 += i;
                                             break;
                                         }
                                     }
@@ -2097,7 +2109,6 @@ namespace CalamityMod.CalPlayer
                                         if (!(Collision.TileCollision(vector - vector3, vector3, player.width, player.height, false, false, (int)player.gravDir) != vector3))
                                         {
                                             flag = true;
-                                            num3 += i;
                                             break;
                                         }
                                     }
@@ -4450,6 +4461,11 @@ namespace CalamityMod.CalPlayer
                     player.Calamity().throwingVelocity += 0.1f;
                 }
             }
+            if (gloveOfPrecision)
+            {
+                player.Calamity().throwingCrit += 12;
+                player.Calamity().throwingVelocity *= 1.2f;
+            }
             if (tarraSummon)
             {
                 int lifeCounter = 0;
@@ -4477,7 +4493,6 @@ namespace CalamityMod.CalPlayer
                 lifeCounter++;
                 if (lifeCounter >= 180)
                 {
-                    lifeCounter = 0;
                 }
             }
             if (brimstoneElementalLore && player.inferno)
@@ -4723,34 +4738,52 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
         }
-
+        #region Dragon Scale Logic
+        public override void PostBuyItem(NPC vendor, Item[] shopInventory, Item item)
+        {
+            if (item.type == mod.ItemType("DragonScales") && !CalamityWorld.dragonScalesBought)
+            {
+                CalamityWorld.dragonScalesBought = true;
+            }
+        }
+        public override bool CanBuyItem(NPC vendor, Item[] shopInventory, Item item)
+        {
+            if (item.type == mod.ItemType("DragonScales"))
+            {
+                return !CalamityWorld.dragonScalesBought;
+            }
+            return base.CanBuyItem(vendor, shopInventory, item);
+        }
+        #endregion
         public override void PostUpdateRunSpeeds()
         {
             #region SpeedBoosts
             float runAccMult = 1f +
+                (shadowSpeed ? 0.5f : 0f) +
                 ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
                 ((abyssalDivingSuit && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.05f : 0f) +
                 (sirenWaterBuff ? 0.15f : 0f) +
                 ((frostFlare && player.statLife < (int)((double)player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
-                (shadowSpeed ? 0.5f : 0f) +
                 (auricSet ? 0.1f : 0f) +
-                (silvaSet ? 0.05f : 0f) +
+                (dragonScales ? 0.1f : 0f) +
                 (cTracers ? 0.1f : 0f) +
+                (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
                 (blueCandle ? 0.05f : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 
             float runSpeedMult = 1f +
-                ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
-                ((abyssalDivingSuit && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.05f : 0f) +
-                (sirenWaterBuff ? 0.15f : 0f) +
-                ((frostFlare && player.statLife < (int)((double)player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
                 (shadowSpeed ? 0.5f : 0f) +
+                ((abyssalDivingSuit && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.05f : 0f) +
+                ((frostFlare && player.statLife < (int)((double)player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
+                (sirenWaterBuff ? 0.15f : 0f) +
                 (auricSet ? 0.1f : 0f) +
-                (silvaSet ? 0.05f : 0f) +
+                (dragonScales ? 0.1f : 0f) +
                 (cTracers ? 0.1f : 0f) +
+                (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
+                ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
                 ((deepDiver && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir)) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
 

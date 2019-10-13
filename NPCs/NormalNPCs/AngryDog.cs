@@ -73,7 +73,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.ai[1] += 1f;
                 }
                 int num = 30;
-                int num2 = 10;
                 bool flag = false;
                 bool flag2 = false;
                 bool flag3 = false;
@@ -82,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     flag2 = true;
                     npc.ai[3] += 1f;
                 }
-                num2 = 4;
+                int num2 = 4;
                 bool flag4 = npc.velocity.Y == 0f;
                 for (int i = 0; i < 200; i++)
                 {
@@ -176,16 +175,15 @@ namespace CalamityMod.NPCs.NormalNPCs
                         npc.direction = 1;
                     }
                 }
-                float num7 = 6f;
-                float num8 = 0.07f;
+
                 if (!flag && (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
                 {
                     if (Math.Sign(npc.velocity.X) != npc.direction)
                     {
                         npc.velocity.X = npc.velocity.X * 0.92f;
                     }
-                    num7 = 5f;
-                    num8 = 0.2f;
+                    float num7 = 5f;
+                    float num8 = 0.2f;
                     if (npc.velocity.X < -num7 || npc.velocity.X > num7)
                     {
                         if (npc.velocity.Y == 0f)

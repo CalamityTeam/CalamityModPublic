@@ -99,7 +99,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             CalamityGlobalNPC.astrumDeusHeadMain = npc.whoAmI;
             colorChange = NPC.AnyNPCs(mod.NPCType("AstrumDeusHead"));
             int astrumDeusTotalHP = 0;
-            double astrumDeusHPRatio = 0;
             double mainDeusHPRatio = (double)npc.life / (double)npc.lifeMax;
             if (colorChange)
             {
@@ -115,7 +114,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                         }
                     }
                 }
-                astrumDeusHPRatio = (double)astrumDeusTotalHP / (double)astrumDeusTotalHPMax;
+                double astrumDeusHPRatio = (double)astrumDeusTotalHP / (double)astrumDeusTotalHPMax;
                 if (astrumDeusHPRatio < 0.33)
                 {
                     if (mainDeusHPRatio > 0.33)
@@ -180,7 +179,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     int Previous = npc.whoAmI;
                     for (int num36 = 0; num36 < maxLength; num36++)
                     {
-                        int lol = 0;
+                        int lol;
                         if (num36 >= 0 && num36 < minLength)
                         {
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), mod.NPCType("AstrumDeusBodySpectral"), npc.whoAmI);

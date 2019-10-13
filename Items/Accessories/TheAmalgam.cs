@@ -148,7 +148,6 @@ namespace CalamityMod.Items.Accessories
             seaCounter++;
             if (seaCounter >= 180)
             {
-                seaCounter = 0;
             }
             if (FireCountdown == 0)
             {
@@ -172,8 +171,7 @@ namespace CalamityMod.Items.Accessories
                         {
                             Vector2 spawn = baseSpawn;
                             spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
-                            Vector2 velocity = baseVelocity;
-                            velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
+                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, mod.ProjectileType("BrimstoneHellfireballFriendly2"), 2000, 5f, Main.myPlayer, 0f, 0f);
                             Main.projectile[projectile].tileCollide = false;

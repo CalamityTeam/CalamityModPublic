@@ -100,7 +100,6 @@ namespace CalamityMod.NPCs.AbyssNPCs
                 }
                 if ((!Main.player[npc.target].wet || Main.player[npc.target].dead) && flag14)
                 {
-                    flag14 = false;
                 }
                 if (npc.collideX)
                 {
