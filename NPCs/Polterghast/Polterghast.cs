@@ -40,17 +40,9 @@ namespace CalamityMod.NPCs.Polterghast
             global.customDR = true;
             global.multDRReductions.Add(BuffID.Ichor, 0.88f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
-            npc.lifeMax = CalamityWorld.revenge ? 495000 : 412500;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 660000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2800000 : 2500000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(412500, 495000, 660000, 3250000, 3500000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1; //new
             aiType = -1; //new

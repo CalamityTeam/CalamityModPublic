@@ -26,17 +26,9 @@ namespace CalamityMod.NPCs.Bumblefuck
             npc.width = 80;
             npc.height = 80;
             npc.defense = 40;
-            npc.lifeMax = CalamityWorld.revenge ? 252500 : 227500;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 302500;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 1000000 : 900000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(227500, 252500, 302500, 3000000, 3200000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

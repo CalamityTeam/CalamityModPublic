@@ -36,17 +36,9 @@ namespace CalamityMod.NPCs.AbyssNPCs
             npc.Calamity().RevPlusDR(0.1f);
             npc.aiStyle = -1;
             aiType = -1;
-            npc.lifeMax = CalamityWorld.revenge ? 85000 : 73000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 100000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 4300000 : 4000000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(73000, 85000, 100000, 20000000, 21000000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;

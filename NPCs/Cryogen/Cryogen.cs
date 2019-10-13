@@ -32,17 +32,9 @@ namespace CalamityMod.NPCs.Cryogen
             npc.height = 80;
             npc.defense = 12;
             npc.Calamity().RevPlusDR(0.1f);
-            npc.lifeMax = CalamityWorld.revenge ? 26300 : 17900;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 39900;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 3000000 : 2700000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(17900, 26300, 39900, 3000000, 3200000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             animationType = 10;
@@ -657,9 +649,9 @@ namespace CalamityMod.NPCs.Cryogen
                 else if (npc.ai[1] == 1f)
                 {
                     Vector2 position = new Vector2((float)teleportLocationX * 16f - (float)(npc.width / 2), (float)iceShard * 16f - (float)(npc.height / 2));
-                    for (int m = 0; m < 10; m++)
+                    for (int m = 0; m < 5; m++)
                     {
-                        int dust = Dust.NewDust(position, npc.width, npc.height, 67, 0f, 0f, 100, default, 1f);
+                        int dust = Dust.NewDust(position, npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
                         Main.dust[dust].noGravity = true;
                     }
                     npc.alpha += 2;
@@ -668,9 +660,9 @@ namespace CalamityMod.NPCs.Cryogen
                         Main.PlaySound(SoundID.Item8, npc.Center);
                         npc.alpha = 255;
                         npc.position = position;
-                        for (int n = 0; n < 50; n++)
+                        for (int n = 0; n < 15; n++)
                         {
-                            int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 67, 0f, 0f, 100, default, 1f);
+                            int num39 = Dust.NewDust(npc.position, npc.width, npc.height, 67, 0f, 0f, 100, default, 3f);
                             Main.dust[num39].noGravity = true;
                         }
                         npc.ai[1] = 2f;

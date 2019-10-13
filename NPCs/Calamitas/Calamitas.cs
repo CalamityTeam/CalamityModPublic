@@ -27,12 +27,16 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 15;
             npc.Calamity().RevPlusDR(0.15f);
             npc.value = 0f;
-            npc.lifeMax = CalamityWorld.revenge ? 51750 : 37500;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 82750;
-            }
-            npc.aiStyle = -1;
+			npc.LifeMaxNERD(37500, 51750, 82750, 5200000, 5500000);
+			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+			{
+				npc.damage *= 3;
+				npc.defense *= 3;
+				npc.lifeMax *= 3;
+			}
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+			npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
@@ -60,18 +64,6 @@ namespace CalamityMod.NPCs.Calamitas
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             music = MusicID.Boss2;
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.damage = 150;
-                npc.defense = 130;
-                npc.lifeMax *= 3;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 4600000 : 4100000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
         public override void FindFrame(int frameHeight)

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
@@ -9,13 +11,15 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Orb");
-        }
+            DisplayName.SetDefault("Tears of Heaven");
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
+            projectile.width = 24;
+            projectile.height = 24;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 3;
@@ -27,28 +31,22 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 4f)
-            {
-                for (int num468 = 0; num468 < 3; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 1f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                }
-                for (int num92 = 0; num92 < 3; num92++)
-                {
-                    int num96 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, 1f);
-                    Main.dust[num96].noGravity = true;
-                    Main.dust[num96].velocity *= 0f;
-                }
-                for (int num105 = 0; num105 < 3; num105++)
-                {
-                    int num102 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, 0f, 0f, 100, default, 1f);
-                    Main.dust[num102].noGravity = true;
-                    Main.dust[num102].velocity *= 0f;
-                }
-            }
+			if (projectile.alpha > 0)
+			{
+				projectile.alpha -= 25;
+				if (projectile.alpha < 0)
+					projectile.alpha = 0;
+			}
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] > 4f)
+			{
+				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 1f);
+				Main.dust[num469].noGravity = true;
+				int num96 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, 1f);
+				Main.dust[num96].noGravity = true;
+				int num102 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 92, 0f, 0f, 100, default, 1f);
+				Main.dust[num102].noGravity = true;
+			}
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 500f;
@@ -82,9 +80,16 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
                 projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
             }
-        }
+			projectile.rotation += 0.3f * (float)projectile.direction;
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			return false;
+		}
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 6;
             target.AddBuff(mod.BuffType("HolyLight"), 300);

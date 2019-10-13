@@ -25,17 +25,9 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.width = 44;
             npc.height = 44;
             npc.defense = 6;
-            npc.lifeMax = CalamityWorld.revenge ? 3750 : 3000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 5250;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2700000 : 2500000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(3000, 3750, 5250, 2500000, 2700000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
             npc.aiStyle = -1;

@@ -23,7 +23,6 @@ namespace CalamityMod.NPCs.Cryogen
             npc.damage = 50;
             npc.width = 240;
             npc.height = 240;
-            npc.defense = 0;
             npc.Calamity().RevPlusDR(0.4f);
             npc.lifeMax = 1400;
             if (CalamityWorld.bossRushActive)

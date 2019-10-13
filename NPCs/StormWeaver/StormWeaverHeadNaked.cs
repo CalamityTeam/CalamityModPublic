@@ -47,9 +47,9 @@ namespace CalamityMod.NPCs.StormWeaver
                     music = MusicID.Boss3;
                 npc.lifeMax = 600000;
             }
-            if (CalamityWorld.bossRushActive)
+            if (CalamityWorld.bossRushActive) // 30 seconds
             {
-                npc.lifeMax = 3300000;
+                npc.lifeMax = 3500000;
             }
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 3300000;
+                npc.lifeMax = 3500000;
             }
             double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);

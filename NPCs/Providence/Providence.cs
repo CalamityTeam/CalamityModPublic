@@ -45,17 +45,9 @@ namespace CalamityMod.NPCs.Providence
             global.customDR = true;
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
-            npc.lifeMax = CalamityWorld.revenge ? 500000 : 440000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 715000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 15000000 : 12500000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(440000, 500000, 715000, 12500000, 15000000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;

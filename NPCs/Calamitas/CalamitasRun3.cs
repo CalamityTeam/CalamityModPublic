@@ -31,16 +31,21 @@ namespace CalamityMod.NPCs.Calamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 25;
-            npc.Calamity().RevPlusDR(0.15f);
-            npc.lifeMax = CalamityWorld.revenge ? 38812 : 28125;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 62062;
-            }
+			npc.value = Item.buyPrice(0, 15, 0, 0);
+			npc.Calamity().RevPlusDR(0.15f);
+			npc.LifeMaxNERD(28125, 38812, 62062, 3900000, 4125000);
+			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+			{
+				npc.damage *= 3;
+				npc.defense *= 3;
+				npc.lifeMax *= 3;
+				npc.value *= 2.5f;
+			}
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
-            npc.value = Item.buyPrice(0, 15, 0, 0);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -72,19 +77,6 @@ namespace CalamityMod.NPCs.Calamitas
             else
                 music = MusicID.Boss2;
             bossBag = mod.ItemType("CalamitasBag");
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.damage = 160;
-                npc.defense = 150;
-                npc.lifeMax *= 3;
-                npc.value = Item.buyPrice(0, 35, 0, 0);
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 3450000 : 3075000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
         public override void SendExtraAI(BinaryWriter writer)

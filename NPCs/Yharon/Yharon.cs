@@ -46,17 +46,9 @@ namespace CalamityMod.NPCs.Yharon
             npc.width = 200;
             npc.height = 200;
             npc.defense = 100;
-            npc.lifeMax = CalamityWorld.revenge ? 2525000 : 2275000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 3025000;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 4000000 : 3700000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(2275000, 2525000, 3025000, 3700000, 4000000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;

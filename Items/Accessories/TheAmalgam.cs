@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
                                "You leave behind poisonous seawater as you move\n" +
                                "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in liquid\n" +
                                "If you are damaged while submerged in liquid you will gain a damaging aura for a short time");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 8));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 6));
         }
 
         public override void SetDefaults()

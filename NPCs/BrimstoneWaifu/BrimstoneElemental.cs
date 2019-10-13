@@ -27,15 +27,20 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             npc.width = 100;
             npc.height = 150;
             npc.defense = 15;
-            npc.lifeMax = CalamityWorld.revenge ? 35708 : 26000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 54050;
-            }
-            npc.knockBackResist = 0f;
+			npc.value = Item.buyPrice(0, 12, 0, 0);
+			npc.LifeMaxNERD(26000, 35708, 54050, 6500000, 7000000);
+			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+			{
+				npc.damage *= 3;
+				npc.defense *= 4;
+				npc.lifeMax *= 8;
+				npc.value *= 3f;
+			}
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+			npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
-            npc.value = Item.buyPrice(0, 12, 0, 0);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -66,19 +71,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             else
                 music = MusicID.Boss4;
             bossBag = mod.ItemType("BrimstoneWaifuBag");
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.damage = 210;
-                npc.defense = 120;
-                npc.lifeMax = 300000;
-                npc.value = Item.buyPrice(0, 35, 0, 0);
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2300000 : 2000000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -213,11 +205,10 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 npc.defense = provy ? 120 : 20;
                 npc.chaseable = true;
                 Vector2 position = new Vector2(npc.ai[1] * 16f - (float)(npc.width / 2), npc.ai[2] * 16f - (float)(npc.height / 2));
-                for (int m = 0; m < 10; m++)
+                for (int m = 0; m < 5; m++)
                 {
-                    int dust = Dust.NewDust(position, npc.width, npc.height, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1f);
+                    int dust = Dust.NewDust(position, npc.width, npc.height, 235, 0f, -1f, 90, default, 2f);
                     Main.dust[dust].noGravity = true;
-                    Main.dust[dust].velocity *= 0.2f;
                     Main.dust[dust].fadeIn = 1f;
                 }
                 npc.alpha += 2;
@@ -230,10 +221,9 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                     Main.PlaySound(SoundID.Item8, npc.Center);
                     npc.alpha = 255;
                     npc.position = position;
-                    for (int n = 0; n < 50; n++)
+                    for (int n = 0; n < 15; n++)
                     {
-                        int warpDust = Dust.NewDust(npc.position, npc.width, npc.height, 235, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1f);
-                        Main.dust[warpDust].velocity *= 0.2f;
+                        int warpDust = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, -1f, 90, default, 3f);
                         Main.dust[warpDust].noGravity = true;
                     }
                     npc.ai[0] = 2f;

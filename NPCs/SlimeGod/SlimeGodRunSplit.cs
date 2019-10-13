@@ -20,17 +20,9 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void SetDefaults()
         {
-            npc.lifeMax = CalamityWorld.revenge ? 2407 : 1750;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 3369;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 1000000 : 800000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(1750, 2407, 3369, 800000, 850000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.damage = 45;
             npc.width = 150;
             npc.height = 92;
