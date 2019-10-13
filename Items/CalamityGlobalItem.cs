@@ -118,6 +118,13 @@ namespace CalamityMod.Items
             {
                 speedX *= player.Calamity().throwingVelocity;
                 speedY *= player.Calamity().throwingVelocity;
+                if (player.Calamity().gloveOfRecklessness)
+                {
+                    Vector2 rotated = new Vector2(speedX, speedY);
+                    rotated = rotated.RotatedByRandom(MathHelper.ToRadians(10f));
+                    speedX = rotated.X;
+                    speedY = rotated.Y;
+                }
             }
             if (player.Calamity().luxorsGift)
             {

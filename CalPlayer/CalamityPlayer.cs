@@ -310,6 +310,7 @@ namespace CalamityMod.CalPlayer
         public bool moonCrown = false;
         public bool dragonScales = false;
         public bool gloveOfPrecision = false;
+        public bool gloveOfRecklessness = false;
         public bool momentumCapacitor = false;
 
         // Armor Set
@@ -1023,6 +1024,7 @@ namespace CalamityMod.CalPlayer
             moonCrown = false;
             dragonScales = false;
             gloveOfPrecision = false;
+            gloveOfRecklessness = false;
             momentumCapacitor = false;
 
             shadowflame = false;
@@ -4465,6 +4467,11 @@ namespace CalamityMod.CalPlayer
             {
                 player.Calamity().throwingCrit += 12;
                 player.Calamity().throwingVelocity *= 1.2f;
+            }
+            if (gloveOfRecklessness)
+            {
+                player.Calamity().throwingVelocity *= 1.2f;
+                player.Calamity().throwingDamage *= 0.9f;
             }
             if (tarraSummon)
             {

@@ -139,7 +139,6 @@ namespace CalamityMod.Projectiles.Rogue
                 Gore expr_13D1F_cp_0 = Main.gore[num626];
                 expr_13D1F_cp_0.velocity.Y -= 1f;
             }
-            projectile.damage = Main.expertMode ? 300 : 180;
             projectile.Damage();
         }
     }
