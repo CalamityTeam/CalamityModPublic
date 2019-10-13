@@ -28,11 +28,15 @@ namespace CalamityMod.NPCs.Calamitas
             npc.height = 120;
             npc.defense = 10;
             npc.Calamity().RevPlusDR(0.15f);
-            npc.lifeMax = CalamityWorld.revenge ? 11025 : 7500;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 13200;
-            }
+			npc.LifeMaxNERD(7500, 11025, 13200, 800000, 900000);
+			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+			{
+				npc.damage *= 3;
+				npc.defense *= 5;
+				npc.lifeMax *= 3;
+			}
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -65,18 +69,6 @@ namespace CalamityMod.NPCs.Calamitas
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Calamitas");
             else
                 music = MusicID.Boss2;
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.damage = 200;
-                npc.defense = 95;
-                npc.lifeMax *= 3;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 800000 : 700000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
         public override void SendExtraAI(BinaryWriter writer)

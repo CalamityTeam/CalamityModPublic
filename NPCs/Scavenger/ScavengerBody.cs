@@ -28,13 +28,19 @@ namespace CalamityMod.NPCs.Scavenger
             npc.width = 332;
             npc.height = 214;
             npc.defense = 55;
-            npc.Calamity().RevPlusDR(0.4f);
-            npc.lifeMax = CalamityWorld.revenge ? 53500 : 42700;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 90000;
-            }
-            npc.knockBackResist = 0f;
+			npc.value = Item.buyPrice(0, 25, 0, 0);
+			npc.Calamity().RevPlusDR(0.4f);
+			npc.LifeMaxNERD(42700, 53500, 90000, 4600000, 4800000);
+			if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+			{
+				npc.damage *= 2;
+				npc.defense *= 2;
+				npc.lifeMax *= 7;
+				npc.value *= 1.5f;
+			}
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+			npc.knockBackResist = 0f;
             aiType = -1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -54,7 +60,6 @@ namespace CalamityMod.NPCs.Scavenger
             npc.buffImmune[mod.BuffType("SilvaStun")] = false;
             npc.boss = true;
             npc.alpha = 255;
-            npc.value = Item.buyPrice(0, 25, 0, 0);
             npc.HitSound = SoundID.NPCHit41;
             npc.DeathSound = SoundID.NPCDeath14;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
@@ -63,18 +68,6 @@ namespace CalamityMod.NPCs.Scavenger
             else
                 music = MusicID.Boss4;
             bossBag = mod.ItemType("RavagerBag");
-            if (CalamityWorld.downedProvidence)
-            {
-                npc.defense = 180;
-                npc.lifeMax = 350000;
-                npc.value = Item.buyPrice(0, 35, 0, 0);
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2300000 : 2100000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
         public override void SendExtraAI(BinaryWriter writer)

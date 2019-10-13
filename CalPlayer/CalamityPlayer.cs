@@ -117,6 +117,7 @@ namespace CalamityMod.CalPlayer
         public bool kendra = false;
         public bool trashMan = false;
         public int trashManChest = -1;
+        public bool astrophage = false;
 
         // Rage
         public const int stressMax = 10000;
@@ -789,6 +790,7 @@ namespace CalamityMod.CalPlayer
             bearPet = false;
             kendra = false;
             trashMan = false;
+            astrophage = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -6906,17 +6908,21 @@ namespace CalamityMod.CalPlayer
                 {
                     caughtType = mod.ItemType("AstralCrate");
                 }
-                else if (Main.rand.NextBool(10))
+                else if (!player.cratePotion && Main.rand.NextBool(10))
                 {
                     caughtType = mod.ItemType("AstralCrate");
                 }
-                else if (Main.rand.NextBool(25))
+                else if (Main.rand.NextBool(15))
                 {
                     caughtType = mod.ItemType("UrsaSergeant");
                 }
-                else if (Main.rand.NextBool(25))
+                else if (Main.rand.NextBool(15))
                 {
                     caughtType = mod.ItemType("GacruxianMollusk");
+                }
+                else if (Main.rand.NextBool(15))
+                {
+                    caughtType = mod.ItemType("PolarisParrotfish");
                 }
                 else
                 {

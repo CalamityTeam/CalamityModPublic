@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Calamitas
             DisplayName.SetDefault("Chaos Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
                 "Increases max mana by 50, all damage by 3%, and reduces mana usage by 5%");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 4));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 7));
         }
 
         public override void SetDefaults()

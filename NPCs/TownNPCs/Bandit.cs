@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.TownNPCs
             npc.townNPC = true;
             npc.friendly = true;
             npc.lavaImmune = false;
-            npc.width = 40;
-            npc.height = 40;
+            npc.width = 18;
+            npc.height = 42;
             npc.aiStyle = 7;
             npc.damage = 10;
             npc.defense = 15;
@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.TownNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.5f;
-            animationType = NPCID.Mechanic;
+            animationType = NPCID.PartyGirl;
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
@@ -220,12 +220,12 @@ namespace CalamityMod.NPCs.TownNPCs
 				shop.item[nextSlot].SetDefaults(mod.ItemType("SlickCane"));
 				nextSlot++;
 			}*/
-			/*if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("MomentumCapacitator"));
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 60, 0, 0);
 				nextSlot++;
-			}*/
+			}
 			/*if (NPC.downedMechBoss1 || NPC.downedMechBoss2 || NPC.downedMechBoss3)
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("BouncingBetty"));
@@ -237,8 +237,8 @@ namespace CalamityMod.NPCs.TownNPCs
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfPrecicion"));
 				nextSlot++;
-				/*shop.item[nextSlot].SetDefaults(mod.ItemType("GloveofRecklessness"));
-				nextSlot++;*/
+				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveofRecklessness"));
+				nextSlot++;
 				/*shop.item[nextSlot].SetDefaults(mod.ItemType("DeepWounder"));
 				nextSlot++;*/
 			}
@@ -260,7 +260,6 @@ namespace CalamityMod.NPCs.TownNPCs
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
 				nextSlot++;
             }
-				
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
                 shop.item[nextSlot].SetDefaults(mod.ItemType("DragonScales"));

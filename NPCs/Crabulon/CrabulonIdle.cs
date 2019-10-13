@@ -28,17 +28,9 @@ namespace CalamityMod.NPCs.Crabulon
             npc.width = 280;
             npc.height = 160;
             npc.defense = 8;
-            npc.lifeMax = CalamityWorld.revenge ? 4000 : 3000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 6930;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2300000 : 2000000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(3000, 4000, 6930, 11000000, 10000000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[mod.BuffType("GlacialState")] = true;

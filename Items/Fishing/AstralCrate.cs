@@ -58,6 +58,9 @@ namespace CalamityMod.Items.Fishing
                 mod.ItemType("HivePod"),
                 mod.ItemType("AstralScythe"),
                 mod.ItemType("StellarCannon"));
+				
+            //Pet
+            DropHelper.DropItemChance(player, mod.ItemType("AstrophageItem"), 10);
 
             //Bait
             DropHelper.DropItemChance(player, mod.ItemType("Twinkler"), 5, 1, 3);

@@ -25,17 +25,9 @@ namespace CalamityMod.NPCs.HiveMind
             npc.width = 150;
             npc.height = 120;
             npc.defense = 10;
-            npc.lifeMax = CalamityWorld.revenge ? 1800 : 1200;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 3300;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 400000 : 350000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(1200, 1800, 3300, 350000, 400000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[mod.BuffType("GlacialState")] = true;

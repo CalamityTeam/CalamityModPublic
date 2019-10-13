@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.lifeMax = 650;
             if (CalamityWorld.bossRushActive)
             {
-                npc.lifeMax = 400000;
+                npc.lifeMax = 10000;
             }
             npc.alpha = 255;
             npc.HitSound = SoundID.NPCHit5;

@@ -25,17 +25,9 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.height = 92;
             npc.scale = 1.1f;
             npc.defense = 10;
-            npc.lifeMax = CalamityWorld.revenge ? 5500 : 4000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 7700;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 2500000 : 2200000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(4000, 5500, 7700, 2200000, 2400000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[mod.BuffType("GlacialState")] = true;

@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,6 +33,11 @@ namespace CalamityMod.Items.Weapons
             item.shoot = mod.ProjectileType("SanguineFlare");
             item.shootSpeed = 14f;
             item.Calamity().postMoonLordRarity = 13;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(15, 15);
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

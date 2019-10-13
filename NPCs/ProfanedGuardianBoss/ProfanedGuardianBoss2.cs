@@ -25,13 +25,9 @@ namespace CalamityMod.NPCs.ProfanedGuardianBoss
             npc.height = 80;
             npc.defense = 50;
             npc.Calamity().RevPlusDR(0.25f);
-            npc.lifeMax = 40000;
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 400000 : 300000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(40000, 50000, 80000, 300000, 400000);
+			double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;

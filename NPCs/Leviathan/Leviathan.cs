@@ -29,17 +29,9 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 450;
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.35f);
-            npc.lifeMax = CalamityWorld.revenge ? 90700 : 69000;
-            if (CalamityWorld.death)
-            {
-                npc.lifeMax = 189750;
-            }
-            if (CalamityWorld.bossRushActive)
-            {
-                npc.lifeMax = CalamityWorld.death ? 8000000 : 7000000;
-            }
-            double HPBoost = (double)Config.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+			npc.LifeMaxNERD(69000, 90700, 189750, 7000000, 7500000);
+            double HPBoost = Config.BossHealthPercentageBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
