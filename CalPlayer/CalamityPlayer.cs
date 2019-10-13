@@ -117,6 +117,7 @@ namespace CalamityMod.CalPlayer
         public bool kendra = false;
         public bool trashMan = false;
         public int trashManChest = -1;
+        public bool astrophage = false;
 
         // Rage
         public const int stressMax = 10000;
@@ -789,6 +790,7 @@ namespace CalamityMod.CalPlayer
             bearPet = false;
             kendra = false;
             trashMan = false;
+            astrophage = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
