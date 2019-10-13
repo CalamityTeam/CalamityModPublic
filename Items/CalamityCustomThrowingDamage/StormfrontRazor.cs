@@ -41,7 +41,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Cinquedea");
             recipe.AddIngredient(null, "AerialiteBar", 8);
-            recipe.AddIngredient(null, "EssenceofCinder", 4);
+            recipe.AddIngredient(null, "CoreofCinder", 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

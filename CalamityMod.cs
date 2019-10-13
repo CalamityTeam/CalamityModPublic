@@ -39,6 +39,7 @@ namespace CalamityMod
         public static ModHotKey AstralArcanumUIHotkey;
         public static ModHotKey BossBarToggleHotKey;
         public static ModHotKey BossBarToggleSmallTextHotKey;
+        public static ModHotKey MomentumCapacitatorHotkey;
 
         // Boss Spawners
         public static int ghostKillCount = 0;
@@ -122,6 +123,7 @@ namespace CalamityMod
             TarraHotKey = RegisterHotKey("Armor Set Bonus", "Y");
             AstralTeleportHotKey = RegisterHotKey("Astral Teleport", "P");
             AstralArcanumUIHotkey = RegisterHotKey("Astral Arcanum UI Toggle", "O");
+            MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
             BossBarToggleHotKey = RegisterHotKey("Boss Health Bar Toggle", "NumPad0");
             BossBarToggleSmallTextHotKey = RegisterHotKey("Boss Health Bar Small Text Toggle", "NumPad1");
 
@@ -207,6 +209,7 @@ namespace CalamityMod
             TarraHotKey = null;
             AstralTeleportHotKey = null;
             AstralArcanumUIHotkey = null;
+            MomentumCapacitatorHotkey = null;
             BossBarToggleHotKey = null;
             BossBarToggleSmallTextHotKey = null;
 

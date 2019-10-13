@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class GacruxianHome : ModProjectile
     {
-        private int sparkTrailTimer = 10;
+        private int stealthTrailTimer = 10;
 
         public override void SetStaticDefaults()
         {
@@ -31,23 +31,22 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            sparkTrailTimer--;
+            stealthTrailTimer--;
             if (Main.rand.NextBool(4))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, mod.DustType("AstralOrange"), projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-            if (sparkTrailTimer == 0)
+            if (stealthTrailTimer == 0 && projectile.owner == Main.myPlayer)
             {
-                if (projectile.owner == Main.myPlayer)
-                {
-                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, mod.ProjectileType("UltimusCleaverDust"), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Main.projectile[proj].Calamity().forceRogue = true;
-                }
-                sparkTrailTimer = 10;
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, mod.ProjectileType("UltimusCleaverDust"), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                Main.projectile[proj].Calamity().forceRogue = true;
+				Main.projectile[proj].localNPCHitCooldown = 10;
+				Main.projectile[proj].penetrate = 3;
+                stealthTrailTimer = 10;
             }
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
-            float num474 = 600f;
+            float num474 = 500f;
             bool flag17 = false;
             for (int num475 = 0; num475 < 200; num475++)
             {
@@ -67,7 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             if (flag17)
             {
-                float num483 = 25f;
+                float num483 = 16f;
                 Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                 float num484 = num472 - vector35.X;
                 float num485 = num473 - vector35.Y;

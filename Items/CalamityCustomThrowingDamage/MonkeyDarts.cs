@@ -16,7 +16,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 
         public override void SafeSetDefaults()
         {
-            item.damage = 270;
+            item.damage = 50;
             item.knockBack = 4;
             item.crit = 18;
             item.noMelee = true;
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.UseSound = SoundID.Item1;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.rare = 7;
-            item.value = Item.buyPrice(0, 0, 4, 0);
+            item.value = Item.buyPrice(0, 0, 1, 0);
+            item.rare = 3;
             item.shootSpeed = 10.5f;
             item.shoot = mod.ProjectileType("MonkeyDart");
             item.autoReuse = true;
