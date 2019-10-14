@@ -1723,6 +1723,7 @@ namespace CalamityMod.Items
                     case ItemID.WallOfFleshBossBag:
                         DropHelper.DropItemChance(player, mod.ItemType("Meowthrower"), 3);
                         DropHelper.DropItemChance(player, mod.ItemType("BlackHawkRemote"), 3);
+                        DropHelper.DropItemChance(player, mod.ItemType("BlastBarrel"), 3);
                         DropHelper.DropItemChance(player, mod.ItemType("RogueEmblem"), 4);
                         DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
                         DropHelper.DropItem(player, mod.ItemType("MLGRune")); // Demon Trophy

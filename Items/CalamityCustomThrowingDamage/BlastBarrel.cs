@@ -27,7 +27,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(0, 25, 0, 0); //5 gold sellprice
+            item.value = Item.buyPrice(0, 12, 0, 0); //2 gold 40 silver sellprice
             item.rare = 4;
             item.shoot = mod.ProjectileType("BlastBarrelProjectile");
             item.shootSpeed = 12f;

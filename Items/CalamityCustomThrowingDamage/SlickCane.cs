@@ -31,7 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.knockBack = 5f;
             item.UseSound = SoundID.DD2_GhastlyGlaivePierce;
             item.autoReuse = true;
-            item.value = Item.buyPrice(0, 25, 0, 0);
+            item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.shoot = mod.ProjectileType("SlickCaneProjectile");
             item.shootSpeed = 42f;

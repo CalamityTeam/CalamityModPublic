@@ -30,7 +30,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.rare = 6;
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
-            item.value = Item.buyPrice(gold: 50); //sell price of 10 gold
+            item.value = Item.buyPrice(gold: 48); //sell price of 9 gold 60 silver
             item.shoot = mod.ProjectileType("ConsecratedWaterProjectile");
             item.shootSpeed = 15f;
             item.Calamity().rogue = true;

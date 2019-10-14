@@ -24,13 +24,13 @@ namespace CalamityMod.Items.Weapons
             item.useStyle = 4;
             item.noMelee = true;
             item.knockBack = 1f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.value = Item.buyPrice(0, 12, 0, 0);
             item.UseSound = SoundID.Item15; //phaseblade sound effect
             item.autoReuse = true;
             item.shoot = mod.ProjectileType("BlackHawkSummon");
             item.shootSpeed = 10f;
             item.summon = true;
-            item.rare = 5;
+            item.rare = 4;
         }
 
         public override bool AltFunctionUse(Player player)

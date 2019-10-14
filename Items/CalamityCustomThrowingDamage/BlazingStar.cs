@@ -29,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.useAnimation = 15;
             item.useStyle = 1;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 3, 0, 0);
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 4;
             item.UseSound = SoundID.Item1;
             item.maxStack = 3;

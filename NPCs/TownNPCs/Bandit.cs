@@ -205,10 +205,13 @@ namespace CalamityMod.NPCs.TownNPCs
         public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
         {
             shop.item[nextSlot].SetDefaults(mod.ItemType("Cinquedea"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("Glaive"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("Kylie"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("MonkeyDarts"));
             nextSlot++;
@@ -218,6 +221,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			if (Main.hardMode)
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("SlickCane"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
 				nextSlot++;
 			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
