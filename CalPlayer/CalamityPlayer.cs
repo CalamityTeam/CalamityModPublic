@@ -49,6 +49,7 @@ namespace CalamityMod.CalPlayer
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
         public int moneyStolenByBandit = 0;
+        public int polarisBoostCounter = 0;
         public int reforges = 0;
         public float modStealth = 1f;
         public float aquaticBoost = 1f;
@@ -500,6 +501,9 @@ namespace CalamityMod.CalPlayer
         public bool yellowCandle = false;
         public bool trippy = false;
         public bool amidiasBlessing = false;
+        public bool polarisBoost = false;
+        public bool polarisBoostTwo = false;
+        public bool polarisBoostThree = false;
 
         // Minion
         public bool resButterfly = false;
@@ -1099,6 +1103,9 @@ namespace CalamityMod.CalPlayer
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
+            polarisBoost = false;
+            polarisBoostTwo = false;
+            polarisBoostThree = false;
 
             vodka = false;
             redWine = false;
@@ -1217,6 +1224,7 @@ namespace CalamityMod.CalPlayer
             bossRushImmunityFrameCurseTimer = 0;
             aBulwarkRareMeleeBoostTimer = 0;
             theBeeDamage = 0;
+            polarisBoostCounter = 0;
 
             shadowflame = false;
             wDeath = false;
@@ -1350,6 +1358,9 @@ namespace CalamityMod.CalPlayer
             yellowCandle = false;
             trippy = false;
             amidiasBlessing = false;
+            polarisBoost = false;
+            polarisBoostTwo = false;
+            polarisBoostThree = false;
             revivifyTimer = 0;
             healCounter = 300;
             #endregion
@@ -3344,6 +3355,31 @@ namespace CalamityMod.CalPlayer
                 player.rangedDamage -= (1f - player.stealth) * 0.4f; //change 80 to 40
                 player.rangedCrit -= (int)((1f - player.stealth) * 5f); //change 20 to 15
             }
+			if (polarisBoost)
+			{
+                player.lifeRegen += 1;
+                player.lifeRegenTime += 1;
+				player.endurance += 0.01f;
+				player.statDefense += 2;
+            }
+			if (!polarisBoost || player.inventory[player.selectedItem].type != mod.ItemType("PolarisParrotfish"))
+			{
+				polarisBoost = false;
+                if (player.FindBuffIndex(mod.BuffType("PolarisBuff")) > -1)
+                { player.ClearBuff(mod.BuffType("PolarisBuff")); }
+				polarisBoostCounter = 0;
+				polarisBoostTwo = false;
+				polarisBoostThree = false;
+			}
+			if (polarisBoostCounter >= 20)
+			{
+				polarisBoostTwo = false;
+				polarisBoostThree = true;
+			}
+			else if (polarisBoostCounter >= 10)
+			{
+				polarisBoostTwo = true;
+			}
             if (projRefRareLifeRegenCounter > 0)
             {
                 projRefRareLifeRegenCounter--;
@@ -6493,6 +6529,10 @@ namespace CalamityMod.CalPlayer
                         player.HealEffect(healAmount);
                     }
                 }
+				if (proj.type == mod.ProjectileType("PolarStar"))
+				{
+					polarisBoostCounter += 1;
+				}
                 if (Config.ProficiencyEnabled)
                 {
                     if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
@@ -7411,6 +7451,15 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                     Projectile.NewProjectile(player.Center.X + (float)Main.rand.Next(-40, 40), player.Center.Y - (float)Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 565, 0, 0f, player.whoAmI, 0f, 0f);
+                }
+                if (polarisBoost)
+                {
+                    polarisBoostCounter = 0;
+					polarisBoost = false;
+					polarisBoostTwo = false;
+					polarisBoostThree = false;
+                    if (player.FindBuffIndex(mod.BuffType("PolarisBuff")) > -1)
+                    { player.ClearBuff(mod.BuffType("PolarisBuff")); }
                 }
             }
             if (player.ownedProjectileCounts[mod.ProjectileType("Drataliornus")] != 0)
