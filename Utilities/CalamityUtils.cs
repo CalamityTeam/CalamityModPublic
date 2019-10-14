@@ -142,6 +142,128 @@ namespace CalamityMod
             if (condition)
                 list.Add(type);
         }
+        public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
+        {
+            Player player = Main.player[Main.myPlayer];
+            Item item = player.inventory[player.selectedItem];
+            float hitbox_X = 0, hitbox_Y = 0;
+            float num = player.mount.PlayerOffsetHitbox;
+            //Third hitbox
+            if (player.itemAnimation < player.itemAnimationMax * 0.333)
+            {
+                float num38 = 10f;
+                if (hitboxWidth >= 92)
+                    num38 = 38f;
+                else if (hitboxWidth >= 64)
+                    num38 = 28f;
+                else if (hitboxWidth >= 52)
+                    num38 = 24f;
+                else if (hitboxWidth > 32)
+                    num38 = 14f;
+                hitbox_X = player.position.X + player.width * 0.5f + (hitboxWidth * 0.5f - num38) * player.direction;
+                hitbox_Y = player.position.Y + 24f + num;
+            }
+            //Second hitbox
+            else if (player.itemAnimation < player.itemAnimationMax * 0.666)
+            {
+                float num39 = 10f;
+                if (hitboxWidth >= 92)
+                    num39 = 38f;
+                else if (hitboxWidth >= 64)
+                    num39 = 28f;
+                else if (hitboxWidth >= 52)
+                    num39 = 24f;
+                else if (hitboxWidth > 32)
+                    num39 = 18f;
+                hitbox_X = player.position.X + (player.width * 0.5f + (hitboxWidth * 0.5f - num39) * player.direction);
+
+                num39 = 10f;
+                if (hitboxHeight > 64)
+                    num39 = 14f;
+                else if (hitboxHeight > 52)
+                    num39 = 12f;
+                else if (hitboxHeight > 32)
+                    num39 = 8f;
+
+                hitbox_Y = player.position.Y + num39 + num;
+            }
+            //First hitbox
+            else
+            {
+                    float num40 = 6f;
+                if (hitboxWidth >= 92)
+                    num40 = 38f;
+                else if (hitboxWidth >= 64)
+                    num40 = 28f;
+                else if (hitboxWidth >= 52)
+                    num40 = 24f;
+                else if (hitboxWidth >= 48)
+                    num40 = 18f;
+                else if (hitboxWidth > 32) 
+                    num40 = 14f;
+                hitbox_X = player.position.X + player.width * 0.5f - (hitboxWidth * 0.5f - num40) * player.direction;
+
+                num40 = 10f;
+                if (hitboxHeight > 64)
+                    num40 = 14f;
+                else if (hitboxHeight > 52)
+                    num40 = 12f;
+                else if (hitboxHeight > 32) 
+                    num40 = 10f;      
+                hitbox_Y = player.position.Y + num40 + num;
+            }
+            if (player.gravDir == -1f)
+            {
+                hitbox_Y = player.position.Y + player.height + (player.position.Y - hitbox_Y);
+            }
+            //Hitbox size
+            Rectangle hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, 32, 32);
+            if (item.damage >= 0 && item.type > 0 && !item.noMelee && player.itemAnimation > 0) 
+            {
+
+                if (!Main.dedServ) 
+                {
+                    hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, (int)hitboxWidth, (int)hitboxHeight);
+                }
+                hitbox.Width = (int)(hitbox.Width * item.scale);
+                hitbox.Height = (int)(hitbox.Height * item.scale);
+                if (player.direction == -1) 
+                {
+                    hitbox.X -= hitbox.Width;
+                }
+                if (player.gravDir == 1f) 
+                {
+                    hitbox.Y -= hitbox.Height;
+                }
+                if (item.useStyle == 1) 
+                {
+                    //Third hitbox
+                    if (player.itemAnimation < player.itemAnimationMax * 0.333)
+                    {
+                        if (player.direction == -1)
+                        {
+                            hitbox.X -= (int)(hitbox.Width * 1.4 - hitbox.Width);
+                        }
+                        hitbox.Width = (int)(hitbox.Width * 1.4);
+                        hitbox.Y += (int)(hitbox.Height * 0.5 * player.gravDir);
+                        hitbox.Height = (int)(hitbox.Height * 1.1);
+                    }
+                    //First hitbox
+                    else if (player.itemAnimation >= player.itemAnimationMax * 0.666) 
+                    {
+                        if (player.direction == 1) 
+                        {
+                            hitbox.X -= (int)(hitbox.Width * 1.2);
+                        }
+                        hitbox.Width *= 2;
+                        hitbox.Y -= (int)((hitbox.Height * 1.4 - hitbox.Height) * player.gravDir);
+                        hitbox.Height = (int)(hitbox.Height * 1.4);
+                    }
+                }
+            }
+                return hitbox;
+        }
+
         #endregion
 
         #region Projectile Utilities

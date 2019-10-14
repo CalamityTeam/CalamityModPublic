@@ -1,6 +1,8 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -28,6 +30,10 @@ namespace CalamityMod.Items.Weapons
             item.height = 146;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
+        }
+        public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
+        {
+            hitbox = CalamityUtils.FixSwingHitbox(120, 120);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
