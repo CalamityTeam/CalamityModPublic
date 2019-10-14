@@ -579,7 +579,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly && projectile.type != mod.ProjectileType("DragonShit"))
+            if (Main.player[projectile.owner].Calamity().nanotech && rogue && projectile.friendly && projectile.type != mod.ProjectileType("MoonSigil") && projectile.type != mod.ProjectileType("DragonShit"))
             {
                 if (counter % 30 == 0)
                 {
@@ -654,7 +654,7 @@ namespace CalamityMod.Projectiles
                     //Summon moon sigils infrequently
                     if (Main.rand.NextBool(300))
                     {
-                        Projectile.NewProjectile(projectile.position, Vector2.Zero, mod.ProjectileType("MoonSigil"), 10, 0);
+                        Projectile.NewProjectile(projectile.position, Vector2.Zero, mod.ProjectileType("MoonSigil"), (int)((double)projectile.damage * 0.05), 0);
                     }
                 }
             }
