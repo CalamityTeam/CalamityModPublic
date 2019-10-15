@@ -224,6 +224,12 @@ namespace CalamityMod.NPCs.TownNPCs
 			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
 				nextSlot++;
 			}
+			if (NPC.downedPirates)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("ThiefsDime"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
+				nextSlot++;
+			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("MomentumCapacitator"));
@@ -271,6 +277,12 @@ namespace CalamityMod.NPCs.TownNPCs
 				nextSlot++;
             }
         }
+
+		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
+		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+		{
+			return true;
+		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
