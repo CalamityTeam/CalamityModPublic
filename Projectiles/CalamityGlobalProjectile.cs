@@ -591,8 +591,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != mod.ProjectileType("Nanotech") &&
-                projectile.type != mod.ProjectileType("DragonShit"))
+            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != mod.ProjectileType("Nanotech"))
             {
                 if (counter % 50 == 0)
                 {
@@ -600,7 +599,7 @@ namespace CalamityMod.Projectiles
                     {
                         //spawn a dust that does 1/5th of the original damage
                         int projectileID = Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), mod.ProjectileType("DragonShit"),
-                            Math.Max((int)((double)projectile.damage * 0.2), 50), 0f, projectile.owner, 0f, 0f);
+                            (int)((double)projectile.damage * 0.2), 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }
@@ -631,9 +630,7 @@ namespace CalamityMod.Projectiles
             //will always be friendly and rogue if it has this boost
             if (Main.player[projectile.owner].Calamity().momentumCapacitor && projectile.Calamity().momentumCapacitatorBoost)
             {
-                if (projectile.type != mod.ProjectileType("Malachite") && projectile.type != mod.ProjectileType("ScourgeoftheDesert2") && 
-                    projectile.velocity.Length() < 3f)
-                    projectile.velocity *= 1.025f;
+                projectile.velocity *= 1.025f;
             }
 
             if (Main.player[projectile.owner].Calamity().theBeeDamage > 0 && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&

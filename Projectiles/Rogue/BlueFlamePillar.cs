@@ -22,11 +22,33 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 255;
             projectile.Calamity().rogue = true;
         }
+        /// <summary>
+        /// Checks if a tile is below a designated Vector2
+        /// </summary>
+        /// <param name="position">The position to check</param>
+        /// <param name="usingTileCoords">If the position provided is in tile coordinates or not</param>
+        /// <returns></returns>
+        public static bool SolidTileBelow(Vector2 position, bool usingTileCoords = false)
+        {
+            //if not in tile coordinates
+            if (!usingTileCoords)
+            {
+                //convert them accordingly
+                position = position.ToTileCoordinates().ToVector2();
+            }
+            int x = (int)position.X;
+            int y = (int)position.Y;
+            return Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].type];
+        }
         public override void AI()
         {
             if (projectile.localAI[0] == 0f)
             {
                 projectile.position.Y -= projectile.height / 2; //position adjustments
+                if (!SolidTileBelow(projectile.Bottom))
+                {
+                    projectile.Kill();
+                }
                 projectile.localAI[0] = 1f;
             }
             float max = (float)(projectile.width * projectile.height) / 222f;
