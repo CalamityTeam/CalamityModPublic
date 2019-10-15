@@ -34,11 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.rotation = projectile.velocity.ToRotation();
             if (Math.Abs(projectile.velocity.X) > 43f)
             {
-                projectile.velocity.X = Math.Sign(projectile.velocity.X) * 43f;
-            }
-            if (Math.Abs(projectile.velocity.Y) > 43f)
-            {
-                projectile.velocity.Y = Math.Sign(projectile.velocity.Y) * 43f;
+                projectile.velocity = Vector2.Clamp(projectile.velocity, new Vector2(-23f), new Vector2(23f));
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

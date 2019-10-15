@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Typeless
             for (int k = 0; k < Main.projectile.Length; k++)
             {
                 if (Main.projectile[k].type == mod.ProjectileType("SlickCaneProjectile")) continue;
-                if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue && 
+                if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue &&
                     !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly)
                 {
                     Main.projectile[k].damage = (int)(Main.projectile[k].damage * 1.15f);
