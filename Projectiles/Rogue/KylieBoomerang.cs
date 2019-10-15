@@ -53,11 +53,11 @@ namespace CalamityMod.Projectiles.Rogue
             //Decide the range of the boomerang depending on stealth
             if (projectile.ai[1] == 1)
             {
-                timer = 30f;
+                timer = 20f;
             }
             else
             {
-                timer = 60f;
+                timer = 40f;
             }
             //Home in on the player after certain time
             if (projectile.ai[0] >= timer)

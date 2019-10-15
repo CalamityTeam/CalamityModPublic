@@ -7,13 +7,13 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class BlazingStar : CalamityDamageItem
     {
-        public static int BaseDamage = 34;
+        public static int BaseDamage = 45;
         public static float Speed = 9f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
             Tooltip.SetDefault("Stacks up to 3\n" +
-                               "Stealth Strike Effect: Releases all stars at once with infinite peircing");
+                               "Stealth Strike Effect: Releases all stars at once with infinite piercing");
         }
 
         public override void SafeSetDefaults()

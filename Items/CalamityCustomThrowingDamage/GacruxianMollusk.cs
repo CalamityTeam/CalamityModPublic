@@ -6,7 +6,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class GacruxianMollusk : CalamityDamageItem
     {
-        public static int BaseDamage = 50;
+        public static int BaseDamage = 39;
         public static float Knockback = 5f;
         public static float Speed = 15f;
 

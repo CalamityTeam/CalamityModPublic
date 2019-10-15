@@ -46,7 +46,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX * 1.4f, speedY * 1.4f).RotatedBy(MathHelper.ToRadians(spread));
-                    int p = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<MonkeyDart>(), item.damage, item.knockBack, player.whoAmI, 1);
+                    int p = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<MonkeyDart>(), damage, knockBack, player.whoAmI, 1);
                     Main.projectile[p].Calamity().stealthStrike = true;
                     spread -= 7;
                 }
