@@ -591,7 +591,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != mod.ProjectileType("Nanotech"))
+            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != mod.ProjectileType("MoonSigil") && projectile.type != mod.ProjectileType("DragonShit"))
             {
                 if (counter % 50 == 0)
                 {
@@ -603,6 +603,19 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
+
+            if (Main.player[projectile.owner].Calamity().moonCrown && rogue && projectile.friendly && projectile.type != mod.ProjectileType("MoonSigil") && projectile.type != mod.ProjectileType("DragonShit"))
+            {
+				//summon Moon sigils infrequently
+				if (Main.rand.NextBool(300))
+				{
+                    if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[mod.ProjectileType("MoonSigil")] < 50)
+                    {
+						//spawn a moon sigil that does 1/20th of the original damage
+						Projectile.NewProjectile(projectile.position, Vector2.Zero, mod.ProjectileType("MoonSigil"), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 0f, 0f);
+					}
+				}
+			}
 
             if (Main.player[projectile.owner].Calamity().daedalusSplit && rogue && projectile.friendly)
             {
@@ -645,18 +658,6 @@ namespace CalamityMod.Projectiles
             {
                 int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
                 Main.dust[dust].noGravity = true;
-            }
-
-            if (rogue)
-            {
-                if (Main.player[projectile.owner].Calamity().moonCrown)
-                {
-                    //Summon moon sigils infrequently
-                    if (Main.rand.NextBool(300))
-                    {
-                        Projectile.NewProjectile(projectile.position, Vector2.Zero, mod.ProjectileType("MoonSigil"), (int)((double)projectile.damage * 0.05), 0);
-                    }
-                }
             }
         }
         #endregion

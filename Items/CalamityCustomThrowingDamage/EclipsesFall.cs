@@ -9,7 +9,8 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eclipse's Fall");
-            Tooltip.SetDefault("Summons spears from the sky on hit\n" +
+            Tooltip.SetDefault("When the sun goes dark, you will know judgment\n" +
+			"Summons spears from the sky on hit\n" +
             "Stealth strikes impale enemies and summon a constant barrage of spears");
         }
 
