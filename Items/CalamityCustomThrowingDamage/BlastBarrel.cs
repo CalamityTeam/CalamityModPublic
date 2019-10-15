@@ -6,7 +6,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class BlastBarrel : CalamityDamageItem
     {
-        public const int BaseDamage = 71;
+        public const int BaseDamage = 60;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast Barrel");

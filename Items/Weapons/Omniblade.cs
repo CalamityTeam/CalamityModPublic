@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons
         }
         public override void UseItemHitbox(Player player, ref Rectangle hitbox, ref bool noHitbox)
         {
-            hitbox = CalamityUtils.FixSwingHitbox(120, 120);
+            hitbox = CalamityUtils.FixSwingHitbox(102, 102);
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

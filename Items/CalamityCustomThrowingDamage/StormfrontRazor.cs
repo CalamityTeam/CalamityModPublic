@@ -40,8 +40,9 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(null, "Cinquedea");
-            recipe.AddIngredient(null, "AerialiteBar", 8);
-            recipe.AddIngredient(null, "CoreofCinder", 4);
+            recipe.AddIngredient(ItemID.HallowedBar, 6);
+            recipe.AddIngredient(null, "EssenceofCinder", 4);
+            recipe.AddIngredient(ItemID.Feather, 8);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

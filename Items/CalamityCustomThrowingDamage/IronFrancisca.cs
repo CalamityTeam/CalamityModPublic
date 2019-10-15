@@ -10,12 +10,14 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iron Francisca");
+            Tooltip.SetDefault("The franciscas do more damage for a short time when initially thrown\n" +
+                               "Stealth Strike: The franciscas have infinite piercing");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 40;
-            item.damage = 10;
+            item.damage = 7;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
