@@ -295,6 +295,7 @@ namespace CalamityMod.CalPlayer
         public bool royalGel = false;
         public bool oldDie = false;
         public bool ursaSergeant = false;
+        public bool thiefsDime = false;
         public bool sandWaifu = false;
         public bool sandBoobWaifu = false;
         public bool cloudWaifu = false;
@@ -534,6 +535,7 @@ namespace CalamityMod.CalPlayer
         public int healCounter = 300;
         public bool shellfish = false;
         public bool hCrab = false;
+        public bool tDime = false;
         public bool allWaifus = false;
         public bool sCrystal = false;
         public bool sWaifu = false;
@@ -973,6 +975,7 @@ namespace CalamityMod.CalPlayer
             cTracers = false;
             oldDie = false;
             ursaSergeant = false;
+            thiefsDime = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1189,6 +1192,7 @@ namespace CalamityMod.CalPlayer
             daedalusCrystal = false;
             shellfish = false;
             hCrab = false;
+            tDime = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;

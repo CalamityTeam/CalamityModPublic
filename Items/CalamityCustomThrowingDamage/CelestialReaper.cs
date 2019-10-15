@@ -6,7 +6,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
     public class CelestialReaper : CalamityDamageItem
     {
-        public const int BaseDamage = 90;
+        public const int BaseDamage = 240;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Reaper");

@@ -1,5 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace CalamityMod.Items.Weapons
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Weapons
             item.maxStack = 999;
             item.consumable = true;
             item.knockBack = 1.5f;
-            item.value = 2000;
+            item.value = Item.sellPrice(0, 0, 0, 40);
             item.rare = 7;
             item.shoot = mod.ProjectileType("TerraArrow");
             item.shootSpeed = 15f;

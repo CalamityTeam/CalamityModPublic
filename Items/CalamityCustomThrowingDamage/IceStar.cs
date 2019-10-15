@@ -1,5 +1,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
 
 namespace CalamityMod.Items.CalamityCustomThrowingDamage
 {
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.autoReuse = true;
             item.height = 62;
             item.maxStack = 999;
-            item.value = 3000;
+            item.value = Item.sellPrice(0, 0, 1, 20);
             item.rare = 5;
             item.shoot = mod.ProjectileType("IceStarProjectile");
             item.shootSpeed = 14f;

@@ -164,6 +164,12 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
         }
 
+		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
+		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+		{
+			return true;
+		}
+
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
             damage = 20;
