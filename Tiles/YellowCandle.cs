@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
                             Main.npc[m].buffImmune[mod.BuffType("YellowDamageCandle")] = false;
-                            if (Main.npc[m].type == mod.NPCType("CeaselessVoid") || Main.npc[m].type == mod.NPCType("EidolonWyrmHeadHuge"))
+                            if (Main.npc[m].Calamity().DR >= 0.99f)
                             {
                                 Main.npc[m].buffImmune[mod.BuffType("YellowDamageCandle")] = true;
                             }
