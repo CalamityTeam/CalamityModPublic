@@ -64,5 +64,10 @@ namespace CalamityMod.Tiles.FurnitureProfaned
         {
             Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("ProfanedBasin"));
         }
+
+        public override void HitWire(int i, int j)
+        {
+            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
+        }
     }
 }

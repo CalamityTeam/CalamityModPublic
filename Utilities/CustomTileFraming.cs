@@ -52,10 +52,8 @@ namespace CalamityMod.Utilities
             tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralOre")] = true;
             tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralStone")] = true;
             tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralSand")] = true;
-            //tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralSnow")] = true;
             tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralMonolith")] = true;
             tileMergeTypes[mod.TileType("AstralDirt")][mod.TileType("AstralIce")] = true;
-            //tileMergeTypes[mod.TileType("AstralSnow")][mod.TileType("AstralIce")] = true;
             tileMergeTypes[mod.TileType("AstralSand")][mod.TileType("HardenedAstralSand")] = true;
             tileMergeTypes[mod.TileType("HardenedAstralSand")][mod.TileType("AstralSandstone")] = true;
 
@@ -368,7 +366,7 @@ namespace CalamityMod.Utilities
         {
             Tile tile = Main.tile[x, y];
 
-            if (tile.slope() > 0 || tile.halfBrick())
+            if (tile.slope() > 0 && TileID.Sets.HasSlopeFrames[tile.type])
             {
                 return true;
             }
@@ -393,21 +391,21 @@ namespace CalamityMod.Utilities
             bool downLeft = false;
             bool downRight = false;
 
-            if (tile2.type == myType && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 2))
+            if (GetMerge(tile, tile2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 2))
                 up = true;
-            if (tile3.type == myType && (tile3.slope() == 0 || tile3.slope() == 3 || tile3.slope() == 4))
+            if (GetMerge(tile, tile3) && (tile3.slope() == 0 || tile3.slope() == 3 || tile3.slope() == 4))
                 down = true;
-            if (tile4.type == myType && (tile4.slope() == 0 || tile4.slope() == 2 || tile4.slope() == 4))
+            if (GetMerge(tile, tile4) && (tile4.slope() == 0 || tile4.slope() == 2 || tile4.slope() == 4))
                 left = true;
-            if (tile5.type == myType && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 3))
+            if (GetMerge(tile, tile5) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 3))
                 right = true;
-            if (tile2.type == myType && tile4.type == myType && tile8.type == myType && (tile8.slope() == 0 || tile8.slope() == 2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 3 || tile4.slope() == 4))
+            if (GetMerge(tile, tile2) && GetMerge(tile, tile4) && GetMerge(tile, tile8) && (tile8.slope() == 0 || tile8.slope() == 2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 3 || tile4.slope() == 4))
                 upLeft = true;
-            if (tile2.type == myType && tile5.type == myType && tile9.type == myType && (tile9.slope() == 0 || tile9.slope() == 1) && (tile2.slope() == 0 || tile2.slope() == 2 || tile2.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 3 || tile5.slope() == 4))
+            if (GetMerge(tile, tile2) && GetMerge(tile, tile5) && GetMerge(tile, tile9) && (tile9.slope() == 0 || tile9.slope() == 1) && (tile2.slope() == 0 || tile2.slope() == 2 || tile2.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 3 || tile5.slope() == 4))
                 upRight = true;
-            if (tile3.type == myType && tile4.type == myType && tile6.type == myType && (tile6.slope() == 0 || tile6.slope() == 4) && (tile3.slope() == 0 || tile3.slope() == 1 || tile3.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 1 || tile4.slope() == 2))
+            if (GetMerge(tile, tile3) && GetMerge(tile, tile4) && GetMerge(tile, tile6) && !tile6.halfBrick() && (tile6.slope() == 0 || tile6.slope() == 4) && (tile3.slope() == 0 || tile3.slope() == 1 || tile3.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 1 || tile4.slope() == 2))
                 downLeft = true;
-            if (tile3.type == myType && tile5.type == myType && tile7.type == myType && (tile7.slope() == 0 || tile7.slope() == 3) && (tile3.slope() == 0 || tile3.slope() == 2 || tile3.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 2))
+            if (GetMerge(tile, tile3) && GetMerge(tile, tile5) && GetMerge(tile, tile7) && !tile7.halfBrick() && (tile7.slope() == 0 || tile7.slope() == 3) && (tile3.slope() == 0 || tile3.slope() == 2 || tile3.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 2))
                 downRight = true;
 
             int randomFrame;
@@ -644,10 +642,10 @@ namespace CalamityMod.Utilities
         {
             Tile tile = Main.tile[x, y];
 
-            //if (tile.slope() > 0 || tile.halfBrick())
-            //{
-            //    return true;
-            //}
+            if (tile.slope() > 0 && TileID.Sets.HasSlopeFrames[tile.type])
+            {
+                return true;
+            }
 
             Tile tile2 = Main.tile[x, y - 1];
             Tile tile3 = Main.tile[x, y + 1];
@@ -669,21 +667,21 @@ namespace CalamityMod.Utilities
             bool downLeft = false;
             bool downRight = false;
 
-            if (tile2.type == myType && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 2))
+            if (GetMerge(tile, tile2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 2))
                 up = true;
-            if (tile3.type == myType && (tile3.slope() == 0 || tile3.slope() == 3 || tile3.slope() == 4))
+            if (GetMerge(tile, tile3) && (tile3.slope() == 0 || tile3.slope() == 3 || tile3.slope() == 4))
                 down = true;
-            if (tile4.type == myType && (tile4.slope() == 0 || tile4.slope() == 2 || tile4.slope() == 4))
+            if (GetMerge(tile, tile4) && (tile4.slope() == 0 || tile4.slope() == 2 || tile4.slope() == 4))
                 left = true;
-            if (tile5.type == myType && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 3))
+            if (GetMerge(tile, tile5) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 3))
                 right = true;
-            if (tile2.type == myType && tile4.type == myType && tile8.type == myType && (tile8.slope() == 0 || tile8.slope() == 2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 3 || tile4.slope() == 4))
+            if (GetMerge(tile, tile2) && GetMerge(tile, tile4) && GetMerge(tile, tile8) && (tile8.slope() == 0 || tile8.slope() == 2) && (tile2.slope() == 0 || tile2.slope() == 1 || tile2.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 3 || tile4.slope() == 4))
                 upLeft = true;
-            if (tile2.type == myType && tile5.type == myType && tile9.type == myType && (tile9.slope() == 0 || tile9.slope() == 1) && (tile2.slope() == 0 || tile2.slope() == 2 || tile2.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 3 || tile5.slope() == 4))
+            if (GetMerge(tile, tile2) && GetMerge(tile, tile5) && GetMerge(tile, tile9) && (tile9.slope() == 0 || tile9.slope() == 1) && (tile2.slope() == 0 || tile2.slope() == 2 || tile2.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 3 || tile5.slope() == 4))
                 upRight = true;
-            if (tile3.type == myType && tile4.type == myType && tile6.type == myType && (tile6.slope() == 0 || tile6.slope() == 4) && (tile3.slope() == 0 || tile3.slope() == 1 || tile3.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 1 || tile4.slope() == 2))
+            if (GetMerge(tile, tile3) && GetMerge(tile, tile4) && GetMerge(tile, tile6) && !tile6.halfBrick() && (tile6.slope() == 0 || tile6.slope() == 4) && (tile3.slope() == 0 || tile3.slope() == 1 || tile3.slope() == 3) && (tile4.slope() == 0 || tile4.slope() == 1 || tile4.slope() == 2))
                 downLeft = true;
-            if (tile3.type == myType && tile5.type == myType && tile7.type == myType && (tile7.slope() == 0 || tile7.slope() == 3) && (tile3.slope() == 0 || tile3.slope() == 2 || tile3.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 2))
+            if (GetMerge(tile, tile3) && GetMerge(tile, tile5) && GetMerge(tile, tile7) && !tile7.halfBrick() && (tile7.slope() == 0 || tile7.slope() == 3) && (tile3.slope() == 0 || tile3.slope() == 2 || tile3.slope() == 4) && (tile5.slope() == 0 || tile5.slope() == 1 || tile5.slope() == 2))
                 downRight = true;
 
             int randomFrame;
@@ -1549,6 +1547,12 @@ namespace CalamityMod.Utilities
             return Similarity.None;
         }
 
+        private static bool GetMerge(Tile myTile, Tile mergeTile)
+        {
+            if (!mergeTile.active())
+                return false;
+            return (mergeTile.type == myTile.type || Main.tileMerge[myTile.type][mergeTile.type]);
+        }
         private static string StringWriter(params object[] strings)
         {
             string s = "";

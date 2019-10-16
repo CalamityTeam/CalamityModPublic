@@ -1,10 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
@@ -12,32 +9,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
     {
         public override void SetDefaults()
         {
-            Main.tileFrameImportant[Type] = true;
-            Main.tileBlockLight[Type] = true;
-            Main.tileSolid[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-            TileID.Sets.NotReallySolid[Type] = true;
-            TileID.Sets.DrawsWalls[Type] = true;
-            TileID.Sets.HasOutlines[Type] = true;
-            TileObjectData.newTile.Width = 1;
-            TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.LavaDeath = true;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-            TileObjectData.newAlternate.Origin = new Point16(0, 1);
-            TileObjectData.addAlternate(0);
-            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-            TileObjectData.newAlternate.Origin = new Point16(0, 2);
-            TileObjectData.addAlternate(0);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpDoorClosed(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Void Door");
             AddMapEntry(new Color(191, 142, 111), name);

@@ -61,5 +61,10 @@ namespace CalamityMod.Tiles.FurnitureSilva
         {
             Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("SilvaBasin"));
         }
+
+        public override void HitWire(int i, int j)
+        {
+            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
+        }
     }
 }

@@ -1,9 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
@@ -11,21 +8,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = false;
-
-            TileObjectData.newTile.Width = 3;
-            TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(1, 0);
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 1);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpChandelier(Type, true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);

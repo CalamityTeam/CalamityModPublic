@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
@@ -10,14 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            Main.tileSolidTop[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileTable[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpWorkBench(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Plate Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);

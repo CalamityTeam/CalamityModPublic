@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
@@ -9,12 +8,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpPiano(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Stratus Piano");
             AddMapEntry(new Color(191, 142, 111), name);

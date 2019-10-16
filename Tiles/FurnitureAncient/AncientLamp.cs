@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
@@ -10,13 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAncient
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = false;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpLamp(Type, true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ancient Lamp");
             AddMapEntry(new Color(191, 142, 111), name);
@@ -57,6 +50,11 @@ namespace CalamityMod.Tiles.FurnitureAncient
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 16, 32, mod.ItemType("AncientLamp"));
+        }
+
+        public override void HitWire(int i, int j)
+        {
+            CalamityUtils.LightHitWire(Type, i, j, 1, 3);
         }
     }
 }
