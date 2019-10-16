@@ -3482,7 +3482,6 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Wizard)
             {
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("CryoKey"), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("CharredIdol"), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralChunk"), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
