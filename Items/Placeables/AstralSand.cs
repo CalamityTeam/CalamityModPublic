@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<AstralSand>();
+            item.createTile = ModContent.TileType<Tiles.AstralSand>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

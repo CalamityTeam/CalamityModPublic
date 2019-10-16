@@ -11,7 +11,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.createWall = ModContent.WallType<AstralGrassWall>();
+            item.createWall = ModContent.WallType<Walls.AstralGrassWall>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;

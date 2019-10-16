@@ -15,7 +15,7 @@ namespace CalamityMod.Items
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<Fox>();
+            item.shoot = ModContent.ProjectileType<FoxPet>();
             item.buffType = ModContent.BuffType<Fox>();
             item.rare = 9;
             item.expert = true;

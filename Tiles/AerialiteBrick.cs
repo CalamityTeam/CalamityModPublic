@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles
             Main.tileBlockLight[Type] = true;
             soundType = 21;
             minPick = 50;
-            drop = ModContent.ItemType<AerialiteBrick>();
+            drop = ModContent.ItemType<Items.AerialiteBrick>();
             AddMapEntry(new Color(68, 58, 145));
         }
 

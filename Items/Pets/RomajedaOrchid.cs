@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.width = 30;
             item.height = 30;
             item.value = Item.sellPrice(1, 0, 0, 0);
-            item.shoot = ModContent.ProjectileType<Kendra>();
+            item.shoot = ModContent.ProjectileType<KendraPet>();
             item.buffType = ModContent.BuffType<Kendra>();
             item.rare = 5;
             item.UseSound = SoundID.Item44;

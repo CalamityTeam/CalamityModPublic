@@ -1,7 +1,7 @@
 
 using Microsoft.Xna.Framework;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls; using CalamityMod.Dusts;
 
 namespace CalamityMod.Tiles
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 10f;
             minPick = 225;
-            drop = ModContent.ItemType<ProfanedSlab>();
+            drop = ModContent.ItemType<Items.ProfanedSlab>();
             AddMapEntry(new Color(122, 66, 59));
             animationFrameHeight = 90;
         }

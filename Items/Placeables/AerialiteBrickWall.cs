@@ -19,7 +19,7 @@ namespace CalamityMod.Items
             item.useTime = 7;
             item.useStyle = 1;
             item.consumable = true;
-            item.createWall = ModContent.WallType<AerialiteBrickWall>();
+            item.createWall = ModContent.WallType<Walls.AerialiteBrickWall>();
         }
 
         public override void AddRecipes()

@@ -15,8 +15,8 @@ namespace CalamityMod.Items
         public override void SetDefaults()
         {
             item.CloneDefaults(ItemID.ZephyrFish);
-            item.shoot = ModContent.ProjectileType<Levi>();
-            item.buffType = ModContent.BuffType<Levi>();
+            item.shoot = ModContent.ProjectileType<LeviPet>();
+            item.buffType = ModContent.BuffType<Buffs.Levi>();
             item.rare = 10;
         }
 

@@ -14,7 +14,7 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.shoot = ModContent.ProjectileType<Brimgling>();
+            item.shoot = ModContent.ProjectileType<BrimlingPet>();
             item.buffType = ModContent.BuffType<BrimlingBuff>();
             item.rare = 4;
             item.UseSound = SoundID.NPCHit51;

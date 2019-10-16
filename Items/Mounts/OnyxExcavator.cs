@@ -136,12 +136,12 @@ namespace CalamityMod.Items
                             Tile tile = Framing.GetTileSafely(num824, num825);
                             if (num828 < (double)num814)
                             {
-                                if (tile != null && tile.active() && tile.type != (ushort)ModContent.TileType<AbyssGravel>() &&
-                                    tile.type != (ushort)ModContent.TileType<Voidstone>() && (tile.type != TileID.Hellstone || Main.hardMode) &&
+                                if (tile != null && tile.active() && tile.type != (ushort)ModContent.TileType<Tiles.AbyssGravel>() &&
+                                    tile.type != (ushort)ModContent.TileType<Tiles.Voidstone>() && (tile.type != TileID.Hellstone || Main.hardMode) &&
                                     (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) && tile.type != TileID.BlueDungeonBrick &&
                                     tile.type != TileID.GreenDungeonBrick && tile.type != TileID.PinkDungeonBrick && tile.type != TileID.DemonAltar &&
-                                    (tile.type != (ushort)ModContent.TileType<AstralOre>() || CalamityWorld.downedStarGod) &&
-                                    ((tile.type != (ushort)ModContent.TileType<Tenebris>() && tile.type != (ushort)ModContent.TileType<PlantyMush>()) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
+                                    (tile.type != (ushort)ModContent.TileType<Tiles.AstralOre>() || CalamityWorld.downedStarGod) &&
+                                    ((tile.type != (ushort)ModContent.TileType<Tiles.Tenebris>() && tile.type != (ushort)ModContent.TileType<Tiles.PlantyMush>()) || NPC.downedPlantBoss || CalamityWorld.downedCalamitas) &&
                                     (!player.Calamity().ZoneSunkenSea || CalamityWorld.downedDesertScourge) &&
                                     (Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
                                     !player.noBuilding && tile.type != TileID.ElderCrystalStand && tile.type != TileID.Containers)
