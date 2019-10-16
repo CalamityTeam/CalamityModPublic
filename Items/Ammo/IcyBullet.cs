@@ -21,7 +21,7 @@ namespace CalamityMod.Items
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 0, 0, 15);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<IcyBullet>();
+            item.shoot = ModContent.ProjectileType<Projectiles.IcyBullet>();
             item.shootSpeed = 5f;
             item.ammo = AmmoID.Bullet;
             item.maxStack = 999;

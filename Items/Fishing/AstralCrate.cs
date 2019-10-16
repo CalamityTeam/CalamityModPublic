@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.height = 32;
             item.rare = 2;
             item.value = Item.sellPrice(gold: 1);
-            item.createTile = ModContent.TileType<AstralCrate>();
+            item.createTile = ModContent.TileType<Tiles.AstralCrate>();
             item.useTurn = true;
             item.autoReuse = true;
             item.useAnimation = 15;
@@ -63,7 +63,7 @@ namespace CalamityMod.Items
             DropHelper.DropItemChance(player, ModContent.ItemType<AstrophageItem>(), 10);
 
             //Bait
-            DropHelper.DropItemChance(player, ModContent.ItemType<Twinkler>(), 5, 1, 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<TwinklerItem>(), 5, 1, 3);
             DropHelper.DropItemChance(player, ItemID.EnchantedNightcrawler, 5, 1, 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<ArcturusAstroidean>(), 5, 1, 3);
             DropHelper.DropItemChance(player, ItemID.Firefly, 3, 1, 3);

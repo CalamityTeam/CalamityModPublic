@@ -42,17 +42,17 @@ namespace CalamityMod.Items
             player.minionDamage += 0.18f;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (player.FindBuffIndex(ModContent.BuffType<Buffs.SlimeGod>()) == -1)
+                if (player.FindBuffIndex(ModContent.BuffType<Buffs.MiniSlimeGodBuff>()) == -1)
                 {
-                    player.AddBuff(ModContent.BuffType<Buffs.SlimeGod>(), 3600, true);
+                    player.AddBuff(ModContent.BuffType<Buffs.MiniSlimeGodBuff>(), 3600, true);
                 }
-                if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<SlimeGodAlt>()] < 1)
+                if (WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<SlimeGodAlt>(), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<CrimsonSlimeGodMinion>(), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
-                else if (!WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.SlimeGod>()] < 1)
+                else if (!WorldGen.crimson && player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.CorruptionSlimeGodMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.SlimeGod>(), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Projectiles.CorruptionSlimeGodMinion>(), (int)(33f * player.minionDamage), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

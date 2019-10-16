@@ -4,7 +4,7 @@ using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; usin
 
 namespace CalamityMod.Buffs
 {
-    public class SlimeGod : ModBuff
+    public class MiniSlimeGodBuff : ModBuff
     {
         public override void SetDefaults()
         {
@@ -17,11 +17,11 @@ namespace CalamityMod.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SlimeGodAlt>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<CrimsonSlimeGodMinion>()] > 0)
             {
                 modPlayer.sGod = true;
             }
-            else if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.SlimeGod>()] > 0)
+            else if (player.ownedProjectileCounts[ModContent.ProjectileType<CorruptionSlimeGodMinion>()] > 0)
             {
                 modPlayer.sGod = true;
             }

@@ -22,7 +22,7 @@ namespace CalamityMod.Items
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 0, 0, 15);
             item.rare = 3;
-            item.shoot = ModContent.ProjectileType<IcicleArrow>();
+            item.shoot = ModContent.ProjectileType<Projectiles.IcicleArrow>();
             item.shootSpeed = 1.0f;
             item.ammo = AmmoID.Arrow;
             item.maxStack = 999;
