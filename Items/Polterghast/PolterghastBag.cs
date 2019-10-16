@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Polterghast
 
             // Materials
             DropHelper.DropItem(player, mod.ItemType("RuinousSoul"), 6, 10);
+            DropHelper.DropItem(player, mod.ItemType("Phantoplasm"), 20, 30);
 
             // Weapons
             DropHelper.DropItemChance(player, mod.ItemType("TerrorBlade"), 3);

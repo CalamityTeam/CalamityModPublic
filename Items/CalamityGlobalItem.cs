@@ -49,6 +49,9 @@ namespace CalamityMod.Items
                 item.type == ItemID.BouncyDynamite || item.type == ItemID.StickyBomb || item.type == ItemID.BouncyBomb)
                 item.maxStack = 999;
 
+            if (item.type == ItemID.PirateMap)
+                item.maxStack = 20;
+
             if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
