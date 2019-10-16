@@ -99,8 +99,10 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool calamity = modPlayer.ZoneCalamity;
 
-            // Percent life remaining
-            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			npc.defense = npc.defDefense;
+
+			// Percent life remaining
+			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vectorCenter = npc.Center;
@@ -156,7 +158,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
 
             if (npc.ai[0] == 0f)
             {
-                npc.defense = provy ? 120 : 20;
                 npc.chaseable = true;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
@@ -202,7 +203,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             }
             else if (npc.ai[0] == 1f)
             {
-                npc.defense = provy ? 120 : 20;
                 npc.chaseable = true;
                 Vector2 position = new Vector2(npc.ai[1] * 16f - (float)(npc.width / 2), npc.ai[2] * 16f - (float)(npc.height / 2));
                 for (int m = 0; m < 5; m++)
@@ -235,7 +235,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                 npc.alpha -= 50;
                 if (npc.alpha <= 0)
                 {
-                    npc.defense = provy ? 120 : 20;
                     npc.chaseable = true;
                     npc.ai[3] += 1f;
                     npc.alpha = 0;
@@ -255,7 +254,6 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
             }
             else if (npc.ai[0] == 3f)
             {
-                npc.defense = provy ? 120 : 20;
                 npc.chaseable = true;
                 npc.rotation = npc.velocity.X * 0.04f;
                 npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
@@ -393,7 +391,7 @@ namespace CalamityMod.NPCs.BrimstoneWaifu
                     if (CalamityWorld.death || !calamity)
                         npc.localAI[0] += 1f;
 
-                    if (npc.localAI[0] >= 140f)
+                    if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
 

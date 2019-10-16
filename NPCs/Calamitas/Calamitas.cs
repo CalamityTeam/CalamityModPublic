@@ -157,7 +157,12 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 float num823 = expertMode ? 9.5f : 8f;
                 float num824 = expertMode ? 0.175f : 0.15f;
-                if (CalamityWorld.bossRushActive)
+				if (provy)
+				{
+					num823 *= 1.25f;
+					num824 *= 1.25f;
+				}
+				if (CalamityWorld.bossRushActive)
                 {
                     num823 *= 1.5f;
                     num824 *= 1.5f;
@@ -241,7 +246,12 @@ namespace CalamityMod.NPCs.Calamitas
 
                 float num832 = expertMode ? 9.5f : 8f;
                 float num833 = expertMode ? 0.25f : 0.2f;
-                if (CalamityWorld.bossRushActive)
+				if (provy)
+				{
+					num832 *= 1.25f;
+					num833 *= 1.25f;
+				}
+				if (CalamityWorld.bossRushActive)
                 {
                     num832 *= 1.5f;
                     num833 *= 1.5f;

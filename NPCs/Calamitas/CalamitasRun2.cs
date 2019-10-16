@@ -181,7 +181,12 @@ namespace CalamityMod.NPCs.Calamitas
             {
                 float num861 = 4.5f;
                 float num862 = 0.2f;
-                if (CalamityWorld.bossRushActive)
+				if (provy)
+				{
+					num861 *= 1.25f;
+					num862 *= 1.25f;
+				}
+				if (CalamityWorld.bossRushActive)
                 {
                     num861 *= 1.5f;
                     num862 *= 1.5f;
@@ -197,7 +202,7 @@ namespace CalamityMod.NPCs.Calamitas
                 float num864 = player.position.X + (float)(player.width / 2) + (float)(num863 * (CalamityWorld.bossRushActive ? 270 : 180)) - vector86.X;
                 float num865 = player.position.Y + (float)(player.height / 2) - vector86.Y;
                 float num866 = (float)Math.Sqrt((double)(num864 * num864 + num865 * num865));
-                if (expertMode)
+                if (expertMode || provy)
                 {
                     if (num866 > 300f)
                     {
@@ -329,7 +334,11 @@ namespace CalamityMod.NPCs.Calamitas
                     {
                         num870 += 4f;
                     }
-                    if (CalamityWorld.bossRushActive)
+					if (provy)
+					{
+						num870 *= 1.15f;
+					}
+					if (CalamityWorld.bossRushActive)
                     {
                         num870 *= 1.25f;
                     }

@@ -7199,8 +7199,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
             {
                 customDamage = true;
-                double defenseMult = Main.hardMode ? 0.75 : 0.5;
-                double newDamage = (double)damage - ((double)player.statDefense * defenseMult);
+                double newDamage = (double)damage - ((double)player.statDefense * 0.75);
                 double newDamageLimit = 5.0 + (Main.hardMode ? 5.0 : 0.0) + (NPC.downedPlantBoss ? 5.0 : 0.0) + (NPC.downedMoonlord ? 5.0 : 0.0); //5, 10, 15, 20
                 if (newDamage < newDamageLimit)
                 {
