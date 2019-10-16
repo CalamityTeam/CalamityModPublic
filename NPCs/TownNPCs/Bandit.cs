@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfPrecicion"));
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveofRecklessness"));
+				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfRecklessness"));
 				nextSlot++;
 				/*shop.item[nextSlot].SetDefaults(mod.ItemType("DeepWounder"));
 				nextSlot++;*/
