@@ -9,11 +9,7 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-
+            CalamityUtils.SetUpBathtub(Type);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
@@ -35,7 +31,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<EutrophicBathtub>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.EutrophicBathtub>());
         }
     }
 }

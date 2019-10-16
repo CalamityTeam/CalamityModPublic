@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 7f;
             minPick = 190;
-            drop = ModContent.ItemType<VoidstoneSlab>();
+            drop = ModContent.ItemType<Items.VoidstoneSlab>();
             AddMapEntry(new Color(27, 24, 31));
             animationFrameHeight = 270;
         }

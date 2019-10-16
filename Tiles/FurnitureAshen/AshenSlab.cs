@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            drop = ModContent.ItemType<AshenSlab>();
+            drop = ModContent.ItemType<Items.AshenSlab>();
             soundType = 21;
             mineResist = 5f;
             minPick = 180;

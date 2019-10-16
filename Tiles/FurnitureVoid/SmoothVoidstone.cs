@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 7f;
             minPick = 190;
-            drop = ModContent.ItemType<SmoothVoidstone>();
+            drop = ModContent.ItemType<Items.SmoothVoidstone>();
             AddMapEntry(new Color(27, 24, 31));
         }
         int animationFrameWidth = 288;

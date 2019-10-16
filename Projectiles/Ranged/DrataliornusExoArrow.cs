@@ -4,12 +4,10 @@ using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class DrataliornusExoArrow : ModProjectile
     {
-        private int HolyLight { get { return mod.BuffType<HolyFlames>(); } }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus Arrow");
@@ -63,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 540);
-            target.AddBuff(HolyLight, 540);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -71,12 +69,11 @@ namespace CalamityMod.Projectiles.Ranged
             target.immune[projectile.owner] = 0;
 
             target.AddBuff(BuffID.Daybreak, 540);
-            target.AddBuff(HolyLight, 540);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(BuffID.CursedInferno, 120);
             target.AddBuff(BuffID.Frostburn, 120);
             target.AddBuff(BuffID.OnFire, 120);

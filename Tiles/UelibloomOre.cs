@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            Main.tileValue[Type] = 805;
+            Main.tileValue[Type] = 1005;
 
             TileMerge.MergeGeneralTiles(Type);
 

@@ -32,13 +32,13 @@ namespace CalamityMod.Projectiles
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation();
-            if (Math.Abs(projectile.velocity.X) > 43f)
+            if (Math.Abs(projectile.velocity.X) > 23f)
             {
-                projectile.velocity.X = Math.Sign(projectile.velocity.X) * 43f;
+                projectile.velocity.X = Math.Sign(projectile.velocity.X) * 23f;
             }
-            if (Math.Abs(projectile.velocity.Y) > 43f)
+            if (Math.Abs(projectile.velocity.Y) > 23f)
             {
-                projectile.velocity.Y = Math.Sign(projectile.velocity.Y) * 43f;
+                projectile.velocity.Y = Math.Sign(projectile.velocity.Y) * 23f;
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)

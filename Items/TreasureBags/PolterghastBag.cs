@@ -35,6 +35,7 @@ namespace CalamityMod.Items
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<RuinousSoul>(), 6, 10);
+            DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 20, 30);
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<TerrorBlade>(), 3);

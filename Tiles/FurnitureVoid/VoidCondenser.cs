@@ -45,7 +45,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<VoidCondenser>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.VoidCondenser>());
         }
     }
 }

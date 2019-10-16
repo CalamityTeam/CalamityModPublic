@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 5f;
             minPick = 180;
-            drop = ModContent.ItemType<SmoothBrimstoneSlag>();
+            drop = ModContent.ItemType<Items.SmoothBrimstoneSlag>();
             AddMapEntry(new Color(61, 40, 61));
         }
 

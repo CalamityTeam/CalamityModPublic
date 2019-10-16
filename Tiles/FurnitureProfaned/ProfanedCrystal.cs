@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             soundType = 13;
             mineResist = 1f;
             minPick = 225;
-            drop = ModContent.ItemType<ProfanedCrystal>();
+            drop = ModContent.ItemType<Items.ProfanedCrystal>();
             AddMapEntry(new Color(181, 136, 177));
         }
 

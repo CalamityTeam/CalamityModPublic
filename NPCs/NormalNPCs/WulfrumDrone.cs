@@ -23,8 +23,8 @@ namespace CalamityMod.NPCs
             npc.lifeMax = 22;
             npc.knockBackResist = 0.35f;
             npc.value = Item.buyPrice(0, 0, 0, 50);
-            npc.HitSound = SoundID.NPCHit1;
-            npc.DeathSound = SoundID.NPCDeath1;
+            npc.HitSound = SoundID.NPCHit4;
+            npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
         }

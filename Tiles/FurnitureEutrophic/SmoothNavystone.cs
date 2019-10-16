@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             TileID.Sets.ChecksForMerge[Type] = true;
             soundType = 21;
             minPick = 55;
-            drop = ModContent.ItemType<SmoothNavystone>();
+            drop = ModContent.ItemType<Items.SmoothNavystone>();
             AddMapEntry(new Color(39, 48, 53));
         }
 

@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
@@ -10,26 +10,10 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileSolidTop[Type] = true;
-            Main.tileSolid[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileTable[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            CalamityUtils.SetUpPlatform(Type);
             soundType = 21;
-            TileID.Sets.Platforms[Type] = true;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.StyleMultiplier = 27;
-            TileObjectData.newTile.StyleWrapLimit = 27;
-            TileObjectData.newTile.UsesCustomCanPlace = false;
-            TileObjectData.newTile.LavaDeath = true;
-            TileObjectData.addTile(Type);
             AddMapEntry(new Color(191, 142, 111));
-            drop = ModContent.ItemType<SmoothAbyssGravelPlatform>();
+            drop = ModContent.ItemType<Items.SmoothAbyssGravelPlatform>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }

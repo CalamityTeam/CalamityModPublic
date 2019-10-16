@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 2f;
             minPick = 65;
-            drop = ModContent.ItemType<SmoothAbyssGravel>();
+            drop = ModContent.ItemType<Items.SmoothAbyssGravel>();
             AddMapEntry(new Color(49, 56, 77));
         }
 

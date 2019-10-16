@@ -590,8 +590,7 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
-
-            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<Nanotech>())
+            if (Main.player[projectile.owner].Calamity().dragonScales && rogue && projectile.friendly && projectile.type != ModContent.ProjectileType<Nanotech>() && projectile.type != ModContent.ProjectileType<DragonShit>())
             {
                 if (counter % 50 == 0)
                 {
@@ -630,7 +629,9 @@ namespace CalamityMod.Projectiles
             //will always be friendly and rogue if it has this boost
             if (Main.player[projectile.owner].Calamity().momentumCapacitor && projectile.Calamity().momentumCapacitatorBoost)
             {
-                projectile.velocity *= 1.025f;
+                if (projectile.type != ModContent.ProjectileType<Malachite>() && projectile.type != ModContent.ProjectileType<DuneHopperProjectile>() && 
+                    projectile.velocity.Length() < 3f)
+                    projectile.velocity *= 1.025f;
             }
 
             if (Main.player[projectile.owner].Calamity().theBeeDamage > 0 && projectile.owner == Main.myPlayer && projectile.friendly && projectile.damage > 0 &&

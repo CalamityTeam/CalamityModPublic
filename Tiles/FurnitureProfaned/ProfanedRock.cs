@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 15f;
             minPick = 225;
-            drop = ModContent.ItemType<ProfanedRock>();
+            drop = ModContent.ItemType<Items.ProfanedRock>();
             AddMapEntry(new Color(84, 38, 33));
         }
         int animationFrameWidth = 288;

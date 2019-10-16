@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 10f;
             minPick = 225;
-            drop = ModContent.ItemType<RunicProfanedBrick>();
+            drop = ModContent.ItemType<Items.RunicProfanedBrick>();
             AddMapEntry(new Color(122, 66, 59));
             animationFrameHeight = 90;
         }

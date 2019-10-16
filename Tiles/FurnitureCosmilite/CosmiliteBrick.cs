@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 5f;
             minPick = 275;
-            drop = ModContent.ItemType<CosmiliteBrick>();
+            drop = ModContent.ItemType<Items.CosmiliteBrick>();
             AddMapEntry(new Color(76, 79, 133));
         }
 

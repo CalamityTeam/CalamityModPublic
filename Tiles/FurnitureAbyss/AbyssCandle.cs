@@ -14,7 +14,6 @@ namespace CalamityMod.Tiles
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileWaterDeath[Type] = false;
-
             TileObjectData.newTile.CopyFrom(TileObjectData.StyleOnTable1x1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 20 };
             TileObjectData.addTile(Type);
@@ -23,7 +22,7 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };
-            drop = ModContent.ItemType<AbyssCandle>();
+            drop = ModContent.ItemType<Items.AbyssCandle>();
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -55,34 +54,7 @@ namespace CalamityMod.Tiles
 
         public override void HitWire(int i, int j)
         {
-            int x = i - Main.tile[i, j].frameX / 18 % 1;
-            int y = j - Main.tile[i, j].frameY / 18 % 1;
-            for (int l = x; l < x + 1; l++)
-            {
-                for (int m = y; m < y + 1; m++)
-                {
-                    if (Main.tile[l, m] == null)
-                    {
-                        Main.tile[l, m] = new Tile();
-                    }
-                    if (Main.tile[l, m].active() && Main.tile[l, m].type == Type)
-                    {
-                        if (Main.tile[l, m].frameX < 18)
-                        {
-                            Main.tile[l, m].frameX += 18;
-                        }
-                        else
-                        {
-                            Main.tile[l, m].frameX -= 18;
-                        }
-                    }
-                }
-            }
-            if (Wiring.running)
-            {
-                Wiring.SkipWire(x, y);
-            }
-            //NetMessage.SendTileSquare(-1, x, y + 1, 3);
+            CalamityUtils.LightHitWire(Type, i, j, 1, 1);
         }
     }
 }

@@ -5,14 +5,10 @@ using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles
 {
     public class DrataliornusFlame : ModProjectile
     {
-        private int HolyLight { get { return ModContent.BuffType<HolyFlames>(); } }
-        private int DragonDust { get { return ModContent.ProjectileType<DragonDust>(); } }
-        private int SkyFlareFriendly { get { return ModContent.ProjectileType<SkyFlareFriendly>(); } }
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Drataliornus Flame");
@@ -76,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.localAI[0] = 0f;
 
                 if (projectile.ai[0] != 0f && projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, DragonDust, projectile.damage / 3, projectile.knockBack * 3f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), projectile.damage / 3, projectile.knockBack * 3f, projectile.owner);
             }
 
             projectile.localAI[1]++;
@@ -181,7 +177,7 @@ namespace CalamityMod.Projectiles.Ranged
                     speed /= 30f;
                     Projectile.NewProjectile(vector3.X, vector3.Y, speed.X, speed.Y, ModContent.ProjectileType<DrataliornusExoArrow>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
 
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, DragonDust, projectile.damage / 3, projectile.knockBack * 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<DragonDust>(), projectile.damage / 3, projectile.knockBack * 2f, projectile.owner);
                 }
 
                 projectile.position = projectile.Center;
@@ -227,7 +223,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Ichor, 540);
-            target.AddBuff(HolyLight, 540);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -237,7 +233,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(BuffID.Ichor, 540);
             target.AddBuff(BuffID.BetsysCurse, 540);
             target.AddBuff(BuffID.Daybreak, 540);
-            target.AddBuff(HolyLight, 540);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 540);
 
             if (projectile.ai[0] != 0f && projectile.owner == Main.myPlayer) //if empowered
             {
@@ -254,7 +250,7 @@ namespace CalamityMod.Projectiles.Ranged
                     vel.X += Main.rand.Next(-100, 101);
                     vel.Normalize();
                     vel *= 30f;
-                    Projectile.NewProjectile(pos, vel + target.velocity, SkyFlareFriendly, projectile.damage * 3, projectile.knockBack * 5f, projectile.owner);
+                    Projectile.NewProjectile(pos, vel + target.velocity, ModContent.ProjectileType<SkyFlareFriendly>(), projectile.damage * 3, projectile.knockBack * 5f, projectile.owner);
                 }
             }
         }

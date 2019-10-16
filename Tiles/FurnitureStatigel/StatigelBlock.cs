@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles
             TileMerge.MergeDecorativeTiles(Type);
             TileMerge.MergeSmoothTiles(Type);
 
-            drop = ModContent.ItemType<StatigelBlock>();
+            drop = ModContent.ItemType<Items.StatigelBlock>();
             AddMapEntry(new Color(215, 74, 121));
         }
 

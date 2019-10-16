@@ -62,7 +62,12 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<ProfanedBasin>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.ProfanedBasin>());
+        }
+
+        public override void HitWire(int i, int j)
+        {
+            CalamityUtils.LightHitWire(Type, i, j, 3, 3);
         }
     }
 }

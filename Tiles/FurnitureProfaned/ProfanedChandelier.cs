@@ -1,10 +1,10 @@
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.Enums;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
@@ -12,20 +12,7 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-
-            TileObjectData.newTile.Width = 3;
-            TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Origin = new Point16(1, 0);
-            TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 1);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpChandelier(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Chandelier");
             AddMapEntry(new Color(191, 142, 111), name);
@@ -62,47 +49,12 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<ProfanedChandelier>());
+            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<Items.ProfanedChandelier>());
         }
 
         public override void HitWire(int i, int j)
         {
-            int x = i - Main.tile[i, j].frameX / 18 % 3;
-            int y = j - Main.tile[i, j].frameY / 18 % 3;
-            for (int l = x; l < x + 3; l++)
-            {
-                for (int m = y; m < y + 3; m++)
-                {
-                    if (Main.tile[l, m] == null)
-                    {
-                        Main.tile[l, m] = new Tile();
-                    }
-                    if (Main.tile[l, m].active() && Main.tile[l, m].type == Type)
-                    {
-                        if (Main.tile[l, m].frameX < 54)
-                        {
-                            Main.tile[l, m].frameX += 54;
-                        }
-                        else
-                        {
-                            Main.tile[l, m].frameX -= 54;
-                        }
-                    }
-                }
-            }
-            if (Wiring.running)
-            {
-                Wiring.SkipWire(x, y);
-                Wiring.SkipWire(x, y + 1);
-                Wiring.SkipWire(x, y + 2);
-                Wiring.SkipWire(x + 1, y);
-                Wiring.SkipWire(x + 1, y + 1);
-                Wiring.SkipWire(x + 1, y + 2);
-                Wiring.SkipWire(x + 2, y);
-                Wiring.SkipWire(x + 2, y + 1);
-                Wiring.SkipWire(x + 2, y + 2);
-            }
-            //NetMessage.SendTileSquare(-1, x, y + 1, 3);
+            CalamityUtils.SetUpChandelier(Type);
         }
     }
 }

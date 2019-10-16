@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs
             npc.defense = 0;
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
-            global.unbreakableDR = true;
+            // global.unbreakableDR = true;
             npc.lifeMax = 200;
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)

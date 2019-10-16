@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
+using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles
 {
@@ -43,7 +44,11 @@ namespace CalamityMod.Projectiles
             //normal
             if (projectile.ai[1] == 0f)
             {
-                Projectile.NewProjectile(projectile.Bottom, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                Point result;
+                if (WorldUtils.Find(projectile.Top.ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
+                {
+                    Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                }
             }
             //stealth strike
             else if (projectile.ai[1] == 1f)
@@ -51,7 +56,11 @@ namespace CalamityMod.Projectiles
                 //3 pillars instead of 1
                 for (float i = -1f; i <= 1f; i += 1f)
                 {
-                    Projectile.NewProjectile(projectile.Bottom + i * Main.rand.NextFloat(56f, 108f) * Vector2.UnitX, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                    Point result;
+                    if (WorldUtils.Find((projectile.Top + i * Main.rand.NextFloat(56f, 108f) * Vector2.UnitX).ToTileCoordinates(), Searches.Chain((GenSearch)new Searches.Down(80), (GenCondition)new Conditions.IsSolid()), out result))
+                    {
+                        Projectile.NewProjectile(result.ToVector2() * 16f, Vector2.Zero, ModContent.ProjectileType<BlueFlamePillar>(), ConsecratedWater.BaseDamage, 2f, projectile.owner);
+                    }
                 }
             }
         }

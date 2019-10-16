@@ -12,7 +12,7 @@ namespace CalamityMod.Items
             DisplayName.SetDefault("Sigil of Calamitas");
             Tooltip.SetDefault("10% increased magic damage and 10% decreased mana usage\n" +
                 "Increases pickup range for mana stars and you restore mana when damaged\n" +
-                "+100 max mana and reveals treasure locations");
+                "+100 max mana and reveals treasure locations if visibility is on");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
         }
 
@@ -29,7 +29,8 @@ namespace CalamityMod.Items
         {
             player.magicCuffs = true;
             player.manaMagnet = true;
-            player.findTreasure = true;
+            if (!hideVisual)
+				player.findTreasure = true;
             player.statManaMax2 += 100;
             player.magicDamage += 0.1f;
             player.manaCost *= 0.9f;

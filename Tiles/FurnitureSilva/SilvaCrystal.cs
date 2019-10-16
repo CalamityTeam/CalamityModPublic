@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 2f;
             minPick = 275;
-            drop = ModContent.ItemType<SilvaCrystal>();
+            drop = ModContent.ItemType<Items.SilvaCrystal>();
             AddMapEntry(new Color(49, 100, 99));
         }
 

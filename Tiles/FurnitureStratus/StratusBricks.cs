@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 5f;
             minPick = 250;
-            drop = ModContent.ItemType<StratusBricks>();
+            drop = ModContent.ItemType<Items.StratusBricks>();
             AddMapEntry(new Color(53, 57, 74));
         }
 

@@ -1,11 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.Enums;
+using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
@@ -13,35 +10,12 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileSolid[Type] = false;
-            Main.tileNoAttach[Type] = true;
-            Main.tileNoFail[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.StyleTorch);
-            TileObjectData.newTile.WaterDeath = false;
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.newAlternate.CopyFrom(TileObjectData.StyleTorch);
-            TileObjectData.newAlternate.WaterDeath = false;
-            TileObjectData.newAlternate.AnchorLeft = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.Tree | AnchorType.AlternateTile, TileObjectData.newTile.Height, 0);
-            TileObjectData.newAlternate.AnchorAlternateTiles = new int[] { 124 };
-            TileObjectData.addAlternate(1);
-            TileObjectData.newAlternate.CopyFrom(TileObjectData.StyleTorch);
-            TileObjectData.newAlternate.WaterDeath = false;
-            TileObjectData.newAlternate.AnchorRight = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.Tree | AnchorType.AlternateTile, TileObjectData.newTile.Height, 0);
-            TileObjectData.newAlternate.AnchorAlternateTiles = new int[] { 124 };
-            TileObjectData.addAlternate(2);
-            TileObjectData.newAlternate.CopyFrom(TileObjectData.StyleTorch);
-            TileObjectData.newAlternate.WaterDeath = false;
-            TileObjectData.newAlternate.AnchorWall = true;
-            TileObjectData.addAlternate(0);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpTorch(Type, waterImmune: true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Torch");
             AddMapEntry(new Color(253, 221, 3), name);
             disableSmartCursor = true;
-            drop = ModContent.ItemType<AbyssTorch>();
+            drop = ModContent.ItemType<Items.AbyssTorch>();
             adjTiles = new int[] { TileID.Torches };
             torch = true;
         }

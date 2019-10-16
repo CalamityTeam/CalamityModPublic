@@ -1,9 +1,10 @@
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
-using Terraria.Enums;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
@@ -11,23 +12,10 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-            TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
-            TileObjectData.newTile.StyleWrapLimit = 2;
-            TileObjectData.newTile.StyleMultiplier = 2;
-            TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
-            TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
-            TileObjectData.addAlternate(1);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpChair(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Plate Chair");
             AddMapEntry(new Color(191, 142, 111), name);
-            dustType = ModContent.DustType<Sparkle>();
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Chairs };
         }
@@ -45,7 +33,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<PlaguedPlateChair>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.PlaguedPlateChair>());
         }
     }
 }

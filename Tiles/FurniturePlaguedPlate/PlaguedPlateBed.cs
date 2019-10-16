@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<PlaguedPlateBed>());
+            Item.NewItem(i * 16, j * 16, 64, 32, ModContent.ItemType<Items.PlaguedPlateBed>());
         }
 
         public override bool NewRightClick(int i, int j)
@@ -52,10 +52,7 @@ namespace CalamityMod.Tiles
             int spawnX = i - tile.frameX / 18;
             int spawnY = j + 2;
             spawnX += tile.frameX >= 54 ? 5 : 2;
-            if (tile.frameY % 38 != 0)
-            {
-                spawnY--;
-            }
+            spawnY -= tile.frameY / 18;
             player.FindSpawn();
             if (player.SpawnX == spawnX && player.SpawnY == spawnY)
             {
@@ -75,7 +72,7 @@ namespace CalamityMod.Tiles
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<PlaguedPlateBed>();
+            player.showItemIcon2 = ModContent.ItemType<Items.PlaguedPlateBed>();
         }
     }
 }

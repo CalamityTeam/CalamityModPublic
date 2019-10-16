@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles
             soundType = 21;
             mineResist = 3f;
             minPick = 210;
-            drop = ModContent.ItemType<PlaguedPlate>();
+            drop = ModContent.ItemType<Items.PlaguedPlate>();
             AddMapEntry(new Color(51, 99, 75));
         }
 

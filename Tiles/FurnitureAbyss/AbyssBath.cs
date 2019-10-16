@@ -9,17 +9,10 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpBathtub(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Abyss Bathtub");
             AddMapEntry(new Color(191, 142, 111), name);
-            animationFrameHeight = 54;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -35,7 +28,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AbyssBath>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.AbyssBath>());
         }
     }
 }

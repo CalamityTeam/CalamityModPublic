@@ -1,8 +1,10 @@
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Terraria; using CalamityMod.Projectiles; using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 using Terraria.ID;
-using Terraria.ModLoader; using CalamityMod.Buffs; using CalamityMod.Items; using CalamityMod.NPCs; using CalamityMod.Projectiles; using CalamityMod.Tiles; using CalamityMod.Walls;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
@@ -10,12 +12,7 @@ namespace CalamityMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpSink(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Profaned Sink");
             AddMapEntry(new Color(191, 142, 111), name);
@@ -36,7 +33,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<ProfanedSink>());
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.ProfanedSink>());
         }
     }
 }
