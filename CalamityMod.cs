@@ -1,7 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Localization;
-using CalamityMod.MiscModSupport;
 using CalamityMod.NPCs;
 using CalamityMod.Skies;
 using CalamityMod.UI;
