@@ -3426,9 +3426,7 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing, Item.buyPrice(0, 2));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("DriedSeafood"), CalamityWorld.downedDesertScourge, Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1, Item.buyPrice(0, 3));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("DecapoditaSprout"), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
                 SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2, Item.buyPrice(0, 6));
@@ -3440,7 +3438,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("Teratoma"), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("BloodyWormTooth"), CalamityWorld.downedHiveMind && Main.expertMode);
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("OverloadedSludge"), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("Seafood"), CalamityWorld.downedAquaticScourge, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("RomajedaOrchid"));
@@ -3453,6 +3450,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("MagicLevelMeter"), price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("SummonLevelMeter"), price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("RogueLevelMeter"), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
             }
 
             if (type == NPCID.Clothier)

@@ -259,6 +259,18 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("MagicalConch"));
             nextSlot++;
+            if (CalamityWorld.downedDesertScourge)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("DriedSeafood"));
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                nextSlot++;
+            }
+            if (CalamityWorld.downedAquaticScourge)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("Seafood"));
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
+                nextSlot++;
+            }
             if (NPC.downedFishron)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
