@@ -468,7 +468,7 @@ namespace CalamityMod.Projectiles.SunkenSea
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.buffImmune[mod.BuffType("ShellfishEating")] = false;
-            if (target.type == mod.NPCType("CeaselessVoid") || target.type == mod.NPCType("EidolonWyrmHeadHuge"))
+            if (target.Calamity().DR >= 0.99f)
             {
                 target.buffImmune[mod.BuffType("ShellfishEating")] = true;
             }

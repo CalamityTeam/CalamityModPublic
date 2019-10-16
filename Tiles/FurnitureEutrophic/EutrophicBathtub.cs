@@ -9,11 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-
+            CalamityUtils.SetUpBathtub(Type);
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();

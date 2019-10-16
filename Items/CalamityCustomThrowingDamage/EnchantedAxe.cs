@@ -18,7 +18,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         public override void SafeSetDefaults()
         {
             item.width = 40;
-            item.damage = 25;
+            item.damage = 28;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;
@@ -31,6 +31,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             item.maxStack = 1;
             item.value = 1000;
             item.rare = 3;
+            item.value = Item.buyPrice(0, 4, 0, 0);
             item.shoot = mod.ProjectileType("EnchantedAxe");
             item.shootSpeed = 30f;
             item.Calamity().rogue = true;

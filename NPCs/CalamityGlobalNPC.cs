@@ -511,7 +511,7 @@ namespace CalamityMod.NPCs
 
             // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
             // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge)
+            if (CalamityWorld.revenge && CalamityMod.DRValues.ContainsKey(npc.type))
             {
                 CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
                 DR = revDR;
@@ -1131,7 +1131,7 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            // TODO -- move this to Destroyer's Rev+ AI; either set his DR or modify npc.takenDamageMultiplier
+            // TODO -- move this to Destroyer's Rev+ AI by setting his DR to 99% unbreakable
             if (npc.type == NPCID.TheDestroyer || npc.type == NPCID.TheDestroyerBody || npc.type == NPCID.TheDestroyerTail)
             {
                 if ((newAI[1] < 480f || newAI[2] > 0f) && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
@@ -1185,7 +1185,7 @@ namespace CalamityMod.NPCs
             damage = ApplyDR(npc, damage);
 
             // Add Yellow Candle damage if the NPC isn't supposed to be "near invincible"
-            if (yellowCandle && DR < 0.99f && npc.takenDamageMultiplier > 0.05f)
+            if (yellowCandle && DR < 0.99f)
                 damage += yellowCandleDamage;
 
             // Cancel out vanilla defense math by reversing the calculation vanilla is about to perform.
@@ -1208,7 +1208,7 @@ namespace CalamityMod.NPCs
 
             // If the NPC currently has unbreakable DR, it cannot be reduced by any means.
             // If custom DR is enabled, use that instead of normal DR.
-            float effectiveDR = unbreakableDR ? DR : (customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR));
+            float effectiveDR = unbreakableDR ? DR : customDR ? CustomDRMath(npc, DR) : DefaultDRMath(npc, DR);
 
             // DR floor is 0%. Nothing can have negative DR.
             if (effectiveDR <= 0f)
@@ -3420,15 +3420,25 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(mod.ItemType("Impaler")));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Musket : ItemID.TheUndertaker, NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+            }
+
+            if (type == NPCID.Cyborg)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+            }
+
+            if (type == NPCID.Pirate)
+            {
+                SetShopItem(ref shop, ref nextSlot, ItemID.PirateMap, price: Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.Dryad)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing, Item.buyPrice(0, 2));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("DriedSeafood"), CalamityWorld.downedDesertScourge, Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1, Item.buyPrice(0, 3));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("DecapoditaSprout"), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
                 SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2, Item.buyPrice(0, 6));
@@ -3440,7 +3450,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("Teratoma"), CalamityWorld.downedHiveMind, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("BloodyWormTooth"), CalamityWorld.downedHiveMind && Main.expertMode);
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("OverloadedSludge"), CalamityWorld.downedSlimeGod, Item.buyPrice(0, 15));
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("Seafood"), CalamityWorld.downedAquaticScourge, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.PumpkinMoonMedallion, NPC.downedHalloweenKing, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaughtyPresent, NPC.downedChristmasIceQueen, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("RomajedaOrchid"));
@@ -3453,6 +3462,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("MagicLevelMeter"), price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("SummonLevelMeter"), price: Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("RogueLevelMeter"), price: Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.GoblinBattleStandard, price: Item.buyPrice(0, 1));
             }
 
             if (type == NPCID.Clothier)
@@ -3484,7 +3494,6 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Wizard)
             {
-                SetShopItem(ref shop, ref nextSlot, mod.ItemType("CryoKey"), CalamityWorld.downedCryogen, Item.buyPrice(0, 15));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("CharredIdol"), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("AstralChunk"), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));
@@ -3501,6 +3510,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("BulbofDoom"), NPC.downedPlantBoss, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss, Item.buyPrice(0, 30));
+                SetShopItem(ref shop, ref nextSlot, mod.ItemType("GypsyPowder"), NPC.downedGolemBoss, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("AncientMedallion"), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("Abomination"), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, mod.ItemType("BirbPheromones"), CalamityWorld.downedBumble, Item.buyPrice(5));

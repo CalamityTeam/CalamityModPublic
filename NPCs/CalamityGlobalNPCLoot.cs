@@ -87,6 +87,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, mod.ItemType("MLGRune"), !Main.expertMode); // Demon Trophy
                 DropHelper.DropItemCondition(npc, mod.ItemType("Meowthrower"), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, mod.ItemType("BlackHawkRemote"), !Main.expertMode, 5, 1, 1);
+                DropHelper.DropItemCondition(npc, mod.ItemType("BlastBarrel"), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, mod.ItemType("RogueEmblem"), !Main.expertMode, 8, 1, 1);
                 DropHelper.DropItemChance(npc, mod.ItemType("IbarakiBox"), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
                 DropHelper.DropItemFromSetCondition(npc, !Main.expertMode, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
@@ -1279,6 +1280,7 @@ namespace CalamityMod.NPCs
                     int eyeballDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 300;
                     DropHelper.DropItemChance(npc, mod.ItemType("BouncingEyeball"), eyeballDropRate, 1, 1);
                     break;
+					
                 case NPCID.PossessedArmor:
                     int amuletDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 150 : 200;
                     DropHelper.DropItemChance(npc, mod.ItemType("PsychoticAmulet"), amuletDropRate, 1, 1);

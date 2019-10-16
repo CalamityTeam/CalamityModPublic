@@ -259,6 +259,18 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("MagicalConch"));
             nextSlot++;
+            if (CalamityWorld.downedDesertScourge)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("DriedSeafood"));
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                nextSlot++;
+            }
+            if (CalamityWorld.downedAquaticScourge)
+            {
+                shop.item[nextSlot].SetDefaults(mod.ItemType("Seafood"));
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
+                nextSlot++;
+            }
             if (NPC.downedFishron)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
@@ -277,6 +289,12 @@ namespace CalamityMod.NPCs.TownNPCs
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Amidias/Amidias4"), 1f);
             }
         }
+
+		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
+		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+		{
+			return true;
+		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

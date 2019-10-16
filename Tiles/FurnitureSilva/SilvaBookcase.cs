@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
@@ -10,15 +9,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
     {
         public override void SetDefaults()
         {
-            Main.tileSolidTop[Type] = true;
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileTable[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-            Main.tileWaterDeath[Type] = false;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpBookcase(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Silva Bookcase");
             AddMapEntry(new Color(191, 142, 111), name);

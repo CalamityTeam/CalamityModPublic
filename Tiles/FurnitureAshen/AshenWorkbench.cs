@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
@@ -10,15 +9,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
     {
         public override void SetDefaults()
         {
-            Main.tileSolidTop[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileTable[Type] = true;
-            Main.tileLavaDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
-            TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.CoordinateHeights = new int[] { 18 };
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpWorkBench(Type, true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Ashen Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);

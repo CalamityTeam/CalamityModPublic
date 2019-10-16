@@ -202,13 +202,16 @@ namespace CalamityMod.NPCs.TownNPCs
             }
         }
 
-        public override void SetupShop(Chest shop, ref int nextSlot) //charges 50% extra than the original item value
+        public override void SetupShop(Chest shop, ref int nextSlot)
         {
             shop.item[nextSlot].SetDefaults(mod.ItemType("Cinquedea"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("Glaive"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 3, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("Kylie"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 9, 0, 0);
             nextSlot++;
             shop.item[nextSlot].SetDefaults(mod.ItemType("MonkeyDarts"));
             nextSlot++;
@@ -218,6 +221,13 @@ namespace CalamityMod.NPCs.TownNPCs
 			if (Main.hardMode)
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("SlickCane"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 25, 0, 0);
+				nextSlot++;
+			}
+			if (NPC.downedPirates)
+			{
+				shop.item[nextSlot].SetDefaults(mod.ItemType("ThiefsDime"));
+			shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
 			}
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
@@ -237,7 +247,7 @@ namespace CalamityMod.NPCs.TownNPCs
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfPrecicion"));
 				nextSlot++;
-				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveofRecklessness"));
+				shop.item[nextSlot].SetDefaults(mod.ItemType("GloveOfRecklessness"));
 				nextSlot++;
 				/*shop.item[nextSlot].SetDefaults(mod.ItemType("DeepWounder"));
 				nextSlot++;*/
@@ -248,18 +258,18 @@ namespace CalamityMod.NPCs.TownNPCs
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
 				nextSlot++;
 			}*/
+			if (NPC.downedMoonlord)
+			{
+                shop.item[nextSlot].SetDefaults(mod.ItemType("CelestialReaper"));
+				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
+				nextSlot++;
+            }
 			/*if (CalamityWorld.downedProvidence)
 			{
 				shop.item[nextSlot].SetDefaults(mod.ItemType("SylvanSlasher"));
 				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(5, 0, 0, 0);
 				nextSlot++;
 			}*/
-			if (NPC.downedAncientCultist)
-			{
-                shop.item[nextSlot].SetDefaults(mod.ItemType("CelestialReaper"));
-				shop.item[nextSlot].shopCustomPrice = Item.buyPrice(2, 0, 0, 0);
-				nextSlot++;
-            }
             if (CalamityWorld.buffedEclipse && !CalamityWorld.dragonScalesBought)
             {
                 shop.item[nextSlot].SetDefaults(mod.ItemType("DragonScales"));
@@ -267,6 +277,12 @@ namespace CalamityMod.NPCs.TownNPCs
 				nextSlot++;
             }
         }
+
+		// Make this Town NPC teleport to the King and/or Queen statue when triggered.
+		public override bool CanGoToStatue(bool toKingStatue) //I don't think you can differentiate male vs female with this.
+		{
+			return true;
+		}
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

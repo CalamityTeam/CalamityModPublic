@@ -18,7 +18,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
         {
             item.width = 44;
             item.height = 66;
-            item.damage = 750;
+            item.damage = 500;
             item.Calamity().rogue = true;
             item.knockBack = 8f;
             item.noMelee = true;

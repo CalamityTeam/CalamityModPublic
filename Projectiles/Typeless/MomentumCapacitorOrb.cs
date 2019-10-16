@@ -47,7 +47,9 @@ namespace CalamityMod.Projectiles.Typeless
             }
             for (int k = 0; k < Main.projectile.Length; k++)
             {
-                if (Main.projectile[k].type == mod.ProjectileType("SlickCaneProjectile")) continue;
+                if (Main.projectile[k].type == mod.ProjectileType("SlickCaneProjectile") ||
+                    Main.projectile[k].type == mod.ProjectileType("Malachite") ||
+                    Main.projectile[k].type == mod.ProjectileType("ScourgeoftheDesert2")) continue;
                 if (Main.projectile[k].owner == projectile.owner && Main.projectile[k].Calamity().rogue && 
                     !Main.projectile[k].Calamity().momentumCapacitatorBoost && Main.projectile[k].friendly)
                 {

@@ -2,7 +2,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
@@ -10,12 +9,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
     {
         public override void SetDefaults()
         {
-            Main.tileLighted[Type] = true;
-            Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
-
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-            TileObjectData.addTile(Type);
+            CalamityUtils.SetUpSink(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Cosmilite Sink");
             AddMapEntry(new Color(191, 142, 111), name);

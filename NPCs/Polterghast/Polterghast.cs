@@ -688,6 +688,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 // Materials
                 DropHelper.DropItem(npc, mod.ItemType("RuinousSoul"), 5, 8);
+                DropHelper.DropItem(npc, mod.ItemType("Phantoplasm"), 10, 20);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, mod.ItemType("TerrorBlade"), 4);
@@ -702,6 +703,9 @@ namespace CalamityMod.NPCs.Polterghast
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items
             if (!CalamityWorld.downedPolterghast)
             {
+                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ReaperSearchRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+				
                 string key = "Mods.CalamityMod.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
 

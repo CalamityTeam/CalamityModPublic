@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Utilities;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
@@ -569,11 +570,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MartianConduitPlating, Main.rand.Next(10, 30));
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("EssenceofCinder"));
-            }
+            DropHelper.DropItemCondition(npc, ItemID.MartianConduitPlating, !NPC.downedGolemBoss, 10, 30);
+            DropHelper.DropItemChance(npc, mod.ItemType("EssenceofCinder"), 3);
         }
     }
 }

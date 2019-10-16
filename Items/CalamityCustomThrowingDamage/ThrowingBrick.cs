@@ -39,7 +39,7 @@ namespace CalamityMod.Items.CalamityCustomThrowingDamage
             //Check if stealth is full
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Brick"), item.damage, item.knockBack, player.whoAmI, 1);
+                int p = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("Brick"), damage, knockBack, player.whoAmI, 1);
                 Main.projectile[p].Calamity().stealthStrike = true;
                 return false;
             }

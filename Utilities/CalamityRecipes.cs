@@ -92,6 +92,13 @@ namespace CalamityMod.Utilities
             r.AddTile(TileID.CookingPots);
             r.SetResult(2426);
             r.AddRecipe();
+
+            // Glass
+            r = GetNewRecipe();
+            r.AddIngredient(null, "AstralSand", 2);
+            r.AddTile(TileID.Furnaces);
+            r.SetResult(ItemID.Glass);
+            r.AddRecipe();
         }
 
         // Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
@@ -487,6 +494,16 @@ namespace CalamityMod.Utilities
             r.anyIronBar = true;
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.LavaCharm);
+            r.AddRecipe();
+
+            // Obsidian Rose
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.JungleRose);
+            r.AddIngredient(ItemID.Obsidian, 10);
+            r.AddIngredient(ItemID.Hellstone, 10);
+            r.anyIronBar = true;
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.ObsidianRose);
             r.AddRecipe();
 
             // Feral Claws
